@@ -36,7 +36,7 @@ public class AllCommonsRepositoryTest {
 
     @Test
     public void ShouldReturnAllPersonObjectOfaCertainTypeFromRepository() {
-        List <PersonObject> expectedpersonobjects = Arrays.asList(new PersonObject("case1",new HashMap<String, String>(),""));
+        List <PersonObject> expectedpersonobjects = Arrays.asList(new PersonObject("case1","relationid1",new HashMap<String, String>(),""));
         when(personRepository.allcommon()).thenReturn(expectedpersonobjects);
         assertEquals(expectedpersonobjects,personRepository.allcommon());
     }

@@ -798,6 +798,9 @@ public class Context {
 
     private HashMap <String ,commonRepository > MapOfCommonRepository;
 
+    public long countofcommonrepositroy(String tablename){
+        return commonrepository(tablename).count();
+    }
 
     public commonRepository commonrepository(String tablename){
         if(MapOfCommonRepository == null){

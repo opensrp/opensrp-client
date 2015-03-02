@@ -2,7 +2,10 @@
     "bindobjects":
  [
     {
-      "name": "person"
+      "name": "mamoni_eligible_couple"
+    },
+    {
+          "name": "mamoni_pregnant_woman"
     }
  ]
 }

@@ -23,14 +23,15 @@ import static org.apache.commons.lang3.StringUtils.repeat;
 public class commonRepository extends DrishtiRepository {
     private String common_SQL = "CREATE TABLE common(id VARCHAR PRIMARY KEY,details VARCHAR)";
     public static final String ID_COLUMN = "id";
+    public static final String Relational_ID = "relationalid";
     public static final String DETAILS_COLUMN = "details";
     public String TABLE_NAME = "common";
-    public static final String[] common_TABLE_COLUMNS = new String[]{ID_COLUMN, DETAILS_COLUMN};
+    public static final String[] common_TABLE_COLUMNS = new String[]{ID_COLUMN,Relational_ID,DETAILS_COLUMN};
 
     public commonRepository(String tablename) {
         super();
         TABLE_NAME = tablename;
-        common_SQL = "CREATE TABLE "+ TABLE_NAME + "(id VARCHAR PRIMARY KEY,details VARCHAR)";
+        common_SQL = "CREATE TABLE "+ TABLE_NAME + "(id VARCHAR PRIMARY KEY,relationalid VARCHAR,details VARCHAR)";
     }
 
     @Override
@@ -110,6 +111,7 @@ public class commonRepository extends DrishtiRepository {
     private ContentValues createValuesFor(PersonObject common) {
         ContentValues values = new ContentValues();
         values.put(ID_COLUMN, common.getCaseId());
+        values.put(Relational_ID, common.getRelationalId());
         values.put(DETAILS_COLUMN, new Gson().toJson(common.getDetails()));
         return values;
     }
@@ -118,7 +120,7 @@ public class commonRepository extends DrishtiRepository {
         cursor.moveToFirst();
         List<PersonObject> commons = new ArrayList<PersonObject>();
         while (!cursor.isAfterLast()) {
-            PersonObject common = new PersonObject(cursor.getString(0),new Gson().<Map<String, String>>fromJson(cursor.getString(1), new TypeToken<Map<String, String>>() {
+            PersonObject common = new PersonObject(cursor.getString(0),cursor.getString(1),new Gson().<Map<String, String>>fromJson(cursor.getString(2), new TypeToken<Map<String, String>>() {
                     }.getType()),TABLE_NAME);
 
             commons.add(common);

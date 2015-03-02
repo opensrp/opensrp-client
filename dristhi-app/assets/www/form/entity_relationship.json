@@ -1,26 +1,18 @@
 [
     {
-      "parent": "person",
-      "child": "mother",
-      "field": "wife",
-      "kind": "one_to_one",
-      "from": "eligible_couple.id",
-      "to": "mother.ecCaseId"
-    },
-    {
-        "parent": "eligible_couple",
-        "child": "mother",
+        "parent": "mamoni_eligible_couple",
+        "child": "mamoni_pregnant_woman",
         "field": "wife",
         "kind": "one_to_one",
-        "from": "eligible_couple.id",
-        "to": "mother.ecCaseId"
+        "from": "mamoni_eligible_couple.id",
+         "to": "mamoni_pregnant_woman.relationalid"
     },
     {
-        "parent": "mother",
+        "parent": "mamoni_pregnant_woman",
         "child": "child",
         "field": "children",
         "kind": "one_to_many",
-        "from": "mother.id",
+        "from": "mamoni_pregnant_woman.id",
         "to": "child.motherCaseId"
     }
 ]

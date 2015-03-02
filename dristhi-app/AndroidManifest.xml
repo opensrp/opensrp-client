@@ -145,6 +145,15 @@
             android:name=".commonregistryexample.NativePersonSmartRegisterActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"/>
+        <activity
+            android:name=".mamoni.elco.MamoniELigibleCoupleSmartRegisterActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"/>
+        <activity
+            android:name=".mamoni.pw.MamoniANCRegisterActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"/>
+
 
         <activity
                 android:name=".view.activity.NativeChildSmartRegisterActivity"

@@ -11,12 +11,26 @@
             android:orientation="vertical"
             android:background="@drawable/bg_texture">
 
-        <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/logo"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/list_item_height"
+                    android:layout_margin="10dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/opensrplogo"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/list_item_height"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="OpenSRP demo for Mamoni"
+                android:id="@+id/textView"
+                android:gravity="center" />
+        </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -58,7 +72,8 @@
             <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                android:visibility="gone">
 
                 <ImageButton
                         android:id="@+id/btn_fp_register"

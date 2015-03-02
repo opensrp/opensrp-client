@@ -1,0 +1,38 @@
+<model>
+    <instance>
+        <ELCO id="ELCO" version="201502241034">
+            <formhub>
+                <uuid/>
+            </formhub>
+            <start/>
+            <START_OUTPUT/>
+            <EC_Data_Collection_Date/>
+            <EC_HHID/>
+            <EC_CoupleNo/>
+            <EC_WomanName/>
+            <EC_HusbandName/>
+            <EC_WomanAge/>
+            <EC_HusbandAge/>
+            <EC_MarriageDate/>
+            <EC_WomanEducation/>
+            <group_child>
+                <EC_HasChildAlive/>
+                <EC_ChildType/>
+                <EC_ChildType_Boy/>
+                <EC_ChildType_Girl/>
+            </group_child>
+            <EC_WomanTT/>
+            <EC_BID/>
+            <EC_NID/>
+            <EC_MobileNo/>
+            <EC_FP_PregnancyStatus/>
+            <EC_Mother_Child_Nutration/>
+            <EC_GPS/>
+            <end/>
+            <END_OUTPUT/>
+            <meta>
+                <instanceID/>
+            </meta>
+        </ELCO>
+    </instance>
+</model>

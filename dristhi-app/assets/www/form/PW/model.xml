@@ -1,0 +1,35 @@
+<model>
+    <instance>
+        <PW id="PW" version="201502241034">
+            <formhub>
+                <uuid/>
+            </formhub>
+            <start/>
+            <START_OUTPUT/>
+            <PW_Serial_No/>
+            <PW_HHID/>
+            <PW_Couple_No/>
+            <PW_Data_Collection_Date/>
+            <PW_Name/>
+            <PW_Husband_Name/>
+            <PW_Village/>
+            <PW_MobileNo/>
+            <PW_Age/>
+            <PW_LMP/>
+            <PW_EDD_Calculate/>
+            <PW_EDD/>
+            <PW_No_Of_Pregnancy/>
+            <PW_Has_Alive_Child/>
+            <PW_Live_Child_No/>
+            <PW_Last_Child_Year/>
+            <PW_Risky_Pregancy/>
+            <PW_Referred/>
+            <PW_Image/>
+            <end/>
+            <END_OUTPUT/>
+            <meta>
+                <instanceID/>
+            </meta>
+        </PW>
+    </instance>
+</model>
