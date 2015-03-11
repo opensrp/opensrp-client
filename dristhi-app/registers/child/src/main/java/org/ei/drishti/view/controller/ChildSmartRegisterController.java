@@ -20,6 +20,8 @@ import java.util.List;
 import static java.lang.String.valueOf;
 import static java.util.Collections.sort;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.ei.drishti.AllConstantsForChildRegister.ChildRegistrationFields.NAME;
+import static org.ei.drishti.AllConstantsForChildRegister.ChildRegistrationFields.WEIGHT;
 import static org.ei.drishti.domain.ServiceProvided.*;
 
 public class ChildSmartRegisterController {
@@ -54,9 +56,9 @@ public class ChildSmartRegisterController {
                             new ChildClient(
                                     child.caseId(),
                                     child.gender(),
-                                    child.getDetail(AllConstants.ChildRegistrationFields.WEIGHT),
+                                    child.getDetail(WEIGHT),
                                     child.mother().thayiCardNumber())
-                                    .withName(child.getDetail(AllConstants.ChildRegistrationFields.NAME))
+                                    .withName(child.getDetail(NAME))
                                     .withEntityIdToSavePhoto(child.caseId())
                                     .withMotherName(child.ec().wifeName())
                                     .withDOB(child.dateOfBirth())
@@ -95,9 +97,9 @@ public class ChildSmartRegisterController {
                             new ChildClient(
                                     child.caseId(),
                                     child.gender(),
-                                    child.getDetail(AllConstants.ChildRegistrationFields.WEIGHT),
+                                    child.getDetail(WEIGHT),
                                     child.mother().thayiCardNumber())
-                                    .withName(child.getDetail(AllConstants.ChildRegistrationFields.NAME))
+                                    .withName(child.getDetail(NAME))
                                     .withEntityIdToSavePhoto(child.caseId())
                                     .withMotherName(child.ec().wifeName())
                                     .withDOB(child.dateOfBirth())

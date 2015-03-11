@@ -5,6 +5,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import org.ei.drishti.Context;
+import org.ei.drishti.DristhiConfiguration;
 import org.ei.drishti.R;
 import org.ei.drishti.event.Listener;
 import org.ei.drishti.service.PendingFormSubmissionService;
@@ -15,6 +16,13 @@ import org.ei.drishti.view.contract.HomeContext;
 import org.ei.drishti.view.controller.NativeAfterANMDetailsFetchListener;
 import org.ei.drishti.view.controller.NativeUpdateANMDetailsTask;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static com.google.common.collect.Lists.newArrayList;
 import static java.lang.String.valueOf;
 import static org.ei.drishti.event.Event.*;
 
@@ -67,11 +75,34 @@ public class NativeHomeActivity extends SecuredActivity {
     @Override
     protected void onCreation() {
         setContentView(R.layout.smart_registers_home);
-        setupViews();
         initialize();
+        setupViews();
     }
 
     private void setupViews() {
+        Map<String, Integer> registerButtons = new HashMap<String, Integer>() {
+            {
+                put("EC", R.id.enter_ec_register);
+                put("FP", R.id.enter_fp_register);
+                put("ANC", R.id.enter_anc_register);
+                put("PNC", R.id.enter_pnc_register);
+                put("CHILD", R.id.enter_child_register);
+            }
+        };
+        for (Integer registerButtonId : registerButtons.values()) {
+            findViewById(registerButtonId).setVisibility(GONE);
+        }
+
+        DristhiConfiguration dristhiConfiguration = new DristhiConfiguration(getApplicationContext().getAssets());
+        String availableRegistersAsString = dristhiConfiguration.availableRegisters();
+        List<String> availableRegisters = newArrayList(availableRegistersAsString.split(":"));
+        for (String availableRegister : availableRegisters) {
+            Integer registerButtonId = registerButtons.get(availableRegister);
+            if(registerButtonId != null) {
+                findViewById(registerButtonId).setVisibility(VISIBLE);
+            }
+        }
+
         findViewById(R.id.btn_ec_register).setOnClickListener(onRegisterStartListener);
         findViewById(R.id.btn_pnc_register).setOnClickListener(onRegisterStartListener);
         findViewById(R.id.btn_anc_register).setOnClickListener(onRegisterStartListener);

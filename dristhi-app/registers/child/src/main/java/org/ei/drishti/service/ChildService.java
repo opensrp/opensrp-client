@@ -1,6 +1,7 @@
 package org.ei.drishti.service;
 
 import org.ei.drishti.AllConstants;
+import org.ei.drishti.AllConstantsForChildRegister;
 import org.ei.drishti.domain.Child;
 import org.ei.drishti.domain.Mother;
 import org.ei.drishti.domain.ServiceProvided;
@@ -12,13 +13,17 @@ import org.ei.drishti.util.EasyMap;
 import java.util.*;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.ei.drishti.AllConstants.ChildIllnessFields.*;
-import static org.ei.drishti.AllConstants.ChildRegistrationECFields.*;
-import static org.ei.drishti.AllConstants.ChildRegistrationOAFields.CHILD_ID;
-import static org.ei.drishti.AllConstants.ChildRegistrationOAFields.THAYI_CARD_NUMBER;
 import static org.ei.drishti.AllConstants.ENTITY_ID_FIELD_NAME;
 import static org.ei.drishti.AllConstants.Immunizations.*;
 import static org.ei.drishti.AllConstants.SPACE;
+import static org.ei.drishti.AllConstantsForChildRegister.ChildIllnessFields.*;
+import static org.ei.drishti.AllConstantsForChildRegister.ChildImmunizationsFields.IMMUNIZATION_DATE;
+import static org.ei.drishti.AllConstantsForChildRegister.ChildRegistrationECFields.*;
+import static org.ei.drishti.AllConstantsForChildRegister.ChildRegistrationFields.IMMUNIZATIONS_GIVEN;
+import static org.ei.drishti.AllConstantsForChildRegister.ChildRegistrationFields.WEIGHT;
+import static org.ei.drishti.AllConstantsForChildRegister.ChildRegistrationOAFields.CHILD_ID;
+import static org.ei.drishti.AllConstantsForChildRegister.ChildRegistrationOAFields.DATE_OF_BIRTH;
+import static org.ei.drishti.AllConstantsForChildRegister.ChildRegistrationOAFields.THAYI_CARD_NUMBER;
 import static org.ei.drishti.domain.TimelineEvent.*;
 
 public class ChildService {
@@ -49,10 +54,10 @@ public class ChildService {
             Child child = childRepository.find(childInstance.get(ENTITY_ID_FIELD_NAME));
             childRepository.update(child.setIsClosed(false).setThayiCardNumber(mother.thayiCardNumber()).setDateOfBirth(referenceDate));
             allTimelines.add(forChildBirthInChildProfile(child.caseId(), referenceDate,
-                    child.getDetail(AllConstants.ChildRegistrationFields.WEIGHT), child.getDetail(AllConstants.ChildRegistrationFields.IMMUNIZATIONS_GIVEN)));
+                    child.getDetail(WEIGHT), child.getDetail(IMMUNIZATIONS_GIVEN)));
             allTimelines.add(forChildBirthInMotherProfile(mother.caseId(), referenceDate, child.gender(), referenceDate, deliveryPlace));
             allTimelines.add(forChildBirthInECProfile(mother.ecCaseId(), referenceDate, child.gender(), referenceDate));
-            String immunizationsGiven = child.getDetail(AllConstants.ChildRegistrationFields.IMMUNIZATIONS_GIVEN);
+            String immunizationsGiven = child.getDetail(IMMUNIZATIONS_GIVEN);
             for (String immunization : immunizationsGiven.split(SPACE)) {
                 serviceProvidedService.add(ServiceProvided.forChildImmunization(child.caseId(), immunization, referenceDate));
             }
@@ -66,28 +71,28 @@ public class ChildService {
 
     public void registerForEC(FormSubmission submission) {
         if (shouldCloseMother(submission.getFieldValue(SHOULD_CLOSE_MOTHER))) {
-            closeMother(submission.getFieldValue(AllConstants.ChildRegistrationFields.MOTHER_ID));
+            closeMother(submission.getFieldValue(AllConstantsForChildRegister.ChildRegistrationFields.MOTHER_ID));
         }
 
         Map<String, String> immunizationDateFieldMap = createImmunizationDateFieldMap();
         allTimelines.add(forChildBirthInChildProfile(
-                submission.getFieldValue(AllConstants.ChildRegistrationFields.CHILD_ID),
-                submission.getFieldValue(AllConstants.ChildRegistrationFields.DATE_OF_BIRTH),
-                submission.getFieldValue(AllConstants.ChildRegistrationFields.WEIGHT),
-                submission.getFieldValue(AllConstants.ChildRegistrationFields.IMMUNIZATIONS_GIVEN)));
+                submission.getFieldValue(AllConstantsForChildRegister.ChildRegistrationFields.CHILD_ID),
+                submission.getFieldValue(AllConstantsForChildRegister.ChildRegistrationFields.DATE_OF_BIRTH),
+                submission.getFieldValue(AllConstantsForChildRegister.ChildRegistrationFields.WEIGHT),
+                submission.getFieldValue(AllConstantsForChildRegister.ChildRegistrationFields.IMMUNIZATIONS_GIVEN)));
         allTimelines.add(forChildBirthInMotherProfile(
-                submission.getFieldValue(AllConstants.ChildRegistrationFields.MOTHER_ID),
-                submission.getFieldValue(AllConstants.ChildRegistrationFields.DATE_OF_BIRTH),
-                submission.getFieldValue(AllConstants.ChildRegistrationFields.GENDER),
+                submission.getFieldValue(AllConstantsForChildRegister.ChildRegistrationFields.MOTHER_ID),
+                submission.getFieldValue(AllConstantsForChildRegister.ChildRegistrationFields.DATE_OF_BIRTH),
+                submission.getFieldValue(AllConstantsForChildRegister.ChildRegistrationFields.GENDER),
                 null, null));
         allTimelines.add(forChildBirthInECProfile(
                 submission.entityId(),
-                submission.getFieldValue(AllConstants.ChildRegistrationFields.DATE_OF_BIRTH),
-                submission.getFieldValue(AllConstants.ChildRegistrationFields.GENDER), null));
-        String immunizationsGiven = submission.getFieldValue(AllConstants.ChildRegistrationFields.IMMUNIZATIONS_GIVEN);
+                submission.getFieldValue(AllConstantsForChildRegister.ChildRegistrationFields.DATE_OF_BIRTH),
+                submission.getFieldValue(AllConstantsForChildRegister.ChildRegistrationFields.GENDER), null));
+        String immunizationsGiven = submission.getFieldValue(AllConstantsForChildRegister.ChildRegistrationFields.IMMUNIZATIONS_GIVEN);
         for (String immunization : immunizationsGiven.split(SPACE)) {
             serviceProvidedService.add(ServiceProvided.forChildImmunization(
-                    submission.getFieldValue(AllConstants.ChildRegistrationFields.CHILD_ID),
+                    submission.getFieldValue(AllConstantsForChildRegister.ChildRegistrationFields.CHILD_ID),
                     immunization,
                     submission.getFieldValue(immunizationDateFieldMap.get(immunization))));
         }
@@ -167,9 +172,9 @@ public class ChildService {
     }
 
     public void updateImmunizations(FormSubmission submission) {
-        String immunizationDate = submission.getFieldValue(AllConstants.ChildImmunizationsFields.IMMUNIZATION_DATE);
-        List<String> immunizationsGivenList = splitFieldValueBySpace(submission, AllConstants.ChildImmunizationsFields.IMMUNIZATIONS_GIVEN);
-        List<String> previousImmunizationsList = splitFieldValueBySpace(submission, AllConstants.ChildImmunizationsFields.PREVIOUS_IMMUNIZATIONS_GIVEN);
+        String immunizationDate = submission.getFieldValue(IMMUNIZATION_DATE);
+        List<String> immunizationsGivenList = splitFieldValueBySpace(submission, AllConstantsForChildRegister.ChildImmunizationsFields.IMMUNIZATIONS_GIVEN);
+        List<String> previousImmunizationsList = splitFieldValueBySpace(submission, AllConstantsForChildRegister.ChildImmunizationsFields.PREVIOUS_IMMUNIZATIONS_GIVEN);
         immunizationsGivenList.removeAll(previousImmunizationsList);
         for (String immunization : immunizationsGivenList) {
             allTimelines.add(forChildImmunization(submission.entityId(), immunization, immunizationDate));
@@ -242,12 +247,12 @@ public class ChildService {
 
         Map<String, String> immunizationDateFieldMap = createImmunizationDateFieldMap();
 
-        String immunizationsGiven = submission.getFieldValue(AllConstants.ChildRegistrationOAFields.IMMUNIZATIONS_GIVEN);
+        String immunizationsGiven = submission.getFieldValue(AllConstantsForChildRegister.ChildRegistrationOAFields.IMMUNIZATIONS_GIVEN);
         immunizationsGiven = isBlank(immunizationsGiven) ? "" : immunizationsGiven;
         allTimelines.add(forChildBirthInChildProfile(
                 submission.getFieldValue(CHILD_ID),
-                submission.getFieldValue(AllConstants.ChildRegistrationOAFields.DATE_OF_BIRTH),
-                submission.getFieldValue(AllConstants.ChildRegistrationOAFields.WEIGHT),
+                submission.getFieldValue(DATE_OF_BIRTH),
+                submission.getFieldValue(WEIGHT),
                 immunizationsGiven));
 
         for (String immunization : immunizationsGiven.split(SPACE)) {

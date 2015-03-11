@@ -10,8 +10,8 @@ import java.util.HashSet;
 import java.util.Map;
 
 import static org.ei.drishti.AllConstants.BOOLEAN_TRUE;
-import static org.ei.drishti.AllConstants.ChildRegistrationFields.HIGH_RISK_REASON;
-import static org.ei.drishti.AllConstants.ChildRegistrationFields.IS_CHILD_HIGH_RISK;
+import static org.ei.drishti.AllConstantsForChildRegister.ChildRegistrationFields.HIGH_RISK_REASON;
+import static org.ei.drishti.AllConstantsForChildRegister.ChildRegistrationFields.IS_CHILD_HIGH_RISK;
 import static org.ei.drishti.AllConstants.SPACE;
 
 public class Child {
