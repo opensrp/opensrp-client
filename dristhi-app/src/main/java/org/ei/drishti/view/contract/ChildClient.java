@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.ei.drishti.AllConstants;
 import org.ei.drishti.domain.ChildServiceType;
 import org.ei.drishti.util.DateUtil;
 import org.joda.time.Days;
@@ -15,9 +16,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.ei.drishti.AllConstants.ECRegistrationFields.*;
 import static org.ei.drishti.AllConstants.*;
-import static org.ei.drishti.AllConstantsForChildRegister.ChildIllnessFields.*;
+import static org.ei.drishti.AllConstants.ChildIllnessFields.*;
+import static org.ei.drishti.AllConstants.ECRegistrationFields.*;
 import static org.ei.drishti.domain.ChildServiceType.*;
 import static org.ei.drishti.util.DateUtil.formatDate;
 import static org.ei.drishti.util.StringUtil.humanize;
@@ -286,9 +287,9 @@ public class ChildClient implements ChildSmartRegisterClient {
                 otherDiseases = data.get(REPORT_CHILD_DISEASE_OTHER);
                 date = data.get(REPORT_CHILD_DISEASE_DATE);
             } else {
-                diseases = data.get(CHILD_SIGNS);
-                otherDiseases = data.get(CHILD_SIGNS_OTHER);
-                date = data.get(SICK_VISIT_DATE);
+                diseases = data.get(AllConstants.ChildIllnessFields.CHILD_SIGNS);
+                otherDiseases = data.get(AllConstants.ChildIllnessFields.CHILD_SIGNS_OTHER);
+                date = data.get(AllConstants.ChildIllnessFields.SICK_VISIT_DATE);
             }
             return new ChildSickStatus(diseases, otherDiseases, date);
         }
