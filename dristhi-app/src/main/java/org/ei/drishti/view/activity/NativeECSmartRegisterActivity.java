@@ -104,7 +104,7 @@ public class NativeECSmartRegisterActivity extends SecuredNativeSmartRegisterAct
                 new OpenFormOption(getString(R.string.str_register_fp_form), FP_CHANGE, formController),
                 new OpenFormOption(getString(R.string.str_register_child_form), CHILD_REGISTRATION_EC, formController),
                 new OpenFormOption(getString(R.string.str_edit_ec_form), EC_EDIT, formController),
-                new OpenFormOption(getString(R.string.str_close_ec_form), "tb_registration", formController),
+                new OpenFormOption(getString(R.string.str_close_ec_form), EC_CLOSE, formController),
         };
     }
 

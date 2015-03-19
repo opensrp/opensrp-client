@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">OpenSRP for Mamoni</string>
+    <string name="app_name">Dristhi</string>
     <string name="userNameEditText">Enter user name</string>
     <string name="passwordEditText">Enter password</string>
     <string name="login_text">Log In</string>
@@ -47,25 +47,6 @@
     <string name="header_children">CHILDREN</string>
     <string name="header_status">STATUS</string>
     <string name="header_edit"></string>
-
-    <string name="tb_header_name">NAME</string>
-    <string name="tb_header_status">STATUS</string>
-    <string name="tb_header_risk_factors">RISK FACTORS</string>
-    <string name="tb_header_treatment">TREATMENT</string>
-    <string name="tb_header_labresults">LAB RESULTS</string>
-
-        <!--mamoni eligible couple-->
-    <string name="mamoniname">NAME</string>
-    <string name="mamonihhid">HHID</string>
-    <string name="mamonicoupleno">Couple No</string>
-    <string name="mamonistatus">Status</string>
-    <string name="mamonihusbandname">Husband Name</string>
-    <string name="mamonitt">TT</string>
-    <string name="mamonibutton"> </string>
-    <!--mamoni eligible couple-->
-
-
-
 
     <string name="couple_selection">All Eligible Couples</string>
     <string name="str_ec_search_hint">Search EC Register</string>

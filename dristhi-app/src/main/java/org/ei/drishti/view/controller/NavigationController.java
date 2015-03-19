@@ -2,9 +2,6 @@ package org.ei.drishti.view.controller;
 
 import android.app.Activity;
 import android.content.Intent;
-
-import org.ei.drishti.mamoni.elco.MamoniELigibleCoupleSmartRegisterActivity;
-import org.ei.drishti.mamoni.pw.MamoniANCRegisterActivity;
 import org.ei.drishti.view.activity.*;
 
 import static org.ei.drishti.view.controller.ProfileNavigationController.*;
@@ -27,9 +24,7 @@ public class NavigationController {
     }
 
     public void startECSmartRegistry() {
-//        activity.startActivity(new Intent(activity, NativeECSmartRegisterActivity.class));
-//        activity.startActivity(new Intent(activity, NativePersonSmartRegisterActivity.class));
-        activity.startActivity(new Intent(activity, MamoniELigibleCoupleSmartRegisterActivity.class));
+        activity.startActivity(new Intent(activity, NativeECSmartRegisterActivity.class));
     }
 
     public void startFPSmartRegistry() {
@@ -37,7 +32,7 @@ public class NavigationController {
     }
 
     public void startANCSmartRegistry() {
-        activity.startActivity(new Intent(activity, MamoniANCRegisterActivity.class));
+        activity.startActivity(new Intent(activity, NativeANCSmartRegisterActivity.class));
     }
 
     public void startPNCSmartRegistry() {

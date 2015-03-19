@@ -63,32 +63,30 @@ public class ECSmartRegisterController {
                 List<ECClient> ecClients = new ArrayList<ECClient>();
 
                 for (EligibleCouple ec : ecs) {
-                    if(ec.wifeName()!=null) {
-                        String photoPath = isBlank(ec.photoPath()) ? DEFAULT_WOMAN_IMAGE_PLACEHOLDER_PATH : ec.photoPath();
-                        ECClient ecClient = new ECClient(ec.caseId(), ec.wifeName(), ec.husbandName(), ec.village(), IntegerUtil.tryParse(ec.ecNumber(), 0))
-                                .withDateOfBirth(ec.getDetail(WOMAN_DOB))
-                                .withFPMethod(ec.getDetail(CURRENT_FP_METHOD))
-                                .withFamilyPlanningMethodChangeDate(ec.getDetail(FAMILY_PLANNING_METHOD_CHANGE_DATE))
-                                .withIUDPlace(ec.getDetail(IUD_PLACE))
-                                .withIUDPerson(ec.getDetail(IUD_PERSON))
-                                .withNumberOfCondomsSupplied(ec.getDetail(NUMBER_OF_CONDOMS_SUPPLIED))
-                                .withNumberOfCentchromanPillsDelivered(ec.getDetail(NUMBER_OF_CENTCHROMAN_PILLS_DELIVERED))
-                                .withNumberOfOCPDelivered(ec.getDetail(NUMBER_OF_OCP_DELIVERED))
-                                .withCaste(ec.getDetail(CASTE))
-                                .withEconomicStatus(ec.getDetail(ECONOMIC_STATUS))
-                                .withNumberOfPregnancies(ec.getDetail(NUMBER_OF_PREGNANCIES))
-                                .withParity(ec.getDetail(PARITY))
-                                .withNumberOfLivingChildren(ec.getDetail(NUMBER_OF_LIVING_CHILDREN))
-                                .withNumberOfStillBirths(ec.getDetail(NUMBER_OF_STILL_BIRTHS))
-                                .withNumberOfAbortions(ec.getDetail(NUMBER_OF_ABORTIONS))
-                                .withIsHighPriority(ec.isHighPriority())
-                                .withPhotoPath(photoPath)
-                                .withHighPriorityReason(ec.getDetail(HIGH_PRIORITY_REASON))
-                                .withIsOutOfArea(ec.isOutOfArea());
-                        updateStatusInformation(ec, ecClient);
-                        updateChildrenInformation(ecClient);
-                        ecClients.add(ecClient);
-                    }
+                    String photoPath = isBlank(ec.photoPath()) ? DEFAULT_WOMAN_IMAGE_PLACEHOLDER_PATH : ec.photoPath();
+                    ECClient ecClient = new ECClient(ec.caseId(), ec.wifeName(), ec.husbandName(), ec.village(), IntegerUtil.tryParse(ec.ecNumber(), 0))
+                            .withDateOfBirth(ec.getDetail(WOMAN_DOB))
+                            .withFPMethod(ec.getDetail(CURRENT_FP_METHOD))
+                            .withFamilyPlanningMethodChangeDate(ec.getDetail(FAMILY_PLANNING_METHOD_CHANGE_DATE))
+                            .withIUDPlace(ec.getDetail(IUD_PLACE))
+                            .withIUDPerson(ec.getDetail(IUD_PERSON))
+                            .withNumberOfCondomsSupplied(ec.getDetail(NUMBER_OF_CONDOMS_SUPPLIED))
+                            .withNumberOfCentchromanPillsDelivered(ec.getDetail(NUMBER_OF_CENTCHROMAN_PILLS_DELIVERED))
+                            .withNumberOfOCPDelivered(ec.getDetail(NUMBER_OF_OCP_DELIVERED))
+                            .withCaste(ec.getDetail(CASTE))
+                            .withEconomicStatus(ec.getDetail(ECONOMIC_STATUS))
+                            .withNumberOfPregnancies(ec.getDetail(NUMBER_OF_PREGNANCIES))
+                            .withParity(ec.getDetail(PARITY))
+                            .withNumberOfLivingChildren(ec.getDetail(NUMBER_OF_LIVING_CHILDREN))
+                            .withNumberOfStillBirths(ec.getDetail(NUMBER_OF_STILL_BIRTHS))
+                            .withNumberOfAbortions(ec.getDetail(NUMBER_OF_ABORTIONS))
+                            .withIsHighPriority(ec.isHighPriority())
+                            .withPhotoPath(photoPath)
+                            .withHighPriorityReason(ec.getDetail(HIGH_PRIORITY_REASON))
+                            .withIsOutOfArea(ec.isOutOfArea());
+                    updateStatusInformation(ec, ecClient);
+                    updateChildrenInformation(ecClient);
+                    ecClients.add(ecClient);
                 }
                 sortByName(ecClients);
                 return new Gson().toJson(ecClients);
@@ -105,32 +103,30 @@ public class ECSmartRegisterController {
                 ECClients ecClients = new ECClients();
 
                 for (EligibleCouple ec : ecs) {
-                    if(ec.wifeName()!=null) {
-                        String photoPath = isBlank(ec.photoPath()) ? DEFAULT_WOMAN_IMAGE_PLACEHOLDER_PATH : ec.photoPath();
-                        ECClient ecClient = new ECClient(ec.caseId(), ec.wifeName(), ec.husbandName(), ec.village(), IntegerUtil.tryParse(ec.ecNumber(), 0))
-                                .withDateOfBirth(ec.getDetail(WOMAN_DOB))
-                                .withFPMethod(ec.getDetail(CURRENT_FP_METHOD))
-                                .withFamilyPlanningMethodChangeDate(ec.getDetail(FAMILY_PLANNING_METHOD_CHANGE_DATE))
-                                .withIUDPlace(ec.getDetail(IUD_PLACE))
-                                .withIUDPerson(ec.getDetail(IUD_PERSON))
-                                .withNumberOfCondomsSupplied(ec.getDetail(NUMBER_OF_CONDOMS_SUPPLIED))
-                                .withNumberOfCentchromanPillsDelivered(ec.getDetail(NUMBER_OF_CENTCHROMAN_PILLS_DELIVERED))
-                                .withNumberOfOCPDelivered(ec.getDetail(NUMBER_OF_OCP_DELIVERED))
-                                .withCaste(ec.getDetail(CASTE))
-                                .withEconomicStatus(ec.getDetail(ECONOMIC_STATUS))
-                                .withNumberOfPregnancies(ec.getDetail(NUMBER_OF_PREGNANCIES))
-                                .withParity(ec.getDetail(PARITY))
-                                .withNumberOfLivingChildren(ec.getDetail(NUMBER_OF_LIVING_CHILDREN))
-                                .withNumberOfStillBirths(ec.getDetail(NUMBER_OF_STILL_BIRTHS))
-                                .withNumberOfAbortions(ec.getDetail(NUMBER_OF_ABORTIONS))
-                                .withIsHighPriority(ec.isHighPriority())
-                                .withPhotoPath(photoPath)
-                                .withHighPriorityReason(ec.getDetail(HIGH_PRIORITY_REASON))
-                                .withIsOutOfArea(ec.isOutOfArea());
-                        updateStatusInformation(ec, ecClient);
-                        updateChildrenInformation(ecClient);
-                        ecClients.add(ecClient);
-                    }
+                    String photoPath = isBlank(ec.photoPath()) ? DEFAULT_WOMAN_IMAGE_PLACEHOLDER_PATH : ec.photoPath();
+                    ECClient ecClient = new ECClient(ec.caseId(), ec.wifeName(), ec.husbandName(), ec.village(), IntegerUtil.tryParse(ec.ecNumber(), 0))
+                            .withDateOfBirth(ec.getDetail(WOMAN_DOB))
+                            .withFPMethod(ec.getDetail(CURRENT_FP_METHOD))
+                            .withFamilyPlanningMethodChangeDate(ec.getDetail(FAMILY_PLANNING_METHOD_CHANGE_DATE))
+                            .withIUDPlace(ec.getDetail(IUD_PLACE))
+                            .withIUDPerson(ec.getDetail(IUD_PERSON))
+                            .withNumberOfCondomsSupplied(ec.getDetail(NUMBER_OF_CONDOMS_SUPPLIED))
+                            .withNumberOfCentchromanPillsDelivered(ec.getDetail(NUMBER_OF_CENTCHROMAN_PILLS_DELIVERED))
+                            .withNumberOfOCPDelivered(ec.getDetail(NUMBER_OF_OCP_DELIVERED))
+                            .withCaste(ec.getDetail(CASTE))
+                            .withEconomicStatus(ec.getDetail(ECONOMIC_STATUS))
+                            .withNumberOfPregnancies(ec.getDetail(NUMBER_OF_PREGNANCIES))
+                            .withParity(ec.getDetail(PARITY))
+                            .withNumberOfLivingChildren(ec.getDetail(NUMBER_OF_LIVING_CHILDREN))
+                            .withNumberOfStillBirths(ec.getDetail(NUMBER_OF_STILL_BIRTHS))
+                            .withNumberOfAbortions(ec.getDetail(NUMBER_OF_ABORTIONS))
+                            .withIsHighPriority(ec.isHighPriority())
+                            .withPhotoPath(photoPath)
+                            .withHighPriorityReason(ec.getDetail(HIGH_PRIORITY_REASON))
+                            .withIsOutOfArea(ec.isOutOfArea());
+                    updateStatusInformation(ec, ecClient);
+                    updateChildrenInformation(ecClient);
+                    ecClients.add(ecClient);
                 }
                 sortByName(ecClients);
                 return ecClients;

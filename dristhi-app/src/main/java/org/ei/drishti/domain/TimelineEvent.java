@@ -102,11 +102,6 @@ public class TimelineEvent {
         return new TimelineEvent(caseId, "ECREGISTERED", registrationDate1, "EC Registered", null, null);
     }
 
-    public static TimelineEvent forTBRegistered(String caseId, String registrationDate) {
-        LocalDate _registrationDate = DateTime.parse(registrationDate).toLocalDate();
-        return new TimelineEvent(caseId, "TBREGISTERED", _registrationDate, "TB Registered", null, null);
-    }
-
     public static TimelineEvent forMotherPNCVisit(String caseId, String visitNumber, String visitDate, String bpSystolic, String bpDiastolic, String temperature, String hbLevel) {
         Map<String, String> details = create(BP_SYSTOLIC, bpSystolic).put(BP_DIASTOLIC, bpDiastolic).put(TEMPERATURE, temperature).put(HB_LEVEL, hbLevel).map();
         String detailsString = new DetailBuilder(details).withBP(BP_SYSTOLIC, BP_DIASTOLIC).withTemperature(TEMPERATURE).withHbLevel(HB_LEVEL).value();

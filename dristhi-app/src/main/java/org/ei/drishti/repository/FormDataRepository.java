@@ -5,12 +5,8 @@ import android.database.Cursor;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.sqlcipher.database.SQLiteDatabase;
-
-import org.ei.drishti.Context;
-import org.ei.drishti.commonregistry.commonRepository;
 import org.ei.drishti.domain.SyncStatus;
 import org.ei.drishti.domain.form.FormSubmission;
-import org.ei.drishti.person.PersonRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,11 +45,6 @@ public class FormDataRepository extends DrishtiRepository {
         TABLE_COLUMN_MAP.put(EligibleCoupleRepository.EC_TABLE_NAME, EligibleCoupleRepository.EC_TABLE_COLUMNS);
         TABLE_COLUMN_MAP.put(MotherRepository.MOTHER_TABLE_NAME, MotherRepository.MOTHER_TABLE_COLUMNS);
         TABLE_COLUMN_MAP.put(ChildRepository.CHILD_TABLE_NAME, ChildRepository.CHILD_TABLE_COLUMNS);
-//        TABLE_COLUMN_MAP.put(PersonRepository.person_TABLE_NAME, PersonRepository.person_TABLE_COLUMNS);
-        for(int i = 0;i< Context.bindtypes.size();i++){
-            TABLE_COLUMN_MAP.put(Context.bindtypes.get(i), commonRepository.common_TABLE_COLUMNS);
-        }
-//        TABLE_COLUMN_MAP.put("user",PersonRepository.person_TABLE_COLUMNS);
     }
 
     @Override
