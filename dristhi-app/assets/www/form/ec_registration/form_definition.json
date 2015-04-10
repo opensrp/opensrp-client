@@ -22,6 +22,7 @@
             },
             {
                 "name": "village",
+                "value": "anyvillage",
                 "bind": "/model/instance/EC_Registration_EngKan/village"
             },
             {
