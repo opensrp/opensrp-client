@@ -10,12 +10,6 @@
 
 		<link href="css/dristhi.css" media="all" rel="stylesheet" type="text/css">
 
-<!--    for development: separate and unminified: -->
-		<!--<script type="text/javascript" data-main="../../main.js" src="../../lib/enketo-core/lib/require.js"></script>-->
-
-<!-- 	for production: combined & minified: -->
-		<script type="text/javascript" src="js/enketo-dristhi-combined.min.js"></script>
-
 	</head>
 	<body>
 
@@ -44,9 +38,15 @@
 				<form class="or">
 				</form>
 				
-				<button id="submit-form" class="btn btn-info btn-large">Save</button>	
+				<button id="submit-form" class="btn btn-info btn-large" disabled>Save</button>	
 				<div class="enketo-power">Powered by <img src="images/enketo_bare_100x37.png" alt="enketo logo" /></div>
 			</article>
 		</div>
+
+		<!--    for development: separate and unminified: -->
+		<!--<script type="text/javascript" data-main="../../main.js" src="../../lib/enketo-core/lib/require.js"></script>-->
+
+		<!-- 	for production: combined & minified: -->
+		<script type="text/javascript" src="js/enketo-dristhi-combined.min.js"></script>
 	</body>
 </html>
