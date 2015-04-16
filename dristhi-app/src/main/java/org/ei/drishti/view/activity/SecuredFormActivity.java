@@ -3,6 +3,8 @@ package org.ei.drishti.view.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.webkit.GeolocationPermissions;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import org.apache.commons.io.IOUtils;
 import org.ei.drishti.Context;
@@ -13,7 +15,13 @@ import java.text.MessageFormat;
 
 import static java.util.UUID.randomUUID;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.ei.drishti.AllConstants.*;
+import static org.ei.drishti.AllConstants.ENTITY_ID_PARAM;
+import static org.ei.drishti.AllConstants.FIELD_OVERRIDES_PARAM;
+import static org.ei.drishti.AllConstants.FORM_NAME_PARAM;
+import static org.ei.drishti.AllConstants.FORM_SUBMISSION_ROUTER;
+import static org.ei.drishti.AllConstants.INSTANCE_ID_PARAM;
+import static org.ei.drishti.AllConstants.REPOSITORY;
+import static org.ei.drishti.AllConstants.ZIGGY_FILE_LOADER;
 import static org.ei.drishti.R.string.*;
 import static org.ei.drishti.util.Log.logError;
 
@@ -53,6 +61,8 @@ public abstract class SecuredFormActivity extends SecuredWebActivity {
     private void webViewInitialization() {
         WebSettings webViewSettings = webView.getSettings();
         webViewSettings.setJavaScriptEnabled(true);
+        webViewSettings.setGeolocationEnabled(true);
+        webView.setWebChromeClient(new GeoWebChromeClient());
         webViewSettings.setDatabaseEnabled(true);
         webViewSettings.setDomStorageEnabled(true);
         webView.addJavascriptInterface(new FormWebInterface(model, form, this), ANDROID_CONTEXT_FIELD);
@@ -103,5 +113,15 @@ public abstract class SecuredFormActivity extends SecuredWebActivity {
 
     private void goBack() {
         super.onBackPressed();
+    }
+
+    public class GeoWebChromeClient extends WebChromeClient {
+        @Override
+        public void onGeolocationPermissionsShowPrompt(String origin,
+                                                       GeolocationPermissions.Callback callback) {
+            // Always grant permission since the app itself requires location
+            // permission and the user has therefore already granted it
+            callback.invoke(origin, true, false);
+        }
     }
 }
