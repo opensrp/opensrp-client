@@ -127,7 +127,7 @@ public class HTTPAgent {
     }
 
     private void setCredentials(String userName, String password) {
-        httpClient.getCredentialsProvider().setCredentials(new AuthScope(configuration.host(), configuration.port(), REALM),
+        httpClient.getCredentialsProvider().setCredentials(new AuthScope(null, -1, null),
                 new UsernamePasswordCredentials(userName, password));
     }
 
