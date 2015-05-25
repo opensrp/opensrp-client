@@ -1,9 +1,6 @@
 package org.ei.opensrp;
 
 import android.content.res.AssetManager;
-import android.util.Log;
-
-import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.util.IntegerUtil;
 
 import java.io.IOException;
@@ -16,11 +13,10 @@ public class DristhiConfiguration {
     private static final String PORT = "PORT";
     private static final String SHOULD_VERIFY_CERTIFICATE = "SHOULD_VERIFY_CERTIFICATE";
     private static final String SYNC_DOWNLOAD_BATCH_SIZE = "SYNC_DOWNLOAD_BATCH_SIZE";
-    public static AllSharedPreferences preferences;
+
     private Properties properties = new Properties();
 
     public DristhiConfiguration(AssetManager assetManager) {
-        preferences=Context.getInstance().allSharedPreferences();
         try {
             properties.load(assetManager.open("app.properties"));
         } catch (IOException e) {
@@ -33,15 +29,11 @@ public class DristhiConfiguration {
     }
 
     public String host() {
-
         return this.get(HOST);
-
     }
 
     public int port() {
-
-
-        return preferences.fetchPort(Integer.parseInt(this.get(PORT)));
+        return Integer.parseInt(this.get(PORT));
     }
 
     public boolean shouldVerifyCertificate() {
@@ -49,8 +41,7 @@ public class DristhiConfiguration {
     }
 
     public String dristhiBaseURL() {
-
-        return preferences.fetchBaseURL(this.get(DRISHTI_BASE_URL));
+        return this.get(DRISHTI_BASE_URL);
     }
 
     public int syncDownloadBatchSize() {

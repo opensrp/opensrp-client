@@ -1,8 +1,6 @@
 package org.ei.opensrp.service;
 
 import android.content.Context;
-import android.util.Log;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -34,17 +32,14 @@ import org.ei.opensrp.repository.AllSettings;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.util.DownloadForm;
 
+import javax.net.ssl.SSLException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.security.KeyStore;
 
-import javax.net.ssl.SSLException;
-
 import static org.ei.opensrp.AllConstants.REALM;
-import static org.ei.opensrp.domain.LoginResponse.NO_INTERNET_CONNECTIVITY;
-import static org.ei.opensrp.domain.LoginResponse.SUCCESS;
-import static org.ei.opensrp.domain.LoginResponse.UNAUTHORIZED;
-import static org.ei.opensrp.domain.LoginResponse.UNKNOWN_RESPONSE;
+import static org.ei.opensrp.domain.LoginResponse.*;
 import static org.ei.opensrp.util.HttpResponseUtil.getResponseBody;
 import static org.ei.opensrp.util.Log.logError;
 import static org.ei.opensrp.util.Log.logWarn;
@@ -90,7 +85,6 @@ public class HTTPAgent {
         try {
             setCredentials(allSharedPreferences.fetchRegisteredANM(), settings.fetchANMPassword());
             HttpPost httpPost = new HttpPost(postURLPath);
-            Log.v("jsonpayload",jsonPayload);
             StringEntity entity = new StringEntity(jsonPayload, HTTP.UTF_8);
             entity.setContentType("application/json; charset=utf-8");
             httpPost.setEntity(entity);

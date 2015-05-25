@@ -6,9 +6,7 @@ import static org.ei.opensrp.AllConstants.*;
 
 public class AllSharedPreferences {
     public static final String ANM_IDENTIFIER_PREFERENCE_KEY = "anmIdentifier";
-    private static final String DRISHTI_BASE_URL = "DRISHTI_BASE_URL";
-    private static final String HOST = "HOST";
-    private static final String PORT = "PORT";
+
     private SharedPreferences preferences;
 
     public AllSharedPreferences(SharedPreferences preferences) {
@@ -37,20 +35,5 @@ public class AllSharedPreferences {
 
     public void saveIsSyncInProgress(Boolean isSyncInProgress) {
         preferences.edit().putBoolean(IS_SYNC_IN_PROGRESS_PREFERENCE_KEY, isSyncInProgress).commit();
-    }
-
-    public String fetchBaseURL(String baseurl){
-
-      return   preferences.getString(DRISHTI_BASE_URL,baseurl);
-    }
-
-    public String fetchHost(String host){
-
-        return   preferences.getString(HOST,host);
-    }
-
-    public Integer fetchPort(Integer port){
-
-        return  Integer.parseInt( preferences.getString(PORT,""+port));
     }
 }
