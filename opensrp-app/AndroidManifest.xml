@@ -168,9 +168,6 @@
         <activity android:name=".view.activity.NativeHomeActivity"
                   android:screenOrientation="landscape">
         </activity>
-        <activity android:name=".view.activity.SettingsActivity"
-            android:screenOrientation="landscape">
-        </activity>
 
         <receiver android:name=".view.receiver.SyncBroadcastReceiver"/>
         <receiver android:name=".view.receiver.ConnectivityChangeReceiver">
