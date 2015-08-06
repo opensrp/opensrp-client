@@ -41,16 +41,16 @@ public abstract class SecuredNativeSmartRegisterActivity extends SecuredActivity
     private TextView serviceModeView;
     private TextView appliedVillageFilterView;
     private TextView appliedSortView;
-    private EditText searchView;
-    private View searchCancelView;
+    public EditText searchView;
+    public View searchCancelView;
     private TextView titleLabelView;
 
-    private SmartRegisterPaginatedAdapter clientsAdapter;
+    public SmartRegisterPaginatedAdapter clientsAdapter;
 
-    private FilterOption currentVillageFilter;
-    private SortOption currentSortOption;
-    private FilterOption currentSearchFilter;
-    private ServiceModeOption currentServiceModeOption;
+    public FilterOption currentVillageFilter;
+    public SortOption currentSortOption;
+    public FilterOption currentSearchFilter;
+    public ServiceModeOption currentServiceModeOption;
 
     private final PaginationViewHandler paginationViewHandler = new PaginationViewHandler();
     private final NavBarActionsHandler navBarActionsHandler = new NavBarActionsHandler();
