@@ -21,6 +21,29 @@ public abstract class BidanSecuredNativeSmartRegisterFragment extends SecuredNat
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         navigationControllerINA = new NavigationControllerINA(getActivity(), anmController);
+
+        //error handling
+        final Thread.UncaughtExceptionHandler oldHandler =
+                Thread.getDefaultUncaughtExceptionHandler();
+
+        Thread.setDefaultUncaughtExceptionHandler(
+                new Thread.UncaughtExceptionHandler() {
+                    @Override
+                    public void uncaughtException(
+                            Thread paramThread,
+                            Throwable paramThrowable
+                    ) {
+                        //Do your own error handling here
+
+                        if (oldHandler != null)
+                            oldHandler.uncaughtException(
+                                    paramThread,
+                                    paramThrowable
+                            ); //Delegates to Android's error handling
+                        else
+                            System.exit(2); //Prevents the service/app from freezing
+                    }
+                });
     }
 
     @Override

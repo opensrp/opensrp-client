@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 
 import org.ei.opensrp.domain.form.FormSubmission;
@@ -87,7 +88,7 @@ public class NativeKIANCSmartRegisterActivity extends BidanSecuredNativeSmartReg
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPagerAdapter = new BaseRegisterActivityPagerAdapter(getSupportFragmentManager(), formNames, mBaseFragment, mProfileFragment);
-        mPager.setOffscreenPageLimit(getEditOptions().length + ((BaseRegisterActivityPagerAdapter)mPagerAdapter).offset());
+        mPager.setOffscreenPageLimit(getEditOptions().length + ((BaseRegisterActivityPagerAdapter) mPagerAdapter).offset());
         mPager.setAdapter(mPagerAdapter);
         mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -96,6 +97,29 @@ public class NativeKIANCSmartRegisterActivity extends BidanSecuredNativeSmartReg
                 onPageChanged(position);
             }
         });
+
+        //error handling
+        final Thread.UncaughtExceptionHandler oldHandler =
+                Thread.getDefaultUncaughtExceptionHandler();
+
+        Thread.setDefaultUncaughtExceptionHandler(
+                new Thread.UncaughtExceptionHandler() {
+                    @Override
+                    public void uncaughtException(
+                            Thread paramThread,
+                            Throwable paramThrowable
+                    ) {
+                        //Do your own error handling here
+
+                        if (oldHandler != null)
+                            oldHandler.uncaughtException(
+                                    paramThread,
+                                    paramThrowable
+                            ); //Delegates to Android's error handling
+                        else
+                            System.exit(2); //Prevents the service/app from freezing
+                    }
+                });
     }
 
     public void onPageChanged(int page){

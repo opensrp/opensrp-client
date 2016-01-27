@@ -30,6 +30,28 @@ public class MotherProfileViewFragment extends SecuredFragment {
 
     @Override
     protected void onCreation() {
+        //error handling
+        final Thread.UncaughtExceptionHandler oldHandler =
+                Thread.getDefaultUncaughtExceptionHandler();
+
+        Thread.setDefaultUncaughtExceptionHandler(
+                new Thread.UncaughtExceptionHandler() {
+                    @Override
+                    public void uncaughtException(
+                            Thread paramThread,
+                            Throwable paramThrowable
+                    ) {
+                        //Do your own error handling here
+
+                        if (oldHandler != null)
+                            oldHandler.uncaughtException(
+                                    paramThread,
+                                    paramThrowable
+                            ); //Delegates to Android's error handling
+                        else
+                            System.exit(2); //Prevents the service/app from freezing
+                    }
+                });
     }
 
     @Override

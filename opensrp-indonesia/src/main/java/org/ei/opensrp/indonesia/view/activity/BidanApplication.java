@@ -3,6 +3,7 @@ package org.ei.opensrp.indonesia.view.activity;
 import android.app.Application;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.util.Log;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.indonesia.LoginActivity;
@@ -35,6 +36,29 @@ public class BidanApplication extends DrishtiApplication {
         context.updateApplicationContext(getApplicationContext());
         applyUserLanguagePreference();
         cleanUpSyncState();
+
+        //error handling
+        final Thread.UncaughtExceptionHandler oldHandler =
+                Thread.getDefaultUncaughtExceptionHandler();
+
+        Thread.setDefaultUncaughtExceptionHandler(
+                new Thread.UncaughtExceptionHandler() {
+                    @Override
+                    public void uncaughtException(
+                            Thread paramThread,
+                            Throwable paramThrowable
+                    ) {
+                        //Do your own error handling here
+
+                        if (oldHandler != null)
+                            oldHandler.uncaughtException(
+                                    paramThread,
+                                    paramThrowable
+                            ); //Delegates to Android's error handling
+                        else
+                            System.exit(2); //Prevents the service/app from freezing
+                    }
+                });
     }
 
     private void cleanUpSyncState() {
