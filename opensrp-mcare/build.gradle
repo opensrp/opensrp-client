@@ -23,6 +23,7 @@ android {
         targetSdkVersion 21
         versionCode 18
         versionName "18.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
