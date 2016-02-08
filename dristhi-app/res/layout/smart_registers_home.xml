@@ -24,6 +24,7 @@
                 android:orientation="horizontal">
 
             <FrameLayout
+                    android:id="@+id/enter_ec_register"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1">
@@ -56,6 +57,7 @@
             </FrameLayout>
 
             <FrameLayout
+                    android:id="@+id/enter_fp_register"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1">
@@ -87,6 +89,7 @@
             </FrameLayout>
 
             <FrameLayout
+                    android:id="@+id/enter_anc_register"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1">
@@ -118,6 +121,7 @@
             </FrameLayout>
 
             <FrameLayout
+                    android:id="@+id/enter_pnc_register"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1">
@@ -149,6 +153,7 @@
             </FrameLayout>
 
             <FrameLayout
+                    android:id="@+id/enter_child_register"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1">
