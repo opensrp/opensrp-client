@@ -25,7 +25,6 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.ei.opensrp.R;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;

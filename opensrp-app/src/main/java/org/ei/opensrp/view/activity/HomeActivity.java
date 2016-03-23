@@ -2,12 +2,16 @@ package org.ei.opensrp.view.activity;
 
 import android.view.Menu;
 import android.view.MenuItem;
+
 import org.ei.opensrp.R;
 import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.service.PendingFormSubmissionService;
 import org.ei.opensrp.view.controller.HomeController;
 
-import static org.ei.opensrp.event.Event.*;
+import static org.ei.opensrp.event.Event.ACTION_HANDLED;
+import static org.ei.opensrp.event.Event.FORM_SUBMITTED;
+import static org.ei.opensrp.event.Event.SYNC_COMPLETED;
+import static org.ei.opensrp.event.Event.SYNC_STARTED;
 
 public class HomeActivity extends SecuredWebActivity {
     private MenuItem updateMenuItem;

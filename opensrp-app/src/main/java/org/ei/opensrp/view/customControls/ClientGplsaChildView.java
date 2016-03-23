@@ -2,14 +2,11 @@ package org.ei.opensrp.view.customControls;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import org.apache.commons.lang3.StringUtils;
+
 import org.ei.opensrp.R;
 import org.ei.opensrp.view.contract.FPSmartRegisterClient;
-
-import static android.view.View.GONE;
 
 public class ClientGplsaChildView extends RelativeLayout {
     private TextView txtGravida;

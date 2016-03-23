@@ -6,9 +6,7 @@ import android.widget.TextView;
 
 import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.view.customControls.BidanClientProfileView;
-import org.ei.opensrp.indonesia.view.customControls.BidanClientStatusView;
 import org.ei.opensrp.indonesia.view.customControls.BidanObsetriView;
-import org.ei.opensrp.view.customControls.ClientChildrenView;
 
 /**
  * Created by Dimas Ciputra on 2/18/15.

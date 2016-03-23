@@ -35,7 +35,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static org.ei.opensrp.util.StringUtil.humanize;

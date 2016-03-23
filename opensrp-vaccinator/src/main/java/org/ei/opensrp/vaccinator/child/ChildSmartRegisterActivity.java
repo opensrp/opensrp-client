@@ -1,28 +1,12 @@
 package org.ei.opensrp.vaccinator.child;
 
-import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Toast;
 
 import org.ei.opensrp.Context;
-import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
-import org.ei.opensrp.commonregistry.AllCommonsRepository;
-import org.ei.opensrp.commonregistry.CommonObjectFilterOption;
-import org.ei.opensrp.commonregistry.CommonObjectSort;
-import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
 import org.ei.opensrp.domain.form.FieldOverrides;
@@ -30,35 +14,21 @@ import org.ei.opensrp.domain.form.FormSubmission;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.service.ZiggyService;
 import org.ei.opensrp.util.FormUtils;
-import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.vaccinator.R;
 import org.ei.opensrp.vaccinator.fragment.ChildSmartRegisterFragment;
 import org.ei.opensrp.vaccinator.pageadapter.BaseRegisterActivityPagerAdapter;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
-import org.ei.opensrp.view.contract.ECClient;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.contract.SmartRegisterClients;
 import org.ei.opensrp.view.controller.FormController;
 import org.ei.opensrp.view.controller.VillageController;
-import org.ei.opensrp.view.dialog.AllClientsFilter;
-import org.ei.opensrp.view.dialog.ChildAgeSort;
 import org.ei.opensrp.view.dialog.DialogOption;
 import org.ei.opensrp.view.dialog.DialogOptionMapper;
-import org.ei.opensrp.view.dialog.DialogOptionModel;
-import org.ei.opensrp.view.dialog.EditOption;
-import org.ei.opensrp.view.dialog.FilterOption;
-import org.ei.opensrp.view.dialog.LocationSelectorDialogFragment;
-import org.ei.opensrp.view.dialog.OpenFormOption;
-import org.ei.opensrp.view.dialog.ServiceModeOption;
-import org.ei.opensrp.view.dialog.SmartRegisterDialogFragment;
-import org.ei.opensrp.view.dialog.SortOption;
 import org.ei.opensrp.view.fragment.DisplayFormFragment;
 import org.ei.opensrp.view.fragment.SecuredNativeSmartRegisterFragment;
 import org.ei.opensrp.view.viewpager.OpenSRPViewPager;
 import org.json.JSONObject;
 import org.opensrp.api.domain.Location;
-import org.opensrp.api.util.EntityUtils;
-import org.opensrp.api.util.LocationTree;
 import org.opensrp.api.util.TreeNode;
 
 import java.util.ArrayList;
@@ -69,12 +39,6 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import util.ClientlessOpenFormOption;
-import util.barcode.Barcode;
-import util.barcode.BarcodeIntentResult;
-
-import static android.view.View.INVISIBLE;
-import static android.view.View.VISIBLE;
-import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
  * Created by Ahmed on 13-Oct-15.

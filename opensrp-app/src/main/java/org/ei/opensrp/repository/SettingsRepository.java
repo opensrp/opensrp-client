@@ -2,6 +2,7 @@ package org.ei.opensrp.repository;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+
 import net.sqlcipher.database.SQLiteDatabase;
 
 public class SettingsRepository extends DrishtiRepository {

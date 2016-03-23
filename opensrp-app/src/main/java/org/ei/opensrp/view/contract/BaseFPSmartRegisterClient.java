@@ -1,9 +1,6 @@
 package org.ei.opensrp.view.contract;
 
 import org.ei.opensrp.domain.FPMethod;
-import org.ei.opensrp.util.IntegerUtil;
-
-import java.util.Comparator;
 
 public interface BaseFPSmartRegisterClient extends SmartRegisterClient {
 

@@ -5,15 +5,14 @@ import org.ei.opensrp.Context;
 import org.ei.opensrp.R;
 import org.ei.opensrp.domain.ChildServiceType;
 
-import static org.ei.opensrp.AllConstants.COMMA_WITH_SPACE;
-import static org.ei.opensrp.AllConstants.SPACE;
-import static org.ei.opensrp.util.StringUtil.humanize;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.ei.opensrp.AllConstants.COMMA_WITH_SPACE;
+import static org.ei.opensrp.AllConstants.SPACE;
 import static org.ei.opensrp.util.DateUtil.formatDate;
-import static org.ei.opensrp.util.StringUtil.replaceAndHumanize;
 import static org.ei.opensrp.util.StringUtil.replaceAndHumanizeWithInitCapText;
 
 public interface ChildSmartRegisterClient extends SmartRegisterClient {

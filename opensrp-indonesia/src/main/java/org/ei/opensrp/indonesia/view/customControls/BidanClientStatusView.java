@@ -10,23 +10,17 @@ import android.widget.TextView;
 
 import com.google.common.base.Strings;
 
-import org.ei.opensrp.domain.ANCServiceType;
 import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.view.contract.KartuIbuClient;
-import org.ei.opensrp.view.contract.AlertDTO;
-import org.ei.opensrp.view.contract.ServiceProvidedDTO;
 import org.ei.opensrp.view.viewHolder.ViewStubInflater;
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.ei.opensrp.util.DateUtil.formatDate;
-
 import static org.ei.opensrp.view.controller.ECSmartRegisterController.ANC_STATUS;
 import static org.ei.opensrp.view.controller.ECSmartRegisterController.PNC_STATUS;
 import static org.ei.opensrp.view.controller.ECSmartRegisterController.STATUS_DATE_FIELD;
-import static org.ei.opensrp.view.controller.ECSmartRegisterController.STATUS_EDD_FIELD;
 import static org.ei.opensrp.view.controller.ECSmartRegisterController.STATUS_TYPE_FIELD;
 
 /**

@@ -1,6 +1,5 @@
 package org.ei.opensrp.vaccinator.child;
 
-import android.util.Log;
 import android.view.View;
 
 import org.ei.opensrp.Context;

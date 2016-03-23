@@ -4,7 +4,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.ei.opensrp.domain.FPMethod;
-import org.ei.opensrp.view.contract.BaseFPSmartRegisterClient;
 import org.ei.opensrp.view.contract.FPSmartRegisterClient;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 

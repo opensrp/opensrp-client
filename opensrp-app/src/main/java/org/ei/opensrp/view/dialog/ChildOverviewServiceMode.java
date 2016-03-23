@@ -1,15 +1,15 @@
 package org.ei.opensrp.view.dialog;
 
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
 import android.view.View;
+
 import org.ei.opensrp.Context;
 import org.ei.opensrp.R;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
-import org.ei.opensrp.view.contract.*;
+import org.ei.opensrp.view.contract.ANCSmartRegisterClient;
+import org.ei.opensrp.view.contract.ChildSmartRegisterClient;
+import org.ei.opensrp.view.contract.FPSmartRegisterClient;
+import org.ei.opensrp.view.contract.ServiceProvidedDTO;
 import org.ei.opensrp.view.contract.pnc.PNCSmartRegisterClient;
 import org.ei.opensrp.view.viewHolder.NativeANCSmartRegisterViewHolder;
 import org.ei.opensrp.view.viewHolder.NativeChildSmartRegisterViewHolder;

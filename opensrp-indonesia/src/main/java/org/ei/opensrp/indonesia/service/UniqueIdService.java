@@ -1,12 +1,11 @@
 package org.ei.opensrp.indonesia.service;
 
 import org.ei.opensrp.DristhiConfiguration;
-import org.ei.opensrp.indonesia.repository.AllSettingsINA;
-import org.ei.opensrp.indonesia.view.controller.UniqueIdController;
 import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.domain.ResponseStatus;
-import org.ei.opensrp.repository.AllSettings;
+import org.ei.opensrp.indonesia.repository.AllSettingsINA;
+import org.ei.opensrp.indonesia.view.controller.UniqueIdController;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.service.HTTPAgent;
 import org.ei.opensrp.sync.AdditionalSyncService;
@@ -16,6 +15,9 @@ import org.json.JSONObject;
 
 import static java.text.MessageFormat.format;
 import static org.ei.opensrp.domain.FetchStatus.*;
+import static org.ei.opensrp.domain.FetchStatus.fetched;
+import static org.ei.opensrp.domain.FetchStatus.fetchedFailed;
+import static org.ei.opensrp.domain.FetchStatus.nothingFetched;
 import static org.ei.opensrp.domain.ResponseStatus.failure;
 import static org.ei.opensrp.util.Log.logDebug;
 import static org.ei.opensrp.util.Log.logError;

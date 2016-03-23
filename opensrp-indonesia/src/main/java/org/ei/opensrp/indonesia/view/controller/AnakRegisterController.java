@@ -5,12 +5,12 @@ import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.ei.opensrp.AllConstants;
+import org.ei.opensrp.domain.Alert;
+import org.ei.opensrp.domain.ServiceProvided;
 import org.ei.opensrp.indonesia.AllConstantsINA;
 import org.ei.opensrp.indonesia.domain.Anak;
 import org.ei.opensrp.indonesia.repository.AllKohort;
 import org.ei.opensrp.indonesia.view.contract.AnakClient;
-import org.ei.opensrp.domain.Alert;
-import org.ei.opensrp.domain.ServiceProvided;
 import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.service.ServiceProvidedService;
 import org.ei.opensrp.util.Cache;
@@ -27,15 +27,33 @@ import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import static java.lang.String.valueOf;
 import static java.util.Collections.sort;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.ei.opensrp.domain.ServiceProvided.CHILD_ILLNESS_SERVICE_PROVIDED_NAME;
 import static org.ei.opensrp.domain.ServiceProvided.PNC_SERVICE_PROVIDED_NAME;
 import static org.ei.opensrp.domain.ServiceProvided.VITAMIN_A_SERVICE_PROVIDED_NAME;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.BABY_NO;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.BIRTH_CONDITION;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.BIRTH_PLACE;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.BIRTH_WEIGHT;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.CHILD_CURRENT_WEIGTH;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.CHILD_NAME;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.CHILD_VISIT_DATE;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.HB_GIVEN;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.IMMUNIZATION_BCG_AND_POLIO1;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.IMMUNIZATION_DPT_HB1_POLIO2;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.IMMUNIZATION_DPT_HB2_POLIO3;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.IMMUNIZATION_DPT_HB3_POLIO4;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.IMMUNIZATION_HB_0_7_DATES;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.IMMUNIZATION_MEASLES;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.IS_HIGH_RISK_CHILD;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.SERVICE_AT_BIRTH;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.HUSBAND_NAME;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_AGE;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_NAME;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_NUMBER;
 
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.*;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.*;
+import static java.lang.String.*;
 
 /**
  * Created by Dimas Ciputra on 4/8/15.

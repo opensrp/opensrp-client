@@ -2,7 +2,9 @@ package org.ei.opensrp.repository;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+
 import net.sqlcipher.database.SQLiteDatabase;
+
 import org.ei.opensrp.domain.TimelineEvent;
 import org.joda.time.LocalDate;
 

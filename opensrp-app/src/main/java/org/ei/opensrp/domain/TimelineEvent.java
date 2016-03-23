@@ -10,7 +10,10 @@ import org.joda.time.LocalDate;
 import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.ei.opensrp.AllConstants.PNCVisitFields.*;
+import static org.ei.opensrp.AllConstants.PNCVisitFields.BP_DIASTOLIC;
+import static org.ei.opensrp.AllConstants.PNCVisitFields.BP_SYSTOLIC;
+import static org.ei.opensrp.AllConstants.PNCVisitFields.HB_LEVEL;
+import static org.ei.opensrp.AllConstants.PNCVisitFields.TEMPERATURE;
 import static org.ei.opensrp.util.EasyMap.create;
 import static org.ei.opensrp.util.EasyMap.mapOf;
 

@@ -11,14 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import org.ei.opensrp.R;
-import atv.holder.SimpleViewHolder;
-import atv.model.TreeNode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import atv.holder.SimpleViewHolder;
+import atv.model.TreeNode;
 
 /**
  * Created by Bogdan Melnychuk on 2/10/15.

@@ -6,7 +6,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.ei.opensrp.domain.ANCServiceType;
 import org.ei.opensrp.domain.ChildServiceType;
-
 import org.ei.opensrp.util.DateUtil;
 
 public class AlertDTO {

@@ -2,6 +2,7 @@ package org.ei.opensrp.view.contract;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+
 import org.ei.opensrp.view.dialog.FilterOption;
 import org.ei.opensrp.view.dialog.ServiceModeOption;
 import org.ei.opensrp.view.dialog.SortOption;

@@ -6,7 +6,6 @@ import android.util.Log;
 import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.domain.TimelineEvent;
 import org.ei.opensrp.domain.form.FormSubmission;
-import org.ei.opensrp.repository.AllAlerts;
 import org.ei.opensrp.repository.AllBeneficiaries;
 import org.ei.opensrp.repository.AllTimelineEvents;
 import org.ei.opensrp.service.AlertService;

@@ -1,16 +1,24 @@
 package org.ei.opensrp.view.controller;
 
 import com.google.gson.Gson;
+
 import org.apache.commons.lang3.tuple.Pair;
-import org.ei.opensrp.domain.*;
+import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.Child;
+import org.ei.opensrp.domain.EligibleCouple;
+import org.ei.opensrp.domain.Mother;
+import org.ei.opensrp.domain.ServiceProvided;
 import org.ei.opensrp.repository.AllBeneficiaries;
 import org.ei.opensrp.repository.AllEligibleCouples;
 import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.service.ServiceProvidedService;
 import org.ei.opensrp.util.Cache;
 import org.ei.opensrp.util.CacheableData;
-import org.ei.opensrp.view.contract.*;
+import org.ei.opensrp.view.contract.AlertDTO;
+import org.ei.opensrp.view.contract.ChildClient;
+import org.ei.opensrp.view.contract.ServiceProvidedDTO;
+import org.ei.opensrp.view.contract.SmartRegisterClient;
+import org.ei.opensrp.view.contract.Village;
 import org.ei.opensrp.view.contract.pnc.PNCClient;
 import org.ei.opensrp.view.contract.pnc.PNCClients;
 import org.ei.opensrp.view.preProcessor.PNCClientPreProcessor;
@@ -22,9 +30,22 @@ import java.util.List;
 import static java.lang.String.valueOf;
 import static java.util.Collections.sort;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.ei.opensrp.AllConstants.PNCRegistrationFields.*;
 import static org.ei.opensrp.AllConstants.DEFAULT_WOMAN_IMAGE_PLACEHOLDER_PATH;
-import static org.ei.opensrp.AllConstants.ECRegistrationFields.*;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.CASTE;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.CURRENT_FP_METHOD;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.ECONOMIC_STATUS;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.FAMILY_PLANNING_METHOD_CHANGE_DATE;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.IUD_PERSON;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.IUD_PLACE;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.NUMBER_OF_CENTCHROMAN_PILLS_DELIVERED;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.NUMBER_OF_CONDOMS_SUPPLIED;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.NUMBER_OF_OCP_DELIVERED;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.WOMAN_DOB;
+import static org.ei.opensrp.AllConstants.PNCRegistrationFields.DELIVERY_COMPLICATIONS;
+import static org.ei.opensrp.AllConstants.PNCRegistrationFields.DELIVERY_PLACE;
+import static org.ei.opensrp.AllConstants.PNCRegistrationFields.DELIVERY_TYPE;
+import static org.ei.opensrp.AllConstants.PNCRegistrationFields.IMMEDIATE_REFERRAL_REASON;
+import static org.ei.opensrp.AllConstants.PNCRegistrationFields.OTHER_DELIVERY_COMPLICATIONS;
 import static org.ei.opensrp.domain.ServiceProvided.PNC_SERVICE_PROVIDED_NAME;
 
 public class PNCSmartRegisterController {

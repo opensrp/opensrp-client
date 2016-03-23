@@ -7,7 +7,10 @@ import org.ei.opensrp.R;
 import java.util.Locale;
 import java.util.Map;
 
-import static org.ei.opensrp.domain.TimelineEvent.*;
+import static org.ei.opensrp.domain.TimelineEvent.forFPCondomRenew;
+import static org.ei.opensrp.domain.TimelineEvent.forFPDMPARenew;
+import static org.ei.opensrp.domain.TimelineEvent.forFPIUDRenew;
+import static org.ei.opensrp.domain.TimelineEvent.forFPOCPRenew;
 import static org.ei.opensrp.util.Log.logWarn;
 
 public enum FPMethod {

@@ -26,7 +26,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-
 import org.ei.opensrp.mcare.R;
 
 import java.util.ArrayList;

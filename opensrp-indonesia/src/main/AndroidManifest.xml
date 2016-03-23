@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="org.ei.opensrp.indonesia"
     android:versionCode="32"
     android:versionName="3.0.1"
@@ -110,11 +111,13 @@
         </activity>
         <activity
             android:name="org.ei.opensrp.view.activity.FormActivity"
+            tools:replace="android:theme"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="org.ei.opensrp.view.activity.MicroFormActivity"
+            tools:replace="android:theme"
             android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"
             android:screenOrientation="landscape"/>
 
@@ -125,10 +128,12 @@
             android:screenOrientation="landscape">
         </activity>
         <activity android:name="org.ei.opensrp.indonesia.view.activity.NativeReportingActivity"
+            tools:replace="android:theme"
             android:theme="@style/AppThemeNoActionBarAndTitle"
             android:screenOrientation="landscape">
         </activity>
         <activity
+            tools:replace="android:theme"
             android:name="org.ei.opensrp.view.activity.VideosActivity"
             android:theme="@style/AppThemeNoActionBarAndTitle"
             android:screenOrientation="landscape"/>

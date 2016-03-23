@@ -4,7 +4,6 @@ import com.google.common.base.Strings;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.domain.ANCServiceType;
-import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.indonesia.Context;
 import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.util.DateUtil;
@@ -23,7 +22,6 @@ import org.joda.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;

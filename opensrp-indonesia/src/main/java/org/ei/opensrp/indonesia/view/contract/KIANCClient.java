@@ -17,13 +17,12 @@ import org.joda.time.Years;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import static org.ei.opensrp.indonesia.util.StringUtil.humanize;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.ei.opensrp.indonesia.util.StringUtil.humanize;
 import static org.joda.time.LocalDateTime.parse;
 
 /**

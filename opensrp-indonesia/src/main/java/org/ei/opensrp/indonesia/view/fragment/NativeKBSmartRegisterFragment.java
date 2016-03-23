@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
-import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.indonesia.AllConstantsINA;
 import org.ei.opensrp.indonesia.Context;
 import org.ei.opensrp.indonesia.R;
@@ -34,10 +33,6 @@ import org.ei.opensrp.view.dialog.LocationSelectorDialogFragment;
 import org.ei.opensrp.view.dialog.NameSort;
 import org.ei.opensrp.view.dialog.ServiceModeOption;
 import org.ei.opensrp.view.dialog.SortOption;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Iterator;
 
 import static com.google.common.collect.Iterables.concat;
 import static com.google.common.collect.Iterables.toArray;

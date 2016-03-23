@@ -5,7 +5,6 @@ import android.database.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.ei.opensrp.commonregistry.CommonPersonObject;
-import org.ei.opensrp.commonregistry.CommonRepository;
 import org.ei.opensrp.repository.DrishtiRepository;
 
 import java.util.List;

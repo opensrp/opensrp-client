@@ -1,6 +1,7 @@
 package org.ei.opensrp.view.activity;
 
 import android.view.View;
+
 import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.R;
 import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
@@ -10,7 +11,25 @@ import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.controller.ChildSmartRegisterController;
 import org.ei.opensrp.view.controller.VillageController;
-import org.ei.opensrp.view.dialog.*;
+import org.ei.opensrp.view.dialog.AllClientsFilter;
+import org.ei.opensrp.view.dialog.BPLSort;
+import org.ei.opensrp.view.dialog.ChildAgeSort;
+import org.ei.opensrp.view.dialog.ChildHighRiskSort;
+import org.ei.opensrp.view.dialog.ChildImmunization0to9ServiceMode;
+import org.ei.opensrp.view.dialog.ChildImmunization9PlusServiceMode;
+import org.ei.opensrp.view.dialog.ChildOverviewServiceMode;
+import org.ei.opensrp.view.dialog.DialogOption;
+import org.ei.opensrp.view.dialog.DialogOptionMapper;
+import org.ei.opensrp.view.dialog.DialogOptionModel;
+import org.ei.opensrp.view.dialog.EditOption;
+import org.ei.opensrp.view.dialog.FilterOption;
+import org.ei.opensrp.view.dialog.NameSort;
+import org.ei.opensrp.view.dialog.OpenFormOption;
+import org.ei.opensrp.view.dialog.OutOfAreaFilter;
+import org.ei.opensrp.view.dialog.SCSort;
+import org.ei.opensrp.view.dialog.STSort;
+import org.ei.opensrp.view.dialog.ServiceModeOption;
+import org.ei.opensrp.view.dialog.SortOption;
 
 import java.util.List;
 

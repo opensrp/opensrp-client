@@ -7,14 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.R;
 import org.ei.opensrp.domain.FPMethod;
 import org.ei.opensrp.view.contract.BaseFPSmartRegisterClient;
-import org.ei.opensrp.view.contract.ECSmartRegisterClient;
-import org.ei.opensrp.view.contract.FPSmartRegisterClient;
-
-import java.text.DateFormat;
 
 import static org.ei.opensrp.Context.getInstance;
 
@@ -50,7 +47,7 @@ public class ClientFpMethodView extends LinearLayout {
     }
 
     public void setLayoutParams() {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+        LayoutParams params = new LayoutParams(
                 (int) getResources().getDimension(R.dimen.list_fp_view_width),
                 ViewGroup.LayoutParams.FILL_PARENT,
                 getResources().getInteger(R.integer.fp_list_method_view_weight));

@@ -3,6 +3,7 @@ package org.ei.opensrp.view.viewHolder;
 import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 
 import java.io.File;

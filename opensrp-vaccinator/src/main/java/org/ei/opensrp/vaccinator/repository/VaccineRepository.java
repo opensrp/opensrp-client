@@ -9,7 +9,6 @@ import org.ei.opensrp.repository.DrishtiRepository;
 import org.ei.opensrp.vaccinator.domain.Vaccine;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -20,7 +19,7 @@ public class VaccineRepository extends DrishtiRepository {
     private static final String ID_COLUMN="_id";
     public static final String TABLE_NAME="vaccine";
     private static final String[] COLUMNS={ID_COLUMN,VACCINE_COLUMN};
-    private static  String VACCINE_TABLE="CREATE TABLE vaccine(_id int primary key , vaccine_name VARCHAR(100) )";
+    private static String VACCINE_TABLE="CREATE TABLE vaccine(_id int primary key , vaccine_name VARCHAR(100) )";
 
     @Override
     protected void onCreate(SQLiteDatabase database) {

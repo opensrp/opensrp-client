@@ -201,7 +201,7 @@ public abstract class AsyncTask<Params, Progress, Result> {
     private static final int MAXIMUM_POOL_SIZE = 128;
     private static final int KEEP_ALIVE = 1;
 
-    private static final ThreadFactory  sThreadFactory = new ThreadFactory() {
+    private static final ThreadFactory sThreadFactory = new ThreadFactory() {
         private final AtomicInteger mCount = new AtomicInteger(1);
 
         public Thread newThread(Runnable r) {

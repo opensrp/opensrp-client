@@ -2,6 +2,7 @@ package org.ei.opensrp.view.dialog;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
+
 import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.contract.Village;
 

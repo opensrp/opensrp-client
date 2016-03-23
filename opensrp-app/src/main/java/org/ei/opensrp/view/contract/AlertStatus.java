@@ -1,6 +1,7 @@
 package org.ei.opensrp.view.contract;
 
 import android.graphics.Color;
+
 import org.ei.opensrp.R;
 
 public enum AlertStatus {

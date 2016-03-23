@@ -2,13 +2,22 @@ package org.ei.opensrp.view.dialog;
 
 import android.view.View;
 import android.widget.TextView;
+
 import org.ei.opensrp.Context;
 import org.ei.opensrp.R;
 import org.ei.opensrp.domain.ChildServiceType;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
-import org.ei.opensrp.view.contract.*;
+import org.ei.opensrp.view.contract.ANCSmartRegisterClient;
+import org.ei.opensrp.view.contract.AlertDTO;
+import org.ei.opensrp.view.contract.AlertStatus;
+import org.ei.opensrp.view.contract.ChildSmartRegisterClient;
+import org.ei.opensrp.view.contract.FPSmartRegisterClient;
 import org.ei.opensrp.view.contract.pnc.PNCSmartRegisterClient;
-import org.ei.opensrp.view.viewHolder.*;
+import org.ei.opensrp.view.viewHolder.NativeANCSmartRegisterViewHolder;
+import org.ei.opensrp.view.viewHolder.NativeChildSmartRegisterViewHolder;
+import org.ei.opensrp.view.viewHolder.NativeFPSmartRegisterViewHolder;
+import org.ei.opensrp.view.viewHolder.NativePNCSmartRegisterViewHolder;
+import org.ei.opensrp.view.viewHolder.OnClickFormLauncher;
 
 import static org.ei.opensrp.AllConstants.FormNames.CHILD_IMMUNIZATIONS;
 import static org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity.ClientsHeaderProvider;

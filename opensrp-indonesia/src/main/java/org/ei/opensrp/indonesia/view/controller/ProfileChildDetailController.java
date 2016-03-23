@@ -14,8 +14,26 @@ import org.ei.opensrp.indonesia.view.contract.AnakClient;
 
 import java.util.Map;
 
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.*;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.*;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.BABY_NO;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.BIRTH_CONDITION;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.BIRTH_PLACE;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.BIRTH_WEIGHT;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.CHILD_CURRENT_WEIGTH;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.CHILD_NAME;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.CHILD_VISIT_DATE;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.HB_GIVEN;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.IMMUNIZATION_BCG_AND_POLIO1;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.IMMUNIZATION_DPT_HB1_POLIO2;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.IMMUNIZATION_DPT_HB2_POLIO3;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.IMMUNIZATION_DPT_HB3_POLIO4;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.IMMUNIZATION_HB_0_7_DATES;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.IMMUNIZATION_MEASLES;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.IS_HIGH_RISK_CHILD;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.SERVICE_AT_BIRTH;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.HUSBAND_NAME;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_AGE;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_NAME;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_NUMBER;
 
 /**
  * Created by Dimas Ciputra on 4/17/15.

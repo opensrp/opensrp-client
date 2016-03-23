@@ -8,7 +8,9 @@ buildscript {
         classpath 'org.robolectric:robolectric-gradle-plugin:1.1.0'
     }
 }
+
 apply plugin: 'com.android.application'
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':opensrp-app')
@@ -25,6 +27,7 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "0.02.2 alpha"
+        multiDexEnabled true
     }
     buildTypes {
         release {

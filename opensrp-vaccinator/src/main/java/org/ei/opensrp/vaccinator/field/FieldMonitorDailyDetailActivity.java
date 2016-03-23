@@ -2,11 +2,9 @@ package org.ei.opensrp.vaccinator.field;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.widget.TextView;
 
-import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.vaccinator.R;
 

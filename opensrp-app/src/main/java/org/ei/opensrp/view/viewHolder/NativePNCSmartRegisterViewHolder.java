@@ -6,8 +6,12 @@ import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import org.ei.opensrp.R;
-import org.ei.opensrp.view.customControls.*;
+import org.ei.opensrp.view.customControls.ClientPNCPpFpMethodView;
+import org.ei.opensrp.view.customControls.ClientProfileView;
+import org.ei.opensrp.view.customControls.DeliveryInfoView;
+import org.ei.opensrp.view.customControls.PNCWebViewClient;
 
 public class NativePNCSmartRegisterViewHolder {
     private final ClientProfileView profileInfoLayout;

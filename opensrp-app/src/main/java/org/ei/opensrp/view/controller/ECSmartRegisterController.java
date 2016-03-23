@@ -2,6 +2,7 @@ package org.ei.opensrp.view.controller;
 
 import com.google.common.collect.Iterables;
 import com.google.gson.Gson;
+
 import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.domain.Child;
 import org.ei.opensrp.domain.EligibleCouple;
@@ -27,7 +28,23 @@ import static java.util.Collections.sort;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.ei.opensrp.AllConstants.ANCRegistrationFields.EDD;
 import static org.ei.opensrp.AllConstants.DEFAULT_WOMAN_IMAGE_PLACEHOLDER_PATH;
-import static org.ei.opensrp.AllConstants.ECRegistrationFields.*;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.CASTE;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.CURRENT_FP_METHOD;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.ECONOMIC_STATUS;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.FAMILY_PLANNING_METHOD_CHANGE_DATE;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.HIGH_PRIORITY_REASON;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.IUD_PERSON;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.IUD_PLACE;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.NUMBER_OF_ABORTIONS;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.NUMBER_OF_CENTCHROMAN_PILLS_DELIVERED;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.NUMBER_OF_CONDOMS_SUPPLIED;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.NUMBER_OF_LIVING_CHILDREN;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.NUMBER_OF_OCP_DELIVERED;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.NUMBER_OF_PREGNANCIES;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.NUMBER_OF_STILL_BIRTHS;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.PARITY;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.REGISTRATION_DATE;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.WOMAN_DOB;
 
 public class ECSmartRegisterController {
     public static final String STATUS_TYPE_FIELD = "type";

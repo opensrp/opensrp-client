@@ -1,7 +1,7 @@
 package org.ei.opensrp.indonesia.view.dialog;
 
-import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.Context;
+import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.view.contract.SmartRegisterClients;
 import org.ei.opensrp.view.dialog.SortOption;
 

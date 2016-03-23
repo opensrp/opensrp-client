@@ -9,10 +9,8 @@ import org.ei.opensrp.util.CacheableData;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by Dimas on 9/8/2015.

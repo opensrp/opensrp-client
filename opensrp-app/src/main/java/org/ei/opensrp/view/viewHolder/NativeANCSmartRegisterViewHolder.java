@@ -6,6 +6,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import org.ei.opensrp.R;
 import org.ei.opensrp.view.customControls.ANCClientIdDetailsView;
 import org.ei.opensrp.view.customControls.ANCStatusView;

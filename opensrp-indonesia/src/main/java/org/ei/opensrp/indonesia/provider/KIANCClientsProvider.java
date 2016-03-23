@@ -8,19 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 
-import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ei.opensrp.domain.ANCServiceType;
 import org.ei.opensrp.indonesia.R;
-import org.ei.opensrp.indonesia.util.StringUtil;
-import org.ei.opensrp.indonesia.view.contract.KartuIbuClient;
-import org.ei.opensrp.view.activity.SecuredActivity;
 import org.ei.opensrp.indonesia.view.contract.KIANCClient;
 import org.ei.opensrp.indonesia.view.controller.KIANCRegisterController;
 import org.ei.opensrp.indonesia.view.viewHolder.NativeKIANCRegisterViewHolder;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
+import org.ei.opensrp.view.activity.SecuredActivity;
 import org.ei.opensrp.view.contract.AlertDTO;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.contract.SmartRegisterClients;
@@ -33,9 +29,7 @@ import org.ei.opensrp.view.viewHolder.ProfilePhotoLoader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 

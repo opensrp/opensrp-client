@@ -1,6 +1,7 @@
 package org.ei.opensrp.view.activity;
 
 import android.view.View;
+
 import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.R;
 import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
@@ -10,14 +11,41 @@ import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.controller.ANCSmartRegisterController;
 import org.ei.opensrp.view.controller.VillageController;
-import org.ei.opensrp.view.dialog.*;
+import org.ei.opensrp.view.dialog.ANCOverviewServiceMode;
+import org.ei.opensrp.view.dialog.ANCVisitsServiceMode;
+import org.ei.opensrp.view.dialog.AllClientsFilter;
+import org.ei.opensrp.view.dialog.BPLSort;
+import org.ei.opensrp.view.dialog.DeliveryPlanServiceMode;
+import org.ei.opensrp.view.dialog.DialogOption;
+import org.ei.opensrp.view.dialog.DialogOptionMapper;
+import org.ei.opensrp.view.dialog.DialogOptionModel;
+import org.ei.opensrp.view.dialog.EditOption;
+import org.ei.opensrp.view.dialog.EstimatedDateOfDeliverySort;
+import org.ei.opensrp.view.dialog.FilterOption;
+import org.ei.opensrp.view.dialog.HRPSort;
+import org.ei.opensrp.view.dialog.HbIFAServiceMode;
+import org.ei.opensrp.view.dialog.NameSort;
+import org.ei.opensrp.view.dialog.OpenFormOption;
+import org.ei.opensrp.view.dialog.OutOfAreaFilter;
+import org.ei.opensrp.view.dialog.SCSort;
+import org.ei.opensrp.view.dialog.STSort;
+import org.ei.opensrp.view.dialog.ServiceModeOption;
+import org.ei.opensrp.view.dialog.SortOption;
+import org.ei.opensrp.view.dialog.TTServiceMode;
 
 import java.util.List;
 
 import static com.google.common.collect.Iterables.concat;
 import static com.google.common.collect.Iterables.toArray;
 import static java.util.Arrays.asList;
-import static org.ei.opensrp.AllConstants.FormNames.*;
+import static org.ei.opensrp.AllConstants.FormNames.ANC_CLOSE;
+import static org.ei.opensrp.AllConstants.FormNames.ANC_INVESTIGATIONS;
+import static org.ei.opensrp.AllConstants.FormNames.ANC_VISIT;
+import static org.ei.opensrp.AllConstants.FormNames.DELIVERY_OUTCOME;
+import static org.ei.opensrp.AllConstants.FormNames.DELIVERY_PLAN;
+import static org.ei.opensrp.AllConstants.FormNames.HB_TEST;
+import static org.ei.opensrp.AllConstants.FormNames.IFA;
+import static org.ei.opensrp.AllConstants.FormNames.TT;
 
 public class NativeANCSmartRegisterActivity extends SecuredNativeSmartRegisterActivity {
 

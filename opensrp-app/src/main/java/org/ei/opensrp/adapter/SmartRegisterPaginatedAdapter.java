@@ -3,6 +3,7 @@ package org.ei.opensrp.adapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.contract.SmartRegisterClients;

@@ -5,6 +5,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ImageButton;
+
 import org.ei.opensrp.Context;
 import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
 import org.ei.opensrp.commonregistry.CommonObjectSort;

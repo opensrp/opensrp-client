@@ -1,8 +1,9 @@
 package org.ei.opensrp.view.activity;
 
 import android.app.Activity;
-import org.ei.opensrp.util.Log;
 import android.webkit.JavascriptInterface;
+
+import org.ei.opensrp.util.Log;
 
 import static org.ei.opensrp.AllConstants.FORM_SUCCESSFULLY_SUBMITTED_RESULT_CODE;
 

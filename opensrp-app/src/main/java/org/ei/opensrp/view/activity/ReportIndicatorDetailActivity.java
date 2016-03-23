@@ -1,10 +1,12 @@
 package org.ei.opensrp.view.activity;
 
 import android.os.Bundle;
+
 import org.ei.opensrp.domain.Report;
 import org.ei.opensrp.view.controller.ReportIndicatorDetailViewController;
 
-import static org.ei.opensrp.AllConstants.*;
+import static org.ei.opensrp.AllConstants.CATEGORY_DESCRIPTION;
+import static org.ei.opensrp.AllConstants.INDICATOR_DETAIL;
 
 public class ReportIndicatorDetailActivity extends SecuredWebActivity {
 

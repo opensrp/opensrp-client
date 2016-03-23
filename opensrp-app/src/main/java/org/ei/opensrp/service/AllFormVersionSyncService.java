@@ -17,7 +17,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
@@ -26,8 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static org.ei.opensrp.domain.DownloadStatus.*;
-
+import static org.ei.opensrp.domain.DownloadStatus.nothingDownloaded;
 import static org.ei.opensrp.domain.SyncStatus.PENDING;
 import static org.ei.opensrp.domain.SyncStatus.SYNCED;
 import static org.ei.opensrp.util.Log.logError;

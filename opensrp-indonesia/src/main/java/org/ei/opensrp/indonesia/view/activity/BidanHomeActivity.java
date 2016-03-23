@@ -7,11 +7,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ei.opensrp.domain.form.FieldOverrides;
+import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.indonesia.AllConstantsINA;
 import org.ei.opensrp.indonesia.Context;
-import org.ei.opensrp.indonesia.LoginActivity;
 import org.ei.opensrp.indonesia.R;
-import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.indonesia.lib.FlurryFacade;
 import org.ei.opensrp.indonesia.view.contract.BidanHomeContext;
 import org.ei.opensrp.indonesia.view.controller.NativeAfterBidanDetailsFetchListener;
@@ -28,13 +27,11 @@ import static android.widget.Toast.LENGTH_SHORT;
 import static java.lang.String.valueOf;
 import static org.ei.opensrp.AllConstants.ENGLISH_LANGUAGE;
 import static org.ei.opensrp.AllConstants.ENGLISH_LOCALE;
-import static org.ei.opensrp.AllConstants.KANNADA_LANGUAGE;
-import static org.ei.opensrp.AllConstants.KANNADA_LOCALE;
-import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.FEEDBACK_BIDAN;
 import static org.ei.opensrp.event.Event.ACTION_HANDLED;
 import static org.ei.opensrp.event.Event.FORM_SUBMITTED;
 import static org.ei.opensrp.event.Event.SYNC_COMPLETED;
 import static org.ei.opensrp.event.Event.SYNC_STARTED;
+import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.FEEDBACK_BIDAN;
 
 /**
  * Created by Dimas Ciputra on 2/27/15.

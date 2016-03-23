@@ -22,7 +22,7 @@ import org.ei.opensrp.view.viewHolder.NativeFPSmartRegisterViewHolder;
 import org.ei.opensrp.view.viewHolder.NativePNCSmartRegisterViewHolder;
 import org.ei.opensrp.view.viewHolder.OnClickFormLauncher;
 
-import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.*;
+import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.BAYI_IMUNISASI;
 
 /**
  * Created by Dimas Ciputra on 4/27/15.

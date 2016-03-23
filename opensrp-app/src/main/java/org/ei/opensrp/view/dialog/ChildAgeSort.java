@@ -2,11 +2,10 @@ package org.ei.opensrp.view.dialog;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.R;
+import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.contract.SmartRegisterClients;
 
 import java.util.Collections;
-
-import static org.ei.opensrp.view.contract.ChildSmartRegisterClient.AGE_COMPARATOR;
 
 public class ChildAgeSort implements SortOption {
     @Override
@@ -16,7 +15,7 @@ public class ChildAgeSort implements SortOption {
 
     @Override
     public SmartRegisterClients sort(SmartRegisterClients allClients) {
-        Collections.sort(allClients, AGE_COMPARATOR);
+        Collections.sort(allClients, SmartRegisterClient.AGE_COMPARATOR);
         return allClients;
     }
 }

@@ -7,8 +7,15 @@ import org.ei.opensrp.domain.mapper.TTMapper;
 
 import java.util.Map;
 
-import static org.ei.opensrp.AllConstants.ANCVisitFields.*;
-import static org.ei.opensrp.AllConstants.DeliveryPlanFields.*;
+import static org.ei.opensrp.AllConstants.ANCVisitFields.BP_DIASTOLIC;
+import static org.ei.opensrp.AllConstants.ANCVisitFields.BP_SYSTOLIC;
+import static org.ei.opensrp.AllConstants.ANCVisitFields.WEIGHT;
+import static org.ei.opensrp.AllConstants.DeliveryPlanFields.ASHA_PHONE_NUMBER;
+import static org.ei.opensrp.AllConstants.DeliveryPlanFields.BIRTH_COMPANION;
+import static org.ei.opensrp.AllConstants.DeliveryPlanFields.DELIVERY_FACILITY_NAME;
+import static org.ei.opensrp.AllConstants.DeliveryPlanFields.PHONE_NUMBER;
+import static org.ei.opensrp.AllConstants.DeliveryPlanFields.REVIEWED_HRP_STATUS;
+import static org.ei.opensrp.AllConstants.DeliveryPlanFields.TRANSPORTATION_PLAN;
 import static org.ei.opensrp.AllConstants.VitaminAFields.VITAMIN_A_DOSE;
 import static org.ei.opensrp.AllConstants.VitaminAFields.VITAMIN_A_PLACE;
 import static org.ei.opensrp.util.EasyMap.create;

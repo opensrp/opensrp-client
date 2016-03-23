@@ -8,11 +8,16 @@ import org.ei.opensrp.R;
 import org.ei.opensrp.domain.FPMethod;
 import org.ei.opensrp.util.IntegerUtil;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
-import static org.apache.commons.lang3.StringUtils.replace;
 import static org.ei.opensrp.AllConstants.COMMA_WITH_SPACE;
-import static org.ei.opensrp.AllConstants.ECRegistrationFields.*;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.BPL_VALUE;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.SC_VALUE;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.ST_VALUE;
 import static org.ei.opensrp.AllConstants.SPACE;
 import static org.ei.opensrp.Context.getInstance;
 import static org.ei.opensrp.util.DateUtil.formatDate;

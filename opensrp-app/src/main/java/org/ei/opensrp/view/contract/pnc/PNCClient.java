@@ -1,6 +1,7 @@
 package org.ei.opensrp.view.contract.pnc;
 
 import com.google.gson.annotations.SerializedName;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -8,18 +9,36 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.ei.opensrp.domain.ANCServiceType;
 import org.ei.opensrp.domain.FPMethod;
 import org.ei.opensrp.util.IntegerUtil;
-import org.ei.opensrp.view.contract.*;
+import org.ei.opensrp.view.contract.AlertDTO;
+import org.ei.opensrp.view.contract.ChildClient;
+import org.ei.opensrp.view.contract.ServiceProvidedDTO;
+import org.ei.opensrp.view.contract.SmartRegisterClient;
+import org.ei.opensrp.view.contract.Visits;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.ISODateTimeFormat;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
-import static org.ei.opensrp.AllConstants.*;
-import static org.ei.opensrp.AllConstants.ECRegistrationFields.*;
+import static org.ei.opensrp.AllConstants.COMMA_WITH_SPACE;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.BPL_VALUE;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.SC_VALUE;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.ST_VALUE;
+import static org.ei.opensrp.AllConstants.IN_AREA;
+import static org.ei.opensrp.AllConstants.OUT_OF_AREA;
+import static org.ei.opensrp.AllConstants.SPACE;
 import static org.ei.opensrp.domain.ANCServiceType.PNC;
-import static org.ei.opensrp.util.DateUtil.*;
-import static org.ei.opensrp.util.StringUtil.*;
+import static org.ei.opensrp.util.DateUtil.formatDate;
+import static org.ei.opensrp.util.DateUtil.formatFromISOString;
+import static org.ei.opensrp.util.DateUtil.getLocalDateFromISOString;
+import static org.ei.opensrp.util.StringUtil.humanize;
+import static org.ei.opensrp.util.StringUtil.humanizeAndDoUPPERCASE;
+import static org.ei.opensrp.util.StringUtil.replaceAndHumanizeWithInitCapText;
 import static org.ei.opensrp.view.contract.AlertDTO.emptyAlert;
 import static org.ei.opensrp.view.contract.ServiceProvidedDTO.emptyService;
 

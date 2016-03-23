@@ -6,13 +6,13 @@ import android.view.ViewGroup;
 
 import org.ei.opensrp.R;
 
-import atv.view.AndroidTreeView;
-import atv.view.TreeNodeWrapperView;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import atv.view.AndroidTreeView;
+import atv.view.TreeNodeWrapperView;
 
 /**
  * Created by Bogdan Melnychuk on 2/10/15.
@@ -76,7 +76,7 @@ public class TreeNode {
         return this;
     }
 
-    public  TreeNode addChildren(Collection< TreeNode> nodes) {
+    public TreeNode addChildren(Collection<TreeNode> nodes) {
         for ( TreeNode n : nodes) {
             addChild(n);
         }
@@ -93,7 +93,7 @@ public class TreeNode {
         return -1;
     }
 
-    public List< TreeNode> getChildren() {
+    public List<TreeNode> getChildren() {
         return Collections.unmodifiableList(children);
     }
 
@@ -101,7 +101,7 @@ public class TreeNode {
         return children.size();
     }
 
-    public  TreeNode getParent() {
+    public TreeNode getParent() {
         return mParent;
     }
 
@@ -121,7 +121,7 @@ public class TreeNode {
         return mExpanded;
     }
 
-    public  TreeNode setExpanded(boolean expanded) {
+    public TreeNode setExpanded(boolean expanded) {
         mExpanded = expanded;
         return this;
     }
@@ -174,14 +174,14 @@ public class TreeNode {
         if (!isRoot()) {
             int parentSize = mParent.children.size();
             if (parentSize > 0) {
-                final List< TreeNode> parentChildren = mParent.children;
+                final List<TreeNode> parentChildren = mParent.children;
                 return parentChildren.get(parentSize - 1).mId == mId;
             }
         }
         return false;
     }
 
-    public  TreeNode setViewHolder(BaseNodeViewHolder viewHolder) {
+    public TreeNode setViewHolder(BaseNodeViewHolder viewHolder) {
         mViewHolder = viewHolder;
         if (viewHolder != null) {
             viewHolder.mNode = this;
@@ -189,7 +189,7 @@ public class TreeNode {
         return this;
     }
 
-    public  TreeNode setClickListener(TreeNodeClickListener listener) {
+    public TreeNode setClickListener(TreeNodeClickListener listener) {
         mListener = listener;
         return this;
     }
@@ -205,7 +205,7 @@ public class TreeNode {
 
     public boolean isFirstChild() {
         if (!isRoot()) {
-            List< TreeNode> parentChildren = mParent.children;
+            List<TreeNode> parentChildren = mParent.children;
             return parentChildren.get(0).mId == mId;
         }
         return false;
@@ -215,7 +215,7 @@ public class TreeNode {
         return mParent == null;
     }
 
-    public  TreeNode getRoot() {
+    public TreeNode getRoot() {
          TreeNode root = this;
         while (root.mParent != null) {
             root = root.mParent;
@@ -224,12 +224,12 @@ public class TreeNode {
     }
 
     public interface TreeNodeClickListener {
-        void onClick( TreeNode node, Object value);
+        void onClick(TreeNode node, Object value);
     }
 
     public static abstract class BaseNodeViewHolder<E> {
         protected AndroidTreeView tView;
-        protected  TreeNode mNode;
+        protected TreeNode mNode;
         private View mView;
         protected int containerStyle;
         protected Context context;

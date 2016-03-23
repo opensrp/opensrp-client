@@ -1,6 +1,7 @@
 package org.ei.opensrp.view.dialog;
 
 import android.view.View;
+
 import org.ei.opensrp.R;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.view.contract.ANCSmartRegisterClient;

@@ -9,9 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.ei.opensrp.commonregistry.CommonPersonObject;
-import org.ei.opensrp.util.Log;
 import org.ei.opensrp.vaccinator.R;
-import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.

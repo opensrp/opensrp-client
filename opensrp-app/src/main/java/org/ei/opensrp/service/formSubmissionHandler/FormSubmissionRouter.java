@@ -1,16 +1,44 @@
 package org.ei.opensrp.service.formSubmissionHandler;
 
+import android.webkit.JavascriptInterface;
+
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.ei.opensrp.domain.form.FormSubmission;
 import org.ei.opensrp.repository.FormDataRepository;
 import org.ei.opensrp.util.Log;
-import android.webkit.JavascriptInterface;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static java.text.MessageFormat.format;
-import static org.ei.opensrp.AllConstants.FormNames.*;
+import static org.ei.opensrp.AllConstants.FormNames.ANC_CLOSE;
+import static org.ei.opensrp.AllConstants.FormNames.ANC_INVESTIGATIONS;
+import static org.ei.opensrp.AllConstants.FormNames.ANC_REGISTRATION;
+import static org.ei.opensrp.AllConstants.FormNames.ANC_REGISTRATION_OA;
+import static org.ei.opensrp.AllConstants.FormNames.ANC_VISIT;
+import static org.ei.opensrp.AllConstants.FormNames.CHILD_CLOSE;
+import static org.ei.opensrp.AllConstants.FormNames.CHILD_ILLNESS;
+import static org.ei.opensrp.AllConstants.FormNames.CHILD_IMMUNIZATIONS;
+import static org.ei.opensrp.AllConstants.FormNames.CHILD_REGISTRATION_EC;
+import static org.ei.opensrp.AllConstants.FormNames.CHILD_REGISTRATION_OA;
+import static org.ei.opensrp.AllConstants.FormNames.DELIVERY_OUTCOME;
+import static org.ei.opensrp.AllConstants.FormNames.DELIVERY_PLAN;
+import static org.ei.opensrp.AllConstants.FormNames.EC_CLOSE;
+import static org.ei.opensrp.AllConstants.FormNames.EC_EDIT;
+import static org.ei.opensrp.AllConstants.FormNames.EC_REGISTRATION;
+import static org.ei.opensrp.AllConstants.FormNames.FP_CHANGE;
+import static org.ei.opensrp.AllConstants.FormNames.FP_COMPLICATIONS;
+import static org.ei.opensrp.AllConstants.FormNames.HB_TEST;
+import static org.ei.opensrp.AllConstants.FormNames.IFA;
+import static org.ei.opensrp.AllConstants.FormNames.PNC_CLOSE;
+import static org.ei.opensrp.AllConstants.FormNames.PNC_REGISTRATION_OA;
+import static org.ei.opensrp.AllConstants.FormNames.PNC_VISIT;
+import static org.ei.opensrp.AllConstants.FormNames.RENEW_FP_PRODUCT;
+import static org.ei.opensrp.AllConstants.FormNames.TT;
+import static org.ei.opensrp.AllConstants.FormNames.TT_1;
+import static org.ei.opensrp.AllConstants.FormNames.TT_2;
+import static org.ei.opensrp.AllConstants.FormNames.TT_BOOSTER;
+import static org.ei.opensrp.AllConstants.FormNames.VITAMIN_A;
 import static org.ei.opensrp.event.Event.FORM_SUBMITTED;
 import static org.ei.opensrp.util.Log.logWarn;
 

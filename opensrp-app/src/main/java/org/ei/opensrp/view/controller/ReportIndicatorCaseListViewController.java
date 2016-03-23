@@ -1,7 +1,9 @@
 package org.ei.opensrp.view.controller;
 
 import android.content.Context;
+
 import com.google.gson.Gson;
+
 import org.ei.opensrp.domain.ReportIndicator;
 import org.ei.opensrp.view.contract.Beneficiary;
 import org.ei.opensrp.view.contract.IndicatorReportCases;

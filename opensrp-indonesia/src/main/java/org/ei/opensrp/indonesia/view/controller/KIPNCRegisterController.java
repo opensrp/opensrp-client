@@ -24,12 +24,35 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 import static java.util.Collections.sort;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.COMPLICATION_HISTORY;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.FETUS_NUMBER;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.FETUS_POSITION;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.FETUS_SIZE;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.HB_RESULT;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.HEIGHT;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.LILA_CHECK_RESULT;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.PELVIC_DEFORMITY;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.SUGAR_BLOOD_LEVEL;
 import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.BIRTH_CONDITION;
 import static org.ei.opensrp.indonesia.AllConstantsINA.KartuAnakFields.BIRTH_WEIGHT;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuPNCFields.*;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.*;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.*;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KeluargaBerencanaFields.*;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.CHRONIC_DISEASE;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.EDD;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.HUSBAND_NAME;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_DOB;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_NAME;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_NUMBER;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.NUMBER_ABORTIONS;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.NUMBER_PARTUS;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.PUSKESMAS_NAME;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuPNCFields.COMPLICATION;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuPNCFields.DELIVERY_METHOD;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuPNCFields.MOTHER_CONDITION;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuPNCFields.OTHER_COMPLICATION;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuPNCFields.PLANNING;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuPNCFields.VITAL_SIGNS_TD_DIASTOLIC;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuPNCFields.VITAL_SIGNS_TD_SISTOLIC;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuPNCFields.VITAL_SIGNS_TEMP;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KeluargaBerencanaFields.CONTRACEPTION_METHOD;
 
 /**
  * Created by Dimas Ciputra on 3/4/15.

@@ -3,8 +3,13 @@ package org.ei.opensrp.view.viewHolder;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import org.ei.opensrp.R;
-import org.ei.opensrp.view.customControls.*;
+import org.ei.opensrp.view.customControls.ClientChildrenView;
+import org.ei.opensrp.view.customControls.ClientFpMethodView;
+import org.ei.opensrp.view.customControls.ClientGplsaView;
+import org.ei.opensrp.view.customControls.ClientProfileView;
+import org.ei.opensrp.view.customControls.ClientStatusView;
 
 public class NativeECSmartRegisterViewHolder {
     private final ClientProfileView profileInfoLayout;

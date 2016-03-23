@@ -2,17 +2,29 @@ package org.ei.opensrp.view.dialog;
 
 import android.view.View;
 import android.widget.TextView;
+
 import org.ei.opensrp.R;
 import org.ei.opensrp.domain.ANCServiceType;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
-import org.ei.opensrp.view.contract.*;
+import org.ei.opensrp.view.contract.ANCSmartRegisterClient;
+import org.ei.opensrp.view.contract.AlertDTO;
+import org.ei.opensrp.view.contract.AlertStatus;
+import org.ei.opensrp.view.contract.ChildSmartRegisterClient;
+import org.ei.opensrp.view.contract.FPSmartRegisterClient;
+import org.ei.opensrp.view.contract.ServiceProvidedDTO;
 import org.ei.opensrp.view.contract.pnc.PNCSmartRegisterClient;
-import org.ei.opensrp.view.viewHolder.*;
+import org.ei.opensrp.view.viewHolder.NativeANCSmartRegisterViewHolder;
+import org.ei.opensrp.view.viewHolder.NativeChildSmartRegisterViewHolder;
+import org.ei.opensrp.view.viewHolder.NativeFPSmartRegisterViewHolder;
+import org.ei.opensrp.view.viewHolder.NativePNCSmartRegisterViewHolder;
+import org.ei.opensrp.view.viewHolder.OnClickFormLauncher;
 
 import static android.view.View.VISIBLE;
 import static org.ei.opensrp.AllConstants.FormNames.TT;
 import static org.ei.opensrp.Context.getInstance;
-import static org.ei.opensrp.domain.ANCServiceType.*;
+import static org.ei.opensrp.domain.ANCServiceType.TT_1;
+import static org.ei.opensrp.domain.ANCServiceType.TT_2;
+import static org.ei.opensrp.domain.ANCServiceType.TT_BOOSTER;
 import static org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity.ClientsHeaderProvider;
 import static org.ei.opensrp.view.contract.AlertDTO.emptyAlert;
 

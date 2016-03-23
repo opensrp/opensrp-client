@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.widget.Toast;
+
 import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.event.CapturedPhotoInformation;
 import org.ei.opensrp.util.Log;
@@ -17,9 +18,9 @@ import java.util.UUID;
 
 import static android.os.Environment.DIRECTORY_PICTURES;
 import static android.os.Environment.getExternalStoragePublicDirectory;
+import static org.ei.opensrp.AllConstants.CHILD_TYPE;
 import static org.ei.opensrp.AllConstants.ENTITY_ID;
 import static org.ei.opensrp.AllConstants.WOMAN_TYPE;
-import static org.ei.opensrp.AllConstants.CHILD_TYPE;
 import static org.ei.opensrp.event.Event.ON_PHOTO_CAPTURED;
 
 public class CameraLaunchActivity extends SecuredActivity {

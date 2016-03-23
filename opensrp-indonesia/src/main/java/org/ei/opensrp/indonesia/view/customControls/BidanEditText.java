@@ -2,9 +2,7 @@ package org.ei.opensrp.indonesia.view.customControls;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 /**

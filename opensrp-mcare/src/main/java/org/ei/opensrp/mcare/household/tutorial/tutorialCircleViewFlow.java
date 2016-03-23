@@ -19,7 +19,6 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
-
 import org.ei.opensrp.mcare.R;
 
 import widget.CircleFlowIndicator;

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.view.contract.KIChildClient;
 import org.ei.opensrp.indonesia.view.contract.KartuIbuClient;

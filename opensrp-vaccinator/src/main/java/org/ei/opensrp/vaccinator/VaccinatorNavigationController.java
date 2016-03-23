@@ -2,16 +2,12 @@ package org.ei.opensrp.vaccinator;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-
 
 import org.ei.opensrp.vaccinator.child.ChildSmartRegisterActivity;
 import org.ei.opensrp.vaccinator.field.FieldMonitorSmartRegisterActivity;
 import org.ei.opensrp.vaccinator.report.VaccineReport;
 import org.ei.opensrp.vaccinator.woman.WomanSmartRegisterActivity;
 import org.ei.opensrp.view.controller.ANMController;
-
-import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class VaccinatorNavigationController extends org.ei.opensrp.view.controller.NavigationController {
 

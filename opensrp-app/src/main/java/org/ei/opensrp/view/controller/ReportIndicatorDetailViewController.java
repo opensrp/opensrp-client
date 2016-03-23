@@ -2,16 +2,20 @@ package org.ei.opensrp.view.controller;
 
 import android.content.Context;
 import android.content.Intent;
+
 import com.google.gson.Gson;
-import org.ei.opensrp.domain.Report;
+
 import org.ei.drishti.dto.MonthSummaryDatum;
+import org.ei.opensrp.domain.Report;
 import org.ei.opensrp.view.activity.ReportIndicatorCaseListActivity;
 import org.ei.opensrp.view.contract.IndicatorReportDetail;
 
 import java.util.ArrayList;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.ei.opensrp.AllConstants.*;
+import static org.ei.opensrp.AllConstants.CASE_IDS;
+import static org.ei.opensrp.AllConstants.INDICATOR;
+import static org.ei.opensrp.AllConstants.MONTH;
 
 public class ReportIndicatorDetailViewController {
     private final Context context;

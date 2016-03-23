@@ -3,12 +3,12 @@ package org.ei.opensrp.service;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.ei.drishti.dto.form.FormSubmissionDTO;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.DristhiConfiguration;
 import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.domain.form.FormSubmission;
-import org.ei.drishti.dto.form.FormSubmissionDTO;
 import org.ei.opensrp.repository.AllSettings;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.repository.FormDataRepository;
@@ -19,7 +19,9 @@ import java.util.List;
 
 import static java.text.MessageFormat.format;
 import static org.ei.opensrp.convertor.FormSubmissionConvertor.toDomain;
-import static org.ei.opensrp.domain.FetchStatus.*;
+import static org.ei.opensrp.domain.FetchStatus.fetched;
+import static org.ei.opensrp.domain.FetchStatus.fetchedFailed;
+import static org.ei.opensrp.domain.FetchStatus.nothingFetched;
 import static org.ei.opensrp.util.Log.logError;
 import static org.ei.opensrp.util.Log.logInfo;
 
@@ -98,7 +100,7 @@ public class FormSubmissionSyncService {
     }
 
     private String mapToFormSubmissionDTO(List<FormSubmission> pendingFormSubmissions) {
-        List<org.ei.drishti.dto.form.FormSubmissionDTO> formSubmissions = new ArrayList<org.ei.drishti.dto.form.FormSubmissionDTO>();
+        List<FormSubmissionDTO> formSubmissions = new ArrayList<FormSubmissionDTO>();
         for (FormSubmission pendingFormSubmission : pendingFormSubmissions) {
             formSubmissions.add(new org.ei.drishti.dto.form.FormSubmissionDTO(allSharedPreferences.fetchRegisteredANM(), pendingFormSubmission.instanceId(),
                     pendingFormSubmission.entityId(), pendingFormSubmission.formName(), pendingFormSubmission.instance(), pendingFormSubmission.version(),

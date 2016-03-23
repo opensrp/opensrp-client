@@ -1,15 +1,11 @@
 package org.ei.opensrp.mcare.anc;
 
 import org.ei.opensrp.Context;
-import org.ei.opensrp.commonregistry.AllCommonsRepository;
-import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.form.FormSubmission;
 import org.ei.opensrp.service.formSubmissionHandler.FormSubmissionHandler;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class anc1handler implements FormSubmissionHandler {
 

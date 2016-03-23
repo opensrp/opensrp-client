@@ -21,10 +21,10 @@ import java.util.Map;
 import static java.lang.Boolean.TRUE;
 import static net.sqlcipher.DatabaseUtils.longForQuery;
 import static org.apache.commons.lang3.StringUtils.repeat;
-import static org.ei.opensrp.indonesia.repository.KartuIbuRepository.KI_TABLE_COLUMNS;
-import static org.ei.opensrp.indonesia.repository.KartuIbuRepository.KI_TABLE_NAME;
 import static org.ei.opensrp.indonesia.repository.IbuRepository.IBU_TABLE_COLUMNS;
 import static org.ei.opensrp.indonesia.repository.IbuRepository.IBU_TABLE_NAME;
+import static org.ei.opensrp.indonesia.repository.KartuIbuRepository.KI_TABLE_COLUMNS;
+import static org.ei.opensrp.indonesia.repository.KartuIbuRepository.KI_TABLE_NAME;
 
 /**
  * Created by Dimas Ciputra on 4/7/15.

@@ -2,7 +2,10 @@ package org.ei.opensrp.view.controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.webkit.JavascriptInterface;
+
 import com.google.gson.Gson;
+
 import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.domain.EligibleCouple;
 import org.ei.opensrp.repository.AllEligibleCouples;
@@ -15,7 +18,6 @@ import org.ei.opensrp.view.contract.ECDetail;
 import org.ei.opensrp.view.contract.TimelineEvent;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import android.webkit.JavascriptInterface;
 
 import java.util.ArrayList;
 import java.util.Collections;

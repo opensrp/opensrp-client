@@ -1,7 +1,5 @@
 package org.ei.opensrp.view.dialog;
 
-import org.ei.opensrp.Context;
-import org.ei.opensrp.R;
 import org.ei.opensrp.view.contract.ServiceProvidedDTO;
 import org.joda.time.LocalDate;
 

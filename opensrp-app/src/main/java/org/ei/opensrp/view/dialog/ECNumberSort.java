@@ -2,7 +2,6 @@ package org.ei.opensrp.view.dialog;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.R;
-import org.ei.opensrp.view.contract.ECClient;
 import org.ei.opensrp.view.contract.ECSmartRegisterBaseClient;
 import org.ei.opensrp.view.contract.SmartRegisterClients;
 

@@ -33,7 +33,7 @@ import static com.google.common.collect.Iterables.toArray;
 /**
  * Created by koros on 10/29/15.
  */
-public class NativeKIANCSmartRegisterFragment extends BidanSecuredNativeSmartRegisterFragment{
+public class NativeKIANCSmartRegisterFragment extends BidanSecuredNativeSmartRegisterFragment {
 
     private SmartRegisterClientsProvider clientProvider = null;
     private KIANCRegisterController controller;

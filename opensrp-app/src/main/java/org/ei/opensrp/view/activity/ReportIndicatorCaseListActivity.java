@@ -1,6 +1,7 @@
 package org.ei.opensrp.view.activity;
 
 import android.os.Bundle;
+
 import org.ei.opensrp.view.controller.ReportIndicatorCaseListViewController;
 
 import java.util.List;

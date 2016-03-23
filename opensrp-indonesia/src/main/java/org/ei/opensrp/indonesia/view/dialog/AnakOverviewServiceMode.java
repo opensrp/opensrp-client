@@ -14,6 +14,7 @@ import org.ei.opensrp.indonesia.view.viewHolder.NativeAnakRegisterViewHolder;
 import org.ei.opensrp.indonesia.view.viewHolder.NativeKIANCRegisterViewHolder;
 import org.ei.opensrp.indonesia.view.viewHolder.NativeKIRegisterViewHolder;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
+import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
 import org.ei.opensrp.view.contract.ANCSmartRegisterClient;
 import org.ei.opensrp.view.contract.ChildSmartRegisterClient;
 import org.ei.opensrp.view.contract.FPSmartRegisterClient;
@@ -22,8 +23,6 @@ import org.ei.opensrp.view.viewHolder.NativeANCSmartRegisterViewHolder;
 import org.ei.opensrp.view.viewHolder.NativeChildSmartRegisterViewHolder;
 import org.ei.opensrp.view.viewHolder.NativeFPSmartRegisterViewHolder;
 import org.ei.opensrp.view.viewHolder.NativePNCSmartRegisterViewHolder;
-import org.ei.opensrp.provider.SmartRegisterClientsProvider;
-import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
 
 import static android.view.View.VISIBLE;
 import static org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity.ClientsHeaderProvider;

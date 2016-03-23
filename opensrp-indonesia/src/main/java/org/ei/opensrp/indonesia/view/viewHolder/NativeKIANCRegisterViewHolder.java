@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.view.customControls.BidanClientProfileView;
-import org.w3c.dom.Text;
 
 /**
  * Created by Dimas Ciputra on 3/4/15.

@@ -1,20 +1,15 @@
 package org.ei.opensrp.view.customControls;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import org.ei.opensrp.R;
 import org.ei.opensrp.domain.FPMethod;
-import org.ei.opensrp.util.StringUtil;
-import org.ei.opensrp.view.contract.AlertDTO;
 import org.ei.opensrp.view.contract.FPSmartRegisterClient;
 
-import java.util.List;
-
-import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.ei.opensrp.Context.getInstance;
 
 public class ClientSideEffectsView extends LinearLayout {

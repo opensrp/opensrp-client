@@ -1,6 +1,7 @@
 package org.ei.opensrp.view.activity;
 
 import android.view.View;
+
 import org.ei.opensrp.R;
 import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
 import org.ei.opensrp.domain.form.FieldOverrides;
@@ -9,14 +10,34 @@ import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.controller.PNCSmartRegisterController;
 import org.ei.opensrp.view.controller.VillageController;
-import org.ei.opensrp.view.dialog.*;
+import org.ei.opensrp.view.dialog.AllClientsFilter;
+import org.ei.opensrp.view.dialog.BPLSort;
+import org.ei.opensrp.view.dialog.DateOfDeliverySort;
+import org.ei.opensrp.view.dialog.DialogOption;
+import org.ei.opensrp.view.dialog.DialogOptionMapper;
+import org.ei.opensrp.view.dialog.DialogOptionModel;
+import org.ei.opensrp.view.dialog.EditOption;
+import org.ei.opensrp.view.dialog.FilterOption;
+import org.ei.opensrp.view.dialog.HighRiskSort;
+import org.ei.opensrp.view.dialog.NameSort;
+import org.ei.opensrp.view.dialog.OpenFormOption;
+import org.ei.opensrp.view.dialog.OutOfAreaFilter;
+import org.ei.opensrp.view.dialog.PNCOverviewServiceMode;
+import org.ei.opensrp.view.dialog.PNCVisitsServiceMode;
+import org.ei.opensrp.view.dialog.SCSort;
+import org.ei.opensrp.view.dialog.STSort;
+import org.ei.opensrp.view.dialog.ServiceModeOption;
+import org.ei.opensrp.view.dialog.SortOption;
 
 import java.util.List;
 
 import static com.google.common.collect.Iterables.concat;
 import static com.google.common.collect.Iterables.toArray;
 import static java.util.Arrays.asList;
-import static org.ei.opensrp.AllConstants.FormNames.*;
+import static org.ei.opensrp.AllConstants.FormNames.PNC_CLOSE;
+import static org.ei.opensrp.AllConstants.FormNames.PNC_POSTPARTUM_FAMILY_PLANNING;
+import static org.ei.opensrp.AllConstants.FormNames.PNC_REGISTRATION_OA;
+import static org.ei.opensrp.AllConstants.FormNames.PNC_VISIT;
 
 public class NativePNCSmartRegisterActivity extends SecuredNativeSmartRegisterActivity {
 

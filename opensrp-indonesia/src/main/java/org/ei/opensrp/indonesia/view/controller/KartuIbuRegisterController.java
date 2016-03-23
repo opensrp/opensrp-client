@@ -28,9 +28,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import static java.lang.String.valueOf;
 import static java.util.Collections.sort;
-
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.ei.opensrp.domain.ServiceProvided.ANC_1_SERVICE_PROVIDED_NAME;
 import static org.ei.opensrp.domain.ServiceProvided.ANC_2_SERVICE_PROVIDED_NAME;
@@ -42,10 +40,46 @@ import static org.ei.opensrp.domain.ServiceProvided.IFA_SERVICE_PROVIDED_NAME;
 import static org.ei.opensrp.domain.ServiceProvided.TT_1_SERVICE_PROVIDED_NAME;
 import static org.ei.opensrp.domain.ServiceProvided.TT_2_SERVICE_PROVIDED_NAME;
 import static org.ei.opensrp.domain.ServiceProvided.TT_BOOSTER_SERVICE_PROVIDED_NAME;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KeluargaBerencanaFields.*;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.*;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.*;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuPNCFields.*;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.COMPLICATION_HISTORY;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.FETUS_NUMBER;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.FETUS_POSITION;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.FETUS_SIZE;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.HB_RESULT;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.HEIGHT;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.LILA_CHECK_RESULT;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.PELVIC_DEFORMITY;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuANCFields.SUGAR_BLOOD_LEVEL;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.CHRONIC_DISEASE;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.EDD;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.HUSBAND_NAME;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.IS_HIGH_PRIORITY;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.IS_HIGH_RISK;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.IS_HIGH_RISK_LABOUR;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.IS_HIGH_RISK_PREGNANCY;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.KABUPATEN;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_ADDRESS;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_AGE;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_BLOOD_TYPE;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_DOB;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_NAME;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_NUMBER;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.NUMBER_ABORTIONS;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.NUMBER_OF_LIVING_CHILDREN;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.NUMBER_OF_PREGNANCIES;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.NUMBER_PARTUS;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.POSYANDU_NAME;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.PROPINSI;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.PUSKESMAS_NAME;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.UNIQUE_ID;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.VISITS_DATE;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuPNCFields.COMPLICATION;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuPNCFields.DELIVERY_METHOD;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuPNCFields.VITAL_SIGNS_TD_DIASTOLIC;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KartuPNCFields.VITAL_SIGNS_TD_SISTOLIC;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KeluargaBerencanaFields.CONTRACEPTION_METHOD;
+import static org.ei.opensrp.indonesia.AllConstantsINA.KeluargaBerencanaFields.KELUARGA_BERENCANA;
+
+import static java.lang.String.*;
 
 /**
  * Created by Dimas Ciputra on 2/18/15.

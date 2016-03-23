@@ -4,13 +4,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.view.controller.ReportingController;
-import org.ei.opensrp.util.DateUtil;
 
 import java.util.ArrayList;
 import java.util.List;

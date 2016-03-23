@@ -7,12 +7,12 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.domain.form.FormSubmission;
-import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.Context;
+import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.lib.FlurryFacade;
 import org.ei.opensrp.indonesia.util.StringUtil;
-import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.indonesia.view.fragment.MotherProfileViewFragment;
 import org.ei.opensrp.indonesia.view.fragment.NativeKIPNCSmartRegisterFragment;
 import org.ei.opensrp.indonesia.view.pageradapter.BaseRegisterActivityPagerAdapter;
@@ -27,18 +27,19 @@ import org.ei.opensrp.view.fragment.SecuredNativeSmartRegisterFragment;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 
 import static org.ei.opensrp.R.string.form_back_confirm_dialog_message;
 import static org.ei.opensrp.R.string.form_back_confirm_dialog_title;
 import static org.ei.opensrp.R.string.no_button_label;
 import static org.ei.opensrp.R.string.yes_button_label;
-import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.*;
+import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_PNC_CLOSE;
+import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_PNC_EDIT;
+import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_PNC_OA;
+import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_PNC_POSPARTUM_KB;
+import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_PNC_VISIT;
 
 /**
  * Created by Dimas Ciputra on 3/5/15.

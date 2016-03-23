@@ -1,7 +1,7 @@
 package org.ei.opensrp.domain;
 
-import org.ei.opensrp.Context;
 import org.ei.drishti.dto.Action;
+import org.ei.opensrp.Context;
 
 public enum AlertActionRoute {
     CREATE_ALERT("createAlert") {

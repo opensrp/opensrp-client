@@ -2,7 +2,6 @@ package org.ei.opensrp.indonesia.util;
 
 import com.google.common.base.Strings;
 
-import org.ei.opensrp.indonesia.Context;
 import org.json.JSONException;
 import org.json.JSONObject;
 

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+
 import org.ei.opensrp.R;
 import org.ei.opensrp.view.contract.ECSmartRegisterClient;
 import org.ei.opensrp.view.contract.SmartRegisterClient;

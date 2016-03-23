@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import org.ei.opensrp.R;
 import org.ei.opensrp.view.customControls.ClientFpMethodView;
 import org.ei.opensrp.view.customControls.ClientGplsaChildView;

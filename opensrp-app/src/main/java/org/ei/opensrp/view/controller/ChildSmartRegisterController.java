@@ -1,6 +1,7 @@
 package org.ei.opensrp.view.controller;
 
 import com.google.gson.Gson;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.domain.Alert;
@@ -11,7 +12,11 @@ import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.service.ServiceProvidedService;
 import org.ei.opensrp.util.Cache;
 import org.ei.opensrp.util.CacheableData;
-import org.ei.opensrp.view.contract.*;
+import org.ei.opensrp.view.contract.AlertDTO;
+import org.ei.opensrp.view.contract.ChildClient;
+import org.ei.opensrp.view.contract.ServiceProvidedDTO;
+import org.ei.opensrp.view.contract.SmartRegisterClient;
+import org.ei.opensrp.view.contract.SmartRegisterClients;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -20,7 +25,9 @@ import java.util.List;
 import static java.lang.String.valueOf;
 import static java.util.Collections.sort;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.ei.opensrp.domain.ServiceProvided.*;
+import static org.ei.opensrp.domain.ServiceProvided.CHILD_ILLNESS_SERVICE_PROVIDED_NAME;
+import static org.ei.opensrp.domain.ServiceProvided.PNC_SERVICE_PROVIDED_NAME;
+import static org.ei.opensrp.domain.ServiceProvided.VITAMIN_A_SERVICE_PROVIDED_NAME;
 
 public class ChildSmartRegisterController {
     private static final String CHILD_CLIENTS_LIST_CACHE_ENTRY_NAME = "ChildClientList";

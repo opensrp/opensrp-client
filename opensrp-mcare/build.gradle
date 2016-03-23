@@ -9,10 +9,12 @@ buildscript {
     }
 }
 apply plugin: 'com.android.application'
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':opensrp-app')
 }
+
 android {
     compileSdkVersion androidCompileSdkVersion
     buildToolsVersion androidBuildToolsVersion
@@ -47,5 +49,3 @@ android {
         disable 'MissingTranslation'
     }
 }
-
-

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.R;
 import org.ei.opensrp.view.contract.ANCSmartRegisterClient;

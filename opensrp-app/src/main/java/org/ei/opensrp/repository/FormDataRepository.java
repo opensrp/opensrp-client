@@ -2,6 +2,7 @@ package org.ei.opensrp.repository;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.webkit.JavascriptInterface;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -16,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import android.webkit.JavascriptInterface;
 
 import static java.lang.System.currentTimeMillis;
 import static java.util.Arrays.asList;

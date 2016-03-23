@@ -2,6 +2,7 @@ package org.ei.opensrp.provider;
 
 import android.view.View;
 import android.view.ViewGroup;
+
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.contract.SmartRegisterClients;
 import org.ei.opensrp.view.dialog.FilterOption;

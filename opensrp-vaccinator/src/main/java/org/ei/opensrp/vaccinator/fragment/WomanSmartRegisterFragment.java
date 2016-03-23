@@ -8,8 +8,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonObjectFilterOption;
@@ -53,7 +51,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.UUID;
 
 import util.ClientlessOpenFormOption;
 import util.barcode.Barcode;

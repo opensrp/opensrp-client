@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.R;
 import org.ei.opensrp.view.contract.ECSmartRegisterClient;
@@ -16,7 +17,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.ei.opensrp.util.DateUtil.formatDate;
-import static org.ei.opensrp.view.controller.ECSmartRegisterController.*;
+import static org.ei.opensrp.view.controller.ECSmartRegisterController.ANC_STATUS;
+import static org.ei.opensrp.view.controller.ECSmartRegisterController.EC_STATUS;
+import static org.ei.opensrp.view.controller.ECSmartRegisterController.FP_METHOD_DATE_FIELD;
+import static org.ei.opensrp.view.controller.ECSmartRegisterController.FP_STATUS;
+import static org.ei.opensrp.view.controller.ECSmartRegisterController.PNC_FP_STATUS;
+import static org.ei.opensrp.view.controller.ECSmartRegisterController.PNC_STATUS;
+import static org.ei.opensrp.view.controller.ECSmartRegisterController.STATUS_DATE_FIELD;
+import static org.ei.opensrp.view.controller.ECSmartRegisterController.STATUS_EDD_FIELD;
+import static org.ei.opensrp.view.controller.ECSmartRegisterController.STATUS_TYPE_FIELD;
 
 public class ClientStatusView extends FrameLayout {
 

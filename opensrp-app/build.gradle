@@ -1,23 +1,20 @@
-
 description = 'opensrp-app - Application'
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath "com.android.tools.build:gradle:1.2.3"
-        classpath 'org.apache.commons:commons-lang3:3.3.2'
-        classpath 'org.robolectric:robolectric-gradle-plugin:1.1.0'
-    }
-}
-
 apply plugin: 'com.android.library'
-apply plugin: 'org.robolectric'
 
 android {
     compileSdkVersion androidCompileSdkVersion
     buildToolsVersion androidBuildToolsVersion
+
+    defaultConfig {
+        // multiDexEnabled = true
+        //applicationId "org.ei.opensrp"
+        minSdkVersion 16
+        targetSdkVersion 21
+        versionCode 1
+        versionName "3.0.1"
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+    }
 
     signingConfigs {
         config {
@@ -47,33 +44,6 @@ android {
         abortOnError false
     }
 
-    defaultConfig {
-        // multiDexEnabled = true
-        //applicationId "org.ei.opensrp"
-        minSdkVersion 16
-        targetSdkVersion 21
-        versionCode 1
-        versionName "3.0.1"
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
-    }
-
-    sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDir 'src/main/java'
-            res.srcDirs = ['res']
-            assets.srcDir 'assets'
-            jniLibs.srcDirs 'src/main/native'
-            resources.srcDir 'resources'
-        }
-        androidTest.setRoot('src/androidTest')
-    }
-
-
-    aaptOptions {
-        noCompress 'apk'
-    }
-
     // avoid errors with message 'Duplicate files copied in APK ...'
     packagingOptions {
         exclude 'LICENSE.txt'
@@ -86,29 +56,12 @@ android {
     }
 }
 
-def filesToCopy = copySpec{
-    from "${projectDir}/src/test/resources"
-}
-
-task copyTestResources() {
-    def path = "${buildDir}/intermediates/classes/test"
-    def paths = [ "${path}/debug", "${path}/release"]
-    paths.each { dest ->
-        copy {
-            with filesToCopy
-            into dest
-        }
-    }
-}
-
-assembleDebug.dependsOn(copyTestResources)
-
 configurations.all {
     resolutionStrategy.force 'commons-codec:commons-codec:1.6'
 }
 
 dependencies {
-    compile 'org.ei.drishti:drishti-interface:0.1-SNAPSHOT'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile "org.apache.httpcomponents:httpmime:4.2.3"
     compile 'commons-io:commons-io:2.1'
@@ -121,69 +74,8 @@ dependencies {
     compile 'com.github.johnkil.print:print:1.2.3'
     compile 'ch.acra:acra:4.5.0'
     compile 'com.google.guava:guava:18.0'
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-
 }
 
 dependencies {
-    androidTestCompile 'com.jayway.android.robotium:robotium-solo:4.3'
-
-    testCompile group: 'com.google.android', name: 'android-test', version:'4.1.1.4'
-    testCompile 'junit:junit:4.11'
-    testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
-    testCompile 'org.mockito:mockito-core:1.9.5'
-    testCompile('com.squareup:fest-android:1.0.+') { exclude module: 'support-v4' }
-    testCompile 'org.robolectric:robolectric:2.4'
-}
-task clearJar(type: Delete) {
-    delete 'build/libs/myCompiledLibrary.jar'
-}
-
-task makeJar(type: Copy) {
-    from('build/intermediates/bundles/release/')
-    into('build/libs/')
-    include('classes.jar')
-    rename ('classes.jar', 'myCompiledLibrary.jar')
-}
-
-makeJar.dependsOn(clearJar, build)
-
-import org.apache.commons.lang3.StringUtils
-gradle.projectsEvaluated {
-    def variants = android.libraryVariants.collect()
-
-    tasks.withType(Test) { task ->
-        try {
-            variants.each { variant ->
-                def buildTypeName = variant.buildType.name.capitalize()
-
-                def productFlavorNames = variant.productFlavors.collect { it.name.capitalize() }
-                if (productFlavorNames.isEmpty()) {
-                    productFlavorNames = [""]
-                }
-                def productFlavorName = productFlavorNames.join('')
-
-                def variationName = "${productFlavorName}${buildTypeName}"
-
-                if (task.name.contains(variationName)) {
-                    def variationPath = variant.buildType.name;
-
-                    if (StringUtils.isNotEmpty(productFlavorName)) {
-                        variationPath = StringUtils.uncapitalize(productFlavorName) + "/" + variationPath
-                    }
-
-                    def copyResourcesTask = project.tasks.create("copy${variationName}Resources", Copy)
-                    copyResourcesTask.from("${projectDir}/src/test/resources")
-                    copyResourcesTask.into("${buildDir}/intermediates/classes/test/${variationPath}")
-
-                    task.dependsOn(copyResourcesTask)
-
-                    variants.remove(variant)
-
-                    throw new Exception("Break") // Breaking the loop
-                }
-            }
-        } catch (Exception e) {} // Just drop the exception
-    }
 
 }

@@ -3,6 +3,7 @@ package org.ei.opensrp.view.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
 import org.ei.opensrp.sync.SyncAfterFetchListener;
 import org.ei.opensrp.sync.SyncProgressIndicator;
 import org.ei.opensrp.sync.UpdateActionsTask;

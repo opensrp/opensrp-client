@@ -3,7 +3,6 @@ package org.ei.opensrp;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.ei.opensrp.commonregistry.AllCommonsRepository;

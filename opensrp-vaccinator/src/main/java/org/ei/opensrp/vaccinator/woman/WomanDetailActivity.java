@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
@@ -20,7 +19,6 @@ import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
 import org.ei.opensrp.vaccinator.R;
-import org.ei.opensrp.vaccinator.child.ChildSmartRegisterActivity;
 
 import java.io.File;
 import java.io.IOException;

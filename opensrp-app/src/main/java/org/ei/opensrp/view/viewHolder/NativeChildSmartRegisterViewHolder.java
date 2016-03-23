@@ -4,6 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import org.ei.opensrp.R;
 import org.ei.opensrp.view.customControls.ClientIdDetailsView;
 import org.ei.opensrp.view.customControls.ClientProfileView;

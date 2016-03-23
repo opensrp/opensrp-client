@@ -11,9 +11,10 @@ import org.ei.opensrp.mcare.LoginActivity;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.ei.opensrp.view.receiver.SyncBroadcastReceiver;
-import static org.ei.opensrp.util.Log.logInfo;
 
 import java.util.Locale;
+
+import static org.ei.opensrp.util.Log.logInfo;
 
 /**
  * Created by koros on 1/22/16.

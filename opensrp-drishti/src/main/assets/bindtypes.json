@@ -1,9 +1,0 @@
-{
-    "bindobjects":
- [
-    {
-      "name": "person",
-      "columns" : [ {"name": "age"}]
-    }
- ]
-}

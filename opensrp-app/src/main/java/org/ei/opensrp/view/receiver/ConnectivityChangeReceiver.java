@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
 
 import static org.ei.opensrp.util.Log.logInfo;

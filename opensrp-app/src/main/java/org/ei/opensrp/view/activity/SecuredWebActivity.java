@@ -8,6 +8,7 @@ import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+
 import org.acra.ACRA;
 import org.ei.opensrp.R;
 import org.ei.opensrp.sync.SyncAfterFetchListener;

@@ -9,10 +9,14 @@ import org.mozilla.javascript.ScriptableObject;
 import java.util.Map;
 
 import static java.text.MessageFormat.format;
-import static org.ei.opensrp.AllConstants.*;
+import static org.ei.opensrp.AllConstants.FORM_SUBMISSION_ROUTER;
+import static org.ei.opensrp.AllConstants.REPOSITORY;
+import static org.ei.opensrp.AllConstants.ZIGGY_FILE_LOADER;
 import static org.ei.opensrp.util.Log.logError;
 import static org.ei.opensrp.util.Log.logInfo;
-import static org.mozilla.javascript.Context.*;
+import static org.mozilla.javascript.Context.enter;
+import static org.mozilla.javascript.Context.exit;
+import static org.mozilla.javascript.Context.toObject;
 
 public class ZiggyService {
     private static final String SAVE_METHOD_NAME = "save";

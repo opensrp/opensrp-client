@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 
-import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.view.contract.KBClient;
 import org.ei.opensrp.indonesia.view.controller.KohortKBRegisterController;

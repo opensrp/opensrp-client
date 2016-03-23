@@ -3,9 +3,6 @@ package org.ei.opensrp.repository;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.ei.opensrp.domain.FormDefinitionVersion;
@@ -17,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import static net.sqlcipher.DatabaseUtils.longForQuery;
-import static org.ei.opensrp.util.EasyMap.create;
 
 /**
  * Created by Dimas Ciputra on 3/21/15.

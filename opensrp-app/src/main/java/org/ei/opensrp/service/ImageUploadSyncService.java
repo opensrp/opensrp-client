@@ -1,18 +1,10 @@
 package org.ei.opensrp.service;
 
-import android.content.res.AssetManager;
-import android.os.Environment;
-
-import org.apache.commons.io.IOUtils;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.domain.ProfileImage;
 import org.ei.opensrp.repository.ImageRepository;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Raihan Ahmed on 10/14/15.
@@ -20,7 +12,7 @@ import java.util.List;
 public class ImageUploadSyncService {
 
 
-    private  ImageRepository imageRepository;
+    private ImageRepository imageRepository;
 
 
 

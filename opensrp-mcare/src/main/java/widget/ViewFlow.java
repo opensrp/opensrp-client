@@ -31,7 +31,6 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Scroller;
 
-
 import org.ei.opensrp.mcare.R;
 
 import java.util.EnumSet;

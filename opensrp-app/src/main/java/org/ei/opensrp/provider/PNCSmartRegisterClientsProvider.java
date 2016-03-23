@@ -5,14 +5,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+
 import org.ei.opensrp.R;
 import org.ei.opensrp.view.activity.SecuredActivity;
-import org.ei.opensrp.view.contract.*;
+import org.ei.opensrp.view.contract.SmartRegisterClient;
+import org.ei.opensrp.view.contract.SmartRegisterClients;
 import org.ei.opensrp.view.contract.pnc.PNCClients;
 import org.ei.opensrp.view.contract.pnc.PNCSmartRegisterClient;
 import org.ei.opensrp.view.controller.PNCSmartRegisterController;
-import org.ei.opensrp.view.dialog.*;
-import org.ei.opensrp.view.viewHolder.*;
+import org.ei.opensrp.view.dialog.FilterOption;
+import org.ei.opensrp.view.dialog.ServiceModeOption;
+import org.ei.opensrp.view.dialog.SortOption;
+import org.ei.opensrp.view.viewHolder.ECProfilePhotoLoader;
+import org.ei.opensrp.view.viewHolder.NativePNCSmartRegisterViewHolder;
+import org.ei.opensrp.view.viewHolder.OnClickFormLauncher;
+import org.ei.opensrp.view.viewHolder.ProfilePhotoLoader;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 

@@ -5,10 +5,10 @@ import com.google.common.base.Strings;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 
 import java.util.ArrayList;
-import static  org.ei.opensrp.indonesia.util.StringUtil.getValueFromNumber;
-import static org.ei.opensrp.indonesia.util.StringUtil.humanize;
-
 import java.util.List;
+
+import static org.ei.opensrp.indonesia.util.StringUtil.getValueFromNumber;
+import static org.ei.opensrp.indonesia.util.StringUtil.humanize;
 
 /**
  * Created by Dimas Ciputra on 6/11/15.

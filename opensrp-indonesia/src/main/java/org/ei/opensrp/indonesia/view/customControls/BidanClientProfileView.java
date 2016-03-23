@@ -7,8 +7,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.AllConstantsINA;
+import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.view.contract.BidanSmartRegisterClient;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.viewHolder.ProfilePhotoLoader;

@@ -1,6 +1,7 @@
 package org.ei.opensrp.view.controller;
 
 import android.content.Intent;
+
 import org.ei.opensrp.view.activity.ANCDetailActivity;
 import org.ei.opensrp.view.activity.ChildDetailActivity;
 import org.ei.opensrp.view.activity.EligibleCoupleDetailActivity;

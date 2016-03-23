@@ -14,7 +14,6 @@ import org.ei.opensrp.indonesia.view.controller.NavigationControllerINA;
 import org.ei.opensrp.util.EasyMap;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
-import org.ei.opensrp.view.controller.NavigationController;
 import org.ei.opensrp.view.dialog.DialogOptionModel;
 import org.ei.opensrp.view.dialog.EditOption;
 import org.ei.opensrp.view.dialog.SmartRegisterDialogFragment;

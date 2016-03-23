@@ -1,12 +1,11 @@
 package org.ei.opensrp.indonesia.view.dialog;
 
-import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.Context;
+import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.view.contract.SmartRegisterClients;
 import org.ei.opensrp.view.dialog.SortOption;
 
 import java.util.Collections;
-import java.util.Comparator;
 
 import static org.ei.opensrp.indonesia.view.contract.SmartRegisterClientINA.NO_IBU_COMPARATOR;
 

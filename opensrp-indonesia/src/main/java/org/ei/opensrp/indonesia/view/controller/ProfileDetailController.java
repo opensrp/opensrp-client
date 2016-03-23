@@ -2,7 +2,6 @@ package org.ei.opensrp.indonesia.view.controller;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
-import com.google.common.collect.FluentIterable;
 import com.google.gson.Gson;
 
 import org.ei.opensrp.indonesia.domain.Ibu;
@@ -10,34 +9,12 @@ import org.ei.opensrp.indonesia.domain.KartuIbu;
 import org.ei.opensrp.indonesia.repository.AllKartuIbus;
 import org.ei.opensrp.indonesia.repository.AllKohort;
 import org.ei.opensrp.indonesia.view.contract.KartuIbuClient;
-import org.ei.opensrp.view.contract.SmartRegisterClient;
 
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import it.gmariotti.cardslib.library.prototypes.CardWithList;
-
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.EDD;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.HUSBAND_NAME;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.IS_HIGH_PRIORITY;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.IS_HIGH_RISK;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.IS_HIGH_RISK_LABOUR;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.IS_HIGH_RISK_PREGNANCY;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.KABUPATEN;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_ADDRESS;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_AGE;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_BLOOD_TYPE;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_DOB;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_NAME;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.MOTHER_NUMBER;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.NUMBER_ABORTIONS;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.NUMBER_OF_LIVING_CHILDREN;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.NUMBER_OF_PREGNANCIES;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.NUMBER_PARTUS;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.POSYANDU_NAME;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.PROPINSI;
-import static org.ei.opensrp.indonesia.AllConstantsINA.KartuIbuFields.PUSKESMAS_NAME;
 
 /**
  * Created by Dimas Ciputra on 9/21/15.

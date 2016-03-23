@@ -1,13 +1,14 @@
 package org.ei.opensrp.indonesia.service;
 
-import static org.ei.opensrp.indonesia.AllConstantsINA.CommonFormFields.*;
+import org.ei.opensrp.domain.form.FormSubmission;
 import org.ei.opensrp.indonesia.repository.AllKartuIbus;
 import org.ei.opensrp.indonesia.repository.AllKohort;
 import org.ei.opensrp.indonesia.view.controller.UniqueIdController;
-import org.ei.opensrp.domain.form.FormSubmission;
 import org.ei.opensrp.repository.AllTimelineEvents;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.ei.opensrp.indonesia.AllConstantsINA.CommonFormFields.SUBMISSION_DATE;
+import static org.ei.opensrp.indonesia.AllConstantsINA.CommonFormFields.UNIQUE_ID;
 
 /**
  * Created by Dimas Ciputra on 2/16/15.

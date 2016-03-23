@@ -2,7 +2,11 @@ package org.ei.opensrp.view.controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.webkit.JavascriptInterface;
+
 import com.google.gson.Gson;
+import com.ocpsoft.pretty.time.PrettyTime;
+
 import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.domain.Child;
 import org.ei.opensrp.domain.EligibleCouple;
@@ -13,18 +17,19 @@ import org.ei.opensrp.repository.AllTimelineEvents;
 import org.ei.opensrp.util.DateUtil;
 import org.ei.opensrp.util.TimelineEventComparator;
 import org.ei.opensrp.view.activity.CameraLaunchActivity;
-import org.ei.opensrp.view.contract.*;
+import org.ei.opensrp.view.contract.BirthDetails;
+import org.ei.opensrp.view.contract.ChildDetail;
+import org.ei.opensrp.view.contract.CoupleDetails;
+import org.ei.opensrp.view.contract.LocationDetails;
+import org.ei.opensrp.view.contract.TimelineEvent;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import com.ocpsoft.pretty.time.PrettyTime;
-import android.webkit.JavascriptInterface;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static java.lang.Math.min;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.ei.opensrp.AllConstants.CHILD_TYPE;
 import static org.ei.opensrp.AllConstants.ENTITY_ID;

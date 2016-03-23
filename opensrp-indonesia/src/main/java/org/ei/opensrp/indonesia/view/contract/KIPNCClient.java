@@ -3,7 +3,6 @@ package org.ei.opensrp.indonesia.view.contract;
 import com.google.common.base.Strings;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ei.opensrp.indonesia.domain.Anak;
 import org.ei.opensrp.domain.ANCServiceType;
 import org.ei.opensrp.util.DateUtil;
 import org.ei.opensrp.view.contract.AlertDTO;

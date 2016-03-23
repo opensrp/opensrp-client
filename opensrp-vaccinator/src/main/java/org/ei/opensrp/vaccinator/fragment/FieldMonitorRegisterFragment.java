@@ -4,28 +4,20 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 
 import org.ei.opensrp.Context;
-import org.ei.opensrp.commonregistry.CommonObjectSort;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
 import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.vaccinator.R;
-import org.ei.opensrp.vaccinator.child.ChildDateSort;
-import org.ei.opensrp.vaccinator.child.ChildFollowupHandler;
 import org.ei.opensrp.vaccinator.child.ChildSearchOption;
-import org.ei.opensrp.vaccinator.child.ChildService;
-import org.ei.opensrp.vaccinator.child.ChildServiceModeOption;
-import org.ei.opensrp.vaccinator.child.ChildSmartClientsProvider;
 import org.ei.opensrp.vaccinator.field.FieldMonitorDailyDetailActivity;
 import org.ei.opensrp.vaccinator.field.FieldMonitorMonthlyDetailActivity;
 import org.ei.opensrp.vaccinator.field.FieldMonitorServiceModeOption;
 import org.ei.opensrp.vaccinator.field.FieldMonitorServiceModeOptionDaily;
 import org.ei.opensrp.vaccinator.field.FieldMonitorSmartClientsProvider;
-import org.ei.opensrp.vaccinator.field.FieldMonitorSmartRegisterActivity;
 import org.ei.opensrp.vaccinator.field.FieldSort;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
@@ -42,15 +34,12 @@ import org.ei.opensrp.view.dialog.SortOption;
 import org.ei.opensrp.view.fragment.SecuredNativeSmartRegisterFragment;
 import org.json.JSONObject;
 import org.opensrp.api.domain.Location;
-import org.opensrp.api.util.EntityUtils;
-import org.opensrp.api.util.LocationTree;
 import org.opensrp.api.util.TreeNode;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import util.ClientlessOpenFormOption;
-import util.barcode.Barcode;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;

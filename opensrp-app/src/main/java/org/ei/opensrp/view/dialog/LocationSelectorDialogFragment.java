@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import com.google.common.base.Strings;
 
 import org.ei.opensrp.R;
-import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
 import org.json.JSONObject;
 import org.opensrp.api.domain.Location;
@@ -24,7 +23,7 @@ import atv.holder.SelectableItemHolder;
 import atv.model.TreeNode;
 import atv.view.AndroidTreeView;
 
-import static org.ei.opensrp.util.StringUtil.*;
+import static org.ei.opensrp.util.StringUtil.humanize;
 
 public class LocationSelectorDialogFragment extends DialogFragment {
 
@@ -104,7 +103,7 @@ public class LocationSelectorDialogFragment extends DialogFragment {
         return node;
     }
 
-    public void addChildToParentNode(TreeNode parent,TreeNode [] nodes){
+    public void addChildToParentNode(TreeNode parent,TreeNode[] nodes){
         for (int i = 0;i<nodes.length;i++){
             parent.addChild(nodes[i]);
         }

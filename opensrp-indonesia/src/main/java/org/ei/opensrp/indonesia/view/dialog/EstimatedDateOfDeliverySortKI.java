@@ -8,7 +8,6 @@ import org.ei.opensrp.view.dialog.SortOption;
 import java.util.Collections;
 
 import static org.ei.opensrp.indonesia.view.contract.SmartRegisterClientINA.EDD_COMPARATOR_KI;
-import static org.ei.opensrp.indonesia.view.contract.SmartRegisterClientINA.EDD_COMPARATOR_KI_ANC;
 
 public class EstimatedDateOfDeliverySortKI implements SortOption {
     @Override

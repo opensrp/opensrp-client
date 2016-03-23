@@ -16,8 +16,6 @@ import org.ei.opensrp.service.ZiggyService;
 import org.ei.opensrp.util.FormUtils;
 import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.vaccinator.R;
-
-
 import org.ei.opensrp.vaccinator.fragment.WomanSmartRegisterFragment;
 import org.ei.opensrp.vaccinator.pageadapter.BaseRegisterActivityPagerAdapter;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
@@ -55,7 +53,7 @@ public class WomanSmartRegisterActivity extends SecuredNativeSmartRegisterActivi
     private android.support.v4.app.Fragment mProfileFragment = null;
 
     private FormController formControllerown;
-    private  HashMap<String,String> overrides;
+    private HashMap<String,String> overrides;
 
 
     @Override
@@ -132,7 +130,7 @@ public class WomanSmartRegisterActivity extends SecuredNativeSmartRegisterActivi
 
 
     private DialogOption[] getEditOptions( HashMap<String,String> overridemap ) {
-Log.d("form open","enrollments form by activity");
+Log.d("form open", "enrollments form by activity");
         return new DialogOption[]{
 
                 new ClientlessOpenFormOption("Enrollment", "woman_enrollment_form", this.formControllerown,overridemap, ClientlessOpenFormOption.ByColumnAndByDetails.bydefault)

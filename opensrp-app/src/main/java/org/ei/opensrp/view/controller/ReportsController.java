@@ -2,6 +2,7 @@ package org.ei.opensrp.view.controller;
 
 import android.content.Context;
 import android.content.Intent;
+
 import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.view.activity.ReportIndicatorListViewActivity;
 

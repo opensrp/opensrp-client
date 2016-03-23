@@ -3,9 +3,6 @@ package org.ei.opensrp.vaccinator.repository;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.ei.opensrp.repository.DrishtiRepository;
@@ -13,7 +10,6 @@ import org.ei.opensrp.vaccinator.domain.Stock;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by muhammad.ahmed@ihsinformatics.com on 18-Nov-15.

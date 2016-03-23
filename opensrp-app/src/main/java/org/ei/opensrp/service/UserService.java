@@ -2,7 +2,6 @@ package org.ei.opensrp.service;
 
 import android.util.Log;
 
-import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.DristhiConfiguration;
 import org.ei.opensrp.domain.LoginResponse;
 import org.ei.opensrp.domain.Response;
@@ -15,7 +14,12 @@ import org.ei.opensrp.util.Session;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static org.ei.opensrp.AllConstants.*;
+import static org.ei.opensrp.AllConstants.ENGLISH_LANGUAGE;
+import static org.ei.opensrp.AllConstants.ENGLISH_LOCALE;
+import static org.ei.opensrp.AllConstants.KANNADA_LANGUAGE;
+import static org.ei.opensrp.AllConstants.KANNADA_LOCALE;
+import static org.ei.opensrp.AllConstants.OPENSRP_AUTH_USER_URL_PATH;
+import static org.ei.opensrp.AllConstants.OPENSRP_LOCATION_URL_PATH;
 import static org.ei.opensrp.event.Event.ON_LOGOUT;
 
 public class UserService {

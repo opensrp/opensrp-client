@@ -11,7 +11,9 @@ import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.ei.opensrp.AllConstants.BOOLEAN_TRUE;
-import static org.ei.opensrp.AllConstants.ECRegistrationFields.*;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.CURRENT_FP_METHOD;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.HIGH_PRIORITY_REASON;
+import static org.ei.opensrp.AllConstants.ECRegistrationFields.IS_HIGH_PRIORITY;
 import static org.ei.opensrp.AllConstants.SPACE;
 
 public class EligibleCouple {

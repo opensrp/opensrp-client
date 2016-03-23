@@ -2,7 +2,6 @@ package org.ei.opensrp.mcare.elco;
 
 
 import android.util.Log;
-import android.view.View;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;

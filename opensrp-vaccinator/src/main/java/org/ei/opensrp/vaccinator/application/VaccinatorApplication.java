@@ -1,6 +1,5 @@
 package org.ei.opensrp.vaccinator.application;
 
-import android.app.Application;
 import android.content.res.Configuration;
 
 import org.ei.opensrp.Context;

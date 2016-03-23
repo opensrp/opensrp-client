@@ -11,7 +11,11 @@ import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.service.ServiceProvidedService;
 import org.ei.opensrp.util.Cache;
 import org.ei.opensrp.util.CacheableData;
-import org.ei.opensrp.view.contract.*;
+import org.ei.opensrp.view.contract.ANCClient;
+import org.ei.opensrp.view.contract.ANCClients;
+import org.ei.opensrp.view.contract.AlertDTO;
+import org.ei.opensrp.view.contract.ServiceProvidedDTO;
+import org.ei.opensrp.view.contract.SmartRegisterClient;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -21,7 +25,16 @@ import static java.lang.String.valueOf;
 import static java.util.Collections.sort;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.ei.opensrp.AllConstants.DEFAULT_WOMAN_IMAGE_PLACEHOLDER_PATH;
-import static org.ei.opensrp.domain.ServiceProvided.*;
+import static org.ei.opensrp.domain.ServiceProvided.ANC_1_SERVICE_PROVIDED_NAME;
+import static org.ei.opensrp.domain.ServiceProvided.ANC_2_SERVICE_PROVIDED_NAME;
+import static org.ei.opensrp.domain.ServiceProvided.ANC_3_SERVICE_PROVIDED_NAME;
+import static org.ei.opensrp.domain.ServiceProvided.ANC_4_SERVICE_PROVIDED_NAME;
+import static org.ei.opensrp.domain.ServiceProvided.DELIVERY_PLAN_SERVICE_PROVIDED_NAME;
+import static org.ei.opensrp.domain.ServiceProvided.HB_TEST_SERVICE_PROVIDED_NAME;
+import static org.ei.opensrp.domain.ServiceProvided.IFA_SERVICE_PROVIDED_NAME;
+import static org.ei.opensrp.domain.ServiceProvided.TT_1_SERVICE_PROVIDED_NAME;
+import static org.ei.opensrp.domain.ServiceProvided.TT_2_SERVICE_PROVIDED_NAME;
+import static org.ei.opensrp.domain.ServiceProvided.TT_BOOSTER_SERVICE_PROVIDED_NAME;
 
 public class ANCSmartRegisterController {
     private static final String ANC_1_ALERT_NAME = "ANC 1";

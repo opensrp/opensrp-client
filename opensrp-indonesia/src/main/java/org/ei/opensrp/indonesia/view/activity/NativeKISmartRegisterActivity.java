@@ -6,14 +6,13 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+
+import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
 import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.domain.form.FormSubmission;
 import org.ei.opensrp.indonesia.Context;
 import org.ei.opensrp.indonesia.R;
-import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
 import org.ei.opensrp.indonesia.lib.FlurryFacade;
-import org.ei.opensrp.indonesia.view.controller.BidanVillageController;
-import org.ei.opensrp.indonesia.view.controller.KartuIbuRegisterController;
 import org.ei.opensrp.indonesia.view.fragment.MotherProfileViewFragment;
 import org.ei.opensrp.indonesia.view.fragment.NativeKISmartRegisterFragment;
 import org.ei.opensrp.indonesia.view.pageradapter.BaseRegisterActivityPagerAdapter;
@@ -21,7 +20,6 @@ import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.service.ZiggyService;
 import org.ei.opensrp.util.FormUtils;
 import org.ei.opensrp.view.dialog.DialogOption;
-import org.ei.opensrp.view.dialog.DialogOptionMapper;
 import org.ei.opensrp.view.dialog.LocationSelectorDialogFragment;
 import org.ei.opensrp.view.dialog.OpenFormOption;
 import org.ei.opensrp.view.fragment.DisplayFormFragment;
@@ -34,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import butterknife.ButterKnife;
+
 import static org.ei.opensrp.R.string.form_back_confirm_dialog_message;
 import static org.ei.opensrp.R.string.form_back_confirm_dialog_title;
 import static org.ei.opensrp.R.string.no_button_label;

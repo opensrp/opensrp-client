@@ -2,7 +2,6 @@ package org.ei.opensrp.vaccinator.child;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -181,18 +180,18 @@ public class ChildDetailActivity extends Activity {
     private void dispatchTakePictureIntent(ImageView imageView) {
         mImageView = imageView;
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        Log.d("child detail camera :",takePictureIntent+"  intent class");
+        Log.d("child detail camera :", takePictureIntent + "  intent class");
         // Ensure that there's a camera activity to handle the intent
      //   PackageManager packageManager = context.getPackageManager();
        // if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
          if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
-            Log.d("child detail camera :","in camera");
+            Log.d("child detail camera :", "in camera");
             File photoFile = null;
             try {
 
                 photoFile = createImageFile();
-                Log.d("child detail camera :","in createImageFile");
+                Log.d("child detail camera :", "in createImageFile");
             } catch (IOException ex) {
                 ex.printStackTrace();
                 // Error occurred while creating the File

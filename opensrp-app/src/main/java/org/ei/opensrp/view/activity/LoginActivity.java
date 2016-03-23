@@ -17,6 +17,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import org.ei.opensrp.Context;
 import org.ei.opensrp.R;
 import org.ei.opensrp.domain.LoginResponse;

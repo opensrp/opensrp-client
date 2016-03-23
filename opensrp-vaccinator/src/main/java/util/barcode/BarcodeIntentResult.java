@@ -26,11 +26,11 @@ package util.barcode;
 public final class BarcodeIntentResult
 {
 
-	private final String	contents;
-	private final String	formatName;
+	private final String contents;
+	private final String formatName;
 	private final byte[]	rawBytes;
-	private final Integer	orientation;
-	private final String	errorCorrectionLevel;
+	private final Integer orientation;
+	private final String errorCorrectionLevel;
 
 	BarcodeIntentResult ()
 	{
@@ -89,7 +89,7 @@ public final class BarcodeIntentResult
 	@Override
 	public String toString ()
 	{
-		StringBuilder dialogText = new StringBuilder (100);
+		StringBuilder dialogText = new StringBuilder(100);
 		dialogText.append ("Format: ").append (formatName).append ('\n');
 		dialogText.append ("Contents: ").append (contents).append ('\n');
 		int rawBytesLength = rawBytes == null ? 0 : rawBytes.length;

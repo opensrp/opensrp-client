@@ -2,14 +2,31 @@ package org.ei.opensrp.view.preProcessor;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+
 import org.ei.opensrp.util.DateUtil;
 import org.ei.opensrp.view.contract.ServiceProvidedDTO;
-import org.ei.opensrp.view.contract.pnc.*;
+import org.ei.opensrp.view.contract.pnc.PNCCircleDatum;
+import org.ei.opensrp.view.contract.pnc.PNCClient;
+import org.ei.opensrp.view.contract.pnc.PNCFirstSevenDaysVisits;
+import org.ei.opensrp.view.contract.pnc.PNCLineDatum;
+import org.ei.opensrp.view.contract.pnc.PNCStatusColor;
+import org.ei.opensrp.view.contract.pnc.PNCStatusDatum;
+import org.ei.opensrp.view.contract.pnc.PNCTickDatum;
+import org.ei.opensrp.view.contract.pnc.PNCVisitDaysDatum;
+import org.ei.opensrp.view.contract.pnc.PNCVisitStatus;
+import org.ei.opensrp.view.contract.pnc.PNCVisitType;
 import org.joda.time.LocalDate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static org.ei.opensrp.util.DateUtil.dayDifference;
 import static org.ei.opensrp.util.DateUtil.formatDate;

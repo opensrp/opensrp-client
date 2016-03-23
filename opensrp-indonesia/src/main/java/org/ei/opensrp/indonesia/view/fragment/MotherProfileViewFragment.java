@@ -1,7 +1,5 @@
 package org.ei.opensrp.indonesia.view.fragment;
 
-import android.app.Activity;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

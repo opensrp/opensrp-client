@@ -13,8 +13,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.*;
+import android.widget.AbsListView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import com.google.gson.Gson;
+
 import org.ei.opensrp.R;
 import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
 import org.ei.opensrp.domain.ReportMonth;
@@ -23,12 +31,19 @@ import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.customControls.CustomFontTextView;
 import org.ei.opensrp.view.customControls.FontVariant;
-import org.ei.opensrp.view.dialog.*;
+import org.ei.opensrp.view.dialog.AllClientsFilter;
+import org.ei.opensrp.view.dialog.DialogOption;
+import org.ei.opensrp.view.dialog.DialogOptionModel;
+import org.ei.opensrp.view.dialog.ECSearchOption;
+import org.ei.opensrp.view.dialog.EditOption;
+import org.ei.opensrp.view.dialog.FilterOption;
+import org.ei.opensrp.view.dialog.ServiceModeOption;
+import org.ei.opensrp.view.dialog.SmartRegisterDialogFragment;
+import org.ei.opensrp.view.dialog.SortOption;
 import org.joda.time.LocalDate;
 import org.json.JSONObject;
 
 import java.util.List;
-import java.util.Map;
 
 import static android.os.AsyncTask.THREAD_POOL_EXECUTOR;
 import static android.view.View.INVISIBLE;

@@ -1,22 +1,21 @@
 package org.ei.opensrp.indonesia.provider;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 
-import org.ei.opensrp.domain.ANCServiceType;
-import org.ei.opensrp.domain.Alert;
-import org.ei.opensrp.domain.ServiceProvided;
+import com.google.common.base.Strings;
+
 import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.view.contract.KartuIbuClient;
 import org.ei.opensrp.indonesia.view.controller.KartuIbuRegisterController;
 import org.ei.opensrp.indonesia.view.viewHolder.NativeKIRegisterViewHolder;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.view.contract.AlertDTO;
-import org.ei.opensrp.view.contract.ServiceProvidedDTO;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.contract.SmartRegisterClients;
 import org.ei.opensrp.view.dialog.FilterOption;
@@ -26,15 +25,7 @@ import org.ei.opensrp.view.viewHolder.ECProfilePhotoLoader;
 import org.ei.opensrp.view.viewHolder.OnClickFormLauncher;
 import org.ei.opensrp.view.viewHolder.ProfilePhotoLoader;
 
-import android.graphics.Color;
-
-import com.google.common.base.Strings;
-
-import java.util.List;
-
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static org.ei.opensrp.view.controller.ECSmartRegisterController.ANC_STATUS;
-import static org.ei.opensrp.view.controller.ECSmartRegisterController.PNC_STATUS;
 import static org.ei.opensrp.view.controller.ECSmartRegisterController.STATUS_DATE_FIELD;
 import static org.ei.opensrp.view.controller.ECSmartRegisterController.STATUS_TYPE_FIELD;
 

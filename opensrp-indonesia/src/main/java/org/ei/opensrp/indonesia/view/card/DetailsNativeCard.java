@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.util.StringUtil;
@@ -18,7 +17,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardHeader;
 import it.gmariotti.cardslib.library.prototypes.CardWithList;
 import it.gmariotti.cardslib.library.prototypes.LinearListView;

@@ -8,9 +8,7 @@ import org.ei.opensrp.mcare.anc.mCareANCSmartRegisterActivity;
 import org.ei.opensrp.mcare.elco.ElcoSmartRegisterActivity;
 import org.ei.opensrp.mcare.household.HouseHoldSmartRegisterActivity;
 import org.ei.opensrp.mcare.household.tutorial.tutorialCircleViewFlow;
-import org.ei.opensrp.view.activity.NativeANCSmartRegisterActivity;
 import org.ei.opensrp.view.controller.ANMController;
-
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 

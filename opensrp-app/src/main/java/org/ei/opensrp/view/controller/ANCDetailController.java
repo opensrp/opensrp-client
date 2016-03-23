@@ -2,7 +2,10 @@ package org.ei.opensrp.view.controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.webkit.JavascriptInterface;
+
 import com.google.gson.Gson;
+
 import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.domain.EligibleCouple;
 import org.ei.opensrp.domain.Mother;
@@ -12,20 +15,25 @@ import org.ei.opensrp.repository.AllTimelineEvents;
 import org.ei.opensrp.util.DateUtil;
 import org.ei.opensrp.util.TimelineEventComparator;
 import org.ei.opensrp.view.activity.CameraLaunchActivity;
-import org.ei.opensrp.view.contract.*;
+import org.ei.opensrp.view.contract.ANCDetail;
+import org.ei.opensrp.view.contract.CoupleDetails;
+import org.ei.opensrp.view.contract.LocationDetails;
+import org.ei.opensrp.view.contract.PregnancyDetails;
+import org.ei.opensrp.view.contract.TimelineEvent;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.joda.time.Months;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import android.webkit.JavascriptInterface;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.ei.opensrp.AllConstants.*;
+import static org.ei.opensrp.AllConstants.DEFAULT_WOMAN_IMAGE_PLACEHOLDER_PATH;
+import static org.ei.opensrp.AllConstants.ENTITY_ID;
+import static org.ei.opensrp.AllConstants.WOMAN_TYPE;
 
 public class ANCDetailController {
     public static final int DURATION_OF_PREGNANCY_IN_WEEKS = 40;

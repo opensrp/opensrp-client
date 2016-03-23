@@ -9,7 +9,10 @@ import java.util.Map;
 
 import static java.text.MessageFormat.format;
 import static org.ei.opensrp.domain.FetchStatus.fetched;
-import static org.ei.opensrp.event.Event.*;
+import static org.ei.opensrp.event.Event.ACTION_HANDLED;
+import static org.ei.opensrp.event.Event.FORM_SUBMITTED;
+import static org.ei.opensrp.event.Event.ON_DATA_FETCHED;
+import static org.ei.opensrp.event.Event.ON_PHOTO_CAPTURED;
 import static org.ei.opensrp.util.Log.logWarn;
 
 public class Cache<T> {

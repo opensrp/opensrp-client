@@ -2,9 +2,12 @@ package org.ei.opensrp.repository;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import net.sqlcipher.database.SQLiteDatabase;
+
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.domain.Child;
 import org.ei.opensrp.domain.EligibleCouple;

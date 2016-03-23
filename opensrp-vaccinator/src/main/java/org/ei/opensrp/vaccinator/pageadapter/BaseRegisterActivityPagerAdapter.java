@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import org.ei.opensrp.view.fragment.DisplayFormFragment;
+
 /**
  * Created by muhammad.ahmed@ihsinformatics.com on 05-Jan-16.
  */

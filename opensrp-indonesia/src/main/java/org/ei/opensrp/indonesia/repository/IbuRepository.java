@@ -22,9 +22,9 @@ import java.util.Map;
 import static java.lang.Boolean.TRUE;
 import static net.sqlcipher.DatabaseUtils.longForQuery;
 import static org.apache.commons.lang3.StringUtils.join;
-import static org.ei.opensrp.indonesia.repository.KartuIbuRepository.*;
-
 import static org.apache.commons.lang3.StringUtils.repeat;
+import static org.ei.opensrp.indonesia.repository.KartuIbuRepository.KI_TABLE_COLUMNS;
+import static org.ei.opensrp.indonesia.repository.KartuIbuRepository.KI_TABLE_NAME;
 
 /**
  * Created by Dimas Ciputra on 3/3/15.

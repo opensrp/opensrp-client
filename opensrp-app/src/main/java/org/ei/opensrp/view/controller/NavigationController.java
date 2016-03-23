@@ -2,9 +2,19 @@ package org.ei.opensrp.view.controller;
 
 import android.app.Activity;
 import android.content.Intent;
-import org.ei.opensrp.view.activity.*;
 
-import static org.ei.opensrp.view.controller.ProfileNavigationController.*;
+import org.ei.opensrp.view.activity.NativeANCSmartRegisterActivity;
+import org.ei.opensrp.view.activity.NativeChildSmartRegisterActivity;
+import org.ei.opensrp.view.activity.NativeECSmartRegisterActivity;
+import org.ei.opensrp.view.activity.NativeFPSmartRegisterActivity;
+import org.ei.opensrp.view.activity.NativePNCSmartRegisterActivity;
+import org.ei.opensrp.view.activity.ReportsActivity;
+import org.ei.opensrp.view.activity.VideosActivity;
+
+import static org.ei.opensrp.view.controller.ProfileNavigationController.navigateToANCProfile;
+import static org.ei.opensrp.view.controller.ProfileNavigationController.navigateToChildProfile;
+import static org.ei.opensrp.view.controller.ProfileNavigationController.navigateToECProfile;
+import static org.ei.opensrp.view.controller.ProfileNavigationController.navigateToPNCProfile;
 
 public class NavigationController {
     private Activity activity;

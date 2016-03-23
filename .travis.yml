@@ -1,6 +1,11 @@
 language: android
 jdk: oraclejdk7
 
+env:
+  global:
+    - GRADLE_OPTS="-XX:MaxPermSize=2g -Xmx4g"
+    - JAVA_OPTS=-Xmx4g
+
 android:
   components:
     # The BuildTools version used by your project
@@ -28,7 +33,7 @@ script:
   - echo "Travis branch is in pull request $TRAVIS_PULL+REQUEST"
   - chmod 755 gradlew
   - ls -la
-  # Enable the line below once we get all the test passing, currently most of the tests are failing 
-  # so we'll just if the project compiles 
+  # Enable the line below once we get all the test passing, currently most of the tests are failing
+  # so we'll just ensure that the project compiles
   #- ./gradlew connectedAndroidTest
-  - ./gradlew clean assembleDebug
+  - ./gradlew --stacktrace clean assembleDebug

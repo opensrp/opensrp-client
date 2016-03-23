@@ -9,7 +9,6 @@ import org.ei.opensrp.repository.DrishtiRepository;
 import org.ei.opensrp.vaccinator.domain.ReportType;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**

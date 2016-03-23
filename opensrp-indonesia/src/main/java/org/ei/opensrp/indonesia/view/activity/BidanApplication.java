@@ -1,13 +1,12 @@
 package org.ei.opensrp.indonesia.view.activity;
 
-import android.app.Application;
 import android.content.Intent;
 import android.content.res.Configuration;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.indonesia.LoginActivity;
-import org.ei.opensrp.indonesia.lib.FlurryFacade;
 import org.ei.opensrp.indonesia.lib.ErrorReportingFacade;
+import org.ei.opensrp.indonesia.lib.FlurryFacade;
 import org.ei.opensrp.indonesia.view.receiver.SyncBidanBroadcastReceiver;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
 import org.ei.opensrp.view.activity.DrishtiApplication;
