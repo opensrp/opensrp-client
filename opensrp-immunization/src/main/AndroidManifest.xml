@@ -27,7 +27,7 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppThemeNoTitle" />
         <activity
-            android:name="org.ei.opensrp.household.HouseholdSmartRegisterActivity"
+            android:name=".household.HouseholdSmartRegisterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape"
             android:theme="@style/AppThemeNoTitle" />
@@ -37,20 +37,12 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppThemeNoTitle" />
         <activity
-            android:name=".child.ChildDetailActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppThemeNoTitle" />
-        <activity
             android:name=".field.FieldMonitorSmartRegisterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape"
             android:theme="@style/AppThemeNoTitle" />
         <activity
             android:name=".field.FieldMonitorDailyDetailActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppThemeNoTitle" />
-        <activity
-            android:name=".field.FieldMonitorMonthlyDetailFragment"
             android:screenOrientation="landscape"
             android:theme="@style/AppThemeNoTitle" />
         <activity

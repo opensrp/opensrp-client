@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model>
   <instance>
-    <new_member_registration_form encounter_type="New Member Registration" id="new_member_registration" version="201609290807">
+    <new_member_registration_form encounter_type="New Member Registration" id="new_member_registration" version="201612280631">
       <formhub>
         <uuid/>
       </formhub>
@@ -17,6 +17,7 @@
       <existing_full_address/>
       <existing_program_client_id/>
       <existing_num_members/>
+      <existing_num_household_members/>
       <provider_location_note/>
       <province openmrs_entity="person_address" openmrs_entity_id="stateProvince" openmrs_entity_parent="usual_residence"/>
       <city_village openmrs_entity="person_address" openmrs_entity_id="cityVillage" openmrs_entity_parent="usual_residence"/>
@@ -30,6 +31,7 @@
       <subscriberid openmrs_entity="concept" openmrs_entity_id="163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
       <simserial openmrs_entity="concept" openmrs_entity_id="163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
       <phonenumber openmrs_entity="concept" openmrs_entity_id="163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <num_household_members openmrs_entity="concept" openmrs_entity_id="5611AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
       <client_reg_date openmrs_entity="encounter" openmrs_entity_id="encounter_date"/>
       <household_id openmrs_entity="person_attribute" openmrs_entity_id="Household ID"/>
       <household_role openmrs_entity="person_attribute" openmrs_entity_id="Household Role">Household Member</household_role>

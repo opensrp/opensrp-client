@@ -12,7 +12,7 @@
         android:orientation="horizontal"
         android:layout_weight="2"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginLeft="1dp" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="#ffffff">
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
@@ -20,7 +20,8 @@
             android:layout_height="match_parent"
             android:text="Month, (Year)"
             android:id="@+id/month"
-            style="@style/CustomFontTextViewStyle.ListView.Small.Bold"/>
+            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
+            android:textStyle="bold"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -34,11 +35,11 @@
             android:layout_height="match_parent"
             android:text="20000"
             android:id="@+id/monthly_target"
-            style="@style/CustomFontTextViewStyle.ListView.Small"/>
+            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="1dp" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="#ffffff">
@@ -48,7 +49,7 @@
             android:layout_height="match_parent"
             android:text="20000"
             android:id="@+id/total_received"
-            style="@style/CustomFontTextViewStyle.ListView.Small"/>
+            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -62,7 +63,21 @@
             android:layout_height="match_parent"
             android:text="20000"
             android:id="@+id/total_used"
-            style="@style/CustomFontTextViewStyle.ListView.Small"/>
+            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_weight="4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="#ffffff">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="20000"
+            android:id="@+id/total_wasted"
+            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -75,22 +90,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="20000"
-            android:id="@+id/total_wasted"
-            style="@style/CustomFontTextViewStyle.ListView.Small"/>
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_weight="2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="1dp" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="#ffffff">
-
-        <org.ei.opensrp.view.customControls.CustomFontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="20000"
             android:id="@+id/total_balance_in_hand"
-            style="@style/CustomFontTextViewStyle.ListView.Small"/>
+            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -104,7 +105,7 @@
             android:layout_height="match_parent"
             android:text="20000"
             android:id="@+id/starting_balance_in_hand"
-            style="@style/CustomFontTextViewStyle.ListView.Small"/>
+            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -118,6 +119,6 @@
             android:layout_height="match_parent"
             android:text="20000"
             android:id="@+id/current_balance_in_hand"
-            style="@style/CustomFontTextViewStyle.ListView.Small"/>
+            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"/>
     </LinearLayout>
 </LinearLayout>

@@ -4,7 +4,8 @@
     android:background="#ffffff"
     android:paddingTop="3dp"
     android:paddingBottom="3dp"
-    android:paddingLeft="10dp">
+    android:paddingLeft="10dp"
+    android:minHeight="30dp">
 
     <TextView
         android:layout_width="wrap_content"
@@ -15,7 +16,7 @@
         android:textSize="16sp"
         android:textColor="@color/text_black"
         android:textStyle="bold"
-        android:paddingLeft="30dp"
+        android:paddingLeft="20dp"
         android:paddingTop="5dp" />
 
     <TextView
@@ -30,5 +31,6 @@
         android:maxLines="10"
         android:ellipsize="end"
         android:paddingLeft="30dp"
-        android:paddingTop="5dp" />
+        android:paddingTop="5dp"
+        android:longClickable="false" />
 </TableRow>

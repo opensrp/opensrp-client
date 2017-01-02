@@ -8,6 +8,10 @@ import org.ei.opensrp.view.dialog.SearchFilterOption;
 public class ReportFilterOption implements SearchFilterOption {
     private String filter;
 
+    public String getFilter(){
+        return filter;
+    }
+
     public ReportFilterOption(String filter){
         this.filter=filter;
     }

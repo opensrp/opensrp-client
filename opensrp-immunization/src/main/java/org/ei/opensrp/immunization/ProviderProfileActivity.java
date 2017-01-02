@@ -2,13 +2,11 @@ package org.ei.opensrp.immunization;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.internal.widget.ThemeUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.domain.LoginResponse;
 import org.ei.opensrp.event.Listener;
+import org.ei.opensrp.repository.AllSettings;
 import org.ei.opensrp.service.UserService;
 import org.ei.opensrp.util.Utils;
 import org.ei.opensrp.util.VaccinatorUtils;
@@ -28,7 +27,6 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 
 import static org.ei.opensrp.domain.LoginResponse.SUCCESS;
 import static org.ei.opensrp.util.Utils.convertDateFormat;
@@ -38,9 +36,8 @@ import static org.ei.opensrp.util.Utils.*;
 
 public class ProviderProfileActivity extends Activity {
     Context ctx = Context.getInstance();
-    UserService usr = ctx.userService();
-
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
@@ -55,45 +52,13 @@ public class ProviderProfileActivity extends Activity {
 
         ((TextView)findViewById(R.id.detail_heading)).setText("Provider Details");
 
-        final ProviderProfileActivity ac = this;
-        
         findViewById(R.id.refreshProvider).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     Log.v(getClass().getName(), "Checking user info remotely");
 
-                    tryRemoteUserDataSync(new Listener<LoginResponse>() {
-                        @Override
-                        public void onEvent(LoginResponse r) {
-                            Log.v(getClass().getName(), r.toString() + r.payload());
-
-                            if (r == SUCCESS) {
-                                String loc = usr.getUserLocation(r.payload());
-                                Log.v(getClass().getName(), "LOCATION: " + loc);
-                                if (StringUtils.isNotBlank(loc)) usr.saveAnmLocation(loc);
-
-                                String user = usr.getUserData(r.payload());
-                                Log.v(getClass().getName(), "USER:" + user);
-                                if (StringUtils.isNotBlank(user)) usr.saveUserInfo(user);
-
-                                try {
-                                    Utils.writePreference(ac, "team", new JSONObject(r.payload()).getJSONObject("team").toString());
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                Toast.makeText(ac, "SUCCESS - user data refreshed ", Toast.LENGTH_LONG).show();
-
-                                try {
-                                    fillTable(VaccinatorUtils.providerFullDetails());
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            } else {
-                                Toast.makeText(ac, "ERROR while fetching provider information remotely; " + (r.payload()==null?"Check your internet connection":r.payload()), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
+                    new AsyncCallWS().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -144,35 +109,76 @@ public class ProviderProfileActivity extends Activity {
         progressDialog.setMessage("Connecting to server ... "+getString(org.ei.opensrp.R.string.loggin_in_dialog_message));
     }
 
-    private void tryRemoteUserDataSync(final Listener<LoginResponse> afterLoginCheck) {
-        LockingBackgroundTask task = new LockingBackgroundTask(new ProgressIndicator() {
-            @Override
-            public void setVisible() {
-                progressDialog.show();
+    private class AsyncCallWS extends AsyncTask<Void, Void, LoginResponse> {
+
+        @Override
+        protected LoginResponse doInBackground(Void... params) {
+            Log.i(getClass().getName(), "starting doInBackground");
+            return ctx.userService().isValidRemoteLogin(ctx.allSharedPreferences().fetchRegisteredANM(), ctx.allSettings().fetchANMPassword());
+        }
+
+        @Override
+        protected void onPostExecute(LoginResponse r) {
+            Log.v(getClass().getName(), r.toString() + r.payload());
+
+            if (r == SUCCESS) {
+                UserService usr = ctx.userService();
+                // using user for data saving leads to internal call to another background task
+                // which doesnot update data immediately and hence not shown on UI
+                // so use settings service directly to save data
+                AllSettings aset = ctx.allSettings();
+
+                String loc = usr.getUserLocation(r.payload());
+                Log.v(getClass().getName(), "LOCATION: " + loc);
+                if (StringUtils.isNotBlank(loc)) aset.saveANMLocation(loc);
+
+                String user = usr.getUserData(r.payload());
+                Log.v(getClass().getName(), "USER:" + user);
+                if (StringUtils.isNotBlank(user)) aset.saveUserInformation(user);
+
+                try {
+                    Utils.writePreference(getBaseContext(), "team", new JSONObject(r.payload()).getJSONObject("team").toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    fillTable(VaccinatorUtils.providerFullDetails());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.v(getClass().getName(), "SUCCESS - user data refreshed");
+
+                Toast.makeText(getBaseContext(), "SUCCESS - user data refreshed ", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getBaseContext(), "ERROR while fetching provider information remotely; " + (r.payload()==null?"Check your internet connection":r.payload()), Toast.LENGTH_LONG).show();
             }
 
-            @Override
-            public void setInvisible() {
-                progressDialog.dismiss();
-            }
-        });
+            progressDialog.dismiss();
+        }
 
-        task.doActionInBackground(new BackgroundAction<LoginResponse>() {
-            public LoginResponse actionToDoInBackgroundThread() {
-                Log.v(getClass().getName(), ctx.allSharedPreferences().fetchRegisteredANM() +"-CREDS-"+ ctx.allSettings().fetchANMPassword());
-                return ctx.userService().isValidRemoteLogin(ctx.allSharedPreferences().fetchRegisteredANM(), ctx.allSettings().fetchANMPassword());
-            }
+        @Override
+        protected void onPreExecute() {
+            progressDialog.show();
+        }
 
-            public void postExecuteInUIThread(LoginResponse result) {
-                afterLoginCheck.onEvent(result);
-            }
-        });
+        @Override
+        protected void onProgressUpdate(Void... values) {}
     }
 
     @Override
     public void onBackPressed() {
-        ProgressDialog.show(this, "Wait", "Going back to home...", true);
+        progressDialog.setTitle("Wait");
+        progressDialog.setMessage("Going back to home...");
 
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (progressDialog != null && progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
     }
 }

@@ -46,6 +46,9 @@
       "name" : "existing_num_members",
       "bind" : "/model/instance/new_member_registration_form/existing_num_members"
     }, {
+      "name" : "existing_num_household_members",
+      "bind" : "/model/instance/new_member_registration_form/existing_num_household_members"
+    }, {
       "name" : "provider_location_note",
       "bind" : "/model/instance/new_member_registration_form/provider_location_note"
     }, {
@@ -84,6 +87,9 @@
     }, {
       "name" : "phonenumber",
       "bind" : "/model/instance/new_member_registration_form/phonenumber"
+    }, {
+      "name" : "num_household_members",
+      "bind" : "/model/instance/new_member_registration_form/num_household_members"
     }, {
       "name" : "client_reg_date",
       "bind" : "/model/instance/new_member_registration_form/client_reg_date"

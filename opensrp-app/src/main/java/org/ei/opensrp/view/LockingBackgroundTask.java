@@ -1,6 +1,7 @@
 package org.ei.opensrp.view;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -15,15 +16,20 @@ public class LockingBackgroundTask {
     }
 
     public <T> void doActionInBackground(final BackgroundAction<T> backgroundAction) {
+        Log.v(getClass().getName(), "Have started action in bg for LockingBackgroundTask "+backgroundAction);
         new AsyncTask<Void, Void, T>() {
             @Override
             protected T doInBackground(Void... params) {
+                Log.v(getClass().getName(), "Params are "+params);
+
                 if (!lock.tryLock()) {
                     logVerbose("Going away. Something else is holding the lock.");
                     cancel(true);
                     return null;
                 }
                 try {
+                    Log.v(getClass().getName(), "Going to publich progress");
+
                     publishProgress();
                     return backgroundAction.actionToDoInBackgroundThread();
                 } finally {

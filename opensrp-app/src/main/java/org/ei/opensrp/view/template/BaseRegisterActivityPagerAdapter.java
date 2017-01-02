@@ -4,10 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.ViewGroup;
 
 import org.ei.opensrp.view.fragment.DisplayFormFragment;
 /**
@@ -19,36 +17,52 @@ public class BaseRegisterActivityPagerAdapter extends SmartFragmentStatePagerAda
     Fragment mBaseFragment;
     Fragment[] otherFragments;
     FragmentManager fragmentManager;
-    ViewPager pager;
 
-    public BaseRegisterActivityPagerAdapter(ViewPager pager, FragmentManager fragmentManager, String[] dialogOptions, Fragment baseFragment) {
-        this(pager, fragmentManager, dialogOptions, baseFragment, null);
+    ViewPager viewPager;
+    int currentPage;
+    ViewPager.SimpleOnPageChangeListener pageChangeListener;
+
+    public int getCurrentPage() {
+        return currentPage;
     }
 
-    public BaseRegisterActivityPagerAdapter(ViewPager pager, FragmentManager fragmentManager, String[] dialogOptions,
+    public BaseRegisterActivityPagerAdapter(ViewPager viewPager, FragmentManager fragmentManager, String[] dialogOptions, Fragment baseFragment) {
+        this(viewPager, fragmentManager, dialogOptions, baseFragment, null);
+    }
+
+    public BaseRegisterActivityPagerAdapter(ViewPager viewPagr, FragmentManager fragmentManager, String[] dialogOptions,
             Fragment baseFragment, Fragment[] otherFragments) {
         super(fragmentManager);
-        this.pager = pager;
-        this.otherFragments = otherFragments;
+
         this.fragmentManager = fragmentManager;
+        this.viewPager = viewPagr;
+        this.otherFragments = otherFragments;
         this.dialogOptions = dialogOptions;
         this.mBaseFragment = baseFragment;
 
-       // this.pager.setOffscreenPageLimit(dialogOptions.length); //todo
-        this.pager.setAdapter(this);
-        this.pager.setOffscreenPageLimit(getCount());
+        viewPager.setOffscreenPageLimit(getCount());
+        viewPager.setAdapter(this);
+        viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                currentPage = position;
+                if (pageChangeListener != null){
+                    pageChangeListener.onPageSelected(position);//custom page listener execution that user provided
+                }
+            }
+        });
     }
 
-    public ViewPager getViewPager(){
-        return pager;
+    public void onPageChanged(ViewPager.SimpleOnPageChangeListener pageChangeListener){
+        this.pageChangeListener = pageChangeListener;
     }
 
     @Override
     public Fragment getItem(int position) {
         Log.v(getClass().getName(), "Getting fragment at "+position);
         Fragment fragment = null;
-        if (position == 0){
-            fragment = getBaseFragment();
+        if (isBaseFragment(position)){
+            fragment = mBaseFragment; // donot use getBaseFragment method
         }
         // if has other fragments and position lessthan of.size+basefragment
         else if (otherFragmentsSize() > 0 && position <= otherFragmentsSize()){ // base fragment counted
@@ -63,9 +77,6 @@ public class BaseRegisterActivityPagerAdapter extends SmartFragmentStatePagerAda
 
         Log.v(getClass().getName(), "Got fragment "+fragment.toString());
 
-        Bundle args = new Bundle();
-        args.putInt(ARG_PAGE, position);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -100,10 +111,10 @@ public class BaseRegisterActivityPagerAdapter extends SmartFragmentStatePagerAda
         return dialogOptions == null ? 0 : dialogOptions.length;
     }
 
-    public int getIndexForFormName(String formName){
+    public int getFormIndex(String formName){
         for (int i = 0; i < dialogOptions.length; i++){
             if (formName.equalsIgnoreCase(dialogOptions[i])){
-                return i+1+(otherFragmentsSize());//plus base fragment and other fragments
+                return i;
             }
         }
         return -1;
@@ -121,15 +132,50 @@ public class BaseRegisterActivityPagerAdapter extends SmartFragmentStatePagerAda
     }
 
     public Fragment getBaseFragment(){
-        return mBaseFragment;
+        return getRegisteredFragment(0);
     }
 
-    public void switchToBaseFragment(){
-        pager.setCurrentItem(0, false);
+    public Fragment getOtherFragment(int position){
+        if (otherFragmentsSize() == 0){
+            throw new IllegalStateException("No Detail or Non-Form fragments configured");
+        }
+        return getRegisteredFragment(position+1);//0 would be occupied by base fragment
     }
 
-    public void showFragment(int position){
-        Log.i(getClass().getName(), "Show fragment at "+position);
-        pager.setCurrentItem(position, false);
+    public Fragment getFormFragment(int position){
+        if (formFragmentsSize() == 0){
+            throw new IllegalStateException("No Form fragments configured");
+        }
+        return getRegisteredFragment(position+1+otherFragmentsSize());//0 would be occupied by base fragment, next bunch would be other fragments
+    }
+
+    public Fragment getFormFragment(String formName){
+        if (formFragmentsSize() == 0){
+            throw new IllegalStateException("No Form fragments configured");
+        }
+
+        int index = getFormIndex(formName);
+        return getFormFragment(index);//0 would be occupied by base fragment, next bunch would be other fragments
+    }
+
+    public void showBaseFragment(){
+        showPage(0);
+    }
+
+    public void showOtherFragment(int position){
+        showPage(position+1);//0 would be occupied by base fragment
+    }
+
+    public void showForm(String formName){
+        int i = getFormIndex(formName);
+        showPage(i+1+otherFragmentsSize());//0 would be occupied by base fragment, next bunch would be other fragments
+    }
+
+    private void showPage(int position){
+        viewPager.setCurrentItem(position, false);// removing 2nd param leads to fragment overlap issue
+    }
+
+    public void cleanup(){
+
     }
 }

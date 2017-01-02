@@ -30,7 +30,7 @@ public class StockDailyServiceModeOption extends ServiceModeOption {
 
             @Override
             public int[] weights() {
-                return new int[]{2,1,1,1,1,1,1,1,1,1};
+                return new int[]{2,2,3,1,3,1,1,1,1,1};
             }
 
             @Override

@@ -73,7 +73,6 @@ public class HTTPAgent {
     private AllSharedPreferences allSharedPreferences;
     private DristhiConfiguration configuration;
 
-
     public HTTPAgent(Context context, AllSettings settings, AllSharedPreferences allSharedPreferences, DristhiConfiguration configuration) {
         this.context = context;
         this.settings = settings;
@@ -92,7 +91,7 @@ public class HTTPAgent {
         httpClient = new GZipEncodingHttpClient(new DefaultHttpClient(connectionManager, basicHttpParams));
     }
 
-    public Response<String> fetch(String requestURLPath) {
+    public synchronized Response<String> fetch(String requestURLPath) {
         try {
             setCredentials(allSharedPreferences.fetchRegisteredANM(), settings.fetchANMPassword());
             String responseContent = IOUtils.toString(httpClient.fetchContent(new HttpGet(requestURLPath)));
@@ -103,7 +102,7 @@ public class HTTPAgent {
         }
     }
 
-    public static Response<String> post(String postURLPath, String jsonPayload, Map requestHeaders)  {
+    public synchronized static Response<String> post(String postURLPath, String jsonPayload, Map requestHeaders)  {
         try {
             // open url connection
             URL url = new URL(postURLPath);
@@ -153,7 +152,7 @@ public class HTTPAgent {
         return new Response<String>(ResponseStatus.failure, null);
     }
 
-    public Response<String> post(String postURLPath, String jsonPayload) {
+    public synchronized Response<String> post(String postURLPath, String jsonPayload) {
         try {
             setCredentials(allSharedPreferences.fetchRegisteredANM(), settings.fetchANMPassword());
             System.setProperty("http.keepAlive", "false");
@@ -192,7 +191,7 @@ public class HTTPAgent {
         }
     }
 
-    public LoginResponse urlCanBeAccessWithGivenCredentials(String requestURL, String userName, String password) {
+    public synchronized LoginResponse urlCanBeAccessWithGivenCredentials(String requestURL, String userName, String password) {
         setCredentials(userName, password);
         try {
             HttpResponse response = httpClient.execute(new HttpGet(requestURL));
@@ -212,7 +211,7 @@ public class HTTPAgent {
         }
     }
 
-    public DownloadStatus downloadFromUrl(String url, String filename) {
+    public synchronized DownloadStatus downloadFromUrl(String url, String filename) {
         setCredentials(allSharedPreferences.fetchRegisteredANM(), settings.fetchANMPassword());
         Response<DownloadStatus> status = DownloadForm.DownloadFromURL(url, filename, httpClient);
         return status.payload();
@@ -250,7 +249,7 @@ public class HTTPAgent {
             throw new AssertionError(e);
         }
     }
-    public Response<String> fetchWithCredentials(String uri, String username, String password) {
+    public synchronized Response<String> fetchWithCredentials(String uri, String username, String password) {
         setCredentials(username, password);
         try {
             String responseContent = IOUtils.toString(httpClient.fetchContent(new HttpGet(uri)));
@@ -261,7 +260,7 @@ public class HTTPAgent {
         }
     }
 
-    public String httpImagePost(String url,ProfileImage image){
+    public synchronized String httpImagePost(String url,ProfileImage image){
 
         String responseString = "";
         try {

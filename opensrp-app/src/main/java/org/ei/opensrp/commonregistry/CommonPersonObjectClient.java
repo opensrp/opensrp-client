@@ -2,6 +2,7 @@ package org.ei.opensrp.commonregistry;
 
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Map;
  */
 public class CommonPersonObjectClient implements SmartRegisterClient {
     private String caseId;
-    private Map<String, String> details;
+    private Map<String, String> details = new HashMap<>();
     public String name = "";
 
     public Map<String, String> getColumnmaps() {

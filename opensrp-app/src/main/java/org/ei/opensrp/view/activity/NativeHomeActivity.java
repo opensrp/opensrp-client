@@ -122,6 +122,10 @@ public abstract class NativeHomeActivity extends SecuredActivity {
 
     @Override
     protected void onResumption() {
+        Log.i(getClass().getName(), "Setting up views and listeners");
+
+        setupViewsAndListeners();
+
         Log.i(getClass().getName(), "Updating Counts");
 
         updateRegisterCounts();
@@ -220,7 +224,7 @@ public abstract class NativeHomeActivity extends SecuredActivity {
     }
 
     protected void updateRemainingFormsToSyncCount() {
-        if (remainingFormsToSyncMenuItem == null) {
+        if (remainingFormsToSyncMenuItem == null || pendingFormSubmissionService == null) {
             return;
         }
         new Handler(getMainLooper()).post(new Runnable() {

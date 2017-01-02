@@ -13,6 +13,10 @@ public class ECSearchOption implements SearchFilterOption {
         this.filter = filter;
     }
 
+    public String getFilter(){
+        return filter;
+    }
+
     @Override
     public String name() {
         return Context.getInstance().getStringResource(R.string.str_ec_search_hint);

@@ -34,7 +34,7 @@ public class OpenSRPWebView extends WebView{
 
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
-        if (hasWindowFocus){
+        /*todo if (hasWindowFocus){
             post(new Runnable() {
                 @Override
                 public void run() {
@@ -42,7 +42,7 @@ public class OpenSRPWebView extends WebView{
                     Log.d("OpenSRPWebView", "date widgets reloaded");
                 }
             });
-        }
+        }*/
     }
 
     public void disableLongClick(){

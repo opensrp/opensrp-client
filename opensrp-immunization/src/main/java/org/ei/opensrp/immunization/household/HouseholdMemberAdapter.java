@@ -56,6 +56,7 @@ public class HouseholdMemberAdapter extends ArrayAdapter<HouseholdMemberDetails>
 
         View row = convertView;
 
+        ((TextView) row.findViewById(R.id.serial_number)).setText((position+1)+" )");
         ((TextView) row.findViewById(R.id.programId)).setText(list.get(position).programId);
         ((TextView) row.findViewById(R.id.hhmemberId)).setText(list.get(position).client.getColumnmaps().get("household_member_id"));
         ((TextView) row.findViewById(R.id.memberName)).setText(list.get(position).memberName);
@@ -64,7 +65,7 @@ public class HouseholdMemberAdapter extends ArrayAdapter<HouseholdMemberDetails>
         ((ImageView) row.findViewById(R.id.individual_profilepic)).setImageResource(list.get(position).memberImageId);
         ((TextView) row.findViewById(R.id.hh_member_contact_number)).setText(list.get(position).contact);
 
-        Button btnAction = (Button) row.findViewById(R.id.other_register_action);
+        ImageView btnAction = (ImageView) row.findViewById(R.id.other_register_action);
 
         Log.v(getClass().getName(), "programId "+list.get(position).programId+
                 "; hhmemberId "+list.get(position).client.getColumnmaps().get("household_member_id")+
@@ -73,16 +74,10 @@ public class HouseholdMemberAdapter extends ArrayAdapter<HouseholdMemberDetails>
 
         if(list.get(position).isMemberExists()) {
             btnAction.setVisibility(View.VISIBLE);
-            btnAction.setText("Vaccine\nFollowup");
-            btnAction.setBackgroundColor(getColor(context, R.color.background_material_light));
-            btnAction.setTextColor(getColor(context, R.color.alert_complete_green));
         } else {
             btnAction.setVisibility(View.GONE);
             if(list.get(position).isCantBeEnrolled() == false){
                 btnAction.setVisibility(View.VISIBLE);
-                btnAction.setText("Enroll\nfor\nVaccines");
-                btnAction.setBackgroundColor(getColor(context, R.color.background_material_light));
-                btnAction.setTextColor(getColor(context, R.color.alert_complete_green));
             }
         }
 

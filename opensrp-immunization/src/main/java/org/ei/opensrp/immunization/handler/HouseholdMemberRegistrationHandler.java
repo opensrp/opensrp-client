@@ -11,6 +11,8 @@ import org.ei.opensrp.immunization.child.ChildSmartRegisterActivity;
 import org.ei.opensrp.immunization.woman.WomanSmartRegisterActivity;
 import org.ei.opensrp.service.formSubmissionHandler.FormSubmissionHandler;
 
+import java.util.UUID;
+
 /**
  * Created by Maimoona on 9/6/2016.
  */
@@ -33,10 +35,10 @@ public class HouseholdMemberRegistrationHandler implements FormSubmissionHandler
 
             Intent intent = null;
             if(submission.formName().toLowerCase().contains("child")){
-                intent = new Intent(activity, WomanSmartRegisterActivity.class);
+                intent = new Intent(activity, ChildSmartRegisterActivity.class);
             }
             else if(submission.formName().toLowerCase().contains("woman")){
-                intent = new Intent(activity, ChildSmartRegisterActivity.class);
+                intent = new Intent(activity, WomanSmartRegisterActivity.class);
             }
             intent.putExtra("program_client_id", pid);
             activity.startActivity(intent);

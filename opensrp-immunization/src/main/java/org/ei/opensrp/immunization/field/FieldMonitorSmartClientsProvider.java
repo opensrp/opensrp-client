@@ -183,7 +183,7 @@ public class FieldMonitorSmartClientsProvider implements SmartRegisterClientsPro
             else {
                 fillValue((TextView) parentView.findViewById(R.id.total_wasted), calculateWasted(balanceInHand, received, totalUsed, nextMonthRpt, "bcg", "opv", "ipv", "pcv", "penta", "measles", "tt"));
             }
-            fillValue((TextView) parentView.findViewById(R.id.month), date.toString("MMM, yyyy"));
+            fillValue((TextView) parentView.findViewById(R.id.month), date.toString("MMM, yy"));
             fillValue((TextView) parentView.findViewById(R.id.monthly_target), pc.getColumnmaps().get("Target_assigned_for_vaccination_at_each_month"));
             fillValue((TextView) parentView.findViewById(R.id.total_received), received+"<font color='silver'>/"+pc.getColumnmaps().get("total_received")+"</font>");
             fillValue((TextView) parentView.findViewById(R.id.total_used), totalUsed+"");

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -71,6 +73,8 @@ public abstract class DetailFragment extends Fragment {
     public void resetView(CommonPersonObjectClient client){
         this.client = client;
 
+        onResumeFragmentView();
+
         displayPicture();
 
         ((TextView)currentView.findViewById(R.id.detail_heading)).setText(pageTitle());
@@ -88,6 +92,10 @@ public abstract class DetailFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });//todo
+    }
+
+    public void onResumeFragmentView(){
+
     }
 
     public void displayPicture() {

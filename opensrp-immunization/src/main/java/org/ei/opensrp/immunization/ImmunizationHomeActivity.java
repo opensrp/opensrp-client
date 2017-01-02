@@ -50,8 +50,8 @@ public class ImmunizationHomeActivity extends NativeHomeActivity {
 
         householdRegister = initRegister("View Household Register", R.id.householdContainer, R.id.btn_household_register, onRegisterStartListener,
                 new RegisterCountView[]{
-                   new RegisterCountView(R.id.txt_household_register_client_count, "pkhousehold", "", "", CountMethod.AUTO),
-                   new RegisterCountView(R.id.txt_household_register_client_plus_members_count, "pkindividual", "", "", CountMethod.AUTO),
+                   new RegisterCountView(R.id.txt_household_register_client_count, "pkhousehold", "", "H", CountMethod.AUTO),
+                   new RegisterCountView(R.id.txt_household_register_client_plus_members_count, "pkindividual", "", "M", CountMethod.AUTO),
                 });
 
         findViewById(R.id.btn_reporting).setOnClickListener(onButtonsClickListener);

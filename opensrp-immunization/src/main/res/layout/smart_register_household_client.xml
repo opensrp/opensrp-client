@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="fill_parent"
-    android:weightSum="11"
+    android:weightSum="14"
     android:layout_height="@dimen/list_item_height"
     android:background="#eeeeee">
 
@@ -10,13 +10,13 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:id="@+id/household_profile_info_layout"
-        android:layout_weight="3"
+        android:layout_weight="4"
         android:background="#ffffff"
         android:layout_marginRight="1dp">
 
         <ImageView
             android:layout_width="@dimen/client_profile_pic_width"
-            android:layout_height="80dp"
+            android:layout_height="match_parent"
             android:id="@+id/household_profilepic"
             android:src="@drawable/household_profile"
             android:layout_margin="2dp"
@@ -34,43 +34,73 @@
             <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="HH Identifier"
+                android:text="HH Ideeentifier"
                 style="@style/CustomFontTextViewStyle.ListView.Medium"
                 android:id="@+id/household_id"
                 android:textColor="#000000"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/CustomFontTextViewStyle.ListView.Normal"
-                android:text="HH Program Client ID"
+                android:text="HH Program IDD"
                 android:id="@+id/household_head_program_client_id"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textColor="@color/button_material_dark" />
 
             <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/CustomFontTextViewStyle.ListView.Medium"
-                android:text="HH full name"
+                android:text="HH Head full name"
                 android:id="@+id/household_name"
                 android:textColor="@color/light_blue"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <org.ei.opensrp.view.customControls.CustomFontTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/CustomFontTextViewStyle.ListView.Normal"
-                android:text="13-12-2016 (23 years)"
-                android:id="@+id/household_head_age"
-                android:textSize="14sp" />
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:singleLine="false"
+                android:maxLines="2" />
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:background="#ffffff"
+        android:layout_marginRight="1dp">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CustomFontTextViewStyle.ListView.Normal"
+            android:text="13-12-2016"
+            android:id="@+id/household_head_dob"
+            android:textSize="16sp"/>
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CustomFontTextViewStyle.ListView.Normal"
+            android:text="23 years"
+            android:id="@+id/household_head_age"
+            android:textSize="16sp"/>
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ethnicity of Person"
+            style="@style/CustomFontTextViewStyle.ListView.Normal"
+            android:id="@+id/ethnicity"
+            android:singleLine="false"
+            android:textSize="16sp"
+            android:maxLines="2"/>
+    </LinearLayout>
+
     <LinearLayout
         android:layout_height="match_parent"
         android:layout_width="0dp"
@@ -79,46 +109,59 @@
         android:background="#ffffff"
         android:layout_marginRight="1dp">
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Other members"
-            style="@style/CustomFontTextViewStyle.ListView.Normal"
-            android:id="@+id/household_member_count"
-            android:textSize="14sp" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="##"
+                style="@style/CustomFontTextViewStyle.ListView.Normal"
+                android:id="@+id/household_member_count"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="## !"
+                style="@style/CustomFontTextViewStyle.ListView.Normal"
+                android:id="@+id/household_unregistered_member_count"
+                android:textSize="16sp"
+                android:textColor="@color/error_color"
+                android:layout_marginRight="10dp" />
+        </LinearLayout>
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Woman Rep members"
+            android:text="## women"
             style="@style/CustomFontTextViewStyle.ListView.Normal"
             android:id="@+id/household_women_rep_member_count"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textColor="@color/pink" />
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Children members"
+            android:text="## child(ren)"
             style="@style/CustomFontTextViewStyle.ListView.Normal"
             android:id="@+id/household_child_member_count"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textColor="@android:color/holo_orange_dark" />
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Unregistered members"
-            style="@style/CustomFontTextViewStyle.ListView.Normal"
-            android:id="@+id/household_unregistered_member_count"
-            android:textSize="14sp"
-            android:textColor="@color/error_color" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_height="match_parent"
         android:layout_width="0dp"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:background="#ffffff"
         android:layout_marginRight="1dp">
 
@@ -129,7 +172,7 @@
             style="@style/CustomFontTextViewStyle.ListView.Normal.TwoLine"
             android:id="@+id/household_address"
             android:inputType="textMultiLine"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:maxLines="4" />
     </LinearLayout>
 
@@ -146,27 +189,25 @@
             style="@style/CustomFontTextViewStyle.ListView.Normal"
             android:id="@+id/household_contact"
             android:text="033438488455"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_height="match_parent"
         android:layout_width="0dp"
-        android:layout_weight="2"
         android:gravity="center"
-        android:background="@color/light_blue"
         android:id="@+id/household_add_member"
-        android:layout_marginRight="1dp">
+        android:layout_weight="1"
+        android:background="@color/alert_upcoming"
+        android:layout_margin="10dp">
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/CustomFontTextViewStyle.ListView.Normal"
-            android:textSize="19sp"
-            android:text="@string/household_add_member"
-            android:textColor="#ffffff"
-            android:gravity="center"
-            android:textStyle="bold" />
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:id="@+id/imageView"
+            android:src="@drawable/ic_plus"
+            android:scaleType="fitXY"
+            android:layout_margin="10dp" />
     </LinearLayout>
 
 

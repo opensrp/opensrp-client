@@ -316,9 +316,9 @@ body {
   left: 0;
   width: 100%;
   position: absolute;
-  top: -75px;
+  top: -55px;
   border: none;
-  padding: 16px 0; }
+  padding: 5px 0; }
 
 .form-language-selector {
   float: right;
@@ -372,7 +372,7 @@ button {
   border: 1px solid transparent;
   white-space: nowrap;
   padding: 6px 12px;
-  font-size: 15px;
+  font-size: 18px;
   line-height: 1.25;
   border-radius: 4px;
   -webkit-user-select: none;
@@ -557,7 +557,7 @@ button {
     border: none; }
 
 .question-label strong {
-  font-size: 16px; }
+  font-size: 18px; }
 
 .question > img, .question > video, .question > audio, .note > img, .note > video, .note > audio {
   margin: 10px 0 10px 10px; }
@@ -596,7 +596,7 @@ button {
     margin-bottom: 18px; }
 
 label, legend, .note {
-  font-size: 15px; }
+  font-size: 18px; }
 
 .or img, .or audio, .or video {
   display: block;
@@ -846,7 +846,7 @@ legend .required {
         font-style: normal;
         padding-top: 0px;
         padding-left: 0px;
-        font-size: 15px; }
+        font-size: 18px; }
         .bootstrap-select .dropdown-toggle ~ .dropdown-menu .option-wrapper label input[type="checkbox"], .bootstrap-select .dropdown-toggle ~ .dropdown-menu .option-wrapper label input[type="radio"] {
           margin: 4px 10px 1px 0; }
         .bootstrap-select .dropdown-toggle ~ .dropdown-menu .option-wrapper label:hover {
@@ -904,7 +904,7 @@ legend .required {
   padding: 5px 0;
   margin: 2px 0 0;
   list-style: none;
-  font-size: 15px;
+  font-size: 18px;
   background-color: white;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 4px;
@@ -1391,7 +1391,7 @@ legend .required {
   line-height: 16px;
   font-weight: normal; }
   .question:not(.or-appearance-label):not(.or-appearance-compact):not(.or-appearance-quickcompact) .geopicker label input[type=radio] ~ .option-label::before {
-    font-size: 16px;
+    font-size: 18px;
     height: 16px;
     margin-right: 2px; }
 
@@ -3747,7 +3747,7 @@ input[type=text], input[type=password], input[type=url], input[type=email], inpu
   font-family: 'OpenSans', Arial, sans-serif;
   font-weight: normal;
   font-style: normal;
-  font-size: 15px;
+  font-size: 18px;
   line-height: 1.25;
   color: #555555;
   background-color: white;

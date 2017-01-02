@@ -51,7 +51,7 @@ public class ChildSmartRegisterFragment extends SmartClientRegisterFragment {
     @Override
     protected SmartRegisterPaginatedAdapter adapter() {
         return new SmartRegisterPaginatedCursorAdapter(getActivity(),
-                new SmartRegisterCursorBuilder("pkchild", null, (CursorSortOption) getDefaultOptionsProvider().sortOption(), "")
+                new SmartRegisterCursorBuilder("pkchild", null, (CursorSortOption) getDefaultOptionsProvider().sortOption(), "").limit(5)
                 , clientsProvider(), SmartRegisterCursorBuilder.DB.DRISHTI);
     }
 
@@ -67,7 +67,7 @@ public class ChildSmartRegisterFragment extends SmartClientRegisterFragment {
                 return new VaccinationServiceModeOption(null, "Vaccine", new int[]{
                         R.string.child_profile , R.string.birthdate_age, R.string.epi_number, R.string.child_contact_number,
                         R.string.child_last_vaccine, R.string.child_next_vaacine
-                }, new int[]{6,2,2,3,4,4});
+                }, new int[]{6,3,2,3,4,3});
             }
 
             @Override

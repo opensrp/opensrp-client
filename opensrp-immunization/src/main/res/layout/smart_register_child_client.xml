@@ -9,7 +9,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="0dp"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:id="@+id/child_profile_info_layout"
         android:layout_weight="6"
         android:background="#ffffff"
@@ -29,17 +29,17 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginBottom="1dp">
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp">
 
             <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Child ID"
+                android:text="Child ID of 4teen"
                 style="@style/CustomFontTextViewStyle.ListView.Medium"
                 android:id="@+id/child_id"
                 android:textColor="@color/button_material_dark"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
 
             <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:layout_width="wrap_content"
@@ -48,7 +48,9 @@
                 android:text="Child Name"
                 android:id="@+id/child_name"
                 android:textColor="@color/light_blue"
-                android:textSize="14sp" />
+                android:textSize="15sp"
+                android:maxLines="2"
+                android:singleLine="false"/>
 
             <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:layout_width="wrap_content"
@@ -56,15 +58,19 @@
                 android:text="Mother Name"
                 style="@style/CustomFontTextViewStyle.ListView.Normal"
                 android:id="@+id/child_mothername"
-                android:textSize="14sp"/>
+                android:textSize="15sp"
+                android:maxLines="2"
+                android:singleLine="false"/>
 
             <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="father name"
+                android:text="Father name"
                 style="@style/CustomFontTextViewStyle.ListView.Normal"
                 android:id="@+id/child_fathername"
-                android:textSize="14sp" />
+                android:textSize="15sp"
+                android:maxLines="2"
+                android:singleLine="false"/>
 
         </LinearLayout>
 
@@ -74,17 +80,17 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_width="0dp"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:background="#ffffff"
         android:layout_marginRight="1dp">
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Birthdate"
+            android:text="22-22-2222"
             style="@style/CustomFontTextViewStyle.ListView.Normal"
             android:id="@+id/child_birthdate"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:layout_width="wrap_content"
@@ -92,7 +98,7 @@
             android:text="Age"
             style="@style/CustomFontTextViewStyle.ListView.Normal"
             android:id="@+id/child_age"
-            android:textSize="14sp"/>
+            android:textSize="16sp"/>
     </LinearLayout>
 
 
@@ -110,7 +116,7 @@
         style="@style/CustomFontTextViewStyle.ListView.Medium"
         android:id="@+id/child_epi_number"
         android:textColor="@color/alert_in_progress_blue"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
 </LinearLayout>
 
     <LinearLayout
@@ -126,7 +132,7 @@
             android:text="Contact Number"
             style="@style/CustomFontTextViewStyle.ListView.Normal"
             android:id="@+id/child_contact_number"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -171,7 +177,7 @@
                 android:text="Last Vaccine Date"
                 android:id="@+id/child_last_visit_date"
                 style="@style/CustomFontTextViewStyle.ListView.Normal"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="26dp" />
 
@@ -179,25 +185,39 @@
 
     </LinearLayout>
 
+    <FrameLayout android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="3"
+        android:background="@color/transparent_blue"
+        android:id="@+id/child_next_visit_holder">
+
+    <ImageView
+        android:layout_width="fill_parent" android:layout_height="fill_parent"
+        android:src="@drawable/syringe" android:scaleType="fitEnd"
+        android:alpha=".6"
+        android:id="@+id/next_vaccine_image"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="5dp" />
+
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:layout_weight="4">
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/child_next_visit_holder"
-            android:background="@color/transparent_blue" >
+            android:layout_height="match_parent" >
 
             <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Next Vaccine"
                 android:id="@+id/child_next_visit_vaccine"
-                style="@style/CustomFontTextViewStyle.ListView.Medium"/>
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:singleLine="false"
+                android:maxLines="2"/>
 
             <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:layout_width="wrap_content"
@@ -205,7 +225,8 @@
                 android:text="Next Visit Date"
                 android:id="@+id/child_next_visit_date"
                 style="@style/CustomFontTextViewStyle.ListView.Medium"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
             </LinearLayout>
     </LinearLayout>
+    </FrameLayout>
 </LinearLayout>

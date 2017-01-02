@@ -35,6 +35,9 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static org.ei.opensrp.util.Utils.*;
 import static org.ei.opensrp.util.Utils.getValue;
 import static org.ei.opensrp.util.Utils.setProfiePic;
+import static org.ei.opensrp.util.VaccinatorUtils.numOfChildrenOfImmAge;
+import static org.ei.opensrp.util.VaccinatorUtils.numOfWomenOfRepAge;
+import static org.ei.opensrp.util.VaccinatorUtils.totalHHMembers;
 
 /**
  * Created by Safwan on 4/22/2016.
@@ -74,12 +77,12 @@ public class HouseholdSmartClientsProvider implements SmartRegisterClientsProvid
             valuesForLHW(pc, parentView, individualList);
        // }
 
-        LinearLayout memberAdd = (LinearLayout) parentView.findViewById(R.id.household_add_member);
-        memberAdd.setBackgroundColor(context.getResources().getColor(R.color.alert_normal));
-
         ImageView profileCont = (ImageView) parentView.findViewById(R.id.household_profilepic);
         if (getValue(pc.getColumnmaps(), "gender", false).equalsIgnoreCase("female")){
             profileCont.setImageResource(R.drawable.pk_woman_avtar);
+        }
+        else if (getValue(pc.getColumnmaps(), "gender", false).toLowerCase().contains("trans")){
+            profileCont.setImageResource(R.drawable.transgender);
         }
         else {
             profileCont.setImageResource(R.drawable.household_profile);
@@ -126,24 +129,6 @@ public class HouseholdSmartClientsProvider implements SmartRegisterClientsProvid
         return inflater;
     }
 
-    public void valuesForVaccinator(CommonPersonObjectClient pc, View parentView, List<CommonPersonObject> individualList){
-        try {
-            fillWithIdentifier((TextView) parentView.findViewById(R.id.household_id), pc.getColumnmaps(), "Household ID", false);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        fillValue((TextView) parentView.findViewById(R.id.household_name), getValue(pc.getColumnmaps(), "first_name", true) + " " + getValue(pc.getColumnmaps(), "last_name", true));
-        fillValue((TextView) parentView.findViewById(R.id.household_member_count), getValue(pc.getColumnmaps(), "num_household_members", false));
-        fillValue((TextView) parentView.findViewById(R.id.household_address),
-                getValue(pc.getColumnmaps(), "address1", true) + ", " +
-                        getValue(pc.getColumnmaps(), "union_council", true).replace("Uc", "UC") + ", " +
-                        getValue(pc.getColumnmaps(), "town", true) + ",\n " +
-                        getValue(pc.getColumnmaps(), "city_village", true) + ", " +
-                        getValue(pc.getColumnmaps(), "province", true));
-        fillValue((TextView) parentView.findViewById(R.id.household_contact), getValue(pc.getColumnmaps(), "contact_phone_number", true));
-    }
-
     public void valuesForLHW(CommonPersonObjectClient pc, View parentView, List<CommonPersonObject> individualList){
         fillValue((TextView) parentView.findViewById(R.id.household_id), pc.getColumnmaps(), "household_id", false);
         fillValue((TextView) parentView.findViewById(R.id.household_head_program_client_id), pc.getColumnmaps(), "program_client_id", false);
@@ -154,15 +139,16 @@ public class HouseholdSmartClientsProvider implements SmartRegisterClientsProvid
             age = Years.yearsBetween(new DateTime(getValue(pc.getColumnmaps(), "dob", false)), DateTime.now()).getYears();
         }
         catch (Exception e){}
-        fillValue((TextView) parentView.findViewById(R.id.household_head_age), age<0?"No DoB":(convertDateFormat(getValue(pc.getColumnmaps(), "dob", false), true)+" ("+age+ " years)"));
+        fillValue((TextView) parentView.findViewById(R.id.household_head_dob), age<0?"No DoB":(convertDateFormat(getValue(pc.getColumnmaps(), "dob", false), true)));
+        fillValue((TextView) parentView.findViewById(R.id.household_head_age), age<0?"No DoB":(age+" years"));
+        fillValue((TextView) parentView.findViewById(R.id.ethnicity), getValue(pc.getColumnmaps(), "ethnicity", true));
 
-        int originalNum = IntegerUtil.tryParse(getValue(pc.getColumnmaps(), "num_household_members", false), -1);
-        int totalNum = individualList.size() >= originalNum?individualList.size()+1:originalNum;//plus HHHead
-        fillValue((TextView) parentView.findViewById(R.id.household_member_count), originalNum<=0?"Missing data":(totalNum+""));
-        int unregistered = totalNum-individualList.size()-1;
-        fillValue((TextView) parentView.findViewById(R.id.household_unregistered_member_count), originalNum<0||unregistered==0?"":(unregistered+" (unregistered)"));
-        fillValue((TextView) parentView.findViewById(R.id.household_women_rep_member_count),  numOfWomenOfRepAge(individualList)+" eligible women");
-        fillValue((TextView) parentView.findViewById(R.id.household_child_member_count),  numOfChildrenOfImmAge(individualList)+" children");
+        int originalNum = totalHHMembers(pc.getColumnmaps(), individualList);
+        fillValue((TextView) parentView.findViewById(R.id.household_member_count), originalNum<=0?"Missing data":(originalNum+""));
+        int unregistered = originalNum-individualList.size()-1;
+        fillValue((TextView) parentView.findViewById(R.id.household_unregistered_member_count), originalNum<0||unregistered<=0?"":("( "+unregistered+" ! )"));
+        fillValue((TextView) parentView.findViewById(R.id.household_women_rep_member_count),  numOfWomenOfRepAge(individualList)+" el.women");
+        fillValue((TextView) parentView.findViewById(R.id.household_child_member_count),  numOfChildrenOfImmAge(individualList)+" child(ren)");
 
         fillValue((TextView) parentView.findViewById(R.id.household_address),
                 getValue(pc.getColumnmaps(), "address1", true) + ", " +
@@ -171,35 +157,5 @@ public class HouseholdSmartClientsProvider implements SmartRegisterClientsProvid
                         getValue(pc.getColumnmaps(), "city_village", true) + ", " +
                         getValue(pc.getColumnmaps(), "province", true));
         fillValue((TextView) parentView.findViewById(R.id.household_contact), getValue(pc.getColumnmaps(), "contact_phone_number", true));
-    }
-
-    private int numOfWomenOfRepAge(List<CommonPersonObject> list){
-        int i = 0;
-        for (CommonPersonObject o: list) {
-            int age = -1;
-            try{
-                age = Years.yearsBetween(new DateTime(getValue(o.getColumnmaps(), "dob", false)), DateTime.now()).getYears();
-            }
-            catch (Exception e){}
-            if (age >= 15 && age <= 45){
-                i++;
-            }
-        }
-        return i;
-    }
-
-    private int numOfChildrenOfImmAge(List<CommonPersonObject> list){
-        int i = 0;
-        for (CommonPersonObject o: list) {
-            int age = -1;
-            try{
-                age = Years.yearsBetween(new DateTime(getValue(o.getColumnmaps(), "dob", false)), DateTime.now()).getYears();
-            }
-            catch (Exception e){}
-            if (age >= 0 && age <= 5){
-                i++;
-            }
-        }
-        return i;
     }
 }

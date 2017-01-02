@@ -22,6 +22,7 @@ import android.graphics.Color;
 import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -36,12 +37,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.ei.drishti.dto.AlertStatus;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.domain.Alert;
+import org.ei.opensrp.immunization.R;
 import org.ei.opensrp.repository.db.CESQLiteHelper;
 import org.ei.opensrp.repository.db.Client;
 import org.ei.opensrp.repository.db.Obs;
 import org.ei.opensrp.repository.db.VaccineRepo;
 import org.ei.opensrp.repository.db.VaccineRepo.Vaccine;
 import org.joda.time.DateTime;
+import org.joda.time.Years;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.opensrp.api.domain.Location;
@@ -52,6 +55,7 @@ import org.opensrp.api.util.TreeNode;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -80,6 +84,47 @@ public class VaccinatorUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static int totalHHMembers(Map<String, String> household, List<CommonPersonObject> members){
+        int originalNum = IntegerUtil.tryParse(getValue(household, "num_household_members", false), -1);
+        if (originalNum == -1) return originalNum;
+
+        if (originalNum < members.size()+1){
+            return members.size()+1;// plus hhhead
+        }
+        return originalNum;
+    }
+
+    public static int numOfWomenOfRepAge(List<CommonPersonObject> list){
+        int i = 0;
+        for (CommonPersonObject o: list) {
+            int age = -1;
+            String gender = getValue(o.getColumnmaps(), "gender", false);
+            try{
+                age = Years.yearsBetween(new DateTime(getValue(o.getColumnmaps(), "dob", false)), DateTime.now()).getYears();
+            }
+            catch (Exception e){}
+            if (age >= 15 && age <= 45 && (gender.equalsIgnoreCase("female")||gender.equalsIgnoreCase("f"))){
+                i++;
+            }
+        }
+        return i;
+    }
+
+    public static int numOfChildrenOfImmAge(List<CommonPersonObject> list){
+        int i = 0;
+        for (CommonPersonObject o: list) {
+            int age = -1;
+            try{
+                age = Years.yearsBetween(new DateTime(getValue(o.getColumnmaps(), "dob", false)), DateTime.now()).getYears();
+            }
+            catch (Exception e){}
+            if (age >= 0 && age <= 5){
+                i++;
+            }
+        }
+        return i;
     }
 
     public static HashMap<String, String> providerDetails(){
@@ -188,17 +233,17 @@ public class VaccinatorUtils {
         //inhand+received-used-inhand.of.next.month
         int wasted = endingBalance-inhandNextMonth;
 
-        return wasted+ " <font color='gray'> = ["+endingBalance+"-"+inhandNextMonth+"]";
+        return wasted+ " <font color='silver'> = ["+endingBalance+"-"+inhandNextMonth+"]";
     }
 
     public static String calculateEndingBalance(int balanceInHand, int received, int used){
         int endingBalance = balanceInHand+received-used;
-        return endingBalance+ " <font color='gray'> = ["+received+"+"+balanceInHand+"-"+used +"]";
+        return endingBalance+ " <font color='silver'> = ["+(received+balanceInHand)+"-"+used +"]";
     }
 
     public static String calculateStartingBalance(int balanceInHand, int received){
         int strtingBalance = balanceInHand+received;
-        return strtingBalance+ " <font color='gray'> = ["+received+"+"+balanceInHand +"]";
+        return strtingBalance+ " <font color='silver'> = ["+received+"+"+balanceInHand +"]";
     }
 
     public static ArrayList<HashMap<String, String>> getUsed(String startDate, String endDate, String table, String... vaccines){
@@ -236,16 +281,16 @@ public class VaccinatorUtils {
        addRow(context, table, tag, 2, Utils.Size.MEDIUM);
     }
     public static void addVaccineDetail(Activity context, TableLayout table, String status, Vaccine vaccine, DateTime vaccineDate, Alert alert, boolean compact) {
-        addVaccineDetail(context, table, status, vaccine.display(), vaccineDate != null ? vaccineDate.toString("yyyy-MM-dd") : "", alert, Utils.Size.MEDIUM);
+        addVaccineDetail(context, table, status, null, vaccine.display(), vaccineDate != null ? vaccineDate.toString("yyyy-MM-dd") : "", alert, Utils.Size.MEDIUM);
     }
 
     public static void addVaccineDetail(Activity context, TableLayout table, String status, Vaccine vaccine, DateTime vaccineDate,
            Alert alert, Utils.Size size) {
-        addVaccineDetail(context, table, status, vaccine.display(), vaccineDate != null ? vaccineDate.toString("yyyy-MM-dd") : "",
+        addVaccineDetail(context, table, status, null, vaccine.display(), vaccineDate != null ? vaccineDate.toString("yyyy-MM-dd") : "",
                 alert, size);
     }
 
-    public static void addVaccineDetail(Activity context, TableLayout table, String status, String vaccine, String vaccineDate,
+    public static void addVaccineDetail(Activity context, TableLayout table, String status, String milestone, String vaccine, String vaccineDate,
                                         Alert alert, Utils.Size size){
         String color = "#ffffff";
         if(status.equalsIgnoreCase("due")) {
@@ -289,7 +334,25 @@ public class VaccinatorUtils {
         v.setBackgroundColor(Color.WHITE);
         l.addView(v);
 
-        addRow(context, table, vaccine, l, size);
+        if (milestone == null) {
+            addRow(context, table, vaccine, l, size);
+        }
+        else{
+            addVaccineRow(context, table, color, milestone, vaccine, vaccineDate, Utils.Size.MEDIUM);
+        }
+    }
+
+
+    public static void addVaccineRow(Activity activity, TableLayout table, String color, String milestone, String label, String vaccineDate, Utils.Size size){
+        if(size.equals(Utils.Size.MEDIUM)){
+            TableRow v = (TableRow) activity.getLayoutInflater().inflate(R.layout.child_vaccine_row, null);
+            ((TextView)v.findViewById(R.id.milestone)).setText(milestone);
+            ((TextView)v.findViewById(R.id.vaccine)).setText(label);
+            ((TextView)v.findViewById(R.id.value)).setText(vaccineDate);
+            v.findViewById(R.id.status).setBackgroundColor(StringUtils.isBlank(color)?Color.WHITE:Color.parseColor(color));
+
+            table.addView(v);
+        }
     }
 
     private static DateTime getReceivedDate(Map<String, String> received, Vaccine v){
@@ -343,7 +406,41 @@ public class VaccinatorUtils {
 
             schedule.add(m);
         }
+
         return schedule;
+    }
+
+    public static final Comparator<Map<String, ?>> VACCINE_SCHEDULE_COMPARATOR = new Comparator<Map<String, ?>>() {
+        @Override
+        public int compare(Map<String, ?> lhs, Map<String, ?> rhs) {
+            Vaccine v1 = (Vaccine) lhs.get("vaccine");
+            Vaccine v2 = (Vaccine) rhs.get("vaccine");
+            if (v1.milestoneGapDays() == v2.milestoneGapDays()) return 0;
+            if (v1.milestoneGapDays() > v2.milestoneGapDays()) return 1;
+
+            return -1;
+        }
+    };
+
+    public static Map<String, ?> getVaccination(List<Map<String, Object>> sch, Vaccine vaccine){
+        for (Map<String, ?> m : sch){
+            if (((Vaccine)m.get("vaccine")).name().equalsIgnoreCase(vaccine.name())){
+                return m;
+            }
+        }
+        return null;
+    }
+
+    public static void addVaccineRow(Activity activity, TableLayout parent, String milestone, List<Map<String, Object>> schedule, Utils.Size size, Vaccine... vaccines){
+        if(size.equals(Utils.Size.MEDIUM)){
+            int i = 0;
+            for (Vaccine vac: vaccines) {
+                Map<String, ?> map = getVaccination(schedule, vac);
+                addVaccineDetail(activity, parent, map.get("status").toString(), i==0?milestone:" ",
+                        ((VaccineRepo.Vaccine)map.get("vaccine")).display(), map.get("date")==null?null:((DateTime)map.get("date")).toString("yyyy-MM-dd"), (Alert)map.get("alert"), Utils.Size.MEDIUM);
+                i++;
+            }
+        }
     }
 
     private static Map<String, Object> createVaccineMap(String status, Alert a, DateTime date, Vaccine v){

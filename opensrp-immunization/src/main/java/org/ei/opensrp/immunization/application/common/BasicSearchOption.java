@@ -22,6 +22,10 @@ public class BasicSearchOption implements SearchFilterOption {
     private String filter;
     private final Type type;
 
+    public String getFilter(){
+        return filter;
+    }
+
     public BasicSearchOption(String filter, Type type){
         this.filter = filter;
         this.type = type;

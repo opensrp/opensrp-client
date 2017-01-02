@@ -2,6 +2,7 @@ package org.ei.opensrp.immunization.field;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import org.ei.opensrp.cursoradapter.SmartRegisterCursorBuilder;
 import org.ei.opensrp.cursoradapter.SmartRegisterPaginatedCursorAdapter;
 import org.ei.opensrp.immunization.application.common.DateSort;
 import org.ei.opensrp.immunization.application.common.ReportFilterOption;
+import org.ei.opensrp.immunization.domain.ReportType;
 import org.ei.opensrp.util.VaccinatorUtils;
 import org.ei.opensrp.immunization.R;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
@@ -34,6 +36,7 @@ import org.ei.opensrp.view.template.SmartRegisterSecuredActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.view.View.TEXT_ALIGNMENT_CENTER;
 
@@ -247,7 +250,7 @@ public class FieldMonitorRegisterFragment extends SecuredNativeSmartRegisterFrag
         setCurrentSearchFilter(new ReportFilterOption(""));
         return new SmartRegisterPaginatedCursorAdapter(getActivity(),
                 new SmartRegisterCursorBuilder("stock", "report='monthly'",
-                        "t", customColumnsMonthly.toArray(new String[]{}), (CursorSortOption) getDefaultOptionsProvider().sortOption(), "")
+                        "t", customColumnsMonthly.toArray(new String[]{}), (CursorSortOption) getDefaultOptionsProvider().sortOption(), "").limit(10)
                 , clientsProvider(), SmartRegisterCursorBuilder.DB.DRISHTI);
     }
 
@@ -267,7 +270,7 @@ public class FieldMonitorRegisterFragment extends SecuredNativeSmartRegisterFrag
                         DetailActivity.startDetailActivity(getActivity(), (CommonPersonObjectClient) view.getTag(R.id.client_details_tag), FieldMonitorDailyDetailActivity.class);
                     }
                     else {
-                        ((SmartRegisterSecuredActivity) getActivity()).showDetailFragment((CommonPersonObjectClient) view.getTag(), false);
+                        ((SmartRegisterSecuredActivity) getActivity()).showDetailFragment((CommonPersonObjectClient) view.getTag(), false, null);
                     }
                     break;
             }

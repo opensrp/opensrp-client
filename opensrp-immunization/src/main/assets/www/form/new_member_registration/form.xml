@@ -4,309 +4,312 @@
   <h3 id="form-title">نئے فرد کے اندراج کا فارم - New Member Registration Form</h3>
   <select data-default-lang="en" id="form-languages">
     <option value="Roman Urdu">Roman Urdu</option> <option value="en">English</option> </select>        <label class="note non-select ">
-    <span class="question-label " data-itext-id="/new_member_registration_form/provider_location_note:label" lang="Roman Urdu">Shehr: <span class="or-output" data-value=" /new_member_registration_form/provider_city ">            </span> ; Town: <span class="or-output" data-value=" /new_member_registration_form/provider_town ">            </span> ; UC: <span class="or-output" data-value=" /new_member_registration_form/provider_uc ">            </span> ; Center ka naam: <span class="or-output" data-value=" /new_member_registration_form/provider_location_name ">            </span>
+  <span class="question-label " data-itext-id="/new_member_registration_form/provider_location_note:label" lang="Roman Urdu">Shehr: <span class="or-output" data-value=" /new_member_registration_form/provider_city ">            </span> ; Town: <span class="or-output" data-value=" /new_member_registration_form/provider_town ">            </span> ; UC: <span class="or-output" data-value=" /new_member_registration_form/provider_uc ">            </span> ; Center ka naam: <span class="or-output" data-value=" /new_member_registration_form/provider_location_name ">            </span>
+  </span>
+  <span class="question-label active" data-itext-id="/new_member_registration_form/provider_location_note:label" lang="en">City: <span class="or-output" data-value=" /new_member_registration_form/provider_city ">            </span> ; Town: <span class="or-output" data-value=" /new_member_registration_form/provider_town ">            </span> ; UC: <span class="or-output" data-value=" /new_member_registration_form/provider_uc ">            </span> ; Center Name: <span class="or-output" data-value=" /new_member_registration_form/provider_location_name ">            </span>
+  </span>
+  <input data-type-xml="string" name="/new_member_registration_form/provider_location_note" readonly="readonly" type="text"/>
+</label>    <label class="note non-select ">
+  <span class="question-label " data-itext-id="/new_member_registration_form/household_id_note:label" lang="Roman Urdu">Gharaane ki ID: <span class="or-output" data-value=" /new_member_registration_form/household_id ">            </span>
+  </span>
+  <span class="question-label active" data-itext-id="/new_member_registration_form/household_id_note:label" lang="en">Household ID : <span class="or-output" data-value=" /new_member_registration_form/household_id ">            </span>
+  </span>
+  <input data-type-xml="string" name="/new_member_registration_form/household_id_note" readonly="readonly" type="text"/>
+</label>    <label class="note non-select ">
+  <span class="question-label " data-itext-id="/new_member_registration_form/name_hhh:label" lang="Roman Urdu">Khandan kay sarbarah k naam: <span class="or-output" data-value=" /new_member_registration_form/existing_full_name_hhh ">            </span>
+  </span>
+  <span class="question-label active" data-itext-id="/new_member_registration_form/name_hhh:label" lang="en">Household Head Name: <span class="or-output" data-value=" /new_member_registration_form/existing_full_name_hhh ">            </span>
+  </span>
+  <input data-type-xml="string" name="/new_member_registration_form/name_hhh" readonly="readonly" type="text"/>
+</label>    <label class="note non-select ">
+  <span class="question-label " data-itext-id="/new_member_registration_form/address:label" lang="Roman Urdu">Mojooda pata: <span class="or-output" data-value=" /new_member_registration_form/existing_full_address ">            </span>
+  </span>
+  <span class="question-label active" data-itext-id="/new_member_registration_form/address:label" lang="en">Current Address: <span class="or-output" data-value=" /new_member_registration_form/existing_full_address ">            </span>
+  </span>
+  <input data-type-xml="string" name="/new_member_registration_form/address" readonly="readonly" type="text"/>
+</label>    <section class="or-group " name="/new_member_registration_form/individual">
+  <h4>
+    <span class="question-label " data-itext-id="/new_member_registration_form/individual:label" lang="Roman Urdu">Fard ki tafseelat</span>
+    <span class="question-label active" data-itext-id="/new_member_registration_form/individual:label" lang="en">Member details</span>
+  </h4>
+  <label class="note or-branch pre-init non-select ">
+    <span class="question-label " data-itext-id="/new_member_registration_form/individual/program_client_id_note:label" lang="Roman Urdu">Program Client ID: <span class="or-output" data-value=" /new_member_registration_form/household_id ">            </span>
     </span>
-    <span class="question-label active" data-itext-id="/new_member_registration_form/provider_location_note:label" lang="en">City: <span class="or-output" data-value=" /new_member_registration_form/provider_city ">            </span> ; Town: <span class="or-output" data-value=" /new_member_registration_form/provider_town ">            </span> ; UC: <span class="or-output" data-value=" /new_member_registration_form/provider_uc ">            </span> ; Center Name: <span class="or-output" data-value=" /new_member_registration_form/provider_location_name ">            </span>
+    <span class="question-label active" data-itext-id="/new_member_registration_form/individual/program_client_id_note:label" lang="en">Program Client ID: <span class="or-output" data-value=" /new_member_registration_form/individual/program_client_id ">            </span>
     </span>
-    <input data-type-xml="string" name="/new_member_registration_form/provider_location_note" readonly="readonly" type="text"/>
-  </label>    <label class="note non-select ">
-    <span class="question-label " data-itext-id="/new_member_registration_form/household_id_note:label" lang="Roman Urdu">Gharaane ki ID: <span class="or-output" data-value=" /new_member_registration_form/household_id ">            </span>
-    </span>
-    <span class="question-label active" data-itext-id="/new_member_registration_form/household_id_note:label" lang="en">Household ID : <span class="or-output" data-value=" /new_member_registration_form/household_id ">            </span>
-    </span>
-    <input data-type-xml="string" name="/new_member_registration_form/household_id_note" readonly="readonly" type="text"/>
-  </label>    <label class="note non-select ">
-    <span class="question-label " data-itext-id="/new_member_registration_form/name_hhh:label" lang="Roman Urdu">Khandan kay sarbarah k naam: <span class="or-output" data-value=" /new_member_registration_form/existing_full_name_hhh ">            </span>
-    </span>
-    <span class="question-label active" data-itext-id="/new_member_registration_form/name_hhh:label" lang="en">Household Head Name: <span class="or-output" data-value=" /new_member_registration_form/existing_full_name_hhh ">            </span>
-    </span>
-    <input data-type-xml="string" name="/new_member_registration_form/name_hhh" readonly="readonly" type="text"/>
-  </label>    <label class="note non-select ">
-    <span class="question-label " data-itext-id="/new_member_registration_form/address:label" lang="Roman Urdu">Mojooda pata: <span class="or-output" data-value=" /new_member_registration_form/existing_full_address ">            </span>
-    </span>
-    <span class="question-label active" data-itext-id="/new_member_registration_form/address:label" lang="en">Current Address: <span class="or-output" data-value=" /new_member_registration_form/existing_full_address ">            </span>
-    </span>
-    <input data-type-xml="string" name="/new_member_registration_form/address" readonly="readonly" type="text"/>
-  </label>    <section class="or-group " name="/new_member_registration_form/individual">
-    <h4>
-      <span class="question-label " data-itext-id="/new_member_registration_form/individual:label" lang="Roman Urdu">Fard ki tafseelat</span>
-      <span class="question-label active" data-itext-id="/new_member_registration_form/individual:label" lang="en">Member details</span>
-    </h4>
-    <label class="note or-branch pre-init non-select ">
-      <span class="question-label " data-itext-id="/new_member_registration_form/individual/program_client_id_note:label" lang="Roman Urdu">Program Client ID: <span class="or-output" data-value=" /new_member_registration_form/household_id ">            </span>
-      </span>
-      <span class="question-label active" data-itext-id="/new_member_registration_form/individual/program_client_id_note:label" lang="en">Program Client ID: <span class="or-output" data-value=" /new_member_registration_form/individual/program_client_id ">            </span>
-      </span>
-      <input data-relevant=" /new_member_registration_form/existing_program_client_id  != ''" data-type-xml="string" name="/new_member_registration_form/individual/program_client_id_note" readonly="readonly" required="required" type="text"/>
-    </label>
-    <label class="question non-select ">
-      <span class="or-constraint-msg " data-itext-id="/new_member_registration_form/individual/first_name:jr:constraintMsg" lang="Roman Urdu">Naam 3-30 huroof par mushtamil hona chahyay kisi makhsoo harf ki bagahir. Iskay ilawa sirf [. - space] hosaktay hen</span>
-      <span class="or-constraint-msg active" data-itext-id="/new_member_registration_form/individual/first_name:jr:constraintMsg" lang="en">Name should contain only 3-30 alphabets and no special characters. Only allowed [. - space]</span>
-      <span class="question-label " data-itext-id="/new_member_registration_form/individual/first_name:label" lang="Roman Urdu">Naam</span>
-      <span class="question-label active" data-itext-id="/new_member_registration_form/individual/first_name:label" lang="en">Name</span>
-      <span class="required">*</span>
-      <input data-constraint="regex(., '^[\s\.\-a-zA-Z]{3,30}$')" data-type-xml="string" name="/new_member_registration_form/individual/first_name" required="required" type="text"/>
-    </label>
-    <fieldset class="question ">
-      <fieldset>
-        <legend>
-          <span class="question-label " data-itext-id="/new_member_registration_form/individual/gender:label" lang="Roman Urdu">Jins</span>
-          <span class="question-label active" data-itext-id="/new_member_registration_form/individual/gender:label" lang="en">Gender</span>
-          <span class="required">*</span>                    </legend>
-        <div class="option-wrapper">
-          <label class="">
-            <input data-name="/new_member_registration_form/individual/gender" data-type-xml="select1" name="/new_member_registration_form/individual/gender" required="required" type="radio" value="male"/>
-            <span class="option-label " data-itext-id="/new_member_registration_form/individual/gender/male:label" lang="Roman Urdu">Mard/larka</span>
-            <span class="option-label active" data-itext-id="/new_member_registration_form/individual/gender/male:label" lang="en">Male</span>
-          </label>
-          <label class="">
-            <input data-name="/new_member_registration_form/individual/gender" data-type-xml="select1" name="/new_member_registration_form/individual/gender" required="required" type="radio" value="female"/>
-            <span class="option-label " data-itext-id="/new_member_registration_form/individual/gender/female:label" lang="Roman Urdu">Aurat/larki</span>
-            <span class="option-label active" data-itext-id="/new_member_registration_form/individual/gender/female:label" lang="en">Female</span>
-          </label>
-          <label class="">
-            <input data-name="/new_member_registration_form/individual/gender" data-type-xml="select1" name="/new_member_registration_form/individual/gender" required="required" type="radio" value="transgender"/>
-            <span class="option-label " data-itext-id="/new_member_registration_form/individual/gender/transgender:label" lang="Roman Urdu">Khwaja sira</span>
-            <span class="option-label active" data-itext-id="/new_member_registration_form/individual/gender/transgender:label" lang="en">Transgender</span>
-          </label>
-        </div>
-      </fieldset>
-    </fieldset>
-    <fieldset class="question ">
-      <fieldset>
-        <legend>
-          <span class="question-label " data-itext-id="/new_member_registration_form/individual/birth_date_known:label" lang="Roman Urdu">Kya tareekh-e-pedaaish maloom hai?</span>
-          <span class="question-label active" data-itext-id="/new_member_registration_form/individual/birth_date_known:label" lang="en">Is birthdate known?</span>
-          <span class="required">*</span>                    </legend>
-        <div class="option-wrapper">
-          <label class="">
-            <input data-name="/new_member_registration_form/individual/birth_date_known" data-type-xml="select1" name="/new_member_registration_form/individual/birth_date_known" required="required" type="radio" value="yes"/>
-            <span class="option-label " data-itext-id="/new_member_registration_form/individual/birth_date_known/yes:label" lang="Roman Urdu">Haan</span>
-            <span class="option-label active" data-itext-id="/new_member_registration_form/individual/birth_date_known/yes:label" lang="en">Yes</span>
-          </label>
-          <label class="">
-            <input data-name="/new_member_registration_form/individual/birth_date_known" data-type-xml="select1" name="/new_member_registration_form/individual/birth_date_known" required="required" type="radio" value="no"/>
-            <span class="option-label " data-itext-id="/new_member_registration_form/individual/birth_date_known/no:label" lang="Roman Urdu">Nahi</span>
-            <span class="option-label active" data-itext-id="/new_member_registration_form/individual/birth_date_known/no:label" lang="en">No</span>
-          </label>
-        </div>
-      </fieldset>
-    </fieldset>
-    <label class="question or-branch pre-init non-select ">
-      <span class="or-constraint-msg " data-itext-id="/new_member_registration_form/individual/birth_date:jr:constraintMsg" lang="Roman Urdu">Umr 0-160 saal kay darmiyan honi chahyay</span>
-      <span class="or-constraint-msg active" data-itext-id="/new_member_registration_form/individual/birth_date:jr:constraintMsg" lang="en">Age must be between 0-160 years</span>
-      <span class="question-label " data-itext-id="/new_member_registration_form/individual/birth_date:label" lang="Roman Urdu">Tareekh-e-pedaaish</span>
-      <span class="question-label active" data-itext-id="/new_member_registration_form/individual/birth_date:label" lang="en">Birth date</span>
-      <span class="required">*</span>
-      <input data-constraint=".&lt;= /new_member_registration_form/today  and int(( /new_member_registration_form/today  - .) div 365) &lt; 160" data-relevant="contains( /new_member_registration_form/individual/birth_date_known , 'yes')" data-type-xml="date" name="/new_member_registration_form/individual/birth_date" required="required" type="date"/>
-    </label>
-    <label class="question or-branch pre-init non-select ">
-      <span class="or-constraint-msg " data-itext-id="/new_member_registration_form/individual/age:jr:constraintMsg" lang="Roman Urdu">Umr 0-160 saal kay darmiyan honi chahyay</span>
-      <span class="or-constraint-msg active" data-itext-id="/new_member_registration_form/individual/age:jr:constraintMsg" lang="en">Age must be between 0-160 years</span>
-      <span class="question-label " data-itext-id="/new_member_registration_form/individual/age:label" lang="Roman Urdu">Umr</span>
-      <span class="question-label active" data-itext-id="/new_member_registration_form/individual/age:label" lang="en">Age</span>
-      <span class="required">*</span>
-      <input data-constraint=".&lt;=160 and .&gt;=0" data-relevant="contains( /new_member_registration_form/individual/birth_date_known , 'no')" data-type-xml="int" name="/new_member_registration_form/individual/age" required="required" type="number"/>
-    </label>
-    <fieldset class="question or-branch pre-init ">
-      <fieldset>
-        <legend>
-          <span class="question-label " data-itext-id="/new_member_registration_form/individual/age_unit:label" lang="Roman Urdu">Umr</span>
-          <span class="question-label active" data-itext-id="/new_member_registration_form/individual/age_unit:label" lang="en">Age</span>
-          <span class="required">*</span>                    </legend>
-        <div class="option-wrapper">
-          <label class="">
-            <input data-name="/new_member_registration_form/individual/age_unit" data-relevant="contains( /new_member_registration_form/individual/birth_date_known , 'no')" data-type-xml="select1" name="/new_member_registration_form/individual/age_unit" required="required" type="radio" value="365"/>
-            <span class="option-label " data-itext-id="/new_member_registration_form/individual/age_unit/365:label" lang="Roman Urdu">Saal</span>
-            <span class="option-label active" data-itext-id="/new_member_registration_form/individual/age_unit/365:label" lang="en">Years</span>
-          </label>
-          <label class="">
-            <input data-name="/new_member_registration_form/individual/age_unit" data-relevant="contains( /new_member_registration_form/individual/birth_date_known , 'no')" data-type-xml="select1" name="/new_member_registration_form/individual/age_unit" required="required" type="radio" value="30"/>
-            <span class="option-label " data-itext-id="/new_member_registration_form/individual/age_unit/30:label" lang="Roman Urdu">Mahinay</span>
-            <span class="option-label active" data-itext-id="/new_member_registration_form/individual/age_unit/30:label" lang="en">Months</span>
-          </label>
-          <label class="">
-            <input data-name="/new_member_registration_form/individual/age_unit" data-relevant="contains( /new_member_registration_form/individual/birth_date_known , 'no')" data-type-xml="select1" name="/new_member_registration_form/individual/age_unit" required="required" type="radio" value="7"/>
-            <span class="option-label " data-itext-id="/new_member_registration_form/individual/age_unit/7:label" lang="Roman Urdu">Haftay</span>
-            <span class="option-label active" data-itext-id="/new_member_registration_form/individual/age_unit/7:label" lang="en">Weeks</span>
-          </label>
-          <label class="">
-            <input data-name="/new_member_registration_form/individual/age_unit" data-relevant="contains( /new_member_registration_form/individual/birth_date_known , 'no')" data-type-xml="select1" name="/new_member_registration_form/individual/age_unit" required="required" type="radio" value="1"/>
-            <span class="option-label " data-itext-id="/new_member_registration_form/individual/age_unit/1:label" lang="Roman Urdu">Din</span>
-            <span class="option-label active" data-itext-id="/new_member_registration_form/individual/age_unit/1:label" lang="en">Days</span>
-          </label>
-        </div>
-      </fieldset>
-    </fieldset>
-    <label class="note non-select ">
-      <span class="question-label " data-itext-id="/new_member_registration_form/individual/birth_date_note:label" lang="Roman Urdu">Tareekh-e-pedaaish: <span class="or-output" data-value=" /new_member_registration_form/individual/dob ">            </span> (<span class="or-output" data-value=" /new_member_registration_form/individual/calc_age ">            </span> saal)</span>
-      <span class="question-label active" data-itext-id="/new_member_registration_form/individual/birth_date_note:label" lang="en">Date of Birth: <span class="or-output" data-value=" /new_member_registration_form/individual/dob ">            </span> (<span class="or-output" data-value=" /new_member_registration_form/individual/calc_age ">            </span> years)</span>
-      <input data-type-xml="string" name="/new_member_registration_form/individual/birth_date_note" readonly="readonly" type="text"/>
-    </label>
-    <label class="note non-select ">
-      <span class="question-label " data-itext-id="/new_member_registration_form/individual/household_member_id_note:label" lang="Roman Urdu">Household Member ID : <span class="or-output" data-value=" /new_member_registration_form/individual/household_member_id ">            </span>
-      </span>
-      <span class="question-label active" data-itext-id="/new_member_registration_form/individual/household_member_id_note:label" lang="en">Household Member ID : <span class="or-output" data-value=" /new_member_registration_form/individual/household_member_id ">            </span>
-      </span>
-      <input data-type-xml="string" name="/new_member_registration_form/individual/household_member_id_note" readonly="readonly" type="text"/>
-    </label>
-    <label class="question non-select ">
-      <span class="or-constraint-msg " data-itext-id="/new_member_registration_form/individual/contact_phone_number:jr:constraintMsg" lang="Roman Urdu">Phone number 11 hindason par mushtamil aur mundarja zail shakal main hona chahiey: 03*********</span>
-      <span class="or-constraint-msg active" data-itext-id="/new_member_registration_form/individual/contact_phone_number:jr:constraintMsg" lang="en">Phone number should be 11 digits in the following format: 03*********</span>
-      <span class="question-label " data-itext-id="/new_member_registration_form/individual/contact_phone_number:label" lang="Roman Urdu">Mobile phone number:</span>
-      <span class="question-label active" data-itext-id="/new_member_registration_form/individual/contact_phone_number:label" lang="en">Mobile phone number:</span>
-      <input data-constraint="regex(., '^03[0-9]{9}$')" data-type-xml="string" name="/new_member_registration_form/individual/contact_phone_number" type="text"/>
-    </label>
-    <label class="question or-appearance-minimal ">
-      <span class="question-label " data-itext-id="/new_member_registration_form/individual/ethnicity:label" lang="Roman Urdu">Qomiat</span>
-      <span class="question-label active" data-itext-id="/new_member_registration_form/individual/ethnicity:label" lang="en">Ethnicity</span>
-      <span class="required">*</span>
-      <select data-name="/new_member_registration_form/individual/ethnicity" data-type-xml="select1" name="/new_member_registration_form/individual/ethnicity" required="required">
-        <option value="">...</option>
-        <option value="sindhi">Sindhi</option>
-        <option value="muhajir">Muhajir</option>
-        <option value="punjabi">Punjabi</option>
-        <option value="pushtuns">Pushtun</option>
-        <option value="saraiki">Saraiki</option>
-        <option value="balochi">Balochi</option>
-        <option value="other">Other</option>
-      </select>
-      <span class="or-option-translations" style="display:none;">
-        <span data-option-value="sindhi" lang="Roman Urdu">Sindhi</span>
-        <span data-option-value="sindhi" lang="en">Sindhi</span>
-        <span data-option-value="muhajir" lang="Roman Urdu">Muhajir</span>
-        <span data-option-value="muhajir" lang="en">Muhajir</span>
-        <span data-option-value="punjabi" lang="Roman Urdu">Punjabi</span>
-        <span data-option-value="punjabi" lang="en">Punjabi</span>
-        <span data-option-value="pushtuns" lang="Roman Urdu">Pushtun</span>
-        <span data-option-value="pushtuns" lang="en">Pushtun</span>
-        <span data-option-value="saraiki" lang="Roman Urdu">Saraiki</span>
-        <span data-option-value="saraiki" lang="en">Saraiki</span>
-        <span data-option-value="balochi" lang="Roman Urdu">Balochi</span>
-        <span data-option-value="balochi" lang="en">Balochi</span>
-        <span data-option-value="other" lang="Roman Urdu">Deegar</span>
-        <span data-option-value="other" lang="en">Other</span>                </span>
-    </label>
-    <label class="question or-branch pre-init non-select ">
-      <span class="question-label " data-itext-id="/new_member_registration_form/individual/ethnicity_other:label" lang="Roman Urdu">Wazaahat karain</span>
-      <span class="question-label active" data-itext-id="/new_member_registration_form/individual/ethnicity_other:label" lang="en">Please specify:</span>
-      <span class="required">*</span>
-      <input data-relevant="contains( /new_member_registration_form/individual/ethnicity , 'other')" data-type-xml="string" name="/new_member_registration_form/individual/ethnicity_other" required="required" type="text"/>
-    </label>            </section>
-  <!--end of group -->    <label class="question or-appearance-minimal ">
-    <span class="question-label " data-itext-id="/new_member_registration_form/relationship:label" lang="Roman Urdu">Sarbarah ke saath rishta</span>
-    <span class="question-label active" data-itext-id="/new_member_registration_form/relationship:label" lang="en">Relationship with head of household</span>
+    <input data-relevant=" /new_member_registration_form/existing_program_client_id  != ''" data-type-xml="string" name="/new_member_registration_form/individual/program_client_id_note" readonly="readonly" required="required" type="text"/>
+  </label>
+  <label class="question non-select ">
+    <span class="or-constraint-msg " data-itext-id="/new_member_registration_form/individual/first_name:jr:constraintMsg" lang="Roman Urdu">Naam 3-30 huroof par mushtamil hona chahyay kisi makhsoo harf ki bagahir. Iskay ilawa sirf [. - space] hosaktay hen</span>
+    <span class="or-constraint-msg active" data-itext-id="/new_member_registration_form/individual/first_name:jr:constraintMsg" lang="en">Name should contain only 3-30 alphabets and no special characters. Only allowed [. - space]</span>
+    <span class="question-label " data-itext-id="/new_member_registration_form/individual/first_name:label" lang="Roman Urdu">Naam</span>
+    <span class="question-label active" data-itext-id="/new_member_registration_form/individual/first_name:label" lang="en">Name</span>
     <span class="required">*</span>
-    <select data-name="/new_member_registration_form/relationship" data-type-xml="select1" name="/new_member_registration_form/relationship" required="required">
+    <input data-constraint="regex(., '^[\s\.\-a-zA-Z]{3,30}$')" data-type-xml="string" name="/new_member_registration_form/individual/first_name" required="required" type="text"/>
+  </label>
+  <fieldset class="question ">
+    <fieldset>
+      <legend>
+        <span class="question-label " data-itext-id="/new_member_registration_form/individual/gender:label" lang="Roman Urdu">Jins</span>
+        <span class="question-label active" data-itext-id="/new_member_registration_form/individual/gender:label" lang="en">Gender</span>
+        <span class="required">*</span>                    </legend>
+      <div class="option-wrapper">
+        <label class="">
+          <input data-name="/new_member_registration_form/individual/gender" data-type-xml="select1" name="/new_member_registration_form/individual/gender" required="required" type="radio" value="male"/>
+          <span class="option-label " data-itext-id="/new_member_registration_form/individual/gender/male:label" lang="Roman Urdu">Mard/larka</span>
+          <span class="option-label active" data-itext-id="/new_member_registration_form/individual/gender/male:label" lang="en">Male</span>
+        </label>
+        <label class="">
+          <input data-name="/new_member_registration_form/individual/gender" data-type-xml="select1" name="/new_member_registration_form/individual/gender" required="required" type="radio" value="female"/>
+          <span class="option-label " data-itext-id="/new_member_registration_form/individual/gender/female:label" lang="Roman Urdu">Aurat/larki</span>
+          <span class="option-label active" data-itext-id="/new_member_registration_form/individual/gender/female:label" lang="en">Female</span>
+        </label>
+        <label class="">
+          <input data-name="/new_member_registration_form/individual/gender" data-type-xml="select1" name="/new_member_registration_form/individual/gender" required="required" type="radio" value="transgender"/>
+          <span class="option-label " data-itext-id="/new_member_registration_form/individual/gender/transgender:label" lang="Roman Urdu">Khwaja sira</span>
+          <span class="option-label active" data-itext-id="/new_member_registration_form/individual/gender/transgender:label" lang="en">Transgender</span>
+        </label>
+      </div>
+    </fieldset>
+  </fieldset>
+  <fieldset class="question ">
+    <fieldset>
+      <legend>
+        <span class="question-label " data-itext-id="/new_member_registration_form/individual/birth_date_known:label" lang="Roman Urdu">Kya tareekh-e-pedaaish maloom hai?</span>
+        <span class="question-label active" data-itext-id="/new_member_registration_form/individual/birth_date_known:label" lang="en">Is birthdate known?</span>
+        <span class="required">*</span>                    </legend>
+      <div class="option-wrapper">
+        <label class="">
+          <input data-name="/new_member_registration_form/individual/birth_date_known" data-type-xml="select1" name="/new_member_registration_form/individual/birth_date_known" required="required" type="radio" value="yes"/>
+          <span class="option-label " data-itext-id="/new_member_registration_form/individual/birth_date_known/yes:label" lang="Roman Urdu">Haan</span>
+          <span class="option-label active" data-itext-id="/new_member_registration_form/individual/birth_date_known/yes:label" lang="en">Yes</span>
+        </label>
+        <label class="">
+          <input data-name="/new_member_registration_form/individual/birth_date_known" data-type-xml="select1" name="/new_member_registration_form/individual/birth_date_known" required="required" type="radio" value="no"/>
+          <span class="option-label " data-itext-id="/new_member_registration_form/individual/birth_date_known/no:label" lang="Roman Urdu">Nahi</span>
+          <span class="option-label active" data-itext-id="/new_member_registration_form/individual/birth_date_known/no:label" lang="en">No</span>
+        </label>
+      </div>
+    </fieldset>
+  </fieldset>
+  <label class="question or-branch pre-init non-select ">
+    <span class="or-constraint-msg " data-itext-id="/new_member_registration_form/individual/birth_date:jr:constraintMsg" lang="Roman Urdu">Umr 0-160 saal kay darmiyan honi chahyay</span>
+    <span class="or-constraint-msg active" data-itext-id="/new_member_registration_form/individual/birth_date:jr:constraintMsg" lang="en">Age must be between 0-160 years</span>
+    <span class="question-label " data-itext-id="/new_member_registration_form/individual/birth_date:label" lang="Roman Urdu">Tareekh-e-pedaaish</span>
+    <span class="question-label active" data-itext-id="/new_member_registration_form/individual/birth_date:label" lang="en">Birth date</span>
+    <span class="required">*</span>
+    <input data-constraint=".&lt;= /new_member_registration_form/today  and int(( /new_member_registration_form/today  - .) div 365) &lt; 160" data-relevant="contains( /new_member_registration_form/individual/birth_date_known , 'yes')" data-type-xml="date" name="/new_member_registration_form/individual/birth_date" required="required" type="date"/>
+  </label>
+  <label class="question or-branch pre-init non-select ">
+    <span class="or-constraint-msg " data-itext-id="/new_member_registration_form/individual/age:jr:constraintMsg" lang="Roman Urdu">Umr 0-160 saal kay darmiyan honi chahyay</span>
+    <span class="or-constraint-msg active" data-itext-id="/new_member_registration_form/individual/age:jr:constraintMsg" lang="en">Age must be between 0-160 years</span>
+    <span class="question-label " data-itext-id="/new_member_registration_form/individual/age:label" lang="Roman Urdu">Umr</span>
+    <span class="question-label active" data-itext-id="/new_member_registration_form/individual/age:label" lang="en">Age</span>
+    <span class="required">*</span>
+    <input data-constraint=".&lt;=160 and .&gt;=0" data-relevant="contains( /new_member_registration_form/individual/birth_date_known , 'no')" data-type-xml="int" name="/new_member_registration_form/individual/age" required="required" type="number"/>
+  </label>
+  <fieldset class="question or-branch pre-init ">
+    <fieldset>
+      <legend>
+        <span class="question-label " data-itext-id="/new_member_registration_form/individual/age_unit:label" lang="Roman Urdu">Umr</span>
+        <span class="question-label active" data-itext-id="/new_member_registration_form/individual/age_unit:label" lang="en">Age</span>
+        <span class="required">*</span>                    </legend>
+      <div class="option-wrapper">
+        <label class="">
+          <input data-name="/new_member_registration_form/individual/age_unit" data-relevant="contains( /new_member_registration_form/individual/birth_date_known , 'no')" data-type-xml="select1" name="/new_member_registration_form/individual/age_unit" required="required" type="radio" value="365"/>
+          <span class="option-label " data-itext-id="/new_member_registration_form/individual/age_unit/365:label" lang="Roman Urdu">Saal</span>
+          <span class="option-label active" data-itext-id="/new_member_registration_form/individual/age_unit/365:label" lang="en">Years</span>
+        </label>
+        <label class="">
+          <input data-name="/new_member_registration_form/individual/age_unit" data-relevant="contains( /new_member_registration_form/individual/birth_date_known , 'no')" data-type-xml="select1" name="/new_member_registration_form/individual/age_unit" required="required" type="radio" value="30"/>
+          <span class="option-label " data-itext-id="/new_member_registration_form/individual/age_unit/30:label" lang="Roman Urdu">Mahinay</span>
+          <span class="option-label active" data-itext-id="/new_member_registration_form/individual/age_unit/30:label" lang="en">Months</span>
+        </label>
+        <label class="">
+          <input data-name="/new_member_registration_form/individual/age_unit" data-relevant="contains( /new_member_registration_form/individual/birth_date_known , 'no')" data-type-xml="select1" name="/new_member_registration_form/individual/age_unit" required="required" type="radio" value="7"/>
+          <span class="option-label " data-itext-id="/new_member_registration_form/individual/age_unit/7:label" lang="Roman Urdu">Haftay</span>
+          <span class="option-label active" data-itext-id="/new_member_registration_form/individual/age_unit/7:label" lang="en">Weeks</span>
+        </label>
+        <label class="">
+          <input data-name="/new_member_registration_form/individual/age_unit" data-relevant="contains( /new_member_registration_form/individual/birth_date_known , 'no')" data-type-xml="select1" name="/new_member_registration_form/individual/age_unit" required="required" type="radio" value="1"/>
+          <span class="option-label " data-itext-id="/new_member_registration_form/individual/age_unit/1:label" lang="Roman Urdu">Din</span>
+          <span class="option-label active" data-itext-id="/new_member_registration_form/individual/age_unit/1:label" lang="en">Days</span>
+        </label>
+      </div>
+    </fieldset>
+  </fieldset>
+  <label class="note non-select ">
+    <span class="question-label " data-itext-id="/new_member_registration_form/individual/birth_date_note:label" lang="Roman Urdu">Tareekh-e-pedaaish: <span class="or-output" data-value=" /new_member_registration_form/individual/dob ">            </span> (<span class="or-output" data-value=" /new_member_registration_form/individual/calc_age ">            </span> saal)</span>
+    <span class="question-label active" data-itext-id="/new_member_registration_form/individual/birth_date_note:label" lang="en">Date of Birth: <span class="or-output" data-value=" /new_member_registration_form/individual/dob ">            </span> (<span class="or-output" data-value=" /new_member_registration_form/individual/calc_age ">            </span> years)</span>
+    <input data-type-xml="string" name="/new_member_registration_form/individual/birth_date_note" readonly="readonly" type="text"/>
+  </label>
+  <label class="note non-select ">
+    <span class="question-label " data-itext-id="/new_member_registration_form/individual/household_member_id_note:label" lang="Roman Urdu">Household Member ID : <span class="or-output" data-value=" /new_member_registration_form/individual/household_member_id ">            </span>
+    </span>
+    <span class="question-label active" data-itext-id="/new_member_registration_form/individual/household_member_id_note:label" lang="en">Household Member ID : <span class="or-output" data-value=" /new_member_registration_form/individual/household_member_id ">            </span>
+    </span>
+    <input data-type-xml="string" name="/new_member_registration_form/individual/household_member_id_note" readonly="readonly" type="text"/>
+  </label>
+  <label class="question non-select ">
+    <span class="or-constraint-msg " data-itext-id="/new_member_registration_form/individual/contact_phone_number:jr:constraintMsg" lang="Roman Urdu">Phone number 11 hindason par mushtamil aur mundarja zail shakal main hona chahiey: 03*********</span>
+    <span class="or-constraint-msg active" data-itext-id="/new_member_registration_form/individual/contact_phone_number:jr:constraintMsg" lang="en">Phone number should be 11 digits in the following format: 03*********</span>
+    <span class="question-label " data-itext-id="/new_member_registration_form/individual/contact_phone_number:label" lang="Roman Urdu">Mobile phone number:</span>
+    <span class="question-label active" data-itext-id="/new_member_registration_form/individual/contact_phone_number:label" lang="en">Mobile phone number:</span>
+    <input data-constraint="regex(., '^03[0-9]{9}$')" data-type-xml="string" name="/new_member_registration_form/individual/contact_phone_number" type="text"/>
+  </label>
+  <label class="question or-appearance-minimal ">
+    <span class="question-label " data-itext-id="/new_member_registration_form/individual/ethnicity:label" lang="Roman Urdu">Qomiat</span>
+    <span class="question-label active" data-itext-id="/new_member_registration_form/individual/ethnicity:label" lang="en">Ethnicity</span>
+    <span class="required">*</span>
+    <select data-name="/new_member_registration_form/individual/ethnicity" data-type-xml="select1" name="/new_member_registration_form/individual/ethnicity" required="required">
       <option value="">...</option>
-      <option value="mother">Mother</option>
-      <option value="father">Father</option>
-      <option value="spouse">Spouse</option>
-      <option value="brother">Brother</option>
-      <option value="sister">Sister</option>
-      <option value="son">Son</option>
-      <option value="daughter">Daughter</option>
-      <option value="grandson">Grandchild</option>
-      <option value="uncle">Uncle</option>
-      <option value="aunt">Aunt</option>
-      <option value="cousin">Cousin</option>
-      <option value="nephew_niece">Nephew/Niece</option>
-      <option value="brother_in_law">Brother-in-law</option>
-      <option value="sister_in_law">Sister-in-law</option>
-      <option value="mother_in_law">Mother-in-law</option>
-      <option value="father_in_law">Father-in-law</option>
-      <option value="son_or_daughter_in_law">Son-in-law/Daughter-in-law</option>
-      <option value="maternal_grandmother">Maternal grandmother</option>
-      <option value="paternal_grandmother">Paternal grandmother</option>
-      <option value="maternal_grandfather">Maternal grandfather</option>
-      <option value="paternal_grandfather">Paternal grandfather</option>
+      <option value="sindhi">Sindhi</option>
+      <option value="muhajir">Muhajir</option>
+      <option value="punjabi">Punjabi</option>
+      <option value="pushtuns">Pushtun</option>
+      <option value="saraiki">Saraiki</option>
+      <option value="balochi">Balochi</option>
       <option value="other">Other</option>
     </select>
     <span class="or-option-translations" style="display:none;">
-      <span data-option-value="mother" lang="Roman Urdu">Waalda</span>
-      <span data-option-value="mother" lang="en">Mother</span>
-      <span data-option-value="father" lang="Roman Urdu">Waalid</span>
-      <span data-option-value="father" lang="en">Father</span>
-      <span data-option-value="spouse" lang="Roman Urdu">Shareek-e-hayaat</span>
-      <span data-option-value="spouse" lang="en">Spouse</span>
-      <span data-option-value="brother" lang="Roman Urdu">Bhai</span>
-      <span data-option-value="brother" lang="en">Brother</span>
-      <span data-option-value="sister" lang="Roman Urdu">Behen</span>
-      <span data-option-value="sister" lang="en">Sister</span>
-      <span data-option-value="son" lang="Roman Urdu">Beta</span>
-      <span data-option-value="son" lang="en">Son</span>
-      <span data-option-value="daughter" lang="Roman Urdu">Beti</span>
-      <span data-option-value="daughter" lang="en">Daughter</span>
-      <span data-option-value="grandson" lang="Roman Urdu">Nawasa/Pota/Nawasi/Poti</span>
-      <span data-option-value="grandson" lang="en">Grandchild</span>
-      <span data-option-value="uncle" lang="Roman Urdu">Maamoon/Khaaloo/Phuppa/Chacha/Thaya</span>
-      <span data-option-value="uncle" lang="en">Uncle</span>
-      <span data-option-value="aunt" lang="Roman Urdu">Maami/Khala/Phuppo/Chachi/Thai</span>
-      <span data-option-value="aunt" lang="en">Aunt</span>
-      <span data-option-value="cousin" lang="Roman Urdu">Cousin</span>
-      <span data-option-value="cousin" lang="en">Cousin</span>
-      <span data-option-value="nephew_niece" lang="Roman Urdu">Bhateeja/Bhaanja/Bhateeji/Bhaanji</span>
-      <span data-option-value="nephew_niece" lang="en">Nephew/Niece</span>
-      <span data-option-value="brother_in_law" lang="Roman Urdu">Saala/Bhenoi</span>
-      <span data-option-value="brother_in_law" lang="en">Brother-in-law</span>
-      <span data-option-value="sister_in_law" lang="Roman Urdu">Saali/Bhaabi</span>
-      <span data-option-value="sister_in_law" lang="en">Sister-in-law</span>
-      <span data-option-value="mother_in_law" lang="Roman Urdu">Saas</span>
-      <span data-option-value="mother_in_law" lang="en">Mother-in-law</span>
-      <span data-option-value="father_in_law" lang="Roman Urdu">Susar</span>
-      <span data-option-value="father_in_law" lang="en">Father-in-law</span>
-      <span data-option-value="son_or_daughter_in_law" lang="Roman Urdu">Daamaad/Bahoo</span>
-      <span data-option-value="son_or_daughter_in_law" lang="en">Son-in-law/Daughter-in-law</span>
-      <span data-option-value="maternal_grandmother" lang="Roman Urdu">Naani</span>
-      <span data-option-value="maternal_grandmother" lang="en">Maternal grandmother</span>
-      <span data-option-value="paternal_grandmother" lang="Roman Urdu">Daadi</span>
-      <span data-option-value="paternal_grandmother" lang="en">Paternal grandmother</span>
-      <span data-option-value="maternal_grandfather" lang="Roman Urdu">Daada</span>
-      <span data-option-value="maternal_grandfather" lang="en">Maternal grandfather</span>
-      <span data-option-value="paternal_grandfather" lang="Roman Urdu">Naana</span>
-      <span data-option-value="paternal_grandfather" lang="en">Paternal grandfather</span>
+      <span data-option-value="sindhi" lang="Roman Urdu">Sindhi</span>
+      <span data-option-value="sindhi" lang="en">Sindhi</span>
+      <span data-option-value="muhajir" lang="Roman Urdu">Muhajir</span>
+      <span data-option-value="muhajir" lang="en">Muhajir</span>
+      <span data-option-value="punjabi" lang="Roman Urdu">Punjabi</span>
+      <span data-option-value="punjabi" lang="en">Punjabi</span>
+      <span data-option-value="pushtuns" lang="Roman Urdu">Pushtun</span>
+      <span data-option-value="pushtuns" lang="en">Pushtun</span>
+      <span data-option-value="saraiki" lang="Roman Urdu">Saraiki</span>
+      <span data-option-value="saraiki" lang="en">Saraiki</span>
+      <span data-option-value="balochi" lang="Roman Urdu">Balochi</span>
+      <span data-option-value="balochi" lang="en">Balochi</span>
       <span data-option-value="other" lang="Roman Urdu">Deegar</span>
       <span data-option-value="other" lang="en">Other</span>                </span>
-  </label>    <label class="question or-branch pre-init non-select ">
-    <span class="question-label " data-itext-id="/new_member_registration_form/relationship_other:label" lang="Roman Urdu">Wazaahat karain</span>
-    <span class="question-label active" data-itext-id="/new_member_registration_form/relationship_other:label" lang="en">Please specify:</span>
-    <input data-relevant="selected( /new_member_registration_form/relationship , 'other')" data-type-xml="string" name="/new_member_registration_form/relationship_other" type="text"/>
-  </label>    <label class="note or-branch pre-init non-select ">
-    <span class="question-label " data-itext-id="/new_member_registration_form/note_child:label" lang="Roman Urdu">Ziyada tawajjo-talb fard: Is bachay ki umar teen saal se kam hai</span>
-    <span class="question-label active" data-itext-id="/new_member_registration_form/note_child:label" lang="en">Person requires extra attention: This child is less than 3 years old</span>
-    <input data-relevant=" /new_member_registration_form/is_child ='yes'" data-type-xml="string" name="/new_member_registration_form/note_child" readonly="readonly" type="text"/>
-  </label>    <label class="note or-branch pre-init non-select ">
-    <span class="question-label " data-itext-id="/new_member_registration_form/note_rep_women:label" lang="Roman Urdu">Ziyada tawajjo-talb fard: Is aurat ki umar 15 se 49 ke darmiyaan hai</span>
-    <span class="question-label active" data-itext-id="/new_member_registration_form/note_rep_women:label" lang="en">Person requires extra attention: This woman is of reproductive age</span>
-    <input data-relevant=" /new_member_registration_form/is_rep_woman  = 'yes'" data-type-xml="string" name="/new_member_registration_form/note_rep_women" readonly="readonly" type="text"/>
-  </label>    <label class="question non-select or-appearance-multiline ">
-    <span class="question-label " data-itext-id="/new_member_registration_form/comments:label" lang="Roman Urdu">Tabsarah</span>
-    <span class="question-label active" data-itext-id="/new_member_registration_form/comments:label" lang="en">Comments</span>
-    <textarea data-type-xml="string" name="/new_member_registration_form/comments"> </textarea>
-  </label>  <fieldset id="or-preload-items" style="display:none;">
-    <label class="calculation non-select ">
-      <input data-preload="timestamp" data-preload-params="start" data-type-xml="dateTime" name="/new_member_registration_form/start" type="hidden"/>
-    </label>
-    <label class="calculation non-select ">
-      <input data-preload="timestamp" data-preload-params="end" data-type-xml="dateTime" name="/new_member_registration_form/end" type="hidden"/>
-    </label>
-    <label class="calculation non-select ">
-      <input data-preload="date" data-preload-params="today" data-type-xml="date" name="/new_member_registration_form/today" type="hidden"/>
-    </label>
-    <label class="calculation non-select ">
-      <input data-preload="property" data-preload-params="deviceid" data-type-xml="string" name="/new_member_registration_form/deviceid" type="hidden"/>
-    </label>
-    <label class="calculation non-select ">
-      <input data-preload="property" data-preload-params="subscriberid" data-type-xml="string" name="/new_member_registration_form/subscriberid" type="hidden"/>
-    </label>
-    <label class="calculation non-select ">
-      <input data-preload="property" data-preload-params="simserial" data-type-xml="string" name="/new_member_registration_form/simserial" type="hidden"/>
-    </label>
-    <label class="calculation non-select ">
-      <input data-preload="property" data-preload-params="phonenumber" data-type-xml="string" name="/new_member_registration_form/phonenumber" type="hidden"/>
-    </label>
-  </fieldset>
+  </label>
+  <label class="question or-branch pre-init non-select ">
+    <span class="question-label " data-itext-id="/new_member_registration_form/individual/ethnicity_other:label" lang="Roman Urdu">Wazaahat karain</span>
+    <span class="question-label active" data-itext-id="/new_member_registration_form/individual/ethnicity_other:label" lang="en">Please specify:</span>
+    <span class="required">*</span>
+    <input data-relevant="selected( /new_member_registration_form/individual/ethnicity , 'other')" data-type-xml="string" name="/new_member_registration_form/individual/ethnicity_other" required="required" type="text"/>
+  </label>            </section>
+  <!--end of group -->    <label class="question or-appearance-minimal ">
+  <span class="question-label " data-itext-id="/new_member_registration_form/relationship:label" lang="Roman Urdu">Sarbarah ke saath rishta</span>
+  <span class="question-label active" data-itext-id="/new_member_registration_form/relationship:label" lang="en">Relationship with head of household</span>
+  <span class="required">*</span>
+  <select data-name="/new_member_registration_form/relationship" data-type-xml="select1" name="/new_member_registration_form/relationship" required="required">
+    <option value="">...</option>
+    <option value="mother">Mother</option>
+    <option value="father">Father</option>
+    <option value="spouse">Spouse</option>
+    <option value="brother">Brother</option>
+    <option value="sister">Sister</option>
+    <option value="son">Son</option>
+    <option value="daughter">Daughter</option>
+    <option value="grandchild">Grandchild</option>
+    <option value="uncle">Uncle</option>
+    <option value="aunt">Aunt</option>
+    <option value="cousin">Cousin</option>
+    <option value="nephew_or_niece">Nephew/Niece</option>
+    <option value="brother_in_law">Brother-in-law</option>
+    <option value="sister_in_law">Sister-in-law</option>
+    <option value="mother_in_law">Mother-in-law</option>
+    <option value="father_in_law">Father-in-law</option>
+    <option value="son_or_daughter_in_law">Son-in-law/Daughter-in-law</option>
+    <option value="maternal_grandmother">Maternal grandmother</option>
+    <option value="paternal_grandmother">Paternal grandmother</option>
+    <option value="maternal_grandfather">Maternal grandfather</option>
+    <option value="paternal_grandfather">Paternal grandfather</option>
+    <option value="other">Other</option>
+  </select>
+  <span class="or-option-translations" style="display:none;">
+    <span data-option-value="mother" lang="Roman Urdu">Waalda</span>
+    <span data-option-value="mother" lang="en">Mother</span>
+    <span data-option-value="father" lang="Roman Urdu">Waalid</span>
+    <span data-option-value="father" lang="en">Father</span>
+    <span data-option-value="spouse" lang="Roman Urdu">Shareek-e-hayaat</span>
+    <span data-option-value="spouse" lang="en">Spouse</span>
+    <span data-option-value="brother" lang="Roman Urdu">Bhai</span>
+    <span data-option-value="brother" lang="en">Brother</span>
+    <span data-option-value="sister" lang="Roman Urdu">Behen</span>
+    <span data-option-value="sister" lang="en">Sister</span>
+    <span data-option-value="son" lang="Roman Urdu">Beta</span>
+    <span data-option-value="son" lang="en">Son</span>
+    <span data-option-value="daughter" lang="Roman Urdu">Beti</span>
+    <span data-option-value="daughter" lang="en">Daughter</span>
+    <span data-option-value="grandchild" lang="Roman Urdu">Nawasa/Pota/Nawasi/Poti</span>
+    <span data-option-value="grandchild" lang="en">Grandchild</span>
+    <span data-option-value="uncle" lang="Roman Urdu">Maamoon/Khaaloo/Phuppa/Chacha/Taya</span>
+    <span data-option-value="uncle" lang="en">Uncle</span>
+    <span data-option-value="aunt" lang="Roman Urdu">Maami/Khala/Phuppo/Chachi/Tai</span>
+    <span data-option-value="aunt" lang="en">Aunt</span>
+    <span data-option-value="cousin" lang="Roman Urdu">Cousin</span>
+    <span data-option-value="cousin" lang="en">Cousin</span>
+    <span data-option-value="nephew_or_niece" lang="Roman Urdu">Bhateeja/Bhaanja/Bhateeji/Bhaanji</span>
+    <span data-option-value="nephew_or_niece" lang="en">Nephew/Niece</span>
+    <span data-option-value="brother_in_law" lang="Roman Urdu">Saala/Bhenoi</span>
+    <span data-option-value="brother_in_law" lang="en">Brother-in-law</span>
+    <span data-option-value="sister_in_law" lang="Roman Urdu">Saali/Bhaabi</span>
+    <span data-option-value="sister_in_law" lang="en">Sister-in-law</span>
+    <span data-option-value="mother_in_law" lang="Roman Urdu">Saas</span>
+    <span data-option-value="mother_in_law" lang="en">Mother-in-law</span>
+    <span data-option-value="father_in_law" lang="Roman Urdu">Susar</span>
+    <span data-option-value="father_in_law" lang="en">Father-in-law</span>
+    <span data-option-value="son_or_daughter_in_law" lang="Roman Urdu">Daamaad/Bahoo</span>
+    <span data-option-value="son_or_daughter_in_law" lang="en">Son-in-law/Daughter-in-law</span>
+    <span data-option-value="maternal_grandmother" lang="Roman Urdu">Naani</span>
+    <span data-option-value="maternal_grandmother" lang="en">Maternal grandmother</span>
+    <span data-option-value="paternal_grandmother" lang="Roman Urdu">Daadi</span>
+    <span data-option-value="paternal_grandmother" lang="en">Paternal grandmother</span>
+    <span data-option-value="maternal_grandfather" lang="Roman Urdu">Daada</span>
+    <span data-option-value="maternal_grandfather" lang="en">Maternal grandfather</span>
+    <span data-option-value="paternal_grandfather" lang="Roman Urdu">Naana</span>
+    <span data-option-value="paternal_grandfather" lang="en">Paternal grandfather</span>
+    <span data-option-value="other" lang="Roman Urdu">Deegar</span>
+    <span data-option-value="other" lang="en">Other</span>                </span>
+</label>    <label class="question or-branch pre-init non-select ">
+  <span class="question-label " data-itext-id="/new_member_registration_form/relationship_other:label" lang="Roman Urdu">Wazaahat karain</span>
+  <span class="question-label active" data-itext-id="/new_member_registration_form/relationship_other:label" lang="en">Please specify:</span>
+  <input data-relevant="selected( /new_member_registration_form/relationship , 'other')" data-type-xml="string" name="/new_member_registration_form/relationship_other" type="text"/>
+</label>    <label class="note or-branch pre-init non-select ">
+  <span class="question-label " data-itext-id="/new_member_registration_form/note_child:label" lang="Roman Urdu">Ziyada tawajjo-talb fard: Is bachay ki umar teen saal se kam hai</span>
+  <span class="question-label active" data-itext-id="/new_member_registration_form/note_child:label" lang="en">Person requires extra attention: This child is less than 3 years old</span>
+  <input data-relevant=" /new_member_registration_form/is_child ='yes'" data-type-xml="string" name="/new_member_registration_form/note_child" readonly="readonly" type="text"/>
+</label>    <label class="note or-branch pre-init non-select ">
+  <span class="question-label " data-itext-id="/new_member_registration_form/note_rep_women:label" lang="Roman Urdu">Ziyada tawajjo-talb fard: Is aurat ki umar 15 se 49 ke darmiyaan hai</span>
+  <span class="question-label active" data-itext-id="/new_member_registration_form/note_rep_women:label" lang="en">Person requires extra attention: This woman is of reproductive age</span>
+  <input data-relevant=" /new_member_registration_form/is_rep_woman  = 'yes'" data-type-xml="string" name="/new_member_registration_form/note_rep_women" readonly="readonly" type="text"/>
+</label>    <label class="question non-select or-appearance-multiline ">
+  <span class="question-label " data-itext-id="/new_member_registration_form/comments:label" lang="Roman Urdu">Tabsarah</span>
+  <span class="question-label active" data-itext-id="/new_member_registration_form/comments:label" lang="en">Comments</span>
+  <textarea data-type-xml="string" name="/new_member_registration_form/comments"> </textarea>
+</label>  <fieldset id="or-preload-items" style="display:none;">
+  <label class="calculation non-select ">
+    <input data-preload="timestamp" data-preload-params="start" data-type-xml="dateTime" name="/new_member_registration_form/start" type="hidden"/>
+  </label>
+  <label class="calculation non-select ">
+    <input data-preload="timestamp" data-preload-params="end" data-type-xml="dateTime" name="/new_member_registration_form/end" type="hidden"/>
+  </label>
+  <label class="calculation non-select ">
+    <input data-preload="date" data-preload-params="today" data-type-xml="date" name="/new_member_registration_form/today" type="hidden"/>
+  </label>
+  <label class="calculation non-select ">
+    <input data-preload="property" data-preload-params="deviceid" data-type-xml="string" name="/new_member_registration_form/deviceid" type="hidden"/>
+  </label>
+  <label class="calculation non-select ">
+    <input data-preload="property" data-preload-params="subscriberid" data-type-xml="string" name="/new_member_registration_form/subscriberid" type="hidden"/>
+  </label>
+  <label class="calculation non-select ">
+    <input data-preload="property" data-preload-params="simserial" data-type-xml="string" name="/new_member_registration_form/simserial" type="hidden"/>
+  </label>
+  <label class="calculation non-select ">
+    <input data-preload="property" data-preload-params="phonenumber" data-type-xml="string" name="/new_member_registration_form/phonenumber" type="hidden"/>
+  </label>
+</fieldset>
   <fieldset id="or-calculated-items" style="display:none;">
+    <label class="calculation non-select ">
+      <input data-calculate="if( /new_member_registration_form/existing_num_household_members &gt; /new_member_registration_form/existing_num_members +1 ,  /new_member_registration_form/existing_num_household_members ,  /new_member_registration_form/existing_num_household_members +1)" data-type-xml="string" name="/new_member_registration_form/num_household_members" type="hidden"/>
+    </label>
     <label class="calculation non-select ">
       <input data-calculate=" /new_member_registration_form/today " data-type-xml="string" name="/new_member_registration_form/client_reg_date" type="hidden"/>
     </label>
@@ -320,7 +323,7 @@
       <input data-calculate="if(contains( /new_member_registration_form/individual/birth_date_known , 'yes'), int(( /new_member_registration_form/today  -  /new_member_registration_form/individual/birth_date ) div 365), int(( /new_member_registration_form/individual/age  *  /new_member_registration_form/individual/age_unit ) div 365))" data-type-xml="string" name="/new_member_registration_form/individual/calc_age" type="hidden"/>
     </label>
     <label class="calculation non-select ">
-      <input data-calculate="format-date (date( /new_member_registration_form/today  - int( /new_member_registration_form/individual/age  * 365)), '%Y-%m-%d')" data-type-xml="string" name="/new_member_registration_form/individual/calc_dob" type="hidden"/>
+      <input data-calculate="format-date (date( /new_member_registration_form/today  - int( /new_member_registration_form/individual/age  * 365.25)), '%Y-%m-%d')" data-type-xml="string" name="/new_member_registration_form/individual/calc_dob" type="hidden"/>
     </label>
     <label class="calculation non-select ">
       <input data-calculate="if( /new_member_registration_form/individual/birth_date_known ='yes',  /new_member_registration_form/individual/birth_date ,  /new_member_registration_form/individual/calc_dob )" data-type-xml="string" name="/new_member_registration_form/individual/dob" type="hidden"/>

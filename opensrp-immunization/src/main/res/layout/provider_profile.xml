@@ -52,7 +52,8 @@
             android:layout_marginTop="10dp"
             android:background="@color/background_floating_material_light"
             android:clickable="true"
-            android:elevation="10dp" />
+            android:elevation="10dp"
+            android:layout_marginRight="25dp" />
     </LinearLayout>
 
 </LinearLayout>

@@ -1,22 +1,26 @@
 package org.ei.opensrp.immunization.child;
 
 import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.TextView;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.repository.db.VaccineRepo;
 import org.ei.opensrp.immunization.R;
+import org.ei.opensrp.util.Utils;
 import org.ei.opensrp.view.template.DetailFragment;
 import org.joda.time.DateTime;
 import org.joda.time.Months;
 import org.joda.time.Years;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static org.ei.opensrp.util.VaccinatorUtils.addStatusTag;
+import static org.ei.opensrp.util.Utils.addRow;
+import static org.ei.opensrp.util.VaccinatorUtils.VACCINE_SCHEDULE_COMPARATOR;
 import static org.ei.opensrp.util.VaccinatorUtils.addVaccineDetail;
+import static org.ei.opensrp.util.VaccinatorUtils.addVaccineRow;
 import static org.ei.opensrp.util.VaccinatorUtils.generateSchedule;
 import static org.ei.opensrp.util.Utils.convertDateFormat;
 import static org.ei.opensrp.util.Utils.getDataRow;
@@ -52,7 +56,7 @@ public class ChildDetailFragment extends DetailFragment {
             return R.drawable.child_girl_infant;
         }
         else if(gender.toLowerCase().contains("trans")){
-            return R.drawable.child_transgender_inflant;
+            return R.drawable.child_transgender_infant;
         }
 
         return R.drawable.child_boy_infant;
@@ -76,22 +80,14 @@ public class ChildDetailFragment extends DetailFragment {
     protected void generateView() {
         ((TableLayout) currentView.findViewById(R.id.child_detail_info_table2)).removeAllViews();
         ((TableLayout) currentView.findViewById(R.id.child_detail_info_table1)).removeAllViews();
-        ((TableLayout) currentView.findViewById(R.id.child_vaccine_table1)).removeAllViews();
-        ((TableLayout) currentView.findViewById(R.id.child_vaccine_table2)).removeAllViews();
 
         //BASIC INFORMATION
         TableLayout dt = (TableLayout) currentView.findViewById(R.id.child_detail_info_table1);
 
         //setting value in basic information textviews
-        TableRow tr = getDataRow(getActivity(), "Program ID", getEntityIdentifier(), null);
-        dt.addView(tr);
-
-        tr = getDataRow(getActivity(), "EPI Card Number", getValue(client.getColumnmaps(), "epi_card_number", false), null);
-        dt.addView(tr);
-
-        tr = getDataRow(getActivity(), "Child's Name", getValue(client.getColumnmaps(), "first_name", true)+" "+getValue(client.getColumnmaps(), "last_name", true), null);
-        dt.addView(tr);
-
+        addRow(getActivity(), dt, "Program ID", getEntityIdentifier(), Utils.Size.MEDIUM);
+        addRow(getActivity(), dt, "EPI Card Number", getValue(client.getColumnmaps(), "epi_card_number", false), Utils.Size.MEDIUM);
+        addRow(getActivity(), dt, "Child's Name", getValue(client.getColumnmaps(), "first_name", true)+" "+getValue(client.getColumnmaps(), "last_name", true), Utils.Size.MEDIUM);
         int months = -1;
         try{
             months = Months.monthsBetween(new DateTime(getValue(client.getColumnmaps(), "dob", false)), DateTime.now()).getMonths();
@@ -99,37 +95,27 @@ public class ChildDetailFragment extends DetailFragment {
         catch (Exception e){
             e.printStackTrace();
         }
-        tr = getDataRow(getActivity(), "Birthdate (Age)", convertDateFormat(getValue(client.getColumnmaps(), "dob", false), "No DoB", true) + " (" + (months < 0? "":(months+"")) + " months" + ")", null);
-        dt.addView(tr);
-
-        tr = getDataRow(getActivity(), "Gender", getValue(client.getColumnmaps(), "gender", true), null);
-        dt.addView(tr);
-
-        tr = getDataRow(getActivity(), "Ethnicity", getValue(client, "ethnicity", true), null);
-        dt.addView(tr);
+        addRow(getActivity(), dt, "Birthdate (Age)", convertDateFormat(getValue(client.getColumnmaps(), "dob", false), "No DoB", true) + " (" + (months < 0? "":(months+"")) + " months" + ")", Utils.Size.MEDIUM);
+        addRow(getActivity(), dt, "Gender", getValue(client.getColumnmaps(), "gender", true), Utils.Size.MEDIUM);
+        addRow(getActivity(), dt, "Ethnicity", getValue(client, "ethnicity", true), Utils.Size.MEDIUM);
 
         TableLayout dt2 = (TableLayout) currentView.findViewById(R.id.child_detail_info_table2);
 
-        tr = getDataRow(getActivity(), "Mother's Name", getValue(client.getColumnmaps(), "mother_name", true), null);
-        dt2.addView(tr);
-
-        tr = getDataRow(getActivity(), "Father's Name", getValue(client.getColumnmaps(), "father_name", true), null);
-        dt2.addView(tr);
-
-        tr = getDataRow(getActivity(), "Contact Number", getValue(client.getColumnmaps(), "contact_phone_number", false), null);
-        dt2.addView(tr);
-        tr = getDataRow(getActivity(), "Address", getValue(client.getColumnmaps(), "address1", true)
+        addRow(getActivity(), dt2, "Mother's Name", getValue(client.getColumnmaps(), "mother_name", true), Utils.Size.MEDIUM);
+        addRow(getActivity(), dt2, "Father's Name", getValue(client.getColumnmaps(), "father_name", true), Utils.Size.MEDIUM);
+        addRow(getActivity(), dt2, "Contact Number", getValue(client.getColumnmaps(), "contact_phone_number", false), Utils.Size.MEDIUM);
+        addRow(getActivity(), dt2, "Address", getValue(client.getColumnmaps(), "address1", true)
                 +", \nUC: "+ getValue(client.getColumnmaps(), "union_council", true)
                 +", \nTown: "+ getValue(client.getColumnmaps(), "town", true)
                 +", \nCity: "+ getValue(client, "city_village", true)
-                +", \nProvince: "+ getValue(client, "province", true), null);
-        dt2.addView(tr);
+                +", "+ getValue(client, "province", true), Utils.Size.MEDIUM);
 
         String[] vl = new String[]{"bcg", "opv0", "penta1", "opv1","pcv1", "penta2", "opv2", "pcv2",
                 "penta3", "opv3", "pcv3", "ipv", "measles1", "measles2"};
 
         //VACCINES INFORMATION
-        TableLayout table = null;
+        TableLayout table = (TableLayout) getActivity().findViewById(R.id.vaccine_details);
+        table.removeAllViews();
 
         List<Alert> al = Context.getInstance().alertService().findByEntityIdAndAlertNames(client.entityId(),
                 "BCG", "OPV 0", "Penta 1", "OPV 1", "PCV 1", "Penta 2", "OPV 2", "PCV 2",
@@ -138,14 +124,32 @@ public class ChildDetailFragment extends DetailFragment {
                 "penta3", "opv3", "pcv3", "ipv", "measles1", "measles2");
 
         List<Map<String, Object>> sch = generateSchedule("child", months < 0 ? null:new DateTime(client.getColumnmaps().get("dob")), client.getColumnmaps(), al);
+
+        Collections.sort(sch, VACCINE_SCHEDULE_COMPARATOR);
+
+        addVaccineRow(getActivity(), table, "0  W", sch, Utils.Size.MEDIUM, VaccineRepo.Vaccine.bcg, VaccineRepo.Vaccine.opv0);
+        addVaccineRow(getActivity(), table, "6  W", sch, Utils.Size.MEDIUM, VaccineRepo.Vaccine.penta1, VaccineRepo.Vaccine.opv1, VaccineRepo.Vaccine.pcv1);
+
+        table = (TableLayout) getActivity().findViewById(R.id.vaccine_details2);
+        table.removeAllViews();
+
+        addVaccineRow(getActivity(), table, "10 W", sch, Utils.Size.MEDIUM, VaccineRepo.Vaccine.penta2, VaccineRepo.Vaccine.opv2, VaccineRepo.Vaccine.pcv2);
+
+        table = (TableLayout) getActivity().findViewById(R.id.vaccine_details3);
+        table.removeAllViews();
+
+        addVaccineRow(getActivity(), table, "14 W", sch, Utils.Size.MEDIUM, VaccineRepo.Vaccine.penta3, VaccineRepo.Vaccine.opv3, VaccineRepo.Vaccine.pcv3, VaccineRepo.Vaccine.ipv);
+        addVaccineRow(getActivity(), table, "9  M", sch, Utils.Size.MEDIUM, VaccineRepo.Vaccine.measles1);
+        addVaccineRow(getActivity(), table, "15 M", sch, Utils.Size.MEDIUM, VaccineRepo.Vaccine.measles2);
+
         int i = 0;
         for (Map<String, Object> m : sch){
             if (i <= 7) {
-                table = (TableLayout) currentView.findViewById(R.id.child_vaccine_table1);
+               // table = (TableLayout) currentView.findViewById(R.id.child_vaccine_table1);
             } else {
-                table = (TableLayout) currentView.findViewById(R.id.child_vaccine_table2);
+               // table = (TableLayout) currentView.findViewById(R.id.child_vaccine_table2);
             }
-            addVaccineDetail(getActivity(), table, m.get("status").toString(), (VaccineRepo.Vaccine)m.get("vaccine"), (DateTime)m.get("date"), (Alert)m.get("alert"), true);
+           //todo addVaccineDetail(getActivity(), table, m.get("status").toString(), (VaccineRepo.Vaccine)m.get("vaccine"), (DateTime)m.get("date"), (Alert)m.get("alert"), true);
             i++;
         }
 
@@ -157,14 +161,15 @@ public class ChildDetailFragment extends DetailFragment {
             e.printStackTrace();
         }
 
+        ((TextView)getActivity().findViewById(R.id.childdetail_status_tag)).setText("");
         if(agey < 0){
-            addStatusTag(getActivity(), table, "No DoB", true);
+            ((TextView)getActivity().findViewById(R.id.childdetail_status_tag)).setText("No DoB");
         }
         else if(!hasAnyEmptyValue(client.getColumnmaps(), "_retro", vl)){
-            addStatusTag(getActivity(), table, "Fully Immunized", true);
+            ((TextView)getActivity().findViewById(R.id.childdetail_status_tag)).setText("Fully Immunized");
         }
         else if(agey >= 5 && hasAnyEmptyValue(client.getColumnmaps(), "_retro", vl)){
-            addStatusTag(getActivity(), table, "Partially Immunized", true);
+            ((TextView)getActivity().findViewById(R.id.childdetail_status_tag)).setText("Partially Immunized");
         }
     }
 }

@@ -3,7 +3,6 @@ package org.ei.opensrp.immunization.household;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
@@ -28,12 +27,8 @@ import org.ei.opensrp.cursoradapter.SmartRegisterCursorBuilder;
 import org.ei.opensrp.cursoradapter.SmartRegisterPaginatedCursorAdapter;
 import org.ei.opensrp.immunization.R;
 import org.ei.opensrp.immunization.application.common.VaccinationServiceModeOption;
-import org.ei.opensrp.immunization.child.ChildSmartRegisterActivity;
 import org.ei.opensrp.immunization.handler.HouseholdMemberRegistrationHandler;
-import org.ei.opensrp.immunization.woman.WomanSmartRegisterActivity;
 import org.ei.opensrp.util.VaccinatorUtils;
-import org.ei.opensrp.repository.db.CESQLiteHelper;
-import org.ei.opensrp.repository.db.Client;
 import org.ei.opensrp.util.barcode.Barcode;
 import org.ei.opensrp.util.barcode.BarcodeIntentIntegrator;
 import org.ei.opensrp.util.barcode.BarcodeIntentResult;
@@ -48,8 +43,6 @@ import org.ei.opensrp.view.dialog.SortOption;
 import org.ei.opensrp.view.fragment.SecuredNativeSmartRegisterFragment;
 import org.ei.opensrp.view.template.SmartRegisterClientsProvider;
 import org.ei.opensrp.view.template.SmartRegisterSecuredActivity;
-import org.joda.time.DateTime;
-import org.joda.time.Years;
 
 import java.util.HashMap;
 import java.util.List;
@@ -98,7 +91,7 @@ public class HouseholdSmartRegisterFragment extends SecuredNativeSmartRegisterFr
             public ServiceModeOption serviceMode() {
                 return new VaccinationServiceModeOption(null, "Household Register", new int[]{
                         R.string.household_profile , R.string.household_members, R.string.household_address, R.string.household_contactNumber, R.string.household_add_member
-                }, new int[]{3,2,2,2,2});
+                }, new int[]{6,2,3,2,1});
             }
             @Override
             public FilterOption villageFilter() {
@@ -141,8 +134,11 @@ public class HouseholdSmartRegisterFragment extends SecuredNativeSmartRegisterFr
             @Override
             public DialogOption[] sortingOptions() {
                 return new DialogOption[]{
-                        new CursorCommonObjectSort(getResources().getString(R.string.household_alphabetical_sort), "first_name"),
-                        new CursorCommonObjectSort(getResources().getString(R.string.id_sort), "household_id")
+                        new CursorCommonObjectSort(getResources().getString(R.string.sort_name), "first_name"),
+                        new CursorCommonObjectSort(getResources().getString(R.string.sort_program_id), "household_id"),
+                        new CursorCommonObjectSort(getResources().getString(R.string.sort_dob_age), "dob DESC"),
+                        new CursorCommonObjectSort(getResources().getString(R.string.sort_num_members), "num_household_members DESC"),
+                        new CursorCommonObjectSort(getResources().getString(R.string.sort_num_unregistered_members), "(num_household_members-registeredMembers) DESC")
                 };
             }
             @Override
@@ -375,7 +371,9 @@ public class HouseholdSmartRegisterFragment extends SecuredNativeSmartRegisterFr
                     , clientsProvider(), SmartRegisterCursorBuilder.DB.OPENSRP);
         } else {*/
             return new SmartRegisterPaginatedCursorAdapter(getActivity(),
-                    new SmartRegisterCursorBuilder("pkhousehold", null, (CursorSortOption) getDefaultOptionsProvider().sortOption(), "")
+                    new SmartRegisterCursorBuilder("pkhousehold", null, "H",
+                            new String[]{"(SELECT count(1) FROM pkindividual WHERE household_id=H.household_id) registeredMembers"},
+                            (CursorSortOption) getDefaultOptionsProvider().sortOption(), "").limit(5)
                     , clientsProvider(), SmartRegisterCursorBuilder.DB.DRISHTI);
         //}
     }
@@ -509,6 +507,7 @@ public class HouseholdSmartRegisterFragment extends SecuredNativeSmartRegisterFr
         map.put("existing_full_name_hhh", getValue(client.getColumnmaps(), "first_name", true));
         map.put("existing_household_id", getValue(client.getColumnmaps(), "household_id", true));
         map.put("existing_num_members", (otherMembers.size()+1)+"");
+        map.put("existing_num_household_members", getValue(client.getColumnmaps(), "num_household_members", false));
 
         map.put("province", getValue(client.getColumnmaps(), "province", false));
         map.put("city_village", getValue(client.getColumnmaps(), "city_village", false));

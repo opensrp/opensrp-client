@@ -1,6 +1,8 @@
 package org.ei.opensrp.repository.db;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class VaccineRepo {
     public enum Vaccine {
@@ -79,4 +81,26 @@ public class VaccineRepo {
         }
         return vl;
     }
+
+    public List<Vaccine> vaccineOfMilestone(int dueMilestoneDays, String category){
+        ArrayList<Vaccine> vl = getVaccines(category);
+
+        List<Vaccine> rl = new ArrayList<>();
+        for (Vaccine v: vl) {
+            if (v.milestoneGapDays() == dueMilestoneDays){
+                rl.add(v);
+            }
+        }
+
+        return rl;
+    }
+
+    public static final Comparator<Vaccine> VACCINE_COMPARATOR = new Comparator<Vaccine>() {
+        public int compare(Vaccine v1, Vaccine v2) {
+            if (v1.milestoneGapDays() == v2.milestoneGapDays()) return 0;
+            if (v1.milestoneGapDays() > v2.milestoneGapDays()) return 1;
+
+            return -1;
+        }
+    };
 }

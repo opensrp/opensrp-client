@@ -13,6 +13,10 @@ public class HouseholdIDSearchOption implements SearchFilterOption {
 
         private String filter;
 
+    public String getFilter(){
+        return filter;
+    }
+
         public HouseholdIDSearchOption(String filter) {
             this.filter = filter;
         }

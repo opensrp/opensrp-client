@@ -112,7 +112,7 @@ public class Utils {
     public static int ageInYears(Map<String, String> columns, Map<String, String> details, String dobField, ByColumnAndByDetails columnOrDetail, boolean suppressException){
         int age = -1;
         try{
-            age = Years.yearsBetween(new DateTime(getValue(columnOrDetail.equals(ByColumnAndByDetails.byColumn)?columns:details, dobField, false)), DateTime.now()).getYears();
+            age = Years.yearsBetween(new DateTime(getValue(columnOrDetail.equals(ByColumnAndByDetails.byColumn)?columns:details, dobField, false)), DateTime.now().plusDays(1)).getYears();
         }
         catch (Exception e){if (suppressException == false) throw new RuntimeException(e);}
         return age;
@@ -469,8 +469,13 @@ public class Utils {
     }
 
     public static TableRow getDataRow(Context context){
+        return getDataRow(context, 0, 0);
+    }
+
+    public static TableRow getDataRow(Context context, int marginltr, int marginttb){
         TableRow tr = new TableRow(context);
         TableRow.LayoutParams trlp = new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        trlp.setMargins(marginltr, marginttb, marginltr, marginttb);
         tr.setLayoutParams(trlp);
         tr.setPadding(0, 0, 0, 0);
         // tr.setBackgroundColor(Color.BLUE);
@@ -513,29 +518,31 @@ public class Utils {
     }
 
     public static TableRow addToRow(Context context, String value, TableRow row, boolean compact, int weight){
-        return addToRow(context, Html.fromHtml(value), row, compact, weight);
+        return addToRow(context, Html.fromHtml(value), row, compact, weight, Size.MEDIUM);
     }
 
-    public static TableRow addToRow(Context context, Spanned value, TableRow row, boolean compact, int weight){
+    public static TableRow addToRow(Context context, Spanned value, TableRow row, boolean compact, int weight, Size size){
         TextView v = new TextView(context);
         v.setText(value);
-        if(compact){
-            v.setPadding(15, 3, 1, 1);
-        }
-        else {
-            v.setPadding(2, 15, 2, 15);
-        }
-        TableRow.LayoutParams params = new TableRow.LayoutParams(
-                0,
-                TableRow.LayoutParams.WRAP_CONTENT, weight
-        );
-        params.setMargins(0, 0, 1, 1);
-        v.setLayoutParams(params);
-        v.setTextColor(Color.BLACK);
-        v.setTextSize(12);
-        v.setBackgroundColor(Color.WHITE);
-        row.addView(v);
 
+        if (size.equals(Size.MEDIUM)) {
+            if (compact) {
+                v.setPadding(15, 1, 1, 1);
+            } else {
+                v.setPadding(5, 5, 2, 5);
+            }
+            TableRow.LayoutParams params = new TableRow.LayoutParams(
+                    0,
+                    TableRow.LayoutParams.MATCH_PARENT, weight
+            );
+            params.setMargins(0, 0, 1, 1);
+            v.setLayoutParams(params);
+            v.setTextColor(Color.BLACK);
+            v.setTextSize(compact?15:16);
+            v.setBackgroundColor(Color.WHITE);
+        }
+
+        row.addView(v);
         return row;
     }
 

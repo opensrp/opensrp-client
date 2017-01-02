@@ -3,8 +3,8 @@
     <color name="light_blue">#1a93d2</color>
 
     <color name="alert_na">#ECECEC</color>
-    <color name="alert_upcoming">#D3EAF4</color>
-    <color name="alert_normal">#389CCA</color>
+    <color name="alert_upcoming">#d3eaf4</color>
+    <color name="alert_normal">#389cca</color>
     <color name="alert_urgent">#D13F3F</color>
     <color name="alert_completed">#4FB45B</color>
     <color name="alert_expired">#ECECEC</color>
@@ -30,7 +30,7 @@
 
     <color name="pnc_pp_fp_grey">#f5f5f5</color>
 
-    <color name="pnc_circle_yellow">#EDCA00</color>
+    <color name="pnc_circle_yellow">#edca00</color>
     <color name="pnc_circle_red">#d13f3f</color>
     <color name="pnc_circle_green">#25aa4a</color>
 

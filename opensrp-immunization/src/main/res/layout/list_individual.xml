@@ -1,46 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="8">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/background_material_light">
+        android:background="@color/background_material_light"
+        android:weightSum="12">
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:background="#ffffff"
         android:layout_marginTop="1dp"
         android:layout_marginBottom="1dp"
-        android:layout_marginRight="0dp">
+        android:layout_marginRight="0dp"
+        android:layout_weight="1"
+        android:paddingRight="5dp"
+        android:paddingLeft="2dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="##"
+            android:id="@+id/serial_number"
+            android:textColor="@color/text_black"
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/individual_profilepic"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
             android:src="@drawable/household_profile"
-            android:scaleType="fitStart" />
+            android:scaleType="fitXY"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="4dp" />
 
     </LinearLayout>
 
 <LinearLayout
     android:layout_width="0dp"
-    android:layout_height="match_parent"
-    android:layout_weight="3"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="#ffffff"
-    android:paddingLeft="5dp"
+    android:paddingLeft="2dp"
     android:paddingTop="5dp"
-    android:layout_marginLeft="0dp"
+    android:layout_marginLeft="1dp"
     android:layout_marginTop="1dp"
     android:layout_marginRight="1dp"
-    android:layout_marginBottom="1dp">
+    android:layout_marginBottom="1dp"
+    android:layout_weight="5">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,16 +63,17 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="HHM ID"
-            android:textSize="14dp"
+            android:textSize="16dp"
             android:textColor="@color/text_black"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_marginRight="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/hhmemberId"
             android:text="12345678912345678"
-            android:textSize="14dp"
+            android:textSize="16dp"
             android:textColor="@color/text_black"/>
 
     </LinearLayout>
@@ -68,19 +82,20 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Program ID"
-            android:textSize="14dp"
+            android:textSize="16dp"
             android:textColor="@color/text_black"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_marginRight="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/programId"
             android:text="12345678912345"
-            android:textSize="14dp"
+            android:textSize="16dp"
             android:textColor="@color/text_black"/>
 
     </LinearLayout>
@@ -93,16 +108,17 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="Full Name"
-            android:textSize="14dp"
+            android:textSize="16dp"
             android:textColor="@color/text_black"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_marginRight="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/memberName"
             android:text="My full name"
-            android:textSize="14dp"
+            android:textSize="16dp"
             android:textColor="@color/text_black"/>
 
     </LinearLayout>
@@ -113,7 +129,6 @@
 <LinearLayout
     android:layout_width="0dp"
     android:layout_height="match_parent"
-    android:layout_weight="3"
     android:orientation="vertical"
     android:background="#ffffff"
     android:paddingLeft="5dp"
@@ -121,7 +136,8 @@
     android:layout_marginRight="0dp"
     android:layout_marginLeft="1dp"
     android:layout_marginTop="1dp"
-    android:layout_marginBottom="1dp">
+    android:layout_marginBottom="1dp"
+    android:layout_weight="5">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -131,16 +147,17 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="@string/household_member_dob"
-            android:textSize="14dp"
+            android:textSize="16dp"
             android:textColor="@color/text_black"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_marginRight="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/memberDate"
             android:text="22-12-2016 (29 yr)"
-            android:textSize="14dp"
+            android:textSize="16dp"
             android:textColor="@color/text_black"/>
 
     </LinearLayout>
@@ -153,16 +170,17 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="@string/contactNumber"
-            android:textSize="14dp"
+            android:textSize="16dp"
             android:textColor="@color/text_black"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_marginRight="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/hh_member_contact_number"
             android:text="09002121254789"
-            android:textSize="14dp"
+            android:textSize="16dp"
             android:textColor="@color/text_black"/>
     </LinearLayout>
     <LinearLayout
@@ -174,7 +192,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/relationship"
             android:text="Daughter in law (Son)"
-            android:textSize="14dp"
+            android:textSize="16dp"
             android:textColor="@color/text_black"
             android:textStyle="bold"/>
 
@@ -183,7 +201,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/relationship_with"
             android:text=" of HH Head"
-            android:textSize="14dp"
+            android:textSize="16dp"
             android:textColor="@color/text_black"/>
     </LinearLayout>
 
@@ -193,22 +211,24 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:background="#ffffff"
-        android:paddingLeft="5dp"
-        android:paddingTop="5dp"
         android:layout_marginTop="1dp"
-        android:layout_marginBottom="1dp">
+        android:layout_marginBottom="1dp"
+        android:layout_weight="1">
 
-        <Button
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/other_register_action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Immunize"
-            android:textSize="15sp"
-            android:background="#ffffff"
-            android:textStyle="bold" />
+            android:background="@drawable/syringe"
+            android:scaleType="fitXY"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:alpha="0.75" />
 
     </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

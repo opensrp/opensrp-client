@@ -44,10 +44,11 @@ public class DisplayFormFragment extends Fragment {
     public static final String TAG = "DisplayFormFragment";
 
     private boolean formDataLoaded = false;
+    private ViewGroup formView;
 
     public boolean isFormDataLoaded(){return formDataLoaded;}
 
-    WebView webView;
+    private WebView webView;
     ProgressBar progressBar;
 
     public static String formInputErrorMessage = "Form contains errors please try again";// externalize this
@@ -101,10 +102,64 @@ public class DisplayFormFragment extends Fragment {
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.v(getClass().getName(), "onDetach called");
+
+        cleanup();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.v(getClass().getName(), "onPause called");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.v(getClass().getName(), "onStop called");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.v(getClass().getName(), "onDestroy called");
+
+        cleanup();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.v(getClass().getName(), "onDestroyView called");
+    }
+
+    private void cleanup(){
+        Log.v(getClass().getName(), "cleanup called");
+
+        if (webView != null){
+            hideTranslucentProgressDialog();
+            webView.getSettings().setRenderPriority(WebSettings.RenderPriority.LOW);
+            webView.getSettings().setJavaScriptEnabled(false);
+            webView.getSettings().setGeolocationEnabled(false);
+            webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(false);
+            webView.destroy();
+            webView = null;
+        }
+        if (progressDialog != null){
+            progressDialog.dismiss();
+        }
+        if (formView != null){
+            formView.removeAllViews();
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.display_form_fragment, container, false);
-        webView = (WebView)view.findViewById(R.id.webview);
+        formView = (ViewGroup) inflater.inflate(R.layout.display_form_fragment, container, false);
+        webView = (WebView)formView.findViewById(R.id.webview);
 
         // Enable/disable hardware acceleration:
         if (Build.VERSION.SDK_INT >= 19) {
@@ -118,11 +173,11 @@ public class DisplayFormFragment extends Fragment {
         // Disable the cache:
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 
-        progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
+        progressBar = (ProgressBar)formView.findViewById(R.id.progressBar);
         initWebViewSettings();
         loadHtml();
         initProgressDialog();
-        return view;
+        return formView;
     }
 
     private void initWebViewSettings(){
@@ -222,16 +277,14 @@ public class DisplayFormFragment extends Fragment {
         webView.post(new Runnable() {
             @Override
             public void run() {
-                if (progressDialog.isShowing()) {
+                if (progressDialog != null && progressDialog.isShowing()) {
                     progressDialog.hide();
                 }
             }
         });
     }
 
-    public void showForm(final int formIndex, String entityId, final String metaData, boolean loadPrevious){
-       // viewPager.setCurrentItem(formIndex, false); //Don't animate the view on orientation change the view disapears
-
+    public void resetFormData(String entityId, final String metaData, boolean loadPrevious){
         showTranslucentProgressDialog();
 
         if (metaData != null){
@@ -363,7 +416,7 @@ public class DisplayFormFragment extends Fragment {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             progressBar.setVisibility(View.GONE);
-            dismissProgressDialog();
+            if (webView != null) dismissProgressDialog();
         }
     }
 
@@ -437,9 +490,9 @@ public class DisplayFormFragment extends Fragment {
 
     private void resizeForm() {
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+  //      getActivity().runOnUiThread(new Runnable() {
+  //         @Override
+  //          public void run() {
                 int landWidthPixels = 0;
                 int landHeightPixels = 0;
 
@@ -465,8 +518,8 @@ public class DisplayFormFragment extends Fragment {
                 }
 
                 webView.setLayoutParams(new RelativeLayout.LayoutParams(landHeightPixels, landWidthPixels));
-            }
-        });
+//            }
+//        });
     }
 
     private void initProgressDialog() {

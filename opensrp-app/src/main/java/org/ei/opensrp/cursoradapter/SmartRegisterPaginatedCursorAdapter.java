@@ -1,5 +1,6 @@
 package org.ei.opensrp.cursoradapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
@@ -48,7 +49,7 @@ public class SmartRegisterPaginatedCursorAdapter extends CursorAdapter implement
         } else
             this.ceDB = org.ei.opensrp.Context.getInstance().ceDB();
 
-        refreshTotalCount();
+        refreshTotalCount();;
     }
 
     @Override
@@ -134,7 +135,7 @@ public class SmartRegisterPaginatedCursorAdapter extends CursorAdapter implement
 
     public int currentPage() {
         if(currentoffset() != 0) {
-            return (int)Math.ceil(pageCount()-((totalcount-currentoffset())/(1.0*limitPerPage())))+1;
+            return pageCount()-(int)Math.floor((totalcount-currentoffset())/(1.0*limitPerPage()));
         }else{
             return 1;
         }
@@ -166,7 +167,7 @@ public class SmartRegisterPaginatedCursorAdapter extends CursorAdapter implement
 
     public void refreshList(FilterOption villageFilter, ServiceModeOption serviceModeOption,
                             SearchFilterOption searchFilter, SortOption sortOption) {
-        filterandSortExecute(villageFilter==null?null:((CursorFilterOption)villageFilter).filter(), searchFilter==null?null:searchFilter.getCriteria(),
+        filterandSortExecute(villageFilter==null?null:((CursorFilterOption)villageFilter).filter(), searchFilter==null||StringUtils.isBlank(searchFilter.getFilter())?null:searchFilter.getCriteria(),
                 sortOption==null?null:((CursorSortOption)sortOption).sort());
         notifyDataSetChanged();
     }

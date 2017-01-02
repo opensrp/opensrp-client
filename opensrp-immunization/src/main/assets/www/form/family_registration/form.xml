@@ -1251,7 +1251,7 @@
       <input data-calculate="if(contains( /family_registration_form/household_head/birth_date_known , 'yes'), int(( /family_registration_form/today  -  /family_registration_form/household_head/birth_date ) div 365),  /family_registration_form/household_head/age )" data-type-xml="string" name="/family_registration_form/household_head/calc_age" type="hidden"/>
     </label>
     <label class="calculation non-select ">
-      <input data-calculate="format-date (date( /family_registration_form/today  - int( /family_registration_form/household_head/age  * 365)), '%Y-%m-%d')" data-type-xml="string" name="/family_registration_form/household_head/calc_dob" type="hidden"/>
+      <input data-calculate="format-date (date( /family_registration_form/today  - int( /family_registration_form/household_head/age  * 365.25)), '%Y-%m-%d')" data-type-xml="string" name="/family_registration_form/household_head/calc_dob" type="hidden"/>
     </label>
     <label class="calculation non-select ">
       <input data-calculate="if( /family_registration_form/household_head/birth_date_known ='yes',  /family_registration_form/household_head/birth_date ,  /family_registration_form/household_head/calc_dob )" data-type-xml="string" name="/family_registration_form/household_head/dob" type="hidden"/>

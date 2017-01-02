@@ -77,7 +77,7 @@ public class ChildSmartClientsProvider implements SmartRegisterClientsProvider {
             ((ImageView)convertView.findViewById(R.id.child_profilepic)).setImageResource(R.drawable.child_girl_infant);
         }
         else if(gender.toLowerCase().contains("trans")){
-            ((ImageView)convertView.findViewById(R.id.child_profilepic)).setImageResource(R.drawable.child_transgender_inflant);
+            ((ImageView)convertView.findViewById(R.id.child_profilepic)).setImageResource(R.drawable.child_transgender_infant);
         }
 
         int agey = -1;
@@ -120,7 +120,7 @@ public class ChildSmartClientsProvider implements SmartRegisterClientsProvider {
             deactivateNextVaccine("Invalid DoB", "", R.color.alert_na, convertView);
         }
         else if(!hasAnyEmptyValue(pc.getColumnmaps(), "_retro", vaccineList)){
-            deactivateNextVaccine("Fully Immunized", "", R.color.alert_na, convertView);
+            deactivateNextVaccine("Fully Immunized", "", R.color.alert_complete_green, convertView);
         }
         else if(agey >= 5 && hasAnyEmptyValue(pc.getColumnmaps(), "_retro", vaccineList)){
             deactivateNextVaccine("Partially Immunized", "", R.color.alert_na, convertView);

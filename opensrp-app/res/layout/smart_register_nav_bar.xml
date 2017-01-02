@@ -47,7 +47,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                style="@style/CustomFontTextViewStyle.NavBar.Black"/>
+                style="@style/CustomFontTextViewStyle.NavBar.Black"
+            android:text="Monitoring Register" />
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:id="@+id/btn_report_month"

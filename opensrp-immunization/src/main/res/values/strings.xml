@@ -19,6 +19,13 @@
     <string name="child_details_title"> Child Details</string>
     <string name="vaccination_summary"> Vaccination Summary</string>
 
+    <string name="sort_dob_age">Birth date / Age</string>
+    <string name="sort_program_id">Program / QR ID</string>
+    <string name="sort_name">Alphabetical Name</string>
+    <string name="sort_num_members">Number of Members</string>
+    <string name="sort_num_unregistered_members">Unregistered Members</string>
+
+
     <string name="search_hint">Search Register</string>
     <string name="birthdate">DoB</string>
     <string name="age">AGE</string>
@@ -87,7 +94,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="household_search_hint">Search Household Register</string>
-    <string name="household_profile">HOUSEHOLD PROFILE</string>
+    <string name="household_profile">HOUSEHOLD HEAD PROFILE</string>
     <string name="household_members"># MEMBERS</string>
     <string name="household_address">ADDRESS</string>
     <string name="household_last_visit">LAST VISIT</string>
