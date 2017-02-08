@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">OpenSRP Core</string>
+    <string name="label_username">Enter username</string>
+    <string name="label_password">Enter password</string>
+    <string name="label_login">Log In</string>
+    <string name="login_dialog_title">Logging in…</string>
+    <string name="login_dialog_message">Please wait</string>
+    <string name="login_failed_dialog_title">Log in failed</string>
+    <string name="login_failed_dialog_message">Please check the credentials</string>
+
+    <string name="form_back_confirm_dialog_message">Are you sure you want to go back? All the data you have entered in this form will be cleared.</string>
+    <string name="form_back_confirm_dialog_title">Confirm form close</string>
+    <string name="form_saved_dialog_title">Form Submission</string>
+    <string name="form_saved_success_dialog_message">Form saved successfully!</string>
+    <string name="form_saved_failed_dialog_message">Form saving encountered an error. </string>
+
+    <string name="yes_button_label">Yes</string>
+    <string name="no_button_label">No</string>
+
+    <string name="ok_button_label">OK</string>
+
+    <string name="label_sorted_by">Sorted By:</string>
+    <string name="label_village">, Village:</string>
+</resources>

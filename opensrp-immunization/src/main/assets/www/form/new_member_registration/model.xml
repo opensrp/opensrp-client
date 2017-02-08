@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model>
+  <instance>
+    <new_member_registration_form encounter_type="New Member Registration" id="new_member_registration" version="201612280631">
+      <formhub>
+        <uuid/>
+      </formhub>
+      <provider_uc/>
+      <provider_town/>
+      <provider_city/>
+      <provider_province/>
+      <provider_id/>
+      <provider_location_id openmrs_entity="encounter" openmrs_entity_id="location_id"/>
+      <provider_location_name/>
+      <existing_household_id/>
+      <existing_full_name_hhh/>
+      <existing_full_address/>
+      <existing_program_client_id/>
+      <existing_num_members/>
+      <existing_num_household_members/>
+      <provider_location_note/>
+      <province openmrs_entity="person_address" openmrs_entity_id="stateProvince" openmrs_entity_parent="usual_residence"/>
+      <city_village openmrs_entity="person_address" openmrs_entity_id="cityVillage" openmrs_entity_parent="usual_residence"/>
+      <town openmrs_entity="person_address" openmrs_entity_id="town" openmrs_entity_parent="usual_residence"/>
+      <union_council openmrs_entity="person_address" openmrs_entity_id="subTown" openmrs_entity_parent="usual_residence"/>
+      <address1 openmrs_entity="person_address" openmrs_entity_id="address1" openmrs_entity_parent="usual_residence"/>
+      <start openmrs_entity="concept" openmrs_entity_id="163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <end openmrs_entity="concept" openmrs_entity_id="163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <today/>
+      <deviceid openmrs_entity="concept" openmrs_entity_id="163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <subscriberid openmrs_entity="concept" openmrs_entity_id="163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <simserial openmrs_entity="concept" openmrs_entity_id="163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <phonenumber openmrs_entity="concept" openmrs_entity_id="163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <num_household_members openmrs_entity="concept" openmrs_entity_id="5611AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <client_reg_date openmrs_entity="encounter" openmrs_entity_id="encounter_date"/>
+      <household_id openmrs_entity="person_attribute" openmrs_entity_id="Household ID"/>
+      <household_role openmrs_entity="person_attribute" openmrs_entity_id="Household Role">Household Member</household_role>
+      <household_id_note/>
+      <name_hhh/>
+      <address/>
+      <individual>
+        <program_client_id openmrs_entity="person_identifier" openmrs_entity_id="Program Client ID"/>
+        <program_client_id_note/>
+        <first_name openmrs_entity="person" openmrs_entity_id="first_name"/>
+        <gender openmrs_entity="person" openmrs_entity_id="gender"/>
+        <birth_date_known>yes</birth_date_known>
+        <birth_date/>
+        <age/>
+        <age_unit/>
+        <calc_age openmrs_entity="concept" openmrs_entity_id="154384AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+        <calc_dob/>
+        <dob openmrs_entity="person" openmrs_entity_id="birthdate"/>
+        <dob_estimated openmrs_entity="person" openmrs_entity_id="birthdate_estimated"/>
+        <birth_date_note/>
+        <household_member_id openmrs_entity="person_identifier" openmrs_entity_id="Household Member ID"/>
+        <household_member_id_note/>
+        <contact_phone_number openmrs_entity="concept" openmrs_entity_id="159635AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+        <ethnicity openmrs_entity="concept" openmrs_entity_id="163153AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+        <ethnicity_other openmrs_entity="concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="163330AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      </individual>
+      <relationship openmrs_entity="concept" openmrs_entity_id="163354AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <relationship_other openmrs_entity="concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="163355AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <is_child/>
+      <note_child/>
+      <is_rep_woman/>
+      <note_rep_women/>
+      <comments openmrs_entity="concept" openmrs_entity_id="161011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <meta>
+        <instanceID/>
+      </meta>
+    </new_member_registration_form>
+  </instance>
+</model>

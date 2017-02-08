@@ -1,0 +1,162 @@
+<resources>
+    <string name="app_name">Immunization</string>
+    <string name="invalid_device_date">Device current datetime must be after last synced server datetime which was </string>
+    <string name="home_women_label">Woman</string>
+    <string name="home_household_label">Household</string>
+    <string name="home_field_monitor_label">Stock</string>
+    <string name="child_entries">Child</string>
+    <string name="child_profile">CHILD PROFILE</string>
+    <string name="child_DOB">Date Of Birth</string>
+    <string name="child_reminder">REMINDER</string>
+    <string name="child_last_vaccine">LAST VACCINE(S)</string>
+    <string name="child_next_vaacine">NEXT VACCINE(S) DUE</string>
+    <string name="child_register_title">Child Register</string>
+    <string name="register_search_hint">Search</string>
+    <string name="child_title">Child</string>
+    <string name="child_alphabetical_sort">Alphabetical (Child Name)</string>
+    <string name="child_id_sort">Program Id </string>
+    <string name="child_search_hint">Search Child</string>
+    <string name="child_details_title"> Child Details</string>
+    <string name="vaccination_summary"> Vaccination Summary</string>
+
+    <string name="str_provider_profile">Profile</string>
+
+    <string name="sort_dob_age">Birth date / Age</string>
+    <string name="sort_program_id">Program / QR ID</string>
+    <string name="sort_name">Alphabetical Name</string>
+    <string name="sort_num_members">Number of Members</string>
+    <string name="sort_num_unregistered_members">Unregistered Members</string>
+
+
+    <string name="search_hint">Search Register</string>
+    <string name="birthdate">DoB</string>
+    <string name="age">AGE</string>
+    <string name="uc">UC</string>
+    <string name="town">Town</string>
+    <string name="address">Address</string>
+    <string name="birthdate_age">DOB (AGE)</string>
+    <string name="epi_number">EPI CARD</string>
+    <string name="child_contact_number">CONTACT</string>
+
+    <string name="marital_status">Marital Status</string>
+
+
+    <string name="woman_entries"></string>
+    <string name="woman_register_title">Woman Register</string>
+
+    <string name="str_woman_search_hint">Search Woman Register</string>
+    <string name="woman_profile">WOMAN DEMOGRAPHIC INFORMATION</string>
+    <string name="woman_title">Woman</string>
+    <string name="woman_contact_number">CONTACT</string>
+    <string name="woman_edd">EDD and GA</string>
+    <string name="woman_last_vaccine">LAST VACCINE</string>
+    <string name="woman_next_vaacine">NEXT VACCINE DUE</string>
+    <string name="woman_alphabetical_sort">Alphabetical (Name)</string>
+    <string name="id_sort">Program ID </string>
+    <string name="woman_details_title">Woman Profile</string>
+    <string name="day">DAY\n</string>
+    <string name="bcg">BCG\n</string>
+    <string name="opv">OPV\n</string>
+    <string name="ipv">IPV\n</string>
+    <string name="penta">PENTA\n</string>
+    <string name="measles">MEASLES\n</string>
+    <string name="pcv">PCV\n</string>
+    <string name="tt">TT\n</string>
+    <string name="total">TOTAL\n</string>
+    <string name="used">USED</string>
+    <string name="wasted">WASTED</string>
+    <string name="inhand">IN-HAND</string>
+
+    <string name="month">MONTH</string>
+    <string name="month_target">TARGET</string>
+    <string name="month_received">RECEIVED</string>
+    <string name="month_used">USED</string>
+    <string name="month_wasted">WASTED</string>
+    <string name="month_inhand">IN HAND</string>
+    <string name="month_starting">STARTING BALANCE</string>
+    <string name="month_current">ENDING BALANCE</string>
+
+    <string name="stock_register_title">Stock Register</string>
+    <string name="stock_register_monthly_view">Monthly</string>
+    <string name="stock_register_daily_view">Daily</string>
+
+
+    <string name="field_entries">Stock Register</string>
+    <string name="field_title">Stock Register</string>
+    <string name="str_field_search_hint">Search Register</string>
+    <string name="pick_report">Report</string>
+    <string name="field_details_title">Stock Position</string>
+    <string name="title_activity_vaccine_report">VaccineReport</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="userNameText">User Name</string>
+    <string name="passwordText">Password</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="household_search_hint">Search Household Register</string>
+    <string name="household_profile">HOUSEHOLD HEAD PROFILE</string>
+    <string name="household_members"># MEMBERS</string>
+    <string name="household_address">ADDRESS</string>
+    <string name="household_last_visit">LAST VISIT</string>
+    <string name="household_due_date">NEXT VISIT</string>
+    <string name="household_add_member">ADD MEMBER</string>
+    <string name="household_contactNumber">CONTACT</string>
+
+    <string name="household_title">Household</string>
+    <string name="household_register_title">Household Register</string>
+    <string name="person_id">Household ID</string>
+    <string name="id">ID:</string>
+    <string name="household_head">Household Head</string>
+    <string name="name">Name:</string>
+    <string name="register">Register</string>
+    <string name="household_member_dob">DoB (Age)</string>
+    <string name="gender">Gender</string>
+    <string name="contactNumber">Contact</string>
+    <string name="household_profile_members">Number of Members</string>
+    <string name="household_water">Source of Drinking Water</string>
+    <string name="household_latrine">Latrine System</string>
+    <string name="household_relationship">Relationship:</string>
+    <string name="household_alphabetical_sort">Alphabetical (Head Name)</string>
+    <string name="sql_woman_vaccine_report">
+        SELECT 0 i, (CASE pregnant WHEN \'yes\' THEN \'yes\' ELSE \'no\' END) preg,
+SUM(CASE WHEN tt1 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt1,
+SUM(CASE WHEN tt2 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt2,
+SUM(CASE WHEN tt3 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt3,
+SUM(CASE WHEN tt4 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt4,
+SUM(CASE WHEN tt5 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt5
+FROM pkwoman GROUP BY preg
+UNION
+SELECT 1, \'total\' ,
+SUM(CASE WHEN tt1 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt1,
+SUM(CASE WHEN tt2 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt2,
+SUM(CASE WHEN tt3 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt3,
+SUM(CASE WHEN tt4 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt4,
+SUM(CASE WHEN tt5 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt5
+FROM pkwoman 
+    </string>
+    <string name="sql_child_vaccine_report">
+        SELECT 0 i,  \'bcg\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.bcg)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.bcg BETWEEN :datefrom AND :dateto  UNION
+SELECT 4 i,  \'opv0\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.opv0)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.opv0 BETWEEN :datefrom AND :dateto  UNION
+SELECT 4 i,  \'opv1\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.opv1)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.opv1 BETWEEN :datefrom AND :dateto  UNION
+SELECT 4 i,  \'opv2\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.opv2)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.opv2 BETWEEN :datefrom AND :dateto  UNION
+SELECT 4 i,  \'opv3\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.opv3)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.opv3 BETWEEN :datefrom AND :dateto  UNION
+SELECT 2 i,  \'penta1\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.penta1)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.penta1 BETWEEN :datefrom AND :dateto  UNION
+SELECT 2 i,  \'penta2\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.penta2)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.penta2 BETWEEN :datefrom AND :dateto  UNION
+SELECT 2 i,  \'penta3\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.penta3)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.penta3 BETWEEN :datefrom AND :dateto  UNION
+SELECT 6 i,  \'pcv1\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.pcv1)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.pcv1 BETWEEN :datefrom AND :dateto  UNION
+SELECT 6 i,  \'pcv2\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.pcv2)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.pcv2 BETWEEN :datefrom AND :dateto  UNION
+SELECT 6 i,  \'pcv3\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.pcv3)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.pcv3 BETWEEN :datefrom AND :dateto  UNION
+SELECT 4 i,  \'ipv\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.ipv)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.ipv BETWEEN :datefrom AND :dateto  UNION
+SELECT 8 i,  \'measles1\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.measles1)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.measles1 BETWEEN :datefrom AND :dateto  UNION
+SELECT 8 i,  \'measles2\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.measles2)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.measles2 BETWEEN :datefrom AND :dateto  
+    </string>
+    <string name="sql_age_table">
+        SELECT *  FROM (
+	SELECT 0 start, 365 end, \'0-11\' name UNION
+	SELECT 366 start, 730 end, \'12-23\' name UNION
+	SELECT 731 start, 1830 end, \'2+\' name) e
+    </string>
+
+</resources>

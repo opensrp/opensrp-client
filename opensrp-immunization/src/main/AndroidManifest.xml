@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.ei.opensrp.immunization">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+
+    <application
+        android:name=".application.VaccinatorApplication"
+        android:allowBackup="true" >
+
+        <activity
+            android:name=".ImmunizationLoginActivity"
+            android:screenOrientation="landscape" android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ImmunizationHomeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppThemeNoTitle" />
+        <activity
+            android:name=".household.HouseholdSmartRegisterActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppThemeNoTitle" />
+        <activity
+            android:name=".child.ChildSmartRegisterActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppThemeNoTitle" />
+        <activity
+            android:name=".field.FieldMonitorSmartRegisterActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppThemeNoTitle" />
+
+        <activity
+            android:name=".woman.WomanSmartRegisterActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppThemeNoTitle" />
+        <activity
+            android:name=".report.VaccineReport"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <receiver android:name=".application.CESyncReceiver" />
+
+        <activity android:name=".ProviderProfileActivity"></activity>
+
+        <provider
+            android:name="org.ei.opensrp.core.db.repository.RegisterContentProvider"
+            android:authorities="org.ei.opensrp.provider.registers"
+            android:readPermission="android.permission.permRead"
+            android:enabled="true"
+            android:exported="true" android:syncable="true">
+        </provider>
+
+    </application>
+
+</manifest>

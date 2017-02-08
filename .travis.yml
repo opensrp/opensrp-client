@@ -47,11 +47,11 @@ script:
   # Enable the line below once we get all the test passing, currently most of the tests are failing 
   # so we'll just if the project compiles 
   #- ./gradlew connectedAndroidTest
-  - ./gradlew opensrp-mcare:connectedAndroidTest -i --stacktrace
+  - ./gradlew ei.opensrp-mcare:connectedAndroidTest -i --stacktrace
 
 
 after_failure:
-- pandoc opensrp-mcare/build/reports/androidTests/connected/index.html -t plain
+- pandoc ei.opensrp-mcare/build/reports/androidTests/connected/index.html -t plain
 
 notifications:
   slack:

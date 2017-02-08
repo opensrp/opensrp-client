@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/monthly_detail_container"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:weightSum="2">
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/stock_vaccine_table"
+        android:layout_margin="1dp"
+        android:padding="1dp" android:background="@color/dim_foreground_disabled_material_dark"
+        android:stretchColumns="*">
+
+        <TableRow>
+        <LinearLayout android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
+            android:layout_span="10" android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Monthly Stock Position Summary - "
+                android:textAlignment="center"
+                android:textColor="@color/text_black"
+                android:layout_gravity="center_horizontal"
+                android:textSize="20dp"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:id="@+id/reporting_period"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Month"
+                android:textColor="@color/text_black"
+                android:textSize="20dp"
+                android:textStyle="normal|bold" />
+
+        </LinearLayout>
+        </TableRow>
+        <TableRow android:background="@color/dim_foreground_disabled_material_dark"
+            android:layout_height="wrap_content"
+            android:weightSum="9">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.VerySmall"
+                android:text="Item"
+                android:textColor="@color/text_black"
+                android:layout_weight="2"
+                android:textSize="15dp"
+                android:background="@color/background_material_light"
+                android:layout_marginRight="1dp"
+                android:paddingLeft="5dp"
+                android:layout_marginTop="1dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.VerySmall"
+                android:text="Starting Balance"
+                android:textColor="@color/text_black"
+                android:layout_weight="2"
+                android:maxLines="2"
+                android:inputType="textImeMultiLine|textMultiLine"
+                android:singleLine="false"
+                android:textSize="15dp"
+                android:background="@color/background_material_light"
+                android:layout_marginRight="1dp"
+                android:paddingLeft="5dp"
+                android:layout_marginTop="1dp" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.VerySmall"
+                android:text="Used"
+                android:textColor="@color/text_black"
+                android:layout_weight="1"
+                android:textSize="15dp"
+                android:background="@color/background_material_light"
+                android:layout_marginRight="1dp"
+                android:paddingLeft="5dp"
+                android:layout_marginTop="1dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.VerySmall"
+                android:text="Wasted"
+                android:textColor="@color/text_black"
+                android:layout_weight="2"
+                android:textSize="15dp"
+                android:background="@color/background_material_light"
+                android:layout_marginRight="1dp"
+                android:paddingLeft="5dp"
+                android:layout_marginTop="1dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.VerySmall"
+                android:text="Ending Balance"
+                android:textColor="@color/text_black"
+                android:layout_weight="2"
+                android:maxLines="2"
+                android:singleLine="false"
+                android:textSize="15dp"
+                android:background="@color/background_material_light"
+                android:layout_marginRight="1dp"
+                android:paddingLeft="5dp"
+                android:layout_marginTop="1dp" />
+
+        </TableRow>
+        <TableRow android:background="@color/dim_foreground_disabled_material_dark"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false"
+            android:weightSum="9"
+            android:layout_marginBottom="2dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.VerySmall" android:textSize="13dp"
+                android:textColor="@color/text_black"
+                android:layout_weight="2"
+                android:background="@color/background_material_light"
+                android:layout_marginRight="1dp"
+                android:layout_marginTop="1dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.VerySmall" android:textSize="13dp"
+                android:text="received + in hand"
+                android:textColor="@color/text_black"
+                android:layout_weight="2"
+                android:maxLines="2"
+                android:inputType="textImeMultiLine|textMultiLine"
+                android:singleLine="false"
+                android:clickable="false"
+                android:background="@color/background_material_light"
+                android:layout_marginRight="1dp"
+                android:layout_marginTop="1dp" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.VerySmall" android:textSize="13dp"
+                android:textColor="@color/text_black"
+                android:layout_weight="1"
+                android:background="@color/background_material_light"
+                android:layout_marginRight="1dp"
+                android:layout_marginTop="1dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.VerySmall" android:textSize="13dp"
+                android:text="ending bal - in hand next month"
+                android:textColor="@color/text_black"
+                android:layout_weight="2"
+                android:longClickable="false"
+                android:maxLines="2"
+                android:inputType="textMultiLine"
+                android:clickable="false"
+                android:password="false"
+                android:background="@color/background_material_light"
+                android:layout_marginRight="1dp"
+                android:layout_marginTop="1dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.VerySmall" android:textSize="13dp"
+                android:text="starting bal - used"
+                android:textColor="@color/text_black"
+                android:layout_weight="2"
+                android:maxLines="2"
+                android:inputType="textImeMultiLine|textMultiLine"
+                android:singleLine="false"
+                android:clickable="false"
+                android:background="@color/background_material_light"
+                android:layout_marginRight="1dp"
+                android:layout_marginTop="1dp" />
+
+        </TableRow>
+        <TableRow android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:background="#ffffff"
+            android:layout_margin="1dp"><View android:layout_width="match_parent"
+            android:layout_height="50dp" /></TableRow>
+        <TableRow android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:background="#ffffff"
+            android:layout_margin="1dp"><View android:layout_height="50dp"
+            android:layout_width="match_parent" /></TableRow>
+        <TableRow android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:background="#ffffff"
+            android:layout_margin="1dp"><View android:layout_width="match_parent"
+            android:layout_height="50dp" /></TableRow>
+    </TableLayout>
+
+</LinearLayout>

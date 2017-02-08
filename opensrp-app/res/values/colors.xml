@@ -18,7 +18,7 @@
 
     <color name="alert_upcoming_light_blue">#cae2ed</color>
     <color name="alert_urgent_red">#F04646</color>
-    <color name="alert_in_progress_blue">#389cc8</color>
+    <color name="alert_in_progress_blue">#99d0e8</color>
     <color name="alert_complete_green">#25aa4a</color>
 
     <color name="pnc_pp_fp_grey">#f5f5f5</color>

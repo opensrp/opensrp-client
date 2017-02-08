@@ -9,7 +9,7 @@
   <setting name="setup-tab">
     <setting name="setup">
       <setting name="custom-gradle-executor"/>
-      <setting name="current-directory" value="/Users/user/Documents/SID/THRIVE/opensrp fork/dristhi-app"/>
+      <setting name="current-directory" value="/Users/user/Documents/SID/THRIVE/ei.opensrp fork/dristhi-app"/>
       <setting name="log-level" value="LIFECYCLE"/>
     </setting>
   </setting>

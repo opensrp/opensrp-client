@@ -1,4 +1,4 @@
-[![Dristhi](opensrp-app/res/drawable-mdpi/login_logo.png)] (https://smartregister.atlassian.net/wiki/dashboard.action)
+[![Dristhi](ei.opensrp-app/res/drawable-mdpi/login_logo.png)] (https://smartregister.atlassian.net/wiki/dashboard.action)
 
 To run this project, you need to do this:
 ========================================
@@ -21,4 +21,4 @@ Login (for demo server):
 login-username - demotest,
 login-password - Demot123
 
-Check app.properties file in "drishti-app/asset/" folder to change the demo server url to your own instance of opensrp server. 
+Check app.properties file in "drishti-app/asset/" folder to change the demo server url to your own instance of ei.opensrp server.

@@ -41,8 +41,8 @@ public class DisplayFormFragment extends Fragment {
 
     public static final String TAG = "DisplayFormFragment";
 
-    WebView webView;
-    ProgressBar progressBar;
+    protected WebView webView;
+    protected ProgressBar progressBar;
     boolean formPartialSaving = true;
 
     public boolean isFormPartialSaving() {
@@ -61,7 +61,7 @@ public class DisplayFormFragment extends Fragment {
 
     private String formName;
     public static String okMessage = "ok";
-    Dialog progressDialog;
+    protected Dialog progressDialog;
 
     public String getFormName() {
         return formName;

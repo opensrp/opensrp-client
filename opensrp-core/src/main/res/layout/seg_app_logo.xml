@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:id="@+id/logo_layout"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical|left">
+
+    <ImageView
+        android:id="@+id/login_logo"
+        android:src="@drawable/opensrp_icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_weight="0"
+        android:scaleType="fitXY"
+        android:layout_gravity="center" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:id="@+id/login_label"
+            android:src="@drawable/opensrp_label"
+            android:scaleType="fitXY"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Your App Name"
+            android:id="@+id/application_name"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="60dp" />
+    </LinearLayout>
+
+</LinearLayout>

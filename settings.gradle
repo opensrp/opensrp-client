@@ -1,4 +1,7 @@
 rootProject.name = 'opensrp-app-parent'
-include ':opensrp-app', ':opensrp-drishti', ':opensrp-mcare', ':opensrp-indonesia','opensrp-indonesia', ':opensrp-vaccinator'
+include ':opensrp-app',
+        ':opensrp-core',
+        ':opensrp-immunization'
 
 project(':opensrp-app').projectDir = "$rootDir/opensrp-app" as File
+// project(':opensrp-core').projectDir = "$rootDir/opensrp-core" as File

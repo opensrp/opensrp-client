@@ -117,6 +117,8 @@
 
     <style name="CustomFontTextViewStyle.NavBar">
         <item name="android:textSize">24sp</item>
+
+
         <item name="android:textColor">@android:color/white</item>
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:shadowColor">@android:color/black</item>

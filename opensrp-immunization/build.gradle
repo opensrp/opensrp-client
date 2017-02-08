@@ -1,0 +1,55 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'org.apache.commons:commons-lang3:3.3.2'
+    }
+}
+
+apply plugin: 'com.android.application'
+
+android {
+    enforceUniquePackageName = false
+
+    compileSdkVersion 24
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "org.ei.opensrp.immunization"
+        minSdkVersion 19
+        targetSdkVersion 21
+        versionCode 1
+       // multiDexEnabled true
+        versionName "3.0.0b"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
+}
+
+dependencies {
+    compile project(':opensrp-core')
+
+    compile 'com.android.support:appcompat-v7:24.0.0'
+    //compile 'com.flurry.android:analytics:6.3.0'
+}
+
+
+

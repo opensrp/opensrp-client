@@ -320,7 +320,7 @@ eaa80000-100000000 rw-p 00000000 00:00 0
 7fb030021000-7fb034000000 ---p 00000000 00:00 0 
 7fb034000000-7fb034021000 rw-p 00000000 00:00 0 
 7fb034021000-7fb038000000 ---p 00000000 00:00 0 
-7fb03b000000-7fb03b002000 r--s 0000c000 08:01 8258553                    /home/raihan/OpenSrpWorkSpace/opensrp-client/opensrp-app/libs/butterknife-7.0.1.jar
+7fb03b000000-7fb03b002000 r--s 0000c000 08:01 8258553                    /home/raihan/OpenSrpWorkSpace/ei.opensrp-client/ei.opensrp-app/libs/butterknife-7.0.1.jar
 7fb03b017000-7fb03b018000 rw-p 00000000 00:00 0 
 7fb03b018000-7fb03b01b000 ---p 00000000 00:00 0 
 7fb03b01b000-7fb03b119000 rw-p 00000000 00:00 0 

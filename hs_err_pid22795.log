@@ -292,7 +292,7 @@ eaa80000-100000000 rw-p 00000000 00:00 0
 7f9ec0021000-7f9ec4000000 ---p 00000000 00:00 0 
 7f9ec4000000-7f9ec4e74000 rw-p 00000000 00:00 0 
 7f9ec4e74000-7f9ec8000000 ---p 00000000 00:00 0 
-7f9ecb41e000-7f9ecb420000 r--s 0000c000 08:01 9582194                    /home/raihan/OpenSrpWorkSpace/opensrp-client/opensrp-mcare/build/intermediates/exploded-aar/org.ei.opensrp/opensrp-app/unspecified/jars/libs/butterknife-7.0.1.jar
+7f9ecb41e000-7f9ecb420000 r--s 0000c000 08:01 9582194                    /home/raihan/OpenSrpWorkSpace/ei.opensrp-client/ei.opensrp-mcare/build/intermediates/exploded-aar/org.org.ei.opensrp.core.widget.opensrp/ei.opensrp-app/unspecified/jars/libs/butterknife-7.0.1.jar
 7f9ecb420000-7f9ecb423000 ---p 00000000 00:00 0 
 7f9ecb423000-7f9ecb521000 rw-p 00000000 00:00 0 
 7f9ecb521000-7f9ecb524000 ---p 00000000 00:00 0 
@@ -309,7 +309,7 @@ eaa80000-100000000 rw-p 00000000 00:00 0
 7f9ecba29000-7f9ecbb27000 rw-p 00000000 00:00 0                          [stack:22832]
 7f9ecbb27000-7f9ecbb2a000 ---p 00000000 00:00 0 
 7f9ecbb2a000-7f9ecbc28000 rw-p 00000000 00:00 0                          [stack:22831]
-7f9ecbc28000-7f9ecbc2a000 r--s 0000c000 08:01 8258553                    /home/raihan/OpenSrpWorkSpace/opensrp-client/opensrp-app/libs/butterknife-7.0.1.jar
+7f9ecbc28000-7f9ecbc2a000 r--s 0000c000 08:01 8258553                    /home/raihan/OpenSrpWorkSpace/ei.opensrp-client/ei.opensrp-app/libs/butterknife-7.0.1.jar
 7f9ecbc3f000-7f9ecbc40000 rw-p 00000000 00:00 0 
 7f9ecbc40000-7f9ecbc48000 r--s 000a8000 08:01 7733561                    /home/raihan/android-studio/gradle/m2repository/com/android/tools/external/lombok/lombok-ast/0.2.3/lombok-ast-0.2.3.jar
 7f9ecbc48000-7f9ecbc4a000 r--s 0000d000 08:01 7733686                    /home/raihan/android-studio/gradle/m2repository/commons-codec/commons-codec/1.4/commons-codec-1.4.jar

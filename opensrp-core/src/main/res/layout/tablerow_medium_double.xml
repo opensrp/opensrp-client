@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:padding="5dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Medium Text"
+        android:id="@+id/c1"
+        android:textColor="@color/text_black"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="20dp"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:layout_weight="1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Medium Text had a very long value that should wrap"
+        android:id="@+id/c2"
+        android:textColor="@color/text_black"
+        android:singleLine="false"
+        android:maxLines="10"
+        android:ellipsize="end"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:textSize="17sp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Medium Text"
+        android:id="@+id/c3"
+        android:textColor="@color/text_black"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="20dp"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:layout_weight="1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Medium Text had a very long value that should wrap"
+        android:id="@+id/c4"
+        android:textColor="@color/text_black"
+        android:singleLine="false"
+        android:maxLines="10"
+        android:ellipsize="end"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="20dp"
+        android:textSize="17sp"
+        android:layout_weight="1" />
+</TableRow>

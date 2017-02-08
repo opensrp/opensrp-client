@@ -1,5 +1,7 @@
 configure(allprojects) { project ->
     buildscript {
+        System.properties['com.android.build.gradle.overrideVersionCheck'] = 'true'
+
         repositories {
             jcenter()
             mavenCentral()
@@ -15,10 +17,10 @@ subprojects {
 
     group = 'org.ei.opensrp'
 
-    ext.androidToolsBuildGradle     = '21.1.2'
-    ext.androidBuildToolsVersion    = '21.1.2'
-    ext.androidMinSdkVersion        = 16
-    ext.androidCompileSdkVersion    = 21
+    ext.androidToolsBuildGradle     = "25.0.2"
+    ext.androidBuildToolsVersion    = "25.0.2"
+    ext.androidMinSdkVersion        = 19
+    ext.androidCompileSdkVersion    = 24
     ext.androidTargetSdkVersion     = 21
 
     ext.androidAnnotationsVersion = '3.0.1';
