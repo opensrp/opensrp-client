@@ -51,6 +51,14 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    productFlavors {
+        training {
+            applicationId = "org.ei.opensrp.mcare.training"
+        }
+        field_use {
+            applicationId = "org.ei.opensrp.mcare"
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
