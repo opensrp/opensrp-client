@@ -32,6 +32,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
 public class FormSubmissionSyncServiceTest {
+    private int MAX_SIZE = 50;
     @Mock
     private FormDataRepository repository;
     @Mock
@@ -61,7 +62,7 @@ public class FormSubmissionSyncServiceTest {
                 "anm id 1", "id 1", "entity id 1", "form name", formInstanceJSON, "123", "1"));
         when(configuration.dristhiBaseURL()).thenReturn("http://dristhi_base_url");
         when(allSharedPreferences.fetchRegisteredANM()).thenReturn("anm id 1");
-        when(repository.getPendingFormSubmissions()).thenReturn(submissions);
+        when(repository.getPendingFormSubmissions(MAX_SIZE)).thenReturn(submissions);
     }
 
     @Test
@@ -84,17 +85,17 @@ public class FormSubmissionSyncServiceTest {
 
         service.pushToServer();
 
-        verify(repository).getPendingFormSubmissions();
+        verify(repository).getPendingFormSubmissions(MAX_SIZE);
         verifyNoMoreInteractions(repository);
     }
 
     @Test
     public void shouldNotPushIfThereAreNoPendingSubmissions() throws Exception {
-        when(repository.getPendingFormSubmissions()).thenReturn(Collections.<FormSubmission>emptyList());
+        when(repository.getPendingFormSubmissions(MAX_SIZE)).thenReturn(Collections.<FormSubmission>emptyList());
 
         service.pushToServer();
 
-        verify(repository).getPendingFormSubmissions();
+        verify(repository).getPendingFormSubmissions(MAX_SIZE);
         verifyNoMoreInteractions(repository);
         verifyZeroInteractions(allSettings);
         verifyZeroInteractions(httpAgent);
