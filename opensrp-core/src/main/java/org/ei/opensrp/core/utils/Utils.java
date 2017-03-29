@@ -37,6 +37,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.google.common.base.Joiner;
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -624,6 +627,29 @@ public class Utils {
             @Override
             public DateTime deserialize(JsonElement e, java.lang.reflect.Type t, JsonDeserializationContext jd) throws JsonParseException {
                 return new DateTime(e.getAsString());
+            }
+        }).create();
+        return g;
+    }
+
+    public static Gson getLongDateAwareGson(final String... skipFields){
+        Gson g = new GsonBuilder().registerTypeAdapter(DateTime.class, new JsonDeserializer<DateTime>() {
+            @Override
+            public DateTime deserialize(JsonElement e, Type t, JsonDeserializationContext jd) throws JsonParseException {
+                return new DateTime(e.getAsLong());
+            }
+        }).setExclusionStrategies(new ExclusionStrategy() {
+            @Override
+            public boolean shouldSkipField(FieldAttributes f) {
+                if(Joiner.on(",").join(skipFields).toLowerCase().contains(f.getName().toLowerCase())){
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public boolean shouldSkipClass(Class<?> clazz) {
+                return false;
             }
         }).create();
         return g;

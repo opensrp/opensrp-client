@@ -9,6 +9,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import org.apache.commons.lang3.StringUtils;
+import org.ei.opensrp.core.db.domain.Drug;
+import org.ei.opensrp.core.db.domain.DrugOrder;
 import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.service.HTTPAgent;
 import org.ei.opensrp.sync.SaveANMLocationTask;
@@ -44,6 +46,7 @@ public class CESyncReceiver extends BroadcastReceiver {
     public static final String LAST_SYNC_DATETIME_EVENT = "LAST_SYNC_DATETIME_EVENT";
     public static final String LAST_SYNC_SERVER_DATETIME = "LAST_SYNC_SERVER_DATETIME";
     private static final String SYNC_LOCATION = "SYNC_LOCATION";
+    private static final boolean SYNC_BY_ASSIGNED_CLIENT = true;
 
     public static String SYNC_LOCATION(Context context){
         location = Utils.getPreference(context, SYNC_LOCATION, "");
@@ -129,6 +132,11 @@ public class CESyncReceiver extends BroadcastReceiver {
             boolean success = true;
             if(Utils.isConnectedToNetwork(context)){
                 try{
+                    if(SYNC_BY_ASSIGNED_CLIENT){
+                        fetchAssociatedClientsFullData(db);
+                        return null;
+                    }
+
                     // keep fetching data until there is no new client or its 10 times iterated; stop and fetch events and leave it for next sync
                     int i = 0;
                     ArrayList<String> clientIds = new ArrayList<>();
@@ -276,5 +284,120 @@ public class CESyncReceiver extends BroadcastReceiver {
             // todo update if event exists
         }
         return eventIds;
+    }
+
+    private String makeUrl(String serviceUrl){
+        String baseUrl = org.ei.opensrp.Context.getInstance().configuration().dristhiBaseURL();
+        if(baseUrl.endsWith("/")){
+            baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("/"));
+        }
+        return baseUrl+serviceUrl;
+    }
+
+    public void fetchAssociatedClientsFullData(CESQLiteHelper dbhandler) throws JSONException {
+        HTTPAgent httpAgent = org.ei.opensrp.Context.getInstance().getHttpAgent();
+        Response resp = httpAgent.fetch(makeUrl("/assigned-clients-full?providerId="+Utils.providerDetails().getString("username")));
+        if(resp.isFailure()){
+            throw new RuntimeException("'assigned-clients-full' not returned data");
+        }
+
+        JSONObject result = new JSONObject((String)resp.payload());
+        Log.i(CESyncReceiver.class.getName(), "FETCHED:"+ result.toString());
+
+        JSONArray clientArr = result.getJSONArray("clients");
+        for (int i = 0; i < clientArr.length(); i++) {
+            JSONObject jo = clientArr.getJSONObject(i);
+
+            Client c = Utils.getLongDateAwareGson("creator","editor","voider").fromJson(jo.toString(), Client.class);
+            DateTime newEditDate = c.getDateEdited() == null ? c.getDateCreated() : c.getDateEdited();
+
+            try{
+                Client existing = dbhandler.getClient(c.getBaseEntityId());
+                if(existing == null){
+                    dbhandler.insert(c);
+                }
+                else {
+                    DateTime existingEditDate = existing.getDateEdited() == null ? existing.getDateCreated() : existing.getDateEdited();
+                    if (newEditDate.isAfter(existingEditDate)) {
+                        dbhandler.update(c);
+                    }
+                }
+            }
+            catch (Exception e){
+                e.printStackTrace();//todo do something to notify
+            }
+        }
+
+        JSONArray eventArr = result.getJSONArray("events");
+        for (int i = 0; i < eventArr.length(); i++) {
+            JSONObject jo = eventArr.getJSONObject(i);
+
+            Event e = Utils.getLongDateAwareGson("creator","editor","voider").fromJson(jo.toString(), Event.class);
+            DateTime newEditDate = e.getDateEdited() == null ? e.getDateCreated() : e.getDateEdited();
+
+            try{
+                Event existing = dbhandler.getEvent(e.getId());
+                if(existing == null){
+                    dbhandler.insert(e);
+                }
+                else {
+                    DateTime existingEditDate = existing.getDateEdited() == null ? existing.getDateCreated() : existing.getDateEdited();
+                    if (newEditDate.isAfter(existingEditDate)) {
+                        dbhandler.update(e);
+                    }
+                }
+            }
+            catch (Exception e2){
+                e2.printStackTrace();//todo do something to notify
+            }
+        }
+
+        JSONArray drugArr = result.getJSONArray("drugs");
+        for (int i = 0; i < drugArr.length(); i++) {
+            JSONObject jo = drugArr.getJSONObject(i);
+
+            Drug d = Utils.getLongDateAwareGson("creator","editor","voider").fromJson(jo.toString(), Drug.class);
+            DateTime newEditDate = d.getDateEdited() == null ? d.getDateCreated() : d.getDateEdited();
+
+            try{
+                Drug existing = dbhandler.getDrug(d.getId());
+                if(existing == null){
+                    dbhandler.insert(d);
+                }
+                else {
+                    DateTime existingEditDate = existing.getDateEdited() == null ? existing.getDateCreated() : existing.getDateEdited();
+                    if (newEditDate.isAfter(existingEditDate)) {
+                        dbhandler.update(d);
+                    }
+                }
+            }
+            catch (Exception e2){
+                e2.printStackTrace();//todo do something to notify
+            }
+        }
+
+        JSONArray drugOrderArr = result.getJSONArray("drugOrders");
+        for (int i = 0; i < drugOrderArr.length(); i++) {
+            JSONObject jo = drugOrderArr.getJSONObject(i);
+
+            DrugOrder d = Utils.getLongDateAwareGson("creator","editor","voider").fromJson(jo.toString(), DrugOrder.class);
+            DateTime newEditDate = d.getDateEdited() == null ? d.getDateCreated() : d.getDateEdited();
+
+            try{
+                DrugOrder existing = dbhandler.getDrugOrder(d.getId());
+                if(existing == null){
+                    dbhandler.insert(d);
+                }
+                else {
+                    DateTime existingEditDate = existing.getDateEdited() == null ? existing.getDateCreated() : existing.getDateEdited();
+                    if (newEditDate.isAfter(existingEditDate)) {
+                        dbhandler.update(d);
+                    }
+                }
+            }
+            catch (Exception e2){
+                e2.printStackTrace();//todo do something to notify
+            }
+        }
     }
 }

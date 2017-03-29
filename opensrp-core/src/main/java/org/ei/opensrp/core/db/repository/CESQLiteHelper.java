@@ -19,6 +19,8 @@ import net.sqlcipher.database.SQLiteQueryBuilder;
 import static org.ei.opensrp.core.db.utils.ColumnAttribute.*;
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.core.db.domain.ClientEvent;
+import org.ei.opensrp.core.db.domain.Drug;
+import org.ei.opensrp.core.db.domain.DrugOrder;
 import org.ei.opensrp.core.utils.Utils;
 import org.ei.opensrp.util.StringUtil;
 import org.joda.time.DateTime;
@@ -167,9 +169,95 @@ public class CESQLiteHelper extends SQLiteOpenHelper {
 		}
 	}
 
+	public enum drug_column implements Column {
+		creator (Type.text, false, false),
+		dateCreated (Type.date, false, true),
+		editor (Type.text, false, false),
+		dateEdited (Type.date, false, true),
+		voided (Type.bool, false, false),
+		dateVoided (Type.date, false, false),
+		voider (Type.text, false, false),
+		voidReason (Type.text, false, false),
+
+		id(Type.text, true, false),
+		drugName(Type.text, false, true),
+		drugBaseName (Type.text, false, false),
+		codes (Type.map, false, true),
+		dosageForm (Type.text, false, false),
+		route (Type.text, false, false),
+		doseStrength (Type.text, false, false),
+		units (Type.text, false, false),
+		maximumDailyDose (Type.text, false, false),
+		minimumDailyDose (Type.text, false, false),
+		description (Type.text, false, false),
+		combination (Type.text, false, false);
+
+		drug_column(Type type, boolean pk, boolean index) {
+			this.column = new ColumnAttribute(type, pk, index);
+		}
+		private ColumnAttribute column;
+		public ColumnAttribute column() {
+			return column;
+		}
+		@Override
+		public String toString() {
+			return name();
+		}
+	}
+
+	public enum drug_order_column implements Column {
+		creator (Type.text, false, false),
+		dateCreated (Type.date, false, true),
+		editor (Type.text, false, false),
+		dateEdited (Type.date, false, true),
+		voided (Type.bool, false, false),
+		dateVoided (Type.date, false, false),
+		voider (Type.text, false, false),
+		voidReason (Type.text, false, false),
+
+		_id(Type.text, true, false),
+		baseEntityId(Type.text, false, true),
+		codes (Type.map, false, true),
+		orderType(Type.text, false, false),
+		drug (Type.text, false, true),
+		orderNumber (Type.text, false, false),
+		action (Type.text, false, false),
+		previousOrder (Type.text, false, false),
+		dateActivated (Type.date, false, false),
+		discontinuedBy (Type.text, false, false),
+		discontinuedDate (Type.date, false, false),
+		discontinuedReason (Type.text, false, false),
+		autoExpireDate (Type.date, false, false),
+		urgency (Type.text, false, false),
+		instructions (Type.text, false, false),
+		orderReason (Type.text, false, false),
+		dosingType (Type.text, false, false),
+		dose (Type.text, false, false),
+		frequency (Type.text, false, false),
+		descriptions (Type.text, false, false),
+		quantity (Type.text, false, false),
+		orderer (Type.text, false, false),
+		route (Type.text, false, false),
+		quantityUnits (Type.text, false, false);
+
+		drug_order_column(Type type, boolean pk, boolean index) {
+			this.column = new ColumnAttribute(type, pk, index);
+		}
+		private ColumnAttribute column;
+		public ColumnAttribute column() {
+			return column;
+		}
+		@Override
+		public String toString() {
+			return name();
+		}
+	}
+
 	public enum Table{
 		client (client_column.values()), event (event_column.values()), 
-		address (address_column.values()), obs (obs_column.values());
+		address (address_column.values()), obs (obs_column.values()),
+		drug (drug_column.values()), drug_order (drug_order_column.values()),
+		;
 		private Column[] columns;
 		public Column[] columns() {
 			return columns;
@@ -253,6 +341,8 @@ public class CESQLiteHelper extends SQLiteOpenHelper {
 		createTable(Table.address, address_column.values());
 		createTable(Table.event, event_column.values());
 		createTable(Table.obs, obs_column.values());
+		createTable(Table.drug, drug_column.values());
+		createTable(Table.drug_order, drug_order_column.values());
 	}
 
 	@Override
@@ -349,13 +439,39 @@ public class CESQLiteHelper extends SQLiteOpenHelper {
 		}
 	}
 
+	public void update(Event event) throws NoSuchFieldException, IllegalAccessException {
+		update(Event.class, Table.event, event_column.values(), event_column._id, event_column._id.name()+"='"+event.getId()+"'", null, event);
+
+		// delete and re-insert all obs as Event is a consolidated JSON
+		getDatabase().delete(Table.obs.name(), obs_column.eventId.name()+"='"+event.getId()+"'", null);
+		for (Obs o : event.getObs()) {
+			insert(Obs.class, Table.obs, obs_column.values(), obs_column.eventId.name(), event.getId(), o);
+		}
+	}
+
+	public void update(Drug drug) throws NoSuchFieldException, IllegalAccessException {
+		update(Drug.class, Table.drug, drug_column.values(), drug_column.id, drug_column.id.name()+"='"+drug.getId()+"'", null, drug);
+	}
+
+	public void update(DrugOrder drugOrder) throws NoSuchFieldException, IllegalAccessException {
+		update(DrugOrder.class, Table.drug_order, drug_column.values(), drug_order_column._id, drug_order_column._id.name()+"='"+drugOrder.getId()+"'", null, drugOrder);
+	}
+
 	public void insert(Event event) throws NoSuchFieldException, IllegalAccessException, IllegalArgumentException {
 		insert(Event.class, Table.event, event_column.values(), event);
 		for (Obs o : event.getObs()) {
 			insert(Obs.class, Table.obs, obs_column.values(), obs_column.eventId.name(), event.getId(), o);
 		}
 	}
-	
+
+	public void insert(Drug drug) throws NoSuchFieldException, IllegalAccessException, IllegalArgumentException {
+		insert(Drug.class, Table.drug, drug_column.values(), drug);
+	}
+
+	public void insert(DrugOrder drugOrder) throws NoSuchFieldException, IllegalAccessException, IllegalArgumentException {
+		insert(DrugOrder.class, Table.drug_order, drug_order_column.values(), drugOrder);
+	}
+
 	public List<Client> getClients() throws JSONException, ParseException {
 		List<Client> clist = new ArrayList<>();
 		Cursor cres = getDatabase().rawQuery("SELECT * FROM "+Table.client.name(), null);
@@ -414,6 +530,7 @@ public class CESQLiteHelper extends SQLiteOpenHelper {
 			Log.v(getClass().getName(), "HHHHHHHHHHHHHHHHH" + cl.toString());
 
 			ares.close();
+			cres.close();
 			return Utils.getStringDateAwareGson().fromJson(cl.toString(), Client.class);
 		}
 		cres.close();
@@ -446,6 +563,84 @@ public class CESQLiteHelper extends SQLiteOpenHelper {
 
 		eres.close();
 		return elist;
+	}
+
+	public List<Drug> getDrugs() throws JSONException, ParseException {
+		List<Drug> list = new ArrayList<>();
+		Cursor res = getDatabase().rawQuery("SELECT * FROM " + Table.drug.name(), null);
+		while (res.moveToNext()) {
+			JSONObject dv = readDrug(res, null, null);
+			list.add(Utils.getStringDateAwareGson().fromJson(dv.toString(), Drug.class));
+		}
+
+		res.close();
+		return list;
+	}
+
+	public List<DrugOrder> getDrugOrders(String baseEntityId) throws JSONException, ParseException {
+		List<DrugOrder> list = new ArrayList<>();
+		Cursor res = getDatabase().rawQuery("SELECT * FROM " + Table.drug_order.name(), null);
+		while (res.moveToNext()) {
+			JSONObject dv = readDrugOrder(res, null, null);
+			list.add(Utils.getStringDateAwareGson().fromJson(dv.toString(), DrugOrder.class));
+		}
+
+		res.close();
+		return list;
+	}
+
+	public Event getEvent(String eventId) throws JSONException, ParseException {
+		Cursor eres = getDatabase().rawQuery("SELECT * FROM " + Table.event.name() +
+						" WHERE " + event_column._id.name() + "='" + eventId + "'", null);
+		while (eres.moveToNext()) {
+			JSONObject ev = readEvent(eres, null, null);
+
+			JSONArray olist = new JSONArray();
+			Cursor ores = getDatabase().rawQuery("SELECT * FROM "+Table.obs.name()+" WHERE "+obs_column.eventId.name()+"='"+ev.getString(event_column._id.name())+"'", null);
+			while (ores.moveToNext()) {
+				JSONObject o = readObs(ores, null, null);
+				olist.put(o);
+			}
+
+			ev.put("obs", olist);
+			Log.v(getClass().getName(), "HHHHHHHHHHHHHHHHH"+ev.toString());
+
+			ores.close();
+			eres.close();
+			return Utils.getStringDateAwareGson().fromJson(ev.toString(), Event.class);
+		}
+
+		eres.close();
+		return null;
+	}
+
+	public Drug getDrug(String drugIdOrName) throws JSONException, ParseException {
+		Cursor res = getDatabase().rawQuery("SELECT * FROM " + Table.drug.name() +
+				" WHERE " + drug_column.id.name() + "='" + drugIdOrName + "'" +
+				" OR " + drug_column.drugName.name() + "='" + drugIdOrName + "'", null);
+		while (res.moveToNext()) {
+			JSONObject dv = readDrug(res, null, null);
+
+			res.close();
+			return Utils.getStringDateAwareGson().fromJson(dv.toString(), Drug.class);
+		}
+
+		res.close();
+		return null;
+	}
+
+	public DrugOrder getDrugOrder(String id) throws JSONException, ParseException {
+		Cursor res = getDatabase().rawQuery("SELECT * FROM " + Table.drug_order.name() +
+				" WHERE " + drug_order_column._id.name() + "='" + id + "'" , null);
+		while (res.moveToNext()) {
+			JSONObject dv = readDrugOrder(res, null, null);
+
+			res.close();
+			return Utils.getStringDateAwareGson().fromJson(dv.toString(), DrugOrder.class);
+		}
+
+		res.close();
+		return null;
 	}
 
 	public Cursor getClientEventCursor(boolean distinctClients, String filter, String addressType, String group, String order) {
@@ -589,6 +784,22 @@ public class CESQLiteHelper extends SQLiteOpenHelper {
 			ev.put(ec.name(), getValue(res, ec, startColumnIndex, endColumnIndex));
 		}
 		return ev;
+	}
+
+	private static JSONObject readDrug(Cursor res, Integer startColumnIndex, Integer endColumnIndex) throws JSONException, ParseException {
+		JSONObject dv = new JSONObject();
+		for (Column dc : Table.drug.columns()) {
+			dv.put(dc.name(), getValue(res, dc, startColumnIndex, endColumnIndex));
+		}
+		return dv;
+	}
+
+	private static JSONObject readDrugOrder(Cursor res, Integer startColumnIndex, Integer endColumnIndex) throws JSONException, ParseException {
+		JSONObject dv = new JSONObject();
+		for (Column dc : Table.drug_order.columns()) {
+			dv.put(dc.name(), getValue(res, dc, startColumnIndex, endColumnIndex));
+		}
+		return dv;
 	}
 
 	private static JSONObject readClient(Cursor res, Integer startColumnIndex, Integer endColumnIndex) throws JSONException, ParseException {
