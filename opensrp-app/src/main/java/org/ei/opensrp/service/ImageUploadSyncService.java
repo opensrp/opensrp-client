@@ -34,7 +34,7 @@ public class ImageUploadSyncService extends IntentService {
         try {
             List<ProfileImage> profileImages = imageRepo.findAllUnSynced();
             for(int i = 0;i<profileImages.size();i++){
-                String response = Context.getInstance().getHttpAgent().httpImagePost(Context.getInstance().configuration().dristhiBaseURL()+ AllConstants.PROFILE_IMAGES_UPLOAD_PATH,profileImages.get(i));
+                String response = Context.getInstance().getHttpAgent().httpImagePost(Context.getInstance().configuration().dristhiBaseURL()+ AllConstants.PROFILE_IMAGES_UPLOAD_PATH, profileImages.get(i));
                 if(response.contains("success")){
                     imageRepo.close(profileImages.get(i).getImageid());
                 }

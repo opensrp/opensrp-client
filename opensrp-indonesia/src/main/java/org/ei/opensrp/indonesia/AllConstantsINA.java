@@ -25,10 +25,17 @@ public class AllConstantsINA {
     public static final String HIGH_RISK_POST_PARTUM = "high_risk_post_partum";
 
     // Flurry Bidan Testing 2
-     public static final String FLURRY_KEY = "9RDM5TWW4HJ5QH8TNJ3P";
+    // public static final String FLURRY_KEY = "9RDM5TWW4HJ5QH8TNJ3P";
 
-    // Flurry Key Bidan Prototype
-   // public static final String FLURRY_KEY = "GVDTK3B4S92Y7D96NJ63";
+    //    COLOR
+    public static final String RED_ORANGE = "#FE642E";
+    public static final String ORANGE_YELLOW = "#D7DF01";
+    public static final String YELLOW_GREEN = "#86B404";
+    public static final String GREEN = "#5FB404";
+
+
+   //  Flurry Key Bidan EC Prototype 1
+    public static final String FLURRY_KEY = "7N8KZP67BP6QRJPB2RXX";
 
     public class KeluargaBerencanaFields {
         public static final String CONTRACEPTION_METHOD = "jenisKontrasepsi";
@@ -119,7 +126,7 @@ public class AllConstantsINA {
         public static final String KOHORT_KB_PELAYANAN="kohort_kb_pelayanan";
         public static final String KOHORT_KB_CLOSE="kohort_kb_close";
         public static final String KOHORT_KB_UPDATE="kohort_kb_update";
-        public static final String KOHORT_KB_EDIT="kohort_kb_edit";
+       // public static final String KOHORT_KB_EDIT="kohort_kb_edit";
 
         public static final String FEEDBACK_BIDAN = "feedback_bidan";
     }

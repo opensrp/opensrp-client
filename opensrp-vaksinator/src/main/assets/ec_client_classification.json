@@ -1,0 +1,85 @@
+{
+  "case_classification_rules": [
+    {
+      "comment": "KARTU IBU: This rule checks whether a given case belongs to Household register",
+      "rule": {
+        "type": "event",
+        "fields": [
+          {
+            "field":"eventType",
+            "field_value": "Registrasi Vaksinator",
+            "creates_case":["ec_kartu_ibu"]
+          },
+          {
+            "field":"eventType",
+            "field_value": "Registrasi Gizi",
+            "creates_case":["ec_kartu_ibu"]
+          },
+          {
+            "field":"eventType",
+            "field_value": "Identitas Ibu",
+            "creates_case":["ec_kartu_ibu"]
+          },
+          {
+            "field":"eventType",
+            "field_value": "Tambah KB",
+            "creates_case":["ec_kartu_ibu"]
+          },
+          {
+            "field":"eventType",
+            "field_value": "Penutupan Ibu",
+            "closes_case":["ec_kartu_ibu","ec_ibu","ec_pnc"]
+          }
+        ]
+      }
+    },
+    {
+      "comment": "ANC: This rule checks whether a given case belongs to ANC register",
+      "rule": {
+        "type": "event",
+        "fields": [
+          {
+            "field":"obs.fieldCode",
+            "concept": "45AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "values": ["703AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"],
+            "creates_case":["ec_ibu"]
+          },
+          {
+            "field":"eventType",
+            "field_value": "Kunjungan ANC",
+            "creates_case":["ec_ibu"]
+          },
+          {
+            "field":"eventType",
+            "field_value": "Penutupan ANC",
+            "closes_case":["ec_ibu"]
+          }
+        ]
+      }
+    },
+    {
+      "comment": "Anak: This rule checks whether a given case belongs to Child register",
+      "rule": {
+        "type": "event",
+        "fields": [
+          {
+            "field":"obs.fieldCode",
+            "concept": "159917AAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "values": ["151849AAAAAAAAAAAAAAAAAAAAAAAAAA"],
+            "creates_case":["ec_anak"]
+          },
+          {
+            "field":"eventType",
+            "field_value": "Child Registration",
+            "creates_case":["ec_anak"]
+          },
+          {
+            "field":"eventType",
+            "field_value": "Penutupan Anak",
+            "closes_case":["ec_anak"]
+          }
+        ]
+      }
+    }
+  ]
+}

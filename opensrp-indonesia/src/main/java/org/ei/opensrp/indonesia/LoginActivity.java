@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.flurry.android.FlurryAgent;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.domain.LoginResponse;
@@ -43,6 +46,8 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import util.uniqueIdGenerator.Generator;
+
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS;
 import static org.ei.opensrp.domain.LoginResponse.NO_INTERNET_CONNECTIVITY;
@@ -59,11 +64,14 @@ public class LoginActivity extends Activity {
     private ProgressDialog progressDialog;
     public static final String ENGLISH_LOCALE = "en";
     public static final String KANNADA_LOCALE = "kn";
+    public static final String BENGALI_LOCALE = "bn";
     public static final String BAHASA_LOCALE = "in";
     public static final String ENGLISH_LANGUAGE = "English";
     public static final String KANNADA_LANGUAGE = "Kannada";
+    public static final String Bengali_LANGUAGE = "Bengali";
     public static final String Bahasa_LANGUAGE = "Bahasa";
 
+    public static Generator generator;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,6 +102,18 @@ public class LoginActivity extends Activity {
         getActionBar().setBackgroundDrawable(getResources().getDrawable(org.ei.opensrp.indonesia.R.color.action_bar_background));
         setLanguage();
 
+        //debugApp();
+
+    }
+
+    private void debugApp(){
+        LayoutInflater layoutInflater = getLayoutInflater();
+        View view = layoutInflater.inflate(R.layout.login, null);
+        if (context.userService().hasARegisteredUser()){
+            localLogin(view, "user28", "1Sampai8");
+        } else {
+            remoteLogin(view, "user28", "1Sampai8");
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -174,6 +194,8 @@ public class LoginActivity extends Activity {
     private void localLogin(View view, String userName, String password) {
         if (context.userService().isValidLocalLogin(userName, password)) {
             localLoginWith(userName, password);
+            ErrorReportingFacade.setUsername("", userName);
+            FlurryAgent.setUserId(userName);
         } else {
             showErrorDialog(getString(org.ei.opensrp.R.string.login_failed_dialog_message));
             view.setClickable(true);
@@ -183,6 +205,8 @@ public class LoginActivity extends Activity {
     private void remoteLogin(final View view, final String userName, final String password) {
         tryRemoteLogin(userName, password, new Listener<LoginResponse>() {
             public void onEvent(LoginResponse loginResponse) {
+                ErrorReportingFacade.setUsername("", userName);
+                FlurryAgent.setUserId(userName);
                 if (loginResponse == SUCCESS) {
                     remoteLoginWith(userName, password, loginResponse.payload());
                 } else {
@@ -202,6 +226,16 @@ public class LoginActivity extends Activity {
                 }
             }
         });
+
+/*        tryGetUniqueId(userName, password, new Listener<ResponseStatus>() {
+            @Override
+            public void onEvent(ResponseStatus data) {
+                if (data == ResponseStatus.failure) {
+                    logError("failed to fetch unique id");
+                }
+                goToHome();
+            }
+        });*/
     }
 
     private void showErrorDialog(String message) {
@@ -288,16 +322,14 @@ public class LoginActivity extends Activity {
 
     private void localLoginWith(String userName, String password) {
         context.userService().localLogin(userName, password);
-        ErrorReportingFacade.setUsername("", userName);
-        FlurryFacade.setUserId(userName);
+        LoginActivity.generator = new Generator(context,userName,password);
         goToHome();
         DrishtiSyncScheduler.startOnlyIfConnectedToNetwork(getApplicationContext());
     }
 
     private void remoteLoginWith(String userName, String password, String userInfo) {
         context.userService().remoteLogin(userName, password, userInfo);
-        ErrorReportingFacade.setUsername("", userName);
-        FlurryFacade.setUserId(userName);
+        LoginActivity.generator = new Generator(context,userName,password);
         goToHome();
         DrishtiSyncScheduler.startOnlyIfConnectedToNetwork(getApplicationContext());
     }
@@ -353,6 +385,33 @@ public class LoginActivity extends Activity {
             res.updateConfiguration(conf, dm);
             return ENGLISH_LANGUAGE;
         }
+    }
+
+    private void tryGetUniqueId(final String username, final String password, final Listener<ResponseStatus> afterGetUniqueId) {
+        LockingBackgroundTask task = new LockingBackgroundTask(new ProgressIndicator() {
+            @Override
+            public void setVisible() {
+                progressDialog.show();
+            }
+            @Override
+            public void setInvisible() {
+                progressDialog.dismiss();
+            }
+        });
+
+        task.doActionInBackground(new BackgroundAction<ResponseStatus>() {
+            @Override
+            public ResponseStatus actionToDoInBackgroundThread() {
+                LoginActivity.generator = new Generator(context,username,password);
+                LoginActivity.generator.uniqueIdService().syncUniqueIdFromServer(username, password);
+                return (LoginActivity.generator.uniqueIdService().getLastUsedId(username, password));
+            }
+
+            @Override
+            public void postExecuteInUIThread(ResponseStatus result) {
+                afterGetUniqueId.onEvent(result);
+            }
+        });
     }
 
 }

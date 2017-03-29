@@ -24,7 +24,10 @@ public class CommonFtsObject {
     private Map<String, Pair<String, Boolean>> alertsScheduleMap;
     public static final String idColumn = "object_id";
     public static final String relationalIdColumn = "object_relational_id";
-    public static final String phraseColumnName = "phrase";
+    public static final String phraseColumn = "phrase";
+    public static final String isClosedColumn = "is_closed TINYINT DEFAULT 0";
+    public static final String isClosedColumnName = "is_closed";
+
 
     public CommonFtsObject(String[] tables) {
         this.tables = tables;

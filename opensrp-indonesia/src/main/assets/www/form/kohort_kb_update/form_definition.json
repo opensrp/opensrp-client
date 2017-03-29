@@ -2,10 +2,29 @@
   "form_data_definition_version": "1",
   "form": {
     "bind_type": "kartu_ibu",
+    "ec_bind_type": "ec_kartu_ibu",
     "default_bind_path": "/model/instance/kohort_pelayanan_kb_reviewed/",
     "fields": [
       {
         "name": "id",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "start",
+        "bind": "/model/instance/kohort_pelayanan_kb_reviewed/start"
+      },
+      {
+        "name": "end",
+        "bind": "/model/instance/kohort_pelayanan_kb_reviewed/end"
+      },
+      {
+        "name": "cityVillage",
+        "bind": "/model/instance/kohort_pelayanan_kb_reviewed/Village",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "existing_location",
+        "bind": "/model/instance/kohort_pelayanan_kb_reviewed/existing_location",
         "shouldLoadValue": true
       },
       {

@@ -11,6 +11,7 @@ public class CommonPersonObject {
     private String type;
     private String relationalid;
     private Map<String, String> columnmaps;
+    private short closed;
 
     public Map<String, String> getColumnmaps() {
         return columnmaps;
@@ -47,5 +48,13 @@ public class CommonPersonObject {
 
     public String getRelationalId() {
         return relationalid;
+    }
+
+    public void setClosed(short closed) {
+        this.closed = closed;
+    }
+
+    public short getClosed() {
+        return closed;
     }
 }

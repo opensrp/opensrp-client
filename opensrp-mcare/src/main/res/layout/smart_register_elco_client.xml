@@ -80,10 +80,6 @@
                     android:textColor="@color/light_blue"
                     android:id="@+id/gobhhid"
                     android:textSize="12sp" />
-
-
-
-
             </LinearLayout>
 
             <org.ei.opensrp.view.customControls.CustomFontTextView
@@ -107,7 +103,6 @@
             android:gravity="right"
             android:layout_marginRight="1dp"
             android:textSize="12sp" />
-
     </LinearLayout>
 
     <ImageView

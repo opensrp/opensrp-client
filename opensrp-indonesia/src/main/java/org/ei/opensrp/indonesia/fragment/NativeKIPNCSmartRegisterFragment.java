@@ -141,7 +141,7 @@ public class NativeKIPNCSmartRegisterFragment extends SecuredNativeSmartRegister
                         new CursorCommonObjectSort(getResources().getString(R.string.sort_by_name_label),KiSortByNameAZ()),
                         new CursorCommonObjectSort(getResources().getString(R.string.sort_by_name_label_reverse),KiSortByNameZA()),
                         new CursorCommonObjectSort(getResources().getString(R.string.sort_by_wife_age_label),KiSortByAge()),
-                        new CursorCommonObjectSort(getResources().getString(R.string.sort_by_edd_label),KiSortByEdd()),
+                    //    new CursorCommonObjectSort(getResources().getString(R.string.sort_by_edd_label),KiSortByEdd()),
                         new CursorCommonObjectSort(getResources().getString(R.string.sort_by_no_ibu_label),KiSortByNoIbu()),
                 };
             }
@@ -178,6 +178,7 @@ public class NativeKIPNCSmartRegisterFragment extends SecuredNativeSmartRegister
         super.setupViews(view);
         view.findViewById(R.id.btn_report_month).setVisibility(INVISIBLE);
         view.findViewById(R.id.service_mode_selection).setVisibility(View.GONE);
+        view.findViewById(R.id.register_client).setVisibility(View.GONE);
         clientsView.setVisibility(View.VISIBLE);
         clientsProgressView.setVisibility(View.INVISIBLE);
 //        list.setBackgroundColor(Color.RED);
@@ -195,9 +196,8 @@ public class NativeKIPNCSmartRegisterFragment extends SecuredNativeSmartRegister
                 "WHEN alerts.status is Null THEN '5'\n" +
                 "Else alerts.status END ASC";
     }
-    public void initializeQueries(){
-        KIPNCClientsProvider kiscp = new KIPNCClientsProvider(getActivity(),clientActionHandler,
-                context().alertService());
+    /*public void initializeQueries(){
+        KIPNCClientsProvider kiscp = new KIPNCClientsProvider(getActivity(),clientActionHandler,context.alertService());
         clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, kiscp, new CommonRepository("ibu",new String []{"ibu.isClosed",  "ibu.hariKeKF","kartu_ibu.namalengkap","kartu_ibu.umur","kartu_ibu.namaSuami"}));
         clientsView.setAdapter(clientAdapter);
 
@@ -225,8 +225,44 @@ public class NativeKIPNCSmartRegisterFragment extends SecuredNativeSmartRegister
 //        setServiceModeViewDrawableRight(null);
         updateSearchView();
         refresh();
-    }
+    }*/
 
+    public void initializeQueries(){
+        try {
+            KIPNCClientsProvider kiscp = new KIPNCClientsProvider(getActivity(),clientActionHandler,context().alertService());
+            clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, kiscp, new CommonRepository("ec_pnc",new String []{"ec_kartu_ibu.namalengkap", "ec_kartu_ibu.namaSuami"}));
+            clientsView.setAdapter(clientAdapter);
+
+            setTablename("ec_pnc");
+            SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
+            countqueryBUilder.SelectInitiateMainTableCounts("ec_pnc");
+            countqueryBUilder.customJoin("LEFT JOIN ec_kartu_ibu on ec_kartu_ibu.id = ec_pnc.id");
+            mainCondition = "is_closed = 0 and keadaanIbu ='hidup' ";
+            joinTable = "";
+            countSelect = countqueryBUilder.mainCondition(mainCondition);
+            super.CountExecute();
+
+            SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
+            queryBUilder.SelectInitiateMainTable("ec_pnc", new String[]{"ec_pnc.relationalid", "ec_pnc.details",  "ec_kartu_ibu.namalengkap","ec_kartu_ibu.namaSuami","imagelist.imageid"});
+            queryBUilder.customJoin("LEFT JOIN ec_kartu_ibu on ec_kartu_ibu.id = ec_pnc.id LEFT JOIN ImageList imagelist ON ec_pnc.id=imagelist.entityID");
+            mainSelect = queryBUilder.mainCondition("ec_kartu_ibu.is_closed = 0 and keadaanIbu ='hidup' ");
+
+            Sortqueries = KiSortByNameAZ();
+
+            currentlimit = 20;
+            currentoffset = 0;
+
+            super.filterandSortInInitializeQueries();
+
+            updateSearchView();
+            refresh();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+        }
+
+    }
 
     @Override
     public void startRegistration() {
@@ -307,7 +343,7 @@ public class NativeKIPNCSmartRegisterFragment extends SecuredNativeSmartRegister
         if(isPausedOrRefreshList()) {
             initializeQueries();
         }
-        //     updateSearchView();
+             updateSearchView();
 //
         try{
             LoginActivity.setLanguage();
@@ -330,11 +366,12 @@ public class NativeKIPNCSmartRegisterFragment extends SecuredNativeSmartRegister
 
                 filters = cs.toString();
                 joinTable = "";
-                mainCondition = " isClosed !='true'  and type = 'pnc' and kartuIbuId != '' ";
+                mainCondition = " is_closed = 0 and keadaanIbu ='hidup' ";
 
                 getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
                 CountExecute();
                 filterandSortExecute();
+
 
             }
 
@@ -357,7 +394,7 @@ public class NativeKIPNCSmartRegisterFragment extends SecuredNativeSmartRegister
 
                 filters = cs.toString();
                 joinTable = "";
-                mainCondition = " isClosed !='true'  and type = 'pnc' and kartuIbuId != '' ";
+                mainCondition = " is_closed = 0 and keadaanIbu ='hidup' ";
 
                 getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
                 filterandSortExecute();
@@ -379,7 +416,7 @@ public class NativeKIPNCSmartRegisterFragment extends SecuredNativeSmartRegister
             }else{
                 StringUtil.humanize(entry.getValue().getLabel());
                 String name = StringUtil.humanize(entry.getValue().getLabel());
-                dialogOptionslist.add(new KICommonObjectFilterOption(name,"dusun", name));
+                dialogOptionslist.add(new KICommonObjectFilterOption(name, "location_name", name, "ec_kartu_ibu"));
 
             }
         }

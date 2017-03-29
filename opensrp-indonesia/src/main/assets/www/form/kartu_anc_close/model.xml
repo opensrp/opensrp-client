@@ -1,55 +1,47 @@
 <model>
     <instance>
-        <penutupan_anc_reviewed encounter_type="Penutupan ANC" id="penutupan_anc"
-            version="201511240657">
+        <penutupan_anc_reviewed encounter_type="Penutupan ANC" id="penutupan_anc" version="201610120908">
             <formhub>
-                <uuid />
+                <uuid/>
             </formhub>
-            <start />
-            <today />
-            <deviceid />
-            <simserial />
-            <phonenumber />
-            <close_reason />
-            <case_num_abortions />
-            <num_abortions />
-            <spontaneous_abortion_group>
-                <case_num_abortions_spontaneous />
-                <num_abortions_spontaneous />
-                <date_spontaneous />
-                <case_lmp />
-                <num_weeks_spontaneous />
-                <spont_abortion_cause />
-                <spont_abortion_cause_other />
-                <spont_abortion_place />
-                <case_w_rh_negative />
-                <rh_injection_given1 />
-                <threemonths_from_spont_abortion_date />
-                <threemonths_from_spont_abortion_date_formatted />
-                <spont_abortion_message />
-            </spontaneous_abortion_group>
-            <induced_abortion_group>
-                <case_num_abortions_induced />
-                <num_abortions_induced />
-                <time_induced />
-                <date_induced />
-                <rh_injection_given2 />
-                <induced_fp_message />
-            </induced_abortion_group>
+            <start openmrs_entity="encounter" openmrs_entity_id="encounter_start"/>
+            <today openmrs_entity="encounter" openmrs_entity_id="encounter_date"/>
+            <deviceid/>
+            <simserial/>
+            <phonenumber/>
+            <Province/>
+            <District/>
+            <Sub-district/>
+            <Village/>
+            <Sub-village/>
+            <generated_note_name_13/>
+            <generated_note_name_14/>
+            <existing_location openmrs_entity="encounter" openmrs_entity_id="location_id"/>
+            <provinsi openmrs_entity="person_address" openmrs_entity_id="stateProvince" openmrs_entity_parent="usual_residence"/>
+            <kabupaten openmrs_entity="person_address" openmrs_entity_id="countyDistrict" openmrs_entity_parent="usual_residence"/>
+            <desa openmrs_entity="person_address" openmrs_entity_id="cityVillage" openmrs_entity_parent="usual_residence"/>
+            <dusun openmrs_entity="person_address" openmrs_entity_id="address1" openmrs_entity_parent="usual_residence"/>
+            <kecamatan openmrs_entity="person_address" openmrs_entity_id="address2" openmrs_entity_parent="usual_residence"/>
+            <close_reason openmrs_entity="Concept" openmrs_entity_id="160417AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <other_close_reason openmrs_entity="Concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="Closing reason - 1541AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
             <maternal_death_group>
-                <date_maternal_death />
-                <maternal_death_cause />
-                <other_maternal_death_cause />
-                <place_of_death />
-                <other_place_of_death />
+                <date_maternal_death openmrs_entity="Concept" openmrs_entity_id="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                <maternal_death_cause openmrs_entity="Concept" openmrs_entity_id="159404AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                <other_maternal_death_cause openmrs_entity="Concept" openmrs_entity_id="162580AAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="Cause of death of mother - 159404AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                <place_of_death openmrs_entity="Concept" openmrs_entity_id="1541AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                <other_place_of_death openmrs_entity="Concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="Location of Death - 1541AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                <address openmrs_entity="Concept" openmrs_entity_id="1354AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
             </maternal_death_group>
-            <not_maternal_death_cause />
-            <rh_injection_given />
-            <confirm_anc_close />
-            <confirm_anc_left />
-            <end />
+            <note_maternal_death_cause openmrs_entity="Concept" openmrs_entity_id="160218AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <birth_attendant openmrs_entity="Concept" openmrs_entity_id="1573AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <prereferral_management openmrs_entity="Concept" openmrs_entity_id="163104AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <referred openmrs_entity="Concept" openmrs_entity_id="1648AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <referral_location openmrs_entity="Concept" openmrs_entity_id="161562AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <confirm_anc_close openmrs_entity="n/a"/>
+            <confirm_anc_left openmrs_entity="n/a"/>
+            <end openmrs_entity="encounter" openmrs_entity_id="encounter_end"/>
             <meta>
-                <instanceID />
+                <instanceID/>
             </meta>
         </penutupan_anc_reviewed>
     </instance>

@@ -16,7 +16,15 @@ import org.ei.opensrp.view.receiver.SyncBroadcastReceiver;
 import static org.ei.opensrp.util.Log.logInfo;
 
 import java.util.Locale;
-
+@ReportsCrashes(
+        formKey = "",
+        formUri = "https://drishtiapp.cloudant.com/acra-drishtiapp/_design/acra-storage/_update/report",
+        reportType = org.acra.sender.HttpSender.Type.JSON,
+        httpMethod = org.acra.sender.HttpSender.Method.POST,
+        formUriBasicAuthLogin = "sompleakereepeavoldiftle",
+        formUriBasicAuthPassword = "ecUMrMeTKf1X1ODxHqo3b43W",
+        mode = ReportingInteractionMode.SILENT
+)
 
 public class BidanApplication extends DrishtiApplication {
 
@@ -74,60 +82,71 @@ public class BidanApplication extends DrishtiApplication {
     }
 
     private String[] getFtsSearchFields(String tableName){
-        if(tableName.equals("kartu_ibu")){
+        if(tableName.equals("ec_kartu_ibu")){
             String[] ftsSearchFields =  { "namalengkap", "namaSuami" };
             return ftsSearchFields;
-        } else if(tableName.equals("anak")){
+        } else if(tableName.equals("ec_anak")){
             String[] ftsSearchFields =  { "namaBayi" };
             return ftsSearchFields;
-        } else if (tableName.equals("ibu")){
-            String[] ftsSearchFields =  { "namalengkap", "namaSuami" };
+        } else if (tableName.equals("ec_ibu")){
+            String[] ftsSearchFields =  { "namalengkap", "namaSuami"};
+            return ftsSearchFields;
+        }
+        else if (tableName.equals("ec_pnc")) {
+            String[] ftsSearchFields = {"namalengkap", "namaSuami"};
             return ftsSearchFields;
         }
         return null;
     }
 
     private String[] getFtsSortFields(String tableName){
-        if(tableName.equals("kartu_ibu")) {
-            String[] sortFields = { "namalengkap", "umur",  "noIbu", "htp" };
+        if(tableName.equals("ec_kartu_ibu")) {
+            String[] sortFields = { "namalengkap", "umur",  "noIbu", "htp"};
             return sortFields;
-        } else if(tableName.equals("anak")){
+        } else if(tableName.equals("ec_anak")){
             String[] sortFields = { "namaBayi", "tanggalLahirAnak" };
             return sortFields;
-        } else if(tableName.equals("ibu")){
-            String[] sortFields = { "namalengkap", "umur", "noIbu", "htp" };
+        } else if(tableName.equals("ec_ibu")){
+            String[] sortFields = { "namalengkap", "umur", "noIbu", "pptest" , "htp" };
+            return sortFields;
+        } else if(tableName.equals("ec_pnc")){
+            String[] sortFields = { "namalengkap", "umur", "noIbu", "keadaanIbu"};
             return sortFields;
         }
         return null;
     }
 
     private String[] getFtsMainConditions(String tableName){
-        if(tableName.equals("kartu_ibu")) {
-            String[] mainConditions = { "isClosed", "details" };
+        if(tableName.equals("ec_kartu_ibu")) {
+            String[] mainConditions = { "is_closed", "jenisKontrasepsi" };
             return mainConditions;
-        } else if(tableName.equals("anak")){
-            String[] mainConditions = { "isClosed", "ibuCaseId" };
+        } else if(tableName.equals("ec_anak")){
+            String[] mainConditions = { "is_closed", "relational_id" };
             return mainConditions;
-        } else if(tableName.equals("ibu")){
-            String[] mainConditions = { "isClosed", "type", "kartuIbuId" };
+        } else if(tableName.equals("ec_ibu")){
+            String[] mainConditions = { "is_closed", "type", "pptest" , "kartuIbuId" };
+            return mainConditions;
+        } else if(tableName.equals("ec_pnc")){
+            String[] mainConditions = { "is_closed","keadaanIbu" , "type"};
             return mainConditions;
         }
         return null;
     }
 
     private String getFtsCustomRelationalId(String tableName){
-        if(tableName.equals("anak")){
-            String customRelationalId = "ibuCaseId";
+        if(tableName.equals("ec_anak")){
+            String customRelationalId = "relational_id";
             return customRelationalId;
-        } else if(tableName.equals("ibu")){
+        } else if(tableName.equals("ec_ibu")){
             String customRelationalId =  "kartuIbuId" ;
             return customRelationalId;
         }
         return null;
     }
 
+
     private String[] getFtsTables(){
-        String[] ftsTables = { "kartu_ibu", "anak", "ibu" };
+        String[] ftsTables = { "ec_kartu_ibu", "ec_anak", "ec_ibu", "ec_pnc" };
         return ftsTables;
     }
 
@@ -137,7 +156,7 @@ public class BidanApplication extends DrishtiApplication {
             commonFtsObject.updateSearchFields(ftsTable, getFtsSearchFields(ftsTable));
             commonFtsObject.updateSortFields(ftsTable, getFtsSortFields(ftsTable));
             commonFtsObject.updateMainConditions(ftsTable, getFtsMainConditions(ftsTable));
-            commonFtsObject.updateCustomRelationalId(ftsTable, getFtsCustomRelationalId(ftsTable));
+          //  commonFtsObject.updateCustomRelationalId(ftsTable, getFtsCustomRelationalId(ftsTable));
         }
         return commonFtsObject;
     }

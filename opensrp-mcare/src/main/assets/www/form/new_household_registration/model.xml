@@ -39,6 +39,7 @@
       <FWNHHMBRNUM openmrs_entity="concept" openmrs_entity_id="5611AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
       <FWNHHMWRA/>
       <woman template="" openmrs_entity="person" openmrs_entity_id="New Woman Registration">
+        <household_head_entity_id openmrs_entity="person_relationship" openmrs_entity_id="household_head"/>
         <GOBHHID openmrs_entity="person_attribute" openmrs_entity_id="GoB_HHID"/>
         <JiVitAHHID openmrs_entity="person_attribute" openmrs_entity_id="JiVitA_HHID"/>
         <REGDATE/>

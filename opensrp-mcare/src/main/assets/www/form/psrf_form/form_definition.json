@@ -3,6 +3,7 @@
   "form": {
     "default_bind_path": "/model/instance/PregnancySurveillanceAndRegistrationForm",
     "bind_type": "elco",
+    "ec_bind_type": "ec_elco",
     "fields": [
        {
             "name": "id",

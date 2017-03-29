@@ -1,7 +1,8 @@
 {
-  "form_data_definition_version": "1",
+  "form_data_definition_version": "3",
   "form": {
     "bind_type": "ibu",
+    "ec_bind_type": "ec_ibu",
     "default_bind_path": "/model/instance/kunjungan_anc_reviewed_integrasi/",
     "fields": [
       {
@@ -9,9 +10,27 @@
         "shouldLoadValue": true
       },
       {
+        "name": "start",
+        "bind": "/model/instance/kunjungan_anc_reviewed_integrasi/start"
+      },
+      {
+        "name": "end",
+        "bind": "/model/instance/kunjungan_anc_reviewed_integrasi/end"
+      },
+      {
         "name": "kiId",
         "shouldLoadValue": true,
         "source": "ibu.kartu_ibu.id"
+      },
+      {
+        "name": "cityVillage",
+        "bind": "/model/instance/kunjungan_anc_reviewed_integrasi/Village",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "existing_location",
+        "bind": "/model/instance/kunjungan_anc_reviewed_integrasi/existing_location",
+        "shouldLoadValue": true
       },
       {
         "name": "lokasiPeriksa",
@@ -58,10 +77,6 @@
         "bind": "/model/instance/kunjungan_anc_reviewed_integrasi/integrasi_program_tb_obat"
       },
       {
-        "name": "resikoTerdeteksiPertamaKaliOleh",
-        "bind": "/model/instance/kunjungan_anc_reviewed_integrasi/resiko_terdeksi_pertama_kali"
-      },
-      {
         "name": "High_Risk_TBC",
         "bind": "/model/instance/kunjungan_anc_reviewed_integrasi/High_Risk_TBC",
         "source": "ibu.kartu_ibu.tbcRisk"
@@ -73,10 +88,6 @@
       },
       {
         "name": "submissionDate",
-        "bind": "/model/instance/kunjungan_anc_reviewed_integrasi/today"
-      },
-      {
-        "name": "registrationDate",
         "bind": "/model/instance/kunjungan_anc_reviewed_integrasi/today"
       }
     ]

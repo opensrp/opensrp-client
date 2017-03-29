@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">OpenSRP</string>
+    <string name="app_name">opensrp-gizi</string>
     <string name="userNameEditText">ಬಳಕೆದಾರರ ಐಡಿ</string>
     <string name="passwordEditText">ಬಳಕೆದಾರರ ಪಾಸ್ವರ್ಡ್</string>
     <string name="login_text">ಲಾಗಿನ್</string>

@@ -87,4 +87,8 @@
     <integer name="pnc_list_service_mode_views_section_weight">68</integer>
     <integer name="pnc_list_days_pp_view_weight">7</integer>
 
+    <integer name="stroke_width">4</integer>
+    <integer name="heart_animation_duration">300</integer>
+
+
 </resources>

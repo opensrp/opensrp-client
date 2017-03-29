@@ -49,9 +49,15 @@ public class KIANCOverviewServiceMode extends ServiceModeOption {
             @Override
             public int[] headerTextResourceIds() {
                 return new int[]{
+/*<<<<<<< HEAD:opensrp-indonesia/src/main/java/org/ei/opensrp/indonesia/view/dialog/KIANCOverviewServiceMode.java
+                        R.string.header_name, R.string.header_id, R.string.header_status,
+                        R.string.header_pemeriksaan, R.string.header_history_anc,
+                        R.string.header_kunjungan, R.string.header_edit};
+=======*/
                         R.string.header_name, R.string.header_id, R.string.header_klinis,
                         R.string.header_pemeriksaan, R.string.header_history_anc,
                         R.string.header_status, R.string.header_edit};
+//>>>>>>> issue276:opensrp-indonesia/src/main/java/org/ei/opensrp/indonesia/anc/KIANCOverviewServiceMode.java
             }
         };
     }

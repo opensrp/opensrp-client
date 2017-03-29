@@ -53,6 +53,7 @@ import static org.ei.opensrp.util.EasyMap.create;
 
 public abstract class SecuredNativeSmartRegisterActivity extends SecuredActivity {
 
+    public static final String TAG = "SecuredNativeSmartRegisterActivity";
     public static final String DIALOG_TAG = "dialog";
     public static final List<? extends DialogOption> DEFAULT_FILTER_OPTIONS = asList(new AllClientsFilter());
 
@@ -565,7 +566,7 @@ public abstract class SecuredNativeSmartRegisterActivity extends SecuredActivity
 
             editor.commit();
         }catch (Exception e){
-            e.printStackTrace();
+            Log.e(TAG, e.toString(), e);
         }
     }
 
@@ -604,7 +605,7 @@ public abstract class SecuredNativeSmartRegisterActivity extends SecuredActivity
                 }
             }
         }catch (Exception e){
-            e.printStackTrace();
+            Log.e(TAG, e.toString(), e);
         }
         return null;
     }

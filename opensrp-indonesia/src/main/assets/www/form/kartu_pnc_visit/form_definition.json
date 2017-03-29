@@ -1,12 +1,21 @@
 {
-  "form_data_definition_version": "1",
+  "form_data_definition_version": "3",
   "form": {
     "bind_type": "ibu",
+    "ec_bind_type": "ec_ibu",
     "default_bind_path": "/model/instance/PNC_visit_reviewed/",
     "fields": [
       {
         "name": "id",
         "shouldLoadValue": true
+      },
+      {
+        "name": "start",
+        "bind": "/model/instance/PNC_visit_reviewed/start"
+      },
+      {
+        "name": "end",
+        "bind": "/model/instance/PNC_visit_reviewed/end"
       },
       {
         "name": "kiId",
@@ -19,6 +28,16 @@
         "source": "ibu.anak.id"
       },
       {
+        "name": "cityVillage",
+        "bind": "/model/instance/PNC_visit_reviewed/Village",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "existing_location",
+        "bind": "/model/instance/PNC_visit_reviewed/existing_location",
+        "shouldLoadValue": true
+      },
+      {
         "name": "lokasiPeriksa",
         "bind": "/model/instance/PNC_visit_reviewed/Lokasi_periksa"
       },
@@ -27,7 +46,7 @@
         "bind": "/model/instance/PNC_visit_reviewed/nik"
       },
       {
-        "name": "referenceDate",
+        "name": "PNCDate",
         "bind": "/model/instance/PNC_visit_reviewed/tanggal_kunjungan"
       },
       {
@@ -43,14 +62,12 @@
       {
         "name": "tandaVitalTDSistolik",
         "bind": "/model/instance/PNC_visit_reviewed/tanda_vital_td_sistolik",
-        "source": "ibu.kartu_ibu.tandaVitalTDSistolik",
-        "shouldLoadValue": true
+        "source": "ibu.kartu_ibu.tandaVitalTDSistolik"
       },
       {
         "name": "tandaVitalTDDiastolik",
         "bind": "/model/instance/PNC_visit_reviewed/tanda_vital_td_diastolik",
-        "source": "ibu.kartu_ibu.tandaVitalTDDiastolik",
-        "shouldLoadValue": true
+        "source": "ibu.kartu_ibu.tandaVitalTDDiastolik"
       },
       {
         "name": "tandaVitalSuhu",
@@ -99,6 +116,14 @@
       {
         "name": "kondisiPascaTindakan",
         "bind": "/model/instance/PNC_visit_reviewed/kondisipascatindakan"
+      },
+      {
+        "name": "treatment",
+        "bind": "/model/instance/PNC_visit_reviewed/treatment"
+      },
+      {
+        "name": "treatmentText",
+        "bind": "/model/instance/PNC_visit_reviewed/treatment_text"
       },
       {
         "name": "rujukan",

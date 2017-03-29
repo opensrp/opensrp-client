@@ -519,7 +519,7 @@ public abstract class SecuredNativeSmartRegisterCursorAdapterFragment extends Se
 
         String query = "";
         try{
-            if(commonRepository().isFts() && (filters != null && !StringUtils.containsIgnoreCase(filters, "like"))){
+            if(isValidFilterForFts(commonRepository())){
                 String sql = sqb.searchQueryFts(tablename, joinTable, mainCondition, filters, Sortqueries, currentlimit, currentoffset);
                 List<String> ids = commonRepository().findSearchIds(sql);
                 query = sqb.toStringFts(ids, tablename + "." + CommonRepository.ID_COLUMN, Sortqueries);
@@ -543,7 +543,7 @@ public abstract class SecuredNativeSmartRegisterCursorAdapterFragment extends Se
         try {
             SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(countSelect);
             String query = "";
-            if (commonRepository().isFts() && (filters != null && !StringUtils.containsIgnoreCase(filters, "like"))) {
+            if (isValidFilterForFts(commonRepository())) {
                 String sql = sqb.countQueryFts(tablename, joinTable, mainCondition, filters);
                 List<String> ids = commonRepository().findSearchIds(sql);
                 query = sqb.toStringFts(ids, tablename + "." + CommonRepository.ID_COLUMN);
@@ -569,6 +569,12 @@ public abstract class SecuredNativeSmartRegisterCursorAdapterFragment extends Se
                 c.close();
             }
         }
+    }
+
+    private boolean isValidFilterForFts(CommonRepository commonRepository){
+        return commonRepository.isFts() && filters != null
+                && !StringUtils.containsIgnoreCase(filters, "like")
+                && !StringUtils.startsWithIgnoreCase(filters.trim(), "and ");
     }
 
     public class NavBarActionsHandler implements View.OnClickListener {

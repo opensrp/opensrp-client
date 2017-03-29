@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +56,7 @@ public abstract class SecuredNativeSmartRegisterFragment extends SecuredFragment
 
     public static final String DIALOG_TAG = "dialog";
     public static final List<? extends DialogOption> DEFAULT_FILTER_OPTIONS = asList(new AllClientsFilter());
+
 
     public ListView clientsView;
     public ProgressBar clientsProgressView;
@@ -218,6 +220,7 @@ public abstract class SecuredNativeSmartRegisterFragment extends SecuredFragment
         setReportDates(reportMonthStartView);
     }
 
+
     public void setupSearchView(View view) {
         searchView = (EditText) view.findViewById(R.id.edt_search);
         searchView.setHint(getNavBarOptionsProvider().searchHint());
@@ -316,6 +319,7 @@ public abstract class SecuredNativeSmartRegisterFragment extends SecuredFragment
         populateClientListHeaderView(serviceModeOption.getHeaderProvider(), view);
     }
 
+
     public void onSortSelection(SortOption sortBy) {
         Log.v("he pressed this",sortBy.name());
         currentSortOption = sortBy;
@@ -324,6 +328,7 @@ public abstract class SecuredNativeSmartRegisterFragment extends SecuredFragment
                 .refreshList(currentVillageFilter, currentServiceModeOption,
                         currentSearchFilter, currentSortOption);
     }
+
 
     public void onFilterSelection(FilterOption filter) {
         currentVillageFilter = filter;
@@ -336,7 +341,6 @@ public abstract class SecuredNativeSmartRegisterFragment extends SecuredFragment
     protected void onEditSelection(EditOption editOption, SmartRegisterClient client) {
         editOption.doEdit(client);
     }
-
 
     private void goBack() {
         getActivity().finish();

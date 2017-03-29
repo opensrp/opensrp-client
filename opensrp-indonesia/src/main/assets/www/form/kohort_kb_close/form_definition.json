@@ -2,10 +2,16 @@
     "form_data_definition_version": "1",
     "form": {
         "bind_type": "kartu_ibu",
+        "ec_bind_type": "ec_kartu_ibu",
         "default_bind_path": "/model/instance/penutupan_kb_reviewed/",
         "fields": [
             {
                 "name": "id",
+                "shouldLoadValue": true
+            },
+            {
+                "name": "cityVillage",
+                "bind": "/model/instance/penutupan_kb_reviewed/Village",
                 "shouldLoadValue": true
             },
             {
@@ -21,8 +27,8 @@
                 "bind": "/model/instance/penutupan_kb_reviewed/kb_close_reason"
             },
             {
-                "name": "didWomanSurvive",
-                "bind": "/model/instance/penutupan_kb_reviewed/woman_survived"
+                "name": "keterangan_do",
+                "bind": "/model/instance/penutupan_kb_reviewed/keterangan_do"
             },
             {
                 "name": "deathDate",
@@ -42,7 +48,7 @@
             },
             {
                 "name": "jenisKontrasepsi",
-                "value": ""
+                "bind": "/model/instance/penutupan_kb_reviewed/jenis_kontrasepsi"
             }
         ]
     }

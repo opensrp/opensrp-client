@@ -7,16 +7,31 @@ import android.support.v4.app.FragmentPagerAdapter;
 import org.ei.opensrp.view.fragment.DisplayFormFragment;
 
 
+
+/**
+ * Created by koros on 11/2/15.
+ */
 public class BaseRegisterActivityPagerAdapter extends FragmentPagerAdapter {
     public static final String ARG_PAGE = "page";
     String[] dialogOptions;
     Fragment mBaseFragment;
+    Fragment mProfileFragment;
+    public int offset = 0;
 
     public BaseRegisterActivityPagerAdapter(FragmentManager fragmentManager, String[] dialogOptions, Fragment baseFragment) {
         super(fragmentManager);
         this.dialogOptions = dialogOptions;
         this.mBaseFragment = baseFragment;
+        offset += 1;
     }
+    public BaseRegisterActivityPagerAdapter(FragmentManager fragmentManager, String[] dialogOptions, Fragment baseFragment, Fragment mProfileFragment) {
+        super(fragmentManager);
+        this.dialogOptions = dialogOptions;
+        this.mBaseFragment = baseFragment;
+        this.mProfileFragment = mProfileFragment;
+        offset += 2;
+    }
+
 
     @Override
     public Fragment getItem(int position) {
@@ -25,9 +40,13 @@ public class BaseRegisterActivityPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 fragment = mBaseFragment;
                 break;
-
+            case 1:
+                if(mProfileFragment != null) {
+                    fragment = mProfileFragment;
+                    break;
+                }
             default:
-                String formName = dialogOptions[position - 1]; // account for the base fragment
+                String formName = dialogOptions[position - offset]; // account for the base fragment
                 DisplayFormFragment f = new DisplayFormFragment();
                 f.setFormName(formName);
                 fragment = f;
@@ -42,6 +61,11 @@ public class BaseRegisterActivityPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return dialogOptions.length + 1; // index 0 is always occupied by the base fragment
+        return dialogOptions.length + offset; // index 0 is always occupied by the base fragment
     }
+
+    public int offset() {
+        return offset;
+    }
+
 }

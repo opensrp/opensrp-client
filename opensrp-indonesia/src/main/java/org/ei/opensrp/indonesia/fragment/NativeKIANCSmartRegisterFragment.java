@@ -67,10 +67,10 @@ public class NativeKIANCSmartRegisterFragment extends SecuredNativeSmartRegister
         //
     }
 
-//    @Override
-//    protected SmartRegisterPaginatedAdapter adapter() {
-//        return new SmartRegisterPaginatedAdapter(clientsProvider());
-//    }
+   /* @Override
+    protected SmartRegisterPaginatedAdapter adapter() {
+        return new SmartRegisterPaginatedAdapter(clientsProvider());
+    }*/
 
     @Override
     protected SecuredNativeSmartRegisterActivity.DefaultOptionsProvider getDefaultOptionsProvider() {
@@ -195,36 +195,87 @@ public class NativeKIANCSmartRegisterFragment extends SecuredNativeSmartRegister
                 "WHEN alerts.status is Null THEN '5'\n" +
                 "Else alerts.status END ASC";
     }
-    public void initializeQueries(){
-        KIANCClientsProvider kiscp = new KIANCClientsProvider(getActivity(),clientActionHandler,
-                context().alertService());
-        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, kiscp, new CommonRepository("ibu",new String []{"ibu.isClosed", "ibu.ancDate", "ibu.ancKe","kartu_ibu.namalengkap","kartu_ibu.umur","kartu_ibu.namaSuami"}));
+    public String ancMainSelectWithJoins(){
+        return "Select ec_ibu.id as _id, ec_ibu.namalengkap,ec_ibu.namaSuami,ec_kartu_ibu.umur,ec_ibu.is_closed,ec_ibu.ancDate,ec_ibu.ancKe  \n" +
+                "from ec_ibu Left Join ec_kartu_ibu on  ec_ibu.id = ec_kartu_ibu.id ";
+    }
+    public String ancCounts(){
+        return "Select Count(*) \n" +
+                "from ec_ibu Left Join ec_kartu_ibu on  ec_ibu.id = ec_kartu_ibu.id ";
+    }
+    /*public void initializeQueries(){
+         try {
+        KIANCClientsProvider kiscp = new KIANCClientsProvider(getActivity(),clientActionHandler,context.alertService());
+        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, kiscp, new CommonRepository("ec_ibu",new String []{"ec_ibu.isClosed", "ec_ibu.ancDate", "ec_ibu.ancKe","ec_ibu.namalengkap","ec_ibu.namaSuami"}));
+
         clientsView.setAdapter(clientAdapter);
 
-        setTablename("ibu");
+        setTablename("ec_ibu");
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
-        countqueryBUilder.SelectInitiateMainTableCounts("ibu");
-        countqueryBUilder.customJoin("LEFT JOIN kartu_ibu ON ibu.kartuIbuId = kartu_ibu.id");
-        countSelect = countqueryBUilder.mainCondition(" ibu.isClosed !='true'  and ibu.type = 'anc'");
-        mainCondition = " isClosed !='true' and type = 'anc'";
-        super.CountExecute();
+        countqueryBUilder.SelectInitiateMainTableCounts("ec_ibu");
+     //   countqueryBUilder.customJoin("LEFT JOIN kartu_ibu ON ibu.id = kartu_ibu.id");
+        mainCondition = " isClosed !=0 and pptest = 'Positive'";
+             joinTable = "";
+             countSelect = countqueryBUilder.mainCondition(mainCondition);
+             super.CountExecute();
+
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
-        queryBUilder.SelectInitiateMainTable("ibu", new String[]{"ibu.isClosed", "ibu.details", "ibu.ancDate", "ibu.ancKe","kartu_ibu.namalengkap","kartu_ibu.umur","kartu_ibu.namaSuami"});
-        queryBUilder.customJoin("LEFT JOIN kartu_ibu ON ibu.kartuIbuId = kartu_ibu.id");
-        mainSelect = queryBUilder.mainCondition(" ibu.isClosed !='true' and ibu.type = 'anc'");
+        queryBUilder.SelectInitiateMainTable("ec_ibu", new String[]{"ec_ibu.isClosed", "ec_ibu.details", "ec_ibu.ancDate", "ec_ibu.ancKe","ec_ibu.namalengkap","ec_ibu.namaSuami"});
+         //    countqueryBUilder.customJoin("LEFT JOIN kartu_ibu ON ibu.id = kartu_ibu.id");
+             mainSelect = queryBUilder.mainCondition(mainCondition);
      //   Sortqueries = KiSortByNameAZ();
 
-        currentlimit = 20;
-        currentoffset = 0;
 
-        super.filterandSortInInitializeQueries();
+             currentlimit = 20;
+             currentoffset = 0;
 
-//        setServiceModeViewDrawableRight(null);
-        updateSearchView();
-        refresh();
+             super.filterandSortInInitializeQueries();
+
+             updateSearchView();
+             refresh();
+
+         } catch (Exception e){
+             e.printStackTrace();
+         }
+         finally {
+         }
+    }*/
+    public void initializeQueries(){
+        try {
+            KIANCClientsProvider kiscp = new KIANCClientsProvider(getActivity(),clientActionHandler,context().alertService());
+            clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, kiscp, new CommonRepository("ec_ibu",new String []{"ec_ibu.is_closed", "ec_kartu_ibu.namalengkap", "ec_kartu_ibu.namaSuami"}));
+            clientsView.setAdapter(clientAdapter);
+
+            setTablename("ec_ibu");
+            SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
+            countqueryBUilder.SelectInitiateMainTableCounts("ec_ibu");
+            countqueryBUilder.customJoin("LEFT JOIN ec_kartu_ibu on ec_kartu_ibu.id = ec_ibu.id");
+            mainCondition = " is_closed = 0 ";
+            joinTable = "";
+            countSelect = countqueryBUilder.mainCondition(mainCondition);
+            super.CountExecute();
+
+            SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
+            queryBUilder.SelectInitiateMainTable("ec_ibu", new String[]{"ec_ibu.relationalid","ec_ibu.is_closed", "ec_ibu.details",  "ec_kartu_ibu.namalengkap","ec_kartu_ibu.namaSuami","imagelist.imageid"});
+            queryBUilder.customJoin("LEFT JOIN ec_kartu_ibu on ec_kartu_ibu.id = ec_ibu.id LEFT JOIN ImageList imagelist ON ec_ibu.id=imagelist.entityID");
+            mainSelect = queryBUilder.mainCondition(" ec_kartu_ibu.is_closed = 0");
+            Sortqueries = KiSortByNameAZ();
+
+            currentlimit = 20;
+            currentoffset = 0;
+
+            super.filterandSortInInitializeQueries();
+
+            updateSearchView();
+            refresh();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+        }
+
     }
-
 
     @Override
     public void startRegistration() {
@@ -306,7 +357,7 @@ public class NativeKIANCSmartRegisterFragment extends SecuredNativeSmartRegister
         }
         //     updateSearchView();
         //   checkforNidMissing(mView);
-//
+        updateSearchView();
         try{
             LoginActivity.setLanguage();
         }catch (Exception e){
@@ -328,7 +379,8 @@ public class NativeKIANCSmartRegisterFragment extends SecuredNativeSmartRegister
 
                 filters = cs.toString();
                 joinTable = "";
-                mainCondition = " isClosed !='true' and type = 'anc' ";
+                mainCondition = " is_closed = 0 ";
+
 
                 getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
                 CountExecute();
@@ -352,9 +404,10 @@ public class NativeKIANCSmartRegisterFragment extends SecuredNativeSmartRegister
             @Override
             public void onTextChanged(final CharSequence cs, int start, int before, int count) {
 
+
                 filters = cs.toString();
                 joinTable = "";
-                mainCondition = " isClosed !='true' and type = 'anc' ";
+                mainCondition = " is_closed = 0 ";
 
                 getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
                 filterandSortExecute();
@@ -376,7 +429,7 @@ public class NativeKIANCSmartRegisterFragment extends SecuredNativeSmartRegister
             }else{
                 StringUtil.humanize(entry.getValue().getLabel());
                 String name = StringUtil.humanize(entry.getValue().getLabel());
-                dialogOptionslist.add(new KICommonObjectFilterOption(name,"dusun", name));
+                dialogOptionslist.add(new KICommonObjectFilterOption(name, "location_name", name, "ec_kartu_ibu"));
 
             }
         }

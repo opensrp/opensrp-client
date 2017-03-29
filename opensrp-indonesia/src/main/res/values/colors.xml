@@ -36,4 +36,13 @@
     <color name="action_bar_background">#2b475e</color>
 
     <color name="alert_complete_green_mcare">#4fb45b</color>
+
+    <!-- FaceR-->
+    <color name="green">#a3c639</color>
+    <color name="dark_green">#85a71d</color>
+    <color name="yellow">#ff0</color>
+    <color name="gray">#ccc</color>
+    <color name="pink">#e91e63</color>
+    <color name="white">#fff</color>
+
 </resources>

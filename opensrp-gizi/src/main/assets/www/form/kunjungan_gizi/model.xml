@@ -1,0 +1,77 @@
+<model>
+  <instance>
+    <EC_Kunjungan_Gizi_NewStructure-mapped_O encounter_type="Kunjungan Gizi" id="kunjungan_gizi_new" version="201703160833">
+      <formhub>
+        <uuid/>
+      </formhub>
+      <start openmrs_entity="encounter" openmrs_entity_id="encounter_start"/>
+      <today openmrs_entity="encounter" openmrs_entity_id="encounter_date"/>
+      <deviceid/>
+      <simserial/>
+      <phonenumber/>
+      <Province/>
+      <District/>
+      <Sub-district/>
+      <Village/>
+      <Sub-village/>
+      <generated_note_name_13/>
+      <generated_note_name_14/>
+      <tanggal_lahir openmrs_entity="person" openmrs_entity_id="birthdate"/>
+      <nama_bayi openmrs_entity="Concept" openmrs_entity_id="1586AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <generated_note_name_17/>
+      <generated_note_name_18/>
+      <existing_location openmrs_entity="encounter" openmrs_entity_id="location_id"/>
+      <provinsi openmrs_entity="person_address" openmrs_entity_id="stateProvince" openmrs_entity_parent="usual_residence"/>
+      <kabupaten openmrs_entity="person_address" openmrs_entity_id="countyDistrict" openmrs_entity_parent="usual_residence"/>
+      <desa openmrs_entity="person_address" openmrs_entity_id="cityVillage" openmrs_entity_parent="usual_residence"/>
+      <dusun openmrs_entity="person_address" openmrs_entity_id="address1" openmrs_entity_parent="usual_residence"/>
+      <kecamatan openmrs_entity="person_address" openmrs_entity_id="address2" openmrs_entity_parent="usual_residence"/>
+      <underweight openmrs_entity="concept" openmrs_entity_id="1854AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <stunting openmrs_entity="concept" openmrs_entity_id="164088AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <wasting openmrs_entity="concept" openmrs_entity_id="163515AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <weight_for_age_status/>
+      <height_for_age_status/>
+      <weight_for_length_status/>
+      <nutrition_status openmrs_entity="concept" openmrs_entity_id="1854AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <bgm openmrs_entity="concept" openmrs_entity_id="1854AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <dua_t openmrs_entity="concept" openmrs_entity_id="164136AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <ntob_status/>
+      <bgm_status/>
+      <dua_t_status/>
+      <generated_note_name_42/>
+      <generated_note_name_43/>
+      <generated_note_name_44/>
+      <generated_note_name_45/>
+      <generated_note_name_46/>
+      <generated_note_name_47/>
+      <generated_note_name_48/>
+      <jenis_kelamin openmrs_entity="person" openmrs_entity_id="gender"/>
+      <tanggal_penimbangan openmrs_entity="concept" openmrs_entity_id="160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <kunjungan_sebelumnya openmrs_entity="concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <preload_umur openmrs_entity="concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="1532AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">0</preload_umur>
+      <preload_history_tinggi openmrs_entity="concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">0:0</preload_history_tinggi>
+      <umur openmrs_entity="concept" openmrs_entity_id="1532AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <umur_bulan openmrs_entity="concept" openmrs_entity_id="1532AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <generated_note_name_61/>
+      <berat_preload openmrs_entity="concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">0:0</berat_preload>
+      <berat_badan openmrs_entity="concept" openmrs_entity_id="5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <history_berat openmrs_entity="concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <tinggi_badan openmrs_entity="concept" openmrs_entity_id="5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <history_tinggi openmrs_entity="concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <history_umur openmrs_entity="concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="1532AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <generated_note_name_73/>
+      <generated_note_name_74/>
+      <generated_note_name_75/>
+      <mp_asi openmrs_entity="concept" openmrs_entity_id="159854AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <ae openmrs_entity="concept" openmrs_entity_id="5632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <vitA openmrs_entity="concept" openmrs_entity_id="161534AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <waktuVitA openmrs_entity="concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <jenisVitA openmrs_entity="n/a"/>
+      <obatcacing openmrs_entity="concept" openmrs_entity_id="164137AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <end openmrs_entity="encounter" openmrs_entity_id="encounter_end"/>
+      <meta>
+        <instanceID/>
+      </meta>
+    </EC_Kunjungan_Gizi_NewStructure-mapped_O>
+  </instance>
+</model>

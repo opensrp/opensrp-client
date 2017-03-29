@@ -4,7 +4,9 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import org.ei.opensrp.Context;
 import org.ei.opensrp.repository.AllBeneficiaries;
+import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.util.Cache;
 import org.ei.opensrp.util.CacheableData;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Collections.sort;
 /**
@@ -39,7 +42,7 @@ public class CommonPersonObjectController {
     ArrayList <ControllerFilterMap> filtermap;
 
     public enum ByColumnAndByDetails{
-        byColumn,byDetails,byrelationalid;
+        byColumn,byDetails,byrelationalid,byrelational_id;
     }
 
 
@@ -154,6 +157,7 @@ public class CommonPersonObjectController {
             @Override
             public String fetch() {
                 List<CommonPersonObject> p = allpersonobjects.all();
+                updateDetails(p);
                 CommonPersonObjectClients pClients = new CommonPersonObjectClients();
                 if(filtermap != null){
                     for (CommonPersonObject personinlist : p) {
@@ -227,6 +231,18 @@ public class CommonPersonObjectController {
                                 }
                             }
                             break;
+                        case byrelational_id:
+                            for (CommonPersonObject personinlist : p) {
+                                if(!isnull(personinlist)) {
+                                    if (personinlist.getColumnmaps().get("relational_id").equalsIgnoreCase(filtervalue)==filtercase) {
+                                        CommonPersonObjectClient pClient = new CommonPersonObjectClient(personinlist.getCaseId(), personinlist.getDetails(), personinlist.getDetails().get(nameString));
+                                        pClient.setColumnmaps(personinlist.getColumnmaps());
+                                        pClients.add(pClient);
+
+                                    }
+                                }
+                            }
+                            break;
                     }
                 }
                 if(sortOption == null) {
@@ -247,34 +263,35 @@ public class CommonPersonObjectController {
             @Override
             public CommonPersonObjectClients fetch() {
                 List<CommonPersonObject> p = allpersonobjects.all();
+                updateDetails(p);
                 CommonPersonObjectClients pClients = new CommonPersonObjectClients();
                 if(filtermap != null){
                     for (CommonPersonObject personinlist : p) {
                         boolean filter = false;
-                            Log.v("is filtermap ", "" + filtermap.size());
-                            for(int k = 0;k<filtermap.size();k++) {
-                                filter = filtermap.get(k).filtermapLogic(personinlist);
-                            }
-
-                            if (!isnull(personinlist) && filter) {
-                                CommonPersonObjectClient pClient = new CommonPersonObjectClient(personinlist.getCaseId(), personinlist.getDetails(), personinlist.getDetails().get(nameString));
-//                    pClient.entityID = personinlist.getCaseId();
-                                pClient.setColumnmaps(personinlist.getColumnmaps());
-                                pClients.add(pClient);
-
-                            }
+                        Log.v("is filtermap ", "" + filtermap.size());
+                        for(int k = 0;k<filtermap.size();k++) {
+                            filter = filtermap.get(k).filtermapLogic(personinlist);
                         }
+
+                        if (!isnull(personinlist) && filter) {
+                            CommonPersonObjectClient pClient = new CommonPersonObjectClient(personinlist.getCaseId(), personinlist.getDetails(), personinlist.getDetails().get(nameString));
+//                    pClient.entityID = personinlist.getCaseId();
+                            pClient.setColumnmaps(personinlist.getColumnmaps());
+                            pClients.add(pClient);
+
+                        }
+                    }
                 }
                 else  if(filterkey == null){
                     for (CommonPersonObject personinlist : p) {
 
-                            if (!isnull(personinlist)) {
-                                CommonPersonObjectClient pClient = new CommonPersonObjectClient(personinlist.getCaseId(), personinlist.getDetails(), personinlist.getDetails().get(nameString));
+                        if (!isnull(personinlist)) {
+                            CommonPersonObjectClient pClient = new CommonPersonObjectClient(personinlist.getCaseId(), personinlist.getDetails(), personinlist.getDetails().get(nameString));
 //                    pClient.entityID = personinlist.getCaseId();
-                                pClient.setColumnmaps(personinlist.getColumnmaps());
-                                pClients.add(pClient);
-                            }
+                            pClient.setColumnmaps(personinlist.getColumnmaps());
+                            pClients.add(pClient);
                         }
+                    }
 
                 }else{
                     switch (byColumnAndByDetails){
@@ -311,6 +328,18 @@ public class CommonPersonObjectController {
                                 if (!isnull(personinlist)) {
                                     if (personinlist.getRelationalId().equalsIgnoreCase(filtervalue) ==filtercase) {
                                         CommonPersonObjectClient pClient = new CommonPersonObjectClient(personinlist.getCaseId(), personinlist.getDetails(), personinlist.getDetails().get(nameString));
+                                        pClient.setColumnmaps(personinlist.getColumnmaps());
+                                        pClients.add(pClient);
+
+                                    }
+                                }
+                            }
+                            break;
+                        case byrelational_id:
+                            for (CommonPersonObject personinlist : p) {
+                                if (!isnull(personinlist)) {
+                                    if (personinlist.getColumnmaps().get("relational_id").equalsIgnoreCase(filtervalue) ==filtercase) {
+                                        CommonPersonObjectClient pClient = new CommonPersonObjectClient(personinlist.getCaseId(), personinlist.getDetails(), personinlist.getDetails().get(nameString) );
                                         pClient.setColumnmaps(personinlist.getColumnmaps());
                                         pClients.add(pClient);
 
@@ -362,6 +391,13 @@ public class CommonPersonObjectController {
     }
 
 
+    private void updateDetails(List<CommonPersonObject> p){
+        DetailsRepository detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
+        for(CommonPersonObject pc: p) {
+            detailsRepository.updateDetails(pc);
+        }
+
+    }
 
 }
 

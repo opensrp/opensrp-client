@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".face.camera.ImageConfirmation" >
+
+    <ImageView
+        android:contentDescription="@string/desc"
+        android:id="@+id/iv_confirmationView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"/>
+
+      <ImageView
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:layout_alignParentBottom="true"
+          android:layout_alignParentRight="true"
+          android:layout_marginRight="55dp"
+          android:background="@drawable/ic_checked_white"
+          android:contentDescription="@string/desc_approval"
+          android:id="@+id/iv_approve"
+          android:layout_alignTop="@+id/iv_cancel" />
+
+      <ImageView
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:layout_alignParentBottom="true"
+          android:layout_alignParentLeft="true"
+          android:layout_marginLeft="55dp"
+          android:background="@drawable/ic_trash_delete"
+          android:contentDescription="@string/desc_trash"
+          android:id="@+id/iv_cancel"
+          />
+
+
+</RelativeLayout>

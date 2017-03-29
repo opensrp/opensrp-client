@@ -73,7 +73,7 @@ public class FormSubmissionService {
         }
 
         FormData form = formSubmission.getForm();
-        String bindType = form.bindType();
+        String bindType = form.getBind_type();
         for(FormField field: form.fields()){
             if(field.name() != null && field.name().equals("id")){
                 String entityId = field.value();
@@ -96,10 +96,10 @@ public class FormSubmissionService {
                 }
             }
 
-        List<SubForm> subForms  =form.getSubForms();
+        List<SubForm> subForms  =form.getSub_forms();
         if(subForms != null && !subForms.isEmpty()){
             for(SubForm subForm: subForms){
-                String subBindType = subForm.bindType();
+                String subBindType = subForm.getBind_type();
                 List<Map<String, String>> instances = subForm.instances();
                 if(instances != null && !instances.isEmpty()) {
                     for(Map<String, String> instance: instances) {

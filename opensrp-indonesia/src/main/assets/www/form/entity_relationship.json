@@ -5,7 +5,7 @@
         "field":"ibu_ibu",
         "kind":"one_to_many",
         "from":"bidan.id",
-        "to":"ibu.bidanId"
+        "to":"ibu.relationalid"
     },
     {
         "parent":"kartu_ibu",
@@ -13,7 +13,7 @@
         "field":"istri",
         "kind":"one_to_one",
         "from":"kartu_ibu.id",
-        "to":"ibu.kartuIbuId"
+        "to":"ibu.relationalid"
     },
     {
         "parent":"ibu",
@@ -21,6 +21,6 @@
         "field":"anak_anak",
         "kind":"one_to_many",
         "from":"ibu.id",
-        "to":"anak.ibuCaseId"
+        "to":"anak.relationalid"
     }
 ]

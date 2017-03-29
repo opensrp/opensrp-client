@@ -1,7 +1,8 @@
 {
-    "form_data_definition_version": "2",
+    "form_data_definition_version": "3",
     "form": {
         "bind_type": "ibu",
+        "ec_bind_type": "ec_kartu_ibu",
         "default_bind_path": "/model/instance/penutupan_anc_reviewed/",
         "fields": [
             {
@@ -14,77 +15,32 @@
                 "source": "ibu.kartu_ibu.id"
             },
             {
+                "name": "cityVillage",
+                "bind": "/model/instance/penutupan_anc_reviewed/Village",
+                "shouldLoadValue": true
+            },
+            {
+                "name": "existing_location",
+                "bind": "/model/instance/penutupan_anc_reviewed/existing_location",
+                "shouldLoadValue": true
+            },
+            {
+                "name": "desa",
+                "bind": "/model/instance/penutupan_anc_reviewed/desa"
+            },
+            {
+                "name": "dusun",
+                "bind": "/model/instance/penutupan_anc_reviewed/dusun"
+            },
+            {
                 "name": "closeReason",
                 "bind": "/model/instance/penutupan_anc_reviewed/close_reason"
             },
             {
-                "name": "numberOfAbortions",
-                "bind": "/model/instance/penutupan_anc_reviewed/case_num_abortions"
+                "name": "otherCloseReason",
+                "bind": "/model/instance/penutupan_anc_reviewed/other_close_reason"
             },
-            {
-                "name": "numberOfAbortions",
-                "bind": "/model/instance/penutupan_anc_reviewed/num_abortions"
-            },
-            {
-                "name": "numberOfSpontaneousAbortions",
-                "bind": "/model/instance/penutupan_anc_reviewed/spontaneous_abortion_group/case_num_abortions_spontaneous"
-            },
-            {
-                "name": "numberOfSpontaneousAbortions",
-                "bind": "/model/instance/penutupan_anc_reviewed/spontaneous_abortion_group/num_abortions_spontaneous"
-            },
-            {
-                "name": "dateOfSpontaneousAbortion",
-                "bind": "/model/instance/penutupan_anc_reviewed/spontaneous_abortion_group/date_spontaneous"
-            },
-            {
-                "name": "referenceDate",
-                "bind": "/model/instance/penutupan_anc_reviewed/spontaneous_abortion_group/case_lmp"
-            },
-            {
-                "name": "numberOfWeeksPregnantWhenSpontaneousAbortionHappened",
-                "bind": "/model/instance/penutupan_anc_reviewed/spontaneous_abortion_group/num_weeks_spontaneous"
-            },
-            {
-                "name": "causeOfSpontaneousAbortion",
-                "bind": "/model/instance/penutupan_anc_reviewed/spontaneous_abortion_group/spont_abortion_cause"
-            },
-            {
-                "name": "otherCauseOfSpontaneousAbortion",
-                "bind": "/model/instance/penutupan_anc_reviewed/spontaneous_abortion_group/spont_abortion_cause_other"
-            },
-            {
-                "name": "placeOfSpontaneousAbortion",
-                "bind": "/model/instance/penutupan_anc_reviewed/spontaneous_abortion_group/spont_abortion_place"
-            },
-            {
-                "name": "isRHNegative",
-                "bind": "/model/instance/penutupan_anc_reviewed/spontaneous_abortion_group/case_w_rh_negative"
-            },
-            {
-                "name": "rhInjectionGiven1",
-                "bind": "/model/instance/penutupan_anc_reviewed/induced_abortion_group/rh_injection_given1"
-            },
-            {
-                "name": "numberOfInducedAbortions",
-                "bind": "/model/instance/penutupan_anc_reviewed/induced_abortion_group/case_num_abortions_induced"
-            },
-            {
-                "name": "numberOfInducedAbortions",
-                "bind": "/model/instance/penutupan_anc_reviewed/induced_abortion_group/num_abortions_induced"
-            },
-            {
-                "name": "timeOfInducedAbortion",
-                "bind": "/model/instance/penutupan_anc_reviewed/induced_abortion_group/time_induced"
-            },
-            {
-                "name": "dateOfInducedAbortion",
-                "bind": "/model/instance/penutupan_anc_reviewed/induced_abortion_group/date_induced"
-            },
-            {
-                "name": "rhInjectionGiven2",
-                "bind": "/model/instance/penutupan_anc_reviewed/induced_abortion_group/rh_injection_given2"
-            },
+
             {
                 "name": "maternalDeathDate",
                 "bind": "/model/instance/penutupan_anc_reviewed/maternal_death_group/date_maternal_death"
@@ -106,12 +62,28 @@
                 "bind": "/model/instance/penutupan_anc_reviewed/maternal_death_group/other_place_of_death"
             },
             {
-                "name": "notMaternalDeathCause",
-                "bind": "/model/instance/penutupan_anc_reviewed/maternal_death_group/not_maternal_death_cause"
+                "name": "address",
+                "bind": "/model/instance/penutupan_anc_reviewed/maternal_death_group/address"
             },
             {
-                "name": "rhInjectionGiven",
-                "bind": "/model/instance/penutupan_anc_reviewed/rh_injection_given"
+                "name": "noteMaternalDeathCause",
+                "bind": "/model/instance/penutupan_anc_reviewed/note_maternal_death_cause"
+            },
+            {
+                "name": "birthAttendant",
+                "bind": "/model/instance/penutupan_anc_reviewed/birth_attendant"
+            },
+            {
+                "name": "prereferralManagement",
+                "bind": "/model/instance/penutupan_anc_reviewed/prereferral_management"
+            },
+            {
+                "name": "referred",
+                "bind": "/model/instance/penutupan_anc_reviewed/referred"
+            },
+            {
+                "name": "referralLocation",
+                "bind": "/model/instance/penutupan_anc_reviewed/referral_location"
             },
             {
                 "name": "isANCCloseConfirmed",
@@ -124,10 +96,6 @@
             {
                 "name": "submissionDate",
                 "bind": "/model/instance/penutupan_anc_reviewed/today"
-            },
-            {
-                "name": "registrationDate",
-                "bind": "/model/instance/penutupan_anc_reviewed/reg_date"
             },
             {
                 "name": "htp",

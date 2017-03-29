@@ -42,7 +42,7 @@ public class CommonObjectSearchFilterOption implements FilterOption {
                 AllCommonsRepository allchildRepository = Context.getInstance().allCommonsRepositoryobjects(filteroptions.get(i).childname);
                 ArrayList<String> list = new ArrayList<String>();
                 list.add((currentclient.entityId()));
-                List<CommonPersonObject> allchild = allchildRepository.findByRelationalIDs(list);
+                List<CommonPersonObject> allchild = allchildRepository.findByRelational_IDs(list);
                 for (int j = 0; j < allchild.size(); j++) {
                     switch (filteroptions.get(i).byChildColumnAndByDetails) {
                         case byDetails:

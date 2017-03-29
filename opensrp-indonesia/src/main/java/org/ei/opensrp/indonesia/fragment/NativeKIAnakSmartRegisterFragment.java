@@ -20,6 +20,7 @@ import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.child.AnakDetailActivity;
 import org.ei.opensrp.indonesia.child.AnakOverviewServiceMode;
 import org.ei.opensrp.indonesia.child.AnakRegisterClientsProvider;
+import org.ei.opensrp.indonesia.child.ChildFilterOption;
 import org.ei.opensrp.indonesia.child.NativeKIAnakSmartRegisterActivity;
 import org.ei.opensrp.indonesia.kartu_ibu.KICommonObjectFilterOption;
 import org.ei.opensrp.indonesia.lib.FlurryFacade;
@@ -201,23 +202,22 @@ public class NativeKIAnakSmartRegisterFragment extends SecuredNativeSmartRegiste
 
         ///------------------------------------------------------------------
 
-        AnakRegisterClientsProvider anakscp = new AnakRegisterClientsProvider(getActivity(),
-                clientActionHandler,context().alertService());
-        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, anakscp, new CommonRepository("anak",new String []{"namaBayi", "tanggalLahirAnak", "anak.isClosed"}));
+        AnakRegisterClientsProvider anakscp = new AnakRegisterClientsProvider(getActivity(),clientActionHandler,context().alertService());
+        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, anakscp, new CommonRepository("ec_anak",new String []{"namaBayi", "tanggalLahirAnak", "ec_anak.is_closed"}));
         clientsView.setAdapter(clientAdapter);
 
-        setTablename("anak");
+        setTablename("ec_anak");
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
-        countqueryBUilder.SelectInitiateMainTableCounts("anak");
-        countqueryBUilder.customJoin("LEFT JOIN ibu ON ibu.id = anak.ibuCaseId LEFT JOIN kartu_ibu ON ibu.kartuIbuId = kartu_ibu.id");
-        countSelect = countqueryBUilder.mainCondition(" anak.isClosed !='true' and anak.ibuCaseId !='' ");
-        mainCondition = " isClosed !='true' and ibuCaseId !='' ";
+        countqueryBUilder.SelectInitiateMainTableCounts("ec_anak");
+        countqueryBUilder.customJoin("LEFT JOIN ec_kartu_ibu ON ec_kartu_ibu.id = ec_anak.relational_id");
+        mainCondition = " is_closed = 0  and relational_id != ''";
+        countSelect = countqueryBUilder.mainCondition("ec_anak_search.is_closed = 0  and relational_id != ''");
         super.CountExecute();
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
-        queryBUilder.SelectInitiateMainTable("anak", new String[]{"anak.isClosed", "anak.details", "namaBayi", "tanggalLahirAnak"});
-        queryBUilder.customJoin("LEFT JOIN ibu ON ibu.id = anak.ibuCaseId LEFT JOIN kartu_ibu ON ibu.kartuIbuId = kartu_ibu.id");
-        mainSelect = queryBUilder.mainCondition(" anak.isClosed !='true' and anak.ibuCaseId !='' ");
+        queryBUilder.SelectInitiateMainTable("ec_anak", new String[]{"ec_anak.is_closed", "ec_anak.details", "namaBayi", "tanggalLahirAnak","imagelist.imageid"});
+        queryBUilder.customJoin("LEFT JOIN ec_ibu ON ec_ibu.id =  ec_anak.relational_id LEFT JOIN ImageList imagelist ON ec_anak.id=imagelist.entityID");
+        mainSelect = queryBUilder.mainCondition("ec_anak.is_closed = 0  and relational_id != ''");
         Sortqueries = AnakNameShort();
 
         currentlimit = 20;
@@ -318,9 +318,10 @@ public class NativeKIAnakSmartRegisterFragment extends SecuredNativeSmartRegiste
             @Override
             public void onTextChanged(final CharSequence cs, int start, int before, int count) {
 
+
                 filters = cs.toString();
                 joinTable = "";
-                mainCondition = " isClosed !='true' and ibuCaseId !='' ";
+                mainCondition = " is_closed = 0 and relational_id != '' ";
 
                 getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
                 CountExecute();
@@ -344,9 +345,10 @@ public class NativeKIAnakSmartRegisterFragment extends SecuredNativeSmartRegiste
             @Override
             public void onTextChanged(final CharSequence cs, int start, int before, int count) {
 
+
                 filters = cs.toString();
                 joinTable = "";
-                mainCondition = " isClosed !='true' and ibuCaseId !='' ";
+                mainCondition = " is_closed = 0 and relational_id != '' ";
 
                 getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
                 filterandSortExecute();
@@ -368,7 +370,7 @@ public class NativeKIAnakSmartRegisterFragment extends SecuredNativeSmartRegiste
             }else{
                 StringUtil.humanize(entry.getValue().getLabel());
                 String name = StringUtil.humanize(entry.getValue().getLabel());
-                dialogOptionslist.add(new KICommonObjectFilterOption(name,"Village", name));
+                dialogOptionslist.add(new ChildFilterOption(name, "location_name", name, "ec_ibu"));
 
             }
         }

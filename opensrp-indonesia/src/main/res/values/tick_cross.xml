@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- geometry -->
+    <integer name="viewport_width">24</integer>
+    <integer name="viewport_height">24</integer>
+    <integer name="viewport_center_x">12</integer>
+    <integer name="viewport_center_y">12</integer>
+    <!--<string name="path_tick">M19.6,7 L10.4,16.2 M4.8,13.4 L9,17.6</string>-->
+    <string name="path_tick">M4.8,13.4 L9,17.6 M10.4,16.2 L19.6,7</string>
+    <!--<string name="path_cross">M17.6,6.4 L6.4,17.6 M6.4,6.4 L17.6,17.6</string>-->
+    <string name="path_cross">M6.4,6.4 L17.6,17.6 M6.4,17.6 L17.6,6.4</string>
+    <!--<integer name="stroke_width">2</integer>-->
+
+    <!-- names -->
+    <string name="tick">tick</string>
+    <string name="cross">cross</string>
+    <string name="groupTickCross">groupTickCross</string>
+
+    <!-- drawing -->
+    <color name="stroke_color">#999</color>
+
+    <!-- timing -->
+    <integer name="duration">450</integer>
+
+</resources>

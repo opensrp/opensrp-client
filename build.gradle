@@ -31,6 +31,7 @@ subprojects {
         maven { url "http://nexus.motechproject.org/content/repositories/snapshots" }
         maven { url "http://acra.googlecode.com/svn/repository/releases" }
         maven { url "http://repo.maven.apache.org/maven2" }
+        maven { url "http://cloudant.github.io/cloudant-sync-eap/repository" }
         maven {
             url "${projectDir}/opensrp-app/../libs/"
         }

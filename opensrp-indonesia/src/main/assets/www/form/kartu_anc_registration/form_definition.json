@@ -1,7 +1,8 @@
 {
-  "form_data_definition_version": "1",
+  "form_data_definition_version": "3",
   "form": {
     "bind_type": "kartu_ibu",
+    "ec_bind_type": "ec_kartu_ibu",
     "default_bind_path": "/model/instance/anc_registration/",
     "fields": [
       {
@@ -9,8 +10,20 @@
         "shouldLoadValue": true
       },
       {
-        "name": "motherId",
-        "source": "kartu_ibu.ibu.id",
+        "name": "start",
+        "bind": "/model/instance/anc_registration/start"
+      },
+      {
+        "name": "end",
+        "bind": "/model/instance/anc_registration/end"
+      },
+      {
+        "name": "pptest",
+        "bind": "/model/instance/anc_registration/pptest"
+      },
+      {
+        "name": "existing_location",
+        "bind": "/model/instance/anc_registration/existing_location",
         "shouldLoadValue": true
       },
       {
@@ -18,8 +31,57 @@
         "bind": "/model/instance/anc_registration/Lokasi_periksa"
       },
       {
+        "name": "cityVillage",
+        "bind": "/model/instance/anc_registration/Village",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "Province",
+        "bind": "/model/instance/anc_registration/Province",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "Sub-district",
+        "bind": "/model/instance/anc_registration/Sub-district",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "District",
+        "bind": "/model/instance/anc_registration/District",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "Sub-village",
+        "bind": "/model/instance/anc_registration/Sub-village",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "dusun",
+        "bind": "/model/instance/anc_registration/dusun"
+      },
+      {
+        "name": "provinsi",
+        "bind": "/model/instance/anc_registration/provinsi"
+      },
+      {
+        "name": "kabupaten",
+        "bind": "/model/instance/anc_registration/kabupaten"
+      },
+      {
+        "name": "kecamatan",
+        "bind": "/model/instance/anc_registration/kecamatan"
+      },
+      {
+        "name": "desa",
+        "bind": "/model/instance/anc_registration/desa"
+      },
+      {
         "name": "tanggalLahirAnakSebelumnya",
         "bind": "/model/instance/anc_registration/tanggal_lahir_anak_sebelumnya"
+      },
+      {
+        "name": "id",
+        "source": "kartu_ibu.ibu.id"
       },
       {
         "name": "referenceDate",
@@ -84,6 +146,10 @@
       {
         "name": "htp",
         "bind": "/model/instance/anc_registration/htp"
+      },
+      {
+        "name": "usiaKlinis",
+        "bind": "/model/instance/anc_registration/usia_klinis"
       },
       {
         "name": "trimesterKe",
@@ -214,7 +280,7 @@
       },
       {
         "name": "type",
-        "value": "anc",
+        "bind": "/model/instance/anc_registration/type",
         "source": "kartu_ibu.ibu.type"
       }
     ]

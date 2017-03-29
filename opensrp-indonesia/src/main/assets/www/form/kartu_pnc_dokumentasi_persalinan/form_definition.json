@@ -1,7 +1,8 @@
 {
-  "form_data_definition_version": "1",
+  "form_data_definition_version": "3",
   "form": {
     "bind_type": "ibu",
+    "ec_bind_type": "ec_ibu",
     "default_bind_path": "/model/instance/dok_persalinan_reviewed/",
     "fields": [
       {
@@ -9,9 +10,22 @@
         "shouldLoadValue": true
       },
       {
-        "name": "childId",
-        "shouldLoadValue": true,
-        "source": "ibu.anak.id"
+        "name": "start",
+        "bind": "/model/instance/dok_persalinan_reviewed/start"
+      },
+      {
+        "name": "end",
+        "bind": "/model/instance/dok_persalinan_reviewed/end"
+      },
+      {
+        "name": "cityVillage",
+        "bind": "/model/instance/dok_persalinan_reviewed/Village",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "existing_location",
+        "bind": "/model/instance/dok_persalinan_reviewed/existing_location",
+        "shouldLoadValue": true
       },
       {
         "name": "lokasiPeriksa",
@@ -19,7 +33,7 @@
       },
       {
         "name": "tanggalHPHT",
-        "bind": "/model/instance/dok_persalinan_reviewed/tanggalHPHT",
+        "bind": "/model/instance/dok_persalinan_reviewed/hpht",
         "source": "ibu.tanggalHPHT",
         "shouldLoadValue": true
       },
@@ -36,11 +50,7 @@
         "bind": "/model/instance/dok_persalinan_reviewed/keadaan_bayi",
         "source": "ibu.anak.keadaanBayi"
       },
-      {
-        "name": "beratLahir",
-        "bind": "/model/instance/dok_persalinan_reviewed/berat_bayi",
-        "source": "ibu.anak.beratLahir"
-      },
+
       {
         "name": "persalinan",
         "bind": "/model/instance/dok_persalinan_reviewed/persalinan"
@@ -126,39 +136,6 @@
         "bind": "/model/instance/dok_persalinan_reviewed/alamat_bersalin"
       },
       {
-        "name": "noBayi",
-        "source": "ibu.anak.no_bayi",
-        "bind": "/model/instance/dok_persalinan_reviewed/no_bayi"
-      },
-      {
-        "name": "namaBayi",
-        "bind": "/model/instance/dok_persalinan_reviewed/nama_bayi",
-        "source": "ibu.anak.namaBayi"
-      },
-      {
-        "name": "tanggalLahirAnak",
-        "bind": "/model/instance/dok_persalinan_reviewed/tanggal_lahir_anak",
-        "source": "ibu.anak.tanggalLahirAnak"
-      },
-      {
-        "name": "jenisKelamin",
-        "bind": "/model/instance/dok_persalinan_reviewed/jenis_kelamin",
-        "source": "ibu.anak.jenisKelamin"
-      },
-      {
-        "name": "kepemilikanBukuKia",
-        "bind": "/model/instance/dok_persalinan_reviewed/kepemilikan_buku_kia",
-        "source": "ibu.anak.kepemilikan_buku_kia"
-      },
-      {
-        "name": "highRiskChildPreterm",
-        "bind": "/model/instance/dok_persalinan_reviewed/High_Risk_Child_preterm"
-      },
-      {
-        "name": "HighRiskChildLowBirthweght",
-        "bind": "/model/instance/dok_persalinan_reviewed/High_Risk_Child_Low_Birthweght"
-      },
-      {
         "name": "highRiskPostPartumDistosia",
         "bind": "/model/instance/dok_persalinan_reviewed/high_risk_postPartum_distosia"
       },
@@ -195,6 +172,19 @@
         "bind": "/model/instance/dok_persalinan_reviewed/high_risk_postPartum_Sectio_Caesaria"
       },
       {
+        "name": "treatment",
+        "bind": "/model/instance/dok_persalinan_reviewed/treatment"
+      },
+      {
+        "name": "treatmentText",
+        "bind": "/model/instance/dok_persalinan_reviewed/treatment_text"
+      },
+      {
+        "name": "kepemilikanBukuKia",
+        "bind": "/model/instance/dok_persalinan_reviewed/kepemilikan_buku_kia",
+        "source": "ibu.anak.kepemilikan_buku_kia"
+      },
+      {
         "name": "type",
         "value": "pnc",
         "source": "ibu.type"
@@ -220,6 +210,73 @@
         "name": "referenceDate",
         "bind": "/model/instance/dok_persalinan_reviewed/reference_date",
         "source": "ibu.referenceDate"
+      }
+    ],
+    "sub_forms": [
+      {
+        "name": "child_registration",
+        "bind_type": "anak",
+        "ec_bind_type": "ec_anak",
+        "default_bind_path": "/model/instance/dok_persalinan_reviewed/child_registration",
+        "fields": [
+          {
+            "name": "id",
+            "shouldLoadValue": true
+          },
+          {
+            "name": "relationalid",
+            "shouldLoadValue": true
+          },
+          {
+            "name": "injectedBaseEntityId",
+            "shouldLoadValue": true
+          },
+          {
+            "name": "ibu_entity_id",
+            "source": "kartu_ibu.id",
+            "shouldLoadValue": true
+          },
+          {
+            "name": "noBayi",
+            "bind": "/model/instance/dok_persalinan_reviewed/child_registration/no_bayi"
+          },
+          {
+            "name": "namaBayi",
+            "bind": "/model/instance/dok_persalinan_reviewed/child_registration/nama_bayi"
+          },
+          {
+            "name": "tanggalLahirAnak",
+            "bind": "/model/instance/dok_persalinan_reviewed/child_registration/tanggal_lahir_anak"
+          },
+          {
+            "name": "jenisKelamin",
+            "bind": "/model/instance/dok_persalinan_reviewed/child_registration/jenis_kelamin"
+          },
+          {
+            "name": "kepemilikanBukuKia",
+            "bind": "/model/instance/dok_persalinan_reviewed/child_registration/kepemilikan_buku_kia"
+          },
+          {
+            "name": "desa_anak",
+            "bind": "/model/instance/dok_persalinan_reviewed/child_registration/desa_anak"
+          },
+          {
+            "name": "child_existing_location",
+            "bind": "/model/instance/dok_persalinan_reviewed/child_registration/child_existing_location"
+          },
+          {
+            "name": "beratLahir",
+            "bind": "/model/instance/dok_persalinan_reviewed/child_registration/berat_badan_saat_lahir"
+          },
+          {
+            "name": "HighRiskChildLowBirthweght",
+            "bind": "/model/instance/dok_persalinan_reviewed/child_registration/high_risk_child_Low_Birthweght"
+          },
+          {
+            "name": "HighRiskChildPreterm",
+            "bind": "/model/instance/dok_persalinan_reviewed/child_registration/High_Risk_Child_preterm"
+          }
+        ]
       }
     ]
   }

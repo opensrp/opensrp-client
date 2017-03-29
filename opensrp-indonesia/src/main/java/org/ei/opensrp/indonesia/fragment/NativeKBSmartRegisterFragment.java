@@ -181,6 +181,7 @@ public class NativeKBSmartRegisterFragment extends SecuredNativeSmartRegisterCur
         super.setupViews(view);
         view.findViewById(R.id.btn_report_month).setVisibility(INVISIBLE);
         view.findViewById(R.id.service_mode_selection).setVisibility(View.GONE);
+        view.findViewById(R.id.register_client).setVisibility(View.GONE);
         clientsView.setVisibility(View.VISIBLE);
         clientsProgressView.setVisibility(View.INVISIBLE);
 //        list.setBackgroundColor(Color.RED);
@@ -198,35 +199,46 @@ public class NativeKBSmartRegisterFragment extends SecuredNativeSmartRegisterCur
                 "WHEN alerts.status is Null THEN '5'\n" +
                 "Else alerts.status END ASC";
     }
+
+    public String KartuIbuMainCount(){
+        return "Select Count(*) from ec_kartu_ibu";
+    }
+
     public void initializeQueries(){
-        KBClientsProvider kiscp = new KBClientsProvider(getActivity(),clientActionHandler,
-                context().alertService());
-        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, kiscp, new CommonRepository("kartu_ibu",new String []{"kartu_ibu.isClosed", "namalengkap", "umur","namaSuami","ibu.id", "kartu_ibu.isOutOfArea"}));
-        clientsView.setAdapter(clientAdapter);
+        try {
+            KBClientsProvider kiscp = new KBClientsProvider(getActivity(),clientActionHandler,context().alertService());
+            clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, kiscp, new CommonRepository("ec_kartu_ibu",new String []{"ec_kartu_ibu.is_closed", "namalengkap", "umur","namaSuami", "ec_kartu_ibu.isOutOfArea"}));
+            clientsView.setAdapter(clientAdapter);
 
-        setTablename("kartu_ibu");
-        SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
-        countqueryBUilder.SelectInitiateMainTableCounts("kartu_ibu");
-        countqueryBUilder.customJoin("LEFT JOIN ibu on kartu_ibu.id = ibu.kartuIbuId LEFT JOIN anak ON ibu.id = anak.ibuCaseId ");
-        countSelect = countqueryBUilder.mainCondition(" kartu_ibu.isClosed !='true' and kartu_ibu.details not LIKE '%\"jenisKontrasepsi\":\"\"%' ");
-        mainCondition = " isClosed !='true' and details not LIKE '%\"jenisKontrasepsi\":\"\"%' ";
-        super.CountExecute();
+            setTablename("ec_kartu_ibu");
+            SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
+            countqueryBUilder.SelectInitiateMainTableCounts("ec_kartu_ibu");
+         //   countqueryBUilder.customJoin("LEFT JOIN ec_ibu on ec_kartu_ibu.id = ec_ibu.base_entity_id");
+            mainCondition = " is_closed = 0 and jenisKontrasepsi != '0' ";
+            joinTable = "";
+            countSelect = countqueryBUilder.mainCondition(mainCondition);
+            super.CountExecute();
 
-        SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
-        queryBUilder.SelectInitiateMainTable("kartu_ibu", new String[]{"kartu_ibu.isClosed", "kartu_ibu.details", "kartu_ibu.isOutOfArea", "namalengkap", "umur", "namaSuami", "ibu.id"});
-        queryBUilder.customJoin("LEFT JOIN ibu on kartu_ibu.id = ibu.kartuIbuId LEFT JOIN anak ON ibu.id = anak.ibuCaseId ");
-        mainSelect = queryBUilder.mainCondition("kartu_ibu.isClosed !='true' and kartu_ibu.details not LIKE '%\"jenisKontrasepsi\":\"\"%' ");
-        Sortqueries = KiSortByNameAZ();
+            SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
+            queryBUilder.SelectInitiateMainTable("ec_kartu_ibu", new String[]{"ec_kartu_ibu.relationalid","ec_kartu_ibu.is_closed", "ec_kartu_ibu.details", "ec_kartu_ibu.isOutOfArea", "namalengkap", "umur", "namaSuami", "imagelist.imageid"});
+            queryBUilder.customJoin("LEFT JOIN ec_ibu on ec_kartu_ibu.id = ec_ibu.base_entity_id LEFT JOIN ImageList imagelist ON ec_ibu.base_entity_id=imagelist.entityID ");
 
-        currentlimit = 20;
-        currentoffset = 0;
+            mainSelect = queryBUilder.mainCondition(" ec_kartu_ibu.is_closed = 0 and jenisKontrasepsi != '0'");
+            Sortqueries = KiSortByNameAZ();
 
-        super.filterandSortInInitializeQueries();
+            currentlimit = 20;
+            currentoffset = 0;
 
-//        setServiceModeViewDrawableRight(null);
-        updateSearchView();
-        refresh();
-//        checkforNidMissing(view);
+            super.filterandSortInInitializeQueries();
+
+            updateSearchView();
+            refresh();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+        }
+
 
     }
 
@@ -332,7 +344,8 @@ public class NativeKBSmartRegisterFragment extends SecuredNativeSmartRegisterCur
 
                 filters = cs.toString();
                 joinTable = "";
-                mainCondition = "  isClosed !='true' and details not LIKE '%\"jenisKontrasepsi\":\"\"%' ";
+                mainCondition = " is_closed = 0 and jenisKontrasepsi != '0' ";
+
 
                 getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
                 CountExecute();
@@ -358,7 +371,7 @@ public class NativeKBSmartRegisterFragment extends SecuredNativeSmartRegisterCur
 
                 filters = cs.toString();
                 joinTable = "";
-                mainCondition = "  isClosed !='true' and details not LIKE '%\"jenisKontrasepsi\":\"\"%' ";
+                mainCondition = " is_closed = 0 and jenisKontrasepsi != '0' ";
 
                 getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
                 filterandSortExecute();
@@ -380,11 +393,10 @@ public class NativeKBSmartRegisterFragment extends SecuredNativeSmartRegisterCur
             }else{
                 StringUtil.humanize(entry.getValue().getLabel());
                 String name = StringUtil.humanize(entry.getValue().getLabel());
-                dialogOptionslist.add(new KICommonObjectFilterOption(name,"dusun", name));
+                dialogOptionslist.add(new KICommonObjectFilterOption(name, "location_name", name, "ec_kartu_ibu"));
 
             }
         }
     }
-
 
 }

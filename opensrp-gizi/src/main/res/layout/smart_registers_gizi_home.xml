@@ -1,0 +1,152 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="#ff313131">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="@drawable/bg_texture"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom|right"
+            android:weightSum="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_weight="0.2"
+            android:paddingTop="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gizi"
+                android:id="@+id/textView2"
+                android:fontFamily="sans-serif-condensed"
+                android:textSize="100dp"
+                android:layout_gravity="bottom|left"
+                android:textStyle="bold"
+                android:textColor="#ffffff" />
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:id="@+id/imageView2"
+                android:src="@mipmap/opensrp_indonesia_gizi_logo" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="0.8"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:paddingTop="10dp">
+
+            <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.4"
+                android:layout_marginLeft="100dp">
+
+                <ImageButton
+                        android:id="@+id/btn_gizi_register"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/register_child"
+                        style="@style/ImageButton.Home.Register"/>
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="GIZI"
+                        style="@style/CustomFontTextViewStyle.Home.RegisterName"/>
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/register_label"
+                        style="@style/CustomFontTextViewStyle.Home.RegisterLabel"/>
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:id="@+id/txt_child_register_client_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.Badge2"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.4"
+                android:layout_marginRight="100dp">
+
+                <ImageButton
+                    android:id="@+id/btn_gizi_ibu_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/register_anc"
+                    style="@style/ImageButton.Home.Register"/>
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="GIZI IBU"
+                    style="@style/CustomFontTextViewStyle.Home.RegisterName"/>
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/register_label"
+                    style="@style/CustomFontTextViewStyle.Home.RegisterLabel"/>
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:id="@+id/txt_mother_register_client_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CustomFontTextViewStyle.Badge2"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:id="@+id/btn_reporting"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_reporting"
+                android:drawablePadding="0dp"
+                android:paddingLeft="400dp"
+                android:paddingRight="400dp"
+                android:text="@string/str_reporting"
+                style="@style/CustomFontTextViewStyle.Home.Buttons"/>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

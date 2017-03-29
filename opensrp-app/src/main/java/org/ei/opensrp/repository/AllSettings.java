@@ -63,6 +63,9 @@ public class AllSettings {
     public void saveUserInformation(String userInformation) {
         settingsRepository.updateSetting(USER_INFORMATION, userInformation);
     }
+    public void saveUserInformation(String userInformation,String userInfoKey) {
+                settingsRepository.updateSetting(userInfoKey, userInformation);
+           }
 
     public String fetchUserInformation() { return settingsRepository.querySetting(USER_INFORMATION, "");}
 

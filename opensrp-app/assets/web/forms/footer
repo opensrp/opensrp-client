@@ -1,3 +1,4 @@
+
 <!-- The comment below is used in enketo-core-performance-monitor. -->
 		<!-- {{<form>}} -->
 
@@ -26,4 +27,3 @@
 <!-- IMPORTANT: leave the minified script in the committed index.html, to not throw off enketo-core-performance-monitor -->
 <script type="text/javascript" src="../build/js/enketo-bundle.min.js"></script>
 </body></html>
-

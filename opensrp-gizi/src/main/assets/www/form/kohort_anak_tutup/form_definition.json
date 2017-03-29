@@ -1,0 +1,64 @@
+{
+  "form_data_definition_version": "3",
+  "form": {
+    "bind_type":"anak",
+    "ec_bind_type":"ec_anak",
+    "default_bind_path": "/model/instance/penutupan_anak_reviewed/",
+    "fields": [
+      {
+        "name": "id",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "cityVillage",
+        "bind": "/model/instance/penutupan_anak_reviewed/Village",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "existing_location",
+        "bind": "/model/instance/penutupan_anak_reviewed/existing_location",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "closeReason",
+        "bind": "/model/instance/penutupan_anak_reviewed/close_reason"
+      },
+      {
+        "name": "childDeathCause",
+        "bind": "/model/instance/penutupan_anak_reviewed/child_death_cause"
+      },
+      {
+        "name": "childDeathCauseOther",
+        "bind": "/model/instance/penutupan_anak_reviewed/child_death_cause_other"
+      },
+      {
+        "name": "placeOfDeath",
+        "bind": "/model/instance/penutupan_anak_reviewed/place_of_death"
+      },
+      {
+        "name": "prereferralManagement",
+        "bind": "/model/instance/penutupan_anak_reviewed/prereferral_management"
+      },
+      {
+        "name": "referred",
+        "bind": "/model/instance/penutupan_anak_reviewed/referred"
+      },
+      {
+        "name": "referralLocation",
+        "bind": "/model/instance/penutupan_anak_reviewed/referral_location"
+      },
+      {
+        "name": "submissionDate",
+        "bind": "/model/instance/penutupan_anak_reviewed/today"
+      },
+      {
+        "name": "confirmChildClose",
+        "bind": "/model/instance/penutupan_anak_reviewed/confirm_child_close"
+      },
+      {
+        "name": "isClosed",
+        "value": "true"
+      }
+    ]
+  }
+}

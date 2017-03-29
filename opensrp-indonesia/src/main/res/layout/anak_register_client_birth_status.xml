@@ -5,8 +5,8 @@
     android:id="@+id/client_anak_birth_status_layout"
     android:layout_width="@dimen/list_status_view_width"
     android:layout_height="fill_parent"
-    android:layout_weight="@integer/child_list_visit_status_view_weight"
-    android:layout_margin="5dp"
+    android:layout_weight="18"
+    android:layout_margin="2dp"
     android:background="@color/status_bar_text_almost_white">
 
     <org.ei.opensrp.view.customControls.CustomFontTextView

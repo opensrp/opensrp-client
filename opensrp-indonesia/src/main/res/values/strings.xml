@@ -23,14 +23,14 @@
     <string name="home_report_label">Reporting</string>
     <string name="register_label">Register</string>
     <string name="home_videos_label">Videos</string>
-    <string name="header_anak">Child</string>
+    <string name="header_anak">CHILD</string>
     <string name="header_nama">Name</string>
     <string name="header_tgl_periksa">Check Date</string>
     <string name="header_edd">EDD</string>
     <string name="header_kunjungan">VISIT</string>
     <string name="header_no_ibu">No Ibu</string>
-    <string name="header_status_b">Status</string>
-    <string name="header_obsetri">Obsetri</string>
+    <string name="header_status_b">STATUS</string>
+    <string name="header_obsetri">OBSETRI</string>
     <string name="mother_weight">Weight:</string>
     <string name="header_pemeriksaan">EXAMINATION</string>
     <string name="header_resiko">Risk</string>
@@ -60,6 +60,7 @@
 
 
     <string name="mother_already_registered">Mother already registered in ANC</string>
+    <string name="mother_already_registered_pnc">Mother already registered in PNC</string>
     <string name="header_history_anc">VISIT HISTORY</string>
     <string name="header_name">NAME</string>
     <string name="header_ec_no">EC NO.</string>
@@ -453,12 +454,13 @@
     <string name="child_title">Child</string>
     <string name="dob_title">DOB:</string>
     <string name="header_dok_persalinan">DELIVERY DOCUMENTATION</string>
-    <string name="header_birth_status">Status</string>
+    <string name="header_birth_status">STATUS</string>
     <string name="birth_place_title">B.Place:</string>
     <string name="date_visit_title">Visit Date:</string>
     <string name="birth_weight_title">B.Weight:</string>
     <string name="hari_ke_kf">KF:</string>
     <string name="str_anak_neonatal">Neonatal Visit</string>
+    <string name="str_header_neonatal">NEONATAL VISIT</string>
     <string name="str_anak_edit">Edit Child</string>
     <string name="str_anak_bayi_visit">Baby Visit</string>
     <string name="str_anak_balita_visit">Toddler Visit</string>
@@ -470,7 +472,7 @@
     <string name="name">NAME:&#160; </string>
     <string name="nik">NIK:&#160; </string>
     <string name="husband_name">Husband Name: &#160;</string>
-    <string name="dob">Date of Birth:&#160; </string>
+    <string name="dob">DOB:&#160; </string>
     <string name="phone">Phone Number: &#160;</string>
 
     <!-- Mother detail -->
@@ -534,7 +536,7 @@
     <string name="ganti_cara">Change FP</string>
     <string name="header_tt_usia_klinis">Clinical Status</string>
     <string name="usia">Clinical Age:&#160;</string>
-    <string name="header_klinis">Clinical Status</string>
+    <string name="header_klinis">CLINCAL STATUS</string>
     <string name="sort_by_dob_label">Date Of Birth</string>
     <string name="months_away" translatable="false">months away</string>
     <string name="this_month" translatable="false">this month</string>
@@ -546,4 +548,46 @@
     <string name="fe">FE:</string>
     <string name="Nutrition_status">Nutrition Status:</string>
     <string name="lila">MUAC:</string>
+    <string name="mother_already_registered_in_fp">Mother already registered</string>
+    <string name="pnc_ke">PNC Visit</string>
+
+
+    <string name="desc">Photo Confirmation</string>
+    <string name="desc_approval">Approval Desc</string>
+    <string name="desc_trash">Trash Description</string>
+
+
+    <string name="path_circle">
+        M 50,50
+        m -48,0
+        a 48,48 0 1,0 96,0
+        a 48,48 0 1,0 -96,0
+    </string>
+
+
+    <string name="path_face_left_eye">
+        M 35,40
+        m -7,0
+        a 7,7 0 1,0 14,0
+      a 7,7 0 1,0 -14,0
+  </string>
+  <string name="path_face_right_eye">
+      M 65,40
+      m -7,0
+      a 7,7 0 1,0 14,0
+      a 7,7 0 1,0 -14,0
+  </string>
+  <string name="path_face_mouth_sad">
+      M 30,75
+      Q 50,55 70,75
+  </string>
+  <string name="path_face_mouth_happy">
+      M 30,65
+      Q 50,85 70,65
+  </string>
+    <string name="groupCheckCross">Check Cross</string>
+    <string name="reset_album">Reset Album</string>
+    <string name="action_settings">Settings</string>
+    <string name="cell_phone">No. HP :</string>
+
 </resources>

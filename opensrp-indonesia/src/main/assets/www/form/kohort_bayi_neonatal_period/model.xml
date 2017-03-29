@@ -1,40 +1,58 @@
 <model>
     <instance>
-        <kunjungan_neonatal_reviewed encounter_type="Kunjungan neonatal" id="kunjungan_neonatal"
-            version="201512030224">
+        <kunjungan_neonatal_reviewed encounter_type="Kunjungan neonatal" id="kunjungan_neonatal" version="201703060814">
             <formhub>
-                <uuid />
+                <uuid/>
             </formhub>
-            <start />
-            <today />
-            <deviceid />
-            <simserial />
-            <phonenumber />
-            <neonatal />
-            <Lokasi_periksa />
-            <saat_lahir_sd_5_jam_meninggal />
-            <saat_lahir_sd_5_jam_kondisi_bayi />
-            <jenis_pelayanan_yang_diberikan_saat_lahir />
-            <saat_lahir_sd_5_jam_pemberian_imunisasi_hb_jika_dilakukan />
-            <komplikasi />
-            <kunjungan_neonatal_pertama_6_sd_48_jam_tanggal_dan_bulan_kunjungan />
-            <kunjungan_neonatal_pertama_6_sd_48_jam__pemberian_imunisasi_hb />
-            <keadaan_neonatal_6_sd_48_jam />
-            <alasan_sakit_kunjungan_pertama />
-            <alasan_meninggal_kunjungan_pertama />
-            <kunjungan_neonatal_kedua_hari_ke_3_sd_7__tanggal_kunjungan />
-            <kunjungan_neonatal_kedua_hari_ke_3_sd_7__bayi_diberikan_imunisasi />
-            <keadaan_neonatal_3_sd_7_hari />
-            <alasan_sakit_kunjungan_kedua />
-            <alasan_meninggal_kunjungan_kedua />
-            <kunjungan_neonatal_ketiga_hari_ke_8_sd_28__tanggal_kunjungan />
-            <keadaan_neonatal_8_sd_28_hari />
-            <alasan_sakit_kunjungan_ketiga />
-            <alasan_meninggal_kunjungan_ketiga />
-            <confirm_of_death />
-            <end />
+            <start openmrs_entity="encounter" openmrs_entity_id="encounter_start"/>
+            <today openmrs_entity="encounter" openmrs_entity_id="encounter_date"/>
+            <deviceid/>
+            <simserial/>
+            <phonenumber/>
+            <Province/>
+            <District/>
+            <Sub-district/>
+            <Village/>
+            <Sub-village/>
+            <generated_note_name_13/>
+            <generated_note_name_14/>
+            <existing_location openmrs_entity="encounter" openmrs_entity_id="location_id"/>
+            <provinsi openmrs_entity="person_address" openmrs_entity_id="stateProvince" openmrs_entity_parent="usual_residence"/>
+            <kabupaten openmrs_entity="person_address" openmrs_entity_id="countyDistrict" openmrs_entity_parent="usual_residence"/>
+            <desa openmrs_entity="person_address" openmrs_entity_id="cityVillage" openmrs_entity_parent="usual_residence"/>
+            <dusun openmrs_entity="person_address" openmrs_entity_id="address1" openmrs_entity_parent="usual_residence"/>
+            <kecamatan openmrs_entity="person_address" openmrs_entity_id="address2" openmrs_entity_parent="usual_residence"/>
+            <tanggal_lahir openmrs_entity="person" openmrs_entity_id="birthdate"/>
+            <lokasi_periksa openmrs_entity="concept" openmrs_entity_id="161010AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <neonatal openmrs_entity="Concept" openmrs_entity_id="163497AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <tanggal_kunjungan_neonatal openmrs_entity="Concept" openmrs_entity_id="160753AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <jenis_pelayanan openmrs_entity="Concept" openmrs_entity_id="1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <pemeriksaan_neonatal openmrs_entity="Concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <berat_bayi openmrs_entity="Concept" openmrs_entity_id="5089AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <panjang_bayi openmrs_entity="Concept" openmrs_entity_id="5090AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <suhu_bayi openmrs_entity="Concept" openmrs_entity_id="5088AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <frekuensi_napas openmrs_entity="Concept" openmrs_entity_id="5242AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <frekuensi_denyut_jantung openmrs_entity="Concept" openmrs_entity_id="5087AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <kondisi_bayi openmrs_entity="Concept" openmrs_entity_id="159926AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <pemberian_imunisasi_hb openmrs_entity="Concept" openmrs_entity_id="1410AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <komplikasi_neonatal openmrs_entity="Concept" openmrs_entity_id="164122AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <komplikasi_neonatal_lain openmrs_entity="Concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <komplikasi_neonatal_tertangani openmrs_entity="Concept" openmrs_entity_id="160749AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <rujukan_neonatal openmrs_entity="Concept" openmrs_entity_id="1788AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <dirujuk_ke_neonatal openmrs_entity="Concept" openmrs_entity_id="163145AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <dirujukkelainnya_neonatal openmrs_entity="Concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <confirm_of_death openmrs_entity="n/a"/>
+            <end openmrs_entity="encounter" openmrs_entity_id="encounter_end"/>
+            <high_risk_child_iterus openmrs_entity="concept" openmrs_entity_id="115368AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <high_risk_child_asphyxia openmrs_entity="concept" openmrs_entity_id="121397AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <high_risk_child_congenital_abnormality openmrs_entity="concept" openmrs_entity_id="119975AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <high_risk_child_birth_trauma openmrs_entity="concept" openmrs_entity_id="147277AAAAAAAAAA AAAAAAAAAAAAAAAA"/>
+            <high_risk_child_infection openmrs_entity="concept" openmrs_entity_id="133393AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <high_risk_child_hypothermia openmrs_entity="concept" openmrs_entity_id="162317AAAAAAAAAA AAAAAAAAAAAAAAAA"/>
+            <high_risk_child_tetanus_neonatorum openmrs_entity="concept" openmrs_entity_id="124954AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <high_risk_child_neonatal_sepsis openmrs_entity="concept" openmrs_entity_id="226AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
             <meta>
-                <instanceID />
+                <instanceID/>
             </meta>
         </kunjungan_neonatal_reviewed>
     </instance>

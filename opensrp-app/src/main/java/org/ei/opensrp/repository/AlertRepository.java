@@ -20,7 +20,6 @@ import static org.ei.drishti.dto.AlertStatus.inProcess;
 
 public class AlertRepository extends DrishtiRepository {
     private static final String ALERTS_SQL = "CREATE TABLE alerts (caseID VARCHAR, scheduleName VARCHAR, visitCode VARCHAR, status VARCHAR, startDate VARCHAR, expiryDate VARCHAR, completionDate VARCHAR)";
-
     private static final String ALERTS_TABLE_NAME = "alerts";
     public static final String ALERTS_CASEID_COLUMN = "caseID";
     public static final String ALERTS_SCHEDULE_NAME_COLUMN = "scheduleName";
@@ -42,6 +41,7 @@ public class AlertRepository extends DrishtiRepository {
     private static final String CASE_ID_INDEX = "CREATE INDEX " + ALERTS_TABLE_NAME + "_" + ALERTS_CASEID_COLUMN + "_index ON " + ALERTS_TABLE_NAME + "(" + ALERTS_CASEID_COLUMN + " COLLATE NOCASE);";
     private static final String SCHEDULE_NAME_INDEX = "CREATE INDEX " + ALERTS_TABLE_NAME + "_" + ALERTS_SCHEDULE_NAME_COLUMN + "_index ON " + ALERTS_TABLE_NAME + "(" + ALERTS_SCHEDULE_NAME_COLUMN + " COLLATE NOCASE);";
     private static final String STATUS_NAME_INDEX = "CREATE INDEX " + ALERTS_TABLE_NAME + "_" + ALERTS_STATUS_COLUMN + "_index ON " + ALERTS_TABLE_NAME + "(" + ALERTS_STATUS_COLUMN + " COLLATE NOCASE);";
+    private static final String VISIT_CODE_INDEX = "CREATE INDEX " + ALERTS_TABLE_NAME + "_" + ALERTS_VISIT_CODE_COLUMN + "_index ON " + ALERTS_TABLE_NAME + "(" + ALERTS_VISIT_CODE_COLUMN + " COLLATE NOCASE);";
 
     @Override
     protected void onCreate(SQLiteDatabase database) {
@@ -49,6 +49,7 @@ public class AlertRepository extends DrishtiRepository {
         database.execSQL(CASE_ID_INDEX);
         database.execSQL(SCHEDULE_NAME_INDEX);
         database.execSQL(STATUS_NAME_INDEX);
+        database.execSQL(VISIT_CODE_INDEX);
     }
 
     public List<Alert> allAlerts() {

@@ -50,10 +50,10 @@ public class HHSearchOption implements FilterOption {
             }
         }
         if(!result) {
-            AllCommonsRepository allElcoRepository = Context.getInstance().allCommonsRepositoryobjects("elco");
+            AllCommonsRepository allElcoRepository = Context.getInstance().allCommonsRepositoryobjects("ec_elco");
             ArrayList<String> list = new ArrayList<String>();
             list.add((currentclient.entityId()));
-            List<CommonPersonObject> allchildelco = allElcoRepository.findByRelationalIDs(list);
+            List<CommonPersonObject> allchildelco = allElcoRepository.findByRelational_IDs(list);
             for (int i = 0; i < allchildelco.size(); i++) {
                 if(allchildelco.get(i).getDetails().get("FWWOMFNAME") != null) {
                     if (allchildelco.get(i).getDetails().get("FWWOMFNAME").toLowerCase().contains(criteria.toLowerCase())) {

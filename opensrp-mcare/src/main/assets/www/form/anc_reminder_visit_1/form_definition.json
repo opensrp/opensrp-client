@@ -3,6 +3,7 @@
   "form": {
     "default_bind_path": "/model/instance/ANC_Reminder_Visit_1",
     "bind_type": "mcaremother",
+    "ec_bind_type": "ec_mcaremother",
     "fields": [
       {
         "name": "id",

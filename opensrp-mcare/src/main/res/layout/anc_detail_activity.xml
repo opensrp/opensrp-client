@@ -56,7 +56,7 @@
             android:id="@+id/clients_header_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/list_view_margin_left_and_right"
+            android:layout_marginRight="@dimen/list_view_margin_left_and_right"
             android:orientation="horizontal">
 
         <org.ei.opensrp.view.customControls.CustomFontTextView

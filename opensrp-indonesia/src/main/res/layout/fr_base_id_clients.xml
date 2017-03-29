@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#000">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_baseid"
+        android:textColor="#FF00FFAA"
+        android:textSize="25sp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:text="Clients Name"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/delete"
+        android:layout_alignParentRight="true"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_cross"
+        android:layout_centerVertical="true"
+        />
+
+</RelativeLayout>

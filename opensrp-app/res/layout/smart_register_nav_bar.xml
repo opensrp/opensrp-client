@@ -3,8 +3,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/ec_main_header_height"
                 android:background="@color/light_blue"
+
                 android:focusableInTouchMode="true"
-    android:id="@+id/register_nav_bar_container">
+                android:id="@+id/register_nav_bar_container">
 
     <ImageButton
             android:id="@+id/btn_back_to_home"
@@ -140,12 +141,8 @@
             android:scaleType="fitXY"
             android:layout_toRightOf="@+id/sort_selection"/>
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></LinearLayout>
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
+    <org.ei.opensrp.view.customControls.CustomFontTextView
             android:id="@+id/service_mode_selection"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"

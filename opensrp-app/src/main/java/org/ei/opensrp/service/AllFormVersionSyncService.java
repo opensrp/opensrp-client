@@ -1,4 +1,6 @@
 package org.ei.opensrp.service;
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -37,6 +39,7 @@ import static org.ei.opensrp.util.Log.logError;
  */
 public class AllFormVersionSyncService {
 
+    public static final String TAG = "AllFormVersionSyncService";
     private final HTTPAgent httpAgent;
     private final DristhiConfiguration configuration;
     private final FormsVersionRepository formsVersionRepository;
@@ -182,7 +185,7 @@ public class AllFormVersionSyncService {
                     FormDefinitionVersion form = getFormDefinitionFromFile(f);
                     formsVersionRepository.addFormVersionFromObject(form);
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    Log.e(TAG, ex.toString(), ex);
                 }
             }
         }
@@ -204,7 +207,7 @@ public class AllFormVersionSyncService {
             JSONObject jsonObject = new JSONObject(jsonString);
             version = (String) jsonObject.get(FORM_DEF_VERSION_FIELD);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, e.toString(), e);
         }
 
         return new FormDefinitionVersion(f.getName(),

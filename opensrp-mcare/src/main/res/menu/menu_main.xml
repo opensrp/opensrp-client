@@ -13,12 +13,6 @@
         android:orderInCategory="100"
         android:title="" />
     <item
-        android:id="@+id/help"
-        app:showAsAction="always"
-        android:orderInCategory="101"
-        android:icon="@mipmap/info"
-        android:title="" />
-    <item
         android:id="@+id/switchLanguageMenuItem"
         android:title="@string/str_switch_language"
         android:icon="@drawable/ic_menu_edit"/>

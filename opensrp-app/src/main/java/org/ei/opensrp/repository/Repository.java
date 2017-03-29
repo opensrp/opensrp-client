@@ -51,12 +51,14 @@ public class Repository extends SQLiteOpenHelper {
                 Set<String> searchColumns = new LinkedHashSet<String>();
                 searchColumns.add(CommonFtsObject.idColumn);
                 searchColumns.add(CommonFtsObject.relationalIdColumn);
-                searchColumns.add(CommonFtsObject.phraseColumnName);
+                searchColumns.add(CommonFtsObject.phraseColumn);
+                searchColumns.add(CommonFtsObject.isClosedColumn);
 
                 String[] mainConditions = this.commonFtsObject.getMainConditions(ftsTable);
                 if(mainConditions != null)
                     for (String mainCondition : mainConditions) {
-                        searchColumns.add(mainCondition);
+                        if(!mainCondition.equals(CommonFtsObject.isClosedColumnName))
+                            searchColumns.add(mainCondition);
                     }
 
                 String[] sortFields = this.commonFtsObject.getSortFields(ftsTable);

@@ -1,11 +1,30 @@
 {
-    "form_data_definition_version": "1",
+    "form_data_definition_version": "3",
     "form": {
-        "bind_type": "anak",
+        "bind_type":"anak",
+        "ec_bind_type":"ec_anak",
         "default_bind_path": "/model/instance/kohort_kunjungan_bayi_reviewed/",
         "fields": [
             {
                 "name": "id",
+                "shouldLoadValue": true
+            },
+            {
+                "name": "start",
+                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/start"
+            },
+            {
+                "name": "end",
+                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/end"
+            },
+            {
+                "name": "desa_anak",
+                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/Village",
+                "shouldLoadValue": true
+            },
+            {
+                "name": "existing_location",
+                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/existing_location",
                 "shouldLoadValue": true
             },
             {
@@ -17,19 +36,27 @@
                 "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/Lokasi_periksa"
             },
             {
-                "name": "beratBadanBayiSetiapKunjunganBayiPerbulan",
+                "name": "babyAge",
+                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/baby_age"
+            },
+            {
+                "name": "kunjunganBayiKe",
+                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/kunjungan_bayi_ke"
+            },
+            {
+                "name": "panjang_bayi",
+                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/panjang_bayi"
+            },
+            {
+                "name": "beratBayi",
                 "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/berat_badan_bayi_setiap_kunjungan_bayi_perbulan"
             },
             {
-                "name": "hasilPengukuranTinggiBayi",
-                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/hasil_pengukuran_tinggi_bayi"
-            },
-            {
-                "name": "indikatorBeratBedanBayi",
+                "name": "indikatorBeratBadanBayi",
                 "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/indikator_berat_bedan_bayi"
             },
             {
-                "name": "pemberianAsiEksklusif",
+                "name": "AsiAksklusif",
                 "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/pemberian_asi_eksklusif"
             },
             {
@@ -48,51 +75,34 @@
                 "name": "pelayananVita",
                 "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/pelayanan_vita"
             },
+            {
+                "name": "statusSesehatanBayi",
+                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/status_kesehatan_bayi"
+            },
+
+            {
+                "name": "penyakit",
+                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/penyakit"
+            },
+            {
+                "name": "mtbs",
+                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/mtbs"
+            },
+            {
+                "name": "rujukanBayi",
+                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/rujukan_bayi"
+            },
+            {
+                "name": "dirujukKeBayi",
+                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/dirujuk_ke_bayi"
+            },
 	        {
-                "name": "dilakukanImunisasi",
-                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/dilakukan_imunisasi"
-            },
-            {
-                "name": "tanggalpemberianimunisasiHb07",
-                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/tanggal_pemberian_imunisasi_hb_07",
-                "shouldLoadValue": true
-            },
-            {
-                "name": "tanggalpemberianimunisasiBCGdanPolio1",
-                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/tanggal_pemberian_imunisasi_bcg_dan_Polio1",
-                "shouldLoadValue": true
-            },
-            {
-                "name": "tanggalpemberianimunisasiDPTHB1Polio2",
-                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/tanggal_pemberian_imunisasi_dpthb1Polio2",
-                "shouldLoadValue": true
-            },
-            {
-                "name": "tanggalpemberianimunisasiDPTHB2Polio3",
-                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/tanggal_pemberian_imunisasi_dpthb2Polio3",
-                "shouldLoadValue": true
-            },
-            {
-                "name": "tanggalpemberianimunisasiDPTHB3Polio4",
-                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/tanggal_pemberian_imunisasi_dpthb3Polio4",
-                "shouldLoadValue": true
-            },
-            {
-                "name": "tanggalpemberianimunisasiCampak",
-                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/tanggal_pemberian_imunisasi_campak",
-                "shouldLoadValue": true
-            },
-            {
-                "name": "keterangan",
-                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/keterangan"
+                "name": "dirujukkelainnyaBayi",
+                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/dirujukkelainnya_bayi"
             },
             {
                 "name": "submissionDate",
                 "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/today"
-            },
-            {
-                "name": "registrationDate",
-                "bind": "/model/instance/kohort_kunjungan_bayi_reviewed/reg_date"
             }
         ]
     }

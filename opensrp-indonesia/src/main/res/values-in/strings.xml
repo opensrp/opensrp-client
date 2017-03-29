@@ -17,6 +17,7 @@
     <string name="yes_button_label">Iya</string>
     <string name="no_button_label">Tidak</string>
     <string name="anc_ke">ANC Ke:&#160;</string>
+    <string name="pnc_ke">PNC Visit</string>
     <string name="sort_by_name_label_reverse">Nama (Z ke A)</string>
     <string name="sort_by_wife_age_label">Umur</string>
     <string name="sort_by_ec_number_label">EC Number</string>
@@ -41,14 +42,14 @@
     <string name="header_status">Status</string>
     <string name="header_edit"></string>
 
-    <string name="header_anak">Anak</string>
+    <string name="header_anak">ANAK</string>
     <string name="header_nama">Nama</string>
     <string name="header_tgl_periksa">Tgl Periksa</string>
     <string name="header_edd">HTP</string>
     <string name="header_kunjungan">Kunjungan</string>
     <string name="header_no_ibu">No Ibu</string>
-    <string name="header_status_b">Status</string>
-    <string name="header_obsetri">Obsetri</string>
+    <string name="header_status_b">STATUS</string>
+    <string name="header_obsetri">OBSETRI</string>
 
     <string name="kartu_ibu_selection">Kartu Ibu</string>
     <string name="kb_selection">KB</string>
@@ -94,7 +95,7 @@
     <string name="str_rencana_persalinan_anc_form">Rencana Persalinan</string>
 
     <string name="str_register_pnc_form">Daftar PNC</string>
-    <string name="str_register_fp_form">Register FP</string>
+    <string name="str_register_fp_form">Register KB</string>
     <string name="str_register_child_form">Register Child</string>
     <string name="str_fp_change_form">FP Change</string>
     <string name="str_fp_change_fp_form">Change FP</string>
@@ -117,7 +118,7 @@
     <string name="str_anak_bayi_visit">Kunjungan Bayi</string>
     <string name="str_anak_balita_visit">Kunjungan Balita</string>
     <string name="str_anak_neonatal">Kunjungan Neonatal</string>
-
+    <string name="str_header_neonatal">KUNJ NEONATAL</string>
     <string name="str_kunjungan_anak">Kunjungan</string>
     <string name="anc_edit">Edit ANC</string>
     <string name="pnc_edit">Edit PNC</string>
@@ -193,7 +194,7 @@
     <string name="str_reporting">Reporting</string>
     <string name="str_videos">Videos</string>
 
-    <string name="child_register_title_in_short">Anak:</string>
+    <string name="child_register_title_in_short">Anak</string>
     <string name="child_service_mode_overview">Overview</string>
     <string name="child_service_mode_immunization">Imunisasi</string>
     <string name="child_service_mode_immunization_0_to_9">Imunisasi 0-9</string>
@@ -257,7 +258,7 @@
     <string name="service_type_dpt_booster_1_short">DPT B1</string>
     <string name="service_type_dpt_booster_2_short">DPT B2</string>
     <string name="pentavalent_short">Pentav</string>
-    <string name="header_birth_status">Status</string>
+    <string name="header_birth_status">STATUS</string>
 
     <string name="fp_register_title_in_short">FP</string>
     <string name="pnc_register_title_in_short">PNC</string>
@@ -283,7 +284,7 @@
     <string name="fp_prioritization_high_priority_service_mode">High Priority (HP)</string>
     <string name="fp_prioritization_two_plus_children_service_mode">2+ Children</string>
     <string name="fp_prioritization_one_child_service_mode">1 Child</string>
-    <string name="fp_register_child_details">Anak:</string>
+    <string name="fp_register_child_details">Anak</string>
     <string name="str_due">"Due "</string>
     <string name="fp_methods">Jenis:&#160;</string>
     <string name="fp_prioritization">FP Prioritization</string>
@@ -314,7 +315,7 @@
     <string name="str_weeks">&#160;Minggu</string>
     <string name="anc_register_title_in_short">ANC</string>
     <string name="str_bp">BP</string>
-    <string name="str_weight">Berat:</string>
+    <string name="str_weight">Berat</string>
     <string name="str_anc_search_hint">Search ANC Register</string>
     <string name="anc_service_mode_overview">Overview</string>
     <string name="anc_service_mode_anc_visits">ANC Visits</string>
@@ -376,7 +377,7 @@
     <string name="show_more_button">Lihat lebih...</string>
     <string name="show_less_button">Sembunyikan  . . .</string>
     <string name="mother_already_registered">Ibu sudah terdaftar di ANC</string>
-
+    <string name="mother_already_registered_pnc">Ibu sudah terdaftar di PNC</string>
     <string name="anc_visit_integrasi">Kunjungan ANC Integrasi</string>
     <string name="anc_visit_labtest">Kunjungan ANC Tes Lab</string>
     <string name="months_away"> bulan lagi</string>
@@ -393,7 +394,7 @@
     <string name="dob_title">Tgl Lahir:</string>
     <string name="birth_place_title">Tmpt:</string>
     <string name="birth_weight_title">B.Lahir:</string>
-    <string name="date_visit_title">Tgl Kunjungan:</string>
+    <string name="date_visit_title">Tgl Kunj.:</string>
     <string name="cohort_child">ANAK</string>
     <string name="cohort_mother">KOHORT IBU</string>
     <string name="cohort_fp">KOHORT KB</string>
@@ -469,7 +470,7 @@
     <string name="ganti_cara">Keterangan Ganti Cara</string>
     <string name="elco_details_summary">Ringkasan</string>
     <string name="usia">Usia Klinis:</string>
-    <string name="header_klinis">Status Klinis</string>
+    <string name="header_klinis">STATUS KLINIS</string>
     <string name="height">Tinggi:</string>
     <string name="month">Bln</string>
     <string name="service_fp">Status Pelayanan: KB </string>
@@ -478,4 +479,5 @@
     <string name="fe">FE:</string>
 
     <string name="Nutrition_status">Status Gizi:</string>
+    <string name="mother_already_registered_in_fp">Mother already registered</string>
 </resources>

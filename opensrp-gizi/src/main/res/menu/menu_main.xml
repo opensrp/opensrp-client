@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/remainingFormsToSyncMenuItem"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="100"
+        android:visible="false"/>
+    <item
+        android:id="@+id/updateMenuItem"
+        android:icon="@drawable/refresh"
+        app:showAsAction="always"
+        android:orderInCategory="100"
+        android:title="" />
+    <item
+        android:id="@+id/help"
+        app:showAsAction="always"
+        android:orderInCategory="101"
+        android:icon="@mipmap/info"
+        android:title="" />
+    <item
+        android:id="@+id/switchLanguageMenuItem"
+        android:title="@string/str_switch_language"
+        android:icon="@drawable/ic_menu_edit"/>
+
+</menu>

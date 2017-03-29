@@ -12,10 +12,13 @@ import org.ei.opensrp.Context;
 import org.ei.opensrp.domain.SyncStatus;
 import org.ei.opensrp.domain.form.FormSubmission;
 
+import java.io.StringBufferInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 import static java.lang.System.currentTimeMillis;
@@ -47,6 +50,7 @@ public class FormDataRepository extends DrishtiRepository {
     public static final String ID_COLUMN = "id";
     private static final String DETAILS_COLUMN_NAME = "details";
     private static final String FORM_NAME_PARAM = "formName";
+    private static final String TAG = "FormDataRepository";
     private Map<String, String[]> TABLE_COLUMN_MAP;
 
     public FormDataRepository() {
@@ -126,7 +130,7 @@ public class FormDataRepository extends DrishtiRepository {
 
     public long getPendingFormSubmissionsCount() {
         return longForQuery(masterRepository.getReadableDatabase(), "SELECT COUNT(1) FROM " + FORM_SUBMISSION_TABLE_NAME
-                + " WHERE " + SYNC_STATUS_COLUMN + " = ? ",
+                        + " WHERE " + SYNC_STATUS_COLUMN + " = ? ",
                 new String[]{PENDING.value()});
     }
 
@@ -223,12 +227,13 @@ public class FormDataRepository extends DrishtiRepository {
         String[] columns = cursor.getColumnNames();
         int numberOfColumns = columns.length;
         for (int index = 0; index < numberOfColumns; index++) {
-            if (DETAILS_COLUMN_NAME.equalsIgnoreCase(columns[index])) {
-                Map<String, String> details = new Gson().fromJson(cursor.getString(index), new TypeToken<Map<String, String>>() {
+            String columnValue = cursor.getString(index);
+            if (DETAILS_COLUMN_NAME.equalsIgnoreCase(columns[index]) && columnValue != null && !columnValue.isEmpty()) {
+                Map<String, String> details = new Gson().fromJson(columnValue, new TypeToken<Map<String, String>>() {
                 }.getType());
                 columnValues.putAll(details);
             } else {
-                columnValues.put(columns[index], cursor.getString(index));
+                columnValues.put(columns[index], columnValue);
             }
         }
         return columnValues;
@@ -288,5 +293,41 @@ public class FormDataRepository extends DrishtiRepository {
     @JavascriptInterface
     public String generateIdFor(String entityType) {
         return randomUUID().toString();
+    }
+
+
+    public Map<String, String> getMapFromSQLQuery(String sql) {
+        Map<String, String > map = new HashMap<String, String>();
+        Cursor cursor = null;
+        try {
+            SQLiteDatabase database = masterRepository.getReadableDatabase();
+            cursor = database.rawQuery(sql, new String[]{});
+            map = sqliteRowToMap(cursor);
+        }catch (Exception e){
+            Log.e(TAG, e.toString(), e);
+        }
+        finally {
+            if (cursor != null){
+                cursor.close();
+            }
+        }
+        return map;
+    }
+
+    public Map<String, String> sqliteRowToMap(Cursor cursor) {
+        int totalColumn = cursor.getColumnCount();
+        Map<String, String> rowObject = new HashMap<String, String>();
+        if (cursor != null && cursor.moveToFirst()){
+            for (int i = 0; i < totalColumn; i++) {
+                if (cursor.getColumnName(i) != null) {
+                    try {
+                        rowObject.put(cursor.getColumnName(i), cursor.getString(i));
+                    } catch (Exception e) {
+                        Log.d(TAG, e.getMessage());
+                    }
+                }
+            }
+        }
+        return rowObject;
     }
 }

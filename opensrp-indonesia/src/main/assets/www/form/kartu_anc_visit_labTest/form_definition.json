@@ -1,7 +1,8 @@
 {
-  "form_data_definition_version": "1",
+  "form_data_definition_version": "3",
   "form": {
     "bind_type": "ibu",
+    "ec_bind_type": "ec_ibu",
     "default_bind_path": "/model/instance/kunjungan_anc_reviewed_Lab_test/",
     "fields": [
       {
@@ -9,9 +10,27 @@
         "shouldLoadValue": true
       },
       {
+        "name": "start",
+        "bind": "/model/instance/kunjungan_anc_reviewed_Lab_test/start"
+      },
+      {
+        "name": "end",
+        "bind": "/model/instance/kunjungan_anc_reviewed_Lab_test/end"
+      },
+      {
         "name": "kiId",
         "shouldLoadValue": true,
         "source": "ibu.kartu_ibu.id"
+      },
+      {
+        "name": "cityVillage",
+        "bind": "/model/instance/kunjungan_anc_reviewed_Lab_test/Village",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "existing_location",
+        "bind": "/model/instance/kunjungan_anc_reviewed_Lab_test/existing_location",
+        "shouldLoadValue": true
       },
       {
         "name": "lokasiPeriksa",
@@ -30,24 +49,48 @@
         "bind": "/model/instance/kunjungan_anc_reviewed_Lab_test/laboratorium_periksa_hb_anemia"
       },
       {
+        "name": "treatmentAnemiaTxt",
+        "bind": "/model/instance/kunjungan_anc_reviewed_Lab_test/treatment_anemia_txt"
+      },
+      {
         "name": "laboratoriumProteinUria",
         "bind": "/model/instance/kunjungan_anc_reviewed_Lab_test/laboratorium_protein_uria"
+      },
+      {
+        "name": "treatmentProturinTxt",
+        "bind": "/model/instance/kunjungan_anc_reviewed_Lab_test/treatment_proturin_txt"
       },
       {
         "name": "laboratoriumGulaDarah",
         "bind": "/model/instance/kunjungan_anc_reviewed_Lab_test/laboratorium_gula_darah"
       },
       {
+        "name": "treatmentDiabetesTxt",
+        "bind": "/model/instance/kunjungan_anc_reviewed_Lab_test/treatment_diabetes_txt"
+      },
+      {
         "name": "laboratoriumThalasemia",
         "bind": "/model/instance/kunjungan_anc_reviewed_Lab_test/laboratorium_thalasemia"
+      },
+      {
+        "name": "treatmentThalasemiaTxt",
+        "bind": "/model/instance/kunjungan_anc_reviewed_Lab_test/treatment_thalasemia_txt"
       },
       {
         "name": "laboratoriumSifilis",
         "bind": "/model/instance/kunjungan_anc_reviewed_Lab_test/laboratorium_sifilis"
       },
       {
+        "name": "treatmentSifilisTxt",
+        "bind": "/model/instance/kunjungan_anc_reviewed_Lab_test/treatment_sifilis_txt"
+      },
+      {
         "name": "laboratoriumHbsAg",
         "bind": "/model/instance/kunjungan_anc_reviewed_Lab_test/laboratorium_hbsag"
+      },
+      {
+        "name": "treatmentHbsagTxt",
+        "bind": "/model/instance/kunjungan_anc_reviewed_Lab_test/treatment_hbsag_txt"
       },
       {
         "name": "highRiskPregnancyAnemia",

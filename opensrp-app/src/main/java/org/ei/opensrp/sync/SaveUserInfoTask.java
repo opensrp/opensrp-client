@@ -42,4 +42,18 @@ public class SaveUserInfoTask {
             }
         });
     }
+    public void save(final String userInfo, final String userInfoKey) {
+                lockingBackgroundTask.doActionInBackground(new BackgroundAction<Object>() {
+                    @Override
+                                public Object actionToDoInBackgroundThread() {
+                                allSettings.saveUserInformation(userInfo,userInfoKey);
+                                return userInfo;
+                            }
+
+                                @Override
+                 public void postExecuteInUIThread(Object result) {
+
+                                    }
+                    });
+            }
 }

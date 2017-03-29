@@ -38,6 +38,12 @@ public class AlertService {
         }
     }
 
+    public void create(Alert alert) {
+        if (alert != null) {
+            repository.createAlert(alert);
+        }
+    }
+
     public void close(Action action) {
         repository.markAlertAsClosed(action.caseID(), action.get("visitCode"), action.get("completionDate"));
         updateFtsSearchAfterStatusChange(action.caseID(), action.get("visitCode"));
@@ -90,7 +96,7 @@ public class AlertService {
                 updateFtsSearchInACR(bindType, entityId, field, status.value());
                 if (!statusChange && StringUtils.isNotBlank(visitCode) && commonFtsObject.alertUpdateVisitCode(scheduleName)) {
                     // update alert visit code
-                    updateFtsSearchInACR(bindType, entityId, CommonFtsObject.phraseColumnName, visitCode);
+                    updateFtsSearchInACR(bindType, entityId, CommonFtsObject.phraseColumn, visitCode);
                 }
             }
 

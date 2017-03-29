@@ -27,6 +27,7 @@ dependencies {
     compile project(':opensrp-app')
 
     compile 'com.android.support:support-annotations:21.0.3'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.0'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.1'
@@ -71,6 +72,7 @@ android {
         exclude 'LICENSE.txt'
     }
     lintOptions {
+
         checkReleaseBuilds false
         disable 'MissingTranslation'
         checkReleaseBuilds false
