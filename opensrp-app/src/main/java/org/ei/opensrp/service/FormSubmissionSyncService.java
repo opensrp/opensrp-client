@@ -31,6 +31,7 @@ public class FormSubmissionSyncService {
     private AllSharedPreferences allSharedPreferences;
     private FormSubmissionService formSubmissionService;
     private DristhiConfiguration configuration;
+    private final int MAX_SIZE = 50;
 
     public FormSubmissionSyncService(FormSubmissionService formSubmissionService, HTTPAgent httpAgent,
                                      FormDataRepository formDataRepository, AllSettings allSettings,
@@ -50,22 +51,29 @@ public class FormSubmissionSyncService {
     }
 
     public void pushToServer() {
-        List<FormSubmission> pendingFormSubmissions = formDataRepository.getPendingFormSubmissions();
-        if (pendingFormSubmissions.isEmpty()) {
-            return;
+        boolean keepSyncing = true;
+        while (keepSyncing) {
+            List<FormSubmission> pendingFormSubmissions = formDataRepository.getPendingFormSubmissions(MAX_SIZE);
+            if (pendingFormSubmissions.isEmpty()) {
+                return;
+            }
+
+            if(pendingFormSubmissions.size() < 50){
+                keepSyncing = false;
+            }
+            String jsonPayload = mapToFormSubmissionDTO(pendingFormSubmissions);
+            Response<String> response = httpAgent.post(
+                    format("{0}/{1}",
+                            configuration.dristhiBaseURL(),
+                            FORM_SUBMISSIONS_PATH),
+                    jsonPayload);
+            if (response.isFailure()) {
+                logError(format("Form submissions sync failed. Submissions:  {0}", pendingFormSubmissions));
+                return;
+            }
+            formDataRepository.markFormSubmissionsAsSynced(pendingFormSubmissions);
+            logInfo(format("Form submissions sync successfully. Submissions:  {0}", pendingFormSubmissions));
         }
-        String jsonPayload = mapToFormSubmissionDTO(pendingFormSubmissions);
-        Response<String> response = httpAgent.post(
-                format("{0}/{1}",
-                        configuration.dristhiBaseURL(),
-                        FORM_SUBMISSIONS_PATH),
-                jsonPayload);
-        if (response.isFailure()) {
-            logError(format("Form submissions sync failed. Submissions:  {0}", pendingFormSubmissions));
-            return;
-        }
-        formDataRepository.markFormSubmissionsAsSynced(pendingFormSubmissions);
-        logInfo(format("Form submissions sync successfully. Submissions:  {0}", pendingFormSubmissions));
     }
 
     public FetchStatus pullFromServer() {

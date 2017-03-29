@@ -158,8 +158,8 @@ public class HTTPAgent {
             System.setProperty("http.keepAlive", "false");
             HttpPost httpPost = new HttpPost(postURLPath);
             Log.v("jsonpayload", jsonPayload);
-            FileUtilities fu = new FileUtilities();
-            fu.write("jsonpayload" + DateTime.now().toString("yyyyMMddHHmmss")+ ".txt", jsonPayload);
+            //FileUtilities fu = new FileUtilities();
+            //fu.write("jsonpayload" /*+ DateTime.now().toString("yyyyMMddHHmmss")*/+ ".txt", jsonPayload);
 
            /* StringEntity entity = new StringEntity(jsonPayload, HTTP.UTF_8);
             entity.setContentType("application/json; charset=utf-8");

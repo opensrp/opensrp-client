@@ -29,6 +29,7 @@ public class FormDataRepositoryTest extends AndroidTestCase {
     private FormDataRepository repository;
     private EligibleCoupleRepository eligibleCoupleRepository;
     private MotherRepository motherRepository;
+    private int MAX_SIZE = 50;
 
     @Override
     protected void setUp() throws Exception {
@@ -198,7 +199,7 @@ public class FormDataRepositoryTest extends AndroidTestCase {
         repository.saveFormSubmission(secondSubmission);
         repository.saveFormSubmission(thirdSubmission);
 
-        List<FormSubmission> pendingFormSubmissions = repository.getPendingFormSubmissions();
+        List<FormSubmission> pendingFormSubmissions = repository.getPendingFormSubmissions(MAX_SIZE);
 
         assertEquals(asList(firstSubmission, secondSubmission), pendingFormSubmissions);
     }
