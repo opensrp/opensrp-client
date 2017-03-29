@@ -2,7 +2,7 @@
 
     <application android:allowBackup="true"
         android:label="@string/app_name"
-        android:name="org.ei.opensrp.ddtk.application.TestApplication"
+        android:name=".application.SdidtkApplication"
          >
 
         <activity
