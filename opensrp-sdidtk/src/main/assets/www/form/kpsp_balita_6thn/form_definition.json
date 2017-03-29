@@ -1,0 +1,190 @@
+{
+  "form_data_definition_version": "1",
+  "form": {
+    "bind_type": "anak",
+    "default_bind_path": "/model/instance/kpsp_balita_6thn/",
+    "fields": [
+      {
+        "name": "id",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "umur",
+        "bind": "/model/instance/kpsp_balita_6thn/umur",
+		"shouldLoadValue": true
+      },
+      {
+        "name": "kpsp_test_date6",
+        "bind": "/model/instance/kpsp_balita_6thn/kpsp_test_date6"
+      },
+      {
+        "name": "anamnesis",
+        "bind": "/model/instance/kpsp_balita_6thn/anamnesis"
+      },
+      {
+        "name": "keluhan",
+        "bind": "/model/instance/kpsp_balita_6thn/keluhan"
+      },
+      {
+        "name": "masalah_tumbang",
+        "bind": "/model/instance/kpsp_balita_6thn/masalah_tumbang"
+      },
+      {
+        "name": "kpsp_6thn",
+        "bind": "/model/instance/kpsp_balita_6thn/kpsp_6thn"
+      },
+      {
+        "name": "_66bln_menggambar_silang",
+        "bind": "/model/instance/kpsp_balita_6thn/_66bln_menggambar_silang"
+      },
+      {
+        "name": "_66bln_perintah",
+        "bind": "/model/instance/kpsp_balita_6thn/_66bln_perintah"
+      },
+      {
+        "name": "_66bln_reaksi_anak",
+        "bind": "/model/instance/kpsp_balita_6thn/_66bln_reaksi_anak"
+      },
+      {
+        "name": "_66bln_warna",
+        "bind": "/model/instance/kpsp_balita_6thn/_66bln_warna"
+      },
+      {
+        "name": "_66bln_melompat_satu_kaki",
+        "bind": "/model/instance/kpsp_balita_6thn/_66bln_melompat_satu_kaki"
+      },
+      {
+        "name": "_66bln_berpakaian_sendiri",
+        "bind": "/model/instance/kpsp_balita_6thn/_66bln_berpakaian_sendiri"
+      },
+      {
+        "name": "_66bln_menggambar_3bagian",
+        "bind": "/model/instance/kpsp_balita_6thn/_66bln_menggambar_3bagian"
+      },
+      {
+        "name": "_66bln_menggambar_6bagian",
+        "bind": "/model/instance/kpsp_balita_6thn/_66bln_menggambar_6bagian"
+      },
+      {
+        "name": "_66bln_lawan_kata",
+        "bind": "/model/instance/kpsp_balita_6thn/_66bln_lawan_kata"
+      },
+      {
+        "name": "_66bln_menangkap_bola",
+        "bind": "/model/instance/kpsp_balita_6thn/_66bln_menangkap_bola"
+      },
+      {
+        "name": "_72bln_warna",
+        "bind": "/model/instance/kpsp_balita_6thn/_72bln_warna"
+      },
+      {
+        "name": "_72bln_melompat_satu_kaki",
+        "bind": "/model/instance/kpsp_balita_6thn/_72bln_melompat_satu_kaki"
+      },
+      {
+        "name": "_72bln_berpakaian_sendiri",
+        "bind": "/model/instance/kpsp_balita_6thn/_72bln_berpakaian_sendiri"
+      },
+      {
+        "name": "_72bln_menggambar_3bagian",
+        "bind": "/model/instance/kpsp_balita_6thn/_72bln_menggambar_3bagian"
+      },
+      {
+        "name": "_72bln_menggambar_6bagian",
+        "bind": "/model/instance/kpsp_balita_6thn/_72bln_menggambar_6bagian"
+      },
+      {
+        "name": "_72bln_lawan_kata",
+        "bind": "/model/instance/kpsp_balita_6thn/_72bln_lawan_kata"
+      },
+      {
+        "name": "_72bln_menangkap_bola",
+        "bind": "/model/instance/kpsp_balita_6thn/_72bln_menangkap_bola"
+      },
+      {
+        "name": "_72bln_berdiri_1kaki",
+        "bind": "/model/instance/kpsp_balita_6thn/_72bln_berdiri_1kaki"
+      },
+      {
+        "name": "_72bln_menggambar",
+        "bind": "/model/instance/kpsp_balita_6thn/_72bln_menggambar"
+      },
+      {
+        "name": "_72bln_pertanyaan_note1",
+        "bind": "/model/instance/kpsp_balita_6thn/_72bln_pertanyaan_note1"
+      },
+      {
+        "name": "_72bln_pertanyaan_note2",
+        "bind": "/model/instance/kpsp_balita_6thn/_72bln_pertanyaan_note2"
+      },
+      {
+        "name": "_72bln_pertanyaan_note3",
+        "bind": "/model/instance/kpsp_balita_6thn/_72bln_pertanyaan_note3"
+      },
+      {
+        "name": "_72bln_pertanyaan_note4",
+        "bind": "/model/instance/kpsp_balita_6thn/_72bln_pertanyaan_note4"
+      },
+      {
+        "name": "_72bln_pertanyaan",
+        "bind": "/model/instance/kpsp_balita_6thn/_72bln_pertanyaan"
+      },
+      {
+        "name": "status_kembang6",
+        "bind": "/model/instance/kpsp_balita_6thn/status_kembang6"
+      },
+      {
+        "name": "status_meragukan",
+        "bind": "/model/instance/kpsp_balita_6thn/status_meragukan"
+      },
+      {
+        "name": "status_penyimpangan",
+        "bind": "/model/instance/kpsp_balita_6thn/status_penyimpangan"
+      },
+      {
+        "name": "kesimpulan",
+        "bind": "/model/instance/kpsp_balita_6thn/kesimpulan"
+      },
+      {
+        "name": "tindakan_intervensi",
+        "bind": "/model/instance/kpsp_balita_6thn/tindakan_intervensi"
+      },
+      {
+        "name": "konseling_stimulasi",
+        "bind": "/model/instance/kpsp_balita_6thn/konseling_stimulasi"
+      },
+      {
+        "name": "tindakan_lain",
+        "bind": "/model/instance/kpsp_balita_6thn/tindakan_lain"
+      },
+      {
+        "name": "rujukan",
+        "bind": "/model/instance/kpsp_balita_6thn/rujukan"
+      },
+      {
+        "name": "dirujuk_ke",
+        "bind": "/model/instance/kpsp_balita_6thn/dirujuk_ke"
+      },
+      {
+        "name": "surat_rujukan",
+        "bind": "/model/instance/kpsp_balita_6thn/surat_rujukan"
+      },
+      {
+        "name": "isOutOfArea",
+        "value": "false"
+      },
+      {
+        "name": "isClosed",
+        "value": "false"
+      },
+      {
+        "name": "reg_date",
+        "bind": "/model/instance/kpsp_balita_6thn/today"
+      },
+      {
+        "name": "registrationDate",
+        "bind": "/model/instance/kpsp_balita_6thn/reg_date"
+      }
+    ]
+  }
+}

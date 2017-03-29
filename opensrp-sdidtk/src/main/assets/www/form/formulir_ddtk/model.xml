@@ -1,0 +1,38 @@
+<model>
+   <instance>
+      <formulir_ddtk encounter_type="Formulir Deteksi Dini Tumbuh Kembang Anak" id="formulir_ddtk" version="201605120823">
+         <formhub>
+            <uuid />
+         </formhub>
+         <start />
+         <today />
+         <deviceid />
+         <simserial />
+         <phonenumber />
+         <generated_note_name_8 />
+         <existing_Village />
+         <generated_note_name_10 />
+         <existing_Sub-village />
+         <generated_note_name_12 />
+         <existing_Province />
+         <existing_District />
+         <existing_Sub-district />
+		 <existing_dusun />
+         <existing_provinsi />
+         <existing_kabupaten />
+         <existing_kecamatan />
+		 <existing_desa />
+		 <reg_date />
+         <identitas_anak />
+         <nama_anak />
+         <jenis_kelamin />
+         <nama_ayah />
+         <nama_ibu />
+         <tanggal_lahir />
+         <umur />
+         <meta>
+            <instanceID />
+         </meta>
+      </formulir_ddtk>
+   </instance>
+</model>

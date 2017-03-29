@@ -1,0 +1,10 @@
+[
+  {
+    "parent":"ibu",
+    "child":"anak",
+    "field":"anak_anak",
+    "kind":"one_to_many",
+    "from":"ibu.id",
+    "to":"anak.ibuCaseId"
+  }
+]

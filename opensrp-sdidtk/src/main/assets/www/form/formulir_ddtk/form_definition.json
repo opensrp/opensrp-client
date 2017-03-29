@@ -1,0 +1,111 @@
+{
+  "form_data_definition_version": "1",
+  "form": {
+    "bind_type": "anak",
+    "default_bind_path": "/model/instance/formulir_ddtk/",
+    "fields": [
+      {
+        "name": "id",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "Village",
+        "bind": "/model/instance/formulir_ddtk/existing_Village",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "Province",
+        "bind": "/model/instance/formulir_ddtk/existing_Province",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "Sub-district",
+        "bind": "/model/instance/formulir_ddtk/existing_Sub-district",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "District",
+        "bind": "/model/instance/formulir_ddtk/existing_District",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "Sub-village",
+        "bind": "/model/instance/formulir_ddtk/existing_Sub-village",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "dusun",
+        "bind": "/model/instance/formulir_ddtk/existing_dusun",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "provinsi",
+        "bind": "/model/instance/formulir_ddtk/existing_provinsi",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "kabupaten",
+        "bind": "/model/instance/formulir_ddtk/existing_kabupaten",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "kecamatan",
+        "bind": "/model/instance/formulir_ddtk/existing_kecamatan",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "desa",
+        "bind": "/model/instance/formulir_ddtk/existing_desa",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "reg_date",
+        "bind": "/model/instance/formulir_ddtk/reg_date"
+      },
+      {
+        "name": "nama_anak",
+        "bind": "/model/instance/formulir_ddtk/nama_anak"
+      },
+
+      {
+        "name": "jenis_kelamin",
+        "bind": "/model/instance/formulir_ddtk/jenis_kelamin"
+      },
+
+
+      {
+        "name": "nama_ayah",
+        "bind": "/model/instance/formulir_ddtk/nama_ayah"
+      },
+
+      {
+        "name": "nama_ibu",
+        "bind": "/model/instance/formulir_ddtk/nama_ibu"
+      },
+      {
+        "name": "tanggal_lahir",
+        "bind": "/model/instance/formulir_ddtk/tanggal_lahir"
+      },
+      {
+        "name": "umur",
+        "bind": "/model/instance/formulir_ddtk/umur"
+      },
+      {
+        "name": "isOutOfArea",
+        "value": "false"
+      },
+      {
+        "name": "isClosed",
+        "value": "false"
+      },
+      {
+        "name": "reg_date",
+        "bind": "/model/instance/formulir_ddtk/today"
+      },
+      {
+        "name": "registrationDate",
+        "bind": "/model/instance/formulir_ddtk/reg_date"
+      }
+    ]
+  }
+}

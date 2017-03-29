@@ -1,0 +1,1240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form autocomplete="off" novalidate="novalidate" class="or clearfix" id="kpsp_bayi_1thn">
+   <!--This form was created by transforming a OpenRosa-flavored (X)Form using an XSLT sheet created by Enketo LLC.-->
+   <section class="form-logo"></section>
+   <h3 id="form-title">KPSP Bayi 1 Tahun</h3>
+   <select id="form-languages" data-default-lang="Bahasa">
+      <option value="Bahasa">Bahasa</option>
+      <option value="en">English</option>
+   </select>
+   <label class="note non-select ">
+        <span class="question-label active" data-itext-id="/kpsp_bayi_1thn/generated_note_name_12:label"
+            lang="Bahasa">Umur:
+            <span class="or-output"
+                data-value=" /kpsp_bayi_1thn/umur "></span>
+        </span>
+        <span class="question-label " data-itext-id="/kpsp_bayi_1thn/generated_note_name_12:label"
+            lang="en">Age:
+        </span>
+        <input name="/kpsp_bayi_1thn/generated_note_name_12" data-type-xml="string"
+            readonly="readonly" type="text" />
+    </label>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/kpsp_test_date1:label">Tanggal Entry</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/kpsp_test_date1:label">Entry Date</span>
+      <input type="date" name="/kpsp_bayi_1thn/kpsp_test_date1" data-type-xml="date" />
+   </label>
+   <label class="note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/anamnesis:label">__ANAMNESIS__</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/anamnesis:label">__ANAMNESIS__</span>
+      <input type="text" name="/kpsp_bayi_1thn/anamnesis" data-type-xml="string" readonly="readonly" />
+   </label>
+   <label class="note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/keluhan:label">Keluhan Utama</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/keluhan:label">Main Complaints</span>
+      <input type="text" name="/kpsp_bayi_1thn/keluhan" data-type-xml="string" />
+   </label>
+   <label class="note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/masalah_tumbang:label">Apakah anak punya masalah tumbuh kembang:</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/masalah_tumbang:label">Does the child have growth-development issue?</span>
+      <input type="text" name="/kpsp_bayi_1thn/masalah_tumbang" data-type-xml="string" />
+   </label>
+   <fieldset class="question ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/kpsp_1thn:label">KPSP Bayi 1 Tahun</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/kpsp_1thn:label">Pre-Screening Questionnaire of Child Development for 1 Year Toddler</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/kpsp_1thn" data-name="/kpsp_bayi_1thn/kpsp_1thn" value="kpsp_3bln" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/kpsp_1thn/kpsp_3bln:label">KPSP Bayi 3 Bulan</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/kpsp_1thn/kpsp_3bln:label">PQCD for 3 months old</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/kpsp_1thn" data-name="/kpsp_bayi_1thn/kpsp_1thn" value="kpsp_6bln" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/kpsp_1thn/kpsp_6bln:label">KPSP Bayi 6 Bulan</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/kpsp_1thn/kpsp_6bln:label">PQCD for 6 months old</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/kpsp_1thn" data-name="/kpsp_bayi_1thn/kpsp_1thn" value="kpsp_9bln" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/kpsp_1thn/kpsp_9bln:label">KPSP Bayi 9 Bulan</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/kpsp_1thn/kpsp_9bln:label">PQCD for 9 months old</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/kpsp_1thn" data-name="/kpsp_bayi_1thn/kpsp_1thn" value="kpsp_12bln" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/kpsp_1thn/kpsp_12bln:label">KPSP Bayi 12 Bulan</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/kpsp_1thn/kpsp_12bln:label">PQCD for 12 months old</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_gerakan_lengan:label">1. Pada waktu bayi telentang, apakah masing-masing lengan dan tungkai bergerak dengan mudah? Jawab TIDAK bila salah satu atau kedua tungkai atau lengan bayi bergerak tak terarah/tak terkendali</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_3bln_gerakan_lengan:label">1. When the baby is lying down, does both his/her arms and legs move easily? Select NO if either one or both baby's arms or legs move disorderly/uncontrollably</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_3bln_gerakan_lengan:hint">Gerak kasar</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_3bln_gerakan_lengan:hint">Gross motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_gerakan_lengan" data-name="/kpsp_bayi_1thn/_3bln_gerakan_lengan" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_gerakan_lengan/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_gerakan_lengan/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_gerakan_lengan" data-name="/kpsp_bayi_1thn/_3bln_gerakan_lengan" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_gerakan_lengan/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_gerakan_lengan/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_menatap_wajah:label">2. Pada waktu bayi telentang, apakah ia melihat dan menatap wajah Anda?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_3bln_menatap_wajah:label">2. When the baby is lying down, does he/she see and look at your face?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_3bln_menatap_wajah:hint">Sosialisasi dan kemandirian</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_3bln_menatap_wajah:hint">Socialization and independency</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_menatap_wajah" data-name="/kpsp_bayi_1thn/_3bln_menatap_wajah" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_menatap_wajah/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_menatap_wajah/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_menatap_wajah" data-name="/kpsp_bayi_1thn/_3bln_menatap_wajah" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_menatap_wajah/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_menatap_wajah/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengeluarkan_suara:label">3. Apakah bayi dapat mengeluarkan suara-suara lain (ngoceh) di samping menangis?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_3bln_mengeluarkan_suara:label">3. Does baby voice other sound (babbling) other than crying?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengeluarkan_suara:hint">Bicara dan bahasa</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_3bln_mengeluarkan_suara:hint">Language</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_mengeluarkan_suara" data-name="/kpsp_bayi_1thn/_3bln_mengeluarkan_suara" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengeluarkan_suara/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_mengeluarkan_suara/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_mengeluarkan_suara" data-name="/kpsp_bayi_1thn/_3bln_mengeluarkan_suara" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengeluarkan_suara/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_mengeluarkan_suara/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan1:label"></span>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan1:label">4. Pada waktu bayi telentang, apakah ia dapat mengikuti gerakan Anda dengan menggerakkan kepalanya dari kanan/kiri ke tengah?</span>
+            <img lang="Bahasa" class="active" src="http://orig02.deviantart.net/1271/f/2016/122/1/e/hal_2_no_4_by_edwarddesu-da13yur.jpg" alt="image" />
+            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan1:label"></span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan1:label">4. When the baby is lying down, is he/she able to follow your move by moving his/her head from right/left to the centre (facing you)?</span>
+            <img lang="en" src="http://orig02.deviantart.net/1271/f/2016/122/1/e/hal_2_no_4_by_edwarddesu-da13yur.jpg" alt="image" />
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan1:hint">Gerak halus</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan1:hint">Fine motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan1" data-name="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan1" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan1/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan1/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan1" data-name="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan1" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan1/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan1/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan2:label"></span>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan2:label">5. Pada waktu bayi telentang, apakah ia dapat mengikuti gerakan Anda dengan menggerakkan kepalanya dari satu sisi hampir sampai pada sisi yang lain?</span>
+            <img lang="Bahasa" class="active" src="http://img15.deviantart.net/7039/i/2016/122/2/8/hal_2_no_5_by_edwarddesu-da1418c.jpg" alt="image" />
+            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan2:label"></span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan2:label">5. When the baby is lying down, is he/she able to follow your move by moving his/her head from one side almost to the other side?</span>
+            <img lang="en" src="http://img15.deviantart.net/7039/i/2016/122/2/8/hal_2_no_5_by_edwarddesu-da1418c.jpg" alt="image" />
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan2:hint">Gerak halus</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan2:hint">Fine motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan2" data-name="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan2" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan2/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan2/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan2" data-name="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan2" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan2/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_mengikuti_gerakan2/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_tersenyum_kembali:label">6. Pada waktu Anda mengajak bayi berbicara dan tersenyum, apakah ia tersenyum kembali kepada Anda?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_3bln_tersenyum_kembali:label">6. When you are talking and smiling to the baby, does he/she smile back to you?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_3bln_tersenyum_kembali:hint">Sosialisasi dan kemandirian</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_3bln_tersenyum_kembali:hint">Socialization and independency</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_tersenyum_kembali" data-name="/kpsp_bayi_1thn/_3bln_tersenyum_kembali" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_tersenyum_kembali/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_tersenyum_kembali/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_tersenyum_kembali" data-name="/kpsp_bayi_1thn/_3bln_tersenyum_kembali" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_tersenyum_kembali/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_tersenyum_kembali/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala1:label"></span>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala1:label">7. Pada waktu bayi telungkup di alas yang datar, apakah ia dapat mengangkat kepalanya seperti pada gambar ini?</span>
+            <img lang="Bahasa" class="active" src="http://img15.deviantart.net/9af8/i/2016/122/7/a/hal_2_no_7_by_edwarddesu-da1418m.jpg" alt="image" />
+            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala1:label"></span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala1:label">7. When the baby is facing down on a flat base, is he/she able to lift his/her head as seen in the picture?</span>
+            <img lang="en" src="http://img15.deviantart.net/9af8/i/2016/122/7/a/hal_2_no_7_by_edwarddesu-da1418m.jpg" alt="image" />
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala1:hint">Gerak kasar</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala1:hint">Gross motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_mengangkat_kepala1" data-name="/kpsp_bayi_1thn/_3bln_mengangkat_kepala1" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala1/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala1/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_mengangkat_kepala1" data-name="/kpsp_bayi_1thn/_3bln_mengangkat_kepala1" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala1/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala1/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala2:label"></span>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala2:label">8. Pada waktu bayi telungkup di alas yang datar, apakah ia dapat mengangkat kepalanya sehingga membentuk sudut 45 derajat seperti pada gambar?</span>
+            <img lang="Bahasa" class="active" src="http://img13.deviantart.net/df24/i/2016/122/a/5/hal_2_no_8_by_edwarddesu-da1418p.jpg" alt="image" />
+            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala2:label"></span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala2:label">8. When the baby is facing down on a flat base, is he/she able to lift his/her head to form an angle of 45 degrees as seen in the picture?</span>
+            <img lang="en" src="http://img13.deviantart.net/df24/i/2016/122/a/5/hal_2_no_8_by_edwarddesu-da1418p.jpg" alt="image" />
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala2:hint">Gerak kasar</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala2:hint">Gross motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_mengangkat_kepala2" data-name="/kpsp_bayi_1thn/_3bln_mengangkat_kepala2" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala2/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala2/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_mengangkat_kepala2" data-name="/kpsp_bayi_1thn/_3bln_mengangkat_kepala2" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala2/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala2/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala3:label"></span>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala3:label">9. Pada waktu bayi telungkup di alas yang datar, apakah ia dapat mengangkat kepalanya dengan tegak seperti pada gambar?</span>
+            <img lang="Bahasa" class="active" src="http://img03.deviantart.net/a7ab/i/2016/122/4/4/hal_2_no_9_by_edwarddesu-da1418v.jpg" alt="image" />
+            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala3:label"></span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala3:label">9. When the baby is facing down on a flat base, is he/she able to lift his/her head erectly as seen in the picture?</span>
+            <img lang="en" src="http://img03.deviantart.net/a7ab/i/2016/122/4/4/hal_2_no_9_by_edwarddesu-da1418v.jpg" alt="image" />
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala3:hint">Gerak kasar</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala3:hint">Gross motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_mengangkat_kepala3" data-name="/kpsp_bayi_1thn/_3bln_mengangkat_kepala3" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala3/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala3/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_mengangkat_kepala3" data-name="/kpsp_bayi_1thn/_3bln_mengangkat_kepala3" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala3/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_mengangkat_kepala3/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_tertawa:label">10. Apakah bayi suka tertawa keras walau tidak digelitik atau diraba-raba?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_3bln_tertawa:label">10. Does the baby like to laugh even he/she is not tickled ot touched?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_3bln_tertawa:hint">Bicara dan bahasa</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_3bln_tertawa:hint">Language</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_tertawa" data-name="/kpsp_bayi_1thn/_3bln_tertawa" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_tertawa/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_tertawa/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_3bln_tertawa" data-name="/kpsp_bayi_1thn/_3bln_tertawa" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_3bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_3bln_tertawa/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_3bln_tertawa/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_6bln_gerakan_kepala:label"></span>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_gerakan_kepala:label">1. Pada waktu bayi telentang, apakah ia dapat mengikuti gerakan Anda dengan menggerakkan kepala sepenuhnya dari satu sisi ke sisi yang lain?</span>
+            <img lang="Bahasa" class="active" src="http://img14.deviantart.net/3043/i/2016/123/a/8/hal_3_no_1_by_edwarddesu-da14hbs.jpg" alt="image" />
+            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_6bln_gerakan_kepala:label"></span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_6bln_gerakan_kepala:label">1. When the baby is lying down, is he/she able to follow your move by moving his/her head completely from one side to the other?</span>
+            <img lang="en" src="http://img14.deviantart.net/3043/i/2016/123/a/8/hal_3_no_1_by_edwarddesu-da14hbs.jpg" alt="image" />
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_6bln_gerakan_kepala:hint">Gerak halus</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_6bln_gerakan_kepala:hint">Fine motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_gerakan_kepala" data-name="/kpsp_bayi_1thn/_6bln_gerakan_kepala" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_gerakan_kepala/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_gerakan_kepala/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_gerakan_kepala" data-name="/kpsp_bayi_1thn/_6bln_gerakan_kepala" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_gerakan_kepala/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_gerakan_kepala/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_menahan_kepala:label">2. Dapatkah bayi mempertahankan posisi kepala dalam keadaan tegak dan stabil? Jawab TIDAK bila kepala bayi cenderung jatuh ke kanan/kiri atau ke dadanya</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_6bln_menahan_kepala:label">2. Is the baby able to maintain his/her head in an upright and stable position? Select NO if the baby's head inclines to the right/left or to the chest</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_6bln_menahan_kepala:hint">Gerak kasar</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_6bln_menahan_kepala:hint">Gross motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_menahan_kepala" data-name="/kpsp_bayi_1thn/_6bln_menahan_kepala" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_menahan_kepala/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_menahan_kepala/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_menahan_kepala" data-name="/kpsp_bayi_1thn/_6bln_menahan_kepala" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_menahan_kepala/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_menahan_kepala/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_6bln_menggenggam_pensil:label"></span>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_menggenggam_pensil:label">3. Sentuhkan pensil di punggung tangan atau ujung jari bayi (jangan meletakkan di atas telapak tangan bayi). Apakah bayi dapat menggenggam pensil itu selama beberapa detik?</span>
+            <img lang="Bahasa" class="active" src="http://img07.deviantart.net/099e/i/2016/123/6/2/hal_3_no_3_by_edwarddesu-da14hbk.jpg" alt="image" />
+            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_6bln_menggenggam_pensil:label"></span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_6bln_menggenggam_pensil:label">3. Put slightly a pencil on the baby's back hand or fingertip (don't put it on the palm). Is the baby able to grasp the pecil for a few seconds?</span>
+            <img lang="en" src="http://img07.deviantart.net/099e/i/2016/123/6/2/hal_3_no_3_by_edwarddesu-da14hbk.jpg" alt="image" />
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_6bln_menggenggam_pensil:hint">Gerak halus</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_6bln_menggenggam_pensil:hint">Fine motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_menggenggam_pensil" data-name="/kpsp_bayi_1thn/_6bln_menggenggam_pensil" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_menggenggam_pensil/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_menggenggam_pensil/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_menggenggam_pensil" data-name="/kpsp_bayi_1thn/_6bln_menggenggam_pensil" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_menggenggam_pensil/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_menggenggam_pensil/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_6bln_mengangkat_dada:label"></span>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_mengangkat_dada:label">4. Ketika bayi telungkup di alas datar, apakah ia dapat mengangkat dada dengan kedua lengannya sebagai penyangga seperti pada gambar?</span>
+            <img lang="Bahasa" class="active" src="http://img12.deviantart.net/87b8/i/2016/123/4/0/hal_3_no_4_by_edwarddesu-da14hbf.jpg" alt="image" />
+            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_6bln_mengangkat_dada:label"></span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_6bln_mengangkat_dada:label">4. When the baby is facing down, is he/she able to lift his/her chest using both arms as buffer as seen in the picture?</span>
+            <img lang="en" src="http://img12.deviantart.net/87b8/i/2016/123/4/0/hal_3_no_4_by_edwarddesu-da14hbf.jpg" alt="image" />
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_6bln_mengangkat_dada:hint">Gerak kasar</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_6bln_mengangkat_dada:hint">Gross motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_mengangkat_dada" data-name="/kpsp_bayi_1thn/_6bln_mengangkat_dada" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_mengangkat_dada/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_mengangkat_dada/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_mengangkat_dada" data-name="/kpsp_bayi_1thn/_6bln_mengangkat_dada" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_mengangkat_dada/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_mengangkat_dada/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_suara_gembira:label">5. Pernahkah bayi mengeluarkan suara gembira bernada tinggi atau memekik tetapi bukan menangis?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_6bln_suara_gembira:label">5. Has the baby made a high-picthed, excited voice or a squeal but not crying?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_6bln_suara_gembira:hint">Bicara dan bahasa</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_6bln_suara_gembira:hint">Language</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_suara_gembira" data-name="/kpsp_bayi_1thn/_6bln_suara_gembira" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_suara_gembira/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_suara_gembira/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_suara_gembira" data-name="/kpsp_bayi_1thn/_6bln_suara_gembira" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_suara_gembira/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_suara_gembira/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_berbalik:label">6. Pernahkah bayi berbalik paling sedikit dua kali, dari telentang ke telungkup atau sebaliknya?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_6bln_berbalik:label">6. Has the baby turned around at least twice, from a facing upward to downward position or vice versa?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_6bln_berbalik:hint">Gerak kasar</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_6bln_berbalik:hint">Gross motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_berbalik" data-name="/kpsp_bayi_1thn/_6bln_berbalik" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_berbalik/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_berbalik/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_berbalik" data-name="/kpsp_bayi_1thn/_6bln_berbalik" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_berbalik/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_berbalik/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_tersenyum:label">7. Pernahkah Anda melihat bayi tersenyum ketika melihat mainan yang lucu, gambar atau binatang peliharaan saat ia bermain sendiri?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_6bln_tersenyum:label">7. Have you seen the baby smile when seeing a cute toys, pictures, or pets when he/she is playing alone?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_6bln_tersenyum:hint">Sosialisasi dan kemandirian</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_6bln_tersenyum:hint">Socialization and independency</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_tersenyum" data-name="/kpsp_bayi_1thn/_6bln_tersenyum" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_tersenyum/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_tersenyum/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_tersenyum" data-name="/kpsp_bayi_1thn/_6bln_tersenyum" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_tersenyum/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_tersenyum/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_mengarahkan_mata:label">8. Dapatkah bayi mengarahkan matanya pada benda kecil sebesar kacang, kismis atau uang logam? Jawab TIDAK jika ia tidak dapat mengarahkan matanya</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_6bln_mengarahkan_mata:label">8. Is the baby able to focus his/her sight on a small objects such as a nut, a raisin or a coin? Select NO if he/she is not able to focus his/her sight</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_6bln_mengarahkan_mata:hint">Gerak halus</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_6bln_mengarahkan_mata:hint">Fine motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_mengarahkan_mata" data-name="/kpsp_bayi_1thn/_6bln_mengarahkan_mata" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_mengarahkan_mata/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_mengarahkan_mata/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_mengarahkan_mata" data-name="/kpsp_bayi_1thn/_6bln_mengarahkan_mata" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_mengarahkan_mata/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_mengarahkan_mata/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_meraih_mainan:label">9. Dapatkah bayi meraih mainan yang diletakkan agak jauh namun masih berada dalam jangkauan tangannya?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_6bln_meraih_mainan:label">9. Is the baby able to reach a toy which is placed slighlty far but is still within the reach of his/her hand</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_6bln_meraih_mainan:hint">Gerak halus</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_6bln_meraih_mainan:hint">Fine motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_meraih_mainan" data-name="/kpsp_bayi_1thn/_6bln_meraih_mainan" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_meraih_mainan/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_meraih_mainan/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_meraih_mainan" data-name="/kpsp_bayi_1thn/_6bln_meraih_mainan" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_meraih_mainan/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_meraih_mainan/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_6bln_menahan_leher:label"></span>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_menahan_leher:label">10. Pada posisi bayi telentang, pegang kedua tangannya lalu tarik perlahan-lahan ke posisi duduk. Dapatkah bayi mempertahankan lehernya secara kaku seperti pada gambar di sebelah kiri? Jawab TIDAK bila kepala bayi jatuh kembali seperti gambar sebelah kanan</span>
+            <img lang="Bahasa" class="active" src="http://img03.deviantart.net/d7a1/i/2016/123/a/7/hal_3_no_10_by_edwarddesu-da14hb7.jpg" alt="image" />
+            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_6bln_menahan_leher:label"></span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_6bln_menahan_leher:label">10. When the baby is lying down, hold his/her hands then pull him/her up slowly into a sitting position. Is the baby able to maintain his/her neck rigidly as seen in the left picture? Select NO if the baby's head falls down as seen in the righ picture?</span>
+            <img lang="en" src="http://img03.deviantart.net/d7a1/i/2016/123/a/7/hal_3_no_10_by_edwarddesu-da14hb7.jpg" alt="image" />
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_6bln_menahan_leher:hint">Gerak kasar</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_6bln_menahan_leher:hint">Gross motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_menahan_leher" data-name="/kpsp_bayi_1thn/_6bln_menahan_leher" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_menahan_leher/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_menahan_leher/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_6bln_menahan_leher" data-name="/kpsp_bayi_1thn/_6bln_menahan_leher" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_6bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_6bln_menahan_leher/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_6bln_menahan_leher/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_9bln_menahan_leher:label"></span>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_menahan_leher:label">1. Pada posisi bayi telentang, pegang kedua tangannya lalu tarik perlahan-lahan ke posisi duduk. Dapatkah bayi mempertahankan lehernya secara kaku seperti pada gambar di sebelah kiri? Jawab TIDAK bila kepala bayi jatuh kembali seperti gambar sebelah kanan</span>
+            <img lang="Bahasa" class="active" src="http://img03.deviantart.net/d7a1/i/2016/123/a/7/hal_3_no_10_by_edwarddesu-da14hb7.jpg" alt="image" />
+            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_9bln_menahan_leher:label"></span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_9bln_menahan_leher:label">1. When the baby is lying down, hold his/her hands then pull him/her up slowly into a sitting position. Is the baby able to maintain his/her neck rigidly as seen in the left picture? Select NO if the baby's head falls down as seen in the righ picture?</span>
+            <img lang="en" src="http://img03.deviantart.net/d7a1/i/2016/123/a/7/hal_3_no_10_by_edwarddesu-da14hb7.jpg" alt="image" />
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_9bln_menahan_leher:hint">Gerak kasar</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_9bln_menahan_leher:hint">Gross motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_menahan_leher" data-name="/kpsp_bayi_1thn/_9bln_menahan_leher" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_menahan_leher/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_menahan_leher/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_menahan_leher" data-name="/kpsp_bayi_1thn/_9bln_menahan_leher" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_menahan_leher/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_menahan_leher/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_memindahkan_mainan:label">2. Pernahkan Anda melihat bayi memindahkan mainan atau kue kering dari satu tangan ke tangan yang lain? Benda-benda panjang seperti sendok atau kerincingan bertangkai tidak ikut dinilai</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_9bln_memindahkan_mainan:label">2. Have you seen the baby move a toy or a cookie from one hand to the other? A long-shaped objects such as spoon or handgripped rattle are not assessed</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_9bln_memindahkan_mainan:hint">Gerak halus</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_9bln_memindahkan_mainan:hint">Fine motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_memindahkan_mainan" data-name="/kpsp_bayi_1thn/_9bln_memindahkan_mainan" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_memindahkan_mainan/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_memindahkan_mainan/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_memindahkan_mainan" data-name="/kpsp_bayi_1thn/_9bln_memindahkan_mainan" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_memindahkan_mainan/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_memindahkan_mainan/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_mencari_objek:label">3. Tarik perhatian bayi dengan memperlihatkan selendang, sapu tangan atau serbet, kemudian jatuhkan ke lantai. Apakah bayi mencoba mencarinya? Misalnya mencari di bawah meja atau di belakang kursi?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_9bln_mencari_objek:label">3. Attrack baby's attention by showing him/her a scarf, a handerkerchief or a napkin, then drop it to the floor. Does the baby try to look for it, for example looking under the table or behind the chair?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_9bln_mencari_objek:hint">Gerak halus</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_9bln_mencari_objek:hint">Fine motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_mencari_objek" data-name="/kpsp_bayi_1thn/_9bln_mencari_objek" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_mencari_objek/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_mencari_objek/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_mencari_objek" data-name="/kpsp_bayi_1thn/_9bln_mencari_objek" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_mencari_objek/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_mencari_objek/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_memegang_benda:label">4. Apakah bayi dapat memungut dua benda seperti mainan/kue kering, dan masing-masing tangan memegang satu benda pada saat yang sama? Jawab TIDAK bila bayi tidak pernah melakukan perbuatan ini</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_9bln_memegang_benda:label">4. Is the baby able to pick up two objects such as toys/cookies, and each hand holds one object simultaneously? Select NO if the baby has never done this</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_9bln_memegang_benda:hint">Gerak halus</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_9bln_memegang_benda:hint">Fine motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_memegang_benda" data-name="/kpsp_bayi_1thn/_9bln_memegang_benda" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_memegang_benda/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_memegang_benda/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_memegang_benda" data-name="/kpsp_bayi_1thn/_9bln_memegang_benda" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_memegang_benda/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_memegang_benda/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_berdiri_bertumpu:label">5. Jika Anda mengangkat bayi melalui ketiaknya ke posisi berdiri, dapatkah ia menyangga sebagian berat badan dengan kedua kakinya? Jawab YA bila ia mencoba berdiri dan sebagian berat badan bertumpu pada kedua kakinya.</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_9bln_berdiri_bertumpu:label">5. If you lift the baby by his/her armpits to a standing position, is he/she able to prop half of his/herweight with both feet? Select YES if he/she tries to stand and props half of his/her weight on both feet.</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_9bln_berdiri_bertumpu:hint">Gerak kasar</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_9bln_berdiri_bertumpu:hint">Gross motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_berdiri_bertumpu" data-name="/kpsp_bayi_1thn/_9bln_berdiri_bertumpu" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_berdiri_bertumpu/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_berdiri_bertumpu/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_berdiri_bertumpu" data-name="/kpsp_bayi_1thn/_9bln_berdiri_bertumpu" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_berdiri_bertumpu/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_berdiri_bertumpu/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_9bln_memungut_benda:label"></span>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_memungut_benda:label">6. Dapatkah bayi memungut dengan tangannya benda-benda kecil seperti kismis, kacang-kacangan, potongan biskuit, dengan gerakan miring atau menggerapai seperti gambar?</span>
+            <img lang="Bahasa" class="active" src="http://orig14.deviantart.net/c227/f/2016/134/3/e/hal_4_no_6_by_edwarddesu-da2ekgp.jpg" alt="image" />
+            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_9bln_memungut_benda:label"></span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_9bln_memungut_benda:label">6. Is the baby able to pick up small objects such as a raisin, a nut, a piece of biscuit, with a slanted hand movement as seen in the picture?</span>
+            <img lang="en" src="http://orig14.deviantart.net/c227/f/2016/134/3/e/hal_4_no_6_by_edwarddesu-da2ekgp.jpg" alt="image" />
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_9bln_memungut_benda:hint">Gerak halus</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_9bln_memungut_benda:hint">Fine motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_memungut_benda" data-name="/kpsp_bayi_1thn/_9bln_memungut_benda" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_memungut_benda/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_memungut_benda/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_memungut_benda" data-name="/kpsp_bayi_1thn/_9bln_memungut_benda" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_memungut_benda/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_memungut_benda/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_9bln_duduk_sendiri:label"></span>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_duduk_sendiri:label">7. Tanpa disangga oleh bantal, kursi atau dinding, dapatkah bayi duduk sendiri selama 60 detik?</span>
+            <img lang="Bahasa" class="active" src="http://orig11.deviantart.net/3b17/f/2016/123/6/4/hal_4_no_7_by_edwarddesu-da14haz.jpg" alt="image" />
+            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_9bln_duduk_sendiri:label"></span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_9bln_duduk_sendiri:label">7. Is the baby able to sit alone for 60 seconds without being propped by a pillow, a chair or a wall?</span>
+            <img lang="en" src="http://orig11.deviantart.net/3b17/f/2016/123/6/4/hal_4_no_7_by_edwarddesu-da14haz.jpg" alt="image" />
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_9bln_duduk_sendiri:hint">Gerak kasar</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_9bln_duduk_sendiri:hint">Gross motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_duduk_sendiri" data-name="/kpsp_bayi_1thn/_9bln_duduk_sendiri" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_duduk_sendiri/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_duduk_sendiri/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_duduk_sendiri" data-name="/kpsp_bayi_1thn/_9bln_duduk_sendiri" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_duduk_sendiri/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_duduk_sendiri/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_makan_kue_sendiri:label">8. Apakah bayi dapat makan kue kering sendiri?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_9bln_makan_kue_sendiri:label">8. Is the baby able to eat a cookie without help?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_9bln_makan_kue_sendiri:hint">Sosialisasi dan kemandirian</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_9bln_makan_kue_sendiri:hint">Socialization and independency</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_makan_kue_sendiri" data-name="/kpsp_bayi_1thn/_9bln_makan_kue_sendiri" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_makan_kue_sendiri/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_makan_kue_sendiri/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_makan_kue_sendiri" data-name="/kpsp_bayi_1thn/_9bln_makan_kue_sendiri" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_makan_kue_sendiri/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_makan_kue_sendiri/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_menoleh:label">9. Pada waktu bayi bermain sendiri dan Anda diam-diam datang berdiri di belakangnya, apakah ia menengok ke belakang seperti mendengar kedatangan Anda? Suara keras tidak ikut dihitung. Jawab YA hanya jika Anda melihat reaksinya terhadap suara yang perlahan atau bisikan</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_9bln_menoleh:label">9. When the baby was playing alone and you quitely stood behind him/her, did he/she look back as if hearing your arrival?. A loud noise is not assessed. Select YES if you saw his/her reaction to a soft sound or a whisper</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_9bln_menoleh:hint">Bicara dan bahasa</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_9bln_menoleh:hint">Language</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_menoleh" data-name="/kpsp_bayi_1thn/_9bln_menoleh" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_menoleh/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_menoleh/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_menoleh" data-name="/kpsp_bayi_1thn/_9bln_menoleh" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_menoleh/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_menoleh/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_meraih_mainan:label">10. Letakkan suatu mainan yang diinginkannya di luar jangkauan bayi, apakah ia mencoba mendapatkannya dengan mengulurkan lengan atau badannya?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_9bln_meraih_mainan:label">10. Put a toy which the baby wants beyond his/her reach of hand, does she try to get it by reaching out his/her arm or body?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_9bln_meraih_mainan:hint">Sosialisasi dan kemandirian</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_9bln_meraih_mainan:hint">Socialization and independency</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_meraih_mainan" data-name="/kpsp_bayi_1thn/_9bln_meraih_mainan" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_meraih_mainan/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_meraih_mainan/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_9bln_meraih_mainan" data-name="/kpsp_bayi_1thn/_9bln_meraih_mainan" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_9bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_9bln_meraih_mainan/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_9bln_meraih_mainan/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_mencari_orang_bersembunyi:label">1. Jika Anda bersembunyi di belakang sesuatu/di pojok, kemudian muncul dan menghilang secara berulang-ulang di hadapan anak, apakah ia mencari Anda atau mengharapkan Anda muncul kembali?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_12bln_mencari_orang_bersembunyi:label">1. If you're hiding behind someting/in the corner, then appear and disappear time after time in front of the baby, does he/she look for you or expect you to reappear?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_12bln_mencari_orang_bersembunyi:hint">Sosialisasi dan kemandirian</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_12bln_mencari_orang_bersembunyi:hint">Socialization and independency</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_mencari_orang_bersembunyi" data-name="/kpsp_bayi_1thn/_12bln_mencari_orang_bersembunyi" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_mencari_orang_bersembunyi/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_mencari_orang_bersembunyi/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_mencari_orang_bersembunyi" data-name="/kpsp_bayi_1thn/_12bln_mencari_orang_bersembunyi" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_mencari_orang_bersembunyi/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_mencari_orang_bersembunyi/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_menggenggam_benda:label">2. Letakkan pensil di telapak tangan bayi. Coba ambil pensil tersebut dengan perlahan-lahan. Sulitkah Anda mendapatkan pensil itu kembali?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_12bln_menggenggam_benda:label">2. Put a pencil on the baby's palm. Try to take the pencil slowly. Is it difficult to take it back from the baby?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_12bln_menggenggam_benda:hint">Gerak halus</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_12bln_menggenggam_benda:hint">Fine motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_menggenggam_benda" data-name="/kpsp_bayi_1thn/_12bln_menggenggam_benda" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_menggenggam_benda/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_menggenggam_benda/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_menggenggam_benda" data-name="/kpsp_bayi_1thn/_12bln_menggenggam_benda" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_menggenggam_benda/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_menggenggam_benda/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_berdiri_30detik:label">3. Apakah anak dapat berdiri selama 30 detik atau lebih dengan berpegangan pada kursi/meja?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_12bln_berdiri_30detik:label">3. Is the baby able to stand for 30 seconds or more by holding on to a chair/table?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_12bln_berdiri_30detik:hint">Gerak kasar</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_12bln_berdiri_30detik:hint">Gross motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_berdiri_30detik" data-name="/kpsp_bayi_1thn/_12bln_berdiri_30detik" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_berdiri_30detik/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_berdiri_30detik/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_berdiri_30detik" data-name="/kpsp_bayi_1thn/_12bln_berdiri_30detik" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_berdiri_30detik/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_berdiri_30detik/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_menyebut_suku_kata_sama:label">4. Apakah anak dapat mengatakan 2 suku kata yang sama, misalnya: "ma-ma", "da-da", atau "pa-pa". Jawab YA bila ia mengeluarkan salah satu suara tadi.</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_12bln_menyebut_suku_kata_sama:label">4. Is the baby able to pronounce two identical syllables, such as: "ma-ma", "da-da", or "pa-pa". Select YES if he/she pronounce either one of them</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_12bln_menyebut_suku_kata_sama:hint">Bicara dan bahasa</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_12bln_menyebut_suku_kata_sama:hint">Language</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_menyebut_suku_kata_sama" data-name="/kpsp_bayi_1thn/_12bln_menyebut_suku_kata_sama" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_menyebut_suku_kata_sama/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_menyebut_suku_kata_sama/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_menyebut_suku_kata_sama" data-name="/kpsp_bayi_1thn/_12bln_menyebut_suku_kata_sama" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_menyebut_suku_kata_sama/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_menyebut_suku_kata_sama/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_berdiri_tanpa_bantuan:label">5. Apakah anak dapat mengangkat badannya ke posisi berdiri tanpa bantuan Anda?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_12bln_berdiri_tanpa_bantuan:label">5. Is the baby able to lift his/her body to a standing position without your help?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_12bln_berdiri_tanpa_bantuan:hint">Gerak kasar</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_12bln_berdiri_tanpa_bantuan:hint">Gross motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_berdiri_tanpa_bantuan" data-name="/kpsp_bayi_1thn/_12bln_berdiri_tanpa_bantuan" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_berdiri_tanpa_bantuan/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_berdiri_tanpa_bantuan/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_berdiri_tanpa_bantuan" data-name="/kpsp_bayi_1thn/_12bln_berdiri_tanpa_bantuan" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_berdiri_tanpa_bantuan/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_berdiri_tanpa_bantuan/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_membedakan_orang:label">6. Apakah anak dapat membedakan Anda dengan orang yang belum ia kenal? Ia akan menunjukkan sikap malu-malu atau ragu-ragu pada saat permulaan bertemu dengan orang yang belum dikenalnya</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_12bln_membedakan_orang:label">6. Is the baby able to distinguish you from a stranger? He/she will show shyness or hesitation when meeting a stranger for the first time</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_12bln_membedakan_orang:hint">Sosialisasi dan kemandirian</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_12bln_membedakan_orang:hint">Socialization and independency</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_membedakan_orang" data-name="/kpsp_bayi_1thn/_12bln_membedakan_orang" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_membedakan_orang/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_membedakan_orang/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_membedakan_orang" data-name="/kpsp_bayi_1thn/_12bln_membedakan_orang" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_membedakan_orang/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_membedakan_orang/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_12bln_memungut_dengan_jari:label"></span>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_memungut_dengan_jari:label">7. Apakah anak dapat mengambil benda kecil seperti kacang atau kismis, dengan meremas di antara ibu jari dan jarinya seperti pada gambar?</span>
+            <img lang="Bahasa" class="active" src="http://pre06.deviantart.net/83f7/th/pre/f/2016/134/b/0/hal_5_no_7_by_edwarddesu-da2ekgn.jpg" alt="image" />
+            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_bayi_1thn/_12bln_memungut_dengan_jari:label"></span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_12bln_memungut_dengan_jari:label">7. Is the baby able to pick up small objects such as a nut or a raisin, by squeezing it between a thumb and other fingers as seen in the picture?</span>
+            <img lang="en" src="http://pre06.deviantart.net/83f7/th/pre/f/2016/134/b/0/hal_5_no_7_by_edwarddesu-da2ekgn.jpg" alt="image" />
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_12bln_memungut_dengan_jari:hint">Gerak halus</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_12bln_memungut_dengan_jari:hint">Fine motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_memungut_dengan_jari" data-name="/kpsp_bayi_1thn/_12bln_memungut_dengan_jari" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_memungut_dengan_jari/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_memungut_dengan_jari/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_memungut_dengan_jari" data-name="/kpsp_bayi_1thn/_12bln_memungut_dengan_jari" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_memungut_dengan_jari/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_memungut_dengan_jari/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_duduk_tanpa_bantuan:label">8. Apakah anak dapat duduk sendiri tanpa bantuan?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_12bln_duduk_tanpa_bantuan:label">8. Is the baby able to sit alone without help?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_12bln_duduk_tanpa_bantuan:hint">Gerak kasar</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_12bln_duduk_tanpa_bantuan:hint">Gross motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_duduk_tanpa_bantuan" data-name="/kpsp_bayi_1thn/_12bln_duduk_tanpa_bantuan" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_duduk_tanpa_bantuan/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_duduk_tanpa_bantuan/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_duduk_tanpa_bantuan" data-name="/kpsp_bayi_1thn/_12bln_duduk_tanpa_bantuan" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_duduk_tanpa_bantuan/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_duduk_tanpa_bantuan/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_meniru_kata:label">9. Sebut 2-3 kata yang dapat ditiru oleh anak (tidak perlu kata-kata yang lengkap). Apakah ia mencoba meniru menyebutkan kata-kata tadi?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_12bln_meniru_kata:label">9. Pronounce 2-3 wors that the baby can imitate (not necessarily a complete word). Does he/she try to imitate the words?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_12bln_meniru_kata:hint">Bicara dan bahasa</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_12bln_meniru_kata:hint">Language</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_meniru_kata" data-name="/kpsp_bayi_1thn/_12bln_meniru_kata" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_meniru_kata/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_meniru_kata/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_meniru_kata" data-name="/kpsp_bayi_1thn/_12bln_meniru_kata" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_meniru_kata/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_meniru_kata/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_menyusun_benda:label">10. Tanpa bantuan, apakah anak dapat mempertemukan dua kubus kecil yang ia pegang? Kerincingan bertangkai dan tutup panci tidak ikut dinilai</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/_12bln_menyusun_benda:label">10. Is the baby able to stack two small blocks which he/she holds? A handgripped rattle and a pot lip are not assessed</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_bayi_1thn/_12bln_menyusun_benda:hint">Gerak halus</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_bayi_1thn/_12bln_menyusun_benda:hint">Fine motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_menyusun_benda" data-name="/kpsp_bayi_1thn/_12bln_menyusun_benda" value="ya" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_menyusun_benda/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_menyusun_benda/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/_12bln_menyusun_benda" data-name="/kpsp_bayi_1thn/_12bln_menyusun_benda" value="tidak" required="required" data-relevant="selected( /kpsp_bayi_1thn/kpsp_1thn ,'kpsp_12bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/_12bln_menyusun_benda/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/_12bln_menyusun_benda/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <label class="note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/note_status_kembang:label">Jika jawaban YA: __9-10 = Sesuai__; __7-8 = Meragukan__; __≤ 6 = Penyimpangan__</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/note_status_kembang:label">If YES: __9-10 = Appropriate__; __7-8 = Inconclusive__ ; __≤ 6 = Deviated__</span>
+      <input type="text" name="/kpsp_bayi_1thn/note_status_kembang" data-type-xml="string" readonly="readonly" />
+   </label>
+   <label class="question or-appearance-minimal ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/status_kembang1:label">Status Perkembangan Anak:</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/status_kembang1:label">Child's Development Status</span>
+      <select name="/kpsp_bayi_1thn/status_kembang1" data-name="/kpsp_bayi_1thn/status_kembang1" data-type-xml="select1">
+         <option value="">...</option>
+         <option value="sesuai">Sesuai</option>
+         <option value="meragukan">Meragukan</option>
+         <option value="penyimpangan">Penyimpangan</option>
+      </select>
+      <span class="or-option-translations" style="display:none;">
+         <span data-option-value="sesuai" lang="Bahasa">Sesuai</span>
+         <span data-option-value="sesuai" lang="en">Appropriate to child's age</span>
+         <span data-option-value="meragukan" lang="Bahasa">Meragukan</span>
+         <span data-option-value="meragukan" lang="en">Inconclusive</span>
+         <span data-option-value="penyimpangan" lang="Bahasa">Penyimpangan</span>
+         <span data-option-value="penyimpangan" lang="en">Deviated</span>
+      </span>
+   </label>
+   <label class="question or-appearance-minimal  or-branch pre-init ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/status_meragukan:label">Meragukan</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/status_meragukan:label">Inconclusive Development</span>
+      <select multiple="multiple" name="/kpsp_bayi_1thn/status_meragukan" data-name="/kpsp_bayi_1thn/status_meragukan" data-relevant="selected( /kpsp_bayi_1thn/status_kembang1 ,'meragukan')" data-type-xml="select1">
+         <option value="">...</option>
+         <option value="gerak_kasar">Gerak Kasar</option>
+         <option value="gerak_halus">Gerak Halus</option>
+         <option value="bahasa">Bicara &amp; Bahasa</option>
+         <option value="sosial">Sosialisasi &amp; Kemandirian</option>
+      </select>
+      <span class="or-option-translations" style="display:none;">
+         <span data-option-value="gerak_kasar" lang="Bahasa">Gerak Kasar</span>
+         <span data-option-value="gerak_kasar" lang="en">Gross motor</span>
+         <span data-option-value="gerak_halus" lang="Bahasa">Gerak Halus</span>
+         <span data-option-value="gerak_halus" lang="en">Fine motor</span>
+         <span data-option-value="bahasa" lang="Bahasa">Bicara &amp; Bahasa</span>
+         <span data-option-value="bahasa" lang="en">Language</span>
+         <span data-option-value="sosial" lang="Bahasa">Sosialisasi &amp; Kemandirian</span>
+         <span data-option-value="sosial" lang="en">Sosialization &amp; Independency</span>
+      </span>
+   </label>
+   <label class="question or-appearance-minimal  or-branch pre-init ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/status_penyimpangan:label">Penyimpangan</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/status_penyimpangan:label">Deviation of Development</span>
+      <select multiple="multiple" name="/kpsp_bayi_1thn/status_penyimpangan" data-name="/kpsp_bayi_1thn/status_penyimpangan" data-relevant="selected( /kpsp_bayi_1thn/status_kembang1 ,'penyimpangan')" data-type-xml="select1">
+         <option value="">...</option>
+         <option value="gerak_kasar">Gerak Kasar</option>
+         <option value="gerak_halus">Gerak Halus</option>
+         <option value="bahasa">Bicara &amp; Bahasa</option>
+         <option value="sosial">Sosialisasi &amp; Kemandirian</option>
+      </select>
+      <span class="or-option-translations" style="display:none;">
+         <span data-option-value="gerak_kasar" lang="Bahasa">Gerak Kasar</span>
+         <span data-option-value="gerak_kasar" lang="en">Gross motor</span>
+         <span data-option-value="gerak_halus" lang="Bahasa">Gerak Halus</span>
+         <span data-option-value="gerak_halus" lang="en">Fine motor</span>
+         <span data-option-value="bahasa" lang="Bahasa">Bicara &amp; Bahasa</span>
+         <span data-option-value="bahasa" lang="en">Language</span>
+         <span data-option-value="sosial" lang="Bahasa">Sosialisasi &amp; Kemandirian</span>
+         <span data-option-value="sosial" lang="en">Sosialization &amp; Independency</span>
+      </span>
+   </label>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/kesimpulan:label">__KESIMPULAN__</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/kesimpulan:label">__SUMMARY__</span>
+      <input type="text" name="/kpsp_bayi_1thn/kesimpulan" data-type-xml="string" />
+   </label>
+   <label class="note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/tindakan_intervensi:label">__TINDAKAN INTERVENSI__</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/tindakan_intervensi:label">__INTERVENTION MEASURE__</span>
+      <input type="text" name="/kpsp_bayi_1thn/tindakan_intervensi" data-type-xml="string" readonly="readonly" />
+   </label>
+   <fieldset class="question or-appearance-horizontal ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/konseling_stimulasi:label">Konseling stimulasi bagi ibu:</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/konseling_stimulasi:label">Stimulation consultation for the mother</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/konseling_stimulasi" data-name="/kpsp_bayi_1thn/konseling_stimulasi" value="diberikan" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/konseling_stimulasi/diberikan:label">Diberikan</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/konseling_stimulasi/diberikan:label">Received</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/konseling_stimulasi" data-name="/kpsp_bayi_1thn/konseling_stimulasi" value="tidak_diberikan" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/konseling_stimulasi/tidak_diberikan:label">Tidak diberikan</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/konseling_stimulasi/tidak_diberikan:label">Not received</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <label class="question or-appearance-minimal  or-branch pre-init ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/intervensi_stimulasi:label">Intervensi stimulasi perkembangan:</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/intervensi_stimulasi:label">Stimulation intervention on:</span>
+      <select multiple="multiple" name="/kpsp_bayi_1thn/intervensi_stimulasi" data-name="/kpsp_bayi_1thn/intervensi_stimulasi" data-relevant="selected( /kpsp_bayi_1thn/konseling_stimulasi ,'diberikan')" data-type-xml="select1">
+         <option value="">...</option>
+         <option value="gerak_kasar">Gerak Kasar</option>
+         <option value="gerak_halus">Gerak Halus</option>
+         <option value="bahasa">Bicara &amp; Bahasa</option>
+         <option value="sosial">Sosialisasi &amp; Kemandirian</option>
+      </select>
+      <span class="or-option-translations" style="display:none;">
+         <span data-option-value="gerak_kasar" lang="Bahasa">Gerak Kasar</span>
+         <span data-option-value="gerak_kasar" lang="en">Gross motor</span>
+         <span data-option-value="gerak_halus" lang="Bahasa">Gerak Halus</span>
+         <span data-option-value="gerak_halus" lang="en">Fine motor</span>
+         <span data-option-value="bahasa" lang="Bahasa">Bicara &amp; Bahasa</span>
+         <span data-option-value="bahasa" lang="en">Language</span>
+         <span data-option-value="sosial" lang="Bahasa">Sosialisasi &amp; Kemandirian</span>
+         <span data-option-value="sosial" lang="en">Sosialization &amp; Independency</span>
+      </span>
+   </label>
+   <label class="question or-branch pre-init non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/tanggal_evaluasi_intervensi:label">Tanggal evaluasi intervensi</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/tanggal_evaluasi_intervensi:label">Date of intervention evaluation</span>
+      <input type="date" name="/kpsp_bayi_1thn/tanggal_evaluasi_intervensi" data-relevant="selected( /kpsp_bayi_1thn/konseling_stimulasi ,'diberikan')" data-type-xml="date" />
+   </label>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/tindakan_lain:label">Tindakan pengobatan lain</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/tindakan_lain:label">Other measure:</span>
+      <input type="text" name="/kpsp_bayi_1thn/tindakan_lain" data-type-xml="string" />
+   </label>
+   <fieldset class="question or-appearance-horizontal ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/rujukan:label">Apakah anak dirujuk?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/rujukan:label">Is the child referred to other facility?</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/rujukan" data-name="/kpsp_bayi_1thn/rujukan" value="ya" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/rujukan/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/rujukan/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/rujukan" data-name="/kpsp_bayi_1thn/rujukan" value="tidak" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/rujukan/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/rujukan/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/dirujuk_ke:label">Dirujuk ke</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/dirujuk_ke:label">Place of referral</span>
+      <input type="text" name="/kpsp_bayi_1thn/dirujuk_ke" data-type-xml="string" />
+   </label>
+   <fieldset class="question or-appearance-horizontal ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_bayi_1thn/surat_rujukan:label">Ada surat rujukan?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_bayi_1thn/surat_rujukan:label">Referral letter</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/surat_rujukan" data-name="/kpsp_bayi_1thn/surat_rujukan" value="ya" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/surat_rujukan/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/surat_rujukan/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_bayi_1thn/surat_rujukan" data-name="/kpsp_bayi_1thn/surat_rujukan" value="tidak" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_bayi_1thn/surat_rujukan/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_bayi_1thn/surat_rujukan/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset id="or-preload-items" style="display:none;">
+      <label class="calculation non-select ">
+         <input type="hidden" name="/kpsp_bayi_1thn/start" data-preload="timestamp" data-preload-params="start" data-type-xml="dateTime" />
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/kpsp_bayi_1thn/today" data-preload="date" data-preload-params="today" data-type-xml="date" />
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/kpsp_bayi_1thn/deviceid" data-preload="property" data-preload-params="deviceid" data-type-xml="string" />
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/kpsp_bayi_1thn/simserial" data-preload="property" data-preload-params="simserial" data-type-xml="string" />
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/kpsp_bayi_1thn/phonenumber" data-preload="property" data-preload-params="phonenumber" data-type-xml="string" />
+      </label>
+   </fieldset>
+   <fieldset id="or-calculated-items" style="display:none;">
+      <label class="calculation non-select ">
+         <input type="hidden" name="/kpsp_bayi_1thn/meta/instanceID" data-calculate="concat('uuid:', uuid())" data-type-xml="string" />
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/kpsp_bayi_1thn/formhub/uuid" data-calculate="'48ed4820cc1540e2bc07279d3da2df8a'" data-type-xml="string" />
+      </label>
+   </fieldset>
+</form>

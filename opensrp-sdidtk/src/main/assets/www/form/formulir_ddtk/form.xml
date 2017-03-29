@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form autocomplete="off" novalidate="novalidate" class="or clearfix" id="formulir_ddtk">
+   <!--This form was created by transforming a OpenRosa-flavored (X)Form using an XSLT sheet created by Enketo LLC.-->
+   <section class="form-logo"></section>
+   <h3 id="form-title">Formulir Deteksi Dini Tumbuh Kembang Anak</h3>
+   <select id="form-languages" data-default-lang="Bahasa">
+      <option value="Bahasa">Bahasa</option>
+      <option value="en">English</option>
+   </select>
+   <label class="note non-select ">
+        <span class="question-label active" data-itext-id="/formulir_ddtk/generated_note_name_10:label"
+            lang="Bahasa">Desa:
+            <span class="or-output" data-value=" /formulir_ddtk/existing_Village "></span>
+        </span>
+        <span class="question-label " data-itext-id="/formulir_ddtk/generated_note_name_10:label"
+            lang="en">Village:
+            <span class="or-output" data-value=" /formulir_ddtk/existing_Village "></span>
+        </span>
+        <input name="/formulir_ddtk/generated_note_name_10" data-type-xml="string" readonly="readonly"
+            type="text" />
+    </label>
+    <label class="note non-select ">
+        <span class="question-label active" data-itext-id="/formulir_ddtk/generated_note_name_12:label"
+            lang="Bahasa">Dusun:
+            <span class="or-output" data-value=" /formulir_ddtk/existing_Sub-village "></span>
+        </span>
+        <span class="question-label " data-itext-id="/formulir_ddtk/generated_note_name_12:label"
+            lang="en">Sub-village:
+            <span class="or-output" data-value=" /formulir_ddtk/existing_Sub-village "></span>
+        </span>
+        <input name="/formulir_ddtk/generated_note_name_12" data-type-xml="string" readonly="readonly"
+            type="text" />
+    </label>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/formulir_ddtk/reg_date:label">Tanggal Entry</span>
+      <span lang="en" class="question-label " data-itext-id="/formulir_ddtk/reg_date:label">Entry Date</span>
+       <span class="required">*</span>
+      <input type="date" name="/formulir_ddtk/reg_date" data-type-xml="date" />
+   </label>
+   <label class="note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/formulir_ddtk/identitas_anak:label">__IDENTITAS ANAK__</span>
+      <span lang="en" class="question-label " data-itext-id="/formulir_ddtk/identitas_anak:label">__CHILD"S IDENTITY__</span>
+      <input type="text" name="/formulir_ddtk/identitas_anak" data-type-xml="string" readonly="readonly" />
+   </label>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/formulir_ddtk/nama_anak:label">Nama Anak</span>
+      <span lang="en" class="question-label " data-itext-id="/formulir_ddtk/nama_anak:label">Child's Name</span>
+       <span class="required">*</span>
+      <input type="text" name="/formulir_ddtk/nama_anak" data-type-xml="string" />
+   </label>
+   <fieldset class="question or-appearance-horizontal ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/formulir_ddtk/jenis_kelamin:label">Jenis Kelamin</span>
+            <span lang="en" class="question-label " data-itext-id="/formulir_ddtk/jenis_kelamin:label">Gender</span>
+             <span class="required">*</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/formulir_ddtk/jenis_kelamin" data-name="/formulir_ddtk/jenis_kelamin" value="laki_laki" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/formulir_ddtk/jenis_kelamin/laki_laki:label">Laki-laki</span>
+               <span lang="en" class="option-label " data-itext-id="/formulir_ddtk/jenis_kelamin/laki_laki:label">Male</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/formulir_ddtk/jenis_kelamin" data-name="/formulir_ddtk/jenis_kelamin" value="perempuan" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/formulir_ddtk/jenis_kelamin/perempuan:label">Perempuan</span>
+               <span lang="en" class="option-label " data-itext-id="/formulir_ddtk/jenis_kelamin/perempuan:label">Female</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/formulir_ddtk/nama_ayah:label">Nama Ayah</span>
+      <span lang="en" class="question-label " data-itext-id="/formulir_ddtk/nama_ayah:label">Child's Father</span>
+       <span class="required">*</span>
+      <input type="text" name="/formulir_ddtk/nama_ayah" data-type-xml="string" />
+   </label>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/formulir_ddtk/nama_ibu:label">Nama Ibu</span>
+      <span lang="en" class="question-label " data-itext-id="/formulir_ddtk/nama_ibu:label">Child's Mother</span>
+       <span class="required">*</span>
+      <input type="text" name="/formulir_ddtk/nama_ibu" data-type-xml="string" />
+   </label>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/formulir_ddtk/tanggal_lahir:label">Tanggal Lahir Anak</span>
+      <span lang="en" class="question-label " data-itext-id="/formulir_ddtk/tanggal_lahir:label">Child's Date of Birth</span>
+       <span class="required">*</span>
+      <input type="date" name="/formulir_ddtk/tanggal_lahir" data-type-xml="date" />
+   </label>
+   <label class="note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/formulir_ddtk/umur:label">Umur Anak</span>
+      <span lang="en" class="question-label " data-itext-id="/formulir_ddtk/umur:label">Child's Age</span>
+      <input type="text" name="/formulir_ddtk/umur" data-calculate="int(( /formulir_ddtk/today  -  /formulir_ddtk/tanggal_lahir ) div 30)" data-type-xml="string" readonly="readonly" />
+   </label>
+   <fieldset id="or-preload-items" style="display:none;">
+      <label class="calculation non-select ">
+         <input type="hidden" name="/formulir_ddtk/start" data-preload="timestamp" data-preload-params="start" data-type-xml="dateTime" />
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/formulir_ddtk/today" data-preload="date" data-preload-params="today" data-type-xml="date" />
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/formulir_ddtk/deviceid" data-preload="property" data-preload-params="deviceid" data-type-xml="string" />
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/formulir_ddtk/simserial" data-preload="property" data-preload-params="simserial" data-type-xml="string" />
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/formulir_ddtk/phonenumber" data-preload="property" data-preload-params="phonenumber" data-type-xml="string" />
+      </label>
+   </fieldset>
+   <fieldset id="or-calculated-items" style="display:none;">
+      <label class="calculation non-select ">
+         <input type="hidden" name="/formulir_ddtk/meta/instanceID" data-calculate="concat('uuid:', uuid())" data-type-xml="string" />
+      </label>
+	  <label class="calculation non-select ">
+            <input name="/formulir_ddtk/existing_dusun" data-calculate=" /formulir_ddtk/existing_Sub-village " data-type-xml="string"
+                type="hidden" />
+        </label>
+        <label class="calculation non-select ">
+            <input name="/formulir_ddtk/existing_desa" data-calculate=" /formulir_ddtk/existing_Village " data-type-xml="string"
+                type="hidden" />
+        </label>
+        <label class="calculation non-select ">
+            <input name="/formulir_ddtk/existing_provinsi" data-calculate=" /formulir_ddtk/existing_Province " data-type-xml="string"
+                type="hidden" />
+        </label>
+        <label class="calculation non-select ">
+            <input name="/formulir_ddtk/existing_kabupaten" data-calculate=" /formulir_ddtk/existing_District " data-type-xml="string"
+                type="hidden" />
+        </label>
+        <label class="calculation non-select ">
+            <input name="/formulir_ddtk/existing_kecamatan" data-calculate=" /formulir_ddtk/existing_Sub-district "
+                data-type-xml="string" type="hidden" />
+        </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/formulir_ddtk/formhub/uuid" data-calculate="'a9b9373a522c4d5cb2800f31b62809ae'" data-type-xml="string" />
+      </label>
+   </fieldset>
+</form>

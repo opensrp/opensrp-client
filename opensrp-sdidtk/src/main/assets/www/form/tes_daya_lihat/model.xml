@@ -1,0 +1,28 @@
+<model>
+    <instance>
+        <tes_daya_lihat encounter_type="Tes Daya Lihat" id="tes_daya_lihat" version="201605120836">
+          <formhub>
+            <uuid/>
+          </formhub>
+          <start/>
+          <today/>
+          <deviceid/>
+          <simserial/>
+          <phonenumber/>
+          <umur />
+		  <generated_note_name_12 />
+          <sight_test_date/>
+          <daya_lihat/>
+          <kesimpulan/>
+          <tindakan_intervensi/>
+          <konseling_stimulasi/>
+          <tindakan_lain/>
+          <rujukan/>
+          <dirujuk_ke/>
+          <surat_rujukan/>
+          <meta>
+            <instanceID/>
+          </meta>
+        </tes_daya_lihat>
+      </instance>
+  </model>

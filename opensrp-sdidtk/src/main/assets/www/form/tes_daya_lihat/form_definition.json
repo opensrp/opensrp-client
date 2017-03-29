@@ -1,0 +1,70 @@
+{
+  "form_data_definition_version": "1",
+  "form": {
+    "bind_type": "anak",
+    "default_bind_path": "/model/instance/tes_daya_lihat/",
+    "fields": [
+      {
+        "name": "id",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "umur",
+        "bind": "/model/instance/tes_daya_lihat/umur",
+		"shouldLoadValue": true
+      },
+      {
+        "name": "sight_test_date",
+        "bind": "/model/instance/tes_daya_lihat/sight_test_date"
+      },
+      {
+        "name": "daya_lihat",
+        "bind": "/model/instance/tes_daya_lihat/daya_lihat"
+      },
+      {
+        "name": "kesimpulan",
+        "bind": "/model/instance/tes_daya_lihat/kesimpulan"
+      },
+      {
+        "name": "tindakan_intervensi",
+        "bind": "/model/instance/tes_daya_lihat/tindakan_intervensi"
+      },
+      {
+        "name": "konseling_stimulasi",
+        "bind": "/model/instance/tes_daya_lihat/konseling_stimulasi"
+      },
+      {
+        "name": "tindakan_lain",
+        "bind": "/model/instance/tes_daya_lihat/tindakan_lain"
+      },
+      {
+        "name": "rujukan",
+        "bind": "/model/instance/tes_daya_lihat/rujukan"
+      },
+      {
+        "name": "dirujuk_ke",
+        "bind": "/model/instance/tes_daya_lihat/dirujuk_ke"
+      },
+      {
+        "name": "surat_rujukan",
+        "bind": "/model/instance/tes_daya_lihat/surat_rujukan"
+      },
+      {
+        "name": "isOutOfArea",
+        "value": "false"
+      },
+      {
+        "name": "isClosed",
+        "value": "false"
+      },
+      {
+        "name": "reg_date",
+        "bind": "/model/instance/tes_daya_lihat/today"
+      },
+      {
+        "name": "registrationDate",
+        "bind": "/model/instance/tes_daya_lihat/reg_date"
+      }
+    ]
+  }
+}

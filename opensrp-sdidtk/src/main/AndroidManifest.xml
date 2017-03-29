@@ -1,0 +1,36 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.ei.opensrp.ddtk">
+
+    <application android:allowBackup="true"
+        android:label="@string/app_name"
+        android:name="org.ei.opensrp.ddtk.application.TestApplication"
+         >
+
+        <activity
+            android:name="org.ei.opensrp.ddtk.LoginActivity"
+            android:theme="@android:style/Theme.Holo"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="landscape"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="org.ei.opensrp.ddtk.NativeHomeActivity"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="landscape"/>
+        <activity android:name="org.ei.opensrp.ddtk.ddtk.FormulirDdtkSmartRegisterActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/AppThemeNoActionBarAndTitle"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="landscape"/>
+        <activity android:name="org.ei.opensrp.ddtk.ddtk.ChildDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/AppThemeNoActionBarAndTitle"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="landscape"/>
+
+    </application>
+
+</manifest>

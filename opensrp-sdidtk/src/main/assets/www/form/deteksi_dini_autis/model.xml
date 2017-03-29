@@ -1,0 +1,49 @@
+<model>
+    <instance>
+        <deteksi_dini_autis encounter_type="Ceklis Deteksi Dini Autis Untuk Anak Umur 18-36 Bulan" id="deteksi_dini_autis" version="201605120835">
+          <formhub>
+            <uuid/>
+          </formhub>
+          <start/>
+          <today/>
+          <deviceid/>
+          <simserial/>
+          <phonenumber/>
+          <umur />
+		  <generated_note_name_12 />
+          <autis_test_date/>
+          <chat_anamnesis/>
+          <chat_diayun/>
+          <chat_tertarik/>
+          <chat_memanjat/>
+          <chat_cilukba/>
+          <chat_roleplay/>
+          <chat_meminta/>
+          <chat_menunjuk/>
+          <chat_mainan_kecil/>
+          <chat_memberikan_benda/>
+          <chat_pengamatan/>
+          <chat_kontak_mata/>
+          <chat_melihat_benda/>
+          <chat_berpura_pura/>
+          <chat_menunjuk_dg_jari/>
+          <chat_menumpuk_kubus/>
+          <autis_note1/>
+          <autis_note2/>
+          <autis_note3/>
+          <autis_note4/>
+          <autis_note5/>
+          <autis/>
+          <kesimpulan/>
+          <tindakan_intervensi/>
+          <konseling_stimulasi/>
+          <tindakan_lain/>
+          <rujukan/>
+          <dirujuk_ke/>
+          <surat_rujukan/>
+          <meta>
+            <instanceID/>
+          </meta>
+        </deteksi_dini_autis>
+      </instance>
+  </model>

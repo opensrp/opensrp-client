@@ -1,0 +1,41 @@
+<model>
+    <instance>
+        <masalah_mental_emosional encounter_type="Deteksi Dini Masalah Mental Emosional" id="masalah_mental_emosional" version="201605120835">
+          <formhub>
+            <uuid/>
+          </formhub>
+          <start/>
+          <today/>
+          <deviceid/>
+          <simserial/>
+          <phonenumber/>
+          <umur />
+		  <generated_note_name_12 />
+          <mental_test_date/>
+          <mme_marah/>
+          <mme_menghindar/>
+          <mme_merusak/>
+          <mme_takut_cemas/>
+          <mme_konsentrasi/>
+          <mme_bingung/>
+          <mme_pola_tidur/>
+          <mme_pola_makan/>
+          <mme_keluhan_fisik/>
+          <mme_putus_asa/>
+          <mme_kemunduran_perilaku/>
+          <mme_berulang_ulang/>
+          <hasil_mental_emosional/>
+          <mental_emosional/>
+          <kesimpulan/>
+          <tindakan_intervensi/>
+          <konseling_stimulasi/>
+          <tindakan_lain/>
+          <rujukan/>
+          <dirujuk_ke/>
+          <surat_rujukan/>
+          <meta>
+            <instanceID/>
+          </meta>
+        </masalah_mental_emosional>
+      </instance>
+  </model>

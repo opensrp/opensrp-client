@@ -1,0 +1,254 @@
+{
+  "form_data_definition_version": "1",
+  "form": {
+    "bind_type": "anak",
+    "default_bind_path": "/model/instance/kpsp_bayi_1thn/",
+    "fields": [
+      {
+        "name": "id",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "umur",
+        "bind": "/model/instance/kpsp_bayi_1thn/umur",
+		"shouldLoadValue": true
+      },
+      {
+        "name": "kpsp_test_date1",
+        "bind": "/model/instance/kpsp_bayi_1thn/kpsp_test_date1"
+      },
+      {
+        "name": "anamnesis",
+        "bind": "/model/instance/kpsp_bayi_1thn/anamnesis"
+      },
+      {
+        "name": "keluhan",
+        "bind": "/model/instance/kpsp_bayi_1thn/keluhan"
+      },
+      {
+        "name": "masalah_tumbang",
+        "bind": "/model/instance/kpsp_bayi_1thn/masalah_tumbang"
+      },
+      {
+        "name": "kpsp_1thn",
+        "bind": "/model/instance/kpsp_bayi_1thn/kpsp_1thn"
+      },
+      {
+        "name": "_3bln_gerakan_lengan",
+        "bind": "/model/instance/kpsp_bayi_1thn/_3bln_gerakan_lengan"
+      },
+      {
+        "name": "_3bln_menatap_wajah",
+        "bind": "/model/instance/kpsp_bayi_1thn/_3bln_menatap_wajah"
+      },
+      {
+        "name": "_3bln_mengeluarkan_suara",
+        "bind": "/model/instance/kpsp_bayi_1thn/_3bln_mengeluarkan_suara"
+      },
+      {
+        "name": "_3bln_mengikuti_gerakan1",
+        "bind": "/model/instance/kpsp_bayi_1thn/_3bln_mengikuti_gerakan1"
+      },
+      {
+        "name": "_3bln_mengikuti_gerakan2",
+        "bind": "/model/instance/kpsp_bayi_1thn/_3bln_mengikuti_gerakan2"
+      },
+      {
+        "name": "_3bln_tersenyum_kembali",
+        "bind": "/model/instance/kpsp_bayi_1thn/_3bln_tersenyum_kembali"
+      },
+      {
+        "name": "_3bln_mengangkat_kepala1",
+        "bind": "/model/instance/kpsp_bayi_1thn/_3bln_mengangkat_kepala1"
+      },
+      {
+        "name": "_3bln_mengangkat_kepala2",
+        "bind": "/model/instance/kpsp_bayi_1thn/_3bln_mengangkat_kepala2"
+      },
+      {
+        "name": "_3bln_mengangkat_kepala3",
+        "bind": "/model/instance/kpsp_bayi_1thn/_3bln_mengangkat_kepala3"
+      },
+      {
+        "name": "_3bln_tertawa",
+        "bind": "/model/instance/kpsp_bayi_1thn/_3bln_tertawa"
+      },
+      {
+        "name": "_6bln_gerakan_kepala",
+        "bind": "/model/instance/kpsp_bayi_1thn/_6bln_gerakan_kepala"
+      },
+      {
+        "name": "_6bln_menahan_kepala",
+        "bind": "/model/instance/kpsp_bayi_1thn/_6bln_menahan_kepala"
+      },
+      {
+        "name": "_6bln_menggenggam_pensil",
+        "bind": "/model/instance/kpsp_bayi_1thn/_6bln_menggenggam_pensil"
+      },
+      {
+        "name": "_6bln_mengangkat_dada",
+        "bind": "/model/instance/kpsp_bayi_1thn/_6bln_mengangkat_dada"
+      },
+      {
+        "name": "_6bln_suara_gembira",
+        "bind": "/model/instance/kpsp_bayi_1thn/_6bln_suara_gembira"
+      },
+      {
+        "name": "_6bln_berbalik",
+        "bind": "/model/instance/kpsp_bayi_1thn/_6bln_berbalik"
+      },
+      {
+        "name": "_6bln_tersenyum",
+        "bind": "/model/instance/kpsp_bayi_1thn/_6bln_tersenyum"
+      },
+      {
+        "name": "_6bln_mengarahkan_mata",
+        "bind": "/model/instance/kpsp_bayi_1thn/_6bln_mengarahkan_mata"
+      },
+      {
+        "name": "_6bln_meraih_mainan",
+        "bind": "/model/instance/kpsp_bayi_1thn/_6bln_meraih_mainan"
+      },
+      {
+        "name": "_6bln_menahan_leher",
+        "bind": "/model/instance/kpsp_bayi_1thn/_6bln_menahan_leher"
+      },
+      {
+        "name": "_9bln_menahan_leher",
+        "bind": "/model/instance/kpsp_bayi_1thn/_9bln_menahan_leher"
+      },
+      {
+        "name": "_9bln_memindahkan_mainan",
+        "bind": "/model/instance/kpsp_bayi_1thn/_9bln_memindahkan_mainan"
+      },
+      {
+        "name": "_9bln_mencari_objek",
+        "bind": "/model/instance/kpsp_bayi_1thn/_9bln_mencari_objek"
+      },
+      {
+        "name": "_9bln_memegang_benda",
+        "bind": "/model/instance/kpsp_bayi_1thn/_9bln_memegang_benda"
+      },
+      {
+        "name": "_9bln_berdiri_bertumpu",
+        "bind": "/model/instance/kpsp_bayi_1thn/_9bln_berdiri_bertumpu"
+      },
+      {
+        "name": "_9bln_memungut_benda",
+        "bind": "/model/instance/kpsp_bayi_1thn/_9bln_memungut_benda"
+      },
+      {
+        "name": "_9bln_duduk_sendiri",
+        "bind": "/model/instance/kpsp_bayi_1thn/_9bln_duduk_sendiri"
+      },
+      {
+        "name": "_9bln_makan_kue_sendiri",
+        "bind": "/model/instance/kpsp_bayi_1thn/_9bln_makan_kue_sendiri"
+      },
+      {
+        "name": "_9bln_menoleh",
+        "bind": "/model/instance/kpsp_bayi_1thn/_9bln_menoleh"
+      },
+      {
+        "name": "_9bln_meraih_mainan",
+        "bind": "/model/instance/kpsp_bayi_1thn/_9bln_meraih_mainan"
+      },
+      {
+        "name": "_12bln_mencari_orang_bersembunyi",
+        "bind": "/model/instance/kpsp_bayi_1thn/_12bln_mencari_orang_bersembunyi"
+      },
+	  {
+        "name": "_12bln_menggenggam_benda",
+        "bind": "/model/instance/kpsp_bayi_1thn/_12bln_menggenggam_benda"
+      },
+      {
+        "name": "_12bln_berdiri_30detik",
+        "bind": "/model/instance/kpsp_bayi_1thn/_12bln_berdiri_30detik"
+      },
+      {
+        "name": "_12bln_menyebut_suku_kata_sama",
+        "bind": "/model/instance/kpsp_bayi_1thn/_12bln_menyebut_suku_kata_sama"
+      },
+      {
+        "name": "_12bln_berdiri_tanpa_bantuan",
+        "bind": "/model/instance/kpsp_bayi_1thn/_12bln_berdiri_tanpa_bantuan"
+      },
+      {
+        "name": "_12bln_membedakan_orang",
+        "bind": "/model/instance/kpsp_bayi_1thn/_12bln_membedakan_orang"
+      },
+      {
+        "name": "_12bln_memungut_dengan_jari",
+        "bind": "/model/instance/kpsp_bayi_1thn/_12bln_memungut_dengan_jari"
+      },
+      {
+        "name": "_12bln_duduk_tanpa_bantuan",
+        "bind": "/model/instance/kpsp_bayi_1thn/_12bln_duduk_tanpa_bantuan"
+      },
+      {
+        "name": "_12bln_meniru_kata",
+        "bind": "/model/instance/kpsp_bayi_1thn/_12bln_meniru_kata"
+      },
+      {
+        "name": "_12bln_menyusun_benda",
+        "bind": "/model/instance/kpsp_bayi_1thn/_12bln_menyusun_benda"
+      },
+      {
+        "name": "status_kembang1",
+        "bind": "/model/instance/kpsp_bayi_1thn/status_kembang1"
+      },
+      {
+        "name": "status_meragukan",
+        "bind": "/model/instance/kpsp_bayi_1thn/status_meragukan"
+      },
+      {
+        "name": "status_penyimpangan",
+        "bind": "/model/instance/kpsp_bayi_1thn/status_penyimpangan"
+      },
+      {
+        "name": "kesimpulan",
+        "bind": "/model/instance/kpsp_bayi_1thn/kesimpulan"
+      },
+      {
+        "name": "tindakan_intervensi",
+        "bind": "/model/instance/kpsp_bayi_1thn/tindakan_intervensi"
+      },
+      {
+        "name": "konseling_stimulasi",
+        "bind": "/model/instance/kpsp_bayi_1thn/konseling_stimulasi"
+      },
+      {
+        "name": "tindakan_lain",
+        "bind": "/model/instance/kpsp_bayi_1thn/tindakan_lain"
+      },
+      {
+        "name": "rujukan",
+        "bind": "/model/instance/kpsp_bayi_1thn/rujukan"
+      },
+      {
+        "name": "dirujuk_ke",
+        "bind": "/model/instance/kpsp_bayi_1thn/dirujuk_ke"
+      },
+      {
+        "name": "surat_rujukan",
+        "bind": "/model/instance/kpsp_bayi_1thn/surat_rujukan"
+      },
+      {
+        "name": "isOutOfArea",
+        "value": "false"
+      },
+      {
+        "name": "isClosed",
+        "value": "false"
+      },
+      {
+        "name": "reg_date",
+        "bind": "/model/instance/kpsp_bayi_1thn/today"
+      },
+      {
+        "name": "registrationDate",
+        "bind": "/model/instance/kpsp_bayi_1thn/reg_date"
+      }
+    ]
+  }
+}

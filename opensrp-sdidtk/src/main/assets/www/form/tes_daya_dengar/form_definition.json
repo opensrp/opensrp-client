@@ -1,0 +1,162 @@
+{
+  "form_data_definition_version": "1",
+  "form": {
+    "bind_type": "anak",
+    "default_bind_path": "/model/instance/tes_daya_dengar/",
+    "fields": [
+      {
+        "name": "id",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "umur",
+        "bind": "/model/instance/tes_daya_dengar/umur",
+		"shouldLoadValue": true
+      },
+      {
+        "name": "hear_test_date",
+        "bind": "/model/instance/tes_daya_dengar/hear_test_date"
+      },
+      {
+        "name": "tdd",
+        "bind": "/model/instance/tes_daya_dengar/tdd"
+      },
+      {
+        "name": "tdd_0-6bln1",
+        "bind": "/model/instance/tes_daya_dengar/tdd_0-6bln1"
+      },
+      {
+        "name": "tdd_0-6bln2",
+        "bind": "/model/instance/tes_daya_dengar/tdd_0-6bln2"
+      },
+      {
+        "name": "tdd_0-6bln3",
+        "bind": "/model/instance/tes_daya_dengar/tdd_0-6bln3"
+      },
+      {
+        "name": "tdd_6-9bln1",
+        "bind": "/model/instance/tes_daya_dengar/tdd_6-9bln1"
+      },
+      {
+        "name": "tdd_6-9bln2",
+        "bind": "/model/instance/tes_daya_dengar/tdd_6-9bln2"
+      },
+      {
+        "name": "tdd_6-9bln3",
+        "bind": "/model/instance/tes_daya_dengar/tdd_6-9bln3"
+      },
+      {
+        "name": "tdd_6-9bln4",
+        "bind": "/model/instance/tes_daya_dengar/tdd_6-9bln4"
+      },
+      {
+        "name": "tdd_9-12bln1",
+        "bind": "/model/instance/tes_daya_dengar/tdd_9-12bln1"
+      },
+      {
+        "name": "tdd_9-12bln2",
+        "bind": "/model/instance/tes_daya_dengar/tdd_9-12bln2"
+      },
+      {
+        "name": "tdd_9-12bln3",
+        "bind": "/model/instance/tes_daya_dengar/tdd_9-12bln3"
+      },
+      {
+        "name": "tdd_9-12bln4",
+        "bind": "/model/instance/tes_daya_dengar/tdd_9-12bln4"
+      },
+      {
+        "name": "tdd_12-24bln1",
+        "bind": "/model/instance/tes_daya_dengar/tdd_12-24bln1"
+      },
+      {
+        "name": "tdd_12-24bln2",
+        "bind": "/model/instance/tes_daya_dengar/tdd_12-24bln2"
+      },
+      {
+        "name": "tdd_12-24bln3",
+        "bind": "/model/instance/tes_daya_dengar/tdd_12-24bln3"
+      },
+      {
+        "name": "tdd_12-24bln4",
+        "bind": "/model/instance/tes_daya_dengar/tdd_12-24bln4"
+      },
+      {
+        "name": "tdd_12-24bln5",
+        "bind": "/model/instance/tes_daya_dengar/tdd_12-24bln5"
+      },
+      {
+        "name": "tdd_2-3thn1",
+        "bind": "/model/instance/tes_daya_dengar/tdd_2-3thn1"
+      },
+      {
+        "name": "tdd_2-3thn2",
+        "bind": "/model/instance/tes_daya_dengar/tdd_2-3thn2"
+      },
+      {
+        "name": "tdd_2-3thn3",
+        "bind": "/model/instance/tes_daya_dengar/tdd_2-3thn3"
+      },
+      {
+        "name": "tdd_lebih_dari_3thn1",
+        "bind": "/model/instance/tes_daya_dengar/tdd_lebih_dari_3thn1"
+      },
+      {
+        "name": "tdd_lebih_dari_3thn2",
+        "bind": "/model/instance/tes_daya_dengar/tdd_lebih_dari_3thn2"
+      },
+      {
+        "name": "hasil_daya_dengar",
+        "bind": "/model/instance/tes_daya_dengar/hasil_daya_dengar"
+      },
+      {
+        "name": "daya_dengar",
+        "bind": "/model/instance/tes_daya_dengar/daya_dengar"
+      },
+      {
+        "name": "kesimpulan",
+        "bind": "/model/instance/tes_daya_dengar/kesimpulan"
+      },
+      {
+        "name": "tindakan_intervensi",
+        "bind": "/model/instance/tes_daya_dengar/tindakan_intervensi"
+      },
+      {
+        "name": "konseling_stimulasi",
+        "bind": "/model/instance/tes_daya_dengar/konseling_stimulasi"
+      },
+      {
+        "name": "tindakan_lain",
+        "bind": "/model/instance/tes_daya_dengar/tindakan_lain"
+      },
+      {
+        "name": "rujukan",
+        "bind": "/model/instance/tes_daya_dengar/rujukan"
+      },
+      {
+        "name": "dirujuk_ke",
+        "bind": "/model/instance/tes_daya_dengar/dirujuk_ke"
+      },
+      {
+        "name": "surat_rujukan",
+        "bind": "/model/instance/tes_daya_dengar/surat_rujukan"
+      },
+      {
+        "name": "isOutOfArea",
+        "value": "false"
+      },
+      {
+        "name": "isClosed",
+        "value": "false"
+      },
+      {
+        "name": "reg_date",
+        "bind": "/model/instance/tes_daya_dengar/today"
+      },
+      {
+        "name": "registrationDate",
+        "bind": "/model/instance/tes_daya_dengar/reg_date"
+      }
+    ]
+  }
+}

@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form autocomplete="off" novalidate="novalidate" class="or clearfix" id="kpsp_balita_6thn">
+   <!--This form was created by transforming a OpenRosa-flavored (X)Form using an XSLT sheet created by Enketo LLC.-->
+   <section class="form-logo"></section>
+   <h3 id="form-title">KPSP Balita 6 Tahun</h3>
+   <select id="form-languages" data-default-lang="Bahasa">
+      <option value="Bahasa">Bahasa</option>
+      <option value="en">English</option>
+   </select>
+   <label class="note non-select ">
+        <span class="question-label active" data-itext-id="/kpsp_balita_6thn/generated_note_name_12:label"
+            lang="Bahasa">Umur:
+            <span class="or-output"
+                data-value=" /kpsp_balita_6thn/umur "></span>
+        </span>
+        <span class="question-label " data-itext-id="/kpsp_balita_6thn/generated_note_name_12:label"
+            lang="en">Age:
+        </span>
+        <input name="/kpsp_balita_6thn/generated_note_name_12" data-type-xml="string"
+            readonly="readonly" type="text" />
+    </label>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/kpsp_test_date6:label">Tanggal Entry</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/kpsp_test_date6:label">Entry Date</span>
+      <input type="date" name="/kpsp_balita_6thn/kpsp_test_date6" data-type-xml="date" />
+   </label>
+   <label class="note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/anamnesis:label">__ANAMNESIS__</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/anamnesis:label">__ANAMNESIS__</span>
+      <input type="text" name="/kpsp_balita_6thn/anamnesis" data-type-xml="string" readonly="readonly" />
+   </label>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/keluhan:label">Keluhan Utama</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/keluhan:label">Main Complaints</span>
+      <input type="text" name="/kpsp_balita_6thn/keluhan" data-type-xml="string" />
+   </label>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/masalah_tumbang:label">Apakah anak punya masalah tumbuh kembang:</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/masalah_tumbang:label">Does the child have growth-development issue?</span>
+      <input type="text" name="/kpsp_balita_6thn/masalah_tumbang" data-type-xml="string" />
+   </label>
+   <fieldset class="question ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/kpsp_6thn:label">KPSP Balita 6 Tahun</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/kpsp_6thn:label">Pre-Screening Questionnaire of Child Development for 6 Year Toddler</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/kpsp_6thn" data-name="/kpsp_balita_6thn/kpsp_6thn" value="kpsp_66bln" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/kpsp_6thn/kpsp_66bln:label">KPSP Balita 66 Bulan</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/kpsp_6thn/kpsp_66bln:label">PQCD for 66 months old</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/kpsp_6thn" data-name="/kpsp_balita_6thn/kpsp_6thn" value="kpsp_72bln" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/kpsp_6thn/kpsp_72bln:label">KPSP Balita 72 Bulan</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/kpsp_6thn/kpsp_72bln:label">PQCD for 72 months old</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_silang:label"></span>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_silang:label">1. Jangan membantu anak dan jangan memberitahu nama gambar ini, suruh anak menggambar seperti contoh ini dikertas kosong yang tersedia. Berikan 3 kali kesempatan. Apakah anak dapat menggambar seperti contoh ini?</span>
+            <img lang="Bahasa" class="active" src="http://orig11.deviantart.net/0732/f/2016/123/b/3/hal_14_no_9_by_edwarddesu-da14hae.jpg" alt="image" />
+            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_silang:label"></span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_silang:label">1. Do not help nor tell the child about this picture. Ask the child to draw this picture on a piece of blank paper. Give 3 chances. Is the child able to draw the picture?</span>
+            <img lang="en" src="http://orig11.deviantart.net/0732/f/2016/123/b/3/hal_14_no_9_by_edwarddesu-da14hae.jpg" alt="image" />
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_silang:hint">Gerak halus</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_silang:hint">Fine motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_menggambar_silang" data-name="/kpsp_balita_6thn/_66bln_menggambar_silang" value="ya" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_silang/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_silang/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_menggambar_silang" data-name="/kpsp_balita_6thn/_66bln_menggambar_silang" value="tidak" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_silang/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_silang/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_66bln_perintah:label">2. Ikuti perintah ini dengan seksama. Jangan memberi isyarat dengan telunjuk atau mata pada saat memberikan perintah berikut ini: "Letakkan kertas ini di atas lantai". "Letakkan kertas ini di bawah kursi". "Letakkan kertas ini di depan kamu". "Letakkan kertas ini di belakang kamu". Jawaban YA hanya jika anak mengerti arti "di atas", "di bawah", "di depan", dan " di belakang".</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_66bln_perintah:label">2. Follow this instruction carefully. Do not give a hint using index finger nor eyes when giving the following commands" "Put this paper on the floor". "Put this paper under the chair". "Put this paper in front of you". "Put this paper behind you". Choose YES if only the child understand the meaning of "on", "under", "in front of", and "behind".</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_66bln_perintah:hint">Bicara dan bahasa</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_66bln_perintah:hint">Language</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_perintah" data-name="/kpsp_balita_6thn/_66bln_perintah" value="ya" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_perintah/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_perintah/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_perintah" data-name="/kpsp_balita_6thn/_66bln_perintah" value="tidak" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_perintah/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_perintah/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_66bln_reaksi_anak:label">3. Apakah anak bereaksi dengan tenang dan tidak rewel (tanpa menangis atau menggelayut pada Anda) pada saat Anda meninggalkannya?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_66bln_reaksi_anak:label">3. Is the child acting calmly and not fussy (no crying or clinging on you) when you leave him/her?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_66bln_reaksi_anak:hint">Sosialisasi dan kemandirian</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_66bln_reaksi_anak:hint">Socialization and independency</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_reaksi_anak" data-name="/kpsp_balita_6thn/_66bln_reaksi_anak" value="ya" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_reaksi_anak/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_reaksi_anak/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_reaksi_anak" data-name="/kpsp_balita_6thn/_66bln_reaksi_anak" value="tidak" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_reaksi_anak/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_reaksi_anak/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_balita_6thn/_66bln_warna:label"></span>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_66bln_warna:label">4. Jangan menunjuk, membantu atau membetulkan, katakan pada anak: "Tunjukkan segi empat merah". "Tunjukkan segi empat kuning". "Tunjukkan segi empat biru". "Tunjukkan segi empat hijau". Dapatkah anak menunjuk keempat warna itu dengan benar?</span>
+            <img lang="Bahasa" class="active" src="http://orig02.deviantart.net/5751/f/2016/123/d/8/hal_15_no_8_by_edwarddesu-da14ha9.jpg" alt="image" />
+            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_balita_6thn/_66bln_warna:label"></span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_66bln_warna:label">4. Do not point at, assist nor rectify the child, tell him/her: "Show me a red square". "Show me a yellow square". "Show me a blue square". "Show me a green square". Is the child able to point out the four colors correctly?</span>
+            <img lang="en" src="http://orig02.deviantart.net/5751/f/2016/123/d/8/hal_15_no_8_by_edwarddesu-da14ha9.jpg" alt="image" />
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_66bln_warna:hint">Bicara dan bahasa</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_66bln_warna:hint">Language</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_warna" data-name="/kpsp_balita_6thn/_66bln_warna" value="ya" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_warna/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_warna/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_warna" data-name="/kpsp_balita_6thn/_66bln_warna" value="tidak" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_warna/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_warna/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_66bln_melompat_satu_kaki:label">5. Suruh anak melompat dengan satu kaki beberapa kali tanpa berpegangan (lompatan dengan dua kaki tidak ikut dinilai). Apakah ia dapat melompat 2-3 kali dengan satu kaki?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_66bln_melompat_satu_kaki:label">5. Ask the child to jump with one foot a few times without holding on something (jumping with two feet is not assessed). Is the child able to jump 2-3 times with one foot?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_66bln_melompat_satu_kaki:hint">Gerak kasar</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_66bln_melompat_satu_kaki:hint">Gross motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_melompat_satu_kaki" data-name="/kpsp_balita_6thn/_66bln_melompat_satu_kaki" value="ya" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_melompat_satu_kaki/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_melompat_satu_kaki/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_melompat_satu_kaki" data-name="/kpsp_balita_6thn/_66bln_melompat_satu_kaki" value="tidak" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_melompat_satu_kaki/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_melompat_satu_kaki/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_66bln_berpakaian_sendiri:label">6. Dapatkah anak sepenuhnya berpakaian sendiri tanpa bantuan?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_66bln_berpakaian_sendiri:label">6. Is the child able to dress up without assistance?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_66bln_berpakaian_sendiri:hint">Sosialisasi dan kemandirian</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_66bln_berpakaian_sendiri:hint">Socialization and independency</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_berpakaian_sendiri" data-name="/kpsp_balita_6thn/_66bln_berpakaian_sendiri" value="ya" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_berpakaian_sendiri/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_berpakaian_sendiri/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_berpakaian_sendiri" data-name="/kpsp_balita_6thn/_66bln_berpakaian_sendiri" value="tidak" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_berpakaian_sendiri/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_berpakaian_sendiri/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_3bagian:label">7. Suruh anak menggambar di tempat kosong yang tersedia. Katakan padanya: "Buatlah gambar orang". Jangan memberi perintah lebih dari itu. Jangan bertanya/mengingatkan anak bila ada bagian yang belum tergambar. Dalam memberi nilai, hitunglah berapa bagian tubuh yang tergambar. Untuk bagian tubuh yang berpasangan seperti mata, telinga, lengan dan kaki, setiap pasang dinilai satu bagian. Dapatkah anak menggambar sedikitnya 3 bagian tubuh?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_3bagian:label">7. Ask the child to draw on a piece of blank paper. Tell him/her: "Draw a person". Do not give any further command. Do not ask/remind the child of a body part that was not drawned yet. Count how many body parts are drawn. For the paired-body parts like eyes, ears, arms and legs, each pair is counted as one part. Is the child able to draw at least 3 body parts?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_3bagian:hint">Gerak halus</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_3bagian:hint">Fine motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_menggambar_3bagian" data-name="/kpsp_balita_6thn/_66bln_menggambar_3bagian" value="ya" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_3bagian/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_3bagian/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_menggambar_3bagian" data-name="/kpsp_balita_6thn/_66bln_menggambar_3bagian" value="tidak" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_3bagian/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_3bagian/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_6bagian:label">8. Pada gambar yang dibuat sebelumnya, dapatkah anak menggambar sedikitnya 6 bagian tubuh?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_6bagian:label">8. On the previous drawing, is the child able to draw at least 6 body parts?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_6bagian:hint">Gerak halus</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_6bagian:hint">Fine motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_menggambar_6bagian" data-name="/kpsp_balita_6thn/_66bln_menggambar_6bagian" value="ya" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_6bagian/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_6bagian/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_menggambar_6bagian" data-name="/kpsp_balita_6thn/_66bln_menggambar_6bagian" value="tidak" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_6bagian/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_menggambar_6bagian/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_66bln_lawan_kata:label">9. Tulis apa yang dikatakan anak pada kalimat-kalimat yang belum selesai ini, jangan membantu kecuali mengulang pertanyaan: "Jika kuda besar maka tikus ........". "Jika api panas maka es .....". "Jika ibu seorang wanita maka ayah seorang ......". Apakah anak menjawab dengan benar (tikus kecil, es dingin, ayah seorang pria)?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_66bln_lawan_kata:label">9. Record the child's answers for these incomplete sentences, do not give any help except repeating the question: "If a horse is big then a mouse is ......". "If a fire is hot then an ice is .....". "If a mother is a woman then a father is a .....". Is the child able tp answer them correctly (a mouse is small, an ice is cold, a father is a man)?</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_66bln_lawan_kata:hint">Bicara dan bahasa</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_66bln_lawan_kata:hint">Language</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_lawan_kata" data-name="/kpsp_balita_6thn/_66bln_lawan_kata" value="ya" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_lawan_kata/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_lawan_kata/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_lawan_kata" data-name="/kpsp_balita_6thn/_66bln_lawan_kata" value="tidak" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_lawan_kata/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_lawan_kata/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_66bln_menangkap_bola:label">10. Apakah anak dapat menangkap bola kecil sebesar bola tenis/bola kasti hanya dengan menggunakan kedua tangannya? (Bola besar tidak ikut dinilai)</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_66bln_menangkap_bola:label">10. Is the child able to catch a small ball like tennis/baseball using two hands? (Big balls are not assessed)</span>
+            <span class="required">*</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_66bln_menangkap_bola:hint">Gerak kasar</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_66bln_menangkap_bola:hint">Gross motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_menangkap_bola" data-name="/kpsp_balita_6thn/_66bln_menangkap_bola" value="ya" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_menangkap_bola/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_menangkap_bola/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_66bln_menangkap_bola" data-name="/kpsp_balita_6thn/_66bln_menangkap_bola" value="tidak" required="required" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_66bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_66bln_menangkap_bola/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_66bln_menangkap_bola/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_balita_6thn/_72bln_warna:label"></span>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_72bln_warna:label">1. Jangan menunjuk, membantu atau membetulkan, katakan pada anak: "Tunjukkan segi empat merah". "Tunjukkan segi empat kuning". "Tunjukkan segi empat biru". "Tunjukkan segi empat hijau". Dapatkah anak menunjuk keempat warna itu dengan benar?</span>
+            <img lang="Bahasa" class="active" src="http://orig02.deviantart.net/5751/f/2016/123/d/8/hal_15_no_8_by_edwarddesu-da14ha9.jpg" alt="image" />
+            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_balita_6thn/_72bln_warna:label"></span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_72bln_warna:label">1. Do not point at, assist nor rectify the child, tell him/her: "Show me a red square". "Show me a yellow square". "Show me a blue square". "Show me a green square". Is the child able to point out the four colors correctly?</span>
+            <img lang="en" src="http://orig02.deviantart.net/5751/f/2016/123/d/8/hal_15_no_8_by_edwarddesu-da14ha9.jpg" alt="image" />
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_72bln_warna:hint">Bicara dan bahasa</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_72bln_warna:hint">Language</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_warna" data-name="/kpsp_balita_6thn/_72bln_warna" value="ya" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_warna/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_warna/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_warna" data-name="/kpsp_balita_6thn/_72bln_warna" value="tidak" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_warna/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_warna/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_72bln_melompat_satu_kaki:label">2. Suruh anak melompat dengan satu kaki beberapa kali tanpa berpegangan (lompatan dengan dua kaki tidak ikut dinilai). Apakah ia dapat melompat 2-3 kali dengan satu kaki?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_72bln_melompat_satu_kaki:label">2. Ask the child to jump with one foot a few times without holding on something (jumping with two feet is not assessed). Is the child able to jump 2-3 times with one foot?</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_72bln_melompat_satu_kaki:hint">Gerak kasar</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_72bln_melompat_satu_kaki:hint">Gross motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_melompat_satu_kaki" data-name="/kpsp_balita_6thn/_72bln_melompat_satu_kaki" value="ya" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_melompat_satu_kaki/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_melompat_satu_kaki/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_melompat_satu_kaki" data-name="/kpsp_balita_6thn/_72bln_melompat_satu_kaki" value="tidak" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_melompat_satu_kaki/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_melompat_satu_kaki/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_72bln_berpakaian_sendiri:label">3. Dapatkah anak sepenuhnya berpakaian sendiri tanpa bantuan?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_72bln_berpakaian_sendiri:label">3. Is the child able to dress up without assistance?</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_72bln_berpakaian_sendiri:hint">Sosialisasi dan kemandirian</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_72bln_berpakaian_sendiri:hint">Socialization and independency</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_berpakaian_sendiri" data-name="/kpsp_balita_6thn/_72bln_berpakaian_sendiri" value="ya" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_berpakaian_sendiri/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_berpakaian_sendiri/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_berpakaian_sendiri" data-name="/kpsp_balita_6thn/_72bln_berpakaian_sendiri" value="tidak" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_berpakaian_sendiri/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_berpakaian_sendiri/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_72bln_menggambar_3bagian:label">4. Suruh anak menggambar di tempat kosong yang tersedia. Katakan padanya: "Buatlah gambar orang". Jangan memberi perintah lebih dari itu. Jangan bertanya/mengingatkan anak bila ada bagian yang belum tergambar. Dalam memberi nilai, hitunglah berapa bagian tubuh yang tergambar. Untuk bagian tubuh yang berpasangan seperti mata, telinga, lengan dan kaki, setiap pasang dinilai satu bagian. Dapatkah anak menggambar sedikitnya 3 bagian tubuh?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_72bln_menggambar_3bagian:label">4. Ask the child to draw on a piece of blank paper. Tell him/her: "Draw a person". Do not give any further command. Do not ask/remind the child of a body part that was not drawned yet. Count how many body parts are drawn. For the paired-body parts like eyes, ears, arms and legs, each pair is counted as one part. Is the child able to draw at least 3 body parts?</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_72bln_menggambar_3bagian:hint">Gerak halus</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_72bln_menggambar_3bagian:hint">Fine motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_menggambar_3bagian" data-name="/kpsp_balita_6thn/_72bln_menggambar_3bagian" value="ya" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_menggambar_3bagian/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_menggambar_3bagian/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_menggambar_3bagian" data-name="/kpsp_balita_6thn/_72bln_menggambar_3bagian" value="tidak" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_menggambar_3bagian/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_menggambar_3bagian/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_72bln_menggambar_6bagian:label">5. Pada gambar yang dibuat sebelumnya, dapatkah anak menggambar sedikitnya 6 bagian tubuh?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_72bln_menggambar_6bagian:label">5. On the previous drawing, is the child able to draw at least 6 body parts?</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_72bln_menggambar_6bagian:hint">Gerak halus</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_72bln_menggambar_6bagian:hint">Fine motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_menggambar_6bagian" data-name="/kpsp_balita_6thn/_72bln_menggambar_6bagian" value="ya" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_menggambar_6bagian/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_menggambar_6bagian/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_menggambar_6bagian" data-name="/kpsp_balita_6thn/_72bln_menggambar_6bagian" value="tidak" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_menggambar_6bagian/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_menggambar_6bagian/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_72bln_lawan_kata:label">6. Tulis apa yang dikatakan anak pada kalimat-kalimat yang belum selesai ini, jangan membantu kecuali mengulang pertanyaan: "Jika kuda besar maka tikus ........". "Jika api panas maka es .....". "Jika ibu seorang wanita maka ayah seorang ......". Apakah anak menjawab dengan benar (tikus kecil, es dingin, ayah seorang pria)?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_72bln_lawan_kata:label">6. Record the child's answers for these incomplete sentences, do not give any help except repeating the question: "If a horse is big then a mouse is ......". "If a fire is hot then an ice is .....". "If a mother is a woman then a father is a .....". Is the child able tp answer them correctly (a mouse is small, an ice is cold, a father is a man)?</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_72bln_lawan_kata:hint">Sosialisasi dan kemandirian</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_72bln_lawan_kata:hint">Socialization and independency</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_lawan_kata" data-name="/kpsp_balita_6thn/_72bln_lawan_kata" value="ya" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_lawan_kata/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_lawan_kata/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_lawan_kata" data-name="/kpsp_balita_6thn/_72bln_lawan_kata" value="tidak" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_lawan_kata/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_lawan_kata/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_72bln_menangkap_bola:label">7. Apakah anak dapat menangkap bola kecil sebesar bola tenis/bola kasti hanya dengan menggunakan kedua tangannya? (Bola besar tidak ikut dinilai)</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_72bln_menangkap_bola:label">7. Is the child able to catch a small ball like tennis/baseball using two hands? (Big balls are not assessed)</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_72bln_menangkap_bola:hint">Gerak kasar</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_72bln_menangkap_bola:hint">Gross motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_menangkap_bola" data-name="/kpsp_balita_6thn/_72bln_menangkap_bola" value="ya" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_menangkap_bola/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_menangkap_bola/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_menangkap_bola" data-name="/kpsp_balita_6thn/_72bln_menangkap_bola" value="tidak" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_menangkap_bola/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_menangkap_bola/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_72bln_berdiri_1kaki:label">8. Suruh anak berdiri satu kaki tanpa berpegangan. Jika perlu tunjukkan caranya dan beri anak Anda kesempatan melakukannya 3 kali. Dapatkah ia mempertahankan keseimbangan dalam waktu 11 detik atau lebih?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_72bln_berdiri_1kaki:label">8. Ask the child to stand on one foot without holding on something. Show him/her how, if necessary, and give 3 chances. Is he/she able to maintain balance for 11 seconds or more?</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_72bln_berdiri_1kaki:hint">Gerak kasar</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_72bln_berdiri_1kaki:hint">Gross motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_berdiri_1kaki" data-name="/kpsp_balita_6thn/_72bln_berdiri_1kaki" value="ya" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_berdiri_1kaki/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_berdiri_1kaki/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_berdiri_1kaki" data-name="/kpsp_balita_6thn/_72bln_berdiri_1kaki" value="tidak" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_berdiri_1kaki/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_berdiri_1kaki/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_balita_6thn/_72bln_menggambar:label"></span>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_72bln_menggambar:label">9. Jangan membantu anak dan jangan memberitahu nama gambar ini, suruh anak menggambar seperti contoh ini di kertas kosong yang tersedia. Berikan 3 kali kesempatan. Apakah anak dapat menggambar seperti contoh ini?</span>
+            <img lang="Bahasa" class="active" src="http://orig05.deviantart.net/83d9/f/2016/134/6/1/hal_17_no_9_by_edwarddesu-da2el4x.jpg" alt="image" />
+            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_balita_6thn/_72bln_menggambar:label"></span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_72bln_menggambar:label">9. Do not help nor tell the child about this picture. Ask the child to draw this picture on a piece of blank paper. Give 3 chances. Is the child able to draw the picture?</span>
+            <img lang="en" src="http://orig05.deviantart.net/83d9/f/2016/134/6/1/hal_17_no_9_by_edwarddesu-da2el4x.jpg" alt="image" />
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_72bln_menggambar:hint">Gerak halus</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_72bln_menggambar:hint">Fine motor</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_menggambar" data-name="/kpsp_balita_6thn/_72bln_menggambar" value="ya" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_menggambar/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_menggambar/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_menggambar" data-name="/kpsp_balita_6thn/_72bln_menggambar" value="tidak" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_menggambar/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_menggambar/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <label class="note or-branch pre-init non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_72bln_pertanyaan_note1:label">10. Tanyakan ketiga pertanyaan ini kepada anak. Jangan membantu kecuali mengulangi pertanyaan sampai 3 kali bila anak menanyakannya.</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_72bln_pertanyaan_note1:label">10. Ask the following questions to the child. Do not give any help except repeating the questions 3 times if the child requests it.</span>
+      <input type="text" name="/kpsp_balita_6thn/_72bln_pertanyaan_note1" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="string" readonly="readonly" />
+   </label>
+   <label class="note or-branch pre-init non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_72bln_pertanyaan_note2:label">10a. "Sendok dibuat dari apa?"........... Jawaban: sendok dibuat dari besi, baja, plastik, kayu.</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_72bln_pertanyaan_note2:label">10a. "A spoon is made of?" .......... Answer: a spoon is made of iron, steel, plastic, wood.</span>
+      <input type="text" name="/kpsp_balita_6thn/_72bln_pertanyaan_note2" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="string" readonly="readonly" />
+   </label>
+   <label class="note or-branch pre-init non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_72bln_pertanyaan_note3:label">10b. "Sepatu dibuat dari apa?" ........... Jawaban: sepatu dibuat dari kulit, karet, kain, plastik, kayu.</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_72bln_pertanyaan_note3:label">10b. "A shoe is made of?" ......... Answer: a shoe is made of leather, rubber, clothe, plastic, wood.</span>
+      <input type="text" name="/kpsp_balita_6thn/_72bln_pertanyaan_note3" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="string" readonly="readonly" />
+   </label>
+   <label class="note or-branch pre-init non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_72bln_pertanyaan_note4:label">10c. "Pintu dibuat dari apa?" ............. Jawaban: pintu dibuat dari kayu, besi, kaca.</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_72bln_pertanyaan_note4:label">10c. "A door is made of?" ......... Answer: a door is made of wood, steel, glass.</span>
+      <input type="text" name="/kpsp_balita_6thn/_72bln_pertanyaan_note4" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="string" readonly="readonly" />
+   </label>
+   <fieldset class="question or-branch pre-init ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/_72bln_pertanyaan:label">10d. Apakah anak dapat menjawab ketiga pertanyaan di atas dengan benar?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/_72bln_pertanyaan:label">10d. Is the child able to answer all the questions correctly?</span>
+            <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_6thn/_72bln_pertanyaan:hint">Bicara dan bahasa</span>
+            <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_6thn/_72bln_pertanyaan:hint">Language</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_pertanyaan" data-name="/kpsp_balita_6thn/_72bln_pertanyaan" value="ya" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_pertanyaan/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_pertanyaan/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/_72bln_pertanyaan" data-name="/kpsp_balita_6thn/_72bln_pertanyaan" value="tidak" data-relevant="selected( /kpsp_balita_6thn/kpsp_6thn ,'kpsp_72bln')" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/_72bln_pertanyaan/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/_72bln_pertanyaan/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <label class="note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/note_status_kembang:label">Jika jawaban YA: __9-10 = Sesuai__; __7-8 = Meragukan__; __≤ 6 = Penyimpangan__</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/note_status_kembang:label">If YES: __9-10 = Appropriate__; __7-8 = Inconclusive__ ; __≤ 6 = Deviated__</span>
+      <input type="text" name="/kpsp_balita_6thn/note_status_kembang" data-type-xml="string" readonly="readonly" />
+   </label>
+   <label class="question or-appearance-minimal ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/status_kembang6:label">Status Perkembangan Anak:</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/status_kembang6:label">Child's Development Status</span>
+      <select name="/kpsp_balita_6thn/status_kembang6" data-name="/kpsp_balita_6thn/status_kembang6" data-type-xml="select1">
+         <option value="">...</option>
+         <option value="sesuai">Sesuai</option>
+         <option value="meragukan">Meragukan</option>
+         <option value="penyimpangan">Penyimpangan</option>
+      </select>
+      <span class="or-option-translations" style="display:none;">
+         <span data-option-value="sesuai" lang="Bahasa">Sesuai</span>
+         <span data-option-value="sesuai" lang="en">Appropriate to child's age</span>
+         <span data-option-value="meragukan" lang="Bahasa">Meragukan</span>
+         <span data-option-value="meragukan" lang="en">Inconclusive</span>
+         <span data-option-value="penyimpangan" lang="Bahasa">Penyimpangan</span>
+         <span data-option-value="penyimpangan" lang="en">Deviated</span>
+      </span>
+   </label>
+   <label class="question or-appearance-minimal  or-branch pre-init ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/status_meragukan:label">Meragukan</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/status_meragukan:label">Inconclusive Development</span>
+      <select multiple="multiple" name="/kpsp_balita_6thn/status_meragukan" data-name="/kpsp_balita_6thn/status_meragukan" data-relevant="selected( /kpsp_balita_6thn/status_kembang6 ,'meragukan')" data-type-xml="select1">
+         <option value="">...</option>
+         <option value="gerak_kasar">Gerak Kasar</option>
+         <option value="gerak_halus">Gerak Halus</option>
+         <option value="bahasa">Bicara &amp; Bahasa</option>
+         <option value="sosial">Sosialisasi &amp; Kemandirian</option>
+      </select>
+      <span class="or-option-translations" style="display:none;">
+         <span data-option-value="gerak_kasar" lang="Bahasa">Gerak Kasar</span>
+         <span data-option-value="gerak_kasar" lang="en">Gross motor</span>
+         <span data-option-value="gerak_halus" lang="Bahasa">Gerak Halus</span>
+         <span data-option-value="gerak_halus" lang="en">Fien motor</span>
+         <span data-option-value="bahasa" lang="Bahasa">Bicara &amp; Bahasa</span>
+         <span data-option-value="bahasa" lang="en">Language</span>
+         <span data-option-value="sosial" lang="Bahasa">Sosialisasi &amp; Kemandirian</span>
+         <span data-option-value="sosial" lang="en">Sosialization &amp; Independency</span>
+      </span>
+   </label>
+   <label class="question or-appearance-minimal  or-branch pre-init ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/status_penyimpangan:label">Penyimpangan</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/status_penyimpangan:label">Deviation of Development</span>
+      <select multiple="multiple" name="/kpsp_balita_6thn/status_penyimpangan" data-name="/kpsp_balita_6thn/status_penyimpangan" data-relevant="selected( /kpsp_balita_6thn/status_kembang6 ,'penyimpangan')" data-type-xml="select1">
+         <option value="">...</option>
+         <option value="gerak_kasar">Gerak Kasar</option>
+         <option value="gerak_halus">Gerak Halus</option>
+         <option value="bahasa">Bicara &amp; Bahasa</option>
+         <option value="sosial">Sosialisasi &amp; Kemandirian</option>
+      </select>
+      <span class="or-option-translations" style="display:none;">
+         <span data-option-value="gerak_kasar" lang="Bahasa">Gerak Kasar</span>
+         <span data-option-value="gerak_kasar" lang="en">Gross motor</span>
+         <span data-option-value="gerak_halus" lang="Bahasa">Gerak Halus</span>
+         <span data-option-value="gerak_halus" lang="en">Fien motor</span>
+         <span data-option-value="bahasa" lang="Bahasa">Bicara &amp; Bahasa</span>
+         <span data-option-value="bahasa" lang="en">Language</span>
+         <span data-option-value="sosial" lang="Bahasa">Sosialisasi &amp; Kemandirian</span>
+         <span data-option-value="sosial" lang="en">Sosialization &amp; Independency</span>
+      </span>
+   </label>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/kesimpulan:label">__KESIMPULAN__</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/kesimpulan:label">__SUMMARY__</span>
+      <input type="text" name="/kpsp_balita_6thn/kesimpulan" data-type-xml="string" />
+   </label>
+   <label class="note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/tindakan_intervensi:label">__TINDAKAN INTERVENSI__</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/tindakan_intervensi:label">__INTERVENTION MEASURE__</span>
+      <input type="text" name="/kpsp_balita_6thn/tindakan_intervensi" data-type-xml="string" readonly="readonly" />
+   </label>
+   <fieldset class="question or-appearance-horizontal ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/konseling_stimulasi:label">Konseling stimulasi bagi ibu:</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/konseling_stimulasi:label">Stimulation consultation for the mother</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/konseling_stimulasi" data-name="/kpsp_balita_6thn/konseling_stimulasi" value="diberikan" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/konseling_stimulasi/diberikan:label">Diberikan</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/konseling_stimulasi/diberikan:label">Received</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/konseling_stimulasi" data-name="/kpsp_balita_6thn/konseling_stimulasi" value="tidak_diberikan" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/konseling_stimulasi/tidak_diberikan:label">Tidak diberikan</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/konseling_stimulasi/tidak_diberikan:label">Not received</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <label class="question or-appearance-minimal  or-branch pre-init ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/intervensi_stimulasi:label">Intervensi stimulasi perkembangan:</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/intervensi_stimulasi:label">Stimulation intervention on:</span>
+      <select multiple="multiple" name="/kpsp_balita_6thn/intervensi_stimulasi" data-name="/kpsp_balita_6thn/intervensi_stimulasi" data-relevant="selected( /kpsp_balita_6thn/konseling_stimulasi ,'diberikan')" data-type-xml="select1">
+         <option value="">...</option>
+         <option value="gerak_kasar">Gerak Kasar</option>
+         <option value="gerak_halus">Gerak Halus</option>
+         <option value="bahasa">Bicara &amp; Bahasa</option>
+         <option value="sosial">Sosialisasi &amp; Kemandirian</option>
+      </select>
+      <span class="or-option-translations" style="display:none;">
+         <span data-option-value="gerak_kasar" lang="Bahasa">Gerak Kasar</span>
+         <span data-option-value="gerak_kasar" lang="en">Gross motor</span>
+         <span data-option-value="gerak_halus" lang="Bahasa">Gerak Halus</span>
+         <span data-option-value="gerak_halus" lang="en">Fien motor</span>
+         <span data-option-value="bahasa" lang="Bahasa">Bicara &amp; Bahasa</span>
+         <span data-option-value="bahasa" lang="en">Language</span>
+         <span data-option-value="sosial" lang="Bahasa">Sosialisasi &amp; Kemandirian</span>
+         <span data-option-value="sosial" lang="en">Sosialization &amp; Independency</span>
+      </span>
+   </label>
+   <label class="question or-branch pre-init non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/tanggal_evaluasi_intervensi:label">Tanggal evaluasi intervensi</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/tanggal_evaluasi_intervensi:label">Date of intervention evaluation</span>
+      <input type="date" name="/kpsp_balita_6thn/tanggal_evaluasi_intervensi" data-relevant="selected( /kpsp_balita_6thn/konseling_stimulasi ,'diberikan')" data-type-xml="date" />
+   </label>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/tindakan_lain:label">Tindakan pengobatan lain</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/tindakan_lain:label">Other measure:</span>
+      <input type="text" name="/kpsp_balita_6thn/tindakan_lain" data-type-xml="string" />
+   </label>
+   <fieldset class="question or-appearance-horizontal ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/rujukan:label">Apakah anak dirujuk?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/rujukan:label">Is the child referred to other facility?</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/rujukan" data-name="/kpsp_balita_6thn/rujukan" value="ya" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/rujukan/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/rujukan/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/rujukan" data-name="/kpsp_balita_6thn/rujukan" value="tidak" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/rujukan/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/rujukan/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/dirujuk_ke:label">Dirujuk ke</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/dirujuk_ke:label">Place of referral</span>
+      <input type="text" name="/kpsp_balita_6thn/dirujuk_ke" data-type-xml="string" />
+   </label>
+   <fieldset class="question or-appearance-horizontal ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_6thn/surat_rujukan:label">Ada surat rujukan?</span>
+            <span lang="en" class="question-label " data-itext-id="/kpsp_balita_6thn/surat_rujukan:label">Referral letter</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/surat_rujukan" data-name="/kpsp_balita_6thn/surat_rujukan" value="ya" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/surat_rujukan/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/surat_rujukan/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/kpsp_balita_6thn/surat_rujukan" data-name="/kpsp_balita_6thn/surat_rujukan" value="tidak" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_6thn/surat_rujukan/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/kpsp_balita_6thn/surat_rujukan/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset id="or-preload-items" style="display:none;">
+      <label class="calculation non-select ">
+         <input type="hidden" name="/kpsp_balita_6thn/start" data-preload="timestamp" data-preload-params="start" data-type-xml="dateTime" />
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/kpsp_balita_6thn/today" data-preload="date" data-preload-params="today" data-type-xml="date" />
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/kpsp_balita_6thn/deviceid" data-preload="property" data-preload-params="deviceid" data-type-xml="string" />
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/kpsp_balita_6thn/simserial" data-preload="property" data-preload-params="simserial" data-type-xml="string" />
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/kpsp_balita_6thn/phonenumber" data-preload="property" data-preload-params="phonenumber" data-type-xml="string" />
+      </label>
+   </fieldset>
+   <fieldset id="or-calculated-items" style="display:none;">
+      <label class="calculation non-select ">
+         <input type="hidden" name="/kpsp_balita_6thn/meta/instanceID" data-calculate="concat('uuid:', uuid())" data-type-xml="string" />
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/kpsp_balita_6thn/formhub/uuid" data-calculate="'37a14881da224cf29df591507dbc2140'" data-type-xml="string" />
+      </label>
+   </fieldset>
+</form>

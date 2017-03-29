@@ -1,0 +1,86 @@
+{
+  "form_data_definition_version": "1",
+  "form": {
+    "bind_type": "anak",
+    "default_bind_path": "/model/instance/antropometri/",
+    "fields": [
+      {
+        "name": "id",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "umur",
+        "bind": "/model/instance/antropometri/umur",
+		"shouldLoadValue": true
+      },
+      {
+        "name": "anthropometry_date",
+        "bind": "/model/instance/antropometri/anthropometry_date"
+      },
+      {
+        "name": "berat",
+        "bind": "/model/instance/antropometri/berat"
+      },
+      {
+        "name": "tinggi",
+        "bind": "/model/instance/antropometri/tinggi"
+      },
+      {
+        "name": "berat_tinggi",
+        "bind": "/model/instance/antropometri/berat_tinggi"
+      },
+      {
+        "name": "lingkar_kepala",
+        "bind": "/model/instance/antropometri/lingkar_kepala"
+      },
+      {
+        "name": "lkau",
+        "bind": "/model/instance/antropometri/lkau"
+      },
+      {
+        "name": "kesimpulan",
+        "bind": "/model/instance/antropometri/kesimpulan"
+      },
+      {
+        "name": "tindakan_intervensi",
+        "bind": "/model/instance/antropometri/tindakan_intervensi"
+      },
+      {
+        "name": "konseling_stimulasi",
+        "bind": "/model/instance/antropometri/konseling_stimulasi"
+      },
+      {
+        "name": "tindakan_lain",
+        "bind": "/model/instance/antropometri/tindakan_lain"
+      },
+      {
+        "name": "rujukan",
+        "bind": "/model/instance/antropometri/rujukan"
+      },
+      {
+        "name": "dirujuk_ke",
+        "bind": "/model/instance/antropometri/dirujuk_ke"
+      },
+      {
+        "name": "surat_rujukan",
+        "bind": "/model/instance/antropometri/surat_rujukan"
+      },
+      {
+        "name": "isOutOfArea",
+        "value": "false"
+      },
+      {
+        "name": "isClosed",
+        "value": "false"
+      },
+      {
+        "name": "reg_date",
+        "bind": "/model/instance/antropometri/today"
+      },
+      {
+        "name": "registrationDate",
+        "bind": "/model/instance/antropometri/reg_date"
+      }
+    ]
+  }
+}

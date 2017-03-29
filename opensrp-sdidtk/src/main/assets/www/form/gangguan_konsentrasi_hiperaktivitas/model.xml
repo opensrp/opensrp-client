@@ -1,0 +1,42 @@
+<model>
+    <instance>
+        <gangguan_konsentrasi_hiperaktivitas encounter_type="Gangguan Pemusatan Perhatian dan Hiperaktivitas (GPPH)" id="gangguan_konsentrasi_hiperaktivitas" version="201605120835">
+          <formhub>
+            <uuid/>
+          </formhub>
+          <start/>
+          <today/>
+          <deviceid/>
+          <simserial/>
+          <phonenumber/>
+          <umur />
+		  <generated_note_name_12 />
+          <gpph_test_date/>
+          <nilai_note1/>
+          <nilai_note2/>
+          <gpph_hiperaktif/>
+          <gpph_impulsif/>
+          <gpph_mengganggu/>
+          <gpph_konsentrasi/>
+          <gpph_bergerak_gerak/>
+          <gpph_perhatian/>
+          <gpph_frustasi/>
+          <gpph_menangis/>
+          <gpph_mood/>
+          <gpph_tantrum/>
+          <gpph_nilai/>
+          <gpph_nilai_note/>
+          <gpph/>
+          <kesimpulan/>
+          <tindakan_intervensi/>
+          <konseling_stimulasi/>
+          <tindakan_lain/>
+          <rujukan/>
+          <dirujuk_ke/>
+          <surat_rujukan/>
+          <meta>
+            <instanceID/>
+          </meta>
+        </gangguan_konsentrasi_hiperaktivitas>
+      </instance>
+  </model>

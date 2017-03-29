@@ -1,0 +1,114 @@
+{
+  "form_data_definition_version": "1",
+  "form": {
+    "bind_type": "anak",
+    "default_bind_path": "/model/instance/gangguan_konsentrasi_hiperaktivitas/",
+    "fields": [
+      {
+        "name": "id",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "umur",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/umur",
+		"shouldLoadValue": true
+      },
+      {
+        "name": "gpph_test_date",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/gpph_test_date"
+      },
+      {
+        "name": "gpph_hiperaktif",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/gpph_hiperaktif"
+      },
+      {
+        "name": "gpph_impulsif",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/gpph_impulsif"
+      },
+      {
+        "name": "gpph_mengganggu",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/gpph_mengganggu"
+      },
+      {
+        "name": "gpph_konsentrasi",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/gpph_konsentrasi"
+      },
+      {
+        "name": "gpph_bergerak_gerak",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/gpph_bergerak_gerak"
+      },
+      {
+        "name": "gpph_perhatian",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/gpph_perhatian"
+      },
+      {
+        "name": "gpph_frustasi",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/gpph_frustasi"
+      },
+      {
+        "name": "gpph_menangis",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/gpph_menangis"
+      },
+      {
+        "name": "gpph_mood",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/gpph_mood"
+      },
+      {
+        "name": "gpph_tantrum",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/gpph_tantrum"
+      },
+      {
+        "name": "gpph_nilai",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/gpph_nilai"
+      },
+      {
+        "name": "gpph",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/gpph"
+      },
+      {
+        "name": "kesimpulan",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/kesimpulan"
+      },
+      {
+        "name": "tindakan_intervensi",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/tindakan_intervensi"
+      },
+      {
+        "name": "konseling_stimulasi",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/konseling_stimulasi"
+      },
+      {
+        "name": "tindakan_lain",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/tindakan_lain"
+      },
+      {
+        "name": "rujukan",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/rujukan"
+      },
+      {
+        "name": "dirujuk_ke",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/dirujuk_ke"
+      },
+      {
+        "name": "surat_rujukan",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/surat_rujukan"
+      },
+      {
+        "name": "isOutOfArea",
+        "value": "false"
+      },
+      {
+        "name": "isClosed",
+        "value": "false"
+      },
+      {
+        "name": "reg_date",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/today"
+      },
+      {
+        "name": "registrationDate",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/reg_date"
+      }
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+<model>
+    <instance>
+        <antropometri encounter_type="antropometri" id="antropometri" version="201605120824">
+          <formhub>
+            <uuid/>
+          </formhub>
+          <start/>
+          <today/>
+          <deviceid/>
+          <simserial/>
+          <phonenumber/>
+          <umur />
+		  <generated_note_name_12 />
+          <anthropometry_date/>
+          <berat/>
+          <tinggi/>
+          <berat_tinggi/>
+          <lingkar_kepala/>
+          <lkau/>
+          <kesimpulan/>
+          <tindakan_intervensi/>
+          <konseling_stimulasi/>
+          <tindakan_lain/>
+          <rujukan/>
+          <dirujuk_ke/>
+          <surat_rujukan/>
+          <meta>
+            <instanceID/>
+          </meta>
+        </antropometri>
+      </instance>
+  </model>

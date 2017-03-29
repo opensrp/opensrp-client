@@ -1,0 +1,122 @@
+{
+  "form_data_definition_version": "1",
+  "form": {
+    "bind_type": "anak",
+    "default_bind_path": "/model/instance/masalah_mental_emosional/",
+    "fields": [
+      {
+        "name": "id",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "umur",
+        "bind": "/model/instance/masalah_mental_emosional/umur",
+		"shouldLoadValue": true
+      },
+      {
+        "name": "mental_test_date",
+        "bind": "/model/instance/masalah_mental_emosional/mental_test_date"
+      },
+      {
+        "name": "mme_marah",
+        "bind": "/model/instance/masalah_mental_emosional/mme_marah"
+      },
+      {
+        "name": "mme_menghindar",
+        "bind": "/model/instance/masalah_mental_emosional/mme_menghindar"
+      },
+      {
+        "name": "mme_merusak",
+        "bind": "/model/instance/masalah_mental_emosional/mme_merusak"
+      },
+      {
+        "name": "mme_takut_cemas",
+        "bind": "/model/instance/masalah_mental_emosional/mme_takut_cemas"
+      },
+      {
+        "name": "mme_konsentrasi",
+        "bind": "/model/instance/masalah_mental_emosional/mme_konsentrasi"
+      },
+      {
+        "name": "mme_bingung",
+        "bind": "/model/instance/masalah_mental_emosional/mme_bingung"
+      },
+      {
+        "name": "mme_pola_tidur",
+        "bind": "/model/instance/masalah_mental_emosional/mme_pola_tidur"
+      },
+      {
+        "name": "mme_pola_makan",
+        "bind": "/model/instance/masalah_mental_emosional/mme_pola_makan"
+      },
+      {
+        "name": "mme_keluhan_fisik",
+        "bind": "/model/instance/masalah_mental_emosional/mme_keluhan_fisik"
+      },
+      {
+        "name": "mme_putus_asa",
+        "bind": "/model/instance/masalah_mental_emosional/mme_putus_asa"
+      },
+      {
+        "name": "mme_kemunduran_perilaku",
+        "bind": "/model/instance/masalah_mental_emosional/mme_kemunduran_perilaku"
+      },
+      {
+        "name": "mme_berulang_ulang",
+        "bind": "/model/instance/masalah_mental_emosional/mme_berulang_ulang"
+      },
+      {
+        "name": "hasil_mental_emosional",
+        "bind": "/model/instance/masalah_mental_emosional/hasil_mental_emosional"
+      },
+      {
+        "name": "mental_emosional",
+        "bind": "/model/instance/masalah_mental_emosional/mental_emosional"
+      },
+      {
+        "name": "kesimpulan",
+        "bind": "/model/instance/masalah_mental_emosional/kesimpulan"
+      },
+      {
+        "name": "tindakan_intervensi",
+        "bind": "/model/instance/masalah_mental_emosional/tindakan_intervensi"
+      },
+      {
+        "name": "konseling_stimulasi",
+        "bind": "/model/instance/masalah_mental_emosional/konseling_stimulasi"
+      },
+      {
+        "name": "tindakan_lain",
+        "bind": "/model/instance/masalah_mental_emosional/tindakan_lain"
+      },
+      {
+        "name": "rujukan",
+        "bind": "/model/instance/masalah_mental_emosional/rujukan"
+      },
+      {
+        "name": "dirujuk_ke",
+        "bind": "/model/instance/masalah_mental_emosional/dirujuk_ke"
+      },
+      {
+        "name": "surat_rujukan",
+        "bind": "/model/instance/masalah_mental_emosional/surat_rujukan"
+      },
+      {
+        "name": "isOutOfArea",
+        "value": "false"
+      },
+      {
+        "name": "isClosed",
+        "value": "false"
+      },
+      {
+        "name": "reg_date",
+        "bind": "/model/instance/masalah_mental_emosional/today"
+      },
+      {
+        "name": "registrationDate",
+        "bind": "/model/instance/masalah_mental_emosional/reg_date"
+      }
+    ]
+  }
+}

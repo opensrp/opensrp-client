@@ -1,0 +1,134 @@
+{
+  "form_data_definition_version": "1",
+  "form": {
+    "bind_type": "anak",
+    "default_bind_path": "/model/instance/deteksi_dini_autis/",
+    "fields": [
+      {
+        "name": "id",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "umur",
+        "bind": "/model/instance/deteksi_dini_autis/umur",
+		"shouldLoadValue": true
+      },
+      {
+        "name": "autis_test_date",
+        "bind": "/model/instance/deteksi_dini_autis/autis_test_date"
+      },
+      {
+        "name": "chat_anamnesis",
+        "bind": "/model/instance/deteksi_dini_autis/chat_anamnesis"
+      },
+      {
+        "name": "chat_diayun",
+        "bind": "/model/instance/deteksi_dini_autis/chat_diayun"
+      },
+      {
+        "name": "chat_tertarik",
+        "bind": "/model/instance/deteksi_dini_autis/chat_tertarik"
+      },
+      {
+        "name": "chat_memanjat",
+        "bind": "/model/instance/deteksi_dini_autis/chat_memanjat"
+      },
+      {
+        "name": "chat_cilukba",
+        "bind": "/model/instance/deteksi_dini_autis/chat_cilukba"
+      },
+      {
+        "name": "chat_roleplay",
+        "bind": "/model/instance/deteksi_dini_autis/chat_roleplay"
+      },
+      {
+        "name": "chat_meminta",
+        "bind": "/model/instance/deteksi_dini_autis/chat_meminta"
+      },
+      {
+        "name": "chat_menunjuk",
+        "bind": "/model/instance/deteksi_dini_autis/chat_menunjuk"
+      },
+      {
+        "name": "chat_mainan_kecil",
+        "bind": "/model/instance/deteksi_dini_autis/chat_mainan_kecil"
+      },
+      {
+        "name": "chat_memberikan_benda",
+        "bind": "/model/instance/deteksi_dini_autis/chat_memberikan_benda"
+      },
+      {
+        "name": "chat_pengamatan",
+        "bind": "/model/instance/deteksi_dini_autis/chat_pengamatan"
+      },
+      {
+        "name": "chat_kontak_mata",
+        "bind": "/model/instance/deteksi_dini_autis/chat_kontak_mata"
+      },
+      {
+        "name": "chat_melihat_benda",
+        "bind": "/model/instance/deteksi_dini_autis/chat_melihat_benda"
+      },
+      {
+        "name": "chat_berpura_pura",
+        "bind": "/model/instance/deteksi_dini_autis/chat_berpura_pura"
+      },
+      {
+        "name": "chat_menunjuk_dg_jari",
+        "bind": "/model/instance/deteksi_dini_autis/chat_menunjuk_dg_jari"
+      },
+      {
+        "name": "chat_menumpuk_kubus",
+        "bind": "/model/instance/deteksi_dini_autis/chat_menumpuk_kubus"
+      },
+      {
+        "name": "autis",
+        "bind": "/model/instance/deteksi_dini_autis/autis"
+      },
+      {
+        "name": "kesimpulan",
+        "bind": "/model/instance/deteksi_dini_autis/kesimpulan"
+      },
+      {
+        "name": "tindakan_intervensi",
+        "bind": "/model/instance/deteksi_dini_autis/tindakan_intervensi"
+      },
+      {
+        "name": "konseling_stimulasi",
+        "bind": "/model/instance/deteksi_dini_autis/konseling_stimulasi"
+      },
+      {
+        "name": "tindakan_lain",
+        "bind": "/model/instance/deteksi_dini_autis/tindakan_lain"
+      },
+      {
+        "name": "rujukan",
+        "bind": "/model/instance/deteksi_dini_autis/rujukan"
+      },
+      {
+        "name": "dirujuk_ke",
+        "bind": "/model/instance/deteksi_dini_autis/dirujuk_ke"
+      },
+      {
+        "name": "surat_rujukan",
+        "bind": "/model/instance/deteksi_dini_autis/surat_rujukan"
+      },
+      {
+        "name": "isOutOfArea",
+        "value": "false"
+      },
+      {
+        "name": "isClosed",
+        "value": "false"
+      },
+      {
+        "name": "reg_date",
+        "bind": "/model/instance/deteksi_dini_autis/today"
+      },
+      {
+        "name": "registrationDate",
+        "bind": "/model/instance/deteksi_dini_autis/reg_date"
+      }
+    ]
+  }
+}

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form autocomplete="off" novalidate="novalidate" class="or clearfix" id="antropometri">
+   <!--This form was created by transforming a OpenRosa-flavored (X)Form using an XSLT sheet created by Enketo LLC.-->
+   <section class="form-logo"></section>
+   <h3 id="form-title">Antropometri</h3>
+   <select id="form-languages" data-default-lang="Bahasa">
+      <option value="Bahasa">Bahasa</option>
+      <option value="en">English</option>
+   </select>
+    <label class="note non-select ">
+        <span class="question-label active" data-itext-id="/antropometri/generated_note_name_12:label"
+            lang="Bahasa">Umur:
+            <span class="or-output"
+                data-value=" /antropometri/umur "></span>
+        </span>
+        <span class="question-label " data-itext-id="/antropometri/generated_note_name_12:label"
+            lang="en">Age:
+        </span>
+        <input name="/antropometri/generated_note_name_12" data-type-xml="string"
+            readonly="readonly" type="text" />
+    </label>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/antropometri/anthropometry_date:label">Tanggal Entry</span>
+      <span lang="en" class="question-label " data-itext-id="/antropometri/anthropometry_date:label">Entry Date</span>
+      <input type="date" name="/antropometri/anthropometry_date" data-type-xml="date" />
+   </label>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/antropometri/berat:label">Berat Badan (kg)</span>
+      <span lang="en" class="question-label " data-itext-id="/antropometri/berat:label">Weight (kg)</span>
+      <input type="number" name="/antropometri/berat" data-type-xml="int" />
+   </label>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/antropometri/tinggi:label">Panjang/Tinggi Badan (cm)</span>
+      <span lang="en" class="question-label " data-itext-id="/antropometri/tinggi:label">Length/Height</span>
+      <input type="number" name="/antropometri/tinggi" data-type-xml="int" />
+   </label>
+   <fieldset class="question or-appearance-likert ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/antropometri/berat_tinggi:label">Berat/Tinggi Badan (BB/TB)</span>
+            <span lang="en" class="question-label " data-itext-id="/antropometri/berat_tinggi:label">Weight/Height</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/antropometri/berat_tinggi" data-name="/antropometri/berat_tinggi" value="gizi_buruk" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/antropometri/berat_tinggi/gizi_buruk:label">Gizi buruk</span>
+               <span lang="en" class="option-label " data-itext-id="/antropometri/berat_tinggi/gizi_buruk:label">Severely malnourished</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/antropometri/berat_tinggi" data-name="/antropometri/berat_tinggi" value="gizi_kurang" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/antropometri/berat_tinggi/gizi_kurang:label">Gizi kurang</span>
+               <span lang="en" class="option-label " data-itext-id="/antropometri/berat_tinggi/gizi_kurang:label">Undernourished</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/antropometri/berat_tinggi" data-name="/antropometri/berat_tinggi" value="gizi_baik" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/antropometri/berat_tinggi/gizi_baik:label">Gizi baik</span>
+               <span lang="en" class="option-label " data-itext-id="/antropometri/berat_tinggi/gizi_baik:label">Well-nourished</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/antropometri/berat_tinggi" data-name="/antropometri/berat_tinggi" value="gizi_lebih" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/antropometri/berat_tinggi/gizi_lebih:label">Gizi lebih</span>
+               <span lang="en" class="option-label " data-itext-id="/antropometri/berat_tinggi/gizi_lebih:label">Over-weighed</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/antropometri/lingkar_kepala:label">Lingkar Kepala Anak (cm)</span>
+      <span lang="en" class="question-label " data-itext-id="/antropometri/lingkar_kepala:label">Child's Head Circumference</span>
+      <input type="number" name="/antropometri/lingkar_kepala" data-type-xml="int" />
+   </label>
+   <label class="question or-appearance-minimal ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/antropometri/lkau:label">Lingkar Kepala Anak / Umur (LKA/U)</span>
+      <span lang="en" class="question-label " data-itext-id="/antropometri/lkau:label">Child's Head Circumference / Age</span>
+      <select name="/antropometri/lkau" data-name="/antropometri/lkau" data-type-xml="select1">
+         <option value="">...</option>
+         <option value="normal_lkau">Normal</option>
+         <option value="mikrosefal">Mikrosefal</option>
+         <option value="makrosefal">Makrosefal</option>
+      </select>
+      <span class="or-option-translations" style="display:none;">
+         <span data-option-value="normal_lkau" lang="Bahasa">Normal</span>
+         <span data-option-value="normal_lkau" lang="en">Normal</span>
+         <span data-option-value="mikrosefal" lang="Bahasa">Mikrosefal</span>
+         <span data-option-value="mikrosefal" lang="en">Microcephaly</span>
+         <span data-option-value="makrosefal" lang="Bahasa">Makrosefal</span>
+         <span data-option-value="makrosefal" lang="en">Macrocephaly</span>
+      </span>
+   </label>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/antropometri/kesimpulan:label">__KESIMPULAN__</span>
+      <span lang="en" class="question-label " data-itext-id="/antropometri/kesimpulan:label">__SUMMARY__</span>
+      <input type="text" name="/antropometri/kesimpulan" data-type-xml="string" />
+   </label>
+   <label class="note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/antropometri/tindakan_intervensi:label">__TINDAKAN INTERVENSI__</span>
+      <span lang="en" class="question-label " data-itext-id="/antropometri/tindakan_intervensi:label">__INTERVENTION MEASURE__</span>
+      <input type="text" name="/antropometri/tindakan_intervensi" data-type-xml="string" readonly="readonly" />
+   </label>
+   <fieldset class="question or-appearance-horizontal ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/antropometri/konseling_stimulasi:label">Konseling stimulasi bagi ibu:</span>
+            <span lang="en" class="question-label " data-itext-id="/antropometri/konseling_stimulasi:label">Stimulation consultation for the mother</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/antropometri/konseling_stimulasi" data-name="/antropometri/konseling_stimulasi" value="diberikan" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/antropometri/konseling_stimulasi/diberikan:label">Diberikan</span>
+               <span lang="en" class="option-label " data-itext-id="/antropometri/konseling_stimulasi/diberikan:label">Received</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/antropometri/konseling_stimulasi" data-name="/antropometri/konseling_stimulasi" value="tidak_diberikan" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/antropometri/konseling_stimulasi/tidak_diberikan:label">Tidak diberikan</span>
+               <span lang="en" class="option-label " data-itext-id="/antropometri/konseling_stimulasi/tidak_diberikan:label">Not received</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <label class="note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/antropometri/tindakan_lain:label">Tindakan pengobatan lain</span>
+      <span lang="en" class="question-label " data-itext-id="/antropometri/tindakan_lain:label">Other measure:</span>
+      <input type="text" name="/antropometri/tindakan_lain" data-type-xml="string" />
+   </label>
+   <fieldset class="question or-appearance-horizontal ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/antropometri/rujukan:label">Apakah anak dirujuk?</span>
+            <span lang="en" class="question-label " data-itext-id="/antropometri/rujukan:label">Is the child referred to other facility?</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/antropometri/rujukan" data-name="/antropometri/rujukan" value="ya" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/antropometri/rujukan/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/antropometri/rujukan/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/antropometri/rujukan" data-name="/antropometri/rujukan" value="tidak" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/antropometri/rujukan/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/antropometri/rujukan/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <label class="question non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/antropometri/dirujuk_ke:label">Dirujuk ke</span>
+      <span lang="en" class="question-label " data-itext-id="/antropometri/dirujuk_ke:label">Place of referral</span>
+      <input type="text" name="/antropometri/dirujuk_ke" data-type-xml="string" />
+   </label>
+   <fieldset class="question or-appearance-horizontal ">
+      <fieldset>
+         <legend>
+            <span lang="Bahasa" class="question-label active" data-itext-id="/antropometri/surat_rujukan:label">Ada surat rujukan?</span>
+            <span lang="en" class="question-label " data-itext-id="/antropometri/surat_rujukan:label">Referral letter</span>
+         </legend>
+         <div class="option-wrapper">
+            <label class="">
+               <input type="radio" name="/antropometri/surat_rujukan" data-name="/antropometri/surat_rujukan" value="ya" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/antropometri/surat_rujukan/ya:label">Ya</span>
+               <span lang="en" class="option-label " data-itext-id="/antropometri/surat_rujukan/ya:label">Yes</span>
+            </label>
+            <label class="">
+               <input type="radio" name="/antropometri/surat_rujukan" data-name="/antropometri/surat_rujukan" value="tidak" data-type-xml="select1" />
+               <span lang="Bahasa" class="option-label active" data-itext-id="/antropometri/surat_rujukan/tidak:label">Tidak</span>
+               <span lang="en" class="option-label " data-itext-id="/antropometri/surat_rujukan/tidak:label">No</span>
+            </label>
+         </div>
+      </fieldset>
+   </fieldset>
+   <fieldset id="or-preload-items" style="display:none;">
+      <label class="calculation non-select ">
+         <input type="hidden" name="/antropometri/start" data-preload="timestamp" data-preload-params="start" data-type-xml="dateTime" />
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/antropometri/today" data-preload="date" data-preload-params="today" data-type-xml="date" />
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/antropometri/deviceid" data-preload="property" data-preload-params="deviceid" data-type-xml="string" />
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/antropometri/simserial" data-preload="property" data-preload-params="simserial" data-type-xml="string" />
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/antropometri/phonenumber" data-preload="property" data-preload-params="phonenumber" data-type-xml="string" />
+      </label>
+   </fieldset>
+   <fieldset id="or-calculated-items" style="display:none;">
+      <label class="calculation non-select ">
+         <input type="hidden" name="/antropometri/meta/instanceID" data-calculate="concat('uuid:', uuid())" data-type-xml="string" />
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/antropometri/formhub/uuid" data-calculate="'1ff37ed6eee54613b6c4b36beb032de6'" data-type-xml="string" />
+      </label>
+   </fieldset>
+</form>

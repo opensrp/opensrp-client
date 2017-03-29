@@ -1,0 +1,166 @@
+{
+  "form_data_definition_version": "1",
+  "form": {
+    "bind_type": "anak",
+    "default_bind_path": "/model/instance/kpsp_balita_4thn/",
+    "fields": [
+      {
+        "name": "id",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "umur",
+        "bind": "/model/instance/kpsp_balita_4thn/umur",
+		"shouldLoadValue": true
+      },
+      {
+        "name": "kpsp_test_date4",
+        "bind": "/model/instance/kpsp_balita_4thn/kpsp_test_date4"
+      },
+      {
+        "name": "anamnesis",
+        "bind": "/model/instance/kpsp_balita_4thn/anamnesis"
+      },
+      {
+        "name": "keluhan",
+        "bind": "/model/instance/kpsp_balita_4thn/keluhan"
+      },
+      {
+        "name": "masalah_tumbang",
+        "bind": "/model/instance/kpsp_balita_4thn/masalah_tumbang"
+      },
+      {
+        "name": "kpsp_4thn",
+        "bind": "/model/instance/kpsp_balita_4thn/kpsp_4thn"
+      },
+      {
+        "name": "_42bln_mengenakan_sepatu",
+        "bind": "/model/instance/kpsp_balita_4thn/_42bln_mengenakan_sepatu"
+      },
+      {
+        "name": "_42bln_mengayuh_sepeda",
+        "bind": "/model/instance/kpsp_balita_4thn/_42bln_mengayuh_sepeda"
+      },
+      {
+        "name": "_42bln_mencuci_tangan",
+        "bind": "/model/instance/kpsp_balita_4thn/_42bln_mencuci_tangan"
+      },
+      {
+        "name": "_42bln_berdiri_satu_kaki",
+        "bind": "/model/instance/kpsp_balita_4thn/_42bln_berdiri_satu_kaki"
+      },
+      {
+        "name": "_42bln_melompati_kertas",
+        "bind": "/model/instance/kpsp_balita_4thn/_42bln_melompati_kertas"
+      },
+      {
+        "name": "_42bln_menggambar_lingkaran",
+        "bind": "/model/instance/kpsp_balita_4thn/_42bln_menggambar_lingkaran"
+      },
+      {
+        "name": "_42bln_menyusun_balok",
+        "bind": "/model/instance/kpsp_balita_4thn/_42bln_menyusun_balok"
+      },
+      {
+        "name": "_42bln_bermain_berkelompok",
+        "bind": "/model/instance/kpsp_balita_4thn/_42bln_bermain_berkelompok"
+      },
+      {
+        "name": "_42bln_mengenakan_baju",
+        "bind": "/model/instance/kpsp_balita_4thn/_42bln_mengenakan_baju"
+      },
+      {
+        "name": "_48bln_mengayuh_sepeda",
+        "bind": "/model/instance/kpsp_balita_4thn/_48bln_mengayuh_sepeda"
+      },
+      {
+        "name": "_48bln_mencuci_tangan",
+        "bind": "/model/instance/kpsp_balita_4thn/_48bln_mencuci_tangan"
+      },
+      {
+        "name": "_48bln_berdiri_satu_kaki",
+        "bind": "/model/instance/kpsp_balita_4thn/_48bln_berdiri_satu_kaki"
+      },
+      {
+        "name": "_48bln_melompati_kertas",
+        "bind": "/model/instance/kpsp_balita_4thn/_48bln_melompati_kertas"
+      },
+      {
+        "name": "_48bln_menggambar_lingkaran",
+        "bind": "/model/instance/kpsp_balita_4thn/_48bln_menggambar_lingkaran"
+      },
+      {
+        "name": "_48bln_menyusun_balok",
+        "bind": "/model/instance/kpsp_balita_4thn/_48bln_menyusun_balok"
+      },
+      {
+        "name": "_48bln_bermain_berkelompok",
+        "bind": "/model/instance/kpsp_balita_4thn/_48bln_bermain_berkelompok"
+      },
+      {
+        "name": "_48bln_mengenakan_baju",
+        "bind": "/model/instance/kpsp_balita_4thn/_48bln_mengenakan_baju"
+      },
+      {
+        "name": "_48bln_menyebut_nama_lengkap",
+        "bind": "/model/instance/kpsp_balita_4thn/_48bln_menyebut_nama_lengkap"
+      },
+      {
+        "name": "status_kembang4",
+        "bind": "/model/instance/kpsp_balita_4thn/status_kembang4"
+      },
+      {
+        "name": "status_meragukan",
+        "bind": "/model/instance/kpsp_balita_4thn/status_meragukan"
+      },
+      {
+        "name": "status_penyimpangan",
+        "bind": "/model/instance/kpsp_balita_4thn/status_penyimpangan"
+      },
+      {
+        "name": "kesimpulan",
+        "bind": "/model/instance/kpsp_balita_4thn/kesimpulan"
+      },
+      {
+        "name": "tindakan_intervensi",
+        "bind": "/model/instance/kpsp_balita_4thn/tindakan_intervensi"
+      },
+      {
+        "name": "konseling_stimulasi",
+        "bind": "/model/instance/kpsp_balita_4thn/konseling_stimulasi"
+      },
+      {
+        "name": "tindakan_lain",
+        "bind": "/model/instance/kpsp_balita_4thn/tindakan_lain"
+      },
+      {
+        "name": "rujukan",
+        "bind": "/model/instance/kpsp_balita_4thn/rujukan"
+      },
+      {
+        "name": "dirujuk_ke",
+        "bind": "/model/instance/kpsp_balita_4thn/dirujuk_ke"
+      },
+      {
+        "name": "surat_rujukan",
+        "bind": "/model/instance/kpsp_balita_4thn/surat_rujukan"
+      },
+      {
+        "name": "isOutOfArea",
+        "value": "false"
+      },
+      {
+        "name": "isClosed",
+        "value": "false"
+      },
+      {
+        "name": "reg_date",
+        "bind": "/model/instance/kpsp_balita_4thn/today"
+      },
+      {
+        "name": "registrationDate",
+        "bind": "/model/instance/kpsp_balita_4thn/reg_date"
+      }
+    ]
+  }
+}
