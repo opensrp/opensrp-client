@@ -176,7 +176,7 @@ public class ImmunizationHomeActivity extends HomeActivity {
                     activity.startActivity(new Intent(activity, ProviderProfileActivity.class));
                     break;
 
-                /*case R.id.btn_learning:
+                case R.id.btn_learning:
                     Uri uri = Uri.parse("http://demo.oppia-mobile.org/view?digest=005a54d3b873e19020b7b0458a484fc714496"); // missing 'http://' will cause crashed
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
@@ -190,7 +190,7 @@ public class ImmunizationHomeActivity extends HomeActivity {
                     uri = Uri.parse("http://demo.oppia-mobile.org/view?digest=bd7ae89a5393e9d9eb196d516945a31712971"); // missing 'http://' will cause crashed
                     intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
-                    break;*/
+                    break;/**/
             }
         }
     };

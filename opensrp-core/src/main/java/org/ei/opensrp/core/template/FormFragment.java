@@ -173,6 +173,7 @@ public class FormFragment extends Fragment {
 
         // Disable the cache:
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webView.getSettings().setDomStorageEnabled(true);
 
         progressBar = (ProgressBar)formView.findViewById(R.id.progressBar);
         initWebViewSettings();
@@ -197,6 +198,7 @@ public class FormFragment extends Fragment {
 
         webView.getSettings().setGeolocationDatabasePath(getActivity().getFilesDir().getPath());
         webView.getSettings().setDefaultTextEncodingName("utf-8");
+        webView.getSettings().setDomStorageEnabled(true);
 
         final MyJavaScriptInterface myJavaScriptInterface = new MyJavaScriptInterface(getActivity());
         webView.addJavascriptInterface(myJavaScriptInterface, "Android");

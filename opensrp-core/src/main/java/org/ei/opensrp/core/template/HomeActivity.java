@@ -3,6 +3,7 @@ package org.ei.opensrp.core.template;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.lang.String.valueOf;
+import static org.ei.opensrp.core.utils.Constants.UNSYNCED_FORM_SUBMISSION_COUNT_PRF;
 import static org.ei.opensrp.event.Event.FORM_SUBMITTED;
 import static org.ei.opensrp.event.Event.SYNC_COMPLETED;
 import static org.ei.opensrp.event.Event.SYNC_STARTED;
@@ -60,8 +62,9 @@ public abstract class HomeActivity extends SecuredActivity {
         return new Listener<Boolean>() {
             @Override
             public void onEvent(Boolean data) {
-                //#TODO: RemainingFormsToSyncCount cannot be updated from a back ground thread!!
-                updateRemainingFormsToSyncCount();
+                // if its a trigger right after sync complete, count should be loaded from DB to get correct value
+                updateRemainingFormsToSyncCount(LoadType.DB);
+
                 if (updateMenuItem != null) {
                     updateMenuItem.setActionView(null);
                 }
@@ -74,6 +77,11 @@ public abstract class HomeActivity extends SecuredActivity {
         return new Listener<String>() {
             @Override
             public void onEvent(String instanceId) {
+                // add to unsynced form count
+                String val = Utils.getPreference(activity, UNSYNCED_FORM_SUBMISSION_COUNT_PRF, null);
+                if (StringUtils.isNotBlank(val)){
+                    Utils.writePreference(activity, UNSYNCED_FORM_SUBMISSION_COUNT_PRF, (Long.parseLong(val)+1)+"");
+                }
                 updateRegisterCounts();
             }
         };
@@ -133,7 +141,7 @@ public abstract class HomeActivity extends SecuredActivity {
 
         Log.i(getClass().getName(), "Updating Remaining Forms To Sync Count");
 
-        updateRemainingFormsToSyncCount();
+        updateRemainingFormsToSyncCount(LoadType.PREFERENCES);
 
         Log.i(getClass().getName(), "Fully resumed Home ");
     }
@@ -161,7 +169,7 @@ public abstract class HomeActivity extends SecuredActivity {
 
         updateSyncIndicator();
 
-        updateRemainingFormsToSyncCount();
+        updateRemainingFormsToSyncCount(LoadType.PREFERENCES);
 
         Log.i(getClass().getName(), "Updated menu items");
 
@@ -208,19 +216,15 @@ public abstract class HomeActivity extends SecuredActivity {
         }
     }
 
-    protected void updateRemainingFormsToSyncCount() {
+    protected void updateRemainingFormsToSyncCount(LoadType loadType) {
         if (remainingFormsToSyncMenuItem == null || pendingFormSubmissionService == null) {
             return;
         }
 
         remainingFormsToSyncMenuItem.setTitle("Loading counts ...");
         Log.v(getClass().getName(), "Updating updateRemainingFormsToSyncCount");
-        new FormSubmissionUpdater(new Listener() {
-            @Override
-            public void onEvent(Object data) {
-                remainingFormsToSyncMenuItem.setTitle(data +" "+ getString(R.string.unsynced_forms_count_message));
-            }
-        }).execute();
+
+        new FormSubmissionCountLoader(this, loadType).execute();
     }
 
     protected Register setupRegister(String authority, int containerId, int registerButtonId, View.OnClickListener registerClickListener,
@@ -397,23 +401,46 @@ public abstract class HomeActivity extends SecuredActivity {
         }
     }
 
-    public class FormSubmissionUpdater extends AsyncTask<Void, Void, Long> {
-        private Listener listener;
+    enum LoadType{
+        DB, CACHE, PREFERENCES
+    }
 
-        FormSubmissionUpdater(Listener listener){
-            this.listener = listener;
+    public class FormSubmissionCountLoader extends AsyncTask<Void, Void, Long> {
+        LoadType loadType;
+        android.content.Context context;
+
+        FormSubmissionCountLoader(android.content.Context context, LoadType loadType){
+            if(loadType == null) loadType = LoadType.DB;
+
+            this.loadType = loadType;
+            this.context = context;
         }
 
         @Override
         protected Long doInBackground(Void... params) {
-            return pendingFormSubmissionService.pendingFormSubmissionCount();
+            if (loadType.equals(LoadType.DB)) {
+                return loadAndSaveToDBAndPreferences();
+            }
+            else if (loadType.equals(LoadType.PREFERENCES)){
+                String val = Utils.getPreference(context, UNSYNCED_FORM_SUBMISSION_COUNT_PRF, null);
+                if (StringUtils.isNotBlank(val)) {
+                    return Long.parseLong(val);
+                }
+                else return loadAndSaveToDBAndPreferences();
+            }
+            return 99999L;
+        }
+
+        private long loadAndSaveToDBAndPreferences(){
+            long count = pendingFormSubmissionService.pendingFormSubmissionCount();
+            Utils.writePreference(context, UNSYNCED_FORM_SUBMISSION_COUNT_PRF, count+"");
+            return count;
         }
 
         @Override
         protected void onPostExecute(Long v) {
             Log.v(getClass().getName(), "Got result ("+v+") and calling listener");
-            listener.onEvent(v);
+            remainingFormsToSyncMenuItem.setTitle(v +" "+ getString(R.string.unsynced_forms_count_message));
         }
     }
-
 }

@@ -59,7 +59,7 @@ public class HouseholdDetailFragment extends DetailFragment {
     @Override
     protected Integer defaultProfilePicResId() {
         if(client == null || client.getColumnmaps().get("gender") == null){
-            return null;
+            return R.drawable.household_profile;
         }
 
         String gender = client.getColumnmaps().get("gender");
@@ -73,7 +73,7 @@ public class HouseholdDetailFragment extends DetailFragment {
             return R.drawable.pk_woman_icon;
         }
 
-        return null;
+        return R.drawable.household_profile;
     }
 
     @Override

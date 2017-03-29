@@ -47,7 +47,7 @@ public class ChildDetailFragment extends DetailFragment {
     @Override
     protected Integer defaultProfilePicResId() {
         if(client == null || client.getColumnmaps().get("gender") == null){
-            return null;
+            return R.drawable.infant_male;
         }
         String gender = getValue(client.getColumnmaps(), "gender", false);
         if(gender.equalsIgnoreCase("female")){
