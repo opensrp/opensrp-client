@@ -14,9 +14,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.ei.opensrp.commonregistry.AllCommonsRepository;
+import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
+import org.ei.opensrp.cursoradapter.SmartRegisterCLientsProviderForCursorAdapter;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
+import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.ddtk.R;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
@@ -27,29 +31,29 @@ import org.ei.opensrp.view.dialog.SortOption;
 import org.ei.opensrp.view.viewHolder.OnClickFormLauncher;
 
 
+import java.text.SimpleDateFormat;
+
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 /**
  * Created by user on 2/12/15.
  */
-public class FormulirDdtkSmartClientsProvider implements SmartRegisterClientsProvider{
-
+public class FormulirDdtkSmartClientsProvider implements SmartRegisterCLientsProviderForCursorAdapter {
     private final LayoutInflater inflater;
-    public final Context context;
+    private final Context context;
     private final View.OnClickListener onClickListener;
-
+    private Drawable iconPencilDrawable;
     private final int txtColorBlack;
     private final AbsListView.LayoutParams clientViewLayoutParams;
-    private Drawable iconPencilDrawable;
+
     protected CommonPersonObjectController controller;
 
     AlertService alertService;
-
     public FormulirDdtkSmartClientsProvider(Context context,
                                             View.OnClickListener onClickListener,
-                                            CommonPersonObjectController controller, AlertService alertService) {
+                                            AlertService alertService) {
         this.onClickListener = onClickListener;
-        this.controller = controller;
+//        this.controller = controller;
         this.context = context;
         this.alertService = alertService;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -61,22 +65,25 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterClientsPro
     }
 
     @Override
-    public View getView(SmartRegisterClient smartRegisterClient, View convertView, ViewGroup viewGroup) {
-
+    public void getView(SmartRegisterClient smartRegisterClient, View convertView) {
         ViewHolder viewHolder;
-        ViewGroup itemView = viewGroup;
-        if (convertView == null){
-           convertView = (ViewGroup) inflater().inflate(R.layout.smart_register_ddtk_client, null);
+
+        if(convertView.getTag() == null || !(convertView.getTag() instanceof  ViewHolder)){
+
             viewHolder = new ViewHolder();
             viewHolder.profilelayout =  (LinearLayout)convertView.findViewById(R.id.profile_info_layout);
             viewHolder.nama_anak = (TextView)convertView.findViewById(R.id.text_nama_anak);
             viewHolder.jenis_kelamin = (TextView)convertView.findViewById(R.id.text_jenis_kelamin);
             viewHolder.umur = (TextView)convertView.findViewById(R.id.text_umur);
             viewHolder.nama_ibu = (TextView)convertView.findViewById(R.id.text_nama_ibu);
+
+            //kpsp
+            viewHolder.tgl_kpsp = (TextView)convertView.findViewById(R.id.text_kpsp_test_date);
             viewHolder.berat = (TextView)convertView.findViewById(R.id.text_berat);
             viewHolder.tinggi = (TextView)convertView.findViewById(R.id.text_tinggi);
             viewHolder.lingkar_kepala = (TextView)convertView.findViewById(R.id.text_lingkar_kepala);
-            viewHolder.kpsp_test_date1 = (TextView)convertView.findViewById(R.id.text_kpsp_test_date);
+
+          /*  viewHolder.kpsp_test_date1 = (TextView)convertView.findViewById(R.id.text_kpsp_test_date);
             viewHolder.status_kembang1 = (TextView)convertView.findViewById(R.id.text_status_kembang);
             viewHolder.status_kembang2 = (TextView)convertView.findViewById(R.id.text_status_kembang);
             viewHolder.kpsp_test_date2 = (TextView)convertView.findViewById(R.id.text_kpsp_test_date);
@@ -98,17 +105,17 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterClientsPro
             viewHolder.sight_test_date = (TextView)convertView.findViewById(R.id.text_sight_test_date);
             viewHolder.mental_test_date = (TextView)convertView.findViewById(R.id.text_mental_test_date);
             viewHolder.autis_test_date = (TextView)convertView.findViewById(R.id.text_autis_test_date);
-            viewHolder.gpph_test_date = (TextView)convertView.findViewById(R.id.text_gpph_test_date);
-            viewHolder.profilepic =(ImageView)convertView.findViewById(R.id.childdetailprofileview);
+            viewHolder.gpph_test_date = (TextView)convertView.findViewById(R.id.text_gpph_test_date);*/
+            viewHolder.profilepic =(ImageView)convertView.findViewById(R.id.img_profile);
             viewHolder.follow_up = (ImageButton)convertView.findViewById(R.id.btn_edit);
             convertView.setTag(viewHolder);
-        }else{
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
         viewHolder.follow_up.setOnClickListener(onClickListener);
         viewHolder.follow_up.setTag(smartRegisterClient);
-           viewHolder.profilelayout.setOnClickListener(onClickListener);
+        viewHolder.profilelayout.setOnClickListener(onClickListener);
         viewHolder.profilelayout.setTag(smartRegisterClient);
         CommonPersonObjectClient pc = (CommonPersonObjectClient) smartRegisterClient;
         if (iconPencilDrawable == null) {
@@ -116,42 +123,60 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterClientsPro
         }
         viewHolder.follow_up.setImageDrawable(iconPencilDrawable);
         viewHolder.follow_up.setOnClickListener(onClickListener);
-       // viewHolder.follow_up.setTag(client);
+        // viewHolder.follow_up.setTag(client);
 
         /*
       //  List<Alert> alertlist_for_client = alertService.findByEntityIdAndAlertNames(pc.entityId(), "FW CENSUS");
 
 */
-
-       //set image picture
-        final ImageView childview = (ImageView)convertView.findViewById(R.id.childdetailprofileview);
-
-        if (pc.getDetails().get("profilepic") == null) {
-            if (pc.getDetails().get("jenis_kelamin").equalsIgnoreCase("laki_laki")) {
-                viewHolder.profilepic.setImageResource(org.ei.opensrp.R.drawable.child_boy_infant);
-
-            } else {
-
-                viewHolder.profilepic.setImageResource(org.ei.opensrp.R.drawable.child_girl_infant);
-
-            }
-
-        } if (pc.getDetails().get("profilepic") != null) {
-            ChildDetailActivity.setImagetoHolderFromUri((Activity) context, pc.getDetails().get("profilepic"), childview, R.drawable.ic_dristhi_logo);
+        DetailsRepository detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
+        detailsRepository.updateDetails(pc);
+        //set image picture
+        final ImageView childview = (ImageView)convertView.findViewById(R.id.img_profile);
+ /*       if (pc.getDetails().get("profilepic") != null) {
+            ChildDetailActivity.setImagetoHolderFromUri((Activity) context, pc.getDetails().get("profilepic"), childview, R.drawable.child_boy_infant);
             childview.setTag(smartRegisterClient);
         }
-
+        else {
+            if(pc.getDetails().get("gender") != null && pc.getDetails().get("gender").equals("male")) {
+                viewHolder.profilepic.setImageDrawable(context.getResources().getDrawable(R.drawable.child_boy_infant));
+            }
+            else if(pc.getDetails().get("gender") != null && pc.getDetails().get("gender").equals("laki")) {
+                viewHolder.profilepic.setImageDrawable(context.getResources().getDrawable(R.drawable.child_boy_infant));
+            }
+            else
+                viewHolder.profilepic.setImageDrawable(context.getResources().getDrawable(R.drawable.child_girl_infant));
+        }*/
 
         //viewHolder.profilepic.setImageDrawable(context.getResources().getDrawable(R.drawable.child_boy_infant));
         //viewHolder.village.setText(pc.getDetails().get("village") != null ? pc.getDetails().get("village") : "");
-        viewHolder.nama_anak.setText(pc.getDetails().get("nama_anak") != null ? pc.getDetails().get("nama_anak").replaceAll("_", " ") : "-");
-        viewHolder.jenis_kelamin.setText(pc.getDetails().get("jenis_kelamin") != null ? pc.getDetails().get("jenis_kelamin").replaceAll("_", " ") : "-");
-        viewHolder.umur.setText(pc.getDetails().get("umur")!=null?pc.getDetails().get("umur").replaceAll("_", " ")+" Bulan" :"-");
-        viewHolder.nama_ibu.setText(pc.getDetails().get("nama_ibu") != null ? pc.getDetails().get("nama_ibu").replaceAll("_", " ") : "-");
-        viewHolder.berat.setText("Berat: "+ (pc.getDetails().get("berat")!=null?pc.getDetails().get("berat").replaceAll("_", " "):"-"));
+        viewHolder.nama_anak.setText(pc.getDetails().get("namaBayi") != null ? pc.getDetails().get("namaBayi").replaceAll("_", " ") : "-");
+        String ages = pc.getColumnmaps().get("tanggalLahirAnak").substring(0, pc.getColumnmaps().get("tanggalLahirAnak").indexOf("T"));
+        viewHolder.umur.setText(pc.getDetails().get("tanggalLahirAnak") != null ? Integer.toString(monthRangeToToday(ages))+"B" : "");
+        viewHolder.jenis_kelamin.setText(pc.getDetails().get("gender")!=null?pc.getDetails().get("gender") :"-");
+
+        AllCommonsRepository childRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_anak");
+        CommonPersonObject childobject = childRepository.findByCaseID(pc.entityId());
+        AllCommonsRepository kirep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_kartu_ibu");
+        final CommonPersonObject kiparent = kirep.findByCaseID(childobject.getColumnmaps().get("relational_id"));
+
+        if(kiparent != null) {
+            detailsRepository.updateDetails(kiparent);
+            String namaayah = kiparent.getDetails().get("namaSuami") != null ? kiparent.getDetails().get("namaSuami") : "";
+            String namaibu = kiparent.getColumnmaps().get("namalengkap") != null ? kiparent.getColumnmaps().get("namalengkap") : "";
+
+            viewHolder.nama_ibu.setText(namaibu + "," + namaayah);
+         //   viewHolder.village_name.setText(kiparent.getDetails().get("address1")!=null?kiparent.getDetails().get("address1") :"-");
+        }
+
+
+
+     /*   viewHolder.berat.setText("Berat: "+ (pc.getDetails().get("berat")!=null?pc.getDetails().get("berat").replaceAll("_", " "):"-"));
         viewHolder.tinggi.setText("Tinggi: "+ (pc.getDetails().get("tinggi") != null ? pc.getDetails().get("tinggi").replaceAll("_", " ") : "-"));
         viewHolder.lingkar_kepala.setText("Lingkar Kepala: "+ (pc.getDetails().get("lingkar_kepala")!=null?pc.getDetails().get("lingkar_kepala").replaceAll("_", " "):"-"));
         viewHolder.kpsp_test_date1.setText("Tanggal: "+ (pc.getDetails().get("kpsp_test_date1")!=null?pc.getDetails().get("kpsp_test_date1").replaceAll("_", " "):"-"));
+
+
         viewHolder.kpsp_test_date2.setText(pc.getDetails().get("kpsp_test_date2")!=null?pc.getDetails().get("kpsp_test_date2").replaceAll("_", " "):"-");
         viewHolder.status_kembang2.setText(pc.getDetails().get("status_kembang2")!=null?pc.getDetails().get("status_kembang2").replaceAll("_", " "):"-");
         viewHolder.kpsp_test_date3.setText(pc.getDetails().get("kpsp_test_date3")!=null?pc.getDetails().get("kpsp_test_date3").replaceAll("_", " "):"-");
@@ -177,12 +202,11 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterClientsPro
         viewHolder.hear_test_date.setText("Tanggal: "+ (pc.getDetails().get("hear_test_date")!=null?pc.getDetails().get("hear_test_date").replaceAll("_", " "):"-"));
       //  viewHolder.headofhouseholdname.setText(pc.getDetails().get("FWHOHFNAME")!=null?pc.getDetails().get("FWHOHFNAME"):"");
       //  viewHolder.no_of_mwra.setText(pc.getDetails().get("ELCO")!=null?pc.getDetails().get("ELCO"):"");
-       // Date lastdate = null;
+       // Date lastdate = null;*/
 
 
 
         convertView.setLayoutParams(clientViewLayoutParams);
-        return convertView;
     }
     CommonPersonObjectController householdelcocontroller;
 
@@ -190,7 +214,6 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterClientsPro
 
 
 
-    @Override
     public SmartRegisterClients getClients() {
         return controller.getClients();
     }
@@ -214,49 +237,61 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterClientsPro
     public LayoutInflater inflater() {
         return inflater;
     }
+    @Override
+    public View inflatelayoutForCursorAdapter() {
+        View View = inflater().inflate(R.layout.smart_register_ddtk_client, null);
+        return View;
+    }
+    private int monthRangeToToday(String lastVisitDate){
+        String currentDate[] = new SimpleDateFormat("yyyy-MM").format(new java.util.Date()).substring(0,7).split("-");
+        return ((Integer.parseInt(currentDate[0]) - Integer.parseInt(lastVisitDate.substring(0,4)))*12 +
+                (Integer.parseInt(currentDate[1]) - Integer.parseInt(lastVisitDate.substring(5,7))));
+    }
 
-     class ViewHolder {
+    class ViewHolder {
 
-         TextView today ;
-         TextView umur;
-         TextView village;
-         TextView husbandname;
-         LinearLayout profilelayout;
-         LinearLayout antrolayout;
-         ImageView profilepic;
-         FrameLayout due_date_holder;
-         Button warnbutton;
-         ImageButton follow_up;
-         TextView nama_anak;
-         TextView jenis_kelamin;
-         TextView nama_ibu;
-         TextView berat;
-         TextView tinggi;
-         TextView lingkar_kepala;
-         TextView status_kembang1;
-         TextView status_kembang2;
-         TextView status_kembang3;
-         TextView status_kembang4;
-         TextView status_kembang5;
-         TextView status_kembang6;
-         TextView daya_dengar;
-         TextView daya_lihat;
-         TextView mental_emosional;
-         TextView autis;
-         TextView gpph;
-         TextView anthropometry_date;
-         TextView hear_test_date;
-         TextView sight_test_date;
-         TextView mental_test_date;
-         TextView autis_test_date;
-         TextView kpsp_test_date1;
-         TextView kpsp_test_date2;
-         TextView kpsp_test_date3;
-         TextView kpsp_test_date4;
-         TextView kpsp_test_date5;
-         TextView kpsp_test_date6;
-         TextView gpph_test_date;
-     }
+        TextView today ;
+        TextView umur;
+        TextView village;
+        TextView husbandname;
+        LinearLayout profilelayout;
+        LinearLayout antrolayout;
+        ImageView profilepic;
+        FrameLayout due_date_holder;
+        Button warnbutton;
+        ImageButton follow_up;
+        TextView nama_anak;
+        TextView jenis_kelamin;
+        TextView nama_ibu;
+        TextView berat;
+        TextView tinggi;
+        TextView lingkar_kepala;
+        TextView status_kembang1;
+        TextView status_kembang2;
+        TextView status_kembang3;
+        TextView status_kembang4;
+        TextView status_kembang5;
+        TextView status_kembang6;
+        TextView daya_dengar;
+        TextView daya_lihat;
+        TextView mental_emosional;
+        TextView autis;
+        TextView gpph;
+        TextView anthropometry_date;
+        TextView hear_test_date;
+        TextView sight_test_date;
+        TextView mental_test_date;
+        TextView autis_test_date;
+        TextView kpsp_test_date1;
+        TextView kpsp_test_date2;
+        TextView kpsp_test_date3;
+        TextView kpsp_test_date4;
+        TextView kpsp_test_date5;
+        TextView kpsp_test_date6;
+        TextView gpph_test_date;
+        TextView village_name;
+        TextView tgl_kpsp;
+    }
 
 
 }

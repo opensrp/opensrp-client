@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SDIDTK</string>
+    <string name="app_name">EC SDIDTK</string>
     <string name="userNameEditText">Masukan nama pengguna</string>
     <string name="passwordEditText">Masukan password</string>
     <string name="login_text">Log In</string>

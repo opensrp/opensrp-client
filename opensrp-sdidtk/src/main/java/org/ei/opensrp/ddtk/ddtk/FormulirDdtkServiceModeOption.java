@@ -43,7 +43,7 @@ public class FormulirDdtkServiceModeOption extends ServiceModeOption {
 
             @Override
             public int[] weights() {
-                return new int[]{10,7,7,8,8,8};
+                return new int[]{11,7,7,8,8,6};
             }
 
             @Override

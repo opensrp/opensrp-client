@@ -1,5 +1,6 @@
 package org.ei.opensrp.ddtk;
 
+import android.database.Cursor;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
+import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.event.Listener;
 
 import org.ei.opensrp.service.PendingFormSubmissionService;
@@ -20,6 +22,12 @@ import org.ei.opensrp.view.contract.HomeContext;
 import org.ei.opensrp.view.controller.NativeAfterANMDetailsFetchListener;
 import org.ei.opensrp.view.controller.NativeUpdateANMDetailsTask;
 import org.ei.opensrp.view.fragment.DisplayFormFragment;
+import org.opensrp.api.domain.Location;
+import org.opensrp.api.util.EntityUtils;
+import org.opensrp.api.util.LocationTree;
+import org.opensrp.api.util.TreeNode;
+
+import java.util.Map;
 
 import static android.widget.Toast.LENGTH_SHORT;
 import static java.lang.String.valueOf;
@@ -69,13 +77,13 @@ public class NativeHomeActivity extends SecuredActivity {
     };
 
     private TextView ecRegisterClientCountView;
-
+    private int childcount;
 
     @Override
     protected void onCreation() {
         //home dashboard
         setContentView(R.layout.smart_registers_ddtk_home);
-        navigationController = new TestNavigationController(this,anmController);
+        navigationController = new org.ei.opensrp.ddtk.SdidtkNavigationController(this,anmController,context());
         setupViews();
         initialize();
         DisplayFormFragment.formInputErrorMessage = getResources().getString(R.string.forminputerror);
@@ -86,7 +94,7 @@ public class NativeHomeActivity extends SecuredActivity {
 
     private void setupViews() {
         findViewById(R.id.btn_test_register).setOnClickListener(onRegisterStartListener);
-       // findViewById(R.id.btn_test2_register).setOnClickListener(onRegisterStartListener);
+        // findViewById(R.id.btn_test2_register).setOnClickListener(onRegisterStartListener);
 
         findViewById(R.id.btn_reporting).setOnClickListener(onButtonsClickListener);
 
@@ -129,13 +137,14 @@ public class NativeHomeActivity extends SecuredActivity {
     }
 
     private void updateRegisterCounts(HomeContext homeContext) {
-        CommonPersonObjectController hhcontroller = new CommonPersonObjectController(context().allCommonsRepositoryobjects("anak"),
-                context().allBeneficiaries(), context().listCache(),
-                context().personObjectClientsCache(),"nama_anak","Jenis_kelamin","nama_ibu", CommonPersonObjectController.ByColumnAndByDetails.byDetails);
+        SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder();
+        Cursor childcountcursor = context().commonrepository("anak").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("ec_anak_search", "ec_anak_search.is_closed=0"));
+        childcountcursor.moveToFirst();
+        childcount= childcountcursor.getInt(0);
+        childcountcursor.close();
 
-
-
-       ecRegisterClientCountView.setText(valueOf(hhcontroller.getClients().size()));
+        ecRegisterClientCountView.setText(valueOf(childcount));
+        //  ecRegisterClientCountView.setText(valueOf(hhcontroller.getClients().size()));
 
     }
 
@@ -170,7 +179,7 @@ public class NativeHomeActivity extends SecuredActivity {
                 this.recreate();
                 return true;
             case R.id.help:
-              //  startActivity(new Intent(this, tutorialCircleViewFlow.class));
+                //  startActivity(new Intent(this, tutorialCircleViewFlow.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -182,6 +191,11 @@ public class NativeHomeActivity extends SecuredActivity {
                 this, context().actionService(), context().formSubmissionSyncService(),
                 new SyncProgressIndicator(), context().allFormVersionSyncService());
         updateActionsTask.updateFromServer(new SyncAfterFetchListener());
+        String locationjson = context().anmLocationController().get();
+        LocationTree locationTree = EntityUtils.fromJson(locationjson, LocationTree.class);
+
+        Map<String,TreeNode<String, Location>> locationMap =
+                locationTree.getLocationsHierarchy();
     }
 
     @Override
@@ -226,18 +240,16 @@ public class NativeHomeActivity extends SecuredActivity {
                     navigationController.startECSmartRegistry();
                     break;
 
-              //  case R.id.btn_test2_register:
-            //        navigationController.startANCSmartRegistry();
-            //        break;
+                //  case R.id.btn_test2_register:
+                //        navigationController.startANCSmartRegistry();
+                //        break;
 /*
                 case R.id.btn_pnc_register:
 //                    navigationController.startPNCSmartRegistry();
                     break;
-
                 case R.id.btn_child_register:
 //                    navigationController.startChildSmartRegistry();
                     break;
-
                 case R.id.btn_fp_register:
                  //   navigationController.startFPSmartRegistry();
                     break; */

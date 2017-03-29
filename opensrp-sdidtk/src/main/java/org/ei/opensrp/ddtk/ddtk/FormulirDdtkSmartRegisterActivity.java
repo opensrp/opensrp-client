@@ -106,21 +106,21 @@ public class FormulirDdtkSmartRegisterActivity extends SecuredNativeSmartRegiste
     }
 
     public DialogOption[] getEditOptions() {
-            return new DialogOption[]{
-                    new OpenFormOption("Antropometri", "antropometri", formController),
-                    new OpenFormOption("Kpsp Bayi 1 Tahun", "kpsp_bayi_1thn", formController),
-                    new OpenFormOption("Kpsp Balita 2 Tahun", "kpsp_balita_2thn", formController),
-                    new OpenFormOption("Kpsp Balita 3 Tahun", "kpsp_balita_3thn", formController),
-                    new OpenFormOption("Kpsp Balita 4 Tahun", "kpsp_balita_4thn", formController),
-                    new OpenFormOption("Kpsp Balita 5 Tahun", "kpsp_balita_5thn", formController),
-                    new OpenFormOption("Kpsp Balita 6 Tahun", "kpsp_balita_6thn", formController),
-                    new OpenFormOption("Tes Daya Dengar", "tes_daya_dengar", formController),
-                    new OpenFormOption("Tes Daya Lihat", "tes_daya_lihat", formController),
-                    new OpenFormOption("Masalah Mental Emosional", "masalah_mental_emosional", formController),
-                    new OpenFormOption("Deteksi Dini Autis", "deteksi_dini_autis", formController),
-                    new OpenFormOption("GPPH", "gangguan_konsentrasi_hiperaktivitas", formController),
+        return new DialogOption[]{
+                new OpenFormOption("Antropometri", "antropometri", formController),
+                new OpenFormOption("Kpsp Bayi 1 Tahun", "kpsp_bayi_1thn", formController),
+                new OpenFormOption("Kpsp Balita 2 Tahun", "kpsp_balita_2thn", formController),
+                new OpenFormOption("Kpsp Balita 3 Tahun", "kpsp_balita_3thn", formController),
+                new OpenFormOption("Kpsp Balita 4 Tahun", "kpsp_balita_4thn", formController),
+                new OpenFormOption("Kpsp Balita 5 Tahun", "kpsp_balita_5thn", formController),
+                new OpenFormOption("Kpsp Balita 6 Tahun", "kpsp_balita_6thn", formController),
+                new OpenFormOption("Tes Daya Dengar", "tes_daya_dengar", formController),
+                new OpenFormOption("Tes Daya Lihat", "tes_daya_lihat", formController),
+                new OpenFormOption("Masalah Mental Emosional", "masalah_mental_emosional", formController),
+                new OpenFormOption("Deteksi Dini Autis", "deteksi_dini_autis", formController),
+                new OpenFormOption("GPPH", "gangguan_konsentrasi_hiperaktivitas", formController),
 
-            };
+        };
     }
 
 
@@ -169,7 +169,7 @@ public class FormulirDdtkSmartRegisterActivity extends SecuredNativeSmartRegiste
 
     @Override
     public void startFormActivity(String formName, String entityId, String metaData) {
-       // Log.v("fieldoverride", metaData);
+        // Log.v("fieldoverride", metaData);
         try {
             int formIndex = FormUtils.getIndexForFormName(formName, formNames) + 1; // add the offset
             if (entityId != null || metaData != null){
@@ -183,7 +183,7 @@ public class FormulirDdtkSmartRegisterActivity extends SecuredNativeSmartRegiste
                 DisplayFormFragment displayFormFragment = getDisplayFormFragmentAtIndex(formIndex);
                 if (displayFormFragment != null) {
                     displayFormFragment.setFormData(data);
-                  //  displayFormFragment.loadFormData();
+                    //   displayFormFragment.loadFormData();
                     displayFormFragment.setRecordId(entityId);
                     displayFormFragment.setFieldOverides(metaData);
                 }
@@ -213,7 +213,7 @@ public class FormulirDdtkSmartRegisterActivity extends SecuredNativeSmartRegiste
                 if (displayFormFragment != null) {
                     displayFormFragment.hideTranslucentProgressDialog();
                     displayFormFragment.setFormData(null);
-                 //   displayFormFragment.loadFormData();
+                    //  displayFormFragment.loadFormData();
                 }
 
                 displayFormFragment.setRecordId(null);
