@@ -86,6 +86,11 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterCLientsPro
             viewHolder.status_kembang1 = (TextView)convertView.findViewById(R.id.text_status_kembang);
             viewHolder.status_kembang2 = (TextView)convertView.findViewById(R.id.text_status_kembang2);
             viewHolder.status_kembang3 = (TextView)convertView.findViewById(R.id.text_status_kembang3);
+
+
+            viewHolder.hear_test_date = (TextView)convertView.findViewById(R.id.text_hear_test_date);
+            viewHolder.daya_dengar = (TextView)convertView.findViewById(R.id.text_daya_dengar);
+
         /*    viewHolder.status_kembang2 = (TextView)convertView.findViewById(R.id.text_status_kembang);
             viewHolder.kpsp_test_date2 = (TextView)convertView.findViewById(R.id.text_kpsp_test_date);
             viewHolder.status_kembang3 = (TextView)convertView.findViewById(R.id.text_status_kembang);
@@ -183,6 +188,12 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterCLientsPro
         viewHolder.status_kembang2.setText(pc.getDetails().get("status_kembang4")!=null?pc.getDetails().get("status_kembang4").replaceAll("_", " "):"-");
         viewHolder.status_kembang3.setText(pc.getDetails().get("status_kembang5")!=null?pc.getDetails().get("status_kembang5").replaceAll("_", " "):"-");
 
+
+        viewHolder.hear_test_date.setText("Tanggal: "+ (pc.getDetails().get("hear_test_date")!=null?pc.getDetails().get("hear_test_date").replaceAll("_", " "):"-"));
+        viewHolder.daya_dengar.setText("Tes Hearing: "+ (pc.getDetails().get("daya_dengar")!=null?pc.getDetails().get("daya_dengar").replaceAll("_", " "):"-"));
+
+
+
 /*
         viewHolder.kpsp_test_date2.setText(pc.getDetails().get("kpsp_test_date2")!=null?pc.getDetails().get("kpsp_test_date2").replaceAll("_", " "):"-");
         viewHolder.status_kembang1.setText(pc.getDetails().get("status_kembang2")!=null?pc.getDetails().get("status_kembang2").replaceAll("_", " "):"-");
@@ -194,6 +205,7 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterCLientsPro
         viewHolder.status_kembang5.setText(pc.getDetails().get("status_kembang5")!=null?pc.getDetails().get("status_kembang5").replaceAll("_", " "):"-");
         viewHolder.kpsp_test_date6.setText(pc.getDetails().get("kpsp_test_date6")!=null?pc.getDetails().get("kpsp_test_date6").replaceAll("_", " "):"-");
         viewHolder.status_kembang6.setText(pc.getDetails().get("status_kembang6")!=null?pc.getDetails().get("status_kembang6").replaceAll("_", " "):"-");
+
         viewHolder.daya_dengar.setText("Tes Hearing: "+ (pc.getDetails().get("daya_dengar") != null ? pc.getDetails().get("daya_dengar").replaceAll("_", " ") : "-"));
         viewHolder.daya_lihat.setText("Tes Visual: "+ (pc.getDetails().get("daya_lihat")!=null?pc.getDetails().get("daya_lihat").replaceAll("_", " "):"-"));
         viewHolder.mental_emosional.setText("Tes Mental: "+ (pc.getDetails().get("mental_emosional")!=null?pc.getDetails().get("mental_emosional").replaceAll("_", " "):"-"));
