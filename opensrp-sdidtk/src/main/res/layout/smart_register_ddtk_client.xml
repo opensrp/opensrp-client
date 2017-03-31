@@ -159,6 +159,22 @@
                 android:text="-"
                 android:textSize="15dp"
                 android:id="@+id/text_status_kembang" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
+                android:text="-"
+                android:textSize="15dp"
+                android:id="@+id/text_status_kembang2" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
+                android:text="-"
+                android:textSize="15dp"
+                android:id="@+id/text_status_kembang3" />
 
 
         </LinearLayout>

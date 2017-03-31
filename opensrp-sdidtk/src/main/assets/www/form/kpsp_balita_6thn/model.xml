@@ -1,61 +1,69 @@
 <model>
-    <instance>
-        <kpsp_balita_6thn encounter_type="KPSP Balita 6 Tahun" id="kpsp_balita_6thn" version="201605120854">
-          <formhub>
-            <uuid/>
-          </formhub>
-          <start/>
-          <today/>
-          <deviceid/>
-          <simserial/>
-          <phonenumber/>
-          <umur />
-		  <generated_note_name_12 />
-          <kpsp_test_date6/>
-          <anamnesis/>
-          <keluhan/>
-          <masalah_tumbang/>
-          <kpsp_6thn/>
-          <_66bln_menggambar_silang/>
-          <_66bln_perintah/>
-          <_66bln_reaksi_anak/>
-          <_66bln_warna/>
-          <_66bln_melompat_satu_kaki/>
-          <_66bln_berpakaian_sendiri/>
-          <_66bln_menggambar_3bagian/>
-          <_66bln_menggambar_6bagian/>
-          <_66bln_lawan_kata/>
-          <_66bln_menangkap_bola/>
-          <_72bln_warna/>
-          <_72bln_melompat_satu_kaki/>
-          <_72bln_berpakaian_sendiri/>
-          <_72bln_menggambar_3bagian/>
-          <_72bln_menggambar_6bagian/>
-          <_72bln_lawan_kata/>
-          <_72bln_menangkap_bola/>
-          <_72bln_berdiri_1kaki/>
-          <_72bln_menggambar/>
-          <_72bln_pertanyaan_note1/>
-          <_72bln_pertanyaan_note2/>
-          <_72bln_pertanyaan_note3/>
-          <_72bln_pertanyaan_note4/>
-          <_72bln_pertanyaan/>
-          <note_status_kembang/>
-          <status_kembang6/>
-          <status_meragukan/>
-          <status_penyimpangan/>
-          <kesimpulan/>
-          <tindakan_intervensi/>
-          <konseling_stimulasi/>
-          <intervensi_stimulasi/>
-          <tanggal_evaluasi_intervensi/>
-          <tindakan_lain/>
-          <rujukan/>
-          <dirujuk_ke/>
-          <surat_rujukan/>
-          <meta>
-            <instanceID/>
-          </meta>
-        </kpsp_balita_6thn>
-      </instance>
-  </model>
+  <instance>
+    <kpsp_balita_6thn
+        xmlns:jr="http://openrosa.org/javarosa"
+        xmlns:orx="http://openrosa.org/xforms" encounter_type="KPSP Balita 6 Tahun" id="kpsp_balita_6thn_1" version="201703310638">
+      <formhub>
+        <uuid/>
+      </formhub>
+      <start openmrs_entity="encounter" openmrs_entity_id="encounter_start"/>
+      <today openmrs_entity="encounter" openmrs_entity_id="encounter_date"/>
+      <deviceid/>
+      <simserial/>
+      <phonenumber/>
+      <Village/>
+      <Sub-village/>
+      <generated_note_name_10/>
+      <generated_note_name_11/>
+      <existing_location openmrs_entity="encounter" openmrs_entity_id="location_id"/>
+      <desa openmrs_entity="person_address" openmrs_entity_id="cityVillage" openmrs_entity_parent="usual_residence"/>
+      <dusun openmrs_entity="person_address" openmrs_entity_id="address1" openmrs_entity_parent="usual_residence"/>
+      <kpsp_test_date openmrs_entity="Concept" openmrs_entity_id="160753AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <anamnesis/>
+      <keluhan openmrs_entity="Concept" openmrs_entity_id="5219AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <masalah_tumbang openmrs_entity="Concept" openmrs_entity_id="160531AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <kpsp_6thn/>
+      <_66bln_menggambar_silang/>
+      <_66bln_perintah/>
+      <_66bln_reaksi_anak/>
+      <_66bln_warna/>
+      <_66bln_melompat_satu_kaki/>
+      <_66bln_berpakaian_sendiri/>
+      <_66bln_menggambar_3bagian/>
+      <_66bln_menggambar_6bagian/>
+      <_66bln_lawan_kata/>
+      <_66bln_menangkap_bola/>
+      <_72bln_warna/>
+      <_72bln_melompat_satu_kaki/>
+      <_72bln_berpakaian_sendiri/>
+      <_72bln_menggambar_3bagian/>
+      <_72bln_menggambar_6bagian/>
+      <_72bln_lawan_kata/>
+      <_72bln_menangkap_bola/>
+      <_72bln_berdiri_1kaki/>
+      <_72bln_menggambar/>
+      <_72bln_pertanyaan_note1/>
+      <_72bln_pertanyaan_note2/>
+      <_72bln_pertanyaan_note3/>
+      <_72bln_pertanyaan_note4/>
+      <_72bln_pertanyaan/>
+      <note_status_kembang/>
+      <status_kembang openmrs_entity="Concept" openmrs_entity_id="1200AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <status_meragukan/>
+      <status_penyimpangan/>
+      <kesimpulan openmrs_entity="Concept" openmrs_entity_id="160716AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <tindakan_intervensi/>
+      <konseling_stimulasi openmrs_entity="Concept" openmrs_entity_id="1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <intervensi_stimulasi/>
+      <tanggal_evaluasi_intervensi openmrs_entity="Concept" openmrs_entity_id="5096AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <tindakan_lain openmrs_entity="Concept" openmrs_entity_id="162165AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <rujukan/>
+      <dirujuk_ke openmrs_entity="Concept" openmrs_entity_id="161562AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <surat_rujukan/>
+      <end openmrs_entity="encounter" openmrs_entity_id="encounter_end">ID</end>
+      <meta>
+        <instanceID/>
+      </meta>
+    </kpsp_balita_6thn>
+  </instance>
+</model>

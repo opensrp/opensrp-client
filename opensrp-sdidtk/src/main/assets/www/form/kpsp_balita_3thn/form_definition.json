@@ -2,10 +2,21 @@
   "form_data_definition_version": "1",
   "form": {
     "bind_type": "anak",
+    "ec_bind_type":"ec_anak",
     "default_bind_path": "/model/instance/kpsp_balita_3thn/",
     "fields": [
       {
         "name": "id",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "existing_location",
+        "bind": "/model/instance/kpsp_balita_3thn/existing_location",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "desa_anak",
+        "bind": "/model/instance/kpsp_balita_3thn/Village",
         "shouldLoadValue": true
       },
       {
@@ -14,8 +25,8 @@
 		"shouldLoadValue": true
       },
       {
-        "name": "kpsp_test_date3",
-        "bind": "/model/instance/kpsp_balita_3thn/kpsp_test_date3"
+        "name": "kpsp_1thn_date3",
+        "bind": "/model/instance/kpsp_balita_3thn/kpsp_test_date"
       },
       {
         "name": "anamnesis",
@@ -34,88 +45,88 @@
         "bind": "/model/instance/kpsp_balita_3thn/kpsp_3thn"
       },
       {
-        "name": "_30bln_melepas_pakaian",
+        "name": "30bln_melepas_pakaian",
         "bind": "/model/instance/kpsp_balita_3thn/_30bln_melepas_pakaian"
       },
       {
-        "name": "_30bln_naik_tangga",
+        "name": "30bln_naik_tangga",
         "bind": "/model/instance/kpsp_balita_3thn/_30bln_naik_tangga"
       },
       {
-        "name": "_30bln_menunjuk_bagian_badan",
+        "name": "30bln_menunjuk_bagian_badan",
         "bind": "/model/instance/kpsp_balita_3thn/_30bln_menunjuk_bagian_badan"
       },
       {
-        "name": "_30bln_makan_nasi_sendiri",
+        "name": "30bln_makan_nasi_sendiri",
         "bind": "/model/instance/kpsp_balita_3thn/_30bln_makan_nasi_sendiri"
       },
       {
-        "name": "_30bln_membantu",
+        "name": "30bln_membantu",
         "bind": "/model/instance/kpsp_balita_3thn/_30bln_membantu"
       },
       {
-        "name": "_30bln_mendendang_bola",
+        "name": "30bln_mendendang_bola",
         "bind": "/model/instance/kpsp_balita_3thn/_30bln_mendendang_bola"
       },
       {
-        "name": "_30bln_mencoret_kertas",
+        "name": "30bln_mencoret_kertas",
         "bind": "/model/instance/kpsp_balita_3thn/_30bln_mencoret_kertas"
       },
       {
-        "name": "_30bln_menyusun_4kubus",
+        "name": "30bln_menyusun_4kubus",
         "bind": "/model/instance/kpsp_balita_3thn/_30bln_menyusun_4kubus"
       },
       {
-        "name": "_30bln_menyebut_dua_kata",
+        "name": "30bln_menyebut_dua_kata",
         "bind": "/model/instance/kpsp_balita_3thn/_30bln_menyebut_dua_kata"
       },
       {
-        "name": "_30bln_menyebut_dua_binatang",
+        "name": "30bln_menyebut_dua_binatang",
         "bind": "/model/instance/kpsp_balita_3thn/_30bln_menyebut_dua_binatang"
       },
       {
-        "name": "_36bln_mencoret_kertas",
+        "name": "36bln_mencoret_kertas",
         "bind": "/model/instance/kpsp_balita_3thn/_36bln_mencoret_kertas"
       },
       {
-        "name": "_36bln_menyusun_4kubus",
+        "name": "36bln_menyusun_4kubus",
         "bind": "/model/instance/kpsp_balita_3thn/_36bln_menyusun_4kubus"
       },
       {
-        "name": "_36bln_menyebut_dua_kata",
+        "name": "36bln_menyebut_dua_kata",
         "bind": "/model/instance/kpsp_balita_3thn/_36bln_menyebut_dua_kata"
       },
       {
-        "name": "_36bln_menyebut_dua_binatang",
+        "name": "36bln_menyebut_dua_binatang",
         "bind": "/model/instance/kpsp_balita_3thn/_36bln_menyebut_dua_binatang"
       },
       {
-        "name": "_36bln_melempar_bola_lurus",
+        "name": "36bln_melempar_bola_lurus",
         "bind": "/model/instance/kpsp_balita_3thn/_36bln_melempar_bola_lurus"
       },
       {
-        "name": "_36bln_melakukan_perintah",
+        "name": "36bln_melakukan_perintah",
         "bind": "/model/instance/kpsp_balita_3thn/_36bln_melakukan_perintah"
       },
       {
-        "name": "_36bln_menggambar_garis_lurus",
+        "name": "36bln_menggambar_garis_lurus",
         "bind": "/model/instance/kpsp_balita_3thn/_36bln_menggambar_garis_lurus"
       },
       {
-        "name": "_36bln_melompat_dua_kaki",
+        "name": "36bln_melompat_dua_kaki",
         "bind": "/model/instance/kpsp_balita_3thn/_36bln_melompat_dua_kaki"
       },
       {
-        "name": "_36bln_mengenakan_sepatu",
+        "name": "36bln_mengenakan_sepatu",
         "bind": "/model/instance/kpsp_balita_3thn/_36bln_mengenakan_sepatu"
       },
       {
-        "name": "_36bln_mengayuh_sepeda",
+        "name": "36bln_mengayuh_sepeda",
         "bind": "/model/instance/kpsp_balita_3thn/_36bln_mengayuh_sepeda"
       },
       {
         "name": "status_kembang3",
-        "bind": "/model/instance/kpsp_balita_3thn/status_kembang3"
+        "bind": "/model/instance/kpsp_balita_3thn/status_kembang"
       },
       {
         "name": "status_meragukan",

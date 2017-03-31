@@ -1,45 +1,54 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<form autocomplete="off" novalidate="novalidate" class="or clearfix" id="kpsp_balita_3thn">
-   <!--This form was created by transforming a OpenRosa-flavored (X)Form using an XSLT sheet created by Enketo LLC.-->
+<form autocomplete="off" novalidate="novalidate" class="or clearfix" dir="ltr" id="kpsp_balita_3thn_1">\n
+   <!--This form was created by transforming a OpenRosa-flavored (X)Form using an XSL stylesheet created by Enketo LLC.-->
    <section class="form-logo"></section>
-   <h3 id="form-title">KPSP Balita 3 Tahun</h3>
+   <h3 dir="auto" id="form-title">KPSP Balita 3 Tahun</h3>
    <select id="form-languages" data-default-lang="Bahasa">
-      <option value="Bahasa">Bahasa</option>
-      <option value="en">English</option>
+      <option value="Bahasa" data-dir="ltr">Bahasa</option>
+      <option value="en" data-dir="ltr">English</option>
    </select>
-   <label class="note non-select ">
-        <span class="question-label active" data-itext-id="/kpsp_balita_3thn/generated_note_name_12:label"
-            lang="Bahasa">Umur:
-            <span class="or-output"
-                data-value=" /kpsp_balita_3thn/umur "></span>
-        </span>
-        <span class="question-label " data-itext-id="/kpsp_balita_3thn/generated_note_name_12:label"
-            lang="en">Age:
-        </span>
-        <input name="/kpsp_balita_3thn/generated_note_name_12" data-type-xml="string"
-            readonly="readonly" type="text" />
-    </label>
+   <label class="question note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/generated_note_name_10:label">Desa :
+         <span class="or-output" data-value=" /kpsp_balita_3thn/Village "></span>
+      </span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/generated_note_name_10:label">Desa :
+         <span class="or-output" data-value=" /kpsp_balita_3thn/Village "></span>
+      </span>
+      <input type="text" name="/kpsp_balita_3thn/generated_note_name_10" data-type-xml="string" readonly="readonly"/>
+   </label>
+   <label class="question note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/generated_note_name_11:label">Dusun :
+         <span class="or-output" data-value=" /kpsp_balita_3thn/Sub-village "></span>
+      </span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/generated_note_name_11:label">Dusun :
+         <span class="or-output" data-value=" /kpsp_balita_3thn/Sub-village "></span>
+      </span>
+      <input type="text" name="/kpsp_balita_3thn/generated_note_name_11" data-type-xml="string" readonly="readonly"/>
+   </label>
    <label class="question non-select ">
-      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/kpsp_test_date3:label">Tanggal Entry</span>
-      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/kpsp_test_date3:label">Entry Date</span>
-      <input type="date" name="/kpsp_balita_3thn/kpsp_test_date3" data-type-xml="date" />
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/kpsp_test_date:label">Tanggal Entry</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/kpsp_test_date:label">Entry Date</span>
+      <input type="date" name="/kpsp_balita_3thn/kpsp_test_date" data-type-xml="date"/>
    </label>
-   <label class="note non-select ">
-      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/anamnesis:label">__ANAMNESIS__</span>
-      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/anamnesis:label">__ANAMNESIS__</span>
-      <input type="text" name="/kpsp_balita_3thn/anamnesis" data-type-xml="string" readonly="readonly" />
+   <label class="question note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/anamnesis:label">
+         <strong>ANAMNESIS</strong>
+      </span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/anamnesis:label">
+         <strong>ANAMNESIS</strong>
+      </span>
+      <input type="text" name="/kpsp_balita_3thn/anamnesis" data-type-xml="string" readonly="readonly"/>
    </label>
-   <label class="note non-select ">
+   <label class="question non-select or-appearance-multiline ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/keluhan:label">Keluhan Utama</span>
       <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/keluhan:label">Main Complaints</span>
-      <input type="text" name="/kpsp_balita_3thn/keluhan" data-type-xml="string" />
+      <textarea name="/kpsp_balita_3thn/keluhan" data-type-xml="string"></textarea>
    </label>
-   <label class="note non-select ">
+   <label class="question non-select or-appearance-multiline ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/masalah_tumbang:label">Apakah anak punya masalah tumbuh kembang:</span>
       <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/masalah_tumbang:label">Does the child have growth-development issue?</span>
-      <input type="text" name="/kpsp_balita_3thn/masalah_tumbang" data-type-xml="string" />
+      <textarea name="/kpsp_balita_3thn/masalah_tumbang" data-type-xml="string"></textarea>
    </label>
-   <fieldset class="question ">
+   <fieldset class="question simple-select ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/kpsp_3thn:label">KPSP Balita 3 Tahun</span>
@@ -47,19 +56,19 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/kpsp_3thn" data-name="/kpsp_balita_3thn/kpsp_3thn" value="kpsp_30bln" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/kpsp_3thn" data-name="/kpsp_balita_3thn/kpsp_3thn" value="kpsp_30bln" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/kpsp_3thn/kpsp_30bln:label">KPSP Balita 30 Bulan</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/kpsp_3thn/kpsp_30bln:label">PQCD for 30 months old</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/kpsp_3thn" data-name="/kpsp_balita_3thn/kpsp_3thn" value="kpsp_36bln" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/kpsp_3thn" data-name="/kpsp_balita_3thn/kpsp_3thn" value="kpsp_36bln" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/kpsp_3thn/kpsp_36bln:label">KPSP Balita 36 Bulan</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/kpsp_3thn/kpsp_36bln:label">PQCD for 36 months old</span>
             </label>
          </div>
       </fieldset>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_30bln_melepas_pakaian:label">1. Dapatkah anak melepas pakaiannya seperti: baju, rok, atau celananya? (topi dan kaos kaki tidak ikut dinilai)</span>
@@ -70,19 +79,20 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_melepas_pakaian" data-name="/kpsp_balita_3thn/_30bln_melepas_pakaian" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_melepas_pakaian" data-name="/kpsp_balita_3thn/_30bln_melepas_pakaian" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_melepas_pakaian/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_melepas_pakaian/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_melepas_pakaian" data-name="/kpsp_balita_3thn/_30bln_melepas_pakaian" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_melepas_pakaian" data-name="/kpsp_balita_3thn/_30bln_melepas_pakaian" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_melepas_pakaian/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_melepas_pakaian/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_30bln_naik_tangga:label">2. Dapatkah anak berjalan naik tangga sendiri? Jawab YA bila ia naik tangga dengan posisi tegak atau berpegangan pada dinding atau pegangan tangga. Jawab TIDAK jika ia naik tangga dengan merangkak atau Anda tidak membolehkan anak naik tangga atau anak harus berpegangan pada seseorang</span>
@@ -93,19 +103,20 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_naik_tangga" data-name="/kpsp_balita_3thn/_30bln_naik_tangga" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_naik_tangga" data-name="/kpsp_balita_3thn/_30bln_naik_tangga" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_naik_tangga/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_naik_tangga/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_naik_tangga" data-name="/kpsp_balita_3thn/_30bln_naik_tangga" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_naik_tangga" data-name="/kpsp_balita_3thn/_30bln_naik_tangga" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_naik_tangga/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_naik_tangga/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_30bln_menunjuk_bagian_badan:label">3. Tanpa bimbingan, petunjuk atau bantuan Anda, dapatkah anak menunjuk dengan benar paling sedikit satu bagian badannya (rambut, mata, hidung, mulut, atau bagian badan yang lain)?</span>
@@ -116,19 +127,20 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_menunjuk_bagian_badan" data-name="/kpsp_balita_3thn/_30bln_menunjuk_bagian_badan" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_menunjuk_bagian_badan" data-name="/kpsp_balita_3thn/_30bln_menunjuk_bagian_badan" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_menunjuk_bagian_badan/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_menunjuk_bagian_badan/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_menunjuk_bagian_badan" data-name="/kpsp_balita_3thn/_30bln_menunjuk_bagian_badan" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_menunjuk_bagian_badan" data-name="/kpsp_balita_3thn/_30bln_menunjuk_bagian_badan" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_menunjuk_bagian_badan/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_menunjuk_bagian_badan/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_30bln_makan_nasi_sendiri:label">4. Dapatkah anak makan nasi sendiri tanpa banyak tumpah?</span>
@@ -139,19 +151,20 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_makan_nasi_sendiri" data-name="/kpsp_balita_3thn/_30bln_makan_nasi_sendiri" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_makan_nasi_sendiri" data-name="/kpsp_balita_3thn/_30bln_makan_nasi_sendiri" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_makan_nasi_sendiri/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_makan_nasi_sendiri/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_makan_nasi_sendiri" data-name="/kpsp_balita_3thn/_30bln_makan_nasi_sendiri" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_makan_nasi_sendiri" data-name="/kpsp_balita_3thn/_30bln_makan_nasi_sendiri" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_makan_nasi_sendiri/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_makan_nasi_sendiri/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_30bln_membantu:label">5. Dapatkah anak membantu memungut mainannya sendiri atau membantu mengangkat piring jika diminta?</span>
@@ -162,19 +175,20 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_membantu" data-name="/kpsp_balita_3thn/_30bln_membantu" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_membantu" data-name="/kpsp_balita_3thn/_30bln_membantu" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_membantu/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_membantu/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_membantu" data-name="/kpsp_balita_3thn/_30bln_membantu" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_membantu" data-name="/kpsp_balita_3thn/_30bln_membantu" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_membantu/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_membantu/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_30bln_mendendang_bola:label">6. Dapatkah anak menendang bola kecil (sebesar bola tenis) ke depan tanpa berpegangan pada apapun? Mendorong tidak ikut dinilai</span>
@@ -185,19 +199,20 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_mendendang_bola" data-name="/kpsp_balita_3thn/_30bln_mendendang_bola" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_mendendang_bola" data-name="/kpsp_balita_3thn/_30bln_mendendang_bola" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_mendendang_bola/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_mendendang_bola/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_mendendang_bola" data-name="/kpsp_balita_3thn/_30bln_mendendang_bola" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_mendendang_bola" data-name="/kpsp_balita_3thn/_30bln_mendendang_bola" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_mendendang_bola/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_mendendang_bola/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_30bln_mencoret_kertas:label">7. Bila diberi pensil, apakah anak mencoret-coret kertas tanpa bantuan/petunjuk?</span>
@@ -208,19 +223,20 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_mencoret_kertas" data-name="/kpsp_balita_3thn/_30bln_mencoret_kertas" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_mencoret_kertas" data-name="/kpsp_balita_3thn/_30bln_mencoret_kertas" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_mencoret_kertas/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_mencoret_kertas/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_mencoret_kertas" data-name="/kpsp_balita_3thn/_30bln_mencoret_kertas" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_mencoret_kertas" data-name="/kpsp_balita_3thn/_30bln_mencoret_kertas" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_mencoret_kertas/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_mencoret_kertas/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_30bln_menyusun_4kubus:label">8. Dapatkah anak meletakkan 4 buah kubus satu per satu di atas kubus yang lain tanpa menjatuhkan kubus itu? Kubus yang digunakan ukuran 2.5-5 cm</span>
@@ -231,19 +247,20 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_menyusun_4kubus" data-name="/kpsp_balita_3thn/_30bln_menyusun_4kubus" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_menyusun_4kubus" data-name="/kpsp_balita_3thn/_30bln_menyusun_4kubus" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_menyusun_4kubus/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_menyusun_4kubus/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_menyusun_4kubus" data-name="/kpsp_balita_3thn/_30bln_menyusun_4kubus" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_menyusun_4kubus" data-name="/kpsp_balita_3thn/_30bln_menyusun_4kubus" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_menyusun_4kubus/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_menyusun_4kubus/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_30bln_menyebut_dua_kata:label">9. Dapatkah anak menggunakan 2 kata pada saat berbicara seperti "minta minum", "mau tidur"? "Terima kasih" dan "da-da" tidak ikut dinilai</span>
@@ -254,46 +271,46 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_menyebut_dua_kata" data-name="/kpsp_balita_3thn/_30bln_menyebut_dua_kata" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_menyebut_dua_kata" data-name="/kpsp_balita_3thn/_30bln_menyebut_dua_kata" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_menyebut_dua_kata/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_menyebut_dua_kata/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_menyebut_dua_kata" data-name="/kpsp_balita_3thn/_30bln_menyebut_dua_kata" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_menyebut_dua_kata" data-name="/kpsp_balita_3thn/_30bln_menyebut_dua_kata" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_menyebut_dua_kata/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_menyebut_dua_kata/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
-            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang:label"></span>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang:label">10. Apakah anak dapat menyebut 2 di antara gambar-gambar ini tanpa bantuan? (Menyebut dengan suara binatang tidak ikut dinilai)</span>
-            <img lang="Bahasa" class="active" src="http://img13.deviantart.net/0997/i/2016/123/5/9/hal_10_no_10_by_edwarddesu-da14hat.jpg" alt="image" />
-            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang:label"></span>
+            <img lang="Bahasa" class="active" src="jr://images/hal-10-no-10.jpg" data-itext-id="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang:label" alt="image"/>
             <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang:label">10. Is the child able to name 2 of these pictures without help? (Imitating the animal's sound is not assessed)</span>
-            <img lang="en" src="http://img13.deviantart.net/0997/i/2016/123/5/9/hal_10_no_10_by_edwarddesu-da14hat.jpg" alt="image" />
+            <img lang="en" src="jr://images/hal-10-no-10.jpg" data-itext-id="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang:label" alt="image"/>
             <span class="required">*</span>
             <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang:hint">Bicara dan bahasa</span>
             <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang:hint">Language</span>
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang" data-name="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang" data-name="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang" data-name="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang" data-name="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_30bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_30bln_menyebut_dua_binatang/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_36bln_mencoret_kertas:label">1. Bila diberi pensil, apakah anak mencoret-coret kertas tanpa bantuan/petunjuk?</span>
@@ -304,19 +321,20 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_mencoret_kertas" data-name="/kpsp_balita_3thn/_36bln_mencoret_kertas" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_mencoret_kertas" data-name="/kpsp_balita_3thn/_36bln_mencoret_kertas" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_mencoret_kertas/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_mencoret_kertas/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_mencoret_kertas" data-name="/kpsp_balita_3thn/_36bln_mencoret_kertas" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_mencoret_kertas" data-name="/kpsp_balita_3thn/_36bln_mencoret_kertas" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_mencoret_kertas/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_mencoret_kertas/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_36bln_menyusun_4kubus:label">2. Dapatkah anak meletakkan 4 buah kubus satu per satu di atas kubus yang lain tanpa menjatuhkan kubus itu? Kubus yang digunakan ukuran 2.5-5 cm</span>
@@ -327,19 +345,20 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_menyusun_4kubus" data-name="/kpsp_balita_3thn/_36bln_menyusun_4kubus" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_menyusun_4kubus" data-name="/kpsp_balita_3thn/_36bln_menyusun_4kubus" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_menyusun_4kubus/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_menyusun_4kubus/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_menyusun_4kubus" data-name="/kpsp_balita_3thn/_36bln_menyusun_4kubus" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_menyusun_4kubus" data-name="/kpsp_balita_3thn/_36bln_menyusun_4kubus" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_menyusun_4kubus/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_menyusun_4kubus/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_36bln_menyebut_dua_kata:label">3. Dapatkah anak menggunakan 2 kata pada saat berbicara seperti "minta minum", "mau tidur"? "Terima kasih" dan "da-da" tidak ikut dinilai</span>
@@ -350,46 +369,46 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_menyebut_dua_kata" data-name="/kpsp_balita_3thn/_36bln_menyebut_dua_kata" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_menyebut_dua_kata" data-name="/kpsp_balita_3thn/_36bln_menyebut_dua_kata" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_menyebut_dua_kata/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_menyebut_dua_kata/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_menyebut_dua_kata" data-name="/kpsp_balita_3thn/_36bln_menyebut_dua_kata" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_menyebut_dua_kata" data-name="/kpsp_balita_3thn/_36bln_menyebut_dua_kata" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_menyebut_dua_kata/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_menyebut_dua_kata/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
-            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang:label"></span>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang:label">4. Apakah anak dapat menyebut 2 di antara gambar-gambar ini tanpa bantuan? (Menyebut dengan suara binatang tidak ikut dinilai)</span>
-            <img lang="Bahasa" class="active" src="http://img13.deviantart.net/0997/i/2016/123/5/9/hal_10_no_10_by_edwarddesu-da14hat.jpg" alt="image" />
-            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang:label"></span>
+            <img lang="Bahasa" class="active" src="jr://images/hal-10-no-10.jpg" data-itext-id="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang:label" alt="image"/>
             <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang:label">4. Is the child able to name 2 of these pictures without help? (Imitating the animal's sound is not assessed)</span>
-            <img lang="en" src="http://img13.deviantart.net/0997/i/2016/123/5/9/hal_10_no_10_by_edwarddesu-da14hat.jpg" alt="image" />
+            <img lang="en" src="jr://images/hal-10-no-10.jpg" data-itext-id="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang:label" alt="image"/>
             <span class="required">*</span>
             <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang:hint">Bicara dan bahasa</span>
             <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang:hint">Language</span>
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang" data-name="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang" data-name="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang" data-name="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang" data-name="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_menyebut_dua_binatang/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_36bln_melempar_bola_lurus:label">5. Dapatkah anak melempar bola lurus ke arah perut atau dada dari jarak 1,5 meter?</span>
@@ -400,19 +419,20 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_melempar_bola_lurus" data-name="/kpsp_balita_3thn/_36bln_melempar_bola_lurus" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_melempar_bola_lurus" data-name="/kpsp_balita_3thn/_36bln_melempar_bola_lurus" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_melempar_bola_lurus/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_melempar_bola_lurus/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_melempar_bola_lurus" data-name="/kpsp_balita_3thn/_36bln_melempar_bola_lurus" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_melempar_bola_lurus" data-name="/kpsp_balita_3thn/_36bln_melempar_bola_lurus" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_melempar_bola_lurus/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_melempar_bola_lurus/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_36bln_melakukan_perintah:label">6. Ikuti perintah ini dengan seksama. Jangan memberi isyarat dengan telunjuk atau mata pada saat memberikan perintah berikut ini: "Letakkan kertas ini di lantai". "Letakkan kertas ini di kursi". "Berikan kertas ini kepada ibu". Dapatkah anak melaksanakan ketiga perintah tadi?</span>
@@ -423,46 +443,46 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_melakukan_perintah" data-name="/kpsp_balita_3thn/_36bln_melakukan_perintah" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_melakukan_perintah" data-name="/kpsp_balita_3thn/_36bln_melakukan_perintah" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_melakukan_perintah/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_melakukan_perintah/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_melakukan_perintah" data-name="/kpsp_balita_3thn/_36bln_melakukan_perintah" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_melakukan_perintah" data-name="/kpsp_balita_3thn/_36bln_melakukan_perintah" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_melakukan_perintah/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_melakukan_perintah/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
-            <span lang="Bahasa" class="question-label  or-form-image " data-itext-id="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus:label"></span>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus:label">7. Buat garis lurus ke bawah sepanjang sekurang-kurangnya 2.5 cm. Suruh anak menggambar garis lain di samping garis ini. Jawab YA bila ia menggambar garis seperti gambar atas. Jawab TIDAK bila ia menggambar garis seperti gambar bawah</span>
-            <img lang="Bahasa" class="active" src="http://orig05.deviantart.net/c30e/f/2016/123/c/9/hal_11_no_7_by_edwarddesu-da14ham.jpg" alt="image" />
-            <span lang="en" class="question-label  or-form-image " data-itext-id="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus:label"></span>
+            <img lang="Bahasa" class="active" src="jr://images/hal-11-no-7.jpg" data-itext-id="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus:label" alt="image"/>
             <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus:label">7. Draw down a straight line at least 2.5 cm long. Have the child draw another line next to the one you make. Select YES if the child draws like this: (picture). Select NO if the child draws like this: (gambar)</span>
-            <img lang="en" src="http://orig05.deviantart.net/c30e/f/2016/123/c/9/hal_11_no_7_by_edwarddesu-da14ham.jpg" alt="image" />
+            <img lang="en" src="jr://images/hal-11-no-7.jpg" data-itext-id="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus:label" alt="image"/>
             <span class="required">*</span>
             <span lang="Bahasa" class="or-hint active" data-itext-id="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus:hint">Gerak halus</span>
             <span lang="en" class="or-hint " data-itext-id="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus:hint">Fine motor</span>
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus" data-name="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus" data-name="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus" data-name="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus" data-name="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_menggambar_garis_lurus/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_36bln_melompat_dua_kaki:label">8. Letakkan selembar kertas seukuran buku ini di lantai. Apakah anak dapat melompati bagian lebar kertas dengan mengangkat kedua kakinya secara bersamaan tanpa didahului lari?</span>
@@ -473,19 +493,20 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_melompat_dua_kaki" data-name="/kpsp_balita_3thn/_36bln_melompat_dua_kaki" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_melompat_dua_kaki" data-name="/kpsp_balita_3thn/_36bln_melompat_dua_kaki" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_melompat_dua_kaki/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_melompat_dua_kaki/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_melompat_dua_kaki" data-name="/kpsp_balita_3thn/_36bln_melompat_dua_kaki" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_melompat_dua_kaki" data-name="/kpsp_balita_3thn/_36bln_melompat_dua_kaki" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_melompat_dua_kaki/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_melompat_dua_kaki/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_36bln_mengenakan_sepatu:label">9. Dapatkah anak mengenakan sepatunya sendiri?</span>
@@ -496,19 +517,20 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_mengenakan_sepatu" data-name="/kpsp_balita_3thn/_36bln_mengenakan_sepatu" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_mengenakan_sepatu" data-name="/kpsp_balita_3thn/_36bln_mengenakan_sepatu" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_mengenakan_sepatu/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_mengenakan_sepatu/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_mengenakan_sepatu" data-name="/kpsp_balita_3thn/_36bln_mengenakan_sepatu" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_mengenakan_sepatu" data-name="/kpsp_balita_3thn/_36bln_mengenakan_sepatu" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_mengenakan_sepatu/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_mengenakan_sepatu/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <fieldset class="question or-branch pre-init ">
+   <fieldset class="question simple-select or-branch pre-init ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/_36bln_mengayuh_sepeda:label">10. Dapatkah anak mengayuh sepeda roda tiga sejauh setidaknya 3 meter?</span>
@@ -519,27 +541,36 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_mengayuh_sepeda" data-name="/kpsp_balita_3thn/_36bln_mengayuh_sepeda" value="ya" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_mengayuh_sepeda" data-name="/kpsp_balita_3thn/_36bln_mengayuh_sepeda" value="ya" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_mengayuh_sepeda/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_mengayuh_sepeda/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/_36bln_mengayuh_sepeda" data-name="/kpsp_balita_3thn/_36bln_mengayuh_sepeda" value="tidak" required="required" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/_36bln_mengayuh_sepeda" data-name="/kpsp_balita_3thn/_36bln_mengayuh_sepeda" value="tidak" data-required="true()" data-relevant="selected( /kpsp_balita_3thn/kpsp_3thn ,'kpsp_36bln')" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/_36bln_mengayuh_sepeda/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/_36bln_mengayuh_sepeda/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
+      <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
    </fieldset>
-   <label class="note non-select ">
-      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/note_status_kembang:label">Jika jawaban YA: __9-10 = Sesuai__; __7-8 = Meragukan__; __≤ 6 = Penyimpangan__</span>
-      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/note_status_kembang:label">If YES: __9-10 = Appropriate__; __7-8 = Inconclusive__ ; __≤ 6 = Deviated__</span>
-      <input type="text" name="/kpsp_balita_3thn/note_status_kembang" data-type-xml="string" readonly="readonly" />
+   <label class="question note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/note_status_kembang:label">Jika jawaban YA:
+         <strong>9-10 = Sesuai</strong>;
+         <strong>7-8 = Meragukan</strong>;
+         <strong>≤ 6 = Penyimpangan</strong>
+      </span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/note_status_kembang:label">If YES:
+         <strong>9-10 = Appropriate</strong>;
+         <strong>7-8 = Inconclusive</strong> ;
+         <strong>≤ 6 = Deviated</strong>
+      </span>
+      <input type="text" name="/kpsp_balita_3thn/note_status_kembang" data-type-xml="string" readonly="readonly"/>
    </label>
    <label class="question or-appearance-minimal ">
-      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/status_kembang3:label">Status Perkembangan Anak:</span>
-      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/status_kembang3:label">Child's Development Status</span>
-      <select name="/kpsp_balita_3thn/status_kembang3" data-name="/kpsp_balita_3thn/status_kembang3" data-type-xml="select1">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/status_kembang:label">Status Perkembangan Anak:</span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/status_kembang:label">Child's Development Status</span>
+      <select name="/kpsp_balita_3thn/status_kembang" data-name="/kpsp_balita_3thn/status_kembang" data-type-xml="select1">
          <option value="">...</option>
          <option value="sesuai">Sesuai</option>
          <option value="meragukan">Meragukan</option>
@@ -557,7 +588,7 @@
    <label class="question or-appearance-minimal  or-branch pre-init ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/status_meragukan:label">Meragukan</span>
       <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/status_meragukan:label">Inconclusive Development</span>
-      <select multiple="multiple" name="/kpsp_balita_3thn/status_meragukan" data-name="/kpsp_balita_3thn/status_meragukan" data-relevant="selected( /kpsp_balita_3thn/status_kembang3 ,'meragukan')" data-type-xml="select1">
+      <select name="/kpsp_balita_3thn/status_meragukan" data-name="/kpsp_balita_3thn/status_meragukan" data-relevant="selected( /kpsp_balita_3thn/status_kembang ,'meragukan')" data-type-xml="select1">
          <option value="">...</option>
          <option value="gerak_kasar">Gerak Kasar</option>
          <option value="gerak_halus">Gerak Halus</option>
@@ -568,7 +599,7 @@
          <span data-option-value="gerak_kasar" lang="Bahasa">Gerak Kasar</span>
          <span data-option-value="gerak_kasar" lang="en">Gross motor</span>
          <span data-option-value="gerak_halus" lang="Bahasa">Gerak Halus</span>
-         <span data-option-value="gerak_halus" lang="en">Fien motor</span>
+         <span data-option-value="gerak_halus" lang="en">Fine motor</span>
          <span data-option-value="bahasa" lang="Bahasa">Bicara &amp; Bahasa</span>
          <span data-option-value="bahasa" lang="en">Language</span>
          <span data-option-value="sosial" lang="Bahasa">Sosialisasi &amp; Kemandirian</span>
@@ -578,7 +609,7 @@
    <label class="question or-appearance-minimal  or-branch pre-init ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/status_penyimpangan:label">Penyimpangan</span>
       <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/status_penyimpangan:label">Deviation of Development</span>
-      <select multiple="multiple" name="/kpsp_balita_3thn/status_penyimpangan" data-name="/kpsp_balita_3thn/status_penyimpangan" data-relevant="selected( /kpsp_balita_3thn/status_kembang3 ,'penyimpangan')" data-type-xml="select1">
+      <select name="/kpsp_balita_3thn/status_penyimpangan" data-name="/kpsp_balita_3thn/status_penyimpangan" data-relevant="selected( /kpsp_balita_3thn/status_kembang ,'penyimpangan')" data-type-xml="select1">
          <option value="">...</option>
          <option value="gerak_kasar">Gerak Kasar</option>
          <option value="gerak_halus">Gerak Halus</option>
@@ -589,24 +620,32 @@
          <span data-option-value="gerak_kasar" lang="Bahasa">Gerak Kasar</span>
          <span data-option-value="gerak_kasar" lang="en">Gross motor</span>
          <span data-option-value="gerak_halus" lang="Bahasa">Gerak Halus</span>
-         <span data-option-value="gerak_halus" lang="en">Fien motor</span>
+         <span data-option-value="gerak_halus" lang="en">Fine motor</span>
          <span data-option-value="bahasa" lang="Bahasa">Bicara &amp; Bahasa</span>
          <span data-option-value="bahasa" lang="en">Language</span>
          <span data-option-value="sosial" lang="Bahasa">Sosialisasi &amp; Kemandirian</span>
          <span data-option-value="sosial" lang="en">Sosialization &amp; Independency</span>
       </span>
    </label>
-   <label class="question non-select ">
-      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/kesimpulan:label">__KESIMPULAN__</span>
-      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/kesimpulan:label">__SUMMARY__</span>
-      <input type="text" name="/kpsp_balita_3thn/kesimpulan" data-type-xml="string" />
+   <label class="question non-select or-appearance-multiline ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/kesimpulan:label">
+         <strong>KESIMPULAN</strong>
+      </span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/kesimpulan:label">
+         <strong>SUMMARY</strong>
+      </span>
+      <textarea name="/kpsp_balita_3thn/kesimpulan" data-type-xml="string"></textarea>
    </label>
-   <label class="note non-select ">
-      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/tindakan_intervensi:label">__TINDAKAN INTERVENSI__</span>
-      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/tindakan_intervensi:label">__INTERVENTION MEASURE__</span>
-      <input type="text" name="/kpsp_balita_3thn/tindakan_intervensi" data-type-xml="string" readonly="readonly" />
+   <label class="question note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/tindakan_intervensi:label">
+         <strong>TINDAKAN INTERVENSI</strong>
+      </span>
+      <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/tindakan_intervensi:label">
+         <strong>INTERVENTION MEASURE</strong>
+      </span>
+      <input type="text" name="/kpsp_balita_3thn/tindakan_intervensi" data-type-xml="string" readonly="readonly"/>
    </label>
-   <fieldset class="question or-appearance-horizontal ">
+   <fieldset class="question simple-select or-appearance-horizontal ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/konseling_stimulasi:label">Konseling stimulasi bagi ibu:</span>
@@ -614,12 +653,12 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/konseling_stimulasi" data-name="/kpsp_balita_3thn/konseling_stimulasi" value="diberikan" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/konseling_stimulasi" data-name="/kpsp_balita_3thn/konseling_stimulasi" value="diberikan" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/konseling_stimulasi/diberikan:label">Diberikan</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/konseling_stimulasi/diberikan:label">Received</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/konseling_stimulasi" data-name="/kpsp_balita_3thn/konseling_stimulasi" value="tidak_diberikan" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/konseling_stimulasi" data-name="/kpsp_balita_3thn/konseling_stimulasi" value="tidak_diberikan" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/konseling_stimulasi/tidak_diberikan:label">Tidak diberikan</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/konseling_stimulasi/tidak_diberikan:label">Not received</span>
             </label>
@@ -629,7 +668,7 @@
    <label class="question or-appearance-minimal  or-branch pre-init ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/intervensi_stimulasi:label">Intervensi stimulasi perkembangan:</span>
       <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/intervensi_stimulasi:label">Stimulation intervention on:</span>
-      <select multiple="multiple" name="/kpsp_balita_3thn/intervensi_stimulasi" data-name="/kpsp_balita_3thn/intervensi_stimulasi" data-relevant="selected( /kpsp_balita_3thn/konseling_stimulasi ,'diberikan')" data-type-xml="select1">
+      <select name="/kpsp_balita_3thn/intervensi_stimulasi" data-name="/kpsp_balita_3thn/intervensi_stimulasi" data-relevant="selected( /kpsp_balita_3thn/konseling_stimulasi ,'diberikan')" data-type-xml="select1">
          <option value="">...</option>
          <option value="gerak_kasar">Gerak Kasar</option>
          <option value="gerak_halus">Gerak Halus</option>
@@ -640,7 +679,7 @@
          <span data-option-value="gerak_kasar" lang="Bahasa">Gerak Kasar</span>
          <span data-option-value="gerak_kasar" lang="en">Gross motor</span>
          <span data-option-value="gerak_halus" lang="Bahasa">Gerak Halus</span>
-         <span data-option-value="gerak_halus" lang="en">Fien motor</span>
+         <span data-option-value="gerak_halus" lang="en">Fine motor</span>
          <span data-option-value="bahasa" lang="Bahasa">Bicara &amp; Bahasa</span>
          <span data-option-value="bahasa" lang="en">Language</span>
          <span data-option-value="sosial" lang="Bahasa">Sosialisasi &amp; Kemandirian</span>
@@ -650,14 +689,14 @@
    <label class="question or-branch pre-init non-select ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/tanggal_evaluasi_intervensi:label">Tanggal evaluasi intervensi</span>
       <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/tanggal_evaluasi_intervensi:label">Date of intervention evaluation</span>
-      <input type="date" name="/kpsp_balita_3thn/tanggal_evaluasi_intervensi" data-relevant="selected( /kpsp_balita_3thn/konseling_stimulasi ,'diberikan')" data-type-xml="date" />
+      <input type="date" name="/kpsp_balita_3thn/tanggal_evaluasi_intervensi" data-relevant="selected( /kpsp_balita_3thn/konseling_stimulasi ,'diberikan')" data-type-xml="date"/>
    </label>
-   <label class="question non-select ">
+   <label class="question non-select or-appearance-multiline ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/tindakan_lain:label">Tindakan pengobatan lain</span>
       <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/tindakan_lain:label">Other measure:</span>
-      <input type="text" name="/kpsp_balita_3thn/tindakan_lain" data-type-xml="string" />
+      <textarea name="/kpsp_balita_3thn/tindakan_lain" data-type-xml="string"></textarea>
    </label>
-   <fieldset class="question or-appearance-horizontal ">
+   <fieldset class="question simple-select or-appearance-horizontal ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/rujukan:label">Apakah anak dirujuk?</span>
@@ -665,12 +704,12 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/rujukan" data-name="/kpsp_balita_3thn/rujukan" value="ya" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/rujukan" data-name="/kpsp_balita_3thn/rujukan" value="ya" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/rujukan/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/rujukan/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/rujukan" data-name="/kpsp_balita_3thn/rujukan" value="tidak" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/rujukan" data-name="/kpsp_balita_3thn/rujukan" value="tidak" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/rujukan/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/rujukan/tidak:label">No</span>
             </label>
@@ -680,9 +719,9 @@
    <label class="question non-select ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/dirujuk_ke:label">Dirujuk ke</span>
       <span lang="en" class="question-label " data-itext-id="/kpsp_balita_3thn/dirujuk_ke:label">Place of referral</span>
-      <input type="text" name="/kpsp_balita_3thn/dirujuk_ke" data-type-xml="string" />
+      <input type="text" name="/kpsp_balita_3thn/dirujuk_ke" data-type-xml="string"/>
    </label>
-   <fieldset class="question or-appearance-horizontal ">
+   <fieldset class="question simple-select or-appearance-horizontal ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/kpsp_balita_3thn/surat_rujukan:label">Ada surat rujukan?</span>
@@ -690,41 +729,53 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/surat_rujukan" data-name="/kpsp_balita_3thn/surat_rujukan" value="ya" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/surat_rujukan" data-name="/kpsp_balita_3thn/surat_rujukan" value="ya" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/surat_rujukan/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/surat_rujukan/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/kpsp_balita_3thn/surat_rujukan" data-name="/kpsp_balita_3thn/surat_rujukan" value="tidak" data-type-xml="select1" />
+               <input type="radio" name="/kpsp_balita_3thn/surat_rujukan" data-name="/kpsp_balita_3thn/surat_rujukan" value="tidak" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/kpsp_balita_3thn/surat_rujukan/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/kpsp_balita_3thn/surat_rujukan/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
-   </fieldset>
+   </fieldset> \n
    <fieldset id="or-preload-items" style="display:none;">
       <label class="calculation non-select ">
-         <input type="hidden" name="/kpsp_balita_3thn/start" data-preload="timestamp" data-preload-params="start" data-type-xml="dateTime" />
+         <input type="hidden" name="/kpsp_balita_3thn/start" data-preload="timestamp" data-preload-params="start" data-type-xml="dateTime"/>
       </label>
       <label class="calculation non-select ">
-         <input type="hidden" name="/kpsp_balita_3thn/today" data-preload="date" data-preload-params="today" data-type-xml="date" />
+         <input type="hidden" name="/kpsp_balita_3thn/today" data-preload="date" data-preload-params="today" data-type-xml="date"/>
       </label>
       <label class="calculation non-select ">
-         <input type="hidden" name="/kpsp_balita_3thn/deviceid" data-preload="property" data-preload-params="deviceid" data-type-xml="string" />
+         <input type="hidden" name="/kpsp_balita_3thn/deviceid" data-preload="property" data-preload-params="deviceid" data-type-xml="string"/>
       </label>
       <label class="calculation non-select ">
-         <input type="hidden" name="/kpsp_balita_3thn/simserial" data-preload="property" data-preload-params="simserial" data-type-xml="string" />
+         <input type="hidden" name="/kpsp_balita_3thn/simserial" data-preload="property" data-preload-params="simserial" data-type-xml="string"/>
       </label>
       <label class="calculation non-select ">
-         <input type="hidden" name="/kpsp_balita_3thn/phonenumber" data-preload="property" data-preload-params="phonenumber" data-type-xml="string" />
+         <input type="hidden" name="/kpsp_balita_3thn/phonenumber" data-preload="property" data-preload-params="phonenumber" data-type-xml="string"/>
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/kpsp_balita_3thn/end" data-preload="timestamp" data-preload-params="end" data-type-xml="dateTime"/>
       </label>
    </fieldset>
    <fieldset id="or-calculated-items" style="display:none;">
       <label class="calculation non-select ">
-         <input type="hidden" name="/kpsp_balita_3thn/meta/instanceID" data-calculate="concat('uuid:', uuid())" data-type-xml="string" />
+         <input type="hidden" name="/kpsp_balita_3thn/existing_location" data-calculate=" /kpsp_balita_3thn/Village " data-type-xml="string"/>
       </label>
       <label class="calculation non-select ">
-         <input type="hidden" name="/kpsp_balita_3thn/formhub/uuid" data-calculate="'c1cb9f80d10249dc8a6a238cc2a1da6a'" data-type-xml="string" />
+         <input type="hidden" name="/kpsp_balita_3thn/desa" data-calculate=" /kpsp_balita_3thn/Village " data-type-xml="string"/>
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/kpsp_balita_3thn/dusun" data-calculate=" /kpsp_balita_3thn/Sub-village " data-type-xml="string"/>
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/kpsp_balita_3thn/meta/instanceID" data-calculate="concat('uuid:', uuid())" data-type-xml="string"/>
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/kpsp_balita_3thn/formhub/uuid" data-calculate="'bd63487f333241a6821dca0ce965ec32'" data-type-xml="string"/>
       </label>
    </fieldset>
 </form>

@@ -2,10 +2,21 @@
   "form_data_definition_version": "1",
   "form": {
     "bind_type": "anak",
+    "ec_bind_type":"ec_anak",
     "default_bind_path": "/model/instance/kpsp_balita_5thn/",
     "fields": [
       {
         "name": "id",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "existing_location",
+        "bind": "/model/instance/kpsp_balita_5thn/existing_location",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "desa_anak",
+        "bind": "/model/instance/kpsp_balita_5thn/Village",
         "shouldLoadValue": true
       },
       {
@@ -15,7 +26,7 @@
       },
       {
         "name": "kpsp_test_date5",
-        "bind": "/model/instance/kpsp_balita_5thn/kpsp_test_date5"
+        "bind": "/model/instance/kpsp_balita_5thn/kpsp_test_date"
       },
       {
         "name": "anamnesis",
@@ -147,7 +158,7 @@
       },
       {
         "name": "status_kembang5",
-        "bind": "/model/instance/kpsp_balita_5thn/status_kembang5"
+        "bind": "/model/instance/kpsp_balita_5thn/status_kembang"
       },
       {
         "name": "status_meragukan",

@@ -2,10 +2,21 @@
   "form_data_definition_version": "1",
   "form": {
     "bind_type": "anak",
+    "ec_bind_type":"ec_anak",
     "default_bind_path": "/model/instance/kpsp_balita_4thn/",
     "fields": [
       {
         "name": "id",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "existing_location",
+        "bind": "/model/instance/kpsp_balita_4thn/existing_location",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "desa_anak",
+        "bind": "/model/instance/kpsp_balita_4thn/Village",
         "shouldLoadValue": true
       },
       {
@@ -107,7 +118,7 @@
       },
       {
         "name": "status_kembang4",
-        "bind": "/model/instance/kpsp_balita_4thn/status_kembang4"
+        "bind": "/model/instance/kpsp_balita_4thn/status_kembang"
       },
       {
         "name": "status_meragukan",

@@ -28,11 +28,6 @@
         "shouldLoadValue": true
       },
       {
-        "name": "dusun",
-        "bind": "/model/instance/antropometri/existing_Sub-village",
-        "shouldLoadValue": true
-      },
-      {
         "name": "umur",
         "bind": "/model/instance/antropometri/umur",
 		"shouldLoadValue": true

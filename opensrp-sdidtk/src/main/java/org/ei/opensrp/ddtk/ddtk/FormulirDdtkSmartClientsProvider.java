@@ -82,10 +82,11 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterCLientsPro
             viewHolder.berat = (TextView)convertView.findViewById(R.id.text_berat);
             viewHolder.tinggi = (TextView)convertView.findViewById(R.id.text_tinggi);
             viewHolder.lingkar_kepala = (TextView)convertView.findViewById(R.id.text_lingkar_kepala);
-
-          /*  viewHolder.kpsp_test_date1 = (TextView)convertView.findViewById(R.id.text_kpsp_test_date);
+            viewHolder.kpsp_test_date1 = (TextView)convertView.findViewById(R.id.text_kpsp_test_date);
             viewHolder.status_kembang1 = (TextView)convertView.findViewById(R.id.text_status_kembang);
-            viewHolder.status_kembang2 = (TextView)convertView.findViewById(R.id.text_status_kembang);
+            viewHolder.status_kembang2 = (TextView)convertView.findViewById(R.id.text_status_kembang2);
+            viewHolder.status_kembang3 = (TextView)convertView.findViewById(R.id.text_status_kembang3);
+        /*    viewHolder.status_kembang2 = (TextView)convertView.findViewById(R.id.text_status_kembang);
             viewHolder.kpsp_test_date2 = (TextView)convertView.findViewById(R.id.text_kpsp_test_date);
             viewHolder.status_kembang3 = (TextView)convertView.findViewById(R.id.text_status_kembang);
             viewHolder.kpsp_test_date3 = (TextView)convertView.findViewById(R.id.text_kpsp_test_date);
@@ -176,9 +177,15 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterCLientsPro
         viewHolder.lingkar_kepala.setText("Lingkar Kepala: "+ (pc.getDetails().get("lingkar_kepala")!=null?pc.getDetails().get("lingkar_kepala").replaceAll("_", " "):"-"));
         viewHolder.anthropometry_date.setText("Tanggal: "+ (pc.getDetails().get("anthropometry_date")!=null?pc.getDetails().get("anthropometry_date").replaceAll("_", " "):"-"));
 
+        //kpsp
+        viewHolder.kpsp_test_date1.setText(pc.getDetails().get("kpsp_1thn_date")!=null?pc.getDetails().get("kpsp_1thn_date").replaceAll("_", " "):"-");
+        viewHolder.status_kembang1.setText(pc.getDetails().get("status_kembang")!=null?pc.getDetails().get("status_kembang").replaceAll("_", " "):"-");
+        viewHolder.status_kembang2.setText(pc.getDetails().get("status_kembang4")!=null?pc.getDetails().get("status_kembang4").replaceAll("_", " "):"-");
+        viewHolder.status_kembang3.setText(pc.getDetails().get("status_kembang5")!=null?pc.getDetails().get("status_kembang5").replaceAll("_", " "):"-");
+
 /*
         viewHolder.kpsp_test_date2.setText(pc.getDetails().get("kpsp_test_date2")!=null?pc.getDetails().get("kpsp_test_date2").replaceAll("_", " "):"-");
-        viewHolder.status_kembang2.setText(pc.getDetails().get("status_kembang2")!=null?pc.getDetails().get("status_kembang2").replaceAll("_", " "):"-");
+        viewHolder.status_kembang1.setText(pc.getDetails().get("status_kembang2")!=null?pc.getDetails().get("status_kembang2").replaceAll("_", " "):"-");
         viewHolder.kpsp_test_date3.setText(pc.getDetails().get("kpsp_test_date3")!=null?pc.getDetails().get("kpsp_test_date3").replaceAll("_", " "):"-");
         viewHolder.status_kembang3.setText(pc.getDetails().get("status_kembang3")!=null?pc.getDetails().get("status_kembang3").replaceAll("_", " "):"-");
         viewHolder.kpsp_test_date4.setText(pc.getDetails().get("kpsp_test_date4")!=null?pc.getDetails().get("kpsp_test_date4").replaceAll("_", " "):"-");
