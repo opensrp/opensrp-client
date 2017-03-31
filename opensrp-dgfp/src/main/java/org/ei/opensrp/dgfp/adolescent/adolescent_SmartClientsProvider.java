@@ -15,6 +15,7 @@ import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
 import org.ei.opensrp.cursoradapter.SmartRegisterCLientsProviderForCursorAdapter;
+import org.ei.opensrp.dgfp.BuildConfig;
 import org.ei.opensrp.dgfp.R;
 import org.ei.opensrp.dgfp.elco.HH_woman_member_SmartRegisterActivity;
 import org.ei.opensrp.dgfp.hh_member.HouseHoldDetailActivity;
@@ -108,13 +109,21 @@ public class adolescent_SmartClientsProvider implements SmartRegisterCLientsProv
         AllCommonsRepository householdrep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("household");
         final CommonPersonObject householdparent = householdrep.findByCaseID(memberobject.getRelationalId());
 
-
-
-        if (pc.getDetails().get("profilepic") != null) {
-           HouseHoldDetailActivity.setImagetoHolder((Activity) context, pc.getDetails().get("profilepic"), profilepic, R.mipmap.householdload);
+        if ((pc.getDetails().get("Child") != null ? pc.getDetails().get("Child") : "").equalsIgnoreCase("1")) {
+            if ((pc.getDetails().get("Member_Gender") != null ? pc.getDetails().get("Member_Gender"):"").equalsIgnoreCase("1")) {
+                profilepic.setImageResource(R.drawable.child_boy_infant);
+            }
+            else {
+                profilepic.setImageResource(R.drawable.child_girl_infant);
+            }
         } else {
-           profilepic.setImageResource(R.drawable.woman_placeholder);
+            if ((pc.getDetails().get("Member_Gender") != null ? pc.getDetails().get("Member_Gender"):"").equalsIgnoreCase("2")) {
+                profilepic.setImageResource(R.drawable.woman_placeholder);
+            }else{
+                profilepic.setImageResource(R.mipmap.household_profile_thumb);
+            }
         }
+
         hoh_name.setText((householdparent.getDetails().get("HoH_F_Name") != null ? householdparent.getDetails().get("HoH_F_Name") : ""));
 
 //        coupleno_or_fathersname.setText((pc.getDetails().get("Couple_No") != null ? pc.getDetails().get("Couple_No") : ""));

@@ -199,7 +199,6 @@
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="New Button"
             style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
             android:id="@+id/nutrition_taken" />
     </LinearLayout>

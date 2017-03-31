@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RadioGroup android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <RadioButton android:id="@+id/radioButton2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="50.0dip" android:text="Outside Catchment Area" />
+        <RadioButton android:id="@+id/radioButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="100.0dip" android:text="My Clinic Only" />
+    </RadioGroup>
+
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="30.0dip">
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <TextView android:textAppearance="?android:textAppearanceMedium" android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="First Name" />
+            <EditText android:id="@+id/firstName" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <TextView android:textAppearance="?android:textAppearanceMedium" android:id="@+id/textView3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Last Name" />
+            <EditText android:id="@+id/lastName" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <TextView android:textAppearance="?android:textAppearanceMedium" android:id="@+id/textView4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Birth Registration ID" />
+            <EditText android:id="@+id/brid" android:layout_width="fill_parent" android:layout_height="wrap_content" android:numeric="integer" />
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <TextView android:textAppearance="?android:textAppearanceMedium" android:id="@+id/textView5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="National ID" />
+            <EditText android:id="@+id/nid" android:layout_width="fill_parent" android:layout_height="wrap_content" android:numeric="integer" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button android:layout_gravity="center_horizontal" android:id="@+id/submit" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="Search" />
+</LinearLayout>

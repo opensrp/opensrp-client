@@ -1,194 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@color/client_list_header_dark_grey" android:layout_width="fill_parent" android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <include layout="@layout/childdetail_nav_bar" />
+    <ImageView android:id="@+id/imageView5" android:layout_width="fill_parent" android:layout_height="@dimen/smart_register_client_divider_height" android:src="@color/smart_register_client_divider_color" />
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:background="@color/client_list_header_dark_grey">
-
-    <include layout="@layout/childdetail_nav_bar"
-         />
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/smart_register_client_divider_height"
-        android:src="@color/smart_register_client_divider_color"
-        android:id="@+id/imageView5" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <org.ei.opensrp.view.customControls.CustomFontTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Basic Info"
-            android:id="@+id/childid"
-            style="@style/CustomFontTextViewStyle.ListView.Medium"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"
-            android:textStyle="bold"
-            android:textSize="22sp" />
-
+    <LinearLayout android:orientation="horizontal" android:id="@id/linearLayout" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <org.ei.opensrp.view.customControls.CustomFontTextView android:textAppearance="?android:textAppearanceLarge" android:textSize="14.0sp" android:textStyle="bold" android:textColor="@color/text_black" android:id="@+id/child_detail_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="3.0dip" android:text="" android:layout_weight="1.0" style="@style/CustomFontTextViewStyle.noPadding" />
+        <org.ei.opensrp.view.customControls.CustomFontTextView android:textSize="16.0sp" android:textStyle="bold" android:textColor="@color/text_black" android:gravity="left" android:layout_gravity="center_vertical" android:id="@+id/child_detail_today" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginLeft="5.0dip" android:layout_marginTop="2.0dip" android:layout_marginRight="5.0dip" android:text="Today's Date:" style="@style/CustomFontTextViewStyle.ListView.Bold.NoPadding" />
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/smart_register_client_divider_height"
-        android:src="@color/smart_register_client_divider_color"
-        android:id="@+id/imageView4" />
+    <ImageView android:id="@+id/imageView4" android:layout_width="fill_parent" android:layout_height="@dimen/smart_register_client_divider_height" android:src="@color/smart_register_client_divider_color" />
 
-    <include
-        layout="@layout/child_detail_profile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <include android:layout_width="fill_parent" android:layout_height="wrap_content" layout="@layout/child_detail_profile" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/smart_register_client_divider_height"
-        android:src="@color/smart_register_client_divider_color"
-        android:id="@+id/imageView3" />
+    <ImageView android:id="@+id/imageView3" android:layout_width="fill_parent" android:layout_height="@dimen/smart_register_client_divider_height" android:src="@color/smart_register_client_divider_color" />
 
-    <LinearLayout
-            android:id="@+id/clients_header_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/list_view_margin_left_and_right"
-            android:orientation="horizontal">
-
-        <org.ei.opensrp.view.customControls.CustomFontTextView
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:text="Child Details"
-            android:id="@+id/inhabitants"
-            style="@style/CustomFontTextViewStyle.ListView.Medium"
-            android:layout_gravity="center_vertical"
-            android:textColor="@color/text_black"
-            android:textStyle="bold"
-            android:textSize="20sp" />
-
+    <LinearLayout android:orientation="horizontal" android:id="@id/clients_header_layout" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginRight="@dimen/list_view_margin_left_and_right">
+        <org.ei.opensrp.view.customControls.CustomFontTextView android:textSize="20.0sp" android:textStyle="bold" android:textColor="@color/text_black" android:layout_gravity="center_vertical" android:id="@id/inhabitants" android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="Child Details" style="@style/CustomFontTextViewStyle.ListView.Medium" />
     </LinearLayout>
 
-    <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/smart_register_client_divider_height"
-            android:src="@color/smart_register_client_divider_color"/>
+    <ImageView android:layout_width="fill_parent" android:layout_height="@dimen/smart_register_client_divider_height" android:src="@color/smart_register_client_divider_color" />
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true"
-        android:id="@+id/scrollView" >
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/smart_register_client_divider_height"
-                android:src="@color/smart_register_client_divider_color"
-                android:id="@+id/imageView" />
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#ffffff">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:layout_margin="2dp">
-
-                    <org.ei.opensrp.view.customControls.CustomFontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        style="@style/CustomFontTextViewStyle"
-                        android:text="Critical Disease/Problem"
-                        android:id="@+id/textView6"
-                        android:layout_weight="1"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="@color/text_black" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:id="@+id/critical_disease_problem"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="@color/text_black"
-                        android:layout_marginRight="5dp" />
+    <ScrollView android:id="@+id/scrollView" android:layout_width="fill_parent" android:layout_height="wrap_content" android:fillViewport="true">
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <ImageView android:id="@+id/imageView" android:layout_width="fill_parent" android:layout_height="@dimen/smart_register_client_divider_height" android:src="@color/smart_register_client_divider_color" />
+            <LinearLayout android:orientation="vertical" android:background="#ffffffff" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="2.0dip" android:layout_marginTop="2.0dip">
+                    <org.ei.opensrp.view.customControls.CustomFontTextView android:textAppearance="?android:textAppearanceMedium" android:textColor="@color/text_black" android:layout_gravity="center_vertical" android:id="@id/textView6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Critical Disease/Problem" android:layout_weight="1.0" style="@style/CustomFontTextViewStyle" />
+                    <TextView android:textAppearance="?android:textAppearanceMedium" android:textColor="@color/text_black" android:layout_gravity="center_vertical" android:id="@+id/critical_disease_problem" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="5.0dip" />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:layout_margin="2dp">
-
-                    <org.ei.opensrp.view.customControls.CustomFontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        style="@style/CustomFontTextViewStyle"
-                        android:text="Referred"
-                        android:id="@+id/referred_label"
-                        android:layout_weight="1"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="@color/text_black" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:id="@+id/referred"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="@color/text_black"
-                        android:layout_marginRight="5dp" />
+                <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="2.0dip" android:layout_marginTop="2.0dip">
+                    <org.ei.opensrp.view.customControls.CustomFontTextView android:textAppearance="?android:textAppearanceMedium" android:textColor="@color/text_black" android:layout_gravity="center_vertical" android:id="@+id/referred_label" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Referred" android:layout_weight="1.0" style="@style/CustomFontTextViewStyle" />
+                    <TextView android:textAppearance="?android:textAppearanceMedium" android:textColor="@color/text_black" android:layout_gravity="center_vertical" android:id="@+id/referred" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="5.0dip" />
                 </LinearLayout>
-
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:layout_margin="2dp">
-
-                    <org.ei.opensrp.view.customControls.CustomFontTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        style="@style/CustomFontTextViewStyle"
-                        android:text="Vaccination History"
-                        android:id="@+id/textView10"
-                        android:layout_weight="1"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="@color/text_black" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Medium Text"
-                        android:id="@+id/vaccination_history"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="@color/text_black"
-                        android:layout_marginRight="5dp" />
+                <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="2.0dip" android:layout_marginTop="2.0dip">
+                    <org.ei.opensrp.view.customControls.CustomFontTextView android:textAppearance="?android:textAppearanceMedium" android:textColor="@color/text_black" android:layout_gravity="center_vertical" android:id="@id/textView10" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Vaccination History" android:layout_weight="1.0" style="@style/CustomFontTextViewStyle" />
+                    <TextView android:textAppearance="?android:textAppearanceMedium" android:textColor="@color/text_black" android:layout_gravity="center_vertical" android:id="@+id/vaccination_history" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="5.0dip" android:text="Medium Text" />
                 </LinearLayout>
-
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <CheckBox android:id="@+id/bcg" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BCG" />
+            <CheckBox android:id="@+id/penta1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="23.0dip" android:checked="false" android:text="Penta-1" />
+            <CheckBox android:id="@+id/pcv1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="PCV-1" />
+            <CheckBox android:id="@+id/ipv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="IPV" />
+        </LinearLayout>
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <CheckBox android:id="@+id/opv0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="OPV-0" />
+            <CheckBox android:id="@+id/penta2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="Penta-2" />
+            <CheckBox android:id="@+id/pcv2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="PCV-2" />
+            <CheckBox android:id="@+id/measles1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="Measles-1" />
+        </LinearLayout>
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <CheckBox android:id="@+id/opv1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="OPV-1" />
+            <CheckBox android:id="@+id/penta3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="Penta-3" />
+            <CheckBox android:id="@+id/pcv3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="PCV-3" />
+            <CheckBox android:id="@+id/measles2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="Measles-2" />
+        </LinearLayout>
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <CheckBox android:id="@+id/opv2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="OPV-2" />
+        </LinearLayout>
+
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <CheckBox android:id="@+id/opv3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="OPV-3" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

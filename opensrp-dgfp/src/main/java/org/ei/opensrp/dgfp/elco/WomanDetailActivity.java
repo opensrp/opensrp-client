@@ -332,6 +332,9 @@ public class WomanDetailActivity extends Activity {
         LocalDate today = now.toLocalDate();
         DateTime bday = date;
         DateTime startOfToday = today.toDateTimeAtStartOfDay(now.getZone());
+
+        Log.d("start : " , bday.toString());
+        Log.d("end",startOfToday.toString());
         DateTimeFormatter dtfOut = DateTimeFormat.forPattern("yyyy-MM-dd");
         try {
             Log.v("today's date-birthdate", bday.toString(dtfOut));

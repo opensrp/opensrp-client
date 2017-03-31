@@ -33,6 +33,7 @@ import org.ei.opensrp.dgfp.elco.tt4handler;
 import org.ei.opensrp.dgfp.elco.tt5handler;
 import org.ei.opensrp.dgfp.hh_member.HHWardCommonObjectFilterOption;
 import org.ei.opensrp.dgfp.hh_member.HouseholdCensusDueDateSort;
+import org.ei.opensrp.dgfp.injectables.McareInjectablesDetailActivity;
 import org.ei.opensrp.dgfp.injectables.dgfp_injectable_SmartRegisterActivity;
 import org.ei.opensrp.dgfp.injectables.injectableServiceModeOption;
 import org.ei.opensrp.dgfp.injectables.injectable_SmartClientsProvider;
@@ -115,24 +116,24 @@ public class dgfp_injectable_SmartRegisterFragment extends SecuredNativeSmartReg
             public DialogOption[] filterOptions() {
                 ArrayList<DialogOption> dialogOptionslist = new ArrayList<DialogOption>();
                 dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_all_label),""));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filterbymarried),filterStringFormarried()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filterbyUnmarried),filterStringForunmarried()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filterbywidowed),filterStringForwidow()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.ward1),filterStringForWard("Ward-1")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.ward2),filterStringForWard("Ward-2")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.ward3),filterStringForWard("Ward-3")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block1ka),filterStringForBlock("1-KA")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block1kha),filterStringForBlock("1-KHA")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block2ka),filterStringForBlock("2-KA")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block2kha),filterStringForBlock("2-KHA")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block3ka),filterStringForBlock("3-KA")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block3kha),filterStringForBlock("3-KHA")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block4ka),filterStringForBlock("4-KA")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block4kha),filterStringForBlock("4-KHA")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.todayssession),filterStringForTodaySession()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.single_vaccine_miss),filterStringForSingleVaccineMiss()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.double_vaccine_miss),filterStringForDoubleVaccineMiss()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.triple_vaccine_miss),filterStringForMoreThanVaccineMiss()));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filterbymarried),filterStringFormarried()));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filterbyUnmarried),filterStringForunmarried()));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filterbywidowed),filterStringForwidow()));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.ward1),filterStringForWard("Ward-1")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.ward2),filterStringForWard("Ward-2")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.ward3),filterStringForWard("Ward-3")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block1ka),filterStringForBlock("1-KA")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block1kha),filterStringForBlock("1-KHA")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block2ka),filterStringForBlock("2-KA")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block2kha),filterStringForBlock("2-KHA")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block3ka),filterStringForBlock("3-KA")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block3kha),filterStringForBlock("3-KHA")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block4ka),filterStringForBlock("4-KA")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block4kha),filterStringForBlock("4-KHA")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.todayssession),filterStringForTodaySession()));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.single_vaccine_miss),filterStringForSingleVaccineMiss()));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.double_vaccine_miss),filterStringForDoubleVaccineMiss()));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.triple_vaccine_miss),filterStringForMoreThanVaccineMiss()));
 
 
 //                String locationjson = context.anmLocationController().get();
@@ -160,8 +161,8 @@ public class dgfp_injectable_SmartRegisterFragment extends SecuredNativeSmartReg
 //                        new ElcoPSRFDueDateSort(),
 //                        new CursorCommonObjectSort(getString(R.string.due_status),sortByAlertmethod()),
                         new CursorCommonObjectSort(Context.getInstance().applicationContext().getString(R.string.sort_by_child_age),sortByage()),
-                        new CursorCommonObjectSort(Context.getInstance().applicationContext().getString(R.string.elco_alphabetical_sort),sortByFWWOMFNAME()),
-                        new CursorCommonObjectSort( Context.getInstance().applicationContext().getString(R.string.sort_by_marital_status),sortByMaritalStatus())
+                        new CursorCommonObjectSort(Context.getInstance().applicationContext().getString(R.string.elco_alphabetical_sort),sortByFWWOMFNAME())
+//                        new CursorCommonObjectSort( Context.getInstance().applicationContext().getString(R.string.sort_by_marital_status),sortByMaritalStatus())
 //
 //
 //                        new CommonObjectSort(true,false,true,"age")
@@ -241,9 +242,9 @@ public class dgfp_injectable_SmartRegisterFragment extends SecuredNativeSmartReg
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.profile_info_layout:
-                    WomanDetailActivity.womanclient = (CommonPersonObjectClient)view.getTag();
-                    Intent intent = new Intent(getActivity(),WomanDetailActivity.class);
-                    startActivity(intent);
+//                    McareInjectablesDetailActivity.injectableClient = (CommonPersonObjectClient) view.getTag();
+//                    Intent intent = new Intent(dgfp_injectable_SmartRegisterFragment.this.getActivity(), McareInjectablesDetailActivity.class);
+//                    startActivity(intent);
                     break;
                 case R.id.next_injectable_dose:
                     ((dgfp_injectable_SmartRegisterActivity)getActivity()).startFormActivity("injectable", ((CommonPersonObjectClient) view.getTag()).entityId(), null);

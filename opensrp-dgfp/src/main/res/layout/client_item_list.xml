@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:background="@color/abc_input_method_navigation_guard" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@+id/imageView6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/woman_placeholder" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="10.0dip">
+
+        <TextView android:textColor="@android:color/white"
+            android:id="@+id/firstName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+        <TextView android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:id="@+id/nationalId"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5.0dip" />
+
+        <TextView android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:id="@+id/birthId"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5.0dip" />
+
+        <TextView android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:id="@+id/caseId"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1.0dip" />
+    </LinearLayout>
+
+</LinearLayout>

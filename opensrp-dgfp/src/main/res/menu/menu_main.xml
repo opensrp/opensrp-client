@@ -13,6 +13,12 @@
         android:orderInCategory="100"
         android:title="" />
     <item
+        android:id="@+id/searchmenu_item"
+        android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
+        app:showAsAction="always"
+        android:orderInCategory="100"
+        android:title="" />
+    <item
         android:id="@+id/switchLanguageMenuItem"
         android:title="@string/str_switch_language"
         android:icon="@drawable/ic_menu_edit"/>

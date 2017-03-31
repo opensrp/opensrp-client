@@ -142,10 +142,12 @@ public class HouseHoldSmartClientsProvider implements SmartRegisterCLientsProvid
 
 //
          gobhhid.setText(pc.getColumnmaps().get("GoB_HHID")!=null?pc.getColumnmaps().get("GoB_HHID"):"");
-         age.setText("("+(pc.getDetails().get("calc_HoH_age_confirm")!=null?pc.getDetails().get("calc_HoH_age_confirm"):"")+") ");
+         age.setText("("+(pc.getDetails().get("Calc_HoH_Dob")!=null?pc.getDetails().get("Calc_HoH_Dob"):"")+") ");
         try {
-            int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("calc_HoH_dob_confirm") != null ?  pc.getDetails().get("calc_HoH_dob_confirm")  : "")), DateUtil.today());
+            DateUtil.setDefaultDateFormat("yyyy-MM-dd");
+            int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("Calc_HoH_Dob") != null ?  pc.getDetails().get("Calc_HoH_Dob")  : "")), DateUtil.today());
             int calc_age = days / 365;
+
             age.setText("("+calc_age+") ");
         }catch (Exception e){
 

@@ -113,9 +113,10 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
         if((pc.getDetails().get("Child")!=null?pc.getDetails().get("Child"):"").equalsIgnoreCase("1")){
             name.setText(pc.getColumnmaps().get("Mem_F_Name")!=null?pc.getColumnmaps().get("Mem_F_Name"):"");
             uniqueid.setVisibility(View.GONE);
-            age.setText(pc.getColumnmaps().get("Child_calc_age")!=null?pc.getColumnmaps().get("Child_calc_age"):"");
+            age.setText(pc.getColumnmaps().get("Child_dob")!=null?pc.getColumnmaps().get("Child_dob"):"");
             try {
-                int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("Child_dob") != null ?  pc.getDetails().get("Child_dob")  : "")), DateUtil.today());
+                DateUtil.setDefaultDateFormat("yyyy-MM-dd");
+                int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("Calc_Dob") != null ?  pc.getDetails().get("Calc_Dob")  : "")), DateUtil.today());
                 int calc_age = days / 365;
                 age.setText(calculateage(days));
             }catch (Exception e){
@@ -146,6 +147,7 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
             uniqueid.setText(unique_id_string);
             age.setText(pc.getColumnmaps().get("calc_age_confirm") != null ? pc.getColumnmaps().get("calc_age_confirm") : "");
             try {
+                DateUtil.setDefaultDateFormat("yyyy-MM-dd");
                 int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("calc_dob_confirm") != null ?  pc.getDetails().get("calc_dob_confirm")  : "")), DateUtil.today());
                 int calc_age = days / 365;
                 age.setText(calc_age);
