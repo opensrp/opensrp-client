@@ -1,30 +1,35 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<form autocomplete="off" novalidate="novalidate" class="or clearfix" id="tes_daya_lihat">
-   <!--This form was created by transforming a OpenRosa-flavored (X)Form using an XSLT sheet created by Enketo LLC.-->
+<form autocomplete="off" novalidate="novalidate" class="or clearfix" dir="ltr" id="tes_daya_lihat_1">\n
+   <!--This form was created by transforming a OpenRosa-flavored (X)Form using an XSL stylesheet created by Enketo LLC.-->
    <section class="form-logo"></section>
-   <h3 id="form-title">Tes Daya Lihat</h3>
+   <h3 dir="auto" id="form-title">Tes Daya Lihat</h3>
    <select id="form-languages" data-default-lang="Bahasa">
-      <option value="Bahasa">Bahasa</option>
-      <option value="en">English</option>
+      <option value="Bahasa" data-dir="ltr">Bahasa</option>
+      <option value="en" data-dir="ltr">English</option>
    </select>
-   <label class="note non-select ">
-        <span class="question-label active" data-itext-id="/tes_daya_lihat/generated_note_name_12:label"
-            lang="Bahasa">Umur:
-            <span class="or-output"
-                data-value=" /tes_daya_lihat/umur "></span>
-        </span>
-        <span class="question-label " data-itext-id="/tes_daya_lihat/generated_note_name_12:label"
-            lang="en">Age:
-        </span>
-        <input name="/tes_daya_lihat/generated_note_name_12" data-type-xml="string"
-            readonly="readonly" type="text" />
-    </label>
+   <label class="question note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/tes_daya_lihat/generated_note_name_10:label">Desa :
+         <span class="or-output" data-value=" /tes_daya_lihat/Village "></span>
+      </span>
+      <span lang="en" class="question-label " data-itext-id="/tes_daya_lihat/generated_note_name_10:label">Desa :
+         <span class="or-output" data-value=" /tes_daya_lihat/Village "></span>
+      </span>
+      <input type="text" name="/tes_daya_lihat/generated_note_name_10" data-type-xml="string" readonly="readonly"/>
+   </label>
+   <label class="question note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/tes_daya_lihat/generated_note_name_11:label">Dusun :
+         <span class="or-output" data-value=" /tes_daya_lihat/Sub-village "></span>
+      </span>
+      <span lang="en" class="question-label " data-itext-id="/tes_daya_lihat/generated_note_name_11:label">Dusun :
+         <span class="or-output" data-value=" /tes_daya_lihat/Sub-village "></span>
+      </span>
+      <input type="text" name="/tes_daya_lihat/generated_note_name_11" data-type-xml="string" readonly="readonly"/>
+   </label>
    <label class="question non-select ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/tes_daya_lihat/sight_test_date:label">Tanggal Entry</span>
       <span lang="en" class="question-label " data-itext-id="/tes_daya_lihat/sight_test_date:label">Entry Date</span>
-      <input type="date" name="/tes_daya_lihat/sight_test_date" data-type-xml="date" />
+      <input type="date" name="/tes_daya_lihat/sight_test_date" data-type-xml="date"/>
    </label>
-   <fieldset class="question or-appearance-horizontal-compact ">
+   <fieldset class="question simple-select or-appearance-horizontal-compact ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/tes_daya_lihat/daya_lihat:label">Hasil Tes Daya Lihat</span>
@@ -32,29 +37,37 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/tes_daya_lihat/daya_lihat" data-name="/tes_daya_lihat/daya_lihat" value="normal" data-type-xml="select1" />
+               <input type="radio" name="/tes_daya_lihat/daya_lihat" data-name="/tes_daya_lihat/daya_lihat" value="normal" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/tes_daya_lihat/daya_lihat/normal:label">Normal</span>
                <span lang="en" class="option-label " data-itext-id="/tes_daya_lihat/daya_lihat/normal:label">Normal</span>
             </label>
             <label class="">
-               <input type="radio" name="/tes_daya_lihat/daya_lihat" data-name="/tes_daya_lihat/daya_lihat" value="ada_gangguan" data-type-xml="select1" />
+               <input type="radio" name="/tes_daya_lihat/daya_lihat" data-name="/tes_daya_lihat/daya_lihat" value="ada_gangguan" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/tes_daya_lihat/daya_lihat/ada_gangguan:label">Curiga ada gangguan</span>
                <span lang="en" class="option-label " data-itext-id="/tes_daya_lihat/daya_lihat/ada_gangguan:label">Suspected of development disorder</span>
             </label>
          </div>
       </fieldset>
    </fieldset>
-   <label class="question non-select ">
-      <span lang="Bahasa" class="question-label active" data-itext-id="/tes_daya_lihat/kesimpulan:label">__KESIMPULAN__</span>
-      <span lang="en" class="question-label " data-itext-id="/tes_daya_lihat/kesimpulan:label">__SUMMARY__</span>
-      <input type="text" name="/tes_daya_lihat/kesimpulan" data-type-xml="string" />
+   <label class="question non-select or-appearance-multiline ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/tes_daya_lihat/kesimpulan:label">
+         <strong>KESIMPULAN</strong>
+      </span>
+      <span lang="en" class="question-label " data-itext-id="/tes_daya_lihat/kesimpulan:label">
+         <strong>SUMMARY</strong>
+      </span>
+      <textarea name="/tes_daya_lihat/kesimpulan" data-type-xml="string"></textarea>
    </label>
-   <label class="note non-select ">
-      <span lang="Bahasa" class="question-label active" data-itext-id="/tes_daya_lihat/tindakan_intervensi:label">__TINDAKAN INTERVENSI__</span>
-      <span lang="en" class="question-label " data-itext-id="/tes_daya_lihat/tindakan_intervensi:label">__INTERVENTION MEASURE__</span>
-      <input type="text" name="/tes_daya_lihat/tindakan_intervensi" data-type-xml="string" readonly="readonly" />
+   <label class="question note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/tes_daya_lihat/tindakan_intervensi:label">
+         <strong>TINDAKAN INTERVENSI</strong>
+      </span>
+      <span lang="en" class="question-label " data-itext-id="/tes_daya_lihat/tindakan_intervensi:label">
+         <strong>INTERVENTION MEASURE</strong>
+      </span>
+      <input type="text" name="/tes_daya_lihat/tindakan_intervensi" data-type-xml="string" readonly="readonly"/>
    </label>
-   <fieldset class="question or-appearance-horizontal ">
+   <fieldset class="question simple-select or-appearance-horizontal ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/tes_daya_lihat/konseling_stimulasi:label">Konseling stimulasi bagi ibu:</span>
@@ -62,24 +75,24 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/tes_daya_lihat/konseling_stimulasi" data-name="/tes_daya_lihat/konseling_stimulasi" value="diberikan" data-type-xml="select1" />
+               <input type="radio" name="/tes_daya_lihat/konseling_stimulasi" data-name="/tes_daya_lihat/konseling_stimulasi" value="diberikan" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/tes_daya_lihat/konseling_stimulasi/diberikan:label">Diberikan</span>
                <span lang="en" class="option-label " data-itext-id="/tes_daya_lihat/konseling_stimulasi/diberikan:label">Received</span>
             </label>
             <label class="">
-               <input type="radio" name="/tes_daya_lihat/konseling_stimulasi" data-name="/tes_daya_lihat/konseling_stimulasi" value="tidak_diberikan" data-type-xml="select1" />
+               <input type="radio" name="/tes_daya_lihat/konseling_stimulasi" data-name="/tes_daya_lihat/konseling_stimulasi" value="tidak_diberikan" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/tes_daya_lihat/konseling_stimulasi/tidak_diberikan:label">Tidak diberikan</span>
                <span lang="en" class="option-label " data-itext-id="/tes_daya_lihat/konseling_stimulasi/tidak_diberikan:label">Not received</span>
             </label>
          </div>
       </fieldset>
    </fieldset>
-   <label class="question non-select ">
+   <label class="question non-select or-appearance-multiline ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/tes_daya_lihat/tindakan_lain:label">Tindakan pengobatan lain</span>
       <span lang="en" class="question-label " data-itext-id="/tes_daya_lihat/tindakan_lain:label">Other measure:</span>
-      <input type="text" name="/tes_daya_lihat/tindakan_lain" data-type-xml="string" />
+      <textarea name="/tes_daya_lihat/tindakan_lain" data-type-xml="string"></textarea>
    </label>
-   <fieldset class="question or-appearance-horizontal ">
+   <fieldset class="question simple-select or-appearance-horizontal ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/tes_daya_lihat/rujukan:label">Apakah anak dirujuk?</span>
@@ -87,12 +100,12 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/tes_daya_lihat/rujukan" data-name="/tes_daya_lihat/rujukan" value="ya" data-type-xml="select1" />
+               <input type="radio" name="/tes_daya_lihat/rujukan" data-name="/tes_daya_lihat/rujukan" value="ya" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/tes_daya_lihat/rujukan/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/tes_daya_lihat/rujukan/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/tes_daya_lihat/rujukan" data-name="/tes_daya_lihat/rujukan" value="tidak" data-type-xml="select1" />
+               <input type="radio" name="/tes_daya_lihat/rujukan" data-name="/tes_daya_lihat/rujukan" value="tidak" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/tes_daya_lihat/rujukan/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/tes_daya_lihat/rujukan/tidak:label">No</span>
             </label>
@@ -102,9 +115,9 @@
    <label class="question non-select ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/tes_daya_lihat/dirujuk_ke:label">Dirujuk ke</span>
       <span lang="en" class="question-label " data-itext-id="/tes_daya_lihat/dirujuk_ke:label">Place of referral</span>
-      <input type="text" name="/tes_daya_lihat/dirujuk_ke" data-type-xml="string" />
+      <input type="text" name="/tes_daya_lihat/dirujuk_ke" data-type-xml="string"/>
    </label>
-   <fieldset class="question or-appearance-horizontal ">
+   <fieldset class="question simple-select or-appearance-horizontal ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/tes_daya_lihat/surat_rujukan:label">Ada surat rujukan?</span>
@@ -112,41 +125,50 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/tes_daya_lihat/surat_rujukan" data-name="/tes_daya_lihat/surat_rujukan" value="ya" data-type-xml="select1" />
+               <input type="radio" name="/tes_daya_lihat/surat_rujukan" data-name="/tes_daya_lihat/surat_rujukan" value="ya" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/tes_daya_lihat/surat_rujukan/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/tes_daya_lihat/surat_rujukan/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/tes_daya_lihat/surat_rujukan" data-name="/tes_daya_lihat/surat_rujukan" value="tidak" data-type-xml="select1" />
+               <input type="radio" name="/tes_daya_lihat/surat_rujukan" data-name="/tes_daya_lihat/surat_rujukan" value="tidak" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/tes_daya_lihat/surat_rujukan/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/tes_daya_lihat/surat_rujukan/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
-   </fieldset>
+   </fieldset> \n
    <fieldset id="or-preload-items" style="display:none;">
       <label class="calculation non-select ">
-         <input type="hidden" name="/tes_daya_lihat/start" data-preload="timestamp" data-preload-params="start" data-type-xml="dateTime" />
+         <input type="hidden" name="/tes_daya_lihat/start" data-preload="timestamp" data-preload-params="start" data-type-xml="dateTime"/>
       </label>
       <label class="calculation non-select ">
-         <input type="hidden" name="/tes_daya_lihat/today" data-preload="date" data-preload-params="today" data-type-xml="date" />
+         <input type="hidden" name="/tes_daya_lihat/today" data-preload="date" data-preload-params="today" data-type-xml="date"/>
       </label>
       <label class="calculation non-select ">
-         <input type="hidden" name="/tes_daya_lihat/deviceid" data-preload="property" data-preload-params="deviceid" data-type-xml="string" />
+         <input type="hidden" name="/tes_daya_lihat/deviceid" data-preload="property" data-preload-params="deviceid" data-type-xml="string"/>
       </label>
       <label class="calculation non-select ">
-         <input type="hidden" name="/tes_daya_lihat/simserial" data-preload="property" data-preload-params="simserial" data-type-xml="string" />
+         <input type="hidden" name="/tes_daya_lihat/simserial" data-preload="property" data-preload-params="simserial" data-type-xml="string"/>
       </label>
       <label class="calculation non-select ">
-         <input type="hidden" name="/tes_daya_lihat/phonenumber" data-preload="property" data-preload-params="phonenumber" data-type-xml="string" />
+         <input type="hidden" name="/tes_daya_lihat/phonenumber" data-preload="property" data-preload-params="phonenumber" data-type-xml="string"/>
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/tes_daya_lihat/end" data-preload="timestamp" data-preload-params="end" data-type-xml="dateTime"/>
       </label>
    </fieldset>
    <fieldset id="or-calculated-items" style="display:none;">
       <label class="calculation non-select ">
-         <input type="hidden" name="/tes_daya_lihat/meta/instanceID" data-calculate="concat('uuid:', uuid())" data-type-xml="string" />
+         <input type="hidden" name="/tes_daya_lihat/existing_location" data-calculate=" /tes_daya_lihat/Village " data-type-xml="string"/>
       </label>
       <label class="calculation non-select ">
-         <input type="hidden" name="/tes_daya_lihat/formhub/uuid" data-calculate="'cedc54e59816424a99525ccb9cd05359'" data-type-xml="string" />
+         <input type="hidden" name="/tes_daya_lihat/desa" data-calculate=" /tes_daya_lihat/Village " data-type-xml="string"/>
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/tes_daya_lihat/meta/instanceID" data-calculate="concat('uuid:', uuid())" data-type-xml="string"/>
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/tes_daya_lihat/formhub/uuid" data-calculate="'36c557bbd7a0407fb563e43aad46730d'" data-type-xml="string"/>
       </label>
    </fieldset>
 </form>

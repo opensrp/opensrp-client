@@ -1,28 +1,33 @@
 <model>
-    <instance>
-        <tes_daya_lihat encounter_type="Tes Daya Lihat" id="tes_daya_lihat" version="201605120836">
-          <formhub>
-            <uuid/>
-          </formhub>
-          <start/>
-          <today/>
-          <deviceid/>
-          <simserial/>
-          <phonenumber/>
-          <umur />
-		  <generated_note_name_12 />
-          <sight_test_date/>
-          <daya_lihat/>
-          <kesimpulan/>
-          <tindakan_intervensi/>
-          <konseling_stimulasi/>
-          <tindakan_lain/>
-          <rujukan/>
-          <dirujuk_ke/>
-          <surat_rujukan/>
-          <meta>
-            <instanceID/>
-          </meta>
-        </tes_daya_lihat>
-      </instance>
-  </model>
+  <instance>
+    <tes_daya_lihat encounter_type="Tes Daya Lihat" id="tes_daya_lihat_1" version="201703310711">
+      <formhub>
+        <uuid/>
+      </formhub>
+      <start openmrs_entity="encounter" openmrs_entity_id="encounter_start"/>
+      <today openmrs_entity="encounter" openmrs_entity_id="encounter_date"/>
+      <deviceid/>
+      <simserial/>
+      <phonenumber/>
+      <Village/>
+      <Sub-village/>
+      <generated_note_name_10/>
+      <generated_note_name_11/>
+      <existing_location openmrs_entity="encounter" openmrs_entity_id="location_id"/>
+      <desa openmrs_entity="person_address" openmrs_entity_id="cityVillage" openmrs_entity_parent="usual_residence"/>
+      <sight_test_date openmrs_entity="Concept" openmrs_entity_id="160753AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <daya_lihat openmrs_entity="Concept" openmrs_entity_id="160348AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <kesimpulan openmrs_entity="Concept" openmrs_entity_id="160716AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <tindakan_intervensi openmrs_entity="n/a"/>
+      <konseling_stimulasi openmrs_entity="Concept" openmrs_entity_id="1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <tindakan_lain openmrs_entity="Concept" openmrs_entity_id="162165AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <rujukan openmrs_entity="n/a"/>
+      <dirujuk_ke openmrs_entity="Concept" openmrs_entity_id="161562AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <surat_rujukan openmrs_entity="n/a"/>
+      <end openmrs_entity="encounter" openmrs_entity_id="encounter_end"/>
+      <meta>
+        <instanceID/>
+      </meta>
+    </tes_daya_lihat>
+  </instance>
+</model>

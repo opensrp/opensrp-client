@@ -90,6 +90,8 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterCLientsPro
 
             viewHolder.hear_test_date = (TextView)convertView.findViewById(R.id.text_hear_test_date);
             viewHolder.daya_dengar = (TextView)convertView.findViewById(R.id.text_daya_dengar);
+            viewHolder.sight_test_date = (TextView)convertView.findViewById(R.id.text_sight_test_date);
+            viewHolder.text_daya_lihat = (TextView)convertView.findViewById(R.id.text_daya_lihat);
 
         /*    viewHolder.status_kembang2 = (TextView)convertView.findViewById(R.id.text_status_kembang);
             viewHolder.kpsp_test_date2 = (TextView)convertView.findViewById(R.id.text_kpsp_test_date);
@@ -185,12 +187,14 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterCLientsPro
         //kpsp
         viewHolder.kpsp_test_date1.setText(pc.getDetails().get("kpsp_1thn_date")!=null?pc.getDetails().get("kpsp_1thn_date").replaceAll("_", " "):"-");
         viewHolder.status_kembang1.setText(pc.getDetails().get("status_kembang")!=null?pc.getDetails().get("status_kembang").replaceAll("_", " "):"-");
-        viewHolder.status_kembang2.setText(pc.getDetails().get("status_kembang4")!=null?pc.getDetails().get("status_kembang4").replaceAll("_", " "):"-");
-        viewHolder.status_kembang3.setText(pc.getDetails().get("status_kembang5")!=null?pc.getDetails().get("status_kembang5").replaceAll("_", " "):"-");
+        viewHolder.status_kembang2.setText(pc.getDetails().get("status_kembang2")!=null?pc.getDetails().get("status_kembang4").replaceAll("_", " "):"-");
+        viewHolder.status_kembang3.setText(pc.getDetails().get("status_kembang3")!=null?pc.getDetails().get("status_kembang5").replaceAll("_", " "):"-");
 
 
         viewHolder.hear_test_date.setText("Tanggal: "+ (pc.getDetails().get("hear_test_date")!=null?pc.getDetails().get("hear_test_date").replaceAll("_", " "):"-"));
         viewHolder.daya_dengar.setText("Tes Hearing: "+ (pc.getDetails().get("daya_dengar")!=null?pc.getDetails().get("daya_dengar").replaceAll("_", " "):"-"));
+        viewHolder.sight_test_date.setText("Tanggal: "+ (pc.getDetails().get("sight_test_date")!=null?pc.getDetails().get("sight_test_date").replaceAll("_", " "):"-"));
+        viewHolder.text_daya_lihat.setText("Tes Sight: "+ (pc.getDetails().get("daya_lihat")!=null?pc.getDetails().get("daya_lihat").replaceAll("_", " "):"-"));
 
 
 
@@ -310,6 +314,7 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterCLientsPro
         TextView gpph_test_date;
         TextView village_name;
         TextView tgl_kpsp;
+        public TextView text_daya_lihat;
     }
 
 
