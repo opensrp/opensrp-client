@@ -77,8 +77,8 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterCLientsPro
             viewHolder.umur = (TextView)convertView.findViewById(R.id.text_umur);
             viewHolder.nama_ibu = (TextView)convertView.findViewById(R.id.text_nama_ibu);
 
-            //kpsp
-            viewHolder.tgl_kpsp = (TextView)convertView.findViewById(R.id.text_kpsp_test_date);
+            //antro
+            viewHolder.anthropometry_date = (TextView)convertView.findViewById(R.id.text_anthropometry_date);
             viewHolder.berat = (TextView)convertView.findViewById(R.id.text_berat);
             viewHolder.tinggi = (TextView)convertView.findViewById(R.id.text_tinggi);
             viewHolder.lingkar_kepala = (TextView)convertView.findViewById(R.id.text_lingkar_kepala);
@@ -171,12 +171,12 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterCLientsPro
 
 
 
-     /*   viewHolder.berat.setText("Berat: "+ (pc.getDetails().get("berat")!=null?pc.getDetails().get("berat").replaceAll("_", " "):"-"));
+       viewHolder.berat.setText("Berat: "+ (pc.getDetails().get("berat")!=null?pc.getDetails().get("berat").replaceAll("_", " "):"-"));
         viewHolder.tinggi.setText("Tinggi: "+ (pc.getDetails().get("tinggi") != null ? pc.getDetails().get("tinggi").replaceAll("_", " ") : "-"));
         viewHolder.lingkar_kepala.setText("Lingkar Kepala: "+ (pc.getDetails().get("lingkar_kepala")!=null?pc.getDetails().get("lingkar_kepala").replaceAll("_", " "):"-"));
-        viewHolder.kpsp_test_date1.setText("Tanggal: "+ (pc.getDetails().get("kpsp_test_date1")!=null?pc.getDetails().get("kpsp_test_date1").replaceAll("_", " "):"-"));
+        viewHolder.anthropometry_date.setText("Tanggal: "+ (pc.getDetails().get("anthropometry_date")!=null?pc.getDetails().get("anthropometry_date").replaceAll("_", " "):"-"));
 
-
+/*
         viewHolder.kpsp_test_date2.setText(pc.getDetails().get("kpsp_test_date2")!=null?pc.getDetails().get("kpsp_test_date2").replaceAll("_", " "):"-");
         viewHolder.status_kembang2.setText(pc.getDetails().get("status_kembang2")!=null?pc.getDetails().get("status_kembang2").replaceAll("_", " "):"-");
         viewHolder.kpsp_test_date3.setText(pc.getDetails().get("kpsp_test_date3")!=null?pc.getDetails().get("kpsp_test_date3").replaceAll("_", " "):"-");

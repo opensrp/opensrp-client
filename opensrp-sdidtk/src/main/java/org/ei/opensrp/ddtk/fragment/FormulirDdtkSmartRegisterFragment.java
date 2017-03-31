@@ -257,7 +257,7 @@ public class FormulirDdtkSmartRegisterFragment extends SecuredNativeSmartRegiste
 //<<<<<<< HEAD
 //                .newInstance((GiziSmartRegisterActivity) getActivity(), new EditDialogOptionModel(), context.anmLocationController().get(), "registrasi_gizi")
 //=======
-                .newInstance((FormulirDdtkSmartRegisterActivity) getActivity(), new EditDialogOptionModel(), context().anmLocationController().get(), "registrasi_gizi")
+                .newInstance((FormulirDdtkSmartRegisterActivity) getActivity(), new EditDialogOptionModel(), context().anmLocationController().get(), "registrasi_sdidtk")
 //>>>>>>> a226fad729247ae36c3882a71e1d3f15be4ade8a
                 .show(ft, locationDialogTAG);
     }

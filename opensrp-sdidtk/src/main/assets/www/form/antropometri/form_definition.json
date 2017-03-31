@@ -2,10 +2,34 @@
   "form_data_definition_version": "1",
   "form": {
     "bind_type": "anak",
+    "ec_bind_type":"ec_anak",
     "default_bind_path": "/model/instance/antropometri/",
     "fields": [
       {
         "name": "id",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "start",
+        "bind": "/model/instance/antropometri/start"
+      },
+      {
+        "name": "end",
+        "bind": "/model/instance/antropometri/end"
+      },
+      {
+        "name": "existing_location",
+        "bind": "/model/instance/antropometri/existing_location",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "desa_anak",
+        "bind": "/model/instance/antropometri/Village",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "dusun",
+        "bind": "/model/instance/antropometri/existing_Sub-village",
         "shouldLoadValue": true
       },
       {
@@ -74,12 +98,8 @@
         "value": "false"
       },
       {
-        "name": "reg_date",
+        "name": "today",
         "bind": "/model/instance/antropometri/today"
-      },
-      {
-        "name": "registrationDate",
-        "bind": "/model/instance/antropometri/reg_date"
       }
     ]
   }

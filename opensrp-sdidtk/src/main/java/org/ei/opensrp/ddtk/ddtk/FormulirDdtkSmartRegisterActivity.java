@@ -14,22 +14,30 @@ import org.ei.opensrp.ddtk.LoginActivity;
 import org.ei.opensrp.ddtk.fragment.FormulirDdtkSmartRegisterFragment;
 import org.ei.opensrp.ddtk.pageradapter.BaseRegisterActivityPagerAdapter;
 import org.ei.opensrp.domain.Alert;
+import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.domain.form.FormSubmission;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.service.ZiggyService;
 import org.ei.opensrp.ddtk.R;
 //import org.ei.opensrp.test.fragment.HouseHoldSmartRegisterFragment;
+import org.ei.opensrp.sync.ClientProcessor;
 import org.ei.opensrp.util.FormUtils;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
 import org.ei.opensrp.view.dialog.DialogOption;
+import org.ei.opensrp.view.dialog.LocationSelectorDialogFragment;
 import org.ei.opensrp.view.dialog.OpenFormOption;
 import org.ei.opensrp.view.fragment.DisplayFormFragment;
 import org.ei.opensrp.view.fragment.SecuredNativeSmartRegisterFragment;
 import org.ei.opensrp.view.viewpager.OpenSRPViewPager;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,7 +47,9 @@ import static org.ei.opensrp.R.string.form_back_confirm_dialog_title;
 import static org.ei.opensrp.R.string.no_button_label;
 import static org.ei.opensrp.R.string.yes_button_label;
 
-public class FormulirDdtkSmartRegisterActivity extends SecuredNativeSmartRegisterActivity {
+public class FormulirDdtkSmartRegisterActivity extends SecuredNativeSmartRegisterActivity implements
+        LocationSelectorDialogFragment.OnLocationSelectedListener{
+
 
     public static final String TAG = "TestActivity";
     @Bind(R.id.view_pager)
@@ -123,7 +133,32 @@ public class FormulirDdtkSmartRegisterActivity extends SecuredNativeSmartRegiste
         };
     }
 
+    @Override
+    public void OnLocationSelected(String locationJSONString) {
+        JSONObject combined = null;
 
+        try {
+            JSONObject locationJSON = new JSONObject(locationJSONString);
+        //    JSONObject uniqueId = new JSONObject(LoginActivity.generator.uniqueIdController().getUniqueIdJson());
+
+            combined = locationJSON;
+          //  Iterator<String> iter = uniqueId.keys();
+
+         //   while (iter.hasNext()) {
+           //     String key = iter.next();
+            //    combined.put(key, uniqueId.get(key));
+        //    }
+
+       //     System.out.println("injection string: " + combined.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (combined != null) {
+            FieldOverrides fieldOverrides = new FieldOverrides(combined.toString());
+            startFormActivity("registrasi_sdidtk", null, fieldOverrides.getJSONString());
+        }
+    }
     private String getalertstateforcensus(CommonPersonObjectClient pc) {
         try {
             List<Alert> alertlist_for_client = Context.getInstance().alertService().findByEntityIdAndAlertNames(pc.entityId(), "FW CENSUS");
@@ -151,8 +186,11 @@ public class FormulirDdtkSmartRegisterActivity extends SecuredNativeSmartRegiste
         try{
             FormUtils formUtils = FormUtils.getInstance(getApplicationContext());
             FormSubmission submission = formUtils.generateFormSubmisionFromXMLString(id, formSubmission, formName, fieldOverrides);
-
             ziggyService.saveForm(getParams(submission), submission.instance());
+            ClientProcessor.getInstance(getApplicationContext()).processClient();
+
+            context().formSubmissionService().updateFTSsearch(submission);
+            context().formSubmissionRouter().handleSubmission(submission, formName);
 
             //switch to forms list fragment
             switchToBaseFragment(formSubmission); // Unnecessary!! passing on data
@@ -169,7 +207,7 @@ public class FormulirDdtkSmartRegisterActivity extends SecuredNativeSmartRegiste
 
     @Override
     public void startFormActivity(String formName, String entityId, String metaData) {
-        // Log.v("fieldoverride", metaData);
+
         try {
             int formIndex = FormUtils.getIndexForFormName(formName, formNames) + 1; // add the offset
             if (entityId != null || metaData != null){
@@ -183,7 +221,6 @@ public class FormulirDdtkSmartRegisterActivity extends SecuredNativeSmartRegiste
                 DisplayFormFragment displayFormFragment = getDisplayFormFragmentAtIndex(formIndex);
                 if (displayFormFragment != null) {
                     displayFormFragment.setFormData(data);
-                    //   displayFormFragment.loadFormData();
                     displayFormFragment.setRecordId(entityId);
                     displayFormFragment.setFieldOverides(metaData);
                 }
@@ -280,8 +317,8 @@ public class FormulirDdtkSmartRegisterActivity extends SecuredNativeSmartRegiste
 
     private String[] buildFormNameList(){
         List<String> formNames = new ArrayList<String>();
-
-        formNames.add("formulir_ddtk");
+        formNames.add("registrasi_gizi");
+        formNames.add("registrasi_sdidtk");
         formNames.add("antropometri");
         formNames.add("kpsp_bayi_1thn");
         formNames.add("kpsp_balita_2thn");

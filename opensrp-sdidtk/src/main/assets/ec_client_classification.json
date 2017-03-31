@@ -7,6 +7,11 @@
         "fields": [
           {
             "field":"eventType",
+            "field_value": "Registrasi Sdidtk",
+            "creates_case":["ec_kartu_ibu"]
+          },
+          {
+            "field":"eventType",
             "field_value": "Registrasi Vaksinator",
             "creates_case":["ec_kartu_ibu"]
           },
