@@ -16,6 +16,7 @@ import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
 import org.ei.opensrp.cursoradapter.SmartRegisterCLientsProviderForCursorAdapter;
+import org.ei.opensrp.dgfp.BuildConfig;
 import org.ei.opensrp.dgfp.R;
 import org.ei.opensrp.dgfp.elco.HH_woman_member_SmartRegisterActivity;
 import org.ei.opensrp.dgfp.hh_member.HouseHoldDetailActivity;
@@ -100,29 +101,22 @@ public class nutrition_SmartClientsProvider implements SmartRegisterCLientsProvi
         gob_hhid.setText((pc.getDetails().get("Member_GoB_HHID") != null ? pc.getDetails().get("Member_GoB_HHID") : ""));
 
 
-
-
-        if((pc.getDetails().get("Child") != null ? pc.getDetails().get("Child") : "").equalsIgnoreCase("1")){
-            if (pc.getDetails().get("profilepic") != null) {
-                HouseHoldDetailActivity.setImagetoHolder((Activity) context, pc.getDetails().get("profilepic"), profilepic, R.mipmap.householdload);
-            } else {
+        if ((pc.getDetails().get("Child") != null ? pc.getDetails().get("Child") : "").equalsIgnoreCase("1")) {
+            if ((pc.getDetails().get("Member_Gender") != null ? (String) pc.getDetails().get("Member_Gender") : "").equalsIgnoreCase("1")) {
+                husband_name_or_mothersname.setText((pc.getDetails().get("Child_Mother") != null ? pc.getDetails().get("Child_Mother") : ""));
                 profilepic.setImageResource(R.drawable.child_boy_infant);
-            }
-
-            husband_name_or_mothersname.setText((pc.getDetails().get("Child_Mother") != null ? pc.getDetails().get("Child_Mother") : ""));
-            coupleno_or_fathersname.setText((pc.getDetails().get("Child_Father") != null ? pc.getDetails().get("Child_Father") : ""));
-            nutrition_taken.setText((pc.getDetails().get("Child_Nutrition") != null ? pc.getDetails().get("Child_Nutrition") : ""));
-
-        }else {
-            if (pc.getDetails().get("profilepic") != null) {
-                HouseHoldDetailActivity.setImagetoHolder((Activity) context, pc.getDetails().get("profilepic"), profilepic, R.mipmap.householdload);
             } else {
-                profilepic.setImageResource(R.drawable.woman_placeholder);
+                profilepic.setImageResource(R.drawable.child_girl_infant);
+                husband_name_or_mothersname.setText((pc.getDetails().get("Child_Mother") != null ? pc.getDetails().get("Child_Mother") : ""));
             }
-            husband_name_or_mothersname.setText((pc.getDetails().get("Spouse_Name") != null ? pc.getDetails().get("Spouse_Name") : ""));
-            coupleno_or_fathersname.setText((pc.getDetails().get("Couple_No") != null ? pc.getDetails().get("Couple_No") : ""));
+        } else {
+            if ((pc.getDetails().get("Member_Gender") != null ? (String) pc.getDetails().get("Member_Gender") : "").equalsIgnoreCase("2")) {
+                profilepic.setImageResource(R.drawable.woman_placeholder);
+                husband_name_or_mothersname.setText((pc.getDetails().get("Spouse_Name") != null ? pc.getDetails().get("Spouse_Name") : ""));
 
-            nutrition_taken.setText((pc.getDetails().get("Mother_Nutrition") != null ? pc.getDetails().get("Mother_Nutrition") : ""));
+            } else {
+                profilepic.setImageResource(R.mipmap.household_profile_thumb);
+            }
         }
 
         village.setText(humanize((pc.getDetails().get("Mem_Village_Name") != null ? (pc.getDetails().get("Mem_Village_Name")+",") : "").replace("+", "_")) + humanize((pc.getDetails().get("Mem_Mauzapara") != null ? pc.getDetails().get("Mem_Mauzapara") : "").replace("+", "_")));

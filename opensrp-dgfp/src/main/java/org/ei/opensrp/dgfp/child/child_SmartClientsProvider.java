@@ -76,13 +76,15 @@ public class child_SmartClientsProvider implements SmartRegisterCLientsProviderF
         ImageView profilepic = (ImageView) itemView.findViewById(R.id.profilepic);
         TextView name = (TextView) itemView.findViewById(R.id.name);
         TextView mothersname = (TextView) itemView.findViewById(R.id.mother_name);
-        TextView gob_hhid = (TextView) itemView.findViewById(R.id.gob_hhid);
         TextView fathersname = (TextView) itemView.findViewById(R.id.father_name);
+        TextView coupleno = (TextView) itemView.findViewById(R.id.coupleno);
+        TextView gobhhid = (TextView) itemView.findViewById(R.id.gobhhid);
 //        TextView pregnancystatus = (TextView)itemView.findViewById(R.id.pregnancystatus);
         TextView village = (TextView) itemView.findViewById(R.id.village_mauzapara);
         TextView age = (TextView) itemView.findViewById(R.id.age);
-        TextView nid = (TextView) itemView.findViewById(R.id.nid);
-        TextView brid = (TextView) itemView.findViewById(R.id.brid);
+        TextView cBRID = (TextView) itemView.findViewById(R.id.c_brid);
+        TextView mBRID = (TextView) itemView.findViewById(R.id.m_brid);
+        TextView mNID = (TextView) itemView.findViewById(R.id.m_nid);
         TextView date_of_birth = (TextView) itemView.findViewById(R.id.dateofbirth);
 //        TextView nutrition_taken = (TextView) itemView.findViewById(R.id.nutrition_taken);
         TextView follow_up = (TextView)itemView.findViewById(R.id.child_followup_form);
@@ -99,7 +101,8 @@ public class child_SmartClientsProvider implements SmartRegisterCLientsProviderF
         mothersname.setText(pc.getDetails().get("Child_Mother") != null ? pc.getDetails().get("Child_Mother") : "");
         fathersname.setText(pc.getDetails().get("Child_Father") != null ? pc.getDetails().get("Child_Father") : "");
 
-//        gob_hhid.setText((pc.getDetails().get("Member_GoB_HHID") != null ? pc.getDetails().get("Member_GoB_HHID") : ""));
+        coupleno.setText(pc.getDetails().get("Couple_No") != null ? pc.getDetails().get("Couple_No") : "");
+        gobhhid.setText((pc.getDetails().get("Member_GoB_HHID") != null ? pc.getDetails().get("Member_GoB_HHID") : ""));
 
         if((pc.getDetails().get("Child") != null ? pc.getDetails().get("Child") : "").equalsIgnoreCase("1")){
             if (pc.getDetails().get("profilepic") != null) {
@@ -120,8 +123,10 @@ public class child_SmartClientsProvider implements SmartRegisterCLientsProviderF
         date_of_birth.setText(pc.getDetails().get("Member_Birth_Date") != null ? pc.getDetails().get("Member_Birth_Date") : "");
 
         age.setText(pc.getDetails().get("Calc_Age_Confirm") != null ? "("+pc.getDetails().get("Calc_Age_Confirm")+")" : "");
-//       nid.setText("NID: " + (pc.getDetails().get("ELCO_NID") != null ? pc.getDetails().get("ELCO_NID") : ""));
-//        brid.setText("BRID: " + (pc.getDetails().get("ELCO_BRID") != null ? pc.getDetails().get("ELCO_BRID") : ""));
+
+        cBRID.setText("C_BRID: " + (pc.getDetails().get("Mem_BRID") != null ? pc.getDetails().get("Mem_BRID") : ""));
+        mBRID.setText("M_BRID: " + (pc.getDetails().get("ELCO_BRID") != null ? pc.getDetails().get("ELCO_BRID") : ""));
+        mNID.setText("M_NID:" + (pc.getDetails().get("ELCO_NID") != null ? pc.getDetails().get("ELCO_NID") : ""));
 
         String datetoconvert = "";
         String scheduledate = "";

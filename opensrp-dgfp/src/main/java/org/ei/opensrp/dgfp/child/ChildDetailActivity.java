@@ -9,18 +9,22 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
+import org.ei.opensrp.dgfp.BuildConfig;
 import org.ei.opensrp.dgfp.R;
 import org.ei.opensrp.domain.Alert;
+import org.ei.opensrp.util.StringUtil;
 
 
 import java.io.File;
@@ -34,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.fabric.sdk.android.services.events.EventsFilesManager;
 import util.ImageCache;
 import util.ImageFetcher;
 
@@ -64,14 +69,14 @@ public class ChildDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         Context context = Context.getInstance();
         setContentView(R.layout.child_detail_activity);
-        TextView name = (TextView) findViewById(R.id.childid);
+        TextView name = (TextView) findViewById(R.id.child_detail_name);
+        TextView brid = (TextView) findViewById(R.id.jivitahhid);
         TextView fathersname = (TextView) findViewById(R.id.fathersname);
         TextView mothersname = (TextView) findViewById(R.id.mothersname);
-
         TextView age = (TextView) findViewById(R.id.age);
-        TextView jivitahhid = (TextView) findViewById(R.id.jivitahhid);
         TextView godhhid = (TextView) findViewById(R.id.gobhhid);
-        TextView village = (TextView) findViewById(R.id.village);
+        TextView address = (TextView) findViewById(R.id.village);
+        TextView today = (TextView) findViewById(R.id.child_detail_today);
 
         ImageButton back = (ImageButton) findViewById(org.ei.opensrp.R.id.btn_back_to_home);
         back.setOnClickListener(new View.OnClickListener() {
@@ -81,43 +86,28 @@ public class ChildDetailActivity extends Activity {
             }
         });
 
-        AllCommonsRepository allchildRepository = Context.getInstance().allCommonsRepositoryobjects("members");
-        CommonPersonObject childobject = allchildRepository.findByCaseID(ChildClient.entityId());
-        AllCommonsRepository motherrep = Context.getInstance().allCommonsRepositoryobjects("members");
-        final CommonPersonObject mcaremotherObject = motherrep.findByCaseID(childobject.getRelationalId());
+        CommonPersonObject mcaremotherObject = Context.getInstance().allCommonsRepositoryobjects("members").findByCaseID(Context.getInstance().allCommonsRepositoryobjects("members").findByCaseID(ChildClient.entityId()).getRelationalId());
+        Log.d("ChildDetail", BuildConfig.FLAVOR + ChildClient.getDetails().toString());
+        Log.d("ChildDetail", BuildConfig.FLAVOR + ChildClient.getColumnmaps().toString());
 
-
-        name.setText(humanize((ChildClient.getDetails().get("FWBNFCHILDNAME") != null ? ChildClient.getDetails().get("FWBNFCHILDNAME") : "").replace("+", "_")));
-        fathersname.setText(Html.fromHtml(getString(R.string.child_details_fathers_name_label) + "<b> " + humanize((ChildClient.getDetails().get("FWHUSNAME") != null ? ChildClient.getDetails().get("FWHUSNAME") : "")) + "</b>"));
-        mothersname.setText(Html.fromHtml(getString(R.string.child_details_mothers_name_label) +"<b> "+ humanize((ChildClient.getColumnmaps().get("FWWOMFNAME") != null ? ChildClient.getColumnmaps().get("FWWOMFNAME") : ""))+ "</b>"));
-
-        age.setText(Html.fromHtml(getString(R.string.elco_age_label) +"<b> "+ age(ChildClient) + " days "+ "</b>"));
-        godhhid.setText(Html.fromHtml(getString(R.string.hhid_gob_elco_label) +"<b> "+ (ChildClient.getColumnmaps().get("GOBHHID")!=null?ChildClient.getColumnmaps().get("GOBHHID"):"")+ "</b>"));
-        jivitahhid.setText(Html.fromHtml(getString(R.string.hhiid_jivita_elco_label)+"<b> "+(ChildClient.getColumnmaps().get("JiVitAHHID")!=null?ChildClient.getColumnmaps().get("JiVitAHHID"):"")+ "</b>"));
-        village.setText(Html.fromHtml(getString(R.string.elco_details_mauza) + "<b> " + humanize((ChildClient.getDetails().get("mauza") != null ? ChildClient.getDetails().get("mauza") : "").replace("+", "_"))+ "</b>"));
-        String type_of_delivery = ChildClient.getDetails().get("FWPNC1DELTYPE") != null ? ChildClient.getDetails().get("FWPNC1DELTYPE") : "";
-
-
-
-
-
-
-//       checkEncc1view(ChildClient);
-//       checkEncc2view(ChildClient);
-//        checkEncc3view(ChildClient);
-//        checktempView(ChildClient);
-       doolay(ChildClient);
-        assign_text_to_givenView(ChildClient,(TextView)findViewById(R.id.critical_disease_problem),"Diseases_Prob");
-        assign_text_to_givenView(ChildClient,(TextView)findViewById(R.id.referred),"Has_Referred");
-        assign_text_to_givenView(ChildClient,(TextView)findViewById(R.id.vaccination_history),"Vaccines");
-
-//        final ImageView householdview = (ImageView) findViewById(R.id.householdprofileview);
-//
-//        if (ChildClient.getDetails().get("profilepic") != null) {
-//            setImagetoHolder(ChildDetailActivity.this, ChildClient.getDetails().get("profilepic"), householdview, R.mipmap.woman_placeholder);
-//        }
-
-
+        name.setText(StringUtil.humanize((ChildClient.getColumnmaps().get("Mem_F_Name") != null ? (String) ChildClient.getColumnmaps().get("Mem_F_Name") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
+        brid.setText(StringUtil.humanize("BRID: " + (ChildClient.getDetails().get("Child_BRID") != null ? (String) ChildClient.getDetails().get("Child_BRID") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
+        fathersname.setText(StringUtil.humanize("Mother Name : " + (ChildClient.getDetails().get("Child_Mother") != null ? (String) ChildClient.getDetails().get("Child_Mother") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
+        mothersname.setText(StringUtil.humanize("Father Name : " + (ChildClient.getDetails().get("Child_Father") != null ? (String) ChildClient.getDetails().get("Child_Father") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
+        age.setText(StringUtil.humanize("Age : " + age(ChildClient) + " days "));
+        godhhid.setText(StringUtil.humanize("HHID-Government : " + (ChildClient.getDetails().get("Member_GoB_HHID") != null ? (String) ChildClient.getDetails().get("Member_GoB_HHID") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
+        address.setText(StringUtil.humanize("Address : " + (ChildClient.getDetails().get("Final_Vill") != null ? (String) ChildClient.getDetails().get("Final_Vill") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR) + "," + (ChildClient.getDetails().get("Mem_Mauzapara") != null ? (String) ChildClient.getDetails().get("Mem_Mauzapara") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR) + "," + (ChildClient.getDetails().get("Mem_Upazilla") != null ? (String) ChildClient.getDetails().get("Mem_Upazilla") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR) + "," + (ChildClient.getDetails().get("Mem_Union") != null ? (String) ChildClient.getDetails().get("Mem_Union") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
+        String type_of_delivery;
+        if (ChildClient.getDetails().get("FWPNC1DELTYPE") != null) {
+            type_of_delivery = (String) ChildClient.getDetails().get("FWPNC1DELTYPE");
+        } else {
+            type_of_delivery = BuildConfig.FLAVOR;
+        }
+        today.setText("Today: " + new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime()) + AllConstants.SPACE);
+        doolay(ChildClient);
+        assign_text_to_givenView(ChildClient, (TextView) findViewById(R.id.critical_disease_problem), "Diseases_Prob");
+        assign_text_to_givenView(ChildClient, (TextView) findViewById(R.id.referred), "Has_Referred");
+        assign_text_to_givenView(ChildClient, (TextView) findViewById(R.id.vaccination_history), "Vaccines");
 
     }
 
