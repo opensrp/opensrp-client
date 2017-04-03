@@ -2,10 +2,21 @@
   "form_data_definition_version": "1",
   "form": {
     "bind_type": "anak",
+    "ec_bind_type":"ec_anak",
     "default_bind_path": "/model/instance/gangguan_konsentrasi_hiperaktivitas/",
     "fields": [
       {
         "name": "id",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "existing_location",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/existing_location",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "desa_anak",
+        "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/Village",
         "shouldLoadValue": true
       },
       {
@@ -102,7 +113,7 @@
         "value": "false"
       },
       {
-        "name": "reg_date",
+        "name": "today",
         "bind": "/model/instance/gangguan_konsentrasi_hiperaktivitas/today"
       },
       {

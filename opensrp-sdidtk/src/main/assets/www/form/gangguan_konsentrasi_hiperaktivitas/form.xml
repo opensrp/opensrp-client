@@ -1,98 +1,107 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<form autocomplete="off" novalidate="novalidate" class="or clearfix" id="gangguan_konsentrasi_hiperaktivitas">
-   <!--This form was created by transforming a OpenRosa-flavored (X)Form using an XSLT sheet created by Enketo LLC.-->
+<form autocomplete="off" novalidate="novalidate" class="or clearfix" dir="ltr" id="gangguan_konsentrasi_hiperaktivitas">\n
+   <!--This form was created by transforming a OpenRosa-flavored (X)Form using an XSL stylesheet created by Enketo LLC.-->
    <section class="form-logo"></section>
-   <h3 id="form-title">Gangguan Pemusatan Perhatian dan Hiperaktivitas (GPPH)</h3>
+   <h3 dir="auto" id="form-title">Gangguan Pemusatan Perhatian dan Hiperaktivitas (GPPH)</h3>
    <select id="form-languages" data-default-lang="Bahasa">
-      <option value="Bahasa">Bahasa</option>
-      <option value="en">English</option>
+      <option value="Bahasa" data-dir="ltr">Bahasa</option>
+      <option value="en" data-dir="ltr">English</option>
    </select>
-   <label class="note non-select ">
-        <span class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/generated_note_name_12:label"
-            lang="Bahasa">Umur:
-            <span class="or-output"
-                data-value=" /gangguan_konsentrasi_hiperaktivitas/umur "></span>
-        </span>
-        <span class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/generated_note_name_12:label"
-            lang="en">Age:
-        </span>
-        <input name="/gangguan_konsentrasi_hiperaktivitas/generated_note_name_12" data-type-xml="string"
-            readonly="readonly" type="text" />
-    </label>
+   <label class="question note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/generated_note_name_10:label">Desa :
+         <span class="or-output" data-value=" /gangguan_konsentrasi_hiperaktivitas/Village "></span>
+      </span>
+      <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/generated_note_name_10:label">Desa :
+         <span class="or-output" data-value=" /gangguan_konsentrasi_hiperaktivitas/Village "></span>
+      </span>
+      <input type="text" name="/gangguan_konsentrasi_hiperaktivitas/generated_note_name_10" data-type-xml="string" readonly="readonly"/>
+   </label>
+   <label class="question note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/generated_note_name_11:label">Dusun :
+         <span class="or-output" data-value=" /gangguan_konsentrasi_hiperaktivitas/Sub-village "></span>
+      </span>
+      <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/generated_note_name_11:label">Dusun :
+         <span class="or-output" data-value=" /gangguan_konsentrasi_hiperaktivitas/Sub-village "></span>
+      </span>
+      <input type="text" name="/gangguan_konsentrasi_hiperaktivitas/generated_note_name_11" data-type-xml="string" readonly="readonly"/>
+   </label>
    <label class="question non-select ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_test_date:label">Tanggal Entry</span>
       <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_test_date:label">Entry Date</span>
-      <input type="date" name="/gangguan_konsentrasi_hiperaktivitas/gpph_test_date" data-type-xml="date" />
+      <input type="date" name="/gangguan_konsentrasi_hiperaktivitas/gpph_test_date" data-type-xml="date"/>
    </label>
-   <label class="note non-select ">
+   <label class="question note non-select ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/nilai_note1:label">Masukkan angka/nilai berikut yang sesuai:</span>
       <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/nilai_note1:label">Enter the appropriate values:</span>
-      <input type="text" name="/gangguan_konsentrasi_hiperaktivitas/nilai_note1" data-type-xml="string" readonly="readonly" />
+      <input type="text" name="/gangguan_konsentrasi_hiperaktivitas/nilai_note1" data-type-xml="string" readonly="readonly"/>
    </label>
-   <label class="note non-select ">
+   <label class="question note non-select ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/nilai_note2:label">0 [tidak pernah], 1 [kadang-kadang], 2 [sering], atau 3 [selalu]</span>
       <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/nilai_note2:label">0 [not at all], 1 [just a little], 2 [pretty much], or 3 [very much]</span>
-      <input type="text" name="/gangguan_konsentrasi_hiperaktivitas/nilai_note2" data-type-xml="string" readonly="readonly" />
+      <input type="text" name="/gangguan_konsentrasi_hiperaktivitas/nilai_note2" data-type-xml="string" readonly="readonly"/>
    </label>
    <label class="question non-select ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_hiperaktif:label">1. Tidak kenal lelah, atau aktivitas yang berlebihan</span>
       <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_hiperaktif:label">1. Restless or overactive</span>
-      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_hiperaktif" data-type-xml="int" />
+      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_hiperaktif" data-type-xml="int"/>
    </label>
    <label class="question non-select ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_impulsif:label">2. Mudah menjadi gembira, impulsif</span>
       <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_impulsif:label">2. Excitable, impulsive</span>
-      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_impulsif" data-type-xml="int" />
+      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_impulsif" data-type-xml="int"/>
    </label>
    <label class="question non-select ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_mengganggu:label">3. Mengganggu anak-anak lain</span>
       <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_mengganggu:label">3. Disturbs other children</span>
-      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_mengganggu" data-type-xml="int" />
+      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_mengganggu" data-type-xml="int"/>
    </label>
    <label class="question non-select ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_konsentrasi:label">4. Gagal menyelesaikan kegiatan yang telah dimulai, rentang perhatian pendek</span>
       <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_konsentrasi:label">4. Fails to finish things he starts, short attention span</span>
-      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_konsentrasi" data-type-xml="int" />
+      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_konsentrasi" data-type-xml="int"/>
    </label>
    <label class="question non-select ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_bergerak_gerak:label">5. Mengerak-gerakkan anggota badan atau kepala secara terus-menerus</span>
       <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_bergerak_gerak:label">5. Constantly fidgeting</span>
-      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_bergerak_gerak" data-type-xml="int" />
+      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_bergerak_gerak" data-type-xml="int"/>
    </label>
    <label class="question non-select ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_perhatian:label">6. Kurang perhatian, mudah teralihkan</span>
       <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_perhatian:label">6. Inattentive, easily distracted</span>
-      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_perhatian" data-type-xml="int" />
+      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_perhatian" data-type-xml="int"/>
    </label>
    <label class="question non-select ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_frustasi:label">7. Permintaannya harus segera dipenuhi, mudah menjadi frustasi</span>
       <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_frustasi:label">7. Demands must be met immediately, easily frustated</span>
-      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_frustasi" data-type-xml="int" />
+      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_frustasi" data-type-xml="int"/>
    </label>
    <label class="question non-select ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_menangis:label">8. Sering dan mudah menangis</span>
       <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_menangis:label">8. Cries often and easily</span>
-      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_menangis" data-type-xml="int" />
+      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_menangis" data-type-xml="int"/>
    </label>
    <label class="question non-select ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_mood:label">9. Suasana hatinya mudah berubah dengan cepat dan drastis</span>
       <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_mood:label">9. Mood changes quickly and drastically</span>
-      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_mood" data-type-xml="int" />
+      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_mood" data-type-xml="int"/>
    </label>
    <label class="question non-select ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_tantrum:label">10. Ledakan kekesalan, tingkah laku ekplosif dan tak terduga</span>
       <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_tantrum:label">10. Temper outbursts, explosive/unpredictable behavior</span>
-      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_tantrum" data-type-xml="int" />
+      <input type="number" name="/gangguan_konsentrasi_hiperaktivitas/gpph_tantrum" data-type-xml="int"/>
    </label>
-   <label class="note non-select ">
+   <label class="question note non-select ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_nilai:label">Nilai Total</span>
       <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_nilai:label">Total Value</span>
-      <input type="text" name="/gangguan_konsentrasi_hiperaktivitas/gpph_nilai" data-calculate=" /gangguan_konsentrasi_hiperaktivitas/gpph_hiperaktif  +  /gangguan_konsentrasi_hiperaktivitas/gpph_impulsif  +  /gangguan_konsentrasi_hiperaktivitas/gpph_mengganggu  +  /gangguan_konsentrasi_hiperaktivitas/gpph_konsentrasi  +  /gangguan_konsentrasi_hiperaktivitas/gpph_bergerak_gerak  +  /gangguan_konsentrasi_hiperaktivitas/gpph_perhatian  +  /gangguan_konsentrasi_hiperaktivitas/gpph_frustasi  +  /gangguan_konsentrasi_hiperaktivitas/gpph_menangis  +  /gangguan_konsentrasi_hiperaktivitas/gpph_mood  +  /gangguan_konsentrasi_hiperaktivitas/gpph_tantrum " data-type-xml="string" readonly="readonly" />
+      <input type="text" name="/gangguan_konsentrasi_hiperaktivitas/gpph_nilai" data-calculate=" /gangguan_konsentrasi_hiperaktivitas/gpph_hiperaktif  +  /gangguan_konsentrasi_hiperaktivitas/gpph_impulsif  +  /gangguan_konsentrasi_hiperaktivitas/gpph_mengganggu  +  /gangguan_konsentrasi_hiperaktivitas/gpph_konsentrasi  +  /gangguan_konsentrasi_hiperaktivitas/gpph_bergerak_gerak  +  /gangguan_konsentrasi_hiperaktivitas/gpph_perhatian  +  /gangguan_konsentrasi_hiperaktivitas/gpph_frustasi  +  /gangguan_konsentrasi_hiperaktivitas/gpph_menangis  +  /gangguan_konsentrasi_hiperaktivitas/gpph_mood  +  /gangguan_konsentrasi_hiperaktivitas/gpph_tantrum " data-type-xml="string" readonly="readonly"/>
    </label>
-   <label class="note non-select ">
-      <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_nilai_note:label">__Pilih "Kemungkinan GPPH" jika nilai total ≥ 13__</span>
-      <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_nilai_note:label">__Select "Suspected of ADHD" if total value ≥ 13__</span>
-      <input type="text" name="/gangguan_konsentrasi_hiperaktivitas/gpph_nilai_note" data-type-xml="string" readonly="readonly" />
+   <label class="question note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_nilai_note:label">
+         <strong>Pilih "Kemungkinan GPPH" jika nilai total ≥ 13</strong>
+      </span>
+      <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph_nilai_note:label">
+         <strong>Select "Suspected of ADHD" if total value ≥ 13</strong>
+      </span>
+      <input type="text" name="/gangguan_konsentrasi_hiperaktivitas/gpph_nilai_note" data-type-xml="string" readonly="readonly"/>
    </label>
    <label class="question or-appearance-minimal ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/gpph:label">Hasil Tes GPPH</span>
@@ -109,17 +118,25 @@
          <span data-option-value="bukan_gpph" lang="en">Not ADHD</span>
       </span>
    </label>
-   <label class="question non-select ">
-      <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/kesimpulan:label">__KESIMPULAN__</span>
-      <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/kesimpulan:label">__SUMMARY__</span>
-      <input type="text" name="/gangguan_konsentrasi_hiperaktivitas/kesimpulan" data-type-xml="string" />
+   <label class="question non-select or-appearance-multiline ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/kesimpulan:label">
+         <strong>KESIMPULAN</strong>
+      </span>
+      <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/kesimpulan:label">
+         <strong>SUMMARY</strong>
+      </span>
+      <textarea name="/gangguan_konsentrasi_hiperaktivitas/kesimpulan" data-type-xml="string"></textarea>
    </label>
-   <label class="note non-select ">
-      <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/tindakan_intervensi:label">__TINDAKAN INTERVENSI__</span>
-      <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/tindakan_intervensi:label">__INTERVENTION MEASURE__</span>
-      <input type="text" name="/gangguan_konsentrasi_hiperaktivitas/tindakan_intervensi" data-type-xml="string" readonly="readonly" />
+   <label class="question note non-select ">
+      <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/tindakan_intervensi:label">
+         <strong>TINDAKAN INTERVENSI</strong>
+      </span>
+      <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/tindakan_intervensi:label">
+         <strong>INTERVENTION MEASURE</strong>
+      </span>
+      <input type="text" name="/gangguan_konsentrasi_hiperaktivitas/tindakan_intervensi" data-type-xml="string" readonly="readonly"/>
    </label>
-   <fieldset class="question or-appearance-horizontal ">
+   <fieldset class="question simple-select or-appearance-horizontal ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/konseling_stimulasi:label">Konseling stimulasi bagi ibu:</span>
@@ -127,24 +144,24 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/gangguan_konsentrasi_hiperaktivitas/konseling_stimulasi" data-name="/gangguan_konsentrasi_hiperaktivitas/konseling_stimulasi" value="diberikan" data-type-xml="select1" />
+               <input type="radio" name="/gangguan_konsentrasi_hiperaktivitas/konseling_stimulasi" data-name="/gangguan_konsentrasi_hiperaktivitas/konseling_stimulasi" value="diberikan" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/konseling_stimulasi/diberikan:label">Diberikan</span>
                <span lang="en" class="option-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/konseling_stimulasi/diberikan:label">Received</span>
             </label>
             <label class="">
-               <input type="radio" name="/gangguan_konsentrasi_hiperaktivitas/konseling_stimulasi" data-name="/gangguan_konsentrasi_hiperaktivitas/konseling_stimulasi" value="tidak_diberikan" data-type-xml="select1" />
+               <input type="radio" name="/gangguan_konsentrasi_hiperaktivitas/konseling_stimulasi" data-name="/gangguan_konsentrasi_hiperaktivitas/konseling_stimulasi" value="tidak_diberikan" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/konseling_stimulasi/tidak_diberikan:label">Tidak diberikan</span>
                <span lang="en" class="option-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/konseling_stimulasi/tidak_diberikan:label">Not received</span>
             </label>
          </div>
       </fieldset>
    </fieldset>
-   <label class="question non-select ">
+   <label class="question non-select or-appearance-multiline ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/tindakan_lain:label">Tindakan pengobatan lain</span>
       <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/tindakan_lain:label">Other measure:</span>
-      <input type="text" name="/gangguan_konsentrasi_hiperaktivitas/tindakan_lain" data-type-xml="string" />
+      <textarea name="/gangguan_konsentrasi_hiperaktivitas/tindakan_lain" data-type-xml="string"></textarea>
    </label>
-   <fieldset class="question or-appearance-horizontal ">
+   <fieldset class="question simple-select or-appearance-horizontal ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/rujukan:label">Apakah anak dirujuk?</span>
@@ -152,12 +169,12 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/gangguan_konsentrasi_hiperaktivitas/rujukan" data-name="/gangguan_konsentrasi_hiperaktivitas/rujukan" value="ya" data-type-xml="select1" />
+               <input type="radio" name="/gangguan_konsentrasi_hiperaktivitas/rujukan" data-name="/gangguan_konsentrasi_hiperaktivitas/rujukan" value="ya" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/rujukan/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/rujukan/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/gangguan_konsentrasi_hiperaktivitas/rujukan" data-name="/gangguan_konsentrasi_hiperaktivitas/rujukan" value="tidak" data-type-xml="select1" />
+               <input type="radio" name="/gangguan_konsentrasi_hiperaktivitas/rujukan" data-name="/gangguan_konsentrasi_hiperaktivitas/rujukan" value="tidak" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/rujukan/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/rujukan/tidak:label">No</span>
             </label>
@@ -167,9 +184,9 @@
    <label class="question non-select ">
       <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/dirujuk_ke:label">Dirujuk ke</span>
       <span lang="en" class="question-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/dirujuk_ke:label">Place of referral</span>
-      <input type="text" name="/gangguan_konsentrasi_hiperaktivitas/dirujuk_ke" data-type-xml="string" />
+      <input type="text" name="/gangguan_konsentrasi_hiperaktivitas/dirujuk_ke" data-type-xml="string"/>
    </label>
-   <fieldset class="question or-appearance-horizontal ">
+   <fieldset class="question simple-select or-appearance-horizontal ">
       <fieldset>
          <legend>
             <span lang="Bahasa" class="question-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/surat_rujukan:label">Ada surat rujukan?</span>
@@ -177,41 +194,47 @@
          </legend>
          <div class="option-wrapper">
             <label class="">
-               <input type="radio" name="/gangguan_konsentrasi_hiperaktivitas/surat_rujukan" data-name="/gangguan_konsentrasi_hiperaktivitas/surat_rujukan" value="ya" data-type-xml="select1" />
+               <input type="radio" name="/gangguan_konsentrasi_hiperaktivitas/surat_rujukan" data-name="/gangguan_konsentrasi_hiperaktivitas/surat_rujukan" value="ya" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/surat_rujukan/ya:label">Ya</span>
                <span lang="en" class="option-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/surat_rujukan/ya:label">Yes</span>
             </label>
             <label class="">
-               <input type="radio" name="/gangguan_konsentrasi_hiperaktivitas/surat_rujukan" data-name="/gangguan_konsentrasi_hiperaktivitas/surat_rujukan" value="tidak" data-type-xml="select1" />
+               <input type="radio" name="/gangguan_konsentrasi_hiperaktivitas/surat_rujukan" data-name="/gangguan_konsentrasi_hiperaktivitas/surat_rujukan" value="tidak" data-type-xml="select1"/>
                <span lang="Bahasa" class="option-label active" data-itext-id="/gangguan_konsentrasi_hiperaktivitas/surat_rujukan/tidak:label">Tidak</span>
                <span lang="en" class="option-label " data-itext-id="/gangguan_konsentrasi_hiperaktivitas/surat_rujukan/tidak:label">No</span>
             </label>
          </div>
       </fieldset>
-   </fieldset>
+   </fieldset> \n
    <fieldset id="or-preload-items" style="display:none;">
       <label class="calculation non-select ">
-         <input type="hidden" name="/gangguan_konsentrasi_hiperaktivitas/start" data-preload="timestamp" data-preload-params="start" data-type-xml="dateTime" />
+         <input type="hidden" name="/gangguan_konsentrasi_hiperaktivitas/start" data-preload="timestamp" data-preload-params="start" data-type-xml="dateTime"/>
       </label>
       <label class="calculation non-select ">
-         <input type="hidden" name="/gangguan_konsentrasi_hiperaktivitas/today" data-preload="date" data-preload-params="today" data-type-xml="date" />
+         <input type="hidden" name="/gangguan_konsentrasi_hiperaktivitas/today" data-preload="date" data-preload-params="today" data-type-xml="date"/>
       </label>
       <label class="calculation non-select ">
-         <input type="hidden" name="/gangguan_konsentrasi_hiperaktivitas/deviceid" data-preload="property" data-preload-params="deviceid" data-type-xml="string" />
+         <input type="hidden" name="/gangguan_konsentrasi_hiperaktivitas/deviceid" data-preload="property" data-preload-params="deviceid" data-type-xml="string"/>
       </label>
       <label class="calculation non-select ">
-         <input type="hidden" name="/gangguan_konsentrasi_hiperaktivitas/simserial" data-preload="property" data-preload-params="simserial" data-type-xml="string" />
+         <input type="hidden" name="/gangguan_konsentrasi_hiperaktivitas/simserial" data-preload="property" data-preload-params="simserial" data-type-xml="string"/>
       </label>
       <label class="calculation non-select ">
-         <input type="hidden" name="/gangguan_konsentrasi_hiperaktivitas/phonenumber" data-preload="property" data-preload-params="phonenumber" data-type-xml="string" />
+         <input type="hidden" name="/gangguan_konsentrasi_hiperaktivitas/phonenumber" data-preload="property" data-preload-params="phonenumber" data-type-xml="string"/>
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/gangguan_konsentrasi_hiperaktivitas/end" data-preload="timestamp" data-preload-params="end" data-type-xml="dateTime"/>
       </label>
    </fieldset>
    <fieldset id="or-calculated-items" style="display:none;">
       <label class="calculation non-select ">
-         <input type="hidden" name="/gangguan_konsentrasi_hiperaktivitas/meta/instanceID" data-calculate="concat('uuid:', uuid())" data-type-xml="string" />
+         <input type="hidden" name="/gangguan_konsentrasi_hiperaktivitas/desa" data-calculate=" /gangguan_konsentrasi_hiperaktivitas/Village " data-type-xml="string"/>
       </label>
       <label class="calculation non-select ">
-         <input type="hidden" name="/gangguan_konsentrasi_hiperaktivitas/formhub/uuid" data-calculate="'8b85b16b2be747cea3967059e377b283'" data-type-xml="string" />
+         <input type="hidden" name="/gangguan_konsentrasi_hiperaktivitas/meta/instanceID" data-calculate="concat('uuid:', uuid())" data-type-xml="string"/>
+      </label>
+      <label class="calculation non-select ">
+         <input type="hidden" name="/gangguan_konsentrasi_hiperaktivitas/formhub/uuid" data-calculate="'afa517ae46d24b4cbd4635f08e6cf23c'" data-type-xml="string"/>
       </label>
    </fieldset>
 </form>
