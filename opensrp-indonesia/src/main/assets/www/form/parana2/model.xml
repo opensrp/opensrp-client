@@ -1,0 +1,33 @@
+<model>
+    <instance>
+        <Parana encounter_type="Parana" id="parana" version="201703150812">
+            <formhub>
+                <uuid/>
+            </formhub>
+            <start openmrs_entity="encounter" openmrs_entity_id="encounter_start"/>
+            <today openmrs_entity="encounter" openmrs_entity_id="encounter_date"/>
+            <deviceid/>
+            <simserial/>
+            <phonenumber/>
+            <Province/>
+            <District/>
+            <Sub-district/>
+            <Village/>
+            <Sub-village/>
+            <generated_note_name_13/>
+            <generated_note_name_14/>
+            <existing_location openmrs_entity="encounter" openmrs_entity_id="location_id"/>
+            <provinsi openmrs_entity="person_address" openmrs_entity_id="stateProvince" openmrs_entity_parent="usual_residence"/>
+            <kabupaten openmrs_entity="person_address" openmrs_entity_id="countyDistrict" openmrs_entity_parent="usual_residence"/>
+            <desa openmrs_entity="person_address" openmrs_entity_id="cityVillage" openmrs_entity_parent="usual_residence"/>
+            <dusun openmrs_entity="person_address" openmrs_entity_id="address1" openmrs_entity_parent="usual_residence"/>
+            <kecamatan openmrs_entity="person_address" openmrs_entity_id="address2" openmrs_entity_parent="usual_residence"/>
+            <tanggal_sesi openmrs_entity="concept" openmrs_entity_id="160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <sesi_ke/>
+            <parana_status/>
+            <meta>
+                <instanceID/>
+            </meta>
+        </Parana>
+    </instance>
+</model>

@@ -1,0 +1,40 @@
+{
+  "form_data_definition_version": "1",
+  "form": {
+    "bind_type": "kartu_ibu",
+    "default_bind_path": "/model/instance/Parana/",
+    "fields": [
+      {
+        "name": "id",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "childId",
+        "shouldLoadValue": true,
+        "source": "ibu.anak.id"
+      },
+      {
+        "name": "tanggal_sesi2",
+        "bind": "/model/instance/Parana/tanggal_sesi"
+      },
+      {
+        "name": "paranaStatus2",
+        "bind": "/model/instance/Parana/parana_status"
+      },
+      {
+        "name": "tanggalLahirAnak",
+        "source": "ibu.anak.tanggalLahirAnak",
+        "bind": "/model/instance/Parana/tanggal_lahir_anak",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "submissionDate",
+        "bind": "/model/instance/Parana/today"
+      },
+      {
+        "name": "registrationDate",
+        "bind": "/model/instance/Parana/reg_date"
+      }
+    ]
+  }
+}

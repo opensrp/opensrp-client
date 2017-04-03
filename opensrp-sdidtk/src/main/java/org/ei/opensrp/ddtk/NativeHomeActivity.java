@@ -78,6 +78,8 @@ public class NativeHomeActivity extends SecuredActivity {
 
     private TextView ecRegisterClientCountView;
     private int childcount;
+    private TextView ParanaClientCount;
+    public static int kicount;
 
     @Override
     protected void onCreation() {
@@ -95,11 +97,11 @@ public class NativeHomeActivity extends SecuredActivity {
     private void setupViews() {
         findViewById(R.id.btn_test_register).setOnClickListener(onRegisterStartListener);
         // findViewById(R.id.btn_test2_register).setOnClickListener(onRegisterStartListener);
-
+        findViewById(R.id.btn_parana_register).setOnClickListener(onRegisterStartListener);
         findViewById(R.id.btn_reporting).setOnClickListener(onButtonsClickListener);
 
         ecRegisterClientCountView = (TextView) findViewById(R.id.txt_child_register_client_count);
-
+        ParanaClientCount = (TextView) findViewById(R.id.txt_parana_client_count);
     }
 
     private void initialize() {
@@ -143,6 +145,13 @@ public class NativeHomeActivity extends SecuredActivity {
         childcount= childcountcursor.getInt(0);
         childcountcursor.close();
 
+        Cursor kicountcursor = context().commonrepository("ec_kartu_ibu").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("ec_kartu_ibu_search", "ec_kartu_ibu_search.is_closed=0"));
+        kicountcursor.moveToFirst();
+        kicount= kicountcursor.getInt(0);
+        kicountcursor.close();
+
+
+        ParanaClientCount.setText(valueOf(kicount));
         ecRegisterClientCountView.setText(valueOf(childcount));
         //  ecRegisterClientCountView.setText(valueOf(hhcontroller.getClients().size()));
 
@@ -240,9 +249,9 @@ public class NativeHomeActivity extends SecuredActivity {
                     navigationController.startECSmartRegistry();
                     break;
 
-                //  case R.id.btn_test2_register:
-                //        navigationController.startANCSmartRegistry();
-                //        break;
+                  case R.id.btn_parana_register:
+                        navigationController.startFPSmartRegistry();
+                        break;
 /*
                 case R.id.btn_pnc_register:
 //                    navigationController.startPNCSmartRegistry();

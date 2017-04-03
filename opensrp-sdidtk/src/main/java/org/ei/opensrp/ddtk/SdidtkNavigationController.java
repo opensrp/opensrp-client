@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 
 import org.ei.opensrp.ddtk.ddtk.FormulirDdtkSmartRegisterActivity;
+import org.ei.opensrp.ddtk.parana.NativeKIParanaSmartRegisterActivity;
 import org.ei.opensrp.view.controller.ANMController;
 
 
@@ -39,7 +40,7 @@ public class SdidtkNavigationController extends org.ei.opensrp.view.controller.N
     }
     @Override
     public void startFPSmartRegistry() {
-        //   activity.startActivity(new Intent(activity, ElcoSmartRegisterActivity.class));
+           activity.startActivity(new Intent(activity, NativeKIParanaSmartRegisterActivity.class));
     }
     @Override
     public void startANCSmartRegistry() {
