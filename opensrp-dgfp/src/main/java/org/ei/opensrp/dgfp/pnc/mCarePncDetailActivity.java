@@ -166,16 +166,60 @@ public class mCarePncDetailActivity extends Activity {
         assign_text_to_givenView(ancclient,(TextView)findViewById(R.id.breastfeeding_initiated),"Breastmilk_Fed");
         assign_text_to_givenView(ancclient,(TextView)findViewById(R.id.baby_kept_away),"Not_Bathed");
 
-
-
-
-
-
-
     }
 
     private void assign_text_to_givenView(CommonPersonObjectClient ecclient,TextView tview,String detailvariable) {
         String text = ecclient.getDetails().get(detailvariable)!=null?ecclient.getDetails().get(detailvariable):"N/A";
+
+        if(text.equalsIgnoreCase("N/A")){
+            tview.setText(text);
+            return;
+        }
+        switch (detailvariable){
+            case "Visit_Status" :
+                if(text.equalsIgnoreCase("3")){text = "Live Birth";}
+                else if(text.equalsIgnoreCase("4")){text = "Still Birth/MC";}
+                break;
+            case "Delivery_Type" :
+                if(text.equalsIgnoreCase("1")){text = "Normal";}
+                else if(text.equalsIgnoreCase("2")){text = "Caesarean";}
+                break;
+            case "Where_Delivered" :
+                if(text.equalsIgnoreCase("1")){text = "Home";}
+                else if(text.equalsIgnoreCase("2")){text = "Upazilla Health & Family Welfare Complex";}
+                else if(text.equalsIgnoreCase("3")){text = "Union Health & Family Welfare Center";}
+                else if(text.equalsIgnoreCase("4")){text = "Mother & Child Welfare Center";}
+                else if(text.equalsIgnoreCase("5")){text = "District or other Govt. Hospital";}
+                else if(text.equalsIgnoreCase("6")){text = "NGO Clinic or Hospital";}
+                else if(text.equalsIgnoreCase("7")){text = "Private Clinic or Hospital";}
+                break;
+            case "Num_Live_Birth" :
+
+                break;
+            case "Is_Referred" :
+                if(text.equalsIgnoreCase("0")){text = "No";}
+                else if(text.equalsIgnoreCase("1")){text = "Yes";}
+                break;
+            case "Is_Cleaned" :
+                if(text.equalsIgnoreCase("0")){text = "No";}
+                else if(text.equalsIgnoreCase("1")){text = "Yes";}
+                break;
+            case "Chlorhexidin" :
+                if(text.equalsIgnoreCase("0")){text = "No";}
+                else if(text.equalsIgnoreCase("1")){text = "Yes";}
+                break;
+            case "Breastmilk_Fed" :
+                if(text.equalsIgnoreCase("0")){text = "No";}
+                else if(text.equalsIgnoreCase("1")){text = "Yes";}
+                break;
+            case "Not_Bathed" :
+                if(text.equalsIgnoreCase("0")){text = "No";}
+                else if(text.equalsIgnoreCase("1")){text = "Yes";}
+                break;
+            default:
+                break;
+        }
+
         tview.setText(text);
     }
 

@@ -53,6 +53,8 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
 
     protected CommonPersonObjectController controller;
     AlertService alertService;
+
+
     public mCareANCSmartClientsProvider(Context context,
                                         View.OnClickListener onClickListener,AlertService alertService) {
         this.onClickListener = onClickListener;

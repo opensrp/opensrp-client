@@ -321,8 +321,6 @@ public class WomanDetailActivity extends Activity {
 //
     private String calculateage(int i) {
 
-
-
             return i/365 + " years";
 
     }

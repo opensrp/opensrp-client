@@ -250,6 +250,29 @@ public class mCareAncDetailActivity extends Activity {
 
     private void assign_text_to_givenView(CommonPersonObjectClient ecclient,TextView tview,String detailvariable) {
         String text = ecclient.getDetails().get(detailvariable)!=null?ecclient.getDetails().get(detailvariable):"N/A";
+
+        if(detailvariable.equalsIgnoreCase("TT_Count")){
+
+        }
+        else if(detailvariable.equalsIgnoreCase("Gravida")){
+
+        }
+        else if(detailvariable.equalsIgnoreCase("Age_Youngest_Child") && !text.equalsIgnoreCase("N/A")){
+            text += "m";
+        }
+        else if(text.equalsIgnoreCase("0")){
+            text = "No";
+            if(detailvariable.equalsIgnoreCase("Caesarean")){
+                text = "Normal";
+            }
+        }
+        else if(text.equalsIgnoreCase("1")){
+            text = "Yes";
+            if(detailvariable.equalsIgnoreCase("Caesarean")){
+                text = "Caesarean";
+            }
+        }
+
         tview.setText(text);
     }
 

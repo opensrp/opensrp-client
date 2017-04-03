@@ -2,6 +2,7 @@ package org.ei.opensrp.dgfp.nutrition;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -130,6 +131,14 @@ public class nutrition_SmartClientsProvider implements SmartRegisterCLientsProvi
 //        tt_dose_given.setText("TT Dose Given: " + (pc.getDetails().get("TT_Count") != null ? pc.getDetails().get("TT_Count") : ""));
 //        last_vstatus.setText("Last VStatus: " + (pc.getDetails().get("ELCO_Status") != null ? pc.getDetails().get("ELCO_Status") : ""));
 
+        Log.d("-------------------",pc.getDetails().toString()+"");
+        Log.d("----------",pc.getDetails().get("existing_Child") != null ? pc.getDetails().get("existing_Child"):"null");
+        if("existing_PW" == "1"){//
+            //Mother_Nutrition
+        }
+        else if ("existing_Child" == "1"){
+            //Child_Nutrition
+        }
         List<Alert> alertlist_for_client = alertService.findByEntityIdAndAlertNames(pc.entityId(), "Nutrition");
         Calendar c = Calendar.getInstance();
 
@@ -341,7 +350,6 @@ public class nutrition_SmartClientsProvider implements SmartRegisterCLientsProvi
             this.alertstatus = alertstatus;
         }
     }
-
 
 
 
