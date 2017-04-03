@@ -93,6 +93,16 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterCLientsPro
             viewHolder.sight_test_date = (TextView)convertView.findViewById(R.id.text_sight_test_date);
             viewHolder.text_daya_lihat = (TextView)convertView.findViewById(R.id.text_daya_lihat);
 
+
+            viewHolder.mental_test_date = (TextView)convertView.findViewById(R.id.text_mental_test_date);
+            viewHolder.mental_emosional = (TextView)convertView.findViewById(R.id.text_mental_emosional);
+
+            viewHolder.gpph_test_date = (TextView)convertView.findViewById(R.id.text_gpph_test_date);
+            viewHolder.gpph = (TextView)convertView.findViewById(R.id.text_gpph);
+
+            viewHolder.autis = (TextView)convertView.findViewById(R.id.text_autis);
+            viewHolder.autis_test_date = (TextView)convertView.findViewById(R.id.text_autis_test_date);
+
         /*    viewHolder.status_kembang2 = (TextView)convertView.findViewById(R.id.text_status_kembang);
             viewHolder.kpsp_test_date2 = (TextView)convertView.findViewById(R.id.text_kpsp_test_date);
             viewHolder.status_kembang3 = (TextView)convertView.findViewById(R.id.text_status_kembang);
@@ -185,17 +195,26 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterCLientsPro
         viewHolder.anthropometry_date.setText("Tanggal: "+ (pc.getDetails().get("anthropometry_date")!=null?pc.getDetails().get("anthropometry_date").replaceAll("_", " "):"-"));
 
         //kpsp
-        viewHolder.kpsp_test_date1.setText(pc.getDetails().get("kpsp_1thn_date")!=null?pc.getDetails().get("kpsp_1thn_date").replaceAll("_", " "):"-");
+        viewHolder.kpsp_test_date1.setText("Tgl: "+pc.getDetails().get("kpsp_1thn_date")!=null?pc.getDetails().get("kpsp_1thn_date").replaceAll("_", " "):"-");
         viewHolder.status_kembang1.setText(pc.getDetails().get("status_kembang")!=null?"1 thn: "+pc.getDetails().get("status_kembang"):"-");
         viewHolder.status_kembang2.setText(pc.getDetails().get("status_kembang2")!=null?"2 thn: "+pc.getDetails().get("status_kembang2"):"-");
         viewHolder.status_kembang3.setText(pc.getDetails().get("status_kembang3")!=null?"3 thn: "+pc.getDetails().get("status_kembang3"):"-");
 
 
-        viewHolder.hear_test_date.setText("Tanggal: "+ (pc.getDetails().get("hear_test_date")!=null?pc.getDetails().get("hear_test_date").replaceAll("_", " "):"-"));
+        viewHolder.hear_test_date.setText("Tgl: "+ (pc.getDetails().get("hear_test_date")!=null?pc.getDetails().get("hear_test_date").replaceAll("_", " "):"-"));
         viewHolder.daya_dengar.setText("Tes Hearing: "+ (pc.getDetails().get("daya_dengar")!=null?pc.getDetails().get("daya_dengar").replaceAll("_", " "):"-"));
-        viewHolder.sight_test_date.setText("Tanggal: "+ (pc.getDetails().get("sight_test_date")!=null?pc.getDetails().get("sight_test_date").replaceAll("_", " "):"-"));
+        viewHolder.sight_test_date.setText("Tgl: "+ (pc.getDetails().get("sight_test_date")!=null?pc.getDetails().get("sight_test_date").replaceAll("_", " "):"-"));
         viewHolder.text_daya_lihat.setText("Tes Sight: "+ (pc.getDetails().get("daya_lihat")!=null?pc.getDetails().get("daya_lihat").replaceAll("_", " "):"-"));
 
+        viewHolder.mental_emosional.setText("Tes Mental: "+ (pc.getDetails().get("mental_emosional")!=null?pc.getDetails().get("mental_emosional").replaceAll("_", " "):"-"));
+        viewHolder.mental_test_date.setText("Tgl: "+ (pc.getDetails().get("mental_test_date")!=null?pc.getDetails().get("mental_test_date").replaceAll("_", " "):"-"));
+
+
+        viewHolder.gpph_test_date.setText("Tgl: "+ (pc.getDetails().get("gpph_test_date")!=null?pc.getDetails().get("gpph_test_date").replaceAll("_", " "):"-"));
+        viewHolder.gpph.setText("Tes GGPH: "+ (pc.getDetails().get("gpph")!=null?pc.getDetails().get("gpph").replaceAll("_", " "):"-"));
+
+        viewHolder.autis_test_date.setText("Tgl: "+ (pc.getDetails().get("autis_test_date")!=null?pc.getDetails().get("autis_test_date").replaceAll("_", " "):"-"));
+        viewHolder.autis.setText("Test Autist: "+ (pc.getDetails().get("autis")!=null ? pc.getDetails().get("autis").replaceAll("_", " "):"-"));
 
 
 /*
