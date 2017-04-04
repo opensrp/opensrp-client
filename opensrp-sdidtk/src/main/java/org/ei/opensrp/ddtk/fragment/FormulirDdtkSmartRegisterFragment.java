@@ -266,7 +266,7 @@ public class FormulirDdtkSmartRegisterFragment extends SecuredNativeSmartRegiste
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.profile_info_layout:
-                    CharSequence selections[] = new CharSequence[] {"Detail View", "Charts"};
+                  //  CharSequence selections[] = new CharSequence[] {"Detail View", "Charts"};
                     ChildDetailActivity.childclient = (CommonPersonObjectClient) view.getTag();
 
                     break;

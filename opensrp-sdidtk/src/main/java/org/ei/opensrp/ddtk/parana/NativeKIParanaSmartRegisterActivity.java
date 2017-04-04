@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 
 
+import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.domain.form.FormSubmission;
 import org.ei.opensrp.ddtk.LoginActivity;
 import org.ei.opensrp.ddtk.R;
@@ -19,10 +20,12 @@ import org.ei.opensrp.sync.ClientProcessor;
 import org.ei.opensrp.util.FormUtils;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
 import org.ei.opensrp.view.dialog.DialogOption;
+import org.ei.opensrp.view.dialog.LocationSelectorDialogFragment;
 import org.ei.opensrp.view.dialog.OpenFormOption;
 import org.ei.opensrp.view.fragment.DisplayFormFragment;
 import org.ei.opensrp.view.fragment.SecuredNativeSmartRegisterFragment;
 import org.ei.opensrp.view.viewpager.OpenSRPViewPager;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -38,7 +41,8 @@ import butterknife.ButterKnife;
 /**
  * Created by Dimas Ciputra on 3/5/15.
  */
-public class NativeKIParanaSmartRegisterActivity extends SecuredNativeSmartRegisterActivity {
+public class NativeKIParanaSmartRegisterActivity extends SecuredNativeSmartRegisterActivity implements
+        LocationSelectorDialogFragment.OnLocationSelectedListener{
     SimpleDateFormat timer = new SimpleDateFormat("hh:mm:ss");
     public static final String TAG = "ANCActivity";
     @Bind(R.id.view_pager)
@@ -95,6 +99,33 @@ public class NativeKIParanaSmartRegisterActivity extends SecuredNativeSmartRegis
     protected void setupViews() {
 
 
+    }
+
+    @Override
+    public void OnLocationSelected(String locationJSONString) {
+      /*  JSONObject combined = null;
+
+        try {
+            JSONObject locationJSON = new JSONObject(locationJSONString);
+            //    JSONObject uniqueId = new JSONObject(LoginActivity.generator.uniqueIdController().getUniqueIdJson());
+
+            combined = locationJSON;
+            //  Iterator<String> iter = uniqueId.keys();
+
+            //   while (iter.hasNext()) {
+            //     String key = iter.next();
+            //    combined.put(key, uniqueId.get(key));
+            //    }
+
+            //     System.out.println("injection string: " + combined.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (combined != null) {
+            FieldOverrides fieldOverrides = new FieldOverrides(combined.toString());
+            startFormActivity("registrasi_sdidtk", null, fieldOverrides.getJSONString());
+        }*/
     }
 
     @Override
@@ -235,7 +266,7 @@ public class NativeKIParanaSmartRegisterActivity extends SecuredNativeSmartRegis
 
 
 
-        DialogOption[] options = getEditOptions();
+       // DialogOption[] options = getEditOptions();
         //  for (int i = 0; i < options.length; i++) {
         //       formNames.add(((OpenFormOption) options[i]).getFormName());
         //   }

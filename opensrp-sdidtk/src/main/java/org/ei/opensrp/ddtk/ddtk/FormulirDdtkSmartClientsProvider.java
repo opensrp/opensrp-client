@@ -195,7 +195,7 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterCLientsPro
         viewHolder.anthropometry_date.setText("Tanggal: "+ (pc.getDetails().get("anthropometry_date")!=null?pc.getDetails().get("anthropometry_date").replaceAll("_", " "):"-"));
 
         //kpsp
-        viewHolder.kpsp_test_date1.setText("Tgl: "+pc.getDetails().get("kpsp_1thn_date")!=null?pc.getDetails().get("kpsp_1thn_date").replaceAll("_", " "):"-");
+        viewHolder.kpsp_test_date1.setText(pc.getDetails().get("kpsp_1thn_date")!=null?pc.getDetails().get("kpsp_1thn_date").replaceAll("_", " "):"-");
         viewHolder.status_kembang1.setText(pc.getDetails().get("status_kembang")!=null?"1 thn: "+pc.getDetails().get("status_kembang"):"-");
         viewHolder.status_kembang2.setText(pc.getDetails().get("status_kembang2")!=null?"2 thn: "+pc.getDetails().get("status_kembang2"):"-");
         viewHolder.status_kembang3.setText(pc.getDetails().get("status_kembang3")!=null?"3 thn: "+pc.getDetails().get("status_kembang3"):"-");

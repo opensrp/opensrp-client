@@ -24,6 +24,7 @@ import org.ei.opensrp.ddtk.parana.KIParanaOverviewServiceMode;
 import org.ei.opensrp.ddtk.parana.NativeKIParanaSmartRegisterActivity;
 import org.ei.opensrp.ddtk.parana.ParanaDetailActivity;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
+import org.ei.opensrp.sync.ClientProcessor;
 import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
 import org.ei.opensrp.view.contract.ECClient;
@@ -58,10 +59,12 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
  */
 public class NativeKIParanaSmartRegisterFragment extends SecuredNativeSmartRegisterCursorAdapterFragment {
     private static final String TAG = NativeKIParanaSmartRegisterFragment.class.getSimpleName();
+
     private SmartRegisterClientsProvider clientProvider = null;
     private CommonPersonObjectController controller;
     private VillageController villageController;
     private DialogOptionMapper dialogOptionMapper;
+    private ClientProcessor clientProcessor;
 
     private final ClientActionHandler clientActionHandler = new ClientActionHandler();
     private String locationDialogTAG = "locationDialogTAG";

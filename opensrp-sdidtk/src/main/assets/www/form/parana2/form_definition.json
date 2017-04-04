@@ -2,38 +2,46 @@
   "form_data_definition_version": "1",
   "form": {
     "bind_type": "kartu_ibu",
-    "default_bind_path": "/model/instance/Parana/",
+    "ec_bind_type": "ec_kartu_ibu",
+    "default_bind_path": "/model/instance/parana2/",
     "fields": [
       {
         "name": "id",
         "shouldLoadValue": true
       },
       {
-        "name": "childId",
-        "shouldLoadValue": true,
-        "source": "ibu.anak.id"
+        "name": "start",
+        "bind": "/model/instance/parana2/start"
       },
       {
-        "name": "tanggal_sesi2",
-        "bind": "/model/instance/Parana/tanggal_sesi"
+        "name": "end",
+        "bind": "/model/instance/parana2/end"
       },
       {
-        "name": "paranaStatus2",
-        "bind": "/model/instance/Parana/parana_status"
-      },
-      {
-        "name": "tanggalLahirAnak",
-        "source": "ibu.anak.tanggalLahirAnak",
-        "bind": "/model/instance/Parana/tanggal_lahir_anak",
+        "name": "cityVillage",
+        "bind": "/model/instance/parana2/Village",
         "shouldLoadValue": true
       },
       {
-        "name": "submissionDate",
-        "bind": "/model/instance/Parana/today"
+        "name": "existing_location",
+        "bind": "/model/instance/parana2/existing_location",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "tanggal_sesi2",
+        "bind": "/model/instance/parana2/tanggal_sesi"
+      },
+      {
+        "name": "paranaStatus2",
+        "bind": "/model/instance/parana2/parana_status"
+      },
+      {
+        "name": "today",
+        "bind": "/model/instance/parana2/today"
       },
       {
         "name": "registrationDate",
-        "bind": "/model/instance/Parana/reg_date"
+        "bind": "/model/instance/parana2/reg_date"
       }
     ]
   }

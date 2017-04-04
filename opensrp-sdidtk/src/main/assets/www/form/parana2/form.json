@@ -1,1 +1,177 @@
-{"name":"Parana","title":"Parana","sms_keyword":"parana","default_language":"Bahasa","instance":{"encounter_type":"Parana"},"version":"201703310737","id_string":"parana","type":"survey","children":[{"instance":{"openmrs_entity_id":"encounter_start","openmrs_entity":"encounter"},"type":"start","name":"start"},{"instance":{"openmrs_entity_id":"encounter_date","openmrs_entity":"encounter"},"type":"today","name":"today"},{"type":"deviceid","name":"deviceid"},{"type":"simserial","name":"simserial"},{"type":"phonenumber","name":"phonenumber"},{"type":"hidden","name":"Province"},{"type":"hidden","name":"District","hint":{"Bahasa":"Inject from app"}},{"type":"hidden","name":"Sub-district","hint":{"Bahasa":"Inject from app"}},{"type":"hidden","name":"Village","hint":{"Bahasa":"Inject from app"}},{"type":"hidden","name":"Sub-village","hint":{"Bahasa":"Inject from app"}},{"type":"note","name":"generated_note_name_13","label":{"Bahasa":"Desa : ${Village}"}},{"type":"note","name":"generated_note_name_14","label":{"Bahasa":"Dusun : ${Sub-village}"}},{"bind":{"calculate":"${Village}"},"type":"hidden","name":"existing_location","instance":{"openmrs_entity_id":"location_id","openmrs_entity":"encounter"}},{"bind":{"calculate":"${Province}"},"type":"calculate","name":"provinsi","instance":{"openmrs_entity_parent":"usual_residence","openmrs_entity_id":"stateProvince","openmrs_entity":"person_address"}},{"bind":{"calculate":"${District}"},"type":"calculate","name":"kabupaten","instance":{"openmrs_entity_parent":"usual_residence","openmrs_entity_id":"countyDistrict","openmrs_entity":"person_address"}},{"bind":{"calculate":"${Village}"},"type":"calculate","name":"desa","instance":{"openmrs_entity_parent":"usual_residence","openmrs_entity_id":"cityVillage","openmrs_entity":"person_address"}},{"bind":{"calculate":"${Sub-village}"},"type":"calculate","name":"dusun","instance":{"openmrs_entity_parent":"usual_residence","openmrs_entity_id":"address1","openmrs_entity":"person_address"}},{"bind":{"calculate":"${Sub-district}"},"type":"calculate","name":"kecamatan","instance":{"openmrs_entity_parent":"usual_residence","openmrs_entity_id":"address2","openmrs_entity":"person_address"}},{"bind":{"required":"yes"},"type":"date","instance":{"openmrs_entity_id":"160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"name":"tanggal_sesi","label":{"Bahasa":"Tanggal :","English":"Date : ?"}},{"instance":{"openmrs_entity_id":"160336AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"Sesi","English":"session"},"type":"select one","children":[{"name":"1","label":{"Bahasa":"1","English":"1"}},{"name":"2","label":{"Bahasa":"2","English":"2"}},{"name":"3","label":{"Bahasa":"3","English":"3"}},{"name":"4","label":{"Bahasa":"4","English":"4"}}],"name":"sesi_ke"},{"instance":{"openmrs_entity_parent":"160336AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"160632AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"Apakah ibu Aktif dalam diskusi?","English":"Apakah ibu Aktif dalam diskusi?"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"Ya","English":"Yes"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"Tidak","English":"No"}}],"name":"parana_status"},{"control":{"bodyless":true},"type":"group","children":[{"bind":{"readonly":"true()","calculate":"concat('uuid:', uuid())"},"type":"calculate","name":"instanceID"}],"name":"meta"}]}
+{
+  "name": "parana2",
+  "title": "Parana Sesi 2",
+  "sms_keyword": "parana2",
+  "default_language": "Bahasa",
+  "instance": {
+    "encounter_type": "Parana2"
+  },
+  "version": "201704040158",
+  "id_string": "parana2",
+  "type": "survey",
+  "children": [
+    {
+      "instance": {
+        "openmrs_entity_id": "encounter_start",
+        "openmrs_entity": "encounter"
+      },
+      "type": "start",
+      "name": "start"
+    },
+    {
+      "instance": {
+        "openmrs_entity_id": "encounter_date",
+        "openmrs_entity": "encounter"
+      },
+      "type": "today",
+      "name": "today"
+    },
+    {
+      "type": "deviceid",
+      "name": "deviceid"
+    },
+    {
+      "type": "simserial",
+      "name": "simserial"
+    },
+    {
+      "type": "phonenumber",
+      "name": "phonenumber"
+    },
+    {
+      "type": "hidden",
+      "name": "Province"
+    },
+    {
+      "type": "hidden",
+      "name": "District",
+      "hint": {
+        "Bahasa": "Inject from app"
+      }
+    },
+    {
+      "type": "hidden",
+      "name": "Sub-district",
+      "hint": {
+        "Bahasa": "Inject from app"
+      }
+    },
+    {
+      "type": "hidden",
+      "name": "Village",
+      "hint": {
+        "Bahasa": "Inject from app"
+      }
+    },
+    {
+      "type": "hidden",
+      "name": "Sub-village",
+      "hint": {
+        "Bahasa": "Inject from app"
+      }
+    },
+    {
+      "type": "note",
+      "name": "generated_note_name_13",
+      "label": {
+        "Bahasa": "Desa : ${Village}"
+      }
+    },
+    {
+      "type": "note",
+      "name": "generated_note_name_14",
+      "label": {
+        "Bahasa": "Dusun : ${Sub-village}"
+      }
+    },
+    {
+      "bind": {
+        "calculate": "${Village}"
+      },
+      "type": "hidden",
+      "name": "existing_location",
+      "instance": {
+        "openmrs_entity_id": "location_id",
+        "openmrs_entity": "encounter"
+      }
+    },
+    {
+      "bind": {
+        "calculate": "${Village}"
+      },
+      "type": "calculate",
+      "name": "desa",
+      "instance": {
+        "openmrs_entity_parent": "usual_residence",
+        "openmrs_entity_id": "cityVillage",
+        "openmrs_entity": "person_address"
+      }
+    },
+    {
+      "bind": {
+        "required": "yes"
+      },
+      "type": "date",
+      "instance": {
+        "openmrs_entity_id": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "name": "tanggal_sesi",
+      "label": {
+        "Bahasa": "Tanggal :",
+        "English": "Date : ?"
+      }
+    },
+    {
+      "instance": {
+        "openmrs_entity_id": "160721AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "Apakah ibu Aktif dalam diskusi?",
+        "English": "Apakah ibu Aktif dalam diskusi?"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "Ya",
+            "English": "Yes"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "Tidak",
+            "English": "No"
+          }
+        }
+      ],
+      "name": "parana_status"
+    },
+    {
+      "control": {
+        "bodyless": true
+      },
+      "type": "group",
+      "children": [
+        {
+          "bind": {
+            "readonly": "true()",
+            "calculate": "concat('uuid:', uuid())"
+          },
+          "type": "calculate",
+          "name": "instanceID"
+        }
+      ],
+      "name": "meta"
+    }
+  ]
+}
