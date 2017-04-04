@@ -22,5 +22,13 @@
     "kind": "one_to_many",
     "from": "mother.id",
     "to": "child.motherCaseId"
+  },
+  {
+    "parent": "stock",
+    "child": "child",
+    "field": "children",
+    "kind": "one_to_many",
+    "from": "mother.id",
+    "to": "child.motherCaseId"
   }
 ]
