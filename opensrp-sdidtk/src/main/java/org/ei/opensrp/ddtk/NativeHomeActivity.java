@@ -81,6 +81,10 @@ public class NativeHomeActivity extends SecuredActivity {
     private TextView ParanaClientCount;
     public static int kicount;
 
+    private TextView HomeInventoryClientCount;
+    public static int hicount;
+
+
     @Override
     protected void onCreation() {
         //home dashboard
@@ -99,9 +103,11 @@ public class NativeHomeActivity extends SecuredActivity {
         // findViewById(R.id.btn_test2_register).setOnClickListener(onRegisterStartListener);
         findViewById(R.id.btn_parana_register).setOnClickListener(onRegisterStartListener);
         findViewById(R.id.btn_reporting).setOnClickListener(onButtonsClickListener);
+        findViewById(R.id.btn_home_inven_register).setOnClickListener(onRegisterStartListener);
 
         ecRegisterClientCountView = (TextView) findViewById(R.id.txt_child_register_client_count);
         ParanaClientCount = (TextView) findViewById(R.id.txt_parana_client_count);
+        HomeInventoryClientCount = (TextView) findViewById(R.id.txt_home_client_count);
     }
 
     private void initialize() {
@@ -116,8 +122,6 @@ public class NativeHomeActivity extends SecuredActivity {
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         LoginActivity.setLanguage();
-//        getActionBar().setBackgroundDrawable(getReso
-// urces().getDrawable(R.color.action_bar_background));
     }
 
     @Override
@@ -151,9 +155,14 @@ public class NativeHomeActivity extends SecuredActivity {
         kicountcursor.close();
 
 
+        Cursor hicountcursor = context().commonrepository("anak").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("ec_anak_search", "ec_anak_search.is_closed=0"));
+        hicountcursor.moveToFirst();
+        hicount= hicountcursor.getInt(0);
+        hicountcursor.close();
+
         ParanaClientCount.setText(valueOf(kicount));
         ecRegisterClientCountView.setText(valueOf(childcount));
-        //  ecRegisterClientCountView.setText(valueOf(hhcontroller.getClients().size()));
+        HomeInventoryClientCount.setText(valueOf(hicount));
 
     }
 
@@ -252,11 +261,11 @@ public class NativeHomeActivity extends SecuredActivity {
                   case R.id.btn_parana_register:
                         navigationController.startFPSmartRegistry();
                         break;
-/*
-                case R.id.btn_pnc_register:
-//                    navigationController.startPNCSmartRegistry();
+
+                case R.id.btn_home_inven_register:
+                    navigationController.startANCSmartRegistry();
                     break;
-                case R.id.btn_child_register:
+ /*               case R.id.btn_child_register:
 //                    navigationController.startChildSmartRegistry();
                     break;
                 case R.id.btn_fp_register:

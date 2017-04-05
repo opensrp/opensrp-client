@@ -1,19 +1,14 @@
 package org.ei.opensrp.ddtk.fragment;
 
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.ei.opensrp.Context;
-import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
-import org.ei.opensrp.commonregistry.CommonObjectSort;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
 import org.ei.opensrp.commonregistry.CommonRepository;
@@ -23,18 +18,13 @@ import org.ei.opensrp.cursoradapter.SecuredNativeSmartRegisterCursorAdapterFragm
 import org.ei.opensrp.cursoradapter.SmartRegisterPaginatedCursorAdapter;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.ddtk.LoginActivity;
-import org.ei.opensrp.ddtk.ddtk.FormulirDdtkServiceModeOption;
-import org.ei.opensrp.ddtk.ddtk.KICommonObjectFilterOption;
-import org.ei.opensrp.ddtk.homeinventory.HomeInventoryClientsProvider;
-import org.ei.opensrp.ddtk.homeinventory.HomeInventoryServiceModeOption;
-import org.ei.opensrp.ddtk.homeinventory.HomeInventorySmartRegisterActivity;
-import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.ddtk.R;
-
 import org.ei.opensrp.ddtk.ddtk.ChildDetailActivity;
-import org.ei.opensrp.ddtk.ddtk.FormulirDdtkSmartRegisterActivity;
-import org.ei.opensrp.ddtk.ddtk.FormulirDdtkSearchOption;
+import org.ei.opensrp.ddtk.ddtk.FormulirDdtkServiceModeOption;
 import org.ei.opensrp.ddtk.ddtk.FormulirDdtkSmartClientsProvider;
+import org.ei.opensrp.ddtk.ddtk.FormulirDdtkSmartRegisterActivity;
+import org.ei.opensrp.ddtk.ddtk.KICommonObjectFilterOption;
+import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.sync.ClientProcessor;
 import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
@@ -52,7 +42,6 @@ import org.ei.opensrp.view.dialog.LocationSelectorDialogFragment;
 import org.ei.opensrp.view.dialog.NameSort;
 import org.ei.opensrp.view.dialog.ServiceModeOption;
 import org.ei.opensrp.view.dialog.SortOption;
-import org.ei.opensrp.view.fragment.SecuredNativeSmartRegisterFragment;
 import org.opensrp.api.domain.Location;
 import org.opensrp.api.util.EntityUtils;
 import org.opensrp.api.util.LocationTree;
@@ -70,7 +59,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 /**
  * Created by koros on 10/12/15.
  */
-public class FormulirDdtkSmartRegisterFragment extends SecuredNativeSmartRegisterCursorAdapterFragment {
+public class HomeInventorySmartRegisterFragment extends SecuredNativeSmartRegisterCursorAdapterFragment {
 
     private SmartRegisterClientsProvider clientProvider = null;
     private CommonPersonObjectController controller;
@@ -95,7 +84,7 @@ public class FormulirDdtkSmartRegisterFragment extends SecuredNativeSmartRegiste
 
             @Override
             public ServiceModeOption serviceMode() {
-                return new HomeInventoryServiceModeOption(clientsProvider());
+                return new FormulirDdtkServiceModeOption(clientsProvider());
             }
 
             @Override
@@ -178,7 +167,7 @@ public class FormulirDdtkSmartRegisterFragment extends SecuredNativeSmartRegiste
     }
 
     private DialogOption[] getEditOptions() {
-        return ((HomeInventorySmartRegisterActivity)getActivity()).getEditOptions();
+        return ((FormulirDdtkSmartRegisterActivity)getActivity()).getEditOptions();
     }
 
     @Override
@@ -211,7 +200,7 @@ public class FormulirDdtkSmartRegisterFragment extends SecuredNativeSmartRegiste
                 "Else alerts.status END ASC";
     }
     public void initializeQueries(){
-        HomeInventoryClientsProvider kiscp = new HomeInventoryClientsProvider(getActivity(),clientActionHandler,context().alertService());
+        FormulirDdtkSmartClientsProvider kiscp = new FormulirDdtkSmartClientsProvider(getActivity(),clientActionHandler,context().alertService());
         clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, kiscp, new CommonRepository("ec_anak",new String []{"tanggalLahirAnak","namaBayi"}));
         clientsView.setAdapter(clientAdapter);
 

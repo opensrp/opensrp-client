@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 
 
 import org.ei.opensrp.ddtk.ddtk.FormulirDdtkSmartRegisterActivity;
+import org.ei.opensrp.ddtk.homeinventory.HomeInventorySmartRegisterActivity;
 import org.ei.opensrp.ddtk.parana.NativeKIParanaSmartRegisterActivity;
+import org.ei.opensrp.view.activity.NativeChildSmartRegisterActivity;
 import org.ei.opensrp.view.controller.ANMController;
 
 
@@ -44,7 +46,11 @@ public class SdidtkNavigationController extends org.ei.opensrp.view.controller.N
     }
     @Override
     public void startANCSmartRegistry() {
-        activity.startActivity(new Intent(activity, FormulirDdtkSmartRegisterActivity.class));
+        activity.startActivity(new Intent(activity, HomeInventorySmartRegisterActivity.class));
+    }
+    @Override
+    public void startChildSmartRegistry() {
+        activity.startActivity(new Intent(activity, HomeInventorySmartRegisterActivity.class));
     }
 
 }

@@ -108,6 +108,37 @@
 
             </FrameLayout>
 
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:id="@+id/btn_home_inven_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/register_fp"
+                    style="@style/ImageButton.Home.Register"/>
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Home"
+                    style="@style/CustomFontTextViewStyle.Home.RegisterName"/>
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Inventory"
+                    style="@style/CustomFontTextViewStyle.Home.RegisterLabel"/>
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:id="@+id/txt_home_client_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CustomFontTextViewStyle.Badge2"/>
+
+            </FrameLayout>
 
         </LinearLayout>
 
