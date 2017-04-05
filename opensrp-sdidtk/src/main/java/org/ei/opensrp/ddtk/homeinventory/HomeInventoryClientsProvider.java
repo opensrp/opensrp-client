@@ -74,6 +74,11 @@ public class HomeInventoryClientsProvider implements SmartRegisterCLientsProvide
             viewHolder.age = (TextView)convertView.findViewById(R.id.txt_child_age);
             viewHolder.tgl_lahr = (TextView)convertView.findViewById(R.id.txt_child_date_of_birth);
 
+            viewHolder.base_date = (TextView)convertView.findViewById(R.id.txt_base_date);
+
+            viewHolder.base_skors = (TextView)convertView.findViewById(R.id.txt_base_skors);
+            viewHolder.base_age = (TextView)convertView.findViewById(R.id.txt_base_age);
+
             viewHolder.profilepic =(ImageView)convertView.findViewById(R.id.img_profile);
             viewHolder.follow_up = (ImageButton)convertView.findViewById(R.id.btn_edit);
             convertView.setTag(viewHolder);
@@ -137,11 +142,69 @@ public class HomeInventoryClientsProvider implements SmartRegisterCLientsProvide
             viewHolder.subVillage.setText(kiparent.getDetails().get("address1")!=null?kiparent.getDetails().get("address1") :"-");
          //   viewHolder.village_name.setText(kiparent.getDetails().get("address1")!=null?kiparent.getDetails().get("address1") :"-");
         }
+        int count = 0;
+        for (int i = 1 ; i <=45 ; i++){
+            String home = "home"+i+"_it";
+            if(pc.getDetails().get(home) !=null) {
+                if (pc.getDetails().get(home).equalsIgnoreCase("Yes")) {
+                    count = count + 1;
+                } else {
 
+                }
+            }
 
+        }
 
+        String tanggl = pc.getDetails().get("tanggal_kunjungan_home") != null ? pc.getDetails().get("tanggal_kunjungan_home") : "-";
+        String umurs = pc.getDetails().get("umurs") != null ? pc.getDetails().get("umurs") : "-";
+        viewHolder.base_date.setText("Tanggal : "+tanggl);
+        viewHolder.base_age.setText("Umur : "+umurs);
+        viewHolder.base_skors.setText("Skor : "+count);
 
-
+      /*  String home1_it = pc.getDetails().get("home1_it") != null ? pc.getDetails().get("home1_it") : "";
+        String home2_it =  pc.getDetails().get("home1_it") != null ? pc.getDetails().get("home1_it") : "";
+        String home3_it =  pc.getDetails().get("home1_it") != null ? pc.getDetails().get("home1_it") : "";
+        String home4_it =  pc.getDetails().get("home4_it") != null ? pc.getDetails().get("home4_it") : "";
+        String home5_it =  pc.getDetails().get("home5_it") != null ? pc.getDetails().get("home5_it") : "";
+        String home6_it =  pc.getDetails().get("home6_it") != null ? pc.getDetails().get("home6_it") : "";
+        String home7_it =  pc.getDetails().get("home7_it") != null ? pc.getDetails().get("home7_it") : "";
+        String home8_it =  pc.getDetails().get("home8_it") != null ? pc.getDetails().get("home8_it") : "";
+        String home9_it =  pc.getDetails().get("home9_it") != null ? pc.getDetails().get("home9_it") : "";
+        String home10_it =  pc.getDetails().get("home10_it") != null ? pc.getDetails().get("home10_it") : "";
+        String home11_it =  pc.getDetails().get("home11_it") != null ? pc.getDetails().get("home11_it") : "";
+        String home12_it =  pc.getDetails().get("home12_it") != null ? pc.getDetails().get("home12_it") : "";
+        String home13_it = pc.getDetails().get("home13_it") != null ? pc.getDetails().get("home13_it") : "";
+        String home14_it = pc.getDetails().get("home14_it") != null ? pc.getDetails().get("home14_it") : "";
+        String home15_it = pc.getDetails().get("home15_it") != null ? pc.getDetails().get("home15_it") : "";
+        String home16_it = pc.getDetails().get("home16_it") != null ? pc.getDetails().get("home16_it") : "";
+        String home17_it = pc.getDetails().get("home17_it") != null ? pc.getDetails().get("home17_it") : "";
+        String home18_it = pc.getDetails().get("home18_it") != null ? pc.getDetails().get("home18_it") : "";
+        String home19_it = pc.getDetails().get("home19_it") != null ? pc.getDetails().get("home19_it") : "";
+        String home20_it = pc.getDetails().get("home20_it") != null ? pc.getDetails().get("home20_it") : "";
+        String home21_it = pc.getDetails().get("home21_it") != null ? pc.getDetails().get("home21_it") : "";
+        String home22_it = pc.getDetails().get("home22_it") != null ? pc.getDetails().get("home22_it") : "";
+        String home23_it = pc.getDetails().get("home23_it") != null ? pc.getDetails().get("home23_it") : "";
+        String home24_it = pc.getDetails().get("home24_it") != null ? pc.getDetails().get("home24_it") : "";
+        String home25_it = pc.getDetails().get("home25_it") != null ? pc.getDetails().get("home25_it") : "";
+        String home26_it = pc.getDetails().get("home26_it") != null ? pc.getDetails().get("home26_it") : "";
+        String home27_it = pc.getDetails().get("home27_it") != null ? pc.getDetails().get("home27_it") : "";
+        String home28_it = pc.getDetails().get("home28_it") != null ? pc.getDetails().get("home28_it") : "";
+        String home29_it = pc.getDetails().get("home29_it") != null ? pc.getDetails().get("home29_it") : "";
+        String home30_it = pc.getDetails().get("home30_it") != null ? pc.getDetails().get("home30_it") : "";
+        String home31_it = pc.getDetails().get("home31_it") != null ? pc.getDetails().get("home31_it") : "";
+        String home32_it = pc.getDetails().get("home32_it") != null ? pc.getDetails().get("home32_it") : "";
+        String home33_it = pc.getDetails().get("home33_it") != null ? pc.getDetails().get("home33_it") : "";
+        String home34_it = pc.getDetails().get("home34_it") != null ? pc.getDetails().get("home34_it") : "";
+        String home35_it = pc.getDetails().get("home35_it") != null ? pc.getDetails().get("home35_it") : "";
+        String home36_it = pc.getDetails().get("home36_it") != null ? pc.getDetails().get("home36_it") : "";
+        String home37_it = pc.getDetails().get("home37_it") != null ? pc.getDetails().get("home37_it") : "";
+        String home38_it = pc.getDetails().get("home38_it") != null ? pc.getDetails().get("home38_it") : "";
+        String home39_it = pc.getDetails().get("home39_it") != null ? pc.getDetails().get("home39_it") : "";
+        String home40_it = pc.getDetails().get("home40_it") != null ? pc.getDetails().get("home40_it") : "";
+        String home41_it = pc.getDetails().get("home41_it") != null ? pc.getDetails().get("home41_it") : "";
+        String home42_it = pc.getDetails().get("home42_it") != null ? pc.getDetails().get("home42_it") : "";
+        String home43_it = pc.getDetails().get("home43_it") != null ? pc.getDetails().get("home43_it") : "";
+        String home44_it = pc.getDetails().get("home44_it") != null ? pc.getDetails().get("home44_it") : "";*/
 
         convertView.setLayoutParams(clientViewLayoutParams);
     }
@@ -205,6 +268,9 @@ public class HomeInventoryClientsProvider implements SmartRegisterCLientsProvide
         public TextView text_daya_lihat;
         public TextView name;
         public TextView tgl_lahr;
+        public TextView base_date;
+        public TextView base_skors;
+        public TextView base_age;
     }
 
 

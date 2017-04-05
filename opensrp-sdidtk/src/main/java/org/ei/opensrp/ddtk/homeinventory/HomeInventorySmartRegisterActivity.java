@@ -114,18 +114,7 @@ public class HomeInventorySmartRegisterActivity extends SecuredNativeSmartRegist
 
     public DialogOption[] getEditOptions() {
         return new DialogOption[]{
-                new OpenFormOption("Antropometri", "antropometri", formController),
-                new OpenFormOption("Kpsp Bayi 1 Tahun", "kpsp_bayi_1thn", formController),
-                new OpenFormOption("Kpsp Balita 2 Tahun", "kpsp_balita_2thn", formController),
-                new OpenFormOption("Kpsp Balita 3 Tahun", "kpsp_balita_3thn", formController),
-                new OpenFormOption("Kpsp Balita 4 Tahun", "kpsp_balita_4thn", formController),
-                new OpenFormOption("Kpsp Balita 5 Tahun", "kpsp_balita_5thn", formController),
-                new OpenFormOption("Kpsp Balita 6 Tahun", "kpsp_balita_6thn", formController),
-                new OpenFormOption("Tes Daya Dengar", "tes_daya_dengar", formController),
-                new OpenFormOption("Tes Daya Lihat", "tes_daya_lihat", formController),
-                new OpenFormOption("Masalah Mental Emosional", "masalah_mental_emosional", formController),
-                new OpenFormOption("Deteksi Dini Autis", "deteksi_dini_autis", formController),
-                new OpenFormOption("GPPH", "gangguan_konsentrasi_hiperaktivitas", formController),
+                new OpenFormOption("Home Inventory 0-2 Tahun", "home_inventory_infant_0_2", formController),
 
         };
     }
@@ -314,20 +303,8 @@ public class HomeInventorySmartRegisterActivity extends SecuredNativeSmartRegist
 
     private String[] buildFormNameList(){
         List<String> formNames = new ArrayList<String>();
-        formNames.add("registrasi_gizi");
-        formNames.add("registrasi_sdidtk");
-        formNames.add("antropometri");
-        formNames.add("kpsp_bayi_1thn");
-        formNames.add("kpsp_balita_2thn");
-        formNames.add("kpsp_balita_3thn");
-        formNames.add("kpsp_balita_4thn");
-        formNames.add("kpsp_balita_5thn");
-        formNames.add("kpsp_balita_6thn");
-        formNames.add("tes_daya_dengar");
-        formNames.add("tes_daya_lihat");
-        formNames.add("masalah_mental_emosional");
-        formNames.add("deteksi_dini_autis");
-        formNames.add("gangguan_konsentrasi_hiperaktivitas");
+        formNames.add("home_inventory_infant_0_2");
+
         //   formNames.add("census_enrollment_form");
 //        DialogOption[] options = getEditOptions();
 //        for (int i = 0; i < options.length; i++){
