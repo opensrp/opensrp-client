@@ -128,12 +128,12 @@ public class adolescent_SmartClientsProvider implements SmartRegisterCLientsProv
 
 //        coupleno_or_fathersname.setText((pc.getDetails().get("Couple_No") != null ? pc.getDetails().get("Couple_No") : ""));
 
-        councelling_taken.setText((pc.getDetails().get("Councelling") != null ? pc.getDetails().get("Councelling") : ""));
+        councelling_taken.setText((pc.getDetails().get("Councelling") != null ? pc.getDetails().get("Councelling") : "Not Taken"));
 
 
         village.setText(humanize((pc.getDetails().get("Mem_Village_Name") != null ? (pc.getDetails().get("Mem_Village_Name")+",") : "").replace("+", "_")) + humanize((pc.getDetails().get("Mem_Mauzapara") != null ? pc.getDetails().get("Mem_Mauzapara") : "").replace("+", "_")));
 
-        date_of_last_visit.setText(pc.getDetails().get("adolescent_Visit_Date") != null ? pc.getDetails().get("adolescent_Visit_Date") : "");
+        date_of_last_visit.setText(pc.getDetails().get("adolescent_Visit_Date") != null ? pc.getDetails().get("adolescent_Visit_Date") : "not Visited");
 
         age.setText(pc.getDetails().get("Calc_Age_Confirm") != null ? "("+pc.getDetails().get("Calc_Age_Confirm")+")" : "");
 
@@ -158,6 +158,55 @@ public class adolescent_SmartClientsProvider implements SmartRegisterCLientsProv
         singleALertButtonView(alertlist_for_client,follow_up,pc,completedate,scheduledate);
 
         itemView.setLayoutParams(clientViewLayoutParams);
+
+        setCouncelling(councelling_taken, pc,"Councelling");
+    }
+
+    private void setCouncelling(TextView councelling_taken, CommonPersonObjectClient pc,String detailvariable){
+        String[] councelling = pc.getDetails().get(detailvariable) != null ? pc.getDetails().get(detailvariable).split(" ") : null;
+
+        if(councelling == null)
+            return;
+        StringBuilder counsillingString = new StringBuilder("");
+        int councelling_counter = 0;
+        String prefix = "";
+        for (int i = 0; i < councelling.length; i++){
+            counsillingString.append(prefix);
+            prefix = ",";
+            switch (Integer.parseInt(councelling[i])){
+                case 1:
+                    councelling_counter++;
+                    counsillingString.append("Early Marriage and Adolescent Pregnancy");
+                    break;
+                case 2:
+                    councelling_counter++;
+                    counsillingString.append("IFA");
+                    break;
+                case 3:
+                    councelling_counter++;
+                    counsillingString.append("Nutrition & Proper Diet");
+                    break;
+                case 4:
+                    councelling_counter++;
+                    counsillingString.append("Adolescent Changes");
+                    break;
+                case 5:
+                    councelling_counter++;
+                    counsillingString.append("Mentruation");
+                    break;
+                case 6:
+                    councelling_counter++;
+                    counsillingString.append("Reproductive Infections/Diseases");
+                    break;
+                default:
+                    break;
+            }
+        }
+        if (councelling_counter == 6){
+            councelling_taken.setText("All topics covered");
+        }else{
+            councelling_taken.setText(counsillingString);
+        }
     }
 
     public void singleALertButtonView(List<Alert> alertlist_for_client,TextView due_visit_date, CommonPersonObjectClient smartRegisterClient,String textforComplete,String textfornotcomplete){

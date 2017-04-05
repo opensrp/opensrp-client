@@ -2,6 +2,7 @@ package org.ei.opensrp.dgfp.death;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,6 +123,8 @@ public class death_SmartClientsProvider implements SmartRegisterCLientsProviderF
         }
 
         village.setText(humanize((pc.getDetails().get("Mem_Village_Name") != null ? (pc.getDetails().get("Mem_Village_Name")+",") : "").replace("+", "_")) + humanize((pc.getDetails().get("Mem_Mauzapara") != null ? pc.getDetails().get("Mem_Mauzapara") : "").replace("+", "_")));
+
+        Log.d("----------------",pc.getDetails().toString());
 
         date_of_death.setText(pc.getDetails().get("Date_Death") != null ? pc.getDetails().get("Date_Death") : "");
 

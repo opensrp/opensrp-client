@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -74,6 +76,15 @@ public class McareInjectablesDetailActivity extends Activity {
         TextView womandob = (TextView) findViewById(R.id.womandetail_womandob);
         TextView address = (TextView) findViewById(R.id.womandetail_address);
         TextView today = (TextView) findViewById(R.id.woman_detail_today);
+
+        TextView dose1 = (TextView) findViewById(R.id.dose_one) ;
+        TextView dose2 = (TextView) findViewById(R.id.dose_two) ;
+        TextView dose3 = (TextView) findViewById(R.id.dose_three) ;
+        TextView dose4 = (TextView) findViewById(R.id.dose_four) ;
+        TextView dose5 = (TextView) findViewById(R.id.dose_five) ;
+
+
+
         CommonPersonObjectClient womanclient = injectableClient;
         name.setText(StringUtil.humanize((womanclient.getColumnmaps().get("Mem_F_Name") != null ? (String) womanclient.getColumnmaps().get("Mem_F_Name") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
         brid.setText(StringUtil.humanize("BRID: " + (womanclient.getDetails().get("Mem_BRID") != null ? (String) womanclient.getDetails().get("Mem_BRID") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
@@ -83,16 +94,70 @@ public class McareInjectablesDetailActivity extends Activity {
         marriagelife.setText("Marriage Life: " + (womanclient.getDetails().get("Married_Life") != null ? (String) womanclient.getDetails().get("Married_Life") : BuildConfig.FLAVOR));
         womandob.setText("Age: " + calculateage(getageindays(getdate(womanclient.getDetails().get("Calc_Dob_Confirm") != null ? (String) womanclient.getDetails().get("Calc_Dob_Confirm") : BuildConfig.FLAVOR))));
         address.setText("Address: " + StringUtil.humanize((womanclient.getDetails().get("Mem_Subunit") != null ? (String) womanclient.getDetails().get("Mem_Subunit") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)) + AllConstants.COMMA_WITH_SPACE + StringUtil.humanize((womanclient.getDetails().get("Mem_Village_Name") != null ? (String) womanclient.getDetails().get("Mem_Village_Name") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)) + AllConstants.COMMA_WITH_SPACE + StringUtil.humanize((womanclient.getDetails().get("Mem_Mauzapara") != null ? (String) womanclient.getDetails().get("Mem_Mauzapara") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)) + AllConstants.COMMA_WITH_SPACE + StringUtil.humanize((womanclient.getDetails().get("Mem_Union") != null ? (String) womanclient.getDetails().get("Mem_Union") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)) + AllConstants.COMMA_WITH_SPACE + StringUtil.humanize((womanclient.getDetails().get("Mem_Upazilla") != null ? (String) womanclient.getDetails().get("Mem_Upazilla") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
-        Log.d("injectable", "---------------------------------------");
-        Log.d("injectable", injectableClient.getDetails().toString());
-        Log.d("injectable", "---------------------------------------");
+
+
+
+        dose1.setText(womanclient.getDetails().get("Injection_Date") != null ? womanclient.getDetails().get("Injection_Date") : "Not Given");
+        dose2.setText(womanclient.getDetails().get("Injection_Date") != null ? womanclient.getDetails().get("Injection_Date") : "Not Given");
+        dose3.setText(womanclient.getDetails().get("Injection_Date") != null ? womanclient.getDetails().get("Injection_Date") : "Not Given");
+        dose4.setText(womanclient.getDetails().get("Injection_Date") != null ? womanclient.getDetails().get("Injection_Date") : "Not Given");
+        dose5.setText(womanclient.getDetails().get("Injection_Date") != null ? womanclient.getDetails().get("Injection_Date") : "Not Given");
+
         Calendar c = Calendar.getInstance();
-        System.out.println("Current time => " + c.getTime());
+
+        setSideEffects(null,womanclient,"Side_Effects");
+        Log.d("Side_Effects",womanclient.getDetails().get("Side_Effects"));
+
         today.setText("Today: " + new SimpleDateFormat("dd/MM/yyyy").format(c.getTime()) + AllConstants.SPACE);
-        /////////////////////////////////////////////////////////((ImageButton) findViewById(R.id.btn_back_to_home)).setOnClickListener(new C10131());
+
+        ImageButton back = (ImageButton) findViewById(org.ei.opensrp.R.id.btn_back_to_home);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         ImageView householdview = (ImageView) findViewById(R.id.householdprofileview);
         if (injectableClient.getDetails().get("profilepic") != null) {
             setImagetoHolder(this, (String) injectableClient.getDetails().get("profilepic"), householdview, R.mipmap.woman_placeholder);
+        }
+    }
+
+    private void setSideEffects(TextView tv,CommonPersonObjectClient womanclient, String detailVariable){
+        TextView menstruationstopped = (TextView) findViewById(R.id.menstruationstopped) ;
+        TextView heavybloodflow = (TextView) findViewById(R.id.heavybloodflow) ;
+        TextView blood_drop_between_two_menstrual = (TextView) findViewById(R.id.blood_drop_between_two_menstrual) ;
+        TextView irregular_period = (TextView) findViewById(R.id.irregular_period) ;
+        TextView slightlyweightgain = (TextView) findViewById(R.id.slightlyweightgain) ;
+
+        String[] sideEffects = womanclient.getDetails().get(detailVariable) != null ? womanclient.getDetails().get(detailVariable).split(" ") : null;
+
+        if(sideEffects == null)
+            return;
+
+        for(int i = 0; i < sideEffects.length; i++){
+
+            switch (Integer.parseInt(sideEffects[i])){
+                case 1:
+                    menstruationstopped.setText("Yes");
+                    break;
+                case 2:
+                    heavybloodflow.setText("Yes");
+                    break;
+                case 3:
+                    blood_drop_between_two_menstrual.setText("Yes");
+                    break;
+                case 4:
+                    irregular_period.setText("Yes");
+                    break;
+                case 5:
+                    slightlyweightgain.setText("Yes");
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 

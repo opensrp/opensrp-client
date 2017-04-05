@@ -91,7 +91,7 @@ public class ChildDetailActivity extends Activity {
         Log.d("ChildDetail", BuildConfig.FLAVOR + ChildClient.getColumnmaps().toString());
 
         name.setText(StringUtil.humanize((ChildClient.getColumnmaps().get("Mem_F_Name") != null ? (String) ChildClient.getColumnmaps().get("Mem_F_Name") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
-        brid.setText(StringUtil.humanize("BRID: " + (ChildClient.getDetails().get("Child_BRID") != null ? (String) ChildClient.getDetails().get("Child_BRID") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
+        brid.setText(StringUtil.humanize("BRID: " + (ChildClient.getDetails().get("Mem_BRID") != null ? (String) ChildClient.getDetails().get("Mem_BRID") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
         fathersname.setText(StringUtil.humanize("Mother Name : " + (ChildClient.getDetails().get("Child_Mother") != null ? (String) ChildClient.getDetails().get("Child_Mother") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
         mothersname.setText(StringUtil.humanize("Father Name : " + (ChildClient.getDetails().get("Child_Father") != null ? (String) ChildClient.getDetails().get("Child_Father") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
         age.setText(StringUtil.humanize("Age : " + age(ChildClient) + " days "));

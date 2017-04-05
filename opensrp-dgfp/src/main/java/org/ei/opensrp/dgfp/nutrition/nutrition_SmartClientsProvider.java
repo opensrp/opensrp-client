@@ -113,6 +113,10 @@ public class nutrition_SmartClientsProvider implements SmartRegisterCLientsProvi
                 profilepic.setImageResource(R.drawable.child_girl_infant);
                 husband_name_or_mothersname.setText((pc.getDetails().get("Child_Mother") != null ? pc.getDetails().get("Child_Mother") : ""));
             }
+            if((pc.getDetails().get("Calc_Dob_Confirm") != null ? pc.getDetails().get("Calc_Dob_Confirm") : "").equalsIgnoreCase("")){
+                pc.getDetails().put("Calc_Dob_Confirm",pc.getDetails().get("Member_Birth_Date"));
+            }
+
         } else {
             if ((pc.getDetails().get("Member_Gender") != null ? (String) pc.getDetails().get("Member_Gender") : "").equalsIgnoreCase("2")) {
                 profilepic.setImageResource(R.drawable.woman_placeholder);

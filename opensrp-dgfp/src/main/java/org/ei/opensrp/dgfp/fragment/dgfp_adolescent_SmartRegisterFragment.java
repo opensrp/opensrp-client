@@ -241,9 +241,9 @@ public class dgfp_adolescent_SmartRegisterFragment extends SecuredNativeSmartReg
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.profile_info_layout:
-                    WomanDetailActivity.womanclient = (CommonPersonObjectClient)view.getTag();
-                    Intent intent = new Intent(getActivity(),WomanDetailActivity.class);
-                    startActivity(intent);
+//                    WomanDetailActivity.womanclient = (CommonPersonObjectClient)view.getTag();
+//                    Intent intent = new Intent(getActivity(),WomanDetailActivity.class);
+//                    startActivity(intent);
                     break;
                 case R.id.adolescent_form:
                     ((dgfp_adolescent_SmartRegisterActivity)getActivity()).startFormActivity("adolescent_health", ((CommonPersonObjectClient) view.getTag()).entityId(), null);

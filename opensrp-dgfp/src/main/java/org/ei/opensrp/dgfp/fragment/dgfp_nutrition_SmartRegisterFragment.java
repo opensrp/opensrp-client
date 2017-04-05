@@ -261,7 +261,7 @@ public class dgfp_nutrition_SmartRegisterFragment extends SecuredNativeSmartRegi
 //                    if(pc.getDetails().get("Calc_Dob_Confirm") == null){
 //                        pc.getDetails().put("Calc_Dob_Confirm",pc.getDetails().get("Member_Birth_Date"));
 //                    }
-                    ((dgfp_nutrition_SmartRegisterActivity)getActivity()).startFormActivity("nutrition", ((CommonPersonObjectClient) view.getTag()).entityId(), fieldOverrides.getJSONString());
+                    ((dgfp_nutrition_SmartRegisterActivity)getActivity()).startFormActivity("nutrition", ((CommonPersonObjectClient) view.getTag()).entityId(), null);
 //                    CustomFontTextView ancreminderDueDate = (CustomFontTextView)view.findViewById(R.id.anc_reminder_due_date);
                     Log.v("do as you will", "button was click");
 
