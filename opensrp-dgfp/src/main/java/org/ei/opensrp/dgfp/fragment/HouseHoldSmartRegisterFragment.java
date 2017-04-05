@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -354,7 +355,11 @@ public class HouseHoldSmartRegisterFragment extends SecuredNativeSmartRegisterCu
 //                                .updateClients(getCurrentVillageFilter(), getCurrentServiceModeOption(),
 //                                        getCurrentSearchFilter(), getCurrentSortOption());
 //
-                        filters = "and (HoH_F_Name Like '%" + cs.toString() + "%' or GoB_HHID Like '%" + cs.toString() + "%'  or details Like '%" + cs.toString() + "%'" +"or household.id in (Select members.relationalid from members where Mem_F_Name Like '%"+cs.toString()+"%' ))";
+                        if (cs.toString().equalsIgnoreCase("")) {
+                            filters = "";
+                        } else{
+                            filters = "and (HoH_F_Name Like '%" + cs.toString() + "%' or GoB_HHID Like '%" + cs.toString() + "%'  or details Like '%" + cs.toString() + "%'" + "or household.id in (Select members.relationalid from members where Mem_F_Name Like '%" + cs.toString() + "%' ))";
+                        }
                         return null;
                     }
 
@@ -400,7 +405,7 @@ public class HouseHoldSmartRegisterFragment extends SecuredNativeSmartRegisterCu
 //                                .updateClients(getCurrentVillageFilter(), getCurrentServiceModeOption(),
 //                                        getCurrentSearchFilter(), getCurrentSortOption());
 //
-                        filters = "and HoH_F_Name Like '%" + cs.toString() + "%' or GoB_HHID Like '%" + cs.toString() + "%'  or details Like '%" + cs.toString() + "%'" +"or household.id in (Select members.relationalid from members where Member_Fname Like '%"+cs.toString()+"%' )";
+                        filters = "and HoH_F_Name Like '%" + cs.toString() + "%' or GoB_HHID Like '%" + cs.toString() + "%'  or details Like '%" + cs.toString() + "%'" +"or household.id in (Select members.relationalid from members where Mem_F_Name Like '%"+cs.toString()+"%' )";
                         return null;
                     }
 

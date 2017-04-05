@@ -242,9 +242,9 @@ public class dgfp_injectable_SmartRegisterFragment extends SecuredNativeSmartReg
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.profile_info_layout:
-//                    McareInjectablesDetailActivity.injectableClient = (CommonPersonObjectClient) view.getTag();
-//                    Intent intent = new Intent(dgfp_injectable_SmartRegisterFragment.this.getActivity(), McareInjectablesDetailActivity.class);
-//                    startActivity(intent);
+                    McareInjectablesDetailActivity.injectableClient = (CommonPersonObjectClient) view.getTag();
+                    Intent intent = new Intent(dgfp_injectable_SmartRegisterFragment.this.getActivity(), McareInjectablesDetailActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.next_injectable_dose:
                     ((dgfp_injectable_SmartRegisterActivity)getActivity()).startFormActivity("injectable", ((CommonPersonObjectClient) view.getTag()).entityId(), null);
