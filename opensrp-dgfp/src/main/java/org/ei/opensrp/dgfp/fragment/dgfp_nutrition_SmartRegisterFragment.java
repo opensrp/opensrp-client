@@ -37,6 +37,7 @@ import org.ei.opensrp.dgfp.hh_member.HouseholdCensusDueDateSort;
 import org.ei.opensrp.dgfp.nutrition.dgfp_nutrition_SmartRegisterActivity;
 import org.ei.opensrp.dgfp.nutrition.nutritionServiceModeOption;
 import org.ei.opensrp.dgfp.nutrition.nutrition_SmartClientsProvider;
+import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
@@ -52,6 +53,8 @@ import org.ei.opensrp.view.dialog.EditOption;
 import org.ei.opensrp.view.dialog.FilterOption;
 import org.ei.opensrp.view.dialog.ServiceModeOption;
 import org.ei.opensrp.view.dialog.SortOption;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.opensrp.api.domain.Location;
 import org.opensrp.api.util.TreeNode;
 
@@ -245,8 +248,20 @@ public class dgfp_nutrition_SmartRegisterFragment extends SecuredNativeSmartRegi
                     //startActivity(intent);
                     break;
                 case R.id.nutrition_form:
-                    CommonPersonObjectClient pc = ((CommonPersonObjectClient) view.getTag());
-                    ((dgfp_nutrition_SmartRegisterActivity)getActivity()).startFormActivity("nutrition", ((CommonPersonObjectClient) view.getTag()).entityId(), null);
+                 CommonPersonObjectClient pc = ((CommonPersonObjectClient) view.getTag());
+                    JSONObject overridejsonobject = new JSONObject();
+                    try {
+                        overridejsonobject.put("Calc_Dob_Confirm",((pc.getDetails().get("Member_Birth_Date")!=null?pc.getDetails().get("Member_Birth_Date"):"")));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    FieldOverrides fieldOverrides = new FieldOverrides(overridejsonobject.toString());
+
+//                    if(pc.getDetails().get("Calc_Dob_Confirm") == null){
+//                        pc.getDetails().put("Calc_Dob_Confirm",pc.getDetails().get("Member_Birth_Date"));
+//                    }
+                    ((dgfp_nutrition_SmartRegisterActivity)getActivity()).startFormActivity("nutrition", ((CommonPersonObjectClient) view.getTag()).entityId(), fieldOverrides.getJSONString());
 //                    CustomFontTextView ancreminderDueDate = (CustomFontTextView)view.findViewById(R.id.anc_reminder_due_date);
                     Log.v("do as you will", "button was click");
 

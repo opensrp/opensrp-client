@@ -112,8 +112,7 @@
       },
       {
         "name": "Calc_Dob_Confirm",
-        "bind": "/model/instance/Nutrition/existing_Calc_Dob_Confirm",
-        "shouldLoadValue": true
+        "bind": "/model/instance/Nutrition/existing_Calc_Dob_Confirm"
       },
       {
         "name": "Child_Mother",

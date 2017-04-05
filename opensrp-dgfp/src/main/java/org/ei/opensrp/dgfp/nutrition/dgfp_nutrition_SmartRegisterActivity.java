@@ -167,6 +167,8 @@ public class dgfp_nutrition_SmartRegisterActivity extends SecuredNativeSmartRegi
     @Override
     public void startFormActivity(String formName, String entityId, String metaData) {
 //        Log.v("fieldoverride", metaData);
+        Log.d("formName",formName);
+        Log.d("entityId",entityId);
         try {
             int formIndex = FormUtils.getIndexForFormName(formName, formNames) + 1; // add the offset
             if (entityId != null || metaData != null){

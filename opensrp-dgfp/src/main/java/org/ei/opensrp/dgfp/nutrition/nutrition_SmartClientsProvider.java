@@ -24,6 +24,7 @@ import org.ei.opensrp.dgfp.hh_member.HouseHoldDetailActivity;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.service.AlertService;
+import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.contract.SmartRegisterClients;
 import org.ei.opensrp.view.dialog.FilterOption;
@@ -57,6 +58,8 @@ public class nutrition_SmartClientsProvider implements SmartRegisterCLientsProvi
     protected CommonPersonObjectController controller;
     AlertService alertService;
 
+    private String[] child_nutrition = {"Breas fed within 1 hour","Breat fed for 6 months","Supplementary food after 6 months","Child is suffering MAM","Child is suffering SAM"};
+    private String[] mother_nutrition = {"Consume IFA tablet and extra food","Multiple micronutrient powder (MNP)","Breast milk and supplementary food","Hand wash"};
     public nutrition_SmartClientsProvider(Context context,
                                           View.OnClickListener onClickListener, AlertService alertService) {
         this.onClickListener = onClickListener;
@@ -127,17 +130,18 @@ public class nutrition_SmartClientsProvider implements SmartRegisterCLientsProvi
         age.setText(pc.getDetails().get("Calc_Age_Confirm") != null ? "("+pc.getDetails().get("Calc_Age_Confirm")+")" : "");
 
         nid.setText("NID: " + (pc.getDetails().get("ELCO_NID") != null ? pc.getDetails().get("ELCO_NID") : ""));
-        brid.setText("BRID: " + (pc.getDetails().get("ELCO_BRID") != null ? pc.getDetails().get("ELCO_BRID") : ""));
+        brid.setText("BRID: " + (pc.getDetails().get("Mem_BRID") != null ? pc.getDetails().get("Mem_BRID") : ""));
+
 //        tt_dose_given.setText("TT Dose Given: " + (pc.getDetails().get("TT_Count") != null ? pc.getDetails().get("TT_Count") : ""));
 //        last_vstatus.setText("Last VStatus: " + (pc.getDetails().get("ELCO_Status") != null ? pc.getDetails().get("ELCO_Status") : ""));
 
         Log.d("-------------------",pc.getDetails().toString()+"");
-        Log.d("----------",pc.getDetails().get("existing_Child") != null ? pc.getDetails().get("existing_Child"):"null");
-        if("existing_PW" == "1"){//
-            //Mother_Nutrition
+
+        if((pc.getDetails().get("Child") != null ? pc.getDetails().get("Child") : "").equalsIgnoreCase("1")){//
+            setNutritionTaken(pc,"Child_Nutrition",nutrition_taken);
         }
-        else if ("existing_Child" == "1"){
-            //Child_Nutrition
+        else if ((pc.getDetails().get("Preg_Status") != null ? pc.getDetails().get("Preg_Status") : "").equalsIgnoreCase("1")){
+            setNutritionTaken(pc,"Mother_Nutrition",nutrition_taken);
         }
         List<Alert> alertlist_for_client = alertService.findByEntityIdAndAlertNames(pc.entityId(), "Nutrition");
         Calendar c = Calendar.getInstance();
@@ -146,6 +150,30 @@ public class nutrition_SmartClientsProvider implements SmartRegisterCLientsProvi
         String formattedDate = df.format(c.getTime());
         singleALertButtonView(alertlist_for_client,follow_up,pc,pc.getDetails().get("nutrition_Visit_Date") != null ? pc.getDetails().get("nutrition_Visit_Date") : "",formattedDate);
         itemView.setLayoutParams(clientViewLayoutParams);
+    }
+
+    private void setNutritionTaken(CommonPersonObjectClient pc,String childOrMother,TextView nutrition_taken){
+        StringBuilder stringBuilder = new StringBuilder("");
+        if(pc.getDetails().get(childOrMother) != null){
+
+            String[] nutritions = pc.getDetails().get(childOrMother).split(" ");
+
+            for (int i = 0; i < nutritions.length; i++) {
+                if(i != 0) stringBuilder.append(",");
+                if (childOrMother.equalsIgnoreCase("Child_Nutrition")) {
+                    stringBuilder.append(child_nutrition[Integer.parseInt(nutritions[i]) - 1]);
+
+                }
+                if(childOrMother.equalsIgnoreCase("Mother_Nutrition")){
+                    stringBuilder.append(mother_nutrition[Integer.parseInt(nutritions[i]) - 1]);
+                }
+            }
+
+        }
+        else {
+            stringBuilder.append("Nutrition not taken");
+        }
+        nutrition_taken.setText(stringBuilder);
     }
 
     public void singleALertButtonView(List<Alert> alertlist_for_client,TextView due_visit_date, CommonPersonObjectClient smartRegisterClient,String textforComplete,String textfornotcomplete){

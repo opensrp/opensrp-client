@@ -295,6 +295,7 @@ public class CommonRepository extends DrishtiRepository {
     public Cursor RawCustomQueryForAdapter(String query){
         Log.i(getClass().getName(), query);
         SQLiteDatabase database = masterRepository.getReadableDatabase();
+
         Cursor cursor = database.rawQuery(query, null);
           return cursor;
     }
