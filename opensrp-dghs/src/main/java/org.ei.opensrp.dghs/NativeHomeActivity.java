@@ -274,7 +274,7 @@ public class NativeHomeActivity extends SecuredActivity {
                     break;
 
                 case R.id.btn_stock_register:
-//                    navigationController.startPNCSmartRegistry();
+                    ((McareNavigationController)navigationController).startStockSmartRegistry();
                     break;
 
                 case R.id.btn_child_register:

@@ -11,6 +11,12 @@
       "columns": [
         {"name":"Member_Fname"},{"name":"EDD"},{"name":"Child_calc_age"},{"name":"calc_age_confirm"},{"name":"Child_mother_name"},{"name":"Member_GOB_HHID"},{"name":"Marital_status"},{"name":"Pregnancy_Status"},{"name":"missedCount"}
       ]
+    },
+    {
+      "name": "stock",
+      "columns": [
+        {"name":"total_wasted"},{"name":"total_received"},{"name":"total_balanceInHand"},{"name":"date"}
+      ]
     }
   ]
 }

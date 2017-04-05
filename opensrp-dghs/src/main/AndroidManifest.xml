@@ -31,6 +31,11 @@
             android:theme="@style/AppThemeNoActionBarAndTitle"
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="landscape"/>
+        <activity android:name=".stock.StockSmartRegisterActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/AppThemeNoActionBarAndTitle"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="landscape"/>
         <!--<activity android:name=".household.tutorial.tutorialCircleViewFlow"-->
             <!--android:theme="@style/AppThemeNoActionBarAndTitle"-->
             <!--android:windowSoftInputMode="adjustResize"-->

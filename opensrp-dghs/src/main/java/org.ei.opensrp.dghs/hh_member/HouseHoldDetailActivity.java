@@ -77,7 +77,7 @@ public class HouseHoldDetailActivity extends SecuredFragment implements View.OnC
     private View mView;
 
 
-    protected void initiallize() {
+    public void initiallize() {
         context = Context.getInstance();
 
         TextView householdhead_name = (TextView)mView.findViewById(R.id.name_household_head);
