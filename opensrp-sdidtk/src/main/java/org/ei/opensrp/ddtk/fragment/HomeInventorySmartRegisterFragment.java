@@ -24,6 +24,7 @@ import org.ei.opensrp.ddtk.ddtk.FormulirDdtkServiceModeOption;
 import org.ei.opensrp.ddtk.ddtk.FormulirDdtkSmartClientsProvider;
 import org.ei.opensrp.ddtk.ddtk.FormulirDdtkSmartRegisterActivity;
 import org.ei.opensrp.ddtk.ddtk.KICommonObjectFilterOption;
+import org.ei.opensrp.ddtk.homeinventory.HomeInventoryServiceModeOption;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.sync.ClientProcessor;
 import org.ei.opensrp.util.StringUtil;
@@ -84,7 +85,7 @@ public class HomeInventorySmartRegisterFragment extends SecuredNativeSmartRegist
 
             @Override
             public ServiceModeOption serviceMode() {
-                return new FormulirDdtkServiceModeOption(clientsProvider());
+                return new HomeInventoryServiceModeOption(clientsProvider());
             }
 
             @Override
@@ -100,7 +101,7 @@ public class HomeInventorySmartRegisterFragment extends SecuredNativeSmartRegist
 
             @Override
             public String nameInShortFormForTitle() {
-                return Context.getInstance().getStringResource(R.string.sdidtk);
+                return Context.getInstance().getStringResource(R.string.home_invent);
             }
         };
     }
@@ -150,7 +151,7 @@ public class HomeInventorySmartRegisterFragment extends SecuredNativeSmartRegist
 
             @Override
             public String searchHint() {
-                return getResources().getString(R.string.hh_search_hint);
+                return getResources().getString(R.string.str_child_search_hint);
             }
         };
     }

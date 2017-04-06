@@ -1,0 +1,1558 @@
+<form autocomplete="off" novalidate="novalidate" class="or clearfix" dir="ltr" id="home_early_childhood">\n
+    <!--This form was created by transforming a OpenRosa-flavored (X)Form using an XSL stylesheet created by Enketo LLC.-->
+    <section class="form-logo"></section>
+    <h3 dir="auto" id="form-title">Home Inventory (3-6 Tahun)</h3>
+    <select id="form-languages" data-default-lang="Bahasa">
+        <option value="Bahasa" data-dir="ltr">Bahasa</option>
+        <option value="en" data-dir="ltr">English</option>
+    </select>
+    <label class="question note non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/generated_note_name_13:label">Desa :
+            <span class="or-output" data-value=" /Home_3_6y/Village "></span>
+        </span>
+        <span lang="en" class="question-label " data-itext-id="/Home_3_6y/generated_note_name_13:label">-</span>
+        <input type="text" name="/Home_3_6y/generated_note_name_13" data-type-xml="string" readonly="readonly"/>
+    </label>
+    <label class="question note non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/generated_note_name_14:label">Dusun :
+            <span class="or-output" data-value=" /Home_3_6y/Sub-village "></span>
+        </span>
+        <span lang="en" class="question-label " data-itext-id="/Home_3_6y/generated_note_name_14:label">-</span>
+        <input type="text" name="/Home_3_6y/generated_note_name_14" data-type-xml="string" readonly="readonly"/>
+    </label>
+    <label class="question non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/tanggal_kunjungan:label">Tanggal kunjungan</span>
+        <span lang="en" class="question-label " data-itext-id="/Home_3_6y/tanggal_kunjungan:label">Date of home visit</span>
+        <span class="required">*</span>
+        <span lang="Bahasa" class="or-hint active" data-itext-id="/Home_3_6y/tanggal_kunjungan:hint">Tanggal kunjungan rumah untuk wawancara Home Inventory</span>
+        <span lang="en" class="or-hint " data-itext-id="/Home_3_6y/tanggal_kunjungan:hint">Date of Home Inventory Visit</span>
+        <input type="date" name="/Home_3_6y/tanggal_kunjungan" data-required="true()" data-constraint=".&gt; /Home_3_6y/tanggal_lahir " data-type-xml="date"/>
+        <span class="or-constraint-msg active" lang="" data-i18n="constraint.invalid">Value not allowed</span>
+        <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
+    </label>
+    <label class="question note non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/generated_note_name_29:label">Umur :
+            <span class="or-output" data-value=" /Home_3_6y/umur "></span>
+        </span>
+        <span lang="en" class="question-label " data-itext-id="/Home_3_6y/generated_note_name_29:label">Age (Years)</span>
+        <span lang="Bahasa" class="or-hint active" data-itext-id="/Home_3_6y/generated_note_name_29:hint">Umur bayi/balita</span>
+        <span lang="en" class="or-hint " data-itext-id="/Home_3_6y/generated_note_name_29:hint">age of baby/child</span>
+        <input type="text" name="/Home_3_6y/generated_note_name_29" data-type-xml="string" readonly="readonly"/>
+    </label>
+    <label class="question or-appearance-minimal ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/pengasuh:label">Pengasuh yang diwawancara</span>
+        <span lang="en" class="question-label " data-itext-id="/Home_3_6y/pengasuh:label">Interviewee</span>
+        <span class="required">*</span>
+        <span lang="Bahasa" class="or-hint active" data-itext-id="/Home_3_6y/pengasuh:hint">Hubungan orang yang diwawancara dengan anak</span>
+        <span lang="en" class="or-hint " data-itext-id="/Home_3_6y/pengasuh:hint">The relationship of the interviewee with the child</span>
+        <select multiple="multiple" name="/Home_3_6y/pengasuh" data-required="true()" data-type-xml="select">
+            <option value="">...</option>
+            <option value="ibu">Ibu</option>
+            <option value="bapak">Bapak</option>
+            <option value="nenek">Nenek</option>
+            <option value="kakek">Kakek</option>
+            <option value="kakak">Kakak</option>
+            <option value="bibi">Bibi</option>
+            <option value="paman">Paman</option>
+            <option value="lainnya">Lainnya</option>
+        </select>
+        <span class="or-option-translations" style="display:none;">
+            <span data-option-value="ibu" lang="Bahasa">Ibu</span>
+            <span data-option-value="ibu" lang="en">Mother</span>
+            <span data-option-value="bapak" lang="Bahasa">Bapak</span>
+            <span data-option-value="bapak" lang="en">Father</span>
+            <span data-option-value="nenek" lang="Bahasa">Nenek</span>
+            <span data-option-value="nenek" lang="en">Grandmother</span>
+            <span data-option-value="kakek" lang="Bahasa">Kakek</span>
+            <span data-option-value="kakek" lang="en">Grandfather</span>
+            <span data-option-value="kakak" lang="Bahasa">Kakak</span>
+            <span data-option-value="kakak" lang="en">Sibling</span>
+            <span data-option-value="bibi" lang="Bahasa">Bibi</span>
+            <span data-option-value="bibi" lang="en">Aunt</span>
+            <span data-option-value="paman" lang="Bahasa">Paman</span>
+            <span data-option-value="paman" lang="en">Uncle</span>
+            <span data-option-value="lainnya" lang="Bahasa">Lainnya</span>
+            <span data-option-value="lainnya" lang="en">Other</span>
+        </span>
+        <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
+    </label>
+    <label class="question non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/pengasuh_lainnya:label">Lainnya</span>
+        <span lang="en" class="question-label " data-itext-id="/Home_3_6y/pengasuh_lainnya:label">Other</span>
+        <input type="text" name="/Home_3_6y/pengasuh_lainnya" data-type-xml="string"/>
+    </label>
+    <label class="question note non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/lingkungan_rumah:label">Lingkungan rumah</span>
+        <span lang="en" class="question-label " data-itext-id="/Home_3_6y/lingkungan_rumah:label">-</span>
+        <input type="text" name="/Home_3_6y/lingkungan_rumah" data-type-xml="string" readonly="readonly"/>
+    </label>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home1_ec:label">1. Bangunan tampak aman dan tidak berbahaya. O</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home1_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home1_ec" data-name="/Home_3_6y/home1_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home1_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home1_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home1_ec" data-name="/Home_3_6y/home1_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home1_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home1_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home1_ec" data-name="/Home_3_6y/home1_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home1_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home1_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home2_ec:label">2. Lingkungan bermain di luar tampak aman. O</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home2_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home2_ec" data-name="/Home_3_6y/home2_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home2_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home2_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home2_ec" data-name="/Home_3_6y/home2_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home2_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home2_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home2_ec" data-name="/Home_3_6y/home2_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home2_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home2_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home3_ec:label">3. Interior rumah tidak gelap atau tampak monoton (setidaknya dua dekorasi/khiasan). O</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home3_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home3_ec" data-name="/Home_3_6y/home3_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home3_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home3_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home3_ec" data-name="/Home_3_6y/home3_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home3_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home3_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home3_ec" data-name="/Home_3_6y/home3_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home3_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home3_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home4_ec:label">4. Rumah cukup bersih dan tidak terlalu berantakan. O</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home4_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home4_ec" data-name="/Home_3_6y/home4_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home4_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home4_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home4_ec" data-name="/Home_3_6y/home4_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home4_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home4_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home4_ec" data-name="/Home_3_6y/home4_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home4_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home4_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <label class="question note non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home5_ec:label">5. Rumah tidak terlalu ramai. T</span>
+        <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home5_ec:label">-</span>
+        <input type="text" name="/Home_3_6y/home5_ec" data-type-xml="string" readonly="readonly"/>
+    </label>
+    <label class="question non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home5a_ec:label">5a. Berapa orang yang tinggal di rumah ini?</span>
+        <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home5a_ec:label">-</span>
+        <input type="number" name="/Home_3_6y/home5a_ec" data-type-xml="int"/>
+    </label>
+    <label class="question non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home5b_ec:label">5b. Ada berapa kamar tidur?</span>
+        <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home5b_ec:label">-</span>
+        <input type="number" name="/Home_3_6y/home5b_ec" data-type-xml="int"/>
+    </label>
+    <label class="question note non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/cara_berbicara:label">Cara Responden Berbicara</span>
+        <span lang="en" class="question-label " data-itext-id="/Home_3_6y/cara_berbicara:label">-</span>
+        <input type="text" name="/Home_3_6y/cara_berbicara" data-type-xml="string" readonly="readonly"/>
+    </label>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home6_ec:label">6. Perkataan Pengasuh jelas dan mudah didengar. O</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home6_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home6_ec" data-name="/Home_3_6y/home6_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home6_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home6_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home6_ec" data-name="/Home_3_6y/home6_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home6_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home6_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home6_ec" data-name="/Home_3_6y/home6_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home6_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home6_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home7_ec:label">7. Pengasuh menggunakan struktur dan kosakata kalimat yang kompleks. O</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home7_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home7_ec" data-name="/Home_3_6y/home7_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home7_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home7_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home7_ec" data-name="/Home_3_6y/home7_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home7_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home7_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home7_ec" data-name="/Home_3_6y/home7_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home7_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home7_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home8_ec:label">8. Pengasuh menggunakan struktur bahasa dan pengucapan yang tepat. O</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home8_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home8_ec" data-name="/Home_3_6y/home8_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home8_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home8_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home8_ec" data-name="/Home_3_6y/home8_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home8_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home8_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home8_ec" data-name="/Home_3_6y/home8_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home8_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home8_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home9_ec:label">9. Pengasuh bercakap-cakap secara bebas dan santai. O</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home9_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home9_ec" data-name="/Home_3_6y/home9_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home9_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home9_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home9_ec" data-name="/Home_3_6y/home9_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home9_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home9_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home9_ec" data-name="/Home_3_6y/home9_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home9_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home9_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <label class="question note non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/interaksi_dg_anak:label">Cara Responden Berinteraksi Dengan Anak</span>
+        <span lang="en" class="question-label " data-itext-id="/Home_3_6y/interaksi_dg_anak:label">-</span>
+        <input type="text" name="/Home_3_6y/interaksi_dg_anak" data-type-xml="string" readonly="readonly"/>
+    </label>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home10_ec:label">10. Pengasuh bercakap-cakap dengan anak paling tidak 2 kali selama kunjungan. O</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home10_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home10_ec" data-name="/Home_3_6y/home10_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home10_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home10_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home10_ec" data-name="/Home_3_6y/home10_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home10_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home10_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home10_ec" data-name="/Home_3_6y/home10_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home10_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home10_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home11_ec:label">11. Pengasuh menjawab pertanyaan anak atau meminta secara verbal. O</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home11_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home11_ec" data-name="/Home_3_6y/home11_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home11_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home11_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home11_ec" data-name="/Home_3_6y/home11_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home11_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home11_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home11_ec" data-name="/Home_3_6y/home11_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home11_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home11_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home12_ec:label">12. Pengasuh biasanya merespon secara verbal terhadap perkataan anak. O</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home12_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home12_ec" data-name="/Home_3_6y/home12_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home12_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home12_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home12_ec" data-name="/Home_3_6y/home12_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home12_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home12_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home12_ec" data-name="/Home_3_6y/home12_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home12_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home12_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home13_ec:label">13. Pengasuh memberitahukan nama benda atau nama orang selama kunjungan.O</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home13_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home13_ec" data-name="/Home_3_6y/home13_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home13_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home13_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home13_ec" data-name="/Home_3_6y/home13_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home13_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home13_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home13_ec" data-name="/Home_3_6y/home13_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home13_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home13_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home14_ec:label">14. Pengasuh memuji kemampuan anak dua kali selama kunjungan. O</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home14_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home14_ec" data-name="/Home_3_6y/home14_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home14_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home14_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home14_ec" data-name="/Home_3_6y/home14_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home14_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home14_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home14_ec" data-name="/Home_3_6y/home14_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home14_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home14_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home15_ec:label">
+                    <p>15. Pengasuh mendorong anak untuk berbicara dan mengambil waktu untuk mendengarkannya. T</p> “Bisa ibu cerita sedikit bagaimana caranya agar anak mau berbicara dan bila anak berbicara apa yang ibu lakukan? .
+                </span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home15_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home15_ec" data-name="/Home_3_6y/home15_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home15_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home15_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home15_ec" data-name="/Home_3_6y/home15_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home15_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home15_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home15_ec" data-name="/Home_3_6y/home15_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home15_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home15_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <label class="question note non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/sikap_selama_kunjungan:label">Sikap Responden Terhadap Anak Selama Kunjungan</span>
+        <span lang="en" class="question-label " data-itext-id="/Home_3_6y/sikap_selama_kunjungan:label">-</span>
+        <input type="text" name="/Home_3_6y/sikap_selama_kunjungan" data-type-xml="string" readonly="readonly"/>
+    </label>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home16_ec:label">16. Pengasuh mengekspresikan perasaan positif terhadap anak. O</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home16_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home16_ec" data-name="/Home_3_6y/home16_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home16_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home16_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home16_ec" data-name="/Home_3_6y/home16_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home16_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home16_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home16_ec" data-name="/Home_3_6y/home16_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home16_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home16_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home17_ec:label">17. Pengasuh mengelus, mencium, atau memeluk anak selama kunjungan. O</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home17_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home17_ec" data-name="/Home_3_6y/home17_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home17_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home17_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home17_ec" data-name="/Home_3_6y/home17_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home17_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home17_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home17_ec" data-name="/Home_3_6y/home17_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home17_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home17_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home18_ec:label">18. Pengasuh tidak membentak, berteriak, memarahi, menakuti atau mengancam anak lebih dari sekali. O</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home18_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home18_ec" data-name="/Home_3_6y/home18_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home18_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home18_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home18_ec" data-name="/Home_3_6y/home18_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home18_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home18_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home18_ec" data-name="/Home_3_6y/home18_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home18_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home18_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home19_ec:label">19. Pengasuh tidak menampar atau memukul anak selama kunjungan. O</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home19_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home19_ec" data-name="/Home_3_6y/home19_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home19_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home19_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home19_ec" data-name="/Home_3_6y/home19_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home19_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home19_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home19_ec" data-name="/Home_3_6y/home19_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home19_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home19_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home20_ec:label">20. Pengasuh tidak menahan anak secara fisik selama kunjungan. O</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home20_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home20_ec" data-name="/Home_3_6y/home20_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home20_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home20_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home20_ec" data-name="/Home_3_6y/home20_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home20_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home20_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home20_ec" data-name="/Home_3_6y/home20_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home20_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home20_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home21_ec:label">21. Pengasuh mendorong anak mendemonstrasikan kemampuannya selama kunjungan. O</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home21_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home21_ec" data-name="/Home_3_6y/home21_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home21_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home21_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home21_ec" data-name="/Home_3_6y/home21_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home21_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home21_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home21_ec" data-name="/Home_3_6y/home21_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home21_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home21_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <label class="question note non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/sikap_thdp_anak:label">Sikap Responden Terhadap Anak Secara Umum</span>
+        <span lang="en" class="question-label " data-itext-id="/Home_3_6y/sikap_thdp_anak:label">-</span>
+        <input type="text" name="/Home_3_6y/sikap_thdp_anak" data-type-xml="string" readonly="readonly"/>
+    </label>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home22_ec:label">
+                    <p>22. Pengasuh berdekatan secara fisik dengan anak selama 10-15 menit per hari. T</p> “Ibu, saya ingin tahu berapa lama anak ibu berdekatan secara fisik dengan orang tua dalam sehari. Misalnya, pada saat menonton TV, di mana biasanya anak duduk? Pada saat ibu menerima tamu, di mana biasanya anak berada?”
+                </span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home22_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home22_ec" data-name="/Home_3_6y/home22_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home22_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home22_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home22_ec" data-name="/Home_3_6y/home22_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home22_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home22_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home22_ec" data-name="/Home_3_6y/home22_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home22_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home22_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home23_ec:label">
+                    <p>23. Anak dapat mengekspresikan perasaan/perilaku negatif tanpa pembalasan yang kasar oleh Pengasuhnya (mis. bila anak bilang “saya benci kamu”, Pengasuh tidak balas mengatakan “saya juga benci kamu”). T</p> “Kalau anak marah dan berkata-kata yang tidak baik ke ibu, apa yang ibu katakan ke dia?”
+                </span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home23_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home23_ec" data-name="/Home_3_6y/home23_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home23_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home23_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home23_ec" data-name="/Home_3_6y/home23_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home23_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home23_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home23_ec" data-name="/Home_3_6y/home23_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home23_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home23_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home24_ec:label">
+                    <p>24. Anak dapat memukul Pengasuh tanpa pembalasan yang kasar (mis. dipukul balik). T</p> “Kalau saat marah, misalnya anak memukul ibu, apa yang akan ibu lakukan ke dia?”
+                </span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home24_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home24_ec" data-name="/Home_3_6y/home24_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home24_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home24_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home24_ec" data-name="/Home_3_6y/home24_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home24_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home24_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home24_ec" data-name="/Home_3_6y/home24_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home24_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home24_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home25_ec:label">25. Tidak lebih dari satu kali hukuman fisik pada minggu yang lalu. T "Pernah tidak bu anak melakukan sesuatu yang membuat ibu perlu untuk perlu memukulnya? Kapan yang terakhir terjadi?"</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home25_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home25_ec" data-name="/Home_3_6y/home25_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home25_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home25_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home25_ec" data-name="/Home_3_6y/home25_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home25_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home25_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home25_ec" data-name="/Home_3_6y/home25_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home25_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home25_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home26_ec:label">26. Permintaan anak untuk memilih menu sarapan atau makan siang diperhatikan. T</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home26_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home26_ec" data-name="/Home_3_6y/home26_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home26_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home26_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home26_ec" data-name="/Home_3_6y/home26_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home26_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home26_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home26_ec" data-name="/Home_3_6y/home26_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home26_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home26_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home27_ec:label">
+                    <p>27. Pengasuh membiarkan anak memilih produk atau merk makanan favorit di toko, swalayan, warung. T</p> “Kalau saat diajak ke warung/toko, biasanya ibu yang memilihkan makanan ke dia atau anak boleh memilih sendiri apa yang diinginkannya?.”
+                </span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home27_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home27_ec" data-name="/Home_3_6y/home27_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home27_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home27_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home27_ec" data-name="/Home_3_6y/home27_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home27_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home27_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home27_ec" data-name="/Home_3_6y/home27_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home27_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home27_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home28_ec:label">
+                    <p>28. Anak diharapkan dapat menunda kepuasan akan makanan (anak tidak dikasih snacks/makanan setiap kali dia lapar atau sebelum waktu makan). T</p> “Apa yang akan ibu lakukan bila anak ibu minta makan atau jajan sebelum waktu makan?”
+                </span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home28_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home28_ec" data-name="/Home_3_6y/home28_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home28_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home28_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home28_ec" data-name="/Home_3_6y/home28_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home28_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home28_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home28_ec" data-name="/Home_3_6y/home28_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home28_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home28_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home29_ec:label">
+                    <p>29. Pengasuh mendorong anak untuk menyimpan mainan tanpa bantuan. T</p> “Sehabis bermain, apa yang biasa anak lakukan dengan mainan-mainannya tersebut?”
+                </span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home29_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home29_ec" data-name="/Home_3_6y/home29_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home29_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home29_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home29_ec" data-name="/Home_3_6y/home29_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home29_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home29_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home29_ec" data-name="/Home_3_6y/home29_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home29_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home29_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home30_ec:label">
+                    <p>30. TV digunakan secara dibatasi. T</p> “Dalam sehari, berapa lama biasanya anak menonton TV?”
+                </span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home30_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home30_ec" data-name="/Home_3_6y/home30_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home30_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home30_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home30_ec" data-name="/Home_3_6y/home30_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home30_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home30_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home30_ec" data-name="/Home_3_6y/home30_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home30_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home30_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <label class="question note non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/generated_note_name_97:label">Mainan Milik Anak</span>
+        <span lang="en" class="question-label " data-itext-id="/Home_3_6y/generated_note_name_97:label">-</span>
+        <input type="text" name="/Home_3_6y/generated_note_name_97" data-type-xml="string" readonly="readonly"/>
+    </label>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home31_ec:label">31. Anak pernah bermain dengan menggunakan kertas, pensil, cat, crayon, tanah liat atau lempung. T</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home31_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home31_ec" data-name="/Home_3_6y/home31_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home31_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home31_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home31_ec" data-name="/Home_3_6y/home31_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home31_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home31_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home31_ec" data-name="/Home_3_6y/home31_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home31_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home31_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home32_ec:label">32. Anak memiliki 3 atau lebih mainan yang dibeli.</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home32_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home32_ec" data-name="/Home_3_6y/home32_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home32_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home32_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home32_ec" data-name="/Home_3_6y/home32_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home32_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home32_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home32_ec" data-name="/Home_3_6y/home32_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home32_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home32_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home33_ec:label">33. Anak memiliki satu atau lebih kaset, CD, VCD, atau DVD anak-anak.</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home33_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home33_ec" data-name="/Home_3_6y/home33_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home33_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home33_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home33_ec" data-name="/Home_3_6y/home33_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home33_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home33_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home33_ec" data-name="/Home_3_6y/home33_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home33_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home33_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home34_ec:label">
+                    <p>34. Anak memiliki mainan yang mendukung perkembangan motorik halus (misalnya gambar bongkar pasang, yo-yo, puzzle, lazzy block, dll.).</p> “apakah anak memiliki mainan yang mendukung keterampilan menggerakan/mengkoordinasi jari-jari tangan?”
+                </span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home34_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home34_ec" data-name="/Home_3_6y/home34_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home34_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home34_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home34_ec" data-name="/Home_3_6y/home34_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home34_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home34_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home34_ec" data-name="/Home_3_6y/home34_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home34_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home34_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home35_ec:label">
+                    <p>35. Anak sempat main dengan mainan yang mendukung perkembangan motorik halus walaupun tidak punya sendiri.</p> “Pernah anak bermain dengan menggunakan misalnya : gambar bongkar pasang, yo-yo, puzzle, lazzy block, dll.”
+                </span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home35_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home35_ec" data-name="/Home_3_6y/home35_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home35_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home35_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home35_ec" data-name="/Home_3_6y/home35_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home35_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home35_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home35_ec" data-name="/Home_3_6y/home35_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home35_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home35_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home36_ec:label">36. Anak memiliki 3 atau lebih mainan tiruan (misalnya hp-hpan, pistol-pistolan, mobil-mobilan, boneka, robot-robotan, dll.)</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home36_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home36_ec" data-name="/Home_3_6y/home36_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home36_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home36_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home36_ec" data-name="/Home_3_6y/home36_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home36_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home36_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home36_ec" data-name="/Home_3_6y/home36_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home36_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home36_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home37_ec:label">37. Anak sempat main dengan mainan tiruan walaupun tidak punya sendiri.</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home37_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home37_ec" data-name="/Home_3_6y/home37_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home37_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home37_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home37_ec" data-name="/Home_3_6y/home37_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home37_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home37_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home37_ec" data-name="/Home_3_6y/home37_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home37_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home37_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <label class="question note non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/generated_note_name_110:label">Materi Pembelajaran Milik Anak</span>
+        <span lang="en" class="question-label " data-itext-id="/Home_3_6y/generated_note_name_110:label">-</span>
+        <input type="text" name="/Home_3_6y/generated_note_name_110" data-type-xml="string" readonly="readonly"/>
+    </label>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home38_ec:label">38. Anak memiliki satu atau lebih buku atau majalah anak-anak.</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home38_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home38_ec" data-name="/Home_3_6y/home38_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home38_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home38_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home38_ec" data-name="/Home_3_6y/home38_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home38_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home38_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home38_ec" data-name="/Home_3_6y/home38_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home38_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home38_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home39_ec:label">39. Anak memiliki poster atau mainan yang membantu mengajarkan angka-angka atau huruf-huruf.</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home39_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home39_ec" data-name="/Home_3_6y/home39_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home39_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home39_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home39_ec" data-name="/Home_3_6y/home39_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home39_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home39_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home39_ec" data-name="/Home_3_6y/home39_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home39_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home39_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home40_ec:label">40. Anak memiliki poster atau mainan yang mengajarkan warna, nama-nama binatang, ukuran, bentuk, atau nama-nama lain.</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home40_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home40_ec" data-name="/Home_3_6y/home40_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home40_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home40_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home40_ec" data-name="/Home_3_6y/home40_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home40_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home40_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home40_ec" data-name="/Home_3_6y/home40_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home40_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home40_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home41_ec:label">41. Anak memiliki instrument musikal betulan atau mainan.</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home41_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home41_ec" data-name="/Home_3_6y/home41_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home41_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home41_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home41_ec" data-name="/Home_3_6y/home41_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home41_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home41_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home41_ec" data-name="/Home_3_6y/home41_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home41_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home41_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <label class="question note non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/generated_note_name_119:label">Cara Responden Mengajarkan Anak:"Bagaimana ibu mengajarkan anak ibu xxx (misalnya warna dan nama-nama binatang) ? Apakah Ibu pernah mempunyai waktu atau ada kesempatan mengajarkannya?"</span>
+        <span lang="en" class="question-label " data-itext-id="/Home_3_6y/generated_note_name_119:label">-</span>
+        <input type="text" name="/Home_3_6y/generated_note_name_119" data-type-xml="string" readonly="readonly"/>
+    </label>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home42_ec:label">42. Anak didorong untuk belajar abjad huruf. T</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home42_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home42_ec" data-name="/Home_3_6y/home42_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home42_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home42_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home42_ec" data-name="/Home_3_6y/home42_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home42_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home42_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home42_ec" data-name="/Home_3_6y/home42_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home42_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home42_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home43_ec:label">43. Anak didorong untuk mempelajari angka. T</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home43_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home43_ec" data-name="/Home_3_6y/home43_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home43_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home43_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home43_ec" data-name="/Home_3_6y/home43_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home43_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home43_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home43_ec" data-name="/Home_3_6y/home43_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home43_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home43_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home44_ec:label">44. Anak didorong untuk mempelajari warna atau nama binatang. T</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home44_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home44_ec" data-name="/Home_3_6y/home44_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home44_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home44_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home44_ec" data-name="/Home_3_6y/home44_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home44_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home44_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home44_ec" data-name="/Home_3_6y/home44_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home44_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home44_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home45_ec:label">45. Anak didorong untuk mempelajari pengucapan yang terpola, seperti lagu anak, doa (mis. doa makan, doa tidur, dll), iklan TV, dll. T</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home45_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home45_ec" data-name="/Home_3_6y/home45_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home45_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home45_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home45_ec" data-name="/Home_3_6y/home45_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home45_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home45_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home45_ec" data-name="/Home_3_6y/home45_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home45_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home45_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home46_ec:label">46. Anak didorong untuk mempelajari hubungan ruang (atas-bawah, besar-kecil, luar-dalam, dst). T</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home46_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home46_ec" data-name="/Home_3_6y/home46_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home46_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home46_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home46_ec" data-name="/Home_3_6y/home46_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home46_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home46_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home46_ec" data-name="/Home_3_6y/home46_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home46_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home46_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home47_ec:label">47. Pengasuh mengajar anak sopan santun verbal yang sederhana (tolong, terima kasih, saya minta maaf). T</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home47_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home47_ec" data-name="/Home_3_6y/home47_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home47_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home47_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home47_ec" data-name="/Home_3_6y/home47_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home47_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home47_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home47_ec" data-name="/Home_3_6y/home47_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home47_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home47_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home48_ec:label">Setidaknya 1 buku umum (bukan buku agama) dapat terlihat di dalam rumah.</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home48_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home48_ec" data-name="/Home_3_6y/home48_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home48_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home48_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home48_ec" data-name="/Home_3_6y/home48_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home48_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home48_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home48_ec" data-name="/Home_3_6y/home48_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home48_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home48_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home49_ec:label">Salah satu anggota keluarga membawa pulang koran atau majalah paling tidak seminggu sekali. T</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home49_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home49_ec" data-name="/Home_3_6y/home49_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home49_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home49_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home49_ec" data-name="/Home_3_6y/home49_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home49_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home49_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home49_ec" data-name="/Home_3_6y/home49_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home49_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home49_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home50_ec:label">Anak diajak berjalan-jalan oleh seorang anggota keluarga setidaknya dua kali dalam satu bulan. T</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home50_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home50_ec" data-name="/Home_3_6y/home50_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home50_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home50_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home50_ec" data-name="/Home_3_6y/home50_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home50_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home50_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home50_ec" data-name="/Home_3_6y/home50_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home50_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home50_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home51_ec:label">Selama 6 bulan terakhir, anak pernah melakukan perjalanan dengan kendaraan. T</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home51_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home51_ec" data-name="/Home_3_6y/home51_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home51_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home51_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home51_ec" data-name="/Home_3_6y/home51_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home51_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home51_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home51_ec" data-name="/Home_3_6y/home51_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home51_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home51_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home52_ec:label">Ibu mempunyai buku Posyandu.</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home52_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home52_ec" data-name="/Home_3_6y/home52_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home52_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home52_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home52_ec" data-name="/Home_3_6y/home52_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home52_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home52_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home52_ec" data-name="/Home_3_6y/home52_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home52_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home52_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home53_ec:label">Anak sudah mendapat semua imunisasi yang dibutuhkan.</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home53_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home53_ec" data-name="/Home_3_6y/home53_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home53_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home53_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home53_ec" data-name="/Home_3_6y/home53_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home53_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home53_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home53_ec" data-name="/Home_3_6y/home53_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home53_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home53_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home54_ec:label">Ibu membawa anak ke Posyandu dalam 3 bulan terakhir secara berturut-turut. T</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home54_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home54_ec" data-name="/Home_3_6y/home54_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home54_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home54_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home54_ec" data-name="/Home_3_6y/home54_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home54_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home54_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home54_ec" data-name="/Home_3_6y/home54_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home54_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home54_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Home_3_6y/home55_ec:label">Anak mengikuti program play group [kelompok bermain] atau TK.</span>
+                <span lang="en" class="question-label " data-itext-id="/Home_3_6y/home55_ec:label">-</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home55_ec" data-name="/Home_3_6y/home55_ec" value="Yes" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home55_ec/Yes:label">1</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home55_ec/Yes:label">1</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home55_ec" data-name="/Home_3_6y/home55_ec" value="No" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home55_ec/No:label">0</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home55_ec/No:label">0</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Home_3_6y/home55_ec" data-name="/Home_3_6y/home55_ec" value="unknown" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Home_3_6y/home55_ec/unknown:label">Tidak diketahui</span>
+                    <span lang="en" class="option-label " data-itext-id="/Home_3_6y/home55_ec/unknown:label">Tidak diketahui</span>
+                </label>
+            </div>
+        </fieldset>
+    </fieldset> \n
+    <fieldset id="or-preload-items" style="display:none;">
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Home_3_6y/start" data-preload="timestamp" data-preload-params="start" data-type-xml="dateTime"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Home_3_6y/today" data-preload="date" data-preload-params="today" data-type-xml="date"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Home_3_6y/deviceid" data-preload="property" data-preload-params="deviceid" data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Home_3_6y/simserial" data-preload="property" data-preload-params="simserial" data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Home_3_6y/phonenumber" data-preload="property" data-preload-params="phonenumber" data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Home_3_6y/end" data-preload="timestamp" data-preload-params="end" data-type-xml="dateTime"/>
+        </label>
+    </fieldset>
+    <fieldset id="or-calculated-items" style="display:none;">
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Home_3_6y/existing_location" data-calculate=" /Home_3_6y/Village " data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Home_3_6y/provinsi" data-calculate=" /Home_3_6y/Province " data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Home_3_6y/kabupaten" data-calculate=" /Home_3_6y/District " data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Home_3_6y/desa" data-calculate=" /Home_3_6y/Village " data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Home_3_6y/dusun" data-calculate=" /Home_3_6y/Sub-village " data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Home_3_6y/kecamatan" data-calculate=" /Home_3_6y/Sub-district " data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Home_3_6y/umur" data-calculate="int(( /Home_3_6y/tanggal_kunjungan  -  /Home_3_6y/tanggal_lahir ))" data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Home_3_6y/meta/instanceID" data-calculate="concat('uuid:', uuid())" data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Home_3_6y/formhub/uuid" data-calculate="'8d3fb08e12044836a23a274b2089d37c'" data-type-xml="string"/>
+        </label>
+    </fieldset>
+</form>

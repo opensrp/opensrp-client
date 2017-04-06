@@ -75,9 +75,16 @@ public class HomeInventoryClientsProvider implements SmartRegisterCLientsProvide
             viewHolder.tgl_lahr = (TextView)convertView.findViewById(R.id.txt_child_date_of_birth);
 
             viewHolder.base_date = (TextView)convertView.findViewById(R.id.txt_base_date);
-
             viewHolder.base_skors = (TextView)convertView.findViewById(R.id.txt_base_skors);
             viewHolder.base_age = (TextView)convertView.findViewById(R.id.txt_base_age);
+
+            viewHolder.end_date = (TextView)convertView.findViewById(R.id.txt_end_date);
+            viewHolder.end_skors = (TextView)convertView.findViewById(R.id.txt_end_skors);
+            viewHolder.end_age = (TextView)convertView.findViewById(R.id.txt_end_age);
+
+            viewHolder.txt_parana_date = (TextView)convertView.findViewById(R.id.txt_parana_date);
+            viewHolder.txt_parana_sesi = (TextView)convertView.findViewById(R.id.txt_parana_sesi);
+            viewHolder.txt_parana_status = (TextView)convertView.findViewById(R.id.txt_parana_status);
 
             viewHolder.profilepic =(ImageView)convertView.findViewById(R.id.img_profile);
             viewHolder.follow_up = (ImageButton)convertView.findViewById(R.id.btn_edit);
@@ -141,13 +148,47 @@ public class HomeInventoryClientsProvider implements SmartRegisterCLientsProvide
             viewHolder.fatherName.setText(namaibu + "," + namaayah);
             viewHolder.subVillage.setText(kiparent.getDetails().get("address1")!=null?kiparent.getDetails().get("address1") :"-");
          //   viewHolder.village_name.setText(kiparent.getDetails().get("address1")!=null?kiparent.getDetails().get("address1") :"-");
+            if( kiparent.getDetails().get("tanggal_sesi4")!=null){
+
+                viewHolder.txt_parana_date.setText("Tanggal : "+kiparent.getDetails().get("tanggal_sesi4")!=null?kiparent.getDetails().get("tanggal_sesi4") :"-");
+                viewHolder.txt_parana_sesi.setText("Sesi ke : 4");
+                viewHolder.txt_parana_status.setText("Status Aktif : "+kiparent.getDetails().get("paranaStatus4")!=null?kiparent.getDetails().get("paranaStatus4") :"-");
+            }
+            else if( kiparent.getDetails().get("tanggal_sesi3")!=null){
+
+                viewHolder.txt_parana_date.setText("Tanggal : "+kiparent.getDetails().get("tanggal_sesi3")!=null?kiparent.getDetails().get("tanggal_sesi3") :"-");
+                viewHolder.txt_parana_sesi.setText("Sesi ke : 3");
+                viewHolder.txt_parana_status.setText("Status Aktif : "+kiparent.getDetails().get("paranaStatus3")!=null?kiparent.getDetails().get("paranaStatus3") :"-");
+            }
+
+            else if( kiparent.getDetails().get("tanggal_sesi2")!=null){
+
+                viewHolder.txt_parana_date.setText("Tanggal : "+kiparent.getDetails().get("tanggal_sesi2")!=null?kiparent.getDetails().get("tanggal_sesi2") :"-");
+                viewHolder.txt_parana_sesi.setText("Sesi ke : 2");
+                viewHolder.txt_parana_status.setText("Status Aktif : "+kiparent.getDetails().get("paranaStatus2")!=null?kiparent.getDetails().get("paranaStatus2") :"-");
+            }
+            else if( kiparent.getDetails().get("tanggal_sesi1")!=null){
+
+                viewHolder.txt_parana_date.setText("Tanggal : "+kiparent.getDetails().get("tanggal_sesi1")!=null?kiparent.getDetails().get("tanggal_sesi1") :"-");
+                viewHolder.txt_parana_sesi.setText("Sesi ke : 1");
+                viewHolder.txt_parana_status.setText("Status Aktif : "+kiparent.getDetails().get("paranaStatus1")!=null?kiparent.getDetails().get("paranaStatus1") :"-");
+
+            }
+            else {
+                viewHolder.txt_parana_date.setText("Tanggal : "+"-");
+                viewHolder.txt_parana_sesi.setText("Sesi ke : -");
+                viewHolder.txt_parana_status.setText("Status Aktif : -");
+
+            }
+
+
         }
-        int count = 0;
+        int baselinecount = 0;
         for (int i = 1 ; i <=45 ; i++){
             String home = "home"+i+"_it";
             if(pc.getDetails().get(home) !=null) {
                 if (pc.getDetails().get(home).equalsIgnoreCase("Yes")) {
-                    count = count + 1;
+                    baselinecount = baselinecount + 1;
                 } else {
 
                 }
@@ -159,7 +200,27 @@ public class HomeInventoryClientsProvider implements SmartRegisterCLientsProvide
         String umurs = pc.getDetails().get("umurs") != null ? pc.getDetails().get("umurs") : "-";
         viewHolder.base_date.setText("Tanggal : "+tanggl);
         viewHolder.base_age.setText("Umur : "+umurs);
-        viewHolder.base_skors.setText("Skor : "+count);
+        viewHolder.base_skors.setText("Skor : "+baselinecount);
+
+        int _endlinecount = 0;
+        for (int i = 1 ; i <=45 ; i++){
+            String home_endline = "home"+i+"_ec";
+            if(pc.getDetails().get(home_endline) !=null) {
+                if (pc.getDetails().get(home_endline).equalsIgnoreCase("Yes")) {
+                    _endlinecount = _endlinecount + 1;
+                } else {
+
+                }
+            }
+
+        }
+
+        String tanggl_endline = pc.getDetails().get("tanggal_kunjungan_endline") != null ? pc.getDetails().get("tanggal_kunjungan_endline") : "-";
+        String umurs_endline = pc.getDetails().get("umur_3_6") != null ? pc.getDetails().get("umur_3_6") : "-";
+        viewHolder.end_date.setText("Tanggal : "+tanggl_endline);
+        viewHolder.end_age.setText("Umur : "+umurs_endline);
+        viewHolder.end_skors.setText("Skor : "+_endlinecount);
+
 
       /*  String home1_it = pc.getDetails().get("home1_it") != null ? pc.getDetails().get("home1_it") : "";
         String home2_it =  pc.getDetails().get("home1_it") != null ? pc.getDetails().get("home1_it") : "";
@@ -271,6 +332,14 @@ public class HomeInventoryClientsProvider implements SmartRegisterCLientsProvide
         public TextView base_date;
         public TextView base_skors;
         public TextView base_age;
+
+        public TextView end_date;
+        public TextView end_skors;
+        public TextView end_age;
+
+        public TextView txt_parana_date;
+        public TextView txt_parana_sesi;
+        public TextView txt_parana_status;
     }
 
 

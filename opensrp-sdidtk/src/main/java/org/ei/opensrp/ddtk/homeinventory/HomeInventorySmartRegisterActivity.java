@@ -115,6 +115,7 @@ public class HomeInventorySmartRegisterActivity extends SecuredNativeSmartRegist
     public DialogOption[] getEditOptions() {
         return new DialogOption[]{
                 new OpenFormOption("Home Inventory 0-2 Tahun", "home_inventory_infant_0_2", formController),
+                new OpenFormOption("Home Inventory 3-6 Tahun", "home_inventory_3_6", formController),
 
         };
     }
@@ -305,7 +306,7 @@ public class HomeInventorySmartRegisterActivity extends SecuredNativeSmartRegist
         List<String> formNames = new ArrayList<String>();
         formNames.add("home_inventory_infant_0_2");
 
-        //   formNames.add("census_enrollment_form");
+           formNames.add("home_inventory_3_6");
 //        DialogOption[] options = getEditOptions();
 //        for (int i = 0; i < options.length; i++){
 //            formNames.add(((OpenFormOption) options[i]).getFormName());
