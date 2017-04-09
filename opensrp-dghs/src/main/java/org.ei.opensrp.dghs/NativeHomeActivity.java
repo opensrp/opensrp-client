@@ -12,6 +12,7 @@ import org.ei.opensrp.Context;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.dghs.HH_woman.BirthOutcomeHandler;
 import org.ei.opensrp.dghs.healthIDtasks.health_ID_task;
+import org.ei.opensrp.dghs.stock.stockhandler;
 import org.ei.opensrp.dghs.vaccineTasks.Last_vaccine_missedCount_task;
 import org.ei.opensrp.dghs.vaccineTasks.Today_anouncement_task;
 import org.ei.opensrp.dghs.vaccineTasks.Today_vaccine_task;
@@ -98,6 +99,7 @@ public class NativeHomeActivity extends SecuredActivity {
         DisplayFormFragment.formInputErrorMessage = getResources().getString(R.string.forminputerror);
         DisplayFormFragment.okMessage = getResources().getString(R.string.okforminputerror);
         context.formSubmissionRouter().getHandlerMap().put("birthoutcome",new BirthOutcomeHandler());
+        context.formSubmissionRouter().getHandlerMap().put("stock",new stockhandler());
 
 
 

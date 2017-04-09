@@ -15,7 +15,26 @@
     {
       "name": "stock",
       "columns": [
-        {"name":"total_wasted"},{"name":"total_received"},{"name":"total_balanceInHand"},{"name":"date"}
+        {"name":"total_wasted"},
+        {"name":"total_received"},
+        {"name":"total_balanceInHand"},
+        {"name":"date"},
+        {"name":"bcg_wasted"},
+        {"name":"bcg_used"},
+        {"name":"opv_wasted"},
+        {"name":"opv_used"},
+        {"name":"ipv_wasted"},
+        {"name":"ipv_used"},
+        {"name":"pcv_wasted"},
+        {"name":"pcv_used"},
+        {"name":"penta_wasted"},
+        {"name":"penta_used"},
+        {"name":"measles_wasted"},
+        {"name":"measles_used"},
+        {"name":"tt_wasted"},
+        {"name":"tt_used"},
+        {"name":"dilutants_wasted"},
+        {"name":"dilutants_used"}
       ]
     }
   ]
