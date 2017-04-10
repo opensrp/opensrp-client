@@ -16,6 +16,7 @@ import android.widget.TextView;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.ddtk.R;
+import org.ei.opensrp.repository.DetailsRepository;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,37 +56,34 @@ public class HomeInventoryDetailActivity extends Activity {
 
 
         //header
-        TextView anakName = (TextView) findViewById(R.id.detail_nama_anak);
-        TextView anakJenisKelamin = (TextView) findViewById(R.id.detail_jenis_kelamin);
-        TextView anakNamaIbu = (TextView) findViewById(R.id.detail_nama_ibu);
-        TextView anakUmur = (TextView) findViewById(R.id.detail_umur);
-        TextView anakBerat = (TextView) findViewById(R.id.childdetail_weight);
+        TextView anakName = (TextView) findViewById(R.id.Nama);
+        TextView anakJenisKelamin = (TextView) findViewById(R.id.Kelamin);
+        TextView anakNamaIbu = (TextView) findViewById(R.id.txt_ortu);
+        TextView anakUmur = (TextView) findViewById(R.id.Lahir);
+        TextView anakBerat = (TextView) findViewById(R.id.Berat);
         TextView anakTinggi = (TextView) findViewById(R.id.childdetail_height);
         TextView anakLingKepala = (TextView) findViewById(R.id.childdetail_headcir);
-        TextView anakKpspDate1 = (TextView) findViewById(R.id.childdetail_kpsptestdate1);
-        TextView anakKpspResult1 = (TextView) findViewById(R.id.childdetail_kpsptestresult1);
-        TextView anakKpspDate2 = (TextView) findViewById(R.id.childdetail_kpsptestdate2);
-        TextView anakKpspResult2 = (TextView) findViewById(R.id.childdetail_kpsptestresult2);
-        TextView anakKpspDate3 = (TextView) findViewById(R.id.childdetail_kpsptestdate3);
-        TextView anakKpspResult3 = (TextView) findViewById(R.id.childdetail_kpsptestresult3);
-        TextView anakKpspDate4 = (TextView) findViewById(R.id.childdetail_kpsptestdate4);
-        TextView anakKpspResult4 = (TextView) findViewById(R.id.childdetail_kpsptestresult4);
-        TextView anakKpspDate5 = (TextView) findViewById(R.id.childdetail_kpsptestdate5);
-        TextView anakKpspResult5 = (TextView) findViewById(R.id.childdetail_kpsptestresult5);
-        TextView anakKpspDate6 = (TextView) findViewById(R.id.childdetail_kpsptestdate6);
-        TextView anakKpspResult6 = (TextView) findViewById(R.id.childdetail_kpsptestresult6);
-        TextView anakHearingDate = (TextView) findViewById(R.id.childdetail_hearingtestdate);
-        TextView anakHearingResult = (TextView) findViewById(R.id.childdetail_hearingtestresult);
-        TextView anakVisualDate = (TextView) findViewById(R.id.childdetail_visualtestdate);
-        TextView anakVisualResult = (TextView) findViewById(R.id.childdetail_visualtestresult);
-        TextView anakMentalDate = (TextView) findViewById(R.id.childdetail_mentaltestdate);
-        TextView anakMentalResult = (TextView) findViewById(R.id.childdetail_mentaltestresult);
-        TextView anakAutistDate = (TextView) findViewById(R.id.childdetail_autisttestdate);
-        TextView anakAutistResult = (TextView) findViewById(R.id.childdetail_autisttestresult);
-        TextView anakGgphDate = (TextView) findViewById(R.id.childdetail_ggphtestdate);
-        TextView anakGgphResult = (TextView) findViewById(R.id.childdetail_ggphtestresult);
+
+        TextView Responsivitas = (TextView) findViewById(R.id.Responsivitas);
+        TextView Penerimaan = (TextView) findViewById(R.id.Penerimaan);
+        TextView Keteraturan = (TextView) findViewById(R.id.Keteraturan);
+        TextView Sumber_belajar = (TextView) findViewById(R.id.Sumber_belajar);
+        TextView Keterlibatan = (TextView) findViewById(R.id.Keterlibatan);
+        TextView Varisai = (TextView) findViewById(R.id.Varisai);
+
+        TextView belajar_3 = (TextView) findViewById(R.id.belajar_3);
+        TextView Stimulasi_3 = (TextView) findViewById(R.id.Stimulasi_3);
+        TextView fisik_3 = (TextView) findViewById(R.id.fisik_3);
+        TextView Responsivitas_3 = (TextView) findViewById(R.id.Responsivitas_3);
+        TextView Akademis_3 = (TextView) findViewById(R.id.Akademis_3);
+        TextView Keteladanan_3 = (TextView) findViewById(R.id.Keteladanan_3);
+        TextView Variasi_3 = (TextView) findViewById(R.id.Variasi_3);
+        TextView Penerimaan_3 = (TextView) findViewById(R.id.Penerimaan_3);
 
 
+
+        DetailsRepository detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
+        detailsRepository.updateDetails(childclient);
 
         ImageButton back = (ImageButton) findViewById(org.ei.opensrp.R.id.btn_back_to_home);
         back.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +111,7 @@ public class HomeInventoryDetailActivity extends Activity {
             }
         }
         // }
-        childview.setOnClickListener(new View.OnClickListener() {
+       /* childview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -122,37 +120,36 @@ public class HomeInventoryDetailActivity extends Activity {
                 dispatchTakePictureIntent(childview);
 
             }
-        });
-        anakName.setText(getString(R.string.detailNamaAnak) +": "+ (childclient.getDetails().get("nama_anak") != null ? childclient.getDetails().get("nama_anak").replaceAll("_", " ") : "-"));
-        anakJenisKelamin.setText(getString(R.string.detailJenisKelamin) +": "+ (childclient.getDetails().get("jenis_kelamin") != null ? childclient.getDetails().get("jenis_kelamin").replaceAll("_", " ") : "-"));
-        anakNamaIbu.setText(getString(R.string.detailNamaIbu) +": "+ (childclient.getDetails().get("nama_ibu") != null ? childclient.getDetails().get("nama_ibu").replaceAll("_", " ") : "-"));
-        anakUmur.setText(getString(R.string.detailUmur) +": "+ (childclient.getDetails().get("umur") != null ? childclient.getDetails().get("umur").replaceAll("_", " ")+" Bulan" : "-"));
+        });*/
+
+        anakName.setText(getString(R.string.detailNamaAnak) +": "+ (childclient.getDetails().get("namaBayi") != null ? childclient.getDetails().get("namaBayi").replaceAll("_", " ") : "-"));
+        anakJenisKelamin.setText(getString(R.string.detailJenisKelamin) +": "+ (childclient.getDetails().get("gender") != null ? childclient.getDetails().get("gender").replaceAll("_", " ") : "-"));
+
+        String ages = childclient.getColumnmaps().get("tanggalLahirAnak").substring(0, childclient.getColumnmaps().get("tanggalLahirAnak").indexOf("T"));
+
+        anakUmur.setText(getString(R.string.detailUmur) +": "+ ages+" Bulan" );
         anakBerat.setText(getString(R.string.detailBerat) +": "+ (childclient.getDetails().get("berat") != null ? childclient.getDetails().get("berat").replaceAll("_", " ") : "-"));
         anakTinggi.setText(getString(R.string.detailTinggi) +": "+ (childclient.getDetails().get("tinggi") != null ? childclient.getDetails().get("tinggi").replaceAll("_", " ") : "-"));
         anakLingKepala.setText(getString(R.string.detailLingkarKepala) +": "+ (childclient.getDetails().get("lingkar_kepala") != null ? childclient.getDetails().get("lingkar_kepala").replaceAll("_", " ") : "-"));
-        anakKpspDate1.setText(getString(R.string.kpspdate1) +": "+ (childclient.getDetails().get("kpsp_test_date1") != null ? childclient.getDetails().get("kpsp_test_date1").replaceAll("_", " ") : "-"));
-        anakKpspResult1.setText(getString(R.string.kpspresult1) +": "+ (childclient.getDetails().get("status_kembang1") != null ? childclient.getDetails().get("status_kembang1").replaceAll("_", " ") : "-"));
-        anakKpspDate2.setText(getString(R.string.kpspdate2) + ": " + (childclient.getDetails().get("kpsp_test_date2") != null ? childclient.getDetails().get("kpsp_test_date2").replaceAll("_", " ") : "-"));
-        anakKpspResult2.setText(getString(R.string.kpspresult2) +": "+ (childclient.getDetails().get("status_kembang2") != null ? childclient.getDetails().get("status_kembang2").replaceAll("_", " ") : "-"));
-        anakKpspDate3.setText(getString(R.string.kpspdate3) +": "+ (childclient.getDetails().get("kpsp_test_date3") != null ? childclient.getDetails().get("kpsp_test_date3").replaceAll("_", " ") : "-"));
-        anakKpspResult3.setText(getString(R.string.kpspresult3) +": "+ (childclient.getDetails().get("status_kembang3") != null ? childclient.getDetails().get("status_kembang3").replaceAll("_", " ") : "-"));
-        anakKpspDate4.setText(getString(R.string.kpspdate4) +": "+ (childclient.getDetails().get("kpsp_test_date4") != null ? childclient.getDetails().get("kpsp_test_date4").replaceAll("_", " ") : "-"));
-        anakKpspResult4.setText(getString(R.string.kpspresult4) +": "+ (childclient.getDetails().get("status_kembang4") != null ? childclient.getDetails().get("status_kembang4").replaceAll("_", " ") : "-"));
-        anakKpspDate5.setText(getString(R.string.kpspdate5) +": "+ (childclient.getDetails().get("kpsp_test_date5") != null ? childclient.getDetails().get("kpsp_test_date5").replaceAll("_", " ") : "-"));
-        anakKpspResult5.setText(getString(R.string.kpspresult5) +": "+ (childclient.getDetails().get("status_kembang5") != null ? childclient.getDetails().get("status_kembang5").replaceAll("_", " ") : "-"));
-        anakKpspDate6.setText(getString(R.string.kpspdate6) +": "+ (childclient.getDetails().get("kpsp_test_date6") != null ? childclient.getDetails().get("kpsp_test_date6").replaceAll("_", " ") : "-"));
-        anakKpspResult6.setText(getString(R.string.kpspresult6) +": "+ (childclient.getDetails().get("status_kembang6") != null ? childclient.getDetails().get("status_kembang6").replaceAll("_", " ") : "-"));
-        anakHearingDate.setText(getString(R.string.hearingdate) +": "+ (childclient.getDetails().get("hear_test_date") != null ? childclient.getDetails().get("hear_test_date").replaceAll("_", " ") : "-"));
-        anakHearingResult.setText(getString(R.string.hearingresult) +": "+ (childclient.getDetails().get("daya_dengar") != null ? childclient.getDetails().get("daya_dengar").replaceAll("_", " ") : "-"));
-        anakVisualDate.setText(getString(R.string.visualdate) +": "+ (childclient.getDetails().get("sight_test_date") != null ? childclient.getDetails().get("sight_test_date").replaceAll("_", " ") : "-"));
-        anakVisualResult.setText(getString(R.string.visualresult) +": "+ (childclient.getDetails().get("daya_lihat") != null ? childclient.getDetails().get("daya_lihat").replaceAll("_", " ") : "-"));
-        anakMentalDate.setText(getString(R.string.mentaldate) +": "+ (childclient.getDetails().get("mental_test_date") != null ? childclient.getDetails().get("mental_test_date").replaceAll("_", " ") : "-"));
-        anakMentalResult.setText(getString(R.string.mentalresult) +": "+ (childclient.getDetails().get("mental_emosional") != null ? childclient.getDetails().get("mental_emosional").replaceAll("_", " ") : "-"));
-        anakAutistDate.setText(getString(R.string.autisdate) +": "+ (childclient.getDetails().get("autis_test_date") != null ? childclient.getDetails().get("autis_test_date").replaceAll("_", " ") : "-"));
-        anakAutistResult.setText(getString(R.string.autisresult) +": "+ (childclient.getDetails().get("autis") != null ? childclient.getDetails().get("autis").replaceAll("_", " ") : "-"));
-        anakGgphDate.setText(getString(R.string.ggphdate) +": "+ (childclient.getDetails().get("gpph_test_date") != null ? childclient.getDetails().get("gpph_test_date").replaceAll("_", " ") : "-"));
-        anakGgphResult.setText(getString(R.string.ggphresult) +": "+ (childclient.getDetails().get("gpph") != null ? childclient.getDetails().get("gpph").replaceAll("_", " ") : "-"));
 
+
+        Responsivitas.setText("5");
+       Penerimaan.setText("5");
+        Keteraturan.setText("5");
+        Sumber_belajar.setText("7");
+                Keterlibatan.setText("0");
+                        Varisai.setText("0");
+
+
+
+        belajar_3.setText("0");
+        Stimulasi_3.setText("0");
+        fisik_3.setText("0");
+        Responsivitas_3.setText("0");
+        Akademis_3.setText("0");
+        Keteladanan_3.setText("0");
+        Variasi_3.setText("0");
+        Penerimaan_3.setText("0");
         //KMS calculation
 
         //Graph

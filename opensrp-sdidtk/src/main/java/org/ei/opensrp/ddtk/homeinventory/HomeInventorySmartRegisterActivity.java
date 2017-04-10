@@ -13,6 +13,7 @@ import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.ddtk.LoginActivity;
 import org.ei.opensrp.ddtk.R;
 import org.ei.opensrp.ddtk.fragment.FormulirDdtkSmartRegisterFragment;
+import org.ei.opensrp.ddtk.fragment.HomeInventorySmartRegisterFragment;
 import org.ei.opensrp.ddtk.pageradapter.BaseRegisterActivityPagerAdapter;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.form.FieldOverrides;
@@ -69,7 +70,7 @@ public class HomeInventorySmartRegisterActivity extends SecuredNativeSmartRegist
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         formNames = this.buildFormNameList();
-        mBaseFragment = new FormulirDdtkSmartRegisterFragment();
+        mBaseFragment = new HomeInventorySmartRegisterFragment();
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPagerAdapter = new BaseRegisterActivityPagerAdapter(getSupportFragmentManager(), formNames, mBaseFragment);

@@ -425,5 +425,9 @@
     <string name="endline">Home (Endline)</string>
     <string name="parana_header">Parana</string>
     <string name="home_invent">Home Inventory</string>
+    <string name="name">Name :</string>
+    <string name="nik">NIK :</string>
+    <string name="husband_name">Nama Suami :</string>
+    <string name="dob">Tanggal Lahir :</string>
 
 </resources>

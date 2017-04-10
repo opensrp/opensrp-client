@@ -60,10 +60,10 @@
         android:src="@color/smart_register_client_divider_color"
         android:id="@+id/imageView4" />
 
-  <!--  <include
-        layout="@layout/ki_detail_profile"
+    <include
+        layout="@layout/parana_detail_profile"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />-->
+        android:layout_height="wrap_content" />
 
     <ImageView
         android:layout_width="match_parent"

@@ -32,22 +32,22 @@ public class SdidtkNavigationController extends org.ei.opensrp.view.controller.N
     public void startECSmartRegistry() {
         activity.startActivity(new Intent(activity, FormulirDdtkSmartRegisterActivity.class));
         ///  activity.startActivity(new Intent(activity, HouseHoldSmartRegisterActivity.class));
-        SharedPreferences sharedPreferences = getDefaultSharedPreferences(this.activity);
+        /*SharedPreferences sharedPreferences = getDefaultSharedPreferences(this.activity);
 
         if(sharedPreferences.getBoolean("firstlauch",true)) {
             sharedPreferences.edit().putBoolean("firstlauch",false).commit();
             //     activity.startActivity(new Intent(activity, tutorialCircleViewFlow.class));
-        }
+        }*/
 
     }
     @Override
     public void startFPSmartRegistry() {
            activity.startActivity(new Intent(activity, NativeKIParanaSmartRegisterActivity.class));
     }
-    @Override
+  /*  @Override
     public void startANCSmartRegistry() {
         activity.startActivity(new Intent(activity, HomeInventorySmartRegisterActivity.class));
-    }
+    }*/
     @Override
     public void startChildSmartRegistry() {
         activity.startActivity(new Intent(activity, HomeInventorySmartRegisterActivity.class));

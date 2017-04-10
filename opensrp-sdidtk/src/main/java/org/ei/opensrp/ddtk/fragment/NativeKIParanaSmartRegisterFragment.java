@@ -146,7 +146,7 @@ public class NativeKIParanaSmartRegisterFragment extends SecuredNativeSmartRegis
                         new CursorCommonObjectSort(getResources().getString(R.string.sort_by_name_label),KiSortByNameAZ()),
                         new CursorCommonObjectSort(getResources().getString(R.string.sort_by_name_label_reverse),KiSortByNameZA()),
                    //     new CursorCommonObjectSort(getResources().getString(R.string.sort_by_wife_age_label),KiSortByAge()),
-                        new CursorCommonObjectSort(getResources().getString(R.string.sort_by_edd_label),KiSortByEdd()),
+                     //   new CursorCommonObjectSort(getResources().getString(R.string.sort_by_edd_label),KiSortByEdd()),
                       //  new CursorCommonObjectSort(getResources().getString(R.string.sort_by_no_ibu_label),KiSortByNoIbu()),
                 };
             }
@@ -339,36 +339,14 @@ public class NativeKIParanaSmartRegisterFragment extends SecuredNativeSmartRegis
             @Override
             public void onTextChanged(final CharSequence cs, int start, int before, int count) {
 
-                (new AsyncTask() {
-                    SmartRegisterClients filteredClients;
+                filters = cs.toString();
+                joinTable = "";
+                mainCondition = " is_closed = 0 ";
 
-                    @Override
-                    protected Object doInBackground(Object[] params) {
-//                        currentSearchFilter =
-//                        setCurrentSearchFilter(new HHSearchOption(cs.toString()));
-//                        filteredClients = getClientsAdapter().getListItemProvider()
-//                                .updateClients(getCurrentVillageFilter(), getCurrentServiceModeOption(),
-//                                        getCurrentSearchFilter(), getCurrentSortOption());
-//
-                        filters = cs.toString();
-                        joinTable = "";
-                        mainCondition = " isClosed !='true' and type = 'anc' ";
-                        return null;
-                    }
 
-                    @Override
-                    protected void onPostExecute(Object o) {
-//                        clientsAdapter
-//                                .refreshList(currentVillageFilter, currentServiceModeOption,
-//                                        currentSearchFilter, currentSortOption);
-//                        getClientsAdapter().refreshClients(filteredClients);
-//                        getClientsAdapter().notifyDataSetChanged();
-                        getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
-                        CountExecute();
-                        filterandSortExecute();
-                        super.onPostExecute(o);
-                    }
-                }).execute();
+                getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
+                CountExecute();
+                filterandSortExecute();
             }
 
             @Override
@@ -387,42 +365,14 @@ public class NativeKIParanaSmartRegisterFragment extends SecuredNativeSmartRegis
 
             @Override
             public void onTextChanged(final CharSequence cs, int start, int before, int count) {
-                (new AsyncTask() {
-                    SmartRegisterClients filteredClients;
 
-                    @Override
-                    protected Object doInBackground(Object[] params) {
-//                        currentSearchFilter =
-//                        setCurrentSearchFilter(new HHSearchOption(cs.toString()));
-//                        filteredClients = getClientsAdapter().getListItemProvider()
-//                                .updateClients(getCurrentVillageFilter(), getCurrentServiceModeOption(),
-//                                        getCurrentSearchFilter(), getCurrentSortOption());
-//
-                        filters = cs.toString();
-                        joinTable = "";
-                        mainCondition = " isClosed !='true' and type = 'anc' ";
-                        return null;
-                    }
 
-                    @Override
-                    protected void onPostExecute(Object o) {
-//                        clientsAdapter
-//                                .refreshList(currentVillageFilter, currentServiceModeOption,
-//                                        currentSearchFilter, currentSortOption);
-//                        getClientsAdapter().refreshClients(filteredClients);
-//                        getClientsAdapter().notifyDataSetChanged();
-                        getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
-                        filterandSortExecute();
-                        super.onPostExecute(o);
-                    }
-                }).execute();
-//                currentSearchFilter = new HHSearchOption(cs.toString());
-//                clientsAdapter
-//                        .refreshList(currentVillageFilter, currentServiceModeOption,
-//                                currentSearchFilter, currentSortOption);
-//
-//                searchCancelView.setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
+                filters = cs.toString();
+                joinTable = "";
+                mainCondition = " is_closed = 0 ";
 
+                getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
+                filterandSortExecute();
 
             }
 
@@ -432,7 +382,7 @@ public class NativeKIParanaSmartRegisterFragment extends SecuredNativeSmartRegis
             }
         });
     }
-    public void addChildToList(ArrayList<DialogOption> dialogOptionslist, Map<String,TreeNode<String, Location>> locationMap){
+    public void addChildToList(ArrayList<DialogOption> dialogOptionslist,Map<String,TreeNode<String, Location>> locationMap){
         for(Map.Entry<String, TreeNode<String, Location>> entry : locationMap.entrySet()) {
 
             if(entry.getValue().getChildren() != null) {
@@ -441,7 +391,7 @@ public class NativeKIParanaSmartRegisterFragment extends SecuredNativeSmartRegis
             }else{
                 StringUtil.humanize(entry.getValue().getLabel());
                 String name = StringUtil.humanize(entry.getValue().getLabel());
-                dialogOptionslist.add(new KICommonObjectFilterOption(name,"dusun", name));
+                dialogOptionslist.add(new KICommonObjectFilterOption(name, "location_name", name, "ec_kartu_ibu"));
 
             }
         }

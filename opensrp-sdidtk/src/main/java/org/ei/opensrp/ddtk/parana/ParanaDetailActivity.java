@@ -20,6 +20,7 @@ import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.domain.ProfileImage;
 import org.ei.opensrp.ddtk.R;
+import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.repository.ImageRepository;
 
 import java.io.File;
@@ -86,8 +87,11 @@ public class ParanaDetailActivity extends Activity {
         TextView txt_mmn = (TextView) findViewById(R.id.txt_mmn);
         TextView        txt_kpsp = (TextView) findViewById(R.id.txt_kpsp);
         TextView txt_status1s = (TextView) findViewById(R.id.txt_status);
-        
-     /*   ImageButton back = (ImageButton) findViewById(org.ei.opensrp.R.id.btn_back_to_home);
+
+        DetailsRepository detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
+        detailsRepository.updateDetails(ancclient);
+
+        ImageButton back = (ImageButton) findViewById(org.ei.opensrp.R.id.btn_back_to_home);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,12 +101,12 @@ public class ParanaDetailActivity extends Activity {
                 String DetailEnd = timer.format(new Date());
                 Map<String, String> KBDetail = new HashMap<String, String>();
                 KBDetail.put("end", DetailEnd);
-                FlurryAgent.logEvent("anc_detail_view",KBDetail, true);
+            //    FlurryAgent.logEvent("anc_detail_view",KBDetail, true);
             }
         });
 
         nama.setText(getResources().getString(R.string.name)+ (ancclient.getColumnmaps().get("namalengkap") != null ? ancclient.getColumnmaps().get("namalengkap") : "-"));
-        nik.setText(getResources().getString(R.string.nik)+ (ancclient.getDetails().get("nik") != null ? ancclient.getDetails().get("nik") : "-"));
+     //   nik.setText(getResources().getString(R.string.nik)+ (ancclient.getDetails().get("nik") != null ? ancclient.getDetails().get("nik") : "-"));
         husband_name.setText(getResources().getString(R.string.husband_name)+ (ancclient.getColumnmaps().get("namaSuami") != null ? ancclient.getColumnmaps().get("namaSuami") : "-"));
         dob.setText(getResources().getString(R.string.dob)+ (ancclient.getDetails().get("tanggalLahir") != null ? ancclient.getDetails().get("tanggalLahir") : "-"));
         phone.setText("No HP: "+ (ancclient.getDetails().get("NomorTelponHp") != null ? ancclient.getDetails().get("NomorTelponHp") : "-"));
@@ -126,7 +130,7 @@ public class ParanaDetailActivity extends Activity {
 
             txt_BBT.setText(berat);
             txt_status1s.setText(status_gizi);
-        }*/
+        }
         
 
     }

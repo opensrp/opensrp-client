@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="2"
+    >
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/listview_background_rounded">
+
+        <TableRow>
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Responsivitas : "
+                android:layout_margin="5dp"
+                android:id="@+id/lbl_ancDate"
+                android:textSize="14sp"
+                android:textColor="@color/text_black" />
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="N/A "
+                android:layout_margin="5dp"
+                android:id="@+id/Responsivitas"
+                android:textSize="14sp"
+                android:textColor="@color/text_black" />
+
+
+        </TableRow>
+        <TableRow>
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Penerimaan : "
+                android:id="@+id/lbl_ancKe"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="N/A"
+                android:id="@+id/Penerimaan"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+
+        </TableRow>
+
+        <TableRow>
+
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Keteraturan  : "
+                android:id="@+id/lbl_Keterangan_k1k4"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="N/A"
+                android:id="@+id/Keteraturan"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+
+        </TableRow>
+
+        <TableRow>
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Sumber Belajar : "
+                android:id="@+id/lbl_kunjunganKe"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="N/A"
+                android:id="@+id/Sumber_belajar"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+
+        </TableRow>
+
+
+
+        <TableRow>
+
+
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Keterlibatan  : "
+                android:id="@+id/lbl_tanggalHPHT"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="N/A"
+                android:id="@+id/Keterlibatan"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+
+        </TableRow>
+
+        <TableRow>
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Varisai  : "
+                android:id="@+id/lbl_usiaKlinis"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="N/A"
+                android:id="@+id/Varisai"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+
+        </TableRow>
+
+        <TableRow>
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text=" "
+                android:id="@+id/lbl_null"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text=""
+                android:id="@+id/tx_null"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+        </TableRow>
+
+        <TableRow>
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text=" "
+                android:id="@+id/lbl_null1"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text=""
+                android:id="@+id/tx_null1"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/listview_background_rounded">
+
+        <TableRow>
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Sumber belajar  : "
+                android:id="@+id/lbl_belajar"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="N/A"
+                android:id="@+id/belajar_3"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+        </TableRow>
+        <TableRow>
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            style="@style/CustomFontTextViewStyle.ListView.Medium"
+            android:text="Stimulasi Bahasa  : "
+            android:id="@+id/lbl_Stimulasi"
+            android:textSize="14sp"
+            android:layout_margin="5dp"
+            android:textColor="@color/text_black" />
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            style="@style/CustomFontTextViewStyle.ListView.Medium"
+            android:text="N/A"
+            android:id="@+id/Stimulasi_3"
+            android:textSize="14sp"
+            android:layout_margin="5dp"
+            android:textColor="@color/text_black" />
+        </TableRow>
+
+        <TableRow>
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Lingkungan fisik  : "
+                android:id="@+id/lbl_fisik"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="N/A"
+                android:id="@+id/fisik_3"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+        </TableRow>
+
+        <TableRow>
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Responsivitas  : "
+                android:id="@+id/lbl_Responsivitas"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="N/A"
+                android:id="@+id/Responsivitas_3"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+        </TableRow>
+
+        <TableRow>
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Stimulasi Akademis  : "
+                android:id="@+id/lbl_Akademis"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="N/A"
+                android:id="@+id/Akademis_3"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+        </TableRow>
+
+        <TableRow>
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Keteladanan  : "
+                android:id="@+id/lbl_Keteladanan"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="N/A"
+                android:id="@+id/Keteladanan_3"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+        </TableRow>
+
+        <TableRow>
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Variasi  : "
+                android:id="@+id/lbl_Variasi"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="N/A"
+                android:id="@+id/Variasi_3"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+        </TableRow>
+
+        <TableRow>
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Penerimaan  : "
+                android:id="@+id/lbl_Penerimaan"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="N/A"
+                android:id="@+id/Penerimaan_3"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black" />
+        </TableRow>
+
+
+    </TableLayout>
+
+
+</LinearLayout>
+</ScrollView>
