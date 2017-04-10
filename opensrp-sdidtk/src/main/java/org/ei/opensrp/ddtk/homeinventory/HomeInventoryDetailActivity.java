@@ -30,7 +30,7 @@ import util.ImageFetcher;
 /**
  * Created by muhammad.ahmed@ihsinformatics.com on 20-Oct-15.
  */
-public class ChildDetailActivity extends Activity {
+public class HomeInventoryDetailActivity extends Activity {
 
     //image retrieving
     private static final String TAG = "ImageGridFragment";
@@ -51,7 +51,7 @@ public class ChildDetailActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Context context = Context.getInstance();
-        setContentView(R.layout.child_detail_activity);
+        setContentView(R.layout.home_invent_detail_activity);
 
 
         //header
@@ -92,16 +92,16 @@ public class ChildDetailActivity extends Activity {
             @Override
             public void onClick(View v) {
                 finish();
-                startActivity(new Intent(ChildDetailActivity.this, HomeInventorySmartRegisterActivity.class));
+                startActivity(new Intent(HomeInventoryDetailActivity.this, HomeInventorySmartRegisterActivity.class));
                 overridePendingTransition(0, 0);
             }
         });
         final ImageView childview = (ImageView)findViewById(R.id.childdetailprofileview);
         if(childclient.getDetails().get("profilepic")!= null){
             if((childclient.getDetails().get("jenis_kelamin")!=null?childclient.getDetails().get("jenis_kelamin"):"").equalsIgnoreCase("perempuan")) {
-                setImagetoHolderFromUri(ChildDetailActivity.this, childclient.getDetails().get("profilepic"), childview, R.mipmap.womanimageload);
+                setImagetoHolderFromUri(HomeInventoryDetailActivity.this, childclient.getDetails().get("profilepic"), childview, R.mipmap.womanimageload);
             } else if ((childclient.getDetails().get("jenis_kelamin")!=null?childclient.getDetails().get("jenis_kelamin"):"").equalsIgnoreCase("laki_laki")){
-                setImagetoHolderFromUri(ChildDetailActivity.this, childclient.getDetails().get("profilepic"), childview, R.mipmap.householdload);
+                setImagetoHolderFromUri(HomeInventoryDetailActivity.this, childclient.getDetails().get("profilepic"), childview, R.mipmap.householdload);
 
             }
         }else{

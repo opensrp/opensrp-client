@@ -152,7 +152,7 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterCLientsPro
         //set image picture
         final ImageView childview = (ImageView)convertView.findViewById(R.id.img_profile);
  /*       if (pc.getDetails().get("profilepic") != null) {
-            ChildDetailActivity.setImagetoHolderFromUri((Activity) context, pc.getDetails().get("profilepic"), childview, R.drawable.child_boy_infant);
+            HomeInventoryDetailActivity.setImagetoHolderFromUri((Activity) context, pc.getDetails().get("profilepic"), childview, R.drawable.child_boy_infant);
             childview.setTag(smartRegisterClient);
         }
         else {

@@ -23,6 +23,7 @@ import org.ei.opensrp.cursoradapter.SecuredNativeSmartRegisterCursorAdapterFragm
 import org.ei.opensrp.cursoradapter.SmartRegisterPaginatedCursorAdapter;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.ddtk.LoginActivity;
+import org.ei.opensrp.ddtk.ddtk.ChildFilterOption;
 import org.ei.opensrp.ddtk.ddtk.FormulirDdtkServiceModeOption;
 import org.ei.opensrp.ddtk.ddtk.KICommonObjectFilterOption;
 import org.ei.opensrp.ddtk.homeinventory.HomeInventoryClientsProvider;
@@ -95,7 +96,7 @@ public class FormulirDdtkSmartRegisterFragment extends SecuredNativeSmartRegiste
 
             @Override
             public ServiceModeOption serviceMode() {
-                return new HomeInventoryServiceModeOption(clientsProvider());
+                return new FormulirDdtkServiceModeOption(clientsProvider());
             }
 
             @Override
@@ -178,7 +179,7 @@ public class FormulirDdtkSmartRegisterFragment extends SecuredNativeSmartRegiste
     }
 
     private DialogOption[] getEditOptions() {
-        return ((HomeInventorySmartRegisterActivity)getActivity()).getEditOptions();
+        return ((FormulirDdtkSmartRegisterActivity)getActivity()).getEditOptions();
     }
 
     @Override
@@ -193,6 +194,7 @@ public class FormulirDdtkSmartRegisterFragment extends SecuredNativeSmartRegiste
         super.setupViews(view);
         view.findViewById(R.id.btn_report_month).setVisibility(INVISIBLE);
         view.findViewById(R.id.service_mode_selection).setVisibility(View.GONE);
+      //  view.findViewById(R.id.register_client).setVisibility(View.GONE);
         clientsView.setVisibility(View.VISIBLE);
         clientsProgressView.setVisibility(View.INVISIBLE);
 //        list.setBackgroundColor(Color.RED);
@@ -211,21 +213,24 @@ public class FormulirDdtkSmartRegisterFragment extends SecuredNativeSmartRegiste
                 "Else alerts.status END ASC";
     }
     public void initializeQueries(){
-        HomeInventoryClientsProvider kiscp = new HomeInventoryClientsProvider(getActivity(),clientActionHandler,context().alertService());
+        FormulirDdtkSmartClientsProvider kiscp = new FormulirDdtkSmartClientsProvider(getActivity(),clientActionHandler,context().alertService());
         clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, kiscp, new CommonRepository("ec_anak",new String []{"tanggalLahirAnak","namaBayi"}));
         clientsView.setAdapter(clientAdapter);
+
 
         setTablename("ec_anak");
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
         countqueryBUilder.SelectInitiateMainTableCounts("ec_anak");
+        countqueryBUilder.customJoin("LEFT JOIN ec_kartu_ibu ON ec_kartu_ibu.id = ec_anak.relational_id");
         mainCondition = " is_closed = 0 ";
-        countSelect = countqueryBUilder.mainCondition(" is_closed = 0 ");
-        //  mainCondition = " isClosed !='true' ";
+        countSelect = countqueryBUilder.mainCondition("ec_anak_search.is_closed = 0  and relational_id != ''");
         super.CountExecute();
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
-        queryBUilder.SelectInitiateMainTable("ec_anak", new String[]{"ec_anak.relationalid","ec_anak.is_closed","ec_anak.details","tanggalLahirAnak","namaBayi"});
-        mainSelect = queryBUilder.mainCondition(" is_closed = 0 ");
+        queryBUilder.SelectInitiateMainTable("ec_anak", new String[]{"ec_anak.is_closed", "ec_anak.details", "namaBayi", "tanggalLahirAnak","imagelist.imageid"});
+        queryBUilder.customJoin("LEFT JOIN ec_ibu ON ec_ibu.id =  ec_anak.relational_id LEFT JOIN ImageList imagelist ON ec_anak.id=imagelist.entityID");
+        mainSelect = queryBUilder.mainCondition("ec_anak.is_closed = 0  and relational_id != ''");
+        Sortqueries = AnakNameShort();
         //   Sortqueries = KiSortByNameAZ();
 
         currentlimit = 20;
@@ -240,7 +245,9 @@ public class FormulirDdtkSmartRegisterFragment extends SecuredNativeSmartRegiste
 
     }
 
-
+    private String AnakNameShort() {
+        return " namaBayi ASC";
+    }
     @Override
     public void startRegistration() {
         FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
@@ -364,36 +371,14 @@ public class FormulirDdtkSmartRegisterFragment extends SecuredNativeSmartRegiste
             @Override
             public void onTextChanged(final CharSequence cs, int start, int before, int count) {
 
-                (new AsyncTask() {
-                    SmartRegisterClients filteredClients;
+                filters = cs.toString();
+                joinTable = "";
+                mainCondition = " is_closed = 0 ";
 
-                    @Override
-                    protected Object doInBackground(Object[] params) {
-//                        currentSearchFilter =
-//                        setCurrentSearchFilter(new HHSearchOption(cs.toString()));
-//                        filteredClients = getClientsAdapter().getListItemProvider()
-//                                .updateClients(getCurrentVillageFilter(), getCurrentServiceModeOption(),
-//                                        getCurrentSearchFilter(), getCurrentSortOption());
-//
-                        filters = cs.toString();
-                        joinTable = "";
-                        mainCondition = " is_closed = 0 AND namaBayi !='' ";
-                        return null;
-                    }
 
-                    @Override
-                    protected void onPostExecute(Object o) {
-//                        clientsAdapter
-//                                .refreshList(currentVillageFilter, currentServiceModeOption,
-//                                        currentSearchFilter, currentSortOption);
-//                        getClientsAdapter().refreshClients(filteredClients);
-//                        getClientsAdapter().notifyDataSetChanged();
-                        getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
-                        CountExecute();
-                        filterandSortExecute();
-                        super.onPostExecute(o);
-                    }
-                }).execute();
+                getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
+                CountExecute();
+                filterandSortExecute();
             }
 
             @Override
@@ -412,43 +397,14 @@ public class FormulirDdtkSmartRegisterFragment extends SecuredNativeSmartRegiste
 
             @Override
             public void onTextChanged(final CharSequence cs, int start, int before, int count) {
-                (new AsyncTask() {
-                    SmartRegisterClients filteredClients;
 
-                    @Override
-                    protected Object doInBackground(Object[] params) {
-//                        currentSearchFilter =
-//                        setCurrentSearchFilter(new HHSearchOption(cs.toString()));
-//                        filteredClients = getClientsAdapter().getListItemProvider()
-//                                .updateClients(getCurrentVillageFilter(), getCurrentServiceModeOption(),
-//                                        getCurrentSearchFilter(), getCurrentSortOption());
-//
 
-                        filters = cs.toString();
-                        joinTable = "";
-                        mainCondition = " is_closed = 0 AND namaBayi !='' ";
-                        return null;
-                    }
+                filters = cs.toString();
+                joinTable = "";
+                mainCondition = " is_closed = 0 ";
 
-                    @Override
-                    protected void onPostExecute(Object o) {
-//                        clientsAdapter
-//                                .refreshList(currentVillageFilter, currentServiceModeOption,
-//                                        currentSearchFilter, currentSortOption);
-//                        getClientsAdapter().refreshClients(filteredClients);
-//                        getClientsAdapter().notifyDataSetChanged();
-                        getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
-                        filterandSortExecute();
-                        super.onPostExecute(o);
-                    }
-                }).execute();
-//                currentSearchFilter = new HHSearchOption(cs.toString());
-//                clientsAdapter
-//                        .refreshList(currentVillageFilter, currentServiceModeOption,
-//                                currentSearchFilter, currentSortOption);
-//
-//                searchCancelView.setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
-
+                getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
+                filterandSortExecute();
 
             }
 
@@ -467,13 +423,9 @@ public class FormulirDdtkSmartRegisterFragment extends SecuredNativeSmartRegiste
             }else{
                 StringUtil.humanize(entry.getValue().getLabel());
                 String name = StringUtil.humanize(entry.getValue().getLabel());
-                dialogOptionslist.add(new KICommonObjectFilterOption(name,"desa", name));
+                dialogOptionslist.add(new ChildFilterOption(name, "location_name", name, "ec_ibu"));
 
             }
         }
     }
-
-
-
-
 }

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.ddtk.R;
+import org.ei.opensrp.repository.DetailsRepository;
 
 import java.io.File;
 import java.io.IOException;
@@ -86,7 +87,8 @@ public class ChildDetailActivity extends Activity {
         TextView anakGgphResult = (TextView) findViewById(R.id.childdetail_ggphtestresult);
 
 
-
+        DetailsRepository detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
+        detailsRepository.updateDetails(childclient);
         ImageButton back = (ImageButton) findViewById(org.ei.opensrp.R.id.btn_back_to_home);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,25 +125,39 @@ public class ChildDetailActivity extends Activity {
 
             }
         });
-        anakName.setText(getString(R.string.detailNamaAnak) +": "+ (childclient.getDetails().get("nama_anak") != null ? childclient.getDetails().get("nama_anak").replaceAll("_", " ") : "-"));
-        anakJenisKelamin.setText(getString(R.string.detailJenisKelamin) +": "+ (childclient.getDetails().get("jenis_kelamin") != null ? childclient.getDetails().get("jenis_kelamin").replaceAll("_", " ") : "-"));
+
         anakNamaIbu.setText(getString(R.string.detailNamaIbu) +": "+ (childclient.getDetails().get("nama_ibu") != null ? childclient.getDetails().get("nama_ibu").replaceAll("_", " ") : "-"));
-        anakUmur.setText(getString(R.string.detailUmur) +": "+ (childclient.getDetails().get("umur") != null ? childclient.getDetails().get("umur").replaceAll("_", " ")+" Bulan" : "-"));
+
+
+        anakName.setText(getString(R.string.detailNamaAnak) +": "+ (childclient.getDetails().get("namaBayi") != null ? childclient.getDetails().get("namaBayi").replaceAll("_", " ") : "-"));
+        anakJenisKelamin.setText(getString(R.string.detailJenisKelamin) +": "+ (childclient.getDetails().get("gender") != null ? childclient.getDetails().get("gender").replaceAll("_", " ") : "-"));
+
+        String ages = childclient.getColumnmaps().get("tanggalLahirAnak").substring(0, childclient.getColumnmaps().get("tanggalLahirAnak").indexOf("T"));
+
+        anakUmur.setText(getString(R.string.detailUmur) +": "+ ages+" Bulan" );
         anakBerat.setText(getString(R.string.detailBerat) +": "+ (childclient.getDetails().get("berat") != null ? childclient.getDetails().get("berat").replaceAll("_", " ") : "-"));
         anakTinggi.setText(getString(R.string.detailTinggi) +": "+ (childclient.getDetails().get("tinggi") != null ? childclient.getDetails().get("tinggi").replaceAll("_", " ") : "-"));
         anakLingKepala.setText(getString(R.string.detailLingkarKepala) +": "+ (childclient.getDetails().get("lingkar_kepala") != null ? childclient.getDetails().get("lingkar_kepala").replaceAll("_", " ") : "-"));
-        anakKpspDate1.setText(getString(R.string.kpspdate1) +": "+ (childclient.getDetails().get("kpsp_test_date1") != null ? childclient.getDetails().get("kpsp_test_date1").replaceAll("_", " ") : "-"));
-        anakKpspResult1.setText(getString(R.string.kpspresult1) +": "+ (childclient.getDetails().get("status_kembang1") != null ? childclient.getDetails().get("status_kembang1").replaceAll("_", " ") : "-"));
-        anakKpspDate2.setText(getString(R.string.kpspdate2) + ": " + (childclient.getDetails().get("kpsp_test_date2") != null ? childclient.getDetails().get("kpsp_test_date2").replaceAll("_", " ") : "-"));
+
+
+        anakKpspDate1.setText(getString(R.string.kpspdate1) +": "+ (childclient.getDetails().get("kpsp_1thn_date") != null ? childclient.getDetails().get("kpsp_1thn_date").replaceAll("_", " ") : "-"));
+        anakKpspResult1.setText(getString(R.string.kpspresult1) +": "+ (childclient.getDetails().get("status_kembang") != null ? childclient.getDetails().get("status_kembang").replaceAll("_", " ") : "-"));
+
+        anakKpspDate2.setText(getString(R.string.kpspdate2) + ": " + (childclient.getDetails().get("kpsp_1thn_date2") != null ? childclient.getDetails().get("kpsp_1thn_date2").replaceAll("_", " ") : "-"));
         anakKpspResult2.setText(getString(R.string.kpspresult2) +": "+ (childclient.getDetails().get("status_kembang2") != null ? childclient.getDetails().get("status_kembang2").replaceAll("_", " ") : "-"));
-        anakKpspDate3.setText(getString(R.string.kpspdate3) +": "+ (childclient.getDetails().get("kpsp_test_date3") != null ? childclient.getDetails().get("kpsp_test_date3").replaceAll("_", " ") : "-"));
+
+        anakKpspDate3.setText(getString(R.string.kpspdate3) +": "+ (childclient.getDetails().get("kpsp_1thn_date3") != null ? childclient.getDetails().get("kpsp_1thn_date3").replaceAll("_", " ") : "-"));
         anakKpspResult3.setText(getString(R.string.kpspresult3) +": "+ (childclient.getDetails().get("status_kembang3") != null ? childclient.getDetails().get("status_kembang3").replaceAll("_", " ") : "-"));
+
         anakKpspDate4.setText(getString(R.string.kpspdate4) +": "+ (childclient.getDetails().get("kpsp_test_date4") != null ? childclient.getDetails().get("kpsp_test_date4").replaceAll("_", " ") : "-"));
         anakKpspResult4.setText(getString(R.string.kpspresult4) +": "+ (childclient.getDetails().get("status_kembang4") != null ? childclient.getDetails().get("status_kembang4").replaceAll("_", " ") : "-"));
+
         anakKpspDate5.setText(getString(R.string.kpspdate5) +": "+ (childclient.getDetails().get("kpsp_test_date5") != null ? childclient.getDetails().get("kpsp_test_date5").replaceAll("_", " ") : "-"));
         anakKpspResult5.setText(getString(R.string.kpspresult5) +": "+ (childclient.getDetails().get("status_kembang5") != null ? childclient.getDetails().get("status_kembang5").replaceAll("_", " ") : "-"));
+
         anakKpspDate6.setText(getString(R.string.kpspdate6) +": "+ (childclient.getDetails().get("kpsp_test_date6") != null ? childclient.getDetails().get("kpsp_test_date6").replaceAll("_", " ") : "-"));
         anakKpspResult6.setText(getString(R.string.kpspresult6) +": "+ (childclient.getDetails().get("status_kembang6") != null ? childclient.getDetails().get("status_kembang6").replaceAll("_", " ") : "-"));
+
         anakHearingDate.setText(getString(R.string.hearingdate) +": "+ (childclient.getDetails().get("hear_test_date") != null ? childclient.getDetails().get("hear_test_date").replaceAll("_", " ") : "-"));
         anakHearingResult.setText(getString(R.string.hearingresult) +": "+ (childclient.getDetails().get("daya_dengar") != null ? childclient.getDetails().get("daya_dengar").replaceAll("_", " ") : "-"));
         anakVisualDate.setText(getString(R.string.visualdate) +": "+ (childclient.getDetails().get("sight_test_date") != null ? childclient.getDetails().get("sight_test_date").replaceAll("_", " ") : "-"));
