@@ -289,21 +289,21 @@ public class HH_Woman_member_SmartRegisterFragment extends SecuredNativeSmartReg
 
     private void assignHandler(String Schedulename) {
         if (Schedulename.equalsIgnoreCase("Woman_TT1")) {
-            context.formSubmissionRouter().getHandlerMap().put("woman_tt_form",new tt1handler());
+            context().formSubmissionRouter().getHandlerMap().put("woman_tt_form",new tt1handler());
         }
         if (Schedulename.equalsIgnoreCase("Woman_TT2")) {
-            context.formSubmissionRouter().getHandlerMap().put("woman_tt_form",new tt2handler());
+            context().formSubmissionRouter().getHandlerMap().put("woman_tt_form",new tt2handler());
         }
         if (Schedulename.equalsIgnoreCase("Woman_TT3")) {
-            context.formSubmissionRouter().getHandlerMap().put("woman_tt_form",new tt3handler());
+            context().formSubmissionRouter().getHandlerMap().put("woman_tt_form",new tt3handler());
         }
         if (Schedulename.equalsIgnoreCase("Woman_TT4")) {
-            context.formSubmissionRouter().getHandlerMap().put("woman_tt_form",new tt4handler());
+            context().formSubmissionRouter().getHandlerMap().put("woman_tt_form",new tt4handler());
         }
         if (Schedulename.equalsIgnoreCase("Woman_TT5")) {
-            context.formSubmissionRouter().getHandlerMap().put("woman_tt_form",new tt5handler());
+            context().formSubmissionRouter().getHandlerMap().put("woman_tt_form",new tt5handler());
         }else{
-            context.formSubmissionRouter().getHandlerMap().put("woman_tt_form",new woman_followup_handler());
+            context().formSubmissionRouter().getHandlerMap().put("woman_tt_form",new woman_followup_handler());
 
         }
 
@@ -409,7 +409,7 @@ public class HH_Woman_member_SmartRegisterFragment extends SecuredNativeSmartReg
     }
 
     public void initializeQueries(){
-        CommonRepository commonRepository = context.commonrepository("members");
+        CommonRepository commonRepository = context().commonrepository("members");
         setTablename("members");
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
         countqueryBUilder.SelectInitiateMainTableCounts("members");
@@ -428,7 +428,7 @@ public class HH_Woman_member_SmartRegisterFragment extends SecuredNativeSmartReg
         Sortqueries = sortByAlertmethod();
         currentquery  = queryBUilder.orderbyCondition(Sortqueries);
         Cursor c = commonRepository.RawCustomQueryForAdapter(queryBUilder.Endquery(queryBUilder.addlimitandOffset(currentquery, 20, 0)));
-        HH_woman_member_SmartClientsProvider hhscp = new HH_woman_member_SmartClientsProvider(getActivity(),clientActionHandler,context.alertService());
+        HH_woman_member_SmartClientsProvider hhscp = new HH_woman_member_SmartClientsProvider(getActivity(),clientActionHandler,context().alertService());
         clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), c, hhscp, new CommonRepository("members",new String []{"Member_Fname","EDD","calc_age_confirm","Child_mother_name","Member_GOB_HHID","Marital_status","Pregnancy_Status","missedCount"}));
         clientsView.setAdapter(clientAdapter);
         updateSearchView();
@@ -506,7 +506,7 @@ public class HH_Woman_member_SmartRegisterFragment extends SecuredNativeSmartReg
     }
     private String filterStringForTodaySession() {
         Sortqueries = sortByMissedCount();
-        String todays_vaccine_list = context.applicationContext().getSharedPreferences("vaccine", android.content.Context.MODE_PRIVATE).getString("todays_vaccine_list","");
+        String todays_vaccine_list = context().applicationContext().getSharedPreferences("vaccine", android.content.Context.MODE_PRIVATE).getString("todays_vaccine_list","");
 
         return "and members.id IN ("+todays_vaccine_list+")";
     }

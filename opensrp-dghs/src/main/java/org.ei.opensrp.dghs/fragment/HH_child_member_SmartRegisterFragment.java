@@ -270,7 +270,7 @@ public class HH_child_member_SmartRegisterFragment extends SecuredNativeSmartReg
                     }
 
                     FieldOverrides fieldOverrides = new FieldOverrides(overridejsonobject.toString());
-                    context.formSubmissionRouter().getHandlerMap().put("child_vaccine_followup",new child_followup_handler());
+                    context().formSubmissionRouter().getHandlerMap().put("child_vaccine_followup",new child_followup_handler());
 
                     ((HH_child_member_SmartRegisterActivity)getActivity()).startFormActivity("child_vaccine_followup", ((CommonPersonObjectClient) view.getTag()).entityId(), fieldOverrides.getJSONString());
                     break;
@@ -386,7 +386,7 @@ public class HH_child_member_SmartRegisterFragment extends SecuredNativeSmartReg
     }
 
     public void initializeQueries(){
-        CommonRepository commonRepository = context.commonrepository("members");
+        CommonRepository commonRepository = context().commonrepository("members");
         setTablename("members");
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
         countqueryBUilder.SelectInitiateMainTableCounts("members");
@@ -405,7 +405,7 @@ public class HH_child_member_SmartRegisterFragment extends SecuredNativeSmartReg
         Sortqueries = sortByAlertmethod();
         currentquery  = queryBUilder.orderbyCondition(Sortqueries);
         Cursor c = commonRepository.RawCustomQueryForAdapter(queryBUilder.Endquery(queryBUilder.addlimitandOffset(currentquery, 20, 0)));
-        HH_ChildSmartClientsProvider hhscp = new HH_ChildSmartClientsProvider(getActivity(),clientActionHandler,context.alertService());
+        HH_ChildSmartClientsProvider hhscp = new HH_ChildSmartClientsProvider(getActivity(),clientActionHandler,context().alertService());
         clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), c, hhscp, new CommonRepository("members",new String []{"Member_Fname","EDD","calc_age_confirm","Child_mother_name","Member_GOB_HHID","Marital_status","Pregnancy_Status","missedCount"}));
         clientsView.setAdapter(clientAdapter);
         updateSearchView();
@@ -463,7 +463,7 @@ public class HH_child_member_SmartRegisterFragment extends SecuredNativeSmartReg
     }
     private String filterStringForTodaySession() {
         Sortqueries = sortByMissedCount();
-        String todays_vaccine_list = context.applicationContext().getSharedPreferences("vaccine", android.content.Context.MODE_PRIVATE).getString("todays_vaccine_list","");
+        String todays_vaccine_list = context().applicationContext().getSharedPreferences("vaccine", android.content.Context.MODE_PRIVATE).getString("todays_vaccine_list","");
 
         return "and members.id IN ("+todays_vaccine_list+")";
     }

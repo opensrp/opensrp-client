@@ -58,11 +58,11 @@ public class NativeHomeActivity extends SecuredActivity {
                 updateMenuItem.setActionView(null);
             }
             updateRegisterCounts();
-            Last_vaccine_missedCount_task tdv = new Last_vaccine_missedCount_task(context,new HTTPAgent(context.applicationContext(),context.allSettings(),context.allSharedPreferences(),context.configuration()),context.configuration(),context.allSettings(),context.allSharedPreferences());
+            Last_vaccine_missedCount_task tdv = new Last_vaccine_missedCount_task(context(),new HTTPAgent(context().applicationContext(),context().allSettings(),context().allSharedPreferences(),context().configuration()),context().configuration(),context().allSettings(),context().allSharedPreferences());
             tdv.execute();
-            Today_vaccine_task tvt = new Today_vaccine_task(context,new HTTPAgent(context.applicationContext(),context.allSettings(),context.allSharedPreferences(),context.configuration()),context.configuration(),context.allSettings(),context.allSharedPreferences());
+            Today_vaccine_task tvt = new Today_vaccine_task(context(),new HTTPAgent(context().applicationContext(),context().allSettings(),context().allSharedPreferences(),context().configuration()),context().configuration(),context().allSettings(),context().allSharedPreferences());
             tvt.execute();
-            health_ID_task health_id_task = new health_ID_task(context,new HTTPAgent(context.applicationContext(),context.allSettings(),context.allSharedPreferences(),context.configuration()),context.configuration(),context.allSettings(),context.allSharedPreferences());
+            health_ID_task health_id_task = new health_ID_task(context(),new HTTPAgent(context().applicationContext(),context().allSettings(),context().allSharedPreferences(),context().configuration()),context().configuration(),context().allSettings(),context().allSharedPreferences());
             health_id_task.execute();
        }
     };
@@ -98,8 +98,8 @@ public class NativeHomeActivity extends SecuredActivity {
         initialize();
         DisplayFormFragment.formInputErrorMessage = getResources().getString(R.string.forminputerror);
         DisplayFormFragment.okMessage = getResources().getString(R.string.okforminputerror);
-        context.formSubmissionRouter().getHandlerMap().put("birthoutcome",new BirthOutcomeHandler());
-        context.formSubmissionRouter().getHandlerMap().put("stock",new stockhandler());
+        context().formSubmissionRouter().getHandlerMap().put("birthoutcome",new BirthOutcomeHandler());
+        context().formSubmissionRouter().getHandlerMap().put("stock",new stockhandler());
 
 
 
@@ -123,7 +123,7 @@ public class NativeHomeActivity extends SecuredActivity {
     }
 
     private void initialize() {
-        pendingFormSubmissionService = context.pendingFormSubmissionService();
+        pendingFormSubmissionService = context().pendingFormSubmissionService();
         SYNC_STARTED.addListener(onSyncStartListener);
         SYNC_COMPLETED.addListener(onSyncCompleteListener);
         FORM_SUBMITTED.addListener(onFormSubmittedListener);
@@ -161,15 +161,15 @@ public class NativeHomeActivity extends SecuredActivity {
 
     private void updateRegisterCounts(HomeContext homeContext) {
         SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder();
-        Cursor hhcountcursor = context.commonrepository("household").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("household", " HoH_Fname is not null "));
+        Cursor hhcountcursor = context().commonrepository("household").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("household", " HoH_Fname is not null "));
         hhcountcursor.moveToFirst();
         hhcount= hhcountcursor.getInt(0);
         hhcountcursor.close();
-        Cursor elcocountcursor = context.commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members"," details like '%\"Is_woman\":\"1\"%' "));
+        Cursor elcocountcursor = context().commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members"," details like '%\"Is_woman\":\"1\"%' "));
         elcocountcursor.moveToFirst();
         womancount= elcocountcursor.getInt(0);
         elcocountcursor.close();
-        Cursor childcountcursor = context.commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members"," details like '%\"Is_child\":\"1\"%' "));
+        Cursor childcountcursor = context().commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members"," details like '%\"Is_child\":\"1\"%' "));
         childcountcursor.moveToFirst();
         childcount = childcountcursor.getInt(0);
         childcountcursor.close();
@@ -217,14 +217,14 @@ public class NativeHomeActivity extends SecuredActivity {
     }
 
     private void anouncementTask() {
-        Today_anouncement_task tvt = new Today_anouncement_task(this,context,new HTTPAgent(context.applicationContext(),context.allSettings(),context.allSharedPreferences(),context.configuration()),context.configuration(),context.allSettings(),context.allSharedPreferences());
+        Today_anouncement_task tvt = new Today_anouncement_task(this,context(),new HTTPAgent(context().applicationContext(),context().allSettings(),context().allSharedPreferences(),context().configuration()),context().configuration(),context().allSettings(),context().allSharedPreferences());
         tvt.execute();
     }
 
     public void updateFromServer() {
         UpdateActionsTask updateActionsTask = new UpdateActionsTask(
-                this, context.actionService(), context.formSubmissionSyncService(),
-                new SyncProgressIndicator(), context.allFormVersionSyncService());
+                this, context().actionService(), context().formSubmissionSyncService(),
+                new SyncProgressIndicator(), context().allFormVersionSyncService());
         updateActionsTask.updateFromServer(new SyncAfterFetchListener());
 
     }
@@ -241,7 +241,7 @@ public class NativeHomeActivity extends SecuredActivity {
 
     private void updateSyncIndicator() {
         if (updateMenuItem != null) {
-            if (context.allSharedPreferences().fetchIsSyncInProgress()) {
+            if (context().allSharedPreferences().fetchIsSyncInProgress()) {
                 updateMenuItem.setActionView(R.layout.progress);
             } else
                 updateMenuItem.setActionView(null);

@@ -19,6 +19,8 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import org.ei.opensrp.Context;
+import org.ei.opensrp.commonregistry.AllCommonsRepository;
+import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.dghs.LoginActivity;
 import org.ei.opensrp.dghs.R;
@@ -40,7 +42,9 @@ import org.ei.opensrp.view.dialog.OpenFormOption;
 import org.ei.opensrp.view.fragment.DisplayFormFragment;
 import org.ei.opensrp.view.fragment.SecuredNativeSmartRegisterFragment;
 import org.ei.opensrp.view.viewpager.OpenSRPViewPager;
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.XML;
 
 import java.io.File;
 import java.io.IOException;
@@ -97,7 +101,7 @@ public class StockSmartRegisterActivity extends SecuredNativeSmartRegisterActivi
             }
         });
 
-        ziggyService = context.ziggyService();
+        ziggyService = context().ziggyService();
     }
     public void onPageChanged(int page){
         setRequestedOrientation(page < 2 ? ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -157,10 +161,45 @@ public class StockSmartRegisterActivity extends SecuredNativeSmartRegisterActivi
     @Override
     public void saveFormSubmission(String formSubmission, String id, String formName, JSONObject fieldOverrides){
         Log.v("fieldoverride", fieldOverrides.toString());
+        Log.v("bengay string",formSubmission);
+
         // save the form
+        JSONObject formSubmissionjson = null;
+        try {
+             String databaseIdKey = "_id";
+            formSubmissionjson = XML.toJSONObject(formSubmission);
+            String rootNodeKey = formSubmissionjson.keys().next();
+            Log.v("bengay id",formSubmissionjson.getJSONObject(rootNodeKey).getString(databaseIdKey));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
         try{
             FormUtils formUtils = FormUtils.getInstance(getApplicationContext());
             FormSubmission submission = formUtils.generateFormSubmisionFromXMLString(id, formSubmission, formName, fieldOverrides);
+
+            //////////////////////////////////////////////////////////////////////////////
+
+            String entityID = "bd2fcd59-3121-4fe6-abfa-060266816e5d";
+            Log.v("can see this",submission.getForm().getFieldValue("date"));
+            AllCommonsRepository stockrep = Context.getInstance().allCommonsRepositoryobjects("stock");
+            List<CommonPersonObject> cpo = stockrep.customQuery("Select * from stock where date like ?", new String[]{submission.getForm().getFieldValue("date") + "%"},"stock");
+            for(int i = 0;i<cpo.size();i++){
+                entityID = cpo.get(i).getCaseId();
+            }
+
+            submission = formUtils.generateFormSubmisionFromXMLString(entityID, formSubmission, formName, fieldOverrides);
+
+//            FormSubmission submission1 = new FormSubmission(submission.instanceId(),entityID,submission.formName(),submission.instance(),submission.version(),submission.syncStatus(),submission.formDataDefinitionVersion());
+//            submission = submission1;
+
+
+
+
+
+            //////////////////////////////////////////////////////////////////////////////
 
             ziggyService.saveForm(getParams(submission), submission.instance());
 
