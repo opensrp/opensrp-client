@@ -88,6 +88,7 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
 
         brid.setVisibility(View.GONE);
         nid.setVisibility(View.GONE);
+        spousename.setVisibility(View.GONE);
 
 //        TextView psrfdue = (TextView)itemView.findViewById(R.id.psrf_due_date);
 ////        Button due_visit_date = (Button)itemView.findViewById(R.id.hh_due_date);
@@ -104,7 +105,9 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
 //
 //        id.setText(pc.getDetails().get("case_id")!=null?pc.getCaseId():"");
         name.setText(humanize(pc.getColumnmaps().get("Mem_F_Name")!=null?pc.getColumnmaps().get("Mem_F_Name"):""));
-        spousename.setText(humanize(pc.getDetails().get("Spouse_Name")!=null?pc.getDetails().get("Spouse_Name"):""));
+        if(pc.getDetails().get("Spouse_Name") != null){
+            spousename.setText(humanize(pc.getDetails().get("Spouse_Name").length() > 0 ? pc.getDetails().get("Spouse_Name"):"N/A"));
+        }
         coupleno.setText((pc.getDetails().get("Couple_No")!=null?pc.getDetails().get("Couple_No"):""));
 
         gobhhid.setText(" "+(pc.getDetails().get("Member_GoB_HHID")!=null?pc.getDetails().get("Member_GoB_HHID"):""));

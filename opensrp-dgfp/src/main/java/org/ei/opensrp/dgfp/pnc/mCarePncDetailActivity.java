@@ -60,8 +60,13 @@ public class mCarePncDetailActivity extends Activity {
 
     private static ImageFetcher mImageFetcher;
 
-
-
+    private String[] where_Delivered = {
+            "Home","Upazilla Health & Family Welfare Complex","Union Health & Family Welfare Center",
+            "Mother & Child Welfare Center","District or other Govt. Hospital",
+            "NGO Clinic or Hospital","Private Clinic or Hospital"
+    };
+    private String[] delivery_Type = {"Normal","Caesarean"};
+    private String[] visit_Status = {"Live Birth","Still Birth/MC"};
 
     //image retrieving
 
@@ -99,7 +104,9 @@ public class mCarePncDetailActivity extends Activity {
 
         hid.setText(humanize("GOB HHID: "+(womanclient.getDetails().get("Member_GoB_HHID") != null ? womanclient.getDetails().get("Member_GoB_HHID") : "").replace("+", "_")));
 
-        husbandname.setText("Spouse Name: "+((womanclient.getDetails().get("Spouse_Name") != null ? womanclient.getDetails().get("Spouse_Name") : "")));
+        if(womanclient.getDetails().get("Spouse_Name") != null){
+            husbandname.setText(humanize(womanclient.getDetails().get("Spouse_Name").length() > 0 ? womanclient.getDetails().get("Spouse_Name"):"N/A"));
+        }
 
         marriagelife.setText("Marriage Life: "+((womanclient.getDetails().get("Married_Life") != null ? womanclient.getDetails().get("Married_Life") : "")));
 
@@ -171,50 +178,37 @@ public class mCarePncDetailActivity extends Activity {
     private void assign_text_to_givenView(CommonPersonObjectClient ecclient,TextView tview,String detailvariable) {
         String text = ecclient.getDetails().get(detailvariable)!=null?ecclient.getDetails().get(detailvariable):"N/A";
 
-        if(text.equalsIgnoreCase("N/A")){
-            tview.setText(text);
+        if(text.equalsIgnoreCase("N/A") || text.length() < 1){
+            tview.setText("N/A");
             return;
         }
         switch (detailvariable){
             case "Visit_Status" :
-                if(text.equalsIgnoreCase("3")){text = "Live Birth";}
-                else if(text.equalsIgnoreCase("4")){text = "Still Birth/MC";}
+                text = visit_Status[Integer.parseInt(text) - 3];
                 break;
             case "Delivery_Type" :
-                if(text.equalsIgnoreCase("1")){text = "Normal";}
-                else if(text.equalsIgnoreCase("2")){text = "Caesarean";}
+                text = delivery_Type[Integer.parseInt(text) - 1];
                 break;
             case "Where_Delivered" :
-                if(text.equalsIgnoreCase("1")){text = "Home";}
-                else if(text.equalsIgnoreCase("2")){text = "Upazilla Health & Family Welfare Complex";}
-                else if(text.equalsIgnoreCase("3")){text = "Union Health & Family Welfare Center";}
-                else if(text.equalsIgnoreCase("4")){text = "Mother & Child Welfare Center";}
-                else if(text.equalsIgnoreCase("5")){text = "District or other Govt. Hospital";}
-                else if(text.equalsIgnoreCase("6")){text = "NGO Clinic or Hospital";}
-                else if(text.equalsIgnoreCase("7")){text = "Private Clinic or Hospital";}
+                text = where_Delivered[Integer.parseInt(text) - 1];
                 break;
             case "Num_Live_Birth" :
 
                 break;
             case "Is_Referred" :
-                if(text.equalsIgnoreCase("0")){text = "No";}
-                else if(text.equalsIgnoreCase("1")){text = "Yes";}
+                text = text.equalsIgnoreCase("0") ? "No" : "Yes";
                 break;
             case "Is_Cleaned" :
-                if(text.equalsIgnoreCase("0")){text = "No";}
-                else if(text.equalsIgnoreCase("1")){text = "Yes";}
+                text = text.equalsIgnoreCase("0") ? "No" : "Yes";
                 break;
             case "Chlorhexidin" :
-                if(text.equalsIgnoreCase("0")){text = "No";}
-                else if(text.equalsIgnoreCase("1")){text = "Yes";}
+                text = text.equalsIgnoreCase("0") ? "No" : "Yes";
                 break;
             case "Breastmilk_Fed" :
-                if(text.equalsIgnoreCase("0")){text = "No";}
-                else if(text.equalsIgnoreCase("1")){text = "Yes";}
+                text = text.equalsIgnoreCase("0") ? "No" : "Yes";
                 break;
             case "Not_Bathed" :
-                if(text.equalsIgnoreCase("0")){text = "No";}
-                else if(text.equalsIgnoreCase("1")){text = "Yes";}
+                text = text.equalsIgnoreCase("0") ? "No" : "Yes";
                 break;
             default:
                 break;

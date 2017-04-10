@@ -251,29 +251,45 @@ public class mCareAncDetailActivity extends Activity {
     private void assign_text_to_givenView(CommonPersonObjectClient ecclient,TextView tview,String detailvariable) {
         String text = ecclient.getDetails().get(detailvariable)!=null?ecclient.getDetails().get(detailvariable):"N/A";
 
-        if(detailvariable.equalsIgnoreCase("TT_Count")){
-
+        if(text.length() == 0) {
+            text = "N/A";
+            tview.setText(text);
+            return;
         }
-        else if(detailvariable.equalsIgnoreCase("Gravida")){
-
+        switch (text){
+            case "TT_Count":
+                break;
+            case "Gravida":
+                break;
+            case "Age_Youngest_Child":
+                text += "m";
+                break;
+            case "Bleeding":
+                text = isYes(Integer.parseInt(text));
+                break;
+            case "Caesarean":
+                text = text == "0" ? "Normal" : "Caesarean";
+                break;
+            case "Prolong_Delivery":
+                text = isYes(Integer.parseInt(text));
+                break;
+            case "Birth_Outcome":
+                text = isYes(Integer.parseInt(text));
+                break;
+            case "Dead_Child":
+                text = isYes(Integer.parseInt(text));
+                break;
+            case "Heavy_Blood_Flow":
+                text = isYes(Integer.parseInt(text));
+                break;
+            default:
+                break;
         }
-        else if(detailvariable.equalsIgnoreCase("Age_Youngest_Child") && !text.equalsIgnoreCase("N/A")){
-            text += "m";
-        }
-        else if(text.equalsIgnoreCase("0")){
-            text = "No";
-            if(detailvariable.equalsIgnoreCase("Caesarean")){
-                text = "Normal";
-            }
-        }
-        else if(text.equalsIgnoreCase("1")){
-            text = "Yes";
-            if(detailvariable.equalsIgnoreCase("Caesarean")){
-                text = "Caesarean";
-            }
-        }
-
         tview.setText(text);
+    }
+
+    private String isYes(int yes){
+        return yes == 1 ? "Yes":"No";
     }
 
 

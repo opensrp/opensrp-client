@@ -222,7 +222,7 @@
             <ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:id="@+id/encc1tick"
+                android:id="@+id/childVaccinesTick"
                 android:src="@mipmap/doneintime"
                 />
 
@@ -231,8 +231,8 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 style="@style/CustomFontTextViewStyle.noPadding"
-                android:text="pnc1text"
-                android:id="@+id/encc1text"
+                android:text="childVaccines"
+                android:id="@+id/childVaccines"
                 android:layout_margin="1dp"
                 android:textSize="12sp" />
         </LinearLayout>

@@ -143,7 +143,7 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:text="Medium Text"
-                            android:id="@+id/dose_one"
+                            android:id="@+id/dose_one_date"
                             android:layout_gravity="center_vertical"
                             android:textColor="@color/text_black"
                             android:layout_marginRight="5dp" />
@@ -179,7 +179,7 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:text="Medium Text"
-                            android:id="@+id/dose_two"
+                            android:id="@+id/dose_two_date"
                             android:layout_gravity="center_vertical"
                             android:textColor="@color/text_black"
                             android:layout_marginRight="5dp" />
@@ -216,7 +216,7 @@
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             style="@style/CustomFontTextViewStyle.ListView.Medium"
                             android:text="Medium Text"
-                            android:id="@+id/dose_three"
+                            android:id="@+id/dose_three_date"
                             android:layout_gravity="center_vertical"
                             android:textColor="@color/text_black"
                             android:layout_marginRight="5dp" />
@@ -242,7 +242,7 @@
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             style="@style/CustomFontTextViewStyle"
                             android:text="Dose 4"
-                            android:id="@+id/dose_four_label"
+                            android:id="@+id/dose_four_label_date"
                             android:layout_weight="1"
                             android:layout_gravity="center_vertical" />
 
@@ -252,7 +252,7 @@
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             style="@style/CustomFontTextViewStyle.ListView.Medium"
                             android:text="Medium Text"
-                            android:id="@+id/dose_four"
+                            android:id="@+id/dose_four_date"
                             android:layout_gravity="center_vertical"
                             android:textColor="@color/text_black"
                             android:layout_marginRight="5dp" />
@@ -288,7 +288,7 @@
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             style="@style/CustomFontTextViewStyle.ListView.Medium"
                             android:text="Medium Text"
-                            android:id="@+id/dose_five"
+                            android:id="@+id/dose_five_date"
                             android:layout_gravity="center_vertical"
                             android:textColor="@color/text_black"
                             android:layout_marginRight="5dp" />

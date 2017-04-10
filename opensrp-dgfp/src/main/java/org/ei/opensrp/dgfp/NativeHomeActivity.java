@@ -13,6 +13,7 @@ import org.ei.opensrp.Context;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.dgfp.anc.nbnfhandler;
 import org.ei.opensrp.dgfp.clientDownload.ClientSearchActivity;
+import org.ei.opensrp.dgfp.injectables.InjectableHandler;
 import org.ei.opensrp.dgfp.pnc.ChildRegistrationhandler;
 import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.service.HTTPAgent;
@@ -107,6 +108,7 @@ public class NativeHomeActivity extends SecuredActivity {
         context.formSubmissionRouter().getHandlerMap().put("childregistration",new ChildRegistrationhandler(this));
         context.formSubmissionRouter().getHandlerMap().put("birth_notification",new nbnfhandler(this));
 
+        context.formSubmissionRouter().getHandlerMap().put("injectable",new InjectableHandler(this));
 
 
     }

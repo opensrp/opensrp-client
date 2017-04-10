@@ -121,9 +121,8 @@
         "shouldLoadValue": true
       },
       {
-        "name": "Dose_No",
-        "bind": "/model/instance/Injectable/existing_Dose_No",
-        "shouldLoadValue": true
+        "name": "existing_Dose_No",
+        "bind": "/model/instance/Injectable/existing_Dose_No"
       },
       {
         "name": "injectable_Today",

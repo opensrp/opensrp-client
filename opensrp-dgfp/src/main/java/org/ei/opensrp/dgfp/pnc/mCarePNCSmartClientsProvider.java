@@ -110,7 +110,9 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
 //
 //        id.setText(pc.getDetails().get("case_id")!=null?pc.getCaseId():"");
         name.setText(humanize(pc.getColumnmaps().get("Mem_F_Name")!=null?pc.getColumnmaps().get("Mem_F_Name"):""));
-        spousename.setText(humanize(pc.getDetails().get("Spouse_Name")!=null?pc.getDetails().get("Spouse_Name"):""));
+        if(pc.getDetails().get("Spouse_Name") != null){
+            spousename.setText(humanize(pc.getDetails().get("Spouse_Name").length() > 0 ? pc.getDetails().get("Spouse_Name"):"N/A"));
+        }
         gobhhid.setText(" "+(pc.getDetails().get("Member_GoB_HHID")!=null?pc.getDetails().get("Member_GoB_HHID"):""));
         coupleno.setText(pc.getDetails().get("Couple_No")!=null?pc.getDetails().get("Couple_No"):"");
         village.setText((humanize((pc.getDetails().get("Mem_Village_Name") != null ? pc.getDetails().get("Mem_Village_Name") : "").replace("+", "_")))+","+(humanize((pc.getDetails().get("Mem_Mauzapara") != null ? pc.getDetails().get("Mem_Mauzapara") : "").replace("+", "_"))));

@@ -87,6 +87,7 @@ public class child_SmartClientsProvider implements SmartRegisterCLientsProviderF
         TextView mNID = (TextView) itemView.findViewById(R.id.m_nid);
         TextView date_of_birth = (TextView) itemView.findViewById(R.id.dateofbirth);
 //        TextView nutrition_taken = (TextView) itemView.findViewById(R.id.nutrition_taken);
+        TextView childVaccines = (TextView) itemView.findViewById(R.id.childVaccines);
         TextView follow_up = (TextView)itemView.findViewById(R.id.child_followup_form);
         profileinfolayout.setOnClickListener(onClickListener);
         profileinfolayout.setTag(smartRegisterClient);
@@ -137,7 +138,6 @@ public class child_SmartClientsProvider implements SmartRegisterCLientsProviderF
             scheduledate = getDateToday();
         }
 
-
         List<Alert> alertlist_for_client = alertService.findByEntityIdAndAlertNames(pc.entityId(), "Child_05yr");
         singleALertButtonView(alertlist_for_client,follow_up,pc,datetoconvert,scheduledate);
         constructvaccineVisitStatusBlock(pc,itemView);
@@ -148,8 +148,8 @@ public class child_SmartClientsProvider implements SmartRegisterCLientsProviderF
 
     private void constructvaccineVisitStatusBlock(CommonPersonObjectClient pc, View itemview) {
 //        vaccines_2
-        ImageView lastvaccinestick = (ImageView) itemview.findViewById(R.id.encc1tick);
-        TextView lastvaccinetext = (TextView) itemview.findViewById(R.id.encc1text);
+        ImageView lastvaccinestick = (ImageView) itemview.findViewById(R.id.childVaccinesTick);
+        TextView lastvaccinetext = (TextView) itemview.findViewById(R.id.childVaccines);
 
 
         lastvaccinetext.setVisibility(View.INVISIBLE);

@@ -77,14 +77,6 @@ public class McareInjectablesDetailActivity extends Activity {
         TextView address = (TextView) findViewById(R.id.womandetail_address);
         TextView today = (TextView) findViewById(R.id.woman_detail_today);
 
-        TextView dose1 = (TextView) findViewById(R.id.dose_one) ;
-        TextView dose2 = (TextView) findViewById(R.id.dose_two) ;
-        TextView dose3 = (TextView) findViewById(R.id.dose_three) ;
-        TextView dose4 = (TextView) findViewById(R.id.dose_four) ;
-        TextView dose5 = (TextView) findViewById(R.id.dose_five) ;
-
-
-
         CommonPersonObjectClient womanclient = injectableClient;
         name.setText(StringUtil.humanize((womanclient.getColumnmaps().get("Mem_F_Name") != null ? (String) womanclient.getColumnmaps().get("Mem_F_Name") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
         brid.setText(StringUtil.humanize("BRID: " + (womanclient.getDetails().get("Mem_BRID") != null ? (String) womanclient.getDetails().get("Mem_BRID") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
@@ -95,20 +87,18 @@ public class McareInjectablesDetailActivity extends Activity {
         womandob.setText("Age: " + calculateage(getageindays(getdate(womanclient.getDetails().get("Calc_Dob_Confirm") != null ? (String) womanclient.getDetails().get("Calc_Dob_Confirm") : BuildConfig.FLAVOR))));
         address.setText("Address: " + StringUtil.humanize((womanclient.getDetails().get("Mem_Subunit") != null ? (String) womanclient.getDetails().get("Mem_Subunit") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)) + AllConstants.COMMA_WITH_SPACE + StringUtil.humanize((womanclient.getDetails().get("Mem_Village_Name") != null ? (String) womanclient.getDetails().get("Mem_Village_Name") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)) + AllConstants.COMMA_WITH_SPACE + StringUtil.humanize((womanclient.getDetails().get("Mem_Mauzapara") != null ? (String) womanclient.getDetails().get("Mem_Mauzapara") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)) + AllConstants.COMMA_WITH_SPACE + StringUtil.humanize((womanclient.getDetails().get("Mem_Union") != null ? (String) womanclient.getDetails().get("Mem_Union") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)) + AllConstants.COMMA_WITH_SPACE + StringUtil.humanize((womanclient.getDetails().get("Mem_Upazilla") != null ? (String) womanclient.getDetails().get("Mem_Upazilla") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
 
-
-
-        dose1.setText(womanclient.getDetails().get("Injection_Date") != null ? womanclient.getDetails().get("Injection_Date") : "Not Given");
-        dose2.setText(womanclient.getDetails().get("Injection_Date") != null ? womanclient.getDetails().get("Injection_Date") : "Not Given");
-        dose3.setText(womanclient.getDetails().get("Injection_Date") != null ? womanclient.getDetails().get("Injection_Date") : "Not Given");
-        dose4.setText(womanclient.getDetails().get("Injection_Date") != null ? womanclient.getDetails().get("Injection_Date") : "Not Given");
-        dose5.setText(womanclient.getDetails().get("Injection_Date") != null ? womanclient.getDetails().get("Injection_Date") : "Not Given");
-
         Calendar c = Calendar.getInstance();
 
         setSideEffects(null,womanclient,"Side_Effects");
-        Log.d("Side_Effects",womanclient.getDetails().get("Side_Effects"));
+//        Log.d("Side_Effects",womanclient.getDetails().get("Side_Effects"));
 
         today.setText("Today: " + new SimpleDateFormat("dd/MM/yyyy").format(c.getTime()) + AllConstants.SPACE);
+
+        checkInjectable1View(womanclient);
+        checkInjectable2View(womanclient);
+        checkInjectable3View(womanclient);
+        checkInjectable4View(womanclient);
+        checkInjectable5View(womanclient);
 
         ImageButton back = (ImageButton) findViewById(org.ei.opensrp.R.id.btn_back_to_home);
         back.setOnClickListener(new View.OnClickListener() {
@@ -180,100 +170,70 @@ public class McareInjectablesDetailActivity extends Activity {
         tview.setText(ecclient.getDetails().get(detailvariable) != null ? (String) ecclient.getDetails().get(detailvariable) : "N/A");
     }
 
-    private void checkAnc4view(CommonPersonObjectClient ecclient) {
-        LinearLayout anc1layout = (LinearLayout) findViewById(R.id.anc4_layout);
-        AlertService alertService = Context.getInstance().alertService();
-        String entityId = ecclient.entityId();
-        String[] strArr = new String[REQUEST_TAKE_PHOTO];
-        strArr[0] = "ancrv_4";
-        List<Alert> alertlist = alertService.findByEntityIdAndAlertNames(entityId, strArr);
-        if (alertlist.size() == 0 || ecclient.getDetails().get("ANC4_Due_Date") == null) {
-            anc1layout.setVisibility(8);
+    private void checkInjectable5View(CommonPersonObjectClient ecclient) {
+        LinearLayout doseLayout = (LinearLayout) findViewById(R.id.dose5_layout);
+        if (ecclient.getDetails().get("Injection_Date_5") != null) {
+            Log.d("--------","getting data 5");
+            String text = ecclient.getDetails().get("Injection_Date_5");
+            TextView dose_five_date = (TextView) findViewById(R.id.dose_five_date);
+            dose_five_date.setText(text);
             return;
         }
-        for (int i = 0; i < alertlist.size(); i += REQUEST_TAKE_PHOTO) {
-            String status = ((Alert) alertlist.get(i)).status().value();
-            String text = ecclient.getDetails().get("ANC4_Due_Date") != null ? (String) ecclient.getDetails().get("ANC4_Due_Date") : BuildConfig.FLAVOR;
-            TextView anc1date = (TextView) findViewById(R.id.anc4date);
-            if ((ecclient.getDetails().get("anc4_current_formStatus") != null ? (String) ecclient.getDetails().get("anc4_current_formStatus") : BuildConfig.FLAVOR).equalsIgnoreCase("upcoming")) {
-                anc1date.setTextColor(getResources().getColor(R.color.alert_complete_green));
-            } else {
-                if ((ecclient.getDetails().get("anc4_current_formStatus") != null ? (String) ecclient.getDetails().get("anc4_current_formStatus") : BuildConfig.FLAVOR).equalsIgnoreCase("urgent")) {
-                    anc1date.setTextColor(getResources().getColor(R.color.alert_urgent_red));
-                }
-            }
-            anc1date.setText(text);
-        }
+
+        doseLayout.setVisibility(8);
     }
 
-    private void checkAnc3view(CommonPersonObjectClient ecclient) {
-        LinearLayout anc1layout = (LinearLayout) findViewById(R.id.anc3_layout);
-        AlertService alertService = Context.getInstance().alertService();
-        String entityId = ecclient.entityId();
-        String[] strArr = new String[REQUEST_TAKE_PHOTO];
-        strArr[0] = "ancrv_3";
-        List<Alert> alertlist = alertService.findByEntityIdAndAlertNames(entityId, strArr);
-        if (alertlist.size() == 0 || ecclient.getDetails().get("ANC3_Due_Date") == null) {
-            anc1layout.setVisibility(8);
+    private void checkInjectable4View(CommonPersonObjectClient ecclient) {
+        LinearLayout doseLayout = (LinearLayout) findViewById(R.id.dose4_layout);
+        if (ecclient.getDetails().get("Injection_Date_4") != null) {
+            Log.d("--------","getting data 4");
+            String text = ecclient.getDetails().get("Injection_Date_4");
+            TextView dose_four_date = (TextView) findViewById(R.id.dose_four_date);
+            dose_four_date.setText(text);
             return;
         }
-        for (int i = 0; i < alertlist.size(); i += REQUEST_TAKE_PHOTO) {
-            String status = ((Alert) alertlist.get(i)).status().value();
-            String text = ecclient.getDetails().get("ANC3_Due_Date") != null ? (String) ecclient.getDetails().get("ANC3_Due_Date") : BuildConfig.FLAVOR;
-            TextView anc1date = (TextView) findViewById(R.id.anc3date);
-            if ((ecclient.getDetails().get("anc3_current_formStatus") != null ? (String) ecclient.getDetails().get("anc3_current_formStatus") : BuildConfig.FLAVOR).equalsIgnoreCase("upcoming")) {
-                anc1date.setTextColor(getResources().getColor(R.color.alert_complete_green));
-            } else {
-                if ((ecclient.getDetails().get("anc3_current_formStatus") != null ? (String) ecclient.getDetails().get("anc3_current_formStatus") : BuildConfig.FLAVOR).equalsIgnoreCase("urgent")) {
-                    anc1date.setTextColor(getResources().getColor(R.color.alert_urgent_red));
-                }
-            }
-            anc1date.setText(text);
-        }
+        doseLayout.setVisibility(8);
     }
 
-    private void checkAnc2view(CommonPersonObjectClient ecclient) {
-        LinearLayout anc1layout = (LinearLayout) findViewById(R.id.anc2_layout);
-        AlertService alertService = Context.getInstance().alertService();
-        String entityId = ecclient.entityId();
-        String[] strArr = new String[REQUEST_TAKE_PHOTO];
-        strArr[0] = "ancrv_2";
-        List<Alert> alertlist = alertService.findByEntityIdAndAlertNames(entityId, strArr);
-        if (alertlist.size() == 0 || ecclient.getDetails().get("ANC2_Due_Date") == null) {
-            anc1layout.setVisibility(8);
+    private void checkInjectable3View(CommonPersonObjectClient ecclient) {
+        LinearLayout doseLayout = (LinearLayout) findViewById(R.id.dose3_layout);
+        if (ecclient.getDetails().get("Injection_Date_3") != null) {
+            Log.d("--------","getting data 3");
+            String text = ecclient.getDetails().get("Injection_Date_3");
+            TextView dose_three_date = (TextView) findViewById(R.id.dose_three_date);
+            dose_three_date.setText(text);
             return;
         }
-        for (int i = 0; i < alertlist.size(); i += REQUEST_TAKE_PHOTO) {
-            String status = ((Alert) alertlist.get(i)).status().value();
-            String text = ecclient.getDetails().get("ANC2_Due_Date") != null ? (String) ecclient.getDetails().get("ANC2_Due_Date") : BuildConfig.FLAVOR;
-            TextView anc1date = (TextView) findViewById(R.id.anc2date);
-            if ((ecclient.getDetails().get("anc2_current_formStatus") != null ? (String) ecclient.getDetails().get("anc2_current_formStatus") : BuildConfig.FLAVOR).equalsIgnoreCase("upcoming")) {
-                anc1date.setTextColor(getResources().getColor(R.color.alert_complete_green));
-            } else {
-                if ((ecclient.getDetails().get("anc2_current_formStatus") != null ? (String) ecclient.getDetails().get("anc2_current_formStatus") : BuildConfig.FLAVOR).equalsIgnoreCase("urgent")) {
-                    anc1date.setTextColor(getResources().getColor(R.color.alert_urgent_red));
-                }
-            }
-            anc1date.setText(text);
-        }
+
+        doseLayout.setVisibility(8);
     }
 
-    private void checkAnc1view(CommonPersonObjectClient ecclient) {
-        LinearLayout anc1layout = (LinearLayout) findViewById(R.id.anc1_layout);
-        if (ecclient.getDetails().get("ANC1_Due_Date") != null) {
-            String text = ecclient.getDetails().get("ANC1_Due_Date") != null ? (String) ecclient.getDetails().get("ANC1_Due_Date") : BuildConfig.FLAVOR;
-            TextView anc1date = (TextView) findViewById(R.id.anc1date);
-            if ((ecclient.getDetails().get("anc1_current_formStatus") != null ? (String) ecclient.getDetails().get("anc1_current_formStatus") : BuildConfig.FLAVOR).equalsIgnoreCase("upcoming")) {
-                anc1date.setTextColor(getResources().getColor(R.color.alert_complete_green));
-            } else {
-                if ((ecclient.getDetails().get("anc1_current_formStatus") != null ? (String) ecclient.getDetails().get("anc1_current_formStatus") : BuildConfig.FLAVOR).equalsIgnoreCase("urgent")) {
-                    anc1date.setTextColor(getResources().getColor(R.color.alert_urgent_red));
-                }
-            }
-            anc1date.setText(text);
+    private void checkInjectable2View(CommonPersonObjectClient ecclient) {
+        LinearLayout doseLayout = (LinearLayout) findViewById(R.id.dose2_layout);
+        if (ecclient.getDetails().get("Injection_Date_2") != null) {
+            Log.d("--------","getting data 2");
+            String text = ecclient.getDetails().get("Injection_Date_2");
+            TextView dose_two_date = (TextView) findViewById(R.id.dose_two_date);
+            dose_two_date.setText(text);
             return;
         }
-        anc1layout.setVisibility(8);
+
+        doseLayout.setVisibility(8);
+    }
+
+    private void checkInjectable1View(CommonPersonObjectClient ecclient) {
+        LinearLayout doseLayout = (LinearLayout) findViewById(R.id.dose1_layout);
+        if (ecclient.getDetails().get("Injection_Date_1") != null) {
+            Log.d("--------","getting data 1");
+            String text = ecclient.getDetails().get("Injection_Date_1");
+            TextView dose_one_date = (TextView) findViewById(R.id.dose_one_date);
+            dose_one_date.setText(text);
+            return;
+        }
+
+        doseLayout.setVisibility(8);
+
+
     }
 
     private File createImageFile() throws IOException {

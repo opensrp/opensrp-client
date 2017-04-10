@@ -39,6 +39,7 @@ import org.ei.opensrp.dgfp.injectables.injectableServiceModeOption;
 import org.ei.opensrp.dgfp.injectables.injectable_SmartClientsProvider;
 import org.ei.opensrp.dgfp.nutrition.nutritionServiceModeOption;
 import org.ei.opensrp.dgfp.nutrition.nutrition_SmartClientsProvider;
+import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
@@ -54,6 +55,8 @@ import org.ei.opensrp.view.dialog.EditOption;
 import org.ei.opensrp.view.dialog.FilterOption;
 import org.ei.opensrp.view.dialog.ServiceModeOption;
 import org.ei.opensrp.view.dialog.SortOption;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.opensrp.api.domain.Location;
 import org.opensrp.api.util.TreeNode;
 
@@ -247,7 +250,26 @@ public class dgfp_injectable_SmartRegisterFragment extends SecuredNativeSmartReg
                     startActivity(intent);
                     break;
                 case R.id.next_injectable_dose:
-                    ((dgfp_injectable_SmartRegisterActivity)getActivity()).startFormActivity("injectable", ((CommonPersonObjectClient) view.getTag()).entityId(), null);
+                    CommonPersonObjectClient pc = ((CommonPersonObjectClient) view.getTag());
+                    JSONObject overridejsonobject = new JSONObject();
+                    try {
+                        if(pc.getDetails().get("Dose_No")!=null){
+                            if(!pc.getDetails().get("Dose_No").equalsIgnoreCase("NaN")){
+                                overridejsonobject.put("existing_Dose_No",(pc.getDetails().get("Dose_No")));
+                            }else{
+                                overridejsonobject.put("existing_Dose_No","0");
+                            }
+                        }else{
+                            overridejsonobject.put("existing_Dose_No","0");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    FieldOverrides fieldOverrides = new FieldOverrides(overridejsonobject.toString());
+
+
+                    ((dgfp_injectable_SmartRegisterActivity)getActivity()).startFormActivity("injectable", ((CommonPersonObjectClient) view.getTag()).entityId(), fieldOverrides.getJSONString());
 //                    CustomFontTextView ancreminderDueDate = (CustomFontTextView)view.findViewById(R.id.anc_reminder_due_date);
                     Log.v("do as you will", "button was click");
                     break;

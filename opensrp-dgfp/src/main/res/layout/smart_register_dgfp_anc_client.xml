@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 style="@style/CustomFontTextViewStyle.noPadding"
-                android:text="Medium Text"
+                android:text="N/A"
                 android:id="@+id/spousename"
                 android:textSize="12sp"
                 android:layout_weight="1" />
