@@ -1,6 +1,7 @@
 package org.ei.opensrp.mcare.child;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -157,7 +158,7 @@ public class mCareChildSmartClientsProvider implements SmartRegisterCLientsProvi
 
             return days;
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.e(getClass().getName(), "Exception", e);
             return null;
         }
 

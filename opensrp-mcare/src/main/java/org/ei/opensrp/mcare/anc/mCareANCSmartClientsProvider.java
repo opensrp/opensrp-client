@@ -123,7 +123,7 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
             int calc_age = days / 365;
             age.setText("("+calc_age+") ");
         }catch (Exception e){
-            e.printStackTrace();
+            Log.e(getClass().getName(), "Exception", e);
         }
 
         if(pc.getDetails().get("FWWOMNID").length()>0) {
@@ -158,7 +158,7 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
 
             edd.setText(Html.fromHtml(EDDSourcestring));
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.e(getClass().getName(), "Exception", e);
         }
         constructRiskFlagView(pc,itemView);
         constructANCReminderDueBlock(pc.getColumnmaps().get("FWPSRLMP")!=null?pc.getColumnmaps().get("FWPSRLMP"):"",pc, itemView);
@@ -648,7 +648,7 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
             anc_date.setTime(calendar.getTime().getTime());
             ancdate = format.format(anc_date);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(getClass().getName(), "Exception", e);
             ancdate = "";
         }
         return ancdate;

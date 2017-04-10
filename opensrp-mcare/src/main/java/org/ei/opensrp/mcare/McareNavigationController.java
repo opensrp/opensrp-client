@@ -44,13 +44,13 @@ public class McareNavigationController extends org.ei.opensrp.view.controller.Na
     }
     @Override
     public void startANCSmartRegistry() {
-//        activity.startActivity(new Intent(activity, mCareANCSmartRegisterActivity.class));
+        activity.startActivity(new Intent(activity, mCareANCSmartRegisterActivity.class));
     }
     public void startPNCSmartRegistry() {
-//        activity.startActivity(new Intent(activity, mCarePNCSmartRegisterActivity.class));
+        activity.startActivity(new Intent(activity, mCarePNCSmartRegisterActivity.class));
     }
     public void startChildSmartRegistry() {
-//        activity.startActivity(new Intent(activity, mCareChildSmartRegisterActivity.class));
+        activity.startActivity(new Intent(activity, mCareChildSmartRegisterActivity.class));
     }
 
 

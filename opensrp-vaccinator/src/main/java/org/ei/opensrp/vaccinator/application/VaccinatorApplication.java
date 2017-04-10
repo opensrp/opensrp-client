@@ -1,10 +1,12 @@
 package org.ei.opensrp.vaccinator.application;
 
 import android.app.Application;
+import android.content.Intent;
 import android.content.res.Configuration;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
+import org.ei.opensrp.vaccinator.LoginActivity;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.ei.opensrp.view.receiver.SyncBroadcastReceiver;
 
@@ -28,6 +30,14 @@ public class VaccinatorApplication extends DrishtiApplication{
         context.updateApplicationContext(getApplicationContext());
         applyUserLanguagePreference();
         cleanUpSyncState();
+    }
+
+    @Override
+    public void logoutCurrentUser() {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(intent);
+        context.userService().logoutSession();
     }
 
     private void cleanUpSyncState() {

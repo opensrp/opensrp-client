@@ -46,7 +46,7 @@ public class HomeActivity extends SecuredWebActivity {
 
     @Override
     protected void onInitialization() {
-        pendingFormSubmissionService = context.pendingFormSubmissionService();
+        pendingFormSubmissionService = context().pendingFormSubmissionService();
         SYNC_STARTED.addListener(onSyncStartListener);
         SYNC_COMPLETED.addListener(onSyncCompleteListener);
         FORM_SUBMITTED.addListener(onFormSubmittedListener);
@@ -85,7 +85,7 @@ public class HomeActivity extends SecuredWebActivity {
 
     private void updateSyncIndicator() {
         if (updateMenuItem != null) {
-            if (context.allSharedPreferences().fetchIsSyncInProgress()) {
+            if (context().allSharedPreferences().fetchIsSyncInProgress()) {
                 updateMenuItem.setActionView(R.layout.progress);
             } else
                 updateMenuItem.setActionView(null);

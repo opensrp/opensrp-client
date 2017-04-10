@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -12,12 +13,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
 import org.ei.opensrp.commonregistry.CommonRepository;
 import org.ei.opensrp.cursoradapter.CursorCommonObjectFilterOption;
 import org.ei.opensrp.cursoradapter.CursorCommonObjectSort;
+import org.ei.opensrp.cursoradapter.CursorFilterOption;
 import org.ei.opensrp.cursoradapter.SecuredNativeSmartRegisterCursorAdapterFragment;
 import org.ei.opensrp.cursoradapter.SmartRegisterPaginatedCursorAdapter;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
@@ -35,7 +38,6 @@ import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
 import org.ei.opensrp.view.contract.ECClient;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
-import org.ei.opensrp.view.contract.SmartRegisterClients;
 import org.ei.opensrp.view.controller.VillageController;
 import org.ei.opensrp.view.dialog.AllClientsFilter;
 import org.ei.opensrp.view.dialog.DialogOption;
@@ -53,10 +55,9 @@ import org.opensrp.api.util.TreeNode;
 import java.util.ArrayList;
 import java.util.Map;
 
-import util.AsyncTask;
-
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
+import static java.lang.String.valueOf;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
@@ -121,7 +122,7 @@ public class HouseHoldSmartRegisterFragment extends SecuredNativeSmartRegisterCu
                 dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.hh_no_mwra),filterStringForNoElco()));
                 dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.hh_has_mwra),filterStringForOneOrMoreElco()));
 
-                String locationjson = context.anmLocationController().get();
+                String locationjson = context().anmLocationController().get();
                 LocationTree locationTree = EntityUtils.fromJson(locationjson, LocationTree.class);
 
                 Map<String,TreeNode<String, Location>> locationMap =
@@ -145,7 +146,7 @@ public class HouseHoldSmartRegisterFragment extends SecuredNativeSmartRegisterCu
                 return new DialogOption[]{
 //                        new HouseholdCensusDueDateSort(),
 
-                        new CursorCommonObjectSort(getResources().getString(R.string.due_status),sortByAlertmethod()),
+                        new CursorCommonObjectSort(getResources().getString(R.string.due_status),filters.contains("nidImage")? householdSortByName() : sortByAlertmethod()),
                         new CursorCommonObjectSort(getResources().getString(R.string.hh_alphabetical_sort),householdSortByName()),
                         new CursorCommonObjectSort(getResources().getString(R.string.hh_fwGobhhid_sort),householdSortByFWGOBHHID()),
                         new CursorCommonObjectSort(getResources().getString(R.string.hh_fwJivhhid_sort),householdSortByFWJIVHHID())
@@ -176,7 +177,8 @@ public class HouseHoldSmartRegisterFragment extends SecuredNativeSmartRegisterCu
 
     @Override
     protected void onInitialization() {
-        context.formSubmissionRouter().getHandlerMap().put("census_enrollment_form", new CensusEnrollmentHandler());
+        context().formSubmissionRouter().getHandlerMap().put("census_enrollment_form", new
+                CensusEnrollmentHandler());
     }
 
     @Override
@@ -193,30 +195,29 @@ public class HouseHoldSmartRegisterFragment extends SecuredNativeSmartRegisterCu
     }
 
     private String sortByAlertmethod() {
-       return " CASE WHEN alerts.status = 'urgent' THEN '1'"
-         +
-        "WHEN alerts.status = 'upcoming' THEN '2'\n" +
-                "WHEN alerts.status = 'normal' THEN '3'\n" +
-                "WHEN alerts.status = 'expired' THEN '4'\n" +
-                "WHEN alerts.status is Null THEN '5'\n" +
-                "Else alerts.status END ASC";
+       return " CASE WHEN FW_CENSUS = 'urgent' THEN '1'\n" +
+                "WHEN FW_CENSUS = 'upcoming' THEN '2'\n" +
+                "WHEN FW_CENSUS = 'normal' THEN '3'\n" +
+                "WHEN FW_CENSUS = 'expired' THEN '4'\n" +
+                "WHEN FW_CENSUS is Null THEN '5'\n" +
+                "Else FW_CENSUS END ASC";
     }
+
     public void initializeQueries(){
-        HouseHoldSmartClientsProvider hhscp = new HouseHoldSmartClientsProvider(getActivity(),clientActionHandler,context.alertService());
+        HouseHoldSmartClientsProvider hhscp = new HouseHoldSmartClientsProvider(getActivity(),
+                clientActionHandler,context().alertService());
         clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, hhscp, new CommonRepository("household",new String []{"FWHOHFNAME", "FWGOBHHID","FWJIVHHID"}));
         clientsView.setAdapter(clientAdapter);
 
         setTablename("household");
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
         countqueryBUilder.SelectInitiateMainTableCounts("household");
-        countqueryBUilder.joinwithALerts("household","FW CENSUS");
         countSelect = countqueryBUilder.mainCondition(" FWHOHFNAME is not null ");
         mainCondition = " FWHOHFNAME is not null ";
         super.CountExecute();
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
         queryBUilder.SelectInitiateMainTable("household", new String[]{"relationalid", "details", "FWHOHFNAME", "FWGOBHHID", "FWJIVHHID"});
-        queryBUilder.joinwithALerts("household","FW CENSUS");
         mainSelect = queryBUilder.mainCondition(" FWHOHFNAME is not null ");
         Sortqueries = sortByAlertmethod();
 
@@ -242,7 +243,9 @@ public class HouseHoldSmartRegisterFragment extends SecuredNativeSmartRegisterCu
         }
         ft.addToBackStack(null);
         McareLocationSelectorDialogFragment
-                .newInstance((HouseHoldSmartRegisterActivity) getActivity(), new EditDialogOptionModel(), context.anmLocationController().get(), "new_household_registration")
+                .newInstance((HouseHoldSmartRegisterActivity) getActivity(), new
+                        EditDialogOptionModel(), context().anmLocationController().get(),
+                        "new_household_registration")
                 .show(ft, locationDialogTAG);
     }
 
@@ -271,7 +274,7 @@ public class HouseHoldSmartRegisterFragment extends SecuredNativeSmartRegisterCu
 
 
     private String filterStringForOneOrMoreElco(){
-        return "and details not LIKE '%\"ELCO\":\"0\"%'";
+        return " and details not LIKE '%\"ELCO\":\"0\"%'";
     }
     private String filterStringForNoElco(){
         return " and details LIKE '%\"ELCO\":\"0\"%'";
@@ -330,37 +333,15 @@ public class HouseHoldSmartRegisterFragment extends SecuredNativeSmartRegisterCu
             @Override
             public void onTextChanged(final CharSequence cs, int start, int before, int count) {
 
-                (new AsyncTask() {
-                    SmartRegisterClients filteredClients;
+                //filters = "and FWHOHFNAME Like '%" + cs.toString() + "%' or FWGOBHHID Like '%" + cs.toString() + "%'  or FWJIVHHID Like '%" + cs.toString() + "%' ";
+                filters = cs.toString();
+                joinTable = "";
+                mainCondition = " FWHOHFNAME is not null ";
 
-                    @Override
-                    protected Object doInBackground(Object[] params) {
-//                        currentSearchFilter =
-//                        setCurrentSearchFilter(new HHSearchOption(cs.toString()));
-//                        filteredClients = getClientsAdapter().getListItemProvider()
-//                                .updateClients(getCurrentVillageFilter(), getCurrentServiceModeOption(),
-//                                        getCurrentSearchFilter(), getCurrentSortOption());
-//
-                        //filters = "and FWHOHFNAME Like '%" + cs.toString() + "%' or FWGOBHHID Like '%" + cs.toString() + "%'  or FWJIVHHID Like '%" + cs.toString() + "%' ";
-                        filters = cs.toString();
-                        joinTable = "";
-                        mainCondition = " FWHOHFNAME is not null ";
-                        return null;
-                    }
+                getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
+                CountExecute();
+                filterandSortExecute();
 
-                    @Override
-                    protected void onPostExecute(Object o) {
-//                        clientsAdapter
-//                                .refreshList(currentVillageFilter, currentServiceModeOption,
-//                                        currentSearchFilter, currentSortOption);
-//                        getClientsAdapter().refreshClients(filteredClients);
-//                        getClientsAdapter().notifyDataSetChanged();
-                        getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
-                        CountExecute();
-                        filterandSortExecute();
-                        super.onPostExecute(o);
-                    }
-                }).execute();
             }
 
             @Override
@@ -379,43 +360,14 @@ public class HouseHoldSmartRegisterFragment extends SecuredNativeSmartRegisterCu
 
             @Override
             public void onTextChanged(final CharSequence cs, int start, int before, int count) {
-                (new AsyncTask() {
-                    SmartRegisterClients filteredClients;
 
-                    @Override
-                    protected Object doInBackground(Object[] params) {
-//                        currentSearchFilter =
-//                        setCurrentSearchFilter(new HHSearchOption(cs.toString()));
-//                        filteredClients = getClientsAdapter().getListItemProvider()
-//                                .updateClients(getCurrentVillageFilter(), getCurrentServiceModeOption(),
-//                                        getCurrentSearchFilter(), getCurrentSortOption());
-//
-                        //filters = "and FWHOHFNAME Like '%"+cs.toString()+"%' or FWGOBHHID Like '%"+cs.toString()+"%'  or FWJIVHHID Like '%"+cs.toString()+"%' or household.id in (Select elco.relationalid from elco where FWWOMFNAME Like '%"+cs.toString()+"%' )";
-                        filters = cs.toString();
-                        joinTable = "elco";
-                        mainCondition = " FWHOHFNAME is not null ";
-                        return null;
-                    }
+                //filters = "and FWHOHFNAME Like '%"+cs.toString()+"%' or FWGOBHHID Like '%"+cs.toString()+"%'  or FWJIVHHID Like '%"+cs.toString()+"%' or household.id in (Select elco.relationalid from elco where FWWOMFNAME Like '%"+cs.toString()+"%' )";
+                filters = cs.toString();
+                joinTable = "elco";
+                mainCondition = " FWHOHFNAME is not null ";
 
-                    @Override
-                    protected void onPostExecute(Object o) {
-//                        clientsAdapter
-//                                .refreshList(currentVillageFilter, currentServiceModeOption,
-//                                        currentSearchFilter, currentSortOption);
-//                        getClientsAdapter().refreshClients(filteredClients);
-//                        getClientsAdapter().notifyDataSetChanged();
-                        getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
-                        filterandSortExecute();
-                        super.onPostExecute(o);
-                    }
-                }).execute();
-//                currentSearchFilter = new HHSearchOption(cs.toString());
-//                clientsAdapter
-//                        .refreshList(currentVillageFilter, currentServiceModeOption,
-//                                currentSearchFilter, currentSortOption);
-//
-//                searchCancelView.setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
-
+                getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
+                filterandSortExecute();
 
             }
 
@@ -440,9 +392,51 @@ public class HouseHoldSmartRegisterFragment extends SecuredNativeSmartRegisterCu
         }
     }
 
-    private void checkforNidMissing(View view) {
-        RelativeLayout titlelayout = (RelativeLayout)view.findViewById(org.ei.opensrp.R.id.register_nav_bar_container);
-        if(anyNIdmissing(controller)) {
+    private void checkforNidMissing(final View view) {
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                boolean toreturn = false;
+                CommonRepository commonRepository = context().commonrepository("household");
+                setTablename("household");
+                SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
+                countqueryBUilder.SelectInitiateMainTableCounts("household");
+                // countqueryBUilder.joinwithALerts("household", "FW CENSUS");
+                countqueryBUilder.mainCondition(" FWHOHFNAME is not null ");
+                String nidfilters = "and household.id in (Select elco.relationalid from elco where details not Like '%nidImage%' and details LIKE '%\"FWELIGIBLE\":\"1\"%' )";
+
+                countqueryBUilder.addCondition(nidfilters);
+                Cursor c = commonRepository.RawCustomQueryForAdapter(countqueryBUilder.Endquery(countqueryBUilder.toString()));
+                c.moveToFirst();
+                int missingnidCount = c.getInt(0);
+                c.close();
+                if(missingnidCount>0){
+                    toreturn = true;
+                }
+
+                final boolean anyNIdmissing = toreturn;
+
+                Handler mainHandler = new Handler(getActivity().getMainLooper());
+
+                Runnable myRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        RelativeLayout titlelayout = (RelativeLayout)view.findViewById(org.ei.opensrp.R.id.register_nav_bar_container);
+                        updateNidView(titlelayout, anyNIdmissing);
+                    }
+                };
+                mainHandler.post(myRunnable);
+            }
+        }).start();
+
+
+    }
+
+    private void updateNidView(RelativeLayout titlelayout, boolean anyNIdmissing){
+        if(anyNIdmissing) {
             try {
                 titlelayout.removeView(getActivity().findViewById(R.id.warnid)) ;
 
@@ -471,6 +465,7 @@ public class HouseHoldSmartRegisterFragment extends SecuredNativeSmartRegisterCu
 //                                    getCurrentSearchFilter(), getCurrentSortOption());
                     filters = "and household.id in (Select elco.relationalid from elco where details not Like '%nidImage%' and details LIKE '%\"FWELIGIBLE\":\"1\"%' )";
                     joinTable = "";
+                    Sortqueries = householdSortByName();
                     CountExecute();
                     filterandSortExecute();
 
@@ -479,6 +474,24 @@ public class HouseHoldSmartRegisterFragment extends SecuredNativeSmartRegisterCu
         }else{
             titlelayout.removeView(getActivity().findViewById(R.id.warnid));
         }
+    }
+
+    /**
+     * Override filter to capture fts filter by location
+     * @param filter
+     */
+    @Override
+    public void onFilterSelection(FilterOption filter) {
+        appliedVillageFilterView.setText(filter.name());
+        filters = ((CursorFilterOption)filter).filter();
+        mainCondition = " FWHOHFNAME is not null ";
+
+        if(StringUtils.isNotBlank(filters) && (filters.contains(" and details LIKE ") || filters.contains(" and details not LIKE"))){
+            mainCondition += filters;
+            filters = "";
+        }
+        CountExecute();
+        filterandSortExecute();
     }
 
     private boolean anyNIdmissing(CommonPersonObjectController controller) {
@@ -504,7 +517,7 @@ public class HouseHoldSmartRegisterFragment extends SecuredNativeSmartRegisterCu
 //                }
 //            }
 //        }
-        CommonRepository commonRepository = context.commonrepository("household");
+        CommonRepository commonRepository = context().commonrepository("household");
         setTablename("household");
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
         countqueryBUilder.SelectInitiateMainTableCounts("household");
@@ -520,9 +533,9 @@ public class HouseHoldSmartRegisterFragment extends SecuredNativeSmartRegisterCu
         if(missingnidCount>0){
             toreturn = true;
         }
+        CountExecute();
+        filterandSortExecute();
+
         return toreturn;
-//        return false;
     }
-
-
 }

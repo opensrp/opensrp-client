@@ -67,6 +67,10 @@
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
             android:screenOrientation="landscape"/>
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="ee4140a3b1692ec32e688110a280538c7b44e10e" />
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

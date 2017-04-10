@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
+import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
@@ -16,6 +17,7 @@ import org.ei.opensrp.commonregistry.CommonRepository;
 import org.ei.opensrp.commonregistry.ControllerFilterMap;
 import org.ei.opensrp.cursoradapter.CursorCommonObjectFilterOption;
 import org.ei.opensrp.cursoradapter.CursorCommonObjectSort;
+import org.ei.opensrp.cursoradapter.CursorFilterOption;
 import org.ei.opensrp.cursoradapter.SecuredNativeSmartRegisterCursorAdapterFragment;
 import org.ei.opensrp.cursoradapter.SmartRegisterPaginatedCursorAdapter;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
@@ -34,7 +36,6 @@ import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
 import org.ei.opensrp.view.contract.ECClient;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
-import org.ei.opensrp.view.contract.SmartRegisterClients;
 import org.ei.opensrp.view.controller.VillageController;
 import org.ei.opensrp.view.customControls.CustomFontTextView;
 import org.ei.opensrp.view.dialog.AllClientsFilter;
@@ -52,8 +53,6 @@ import org.opensrp.api.util.TreeNode;
 
 import java.util.ArrayList;
 import java.util.Map;
-
-import util.AsyncTask;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
@@ -115,7 +114,7 @@ public class mCarePNCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
                 dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_pncrv2),filterStringForPNCRV2()));
                 dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_pncrv3),filterStringForPNCRV3()));
 
-                String locationjson = context.anmLocationController().get();
+                String locationjson = context().anmLocationController().get();
                 LocationTree locationTree = EntityUtils.fromJson(locationjson, LocationTree.class);
 
                 Map<String,TreeNode<String, Location>> locationMap =
@@ -274,34 +273,19 @@ public class mCarePNCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
 
             @Override
             public void onTextChanged(final CharSequence cs, int start, int before, int count) {
-                (new AsyncTask() {
-                    SmartRegisterClients filteredClients;
 
-                    @Override
-                    protected Object doInBackground(Object[] params) {
+                if(cs.toString().equalsIgnoreCase("")){
+                    filters = "";
+                }else {
+                    //filters = "and FWWOMFNAME Like '%" + cs.toString() + "%' or GOBHHID Like '%" + cs.toString() + "%'  or JiVitAHHID Like '%" + cs.toString() + "%' ";
+                    filters = cs.toString();
+                }
+                joinTable = "";
+                mainCondition = " Is_PNC = '1'  and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%'";
 
-//
-                        if(cs.toString().equalsIgnoreCase("")){
-                            filters = "";
-                        }else {
-                            //filters = "and FWWOMFNAME Like '%" + cs.toString() + "%' or GOBHHID Like '%" + cs.toString() + "%'  or JiVitAHHID Like '%" + cs.toString() + "%' ";
-                            filters = cs.toString();
-                        }
-                        joinTable = "";
-                        mainCondition = " Is_PNC = '1'  and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%'";
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Object o) {
-//
-                        getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
-                        CountExecute();
-                        filterandSortExecute();
-                        super.onPostExecute(o);
-                    }
-                }).execute();
-
+                getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
+                CountExecute();
+                filterandSortExecute();
 
             }
 
@@ -350,16 +334,15 @@ public class mCarePNCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
 
     public String pncMainSelectWithJoins(){
         return "Select id as _id,relationalid,details,FWWOMFNAME,FWPSRLMP,FWSORTVALUE,JiVitAHHID,GOBHHID,Is_PNC,FWBNFSTS,FWBNFDTOO \n" +
-                "from mcaremother\n" +
-                "Left Join alerts on alerts.caseID = mcaremother.id and alerts.scheduleName = 'Post Natal Care Reminder Visit' ";
+                "from mcaremother\n";
     }
     public String pncMainCountWithJoins(){
         return "Select Count(*) \n" +
-                "from mcaremother\n" +
-                "Left Join alerts on alerts.caseID = mcaremother.id and alerts.scheduleName = 'Post Natal Care Reminder Visit'";
+                "from mcaremother\n";
     }
     public void initializeQueries(){
-        mCarePNCSmartClientsProvider hhscp = new mCarePNCSmartClientsProvider(getActivity(),clientActionHandler,context.alertService());
+        mCarePNCSmartClientsProvider hhscp = new mCarePNCSmartClientsProvider(getActivity(),
+                clientActionHandler,context().alertService());
         clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, hhscp, new CommonRepository("mcaremother",new String []{"FWWOMFNAME","FWPSRLMP","FWSORTVALUE","JiVitAHHID","GOBHHID","Is_PNC","FWBNFSTS","FWBNFDTOO"}));
         clientsView.setAdapter(clientAdapter);
 
@@ -383,14 +366,13 @@ public class mCarePNCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
 
     }
     private String sortByAlertmethod() {
-        return " CASE WHEN alerts.status = 'urgent' THEN '1'"
-                +
-                "WHEN alerts.status = 'upcoming' THEN '2'\n" +
-                "WHEN alerts.status = 'normal' THEN '3'\n" +
-                "WHEN alerts.status = 'expired' THEN '4'\n" +
-                "WHEN alerts.status is Null THEN '5'\n" +
-                "WHEN alerts.status = 'complete' THEN '6'\n" +
-                "Else alerts.status END ASC";
+        return " CASE WHEN Post_Natal_Care_Reminder_Visit = 'urgent' THEN '1'\n" +
+                "WHEN Post_Natal_Care_Reminder_Visit = 'upcoming' THEN '2'\n" +
+                "WHEN Post_Natal_Care_Reminder_Visit = 'normal' THEN '3'\n" +
+                "WHEN Post_Natal_Care_Reminder_Visit = 'expired' THEN '4'\n" +
+                "WHEN Post_Natal_Care_Reminder_Visit is Null THEN '5'\n" +
+                "WHEN Post_Natal_Care_Reminder_Visit = 'complete' THEN '6'\n" +
+                "Else Post_Natal_Care_Reminder_Visit END ASC";
     }
     private String sortBySortValue(){
         return " FWSORTVALUE ASC";
@@ -408,21 +390,38 @@ public class mCarePNCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
     }
 
     private String sortByOutcomeStatis() {
-        return " CASE WHEN mcaremother.FWBNFSTS = '3' THEN '1'"
+        return " CASE WHEN FWBNFSTS = '3' THEN '1'"
                 +
-                "WHEN mcaremother.FWBNFSTS = '4' THEN '2'\n" +
-                "Else mcaremother.FWBNFSTS END ASC";
+                "WHEN FWBNFSTS = '4' THEN '2'\n" +
+                "Else FWBNFSTS END ASC";
     }
     private String filterStringForPNCRV1(){
-        return "and alerts.visitCode LIKE '%pncrv_1%'";
+        return "pncrv_1";
     }
     private String filterStringForPNCRV2(){
-        return "and alerts.visitCode LIKE '%pncrv_2%'";
+        return "pncrv_2";
     }
     private String filterStringForPNCRV3(){
-        return "and alerts.visitCode LIKE '%pncrv_3%'";
+        return "pncrv_3";
     }
 
 
+    /**
+     * Override filter to capture fts filter by location
+     * @param filter
+     */
+    @Override
+    public void onFilterSelection(FilterOption filter) {
+        appliedVillageFilterView.setText(filter.name());
+        filters = ((CursorFilterOption)filter).filter();
+        mainCondition = " Is_PNC = '1'  and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%'";
+
+        if(StringUtils.isNotBlank(filters) && filters.contains(" and details LIKE ")){
+            mainCondition += filters;
+            filters = "";
+        }
+        CountExecute();
+        filterandSortExecute();
+    }
 
 }

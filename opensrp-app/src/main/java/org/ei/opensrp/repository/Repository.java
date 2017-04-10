@@ -10,10 +10,7 @@ import org.ei.opensrp.commonregistry.CommonFtsObject;
 import org.ei.opensrp.util.Session;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Repository extends SQLiteOpenHelper {
@@ -65,6 +62,9 @@ public class Repository extends SQLiteOpenHelper {
                 String[] sortFields = this.commonFtsObject.getSortFields(ftsTable);
                 if(sortFields != null)
                     for (String sortValue : sortFields) {
+                        if(sortValue.startsWith("alerts.")){
+                            sortValue = sortValue.split("\\.")[1];
+                        }
                         searchColumns.add(sortValue);
                     }
 

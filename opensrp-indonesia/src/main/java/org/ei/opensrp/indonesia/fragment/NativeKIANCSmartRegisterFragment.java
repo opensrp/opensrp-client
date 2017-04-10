@@ -1,18 +1,12 @@
 package org.ei.opensrp.indonesia.fragment;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.ei.opensrp.Context;
-import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
-import org.ei.opensrp.commonregistry.CommonObjectFilterOption;
-import org.ei.opensrp.commonregistry.CommonObjectSort;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
 import org.ei.opensrp.commonregistry.CommonRepository;
@@ -21,30 +15,19 @@ import org.ei.opensrp.cursoradapter.CursorCommonObjectSort;
 import org.ei.opensrp.cursoradapter.SecuredNativeSmartRegisterCursorAdapterFragment;
 import org.ei.opensrp.cursoradapter.SmartRegisterPaginatedCursorAdapter;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
-import org.ei.opensrp.indonesia.AllConstantsINA;
 import org.ei.opensrp.indonesia.LoginActivity;
 import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.anc.ANCDetailActivity;
 import org.ei.opensrp.indonesia.anc.KIANCClientsProvider;
 import org.ei.opensrp.indonesia.anc.KIANCOverviewServiceMode;
 import org.ei.opensrp.indonesia.anc.NativeKIANCSmartRegisterActivity;
-import org.ei.opensrp.indonesia.kartu_ibu.AllKartuIbuServiceMode;
-import org.ei.opensrp.indonesia.kartu_ibu.KIClientsProvider;
 import org.ei.opensrp.indonesia.kartu_ibu.KICommonObjectFilterOption;
-import org.ei.opensrp.indonesia.kartu_ibu.KISearchOption;
-import org.ei.opensrp.indonesia.kartu_ibu.NativeKISmartRegisterActivity;
-import org.ei.opensrp.indonesia.kb.AllKBServiceMode;
-import org.ei.opensrp.indonesia.kb.KBClientsProvider;
-import org.ei.opensrp.indonesia.kb.KBDetailActivity;
-import org.ei.opensrp.indonesia.kb.KBSearchOption;
-import org.ei.opensrp.indonesia.kb.NativeKBSmartRegisterActivity;
 import org.ei.opensrp.indonesia.lib.FlurryFacade;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
 import org.ei.opensrp.view.contract.ECClient;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
-import org.ei.opensrp.view.contract.SmartRegisterClients;
 import org.ei.opensrp.view.controller.VillageController;
 import org.ei.opensrp.view.dialog.AllClientsFilter;
 import org.ei.opensrp.view.dialog.DialogOption;
@@ -52,11 +35,9 @@ import org.ei.opensrp.view.dialog.DialogOptionMapper;
 import org.ei.opensrp.view.dialog.DialogOptionModel;
 import org.ei.opensrp.view.dialog.EditOption;
 import org.ei.opensrp.view.dialog.FilterOption;
-import org.ei.opensrp.view.dialog.LocationSelectorDialogFragment;
 import org.ei.opensrp.view.dialog.NameSort;
 import org.ei.opensrp.view.dialog.ServiceModeOption;
 import org.ei.opensrp.view.dialog.SortOption;
-import org.ei.opensrp.view.fragment.SecuredNativeSmartRegisterFragment;
 import org.opensrp.api.domain.Location;
 import org.opensrp.api.util.EntityUtils;
 import org.opensrp.api.util.LocationTree;
@@ -65,11 +46,8 @@ import org.opensrp.api.util.TreeNode;
 import java.util.ArrayList;
 import java.util.Map;
 
-import util.AsyncTask;
-
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
-import static com.google.common.collect.Iterables.toArray;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
@@ -134,7 +112,7 @@ public class NativeKIANCSmartRegisterFragment extends SecuredNativeSmartRegister
                 //     dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.hh_no_mwra),filterStringForNoElco()));
                 //      dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.hh_has_mwra),filterStringForOneOrMoreElco()));
 
-                String locationjson = context.anmLocationController().get();
+                String locationjson = context().anmLocationController().get();
                 LocationTree locationTree = EntityUtils.fromJson(locationjson, LocationTree.class);
 
                 Map<String,TreeNode<String, Location>> locationMap =
@@ -218,7 +196,8 @@ public class NativeKIANCSmartRegisterFragment extends SecuredNativeSmartRegister
                 "Else alerts.status END ASC";
     }
     public void initializeQueries(){
-        KIANCClientsProvider kiscp = new KIANCClientsProvider(getActivity(),clientActionHandler,context.alertService());
+        KIANCClientsProvider kiscp = new KIANCClientsProvider(getActivity(),clientActionHandler,
+                context().alertService());
         clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, kiscp, new CommonRepository("ibu",new String []{"ibu.isClosed", "ibu.ancDate", "ibu.ancKe","kartu_ibu.namalengkap","kartu_ibu.umur","kartu_ibu.namaSuami"}));
         clientsView.setAdapter(clientAdapter);
 
@@ -347,36 +326,13 @@ public class NativeKIANCSmartRegisterFragment extends SecuredNativeSmartRegister
             @Override
             public void onTextChanged(final CharSequence cs, int start, int before, int count) {
 
-                (new AsyncTask() {
-                    SmartRegisterClients filteredClients;
+                filters = cs.toString();
+                joinTable = "";
+                mainCondition = " isClosed !='true' and type = 'anc' ";
 
-                    @Override
-                    protected Object doInBackground(Object[] params) {
-//                        currentSearchFilter =
-//                        setCurrentSearchFilter(new HHSearchOption(cs.toString()));
-//                        filteredClients = getClientsAdapter().getListItemProvider()
-//                                .updateClients(getCurrentVillageFilter(), getCurrentServiceModeOption(),
-//                                        getCurrentSearchFilter(), getCurrentSortOption());
-//
-                        filters = cs.toString();
-                        joinTable = "";
-                        mainCondition = " isClosed !='true' and type = 'anc' ";
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Object o) {
-//                        clientsAdapter
-//                                .refreshList(currentVillageFilter, currentServiceModeOption,
-//                                        currentSearchFilter, currentSortOption);
-//                        getClientsAdapter().refreshClients(filteredClients);
-//                        getClientsAdapter().notifyDataSetChanged();
-                        getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
-                        CountExecute();
-                        filterandSortExecute();
-                        super.onPostExecute(o);
-                    }
-                }).execute();
+                getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
+                CountExecute();
+                filterandSortExecute();
             }
 
             @Override
@@ -395,42 +351,13 @@ public class NativeKIANCSmartRegisterFragment extends SecuredNativeSmartRegister
 
             @Override
             public void onTextChanged(final CharSequence cs, int start, int before, int count) {
-                (new AsyncTask() {
-                    SmartRegisterClients filteredClients;
 
-                    @Override
-                    protected Object doInBackground(Object[] params) {
-//                        currentSearchFilter =
-//                        setCurrentSearchFilter(new HHSearchOption(cs.toString()));
-//                        filteredClients = getClientsAdapter().getListItemProvider()
-//                                .updateClients(getCurrentVillageFilter(), getCurrentServiceModeOption(),
-//                                        getCurrentSearchFilter(), getCurrentSortOption());
-//
-                        filters = cs.toString();
-                        joinTable = "";
-                        mainCondition = " isClosed !='true' and type = 'anc' ";
-                        return null;
-                    }
+                filters = cs.toString();
+                joinTable = "";
+                mainCondition = " isClosed !='true' and type = 'anc' ";
 
-                    @Override
-                    protected void onPostExecute(Object o) {
-//                        clientsAdapter
-//                                .refreshList(currentVillageFilter, currentServiceModeOption,
-//                                        currentSearchFilter, currentSortOption);
-//                        getClientsAdapter().refreshClients(filteredClients);
-//                        getClientsAdapter().notifyDataSetChanged();
-                        getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
-                        filterandSortExecute();
-                        super.onPostExecute(o);
-                    }
-                }).execute();
-//                currentSearchFilter = new HHSearchOption(cs.toString());
-//                clientsAdapter
-//                        .refreshList(currentVillageFilter, currentServiceModeOption,
-//                                currentSearchFilter, currentSortOption);
-//
-//                searchCancelView.setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
-
+                getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
+                filterandSortExecute();
 
             }
 

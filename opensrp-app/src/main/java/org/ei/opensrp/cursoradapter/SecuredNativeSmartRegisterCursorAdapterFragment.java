@@ -553,6 +553,8 @@ public abstract class SecuredNativeSmartRegisterCursorAdapterFragment extends Se
                 query = sqb.orderbyCondition(Sortqueries);
                 query = sqb.Endquery(query);
             }
+
+            Log.i(getClass().getName(), query);
             c = commonRepository().RawCustomQueryForAdapter(query);
             c.moveToFirst();
             totalcount = c.getInt(0);
@@ -649,7 +651,7 @@ public abstract class SecuredNativeSmartRegisterCursorAdapterFragment extends Se
     }
 
     public CommonRepository commonRepository(){
-        return context.commonrepository(tablename);
+        return context().commonrepository(tablename);
     }
 
     public boolean isPausedOrRefreshList(){

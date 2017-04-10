@@ -69,7 +69,6 @@ public class ElcoDetailActivity extends SecuredFragment implements View.OnClickL
 
 
     protected void initiallize() {
-        context = Context.getInstance();
 //        setContentView(R.layout.elco_detail_activity);
         TextView name = (TextView) mView.findViewById(R.id.name);
         TextView brid = (TextView)mView. findViewById(R.id.brid);

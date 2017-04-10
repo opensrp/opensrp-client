@@ -140,7 +140,7 @@ public class ChildSmartRegisterFragment extends SecuredNativeSmartRegisterFragme
     protected SmartRegisterClientsProvider clientsProvider() {
         if (clientProvider == null) {
             clientProvider = new ChildSmartClientsProvider(
-                    getActivity(), clientActionHandler, controller, context.alertService());
+                    getActivity(), clientActionHandler, controller, context().alertService());
         }
         return clientProvider;
     }
@@ -148,13 +148,18 @@ public class ChildSmartRegisterFragment extends SecuredNativeSmartRegisterFragme
     @Override
     protected void onInitialization() {
         if (controller == null) {
-            controller = new CommonPersonObjectController(context.allCommonsRepositoryobjects("pkchild"),
-                    context.allBeneficiaries(), context.listCache(),
-                    context.personObjectClientsCache(), "first_name", "pkchild", "child_reg_date",
+            controller = new CommonPersonObjectController(
+                    context().allCommonsRepositoryobjects("pkchild"),
+                    context().allBeneficiaries(), context().listCache(),
+                    context().personObjectClientsCache(), "first_name", "pkchild", "child_reg_date",
                     CommonPersonObjectController.ByColumnAndByDetails.byDetails.byDetails);
 
         }
-        context.formSubmissionRouter().getHandlerMap().put("child_followup_form", new ChildFollowupHandler(new ChildService(context.allBeneficiaries(), context.allTimelineEvents(), context.allCommonsRepositoryobjects("pkchild"), context.alertService())));
+        context().formSubmissionRouter().getHandlerMap().put("child_followup_form", new
+                ChildFollowupHandler(new ChildService(context().allBeneficiaries(),
+                context().allTimelineEvents(),
+                context().allCommonsRepositoryobjects("pkchild"),
+                context().alertService())));
         dialogOptionMapper = new DialogOptionMapper();
     }
 
@@ -191,8 +196,8 @@ public class ChildSmartRegisterFragment extends SecuredNativeSmartRegisterFragme
                 case R.id.child_next_visit_holder:
 
                     CommonPersonObjectClient client = (CommonPersonObjectClient) view.getTag();
-                    org.ei.opensrp.util.Log.logDebug("ANM DETAILS" + context.anmController().get());
-                    String locationjson = context.anmLocationController().get();
+                    org.ei.opensrp.util.Log.logDebug("ANM DETAILS" + context().anmController().get());
+                    String locationjson = context().anmLocationController().get();
                     LocationTree locationTree = EntityUtils.fromJson(locationjson, LocationTree.class);
 
                     Map<String, TreeNode<String, Location>> locationMap =
@@ -210,7 +215,7 @@ public class ChildSmartRegisterFragment extends SecuredNativeSmartRegisterFragme
                     preloadmap.put("provider_town", locations.get("town"));
                     preloadmap.put("provider_city", locations.get("city"));
                     preloadmap.put("provider_province", locations.get("province"));
-                    preloadmap.put("provider_id", context.anmService().fetchDetails().name());
+                    preloadmap.put("provider_id", context().anmService().fetchDetails().name());
                     preloadmap.put("existing_program_client_id", client.getDetails().get("existing_program_client_id") != null ? client.getDetails().get("existing_program_client_id") : "");
                     preloadmap.put("provider_location_id", locations.get("uc"));
                     preloadmap.put("gender", client.getDetails().get("gender"));
@@ -445,8 +450,8 @@ public class ChildSmartRegisterFragment extends SecuredNativeSmartRegisterFragme
        #TODO:after reading the code , app first search for that id in database if he it is there , that client appears  on register only . if it doesnt then it shows two options
        */
         //controller.getClients().
-        org.ei.opensrp.util.Log.logDebug("ANM DETAILS" + context.anmController().get());
-        String locationjson = context.anmLocationController().get();
+        org.ei.opensrp.util.Log.logDebug("ANM DETAILS" + context().anmController().get());
+        String locationjson = context().anmLocationController().get();
         LocationTree locationTree = EntityUtils.fromJson(locationjson, LocationTree.class);
 
         Map<String, TreeNode<String, Location>> locationMap =
@@ -469,7 +474,7 @@ public class ChildSmartRegisterFragment extends SecuredNativeSmartRegisterFragme
             map.put("provider_location_id", locations.get("uc"));
             map.put("gender", "female");
             map.put("provider_location_name", locations.get("uc"));
-            map.put("provider_id", context.anmService().fetchDetails().name());/*
+            map.put("provider_id", context().anmService().fetchDetails().name());/*
                 HashMap<String , String> map=new HashMap<String,String>();
                 map.put("provider_uc",uc);
                 map.put("provider_id","demotest");

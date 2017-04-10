@@ -3,6 +3,7 @@ package org.ei.opensrp.domain;
 public enum LoginResponse {
     SUCCESS("Login successful."),
     NO_INTERNET_CONNECTIVITY("No internet connection. Please ensure data connectivity"),
+    MALFORMED_URL("Incorrect url"),
     UNKNOWN_RESPONSE("Dristhi login failed. Try later"),
     UNAUTHORIZED("Please check the credentials");
 

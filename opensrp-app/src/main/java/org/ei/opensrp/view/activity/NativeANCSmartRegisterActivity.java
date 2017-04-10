@@ -122,16 +122,16 @@ public class NativeANCSmartRegisterActivity extends SecuredNativeSmartRegisterAc
     @Override
     protected void onInitialization() {
         controller = new ANCSmartRegisterController(
-                context.serviceProvidedService(),
-                context.alertService(),
-                context.allBeneficiaries(),
-                context.listCache(),
-                context.ancClientsCache());
+                context().serviceProvidedService(),
+                context().alertService(),
+                context().allBeneficiaries(),
+                context().listCache(),
+                context().ancClientsCache());
 
         villageController = new VillageController(
-                context.allEligibleCouples(),
-                context.listCache(),
-                context.villagesCache());
+                context().allEligibleCouples(),
+                context().listCache(),
+                context().villagesCache());
 
         dialogOptionMapper = new DialogOptionMapper();
 
@@ -140,7 +140,8 @@ public class NativeANCSmartRegisterActivity extends SecuredNativeSmartRegisterAc
 
     @Override
     public void startRegistration() {
-        FieldOverrides fieldOverrides = new FieldOverrides(context.anmLocationController().getLocationJSON());
+        FieldOverrides fieldOverrides = new FieldOverrides(context().anmLocationController()
+                .getLocationJSON());
         startFormActivity(AllConstants.FormNames.ANC_REGISTRATION_OA, null, fieldOverrides.getJSONString());
     }
 

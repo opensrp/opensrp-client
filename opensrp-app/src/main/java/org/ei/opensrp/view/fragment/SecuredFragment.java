@@ -13,6 +13,7 @@ import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.R;
 import org.ei.opensrp.event.Listener;
+import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.ei.opensrp.view.activity.FormActivity;
 import org.ei.opensrp.view.activity.LoginActivity;
 import org.ei.opensrp.view.activity.MicroFormActivity;
@@ -35,7 +36,6 @@ import static org.ei.opensrp.event.Event.ON_LOGOUT;
  */
 public abstract class SecuredFragment extends Fragment {
 
-    protected Context context;
     protected Listener<Boolean> logoutListener;
     protected FormController formController;
     protected ANMController anmController;
@@ -47,8 +47,6 @@ public abstract class SecuredFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        context = Context.getInstance().updateApplicationContext(this.getActivity().getApplicationContext());
-
         logoutListener = new Listener<Boolean>() {
             public void onEvent(Boolean data) {
                 getActivity().finish();
@@ -56,13 +54,13 @@ public abstract class SecuredFragment extends Fragment {
         };
         ON_LOGOUT.addListener(logoutListener);
 
-        if (context.IsUserLoggedOut()) {
-            startActivity(new Intent(getActivity(), LoginActivity.class));
-            context.userService().logoutSession();
+        if (context().IsUserLoggedOut()) {
+            DrishtiApplication application = (DrishtiApplication)this.getActivity().getApplication();
+            application.logoutCurrentUser();
             return;
         }
         formController = new FormController((SecuredActivity)getActivity());
-        anmController = context.anmController();
+        anmController = context().anmController();
         navigationController = new NavigationController(getActivity(), anmController);
         onCreation();
     }
@@ -70,9 +68,9 @@ public abstract class SecuredFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (context.IsUserLoggedOut()) {
-            context.userService().logoutSession();
-            startActivity(new Intent(getActivity(), LoginActivity.class));
+        if (context().IsUserLoggedOut()) {
+            DrishtiApplication application = (DrishtiApplication)this.getActivity().getApplication();
+            application.logoutCurrentUser();
             return;
         }
 
@@ -90,7 +88,7 @@ public abstract class SecuredFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (i == R.id.switchLanguageMenuItem) {
-            String newLanguagePreference = context.userService().switchLanguagePreference();
+            String newLanguagePreference = context().userService().switchLanguagePreference();
             Toast.makeText(getActivity(), "Language preference set to " + newLanguagePreference + ". Please restart the application.", LENGTH_SHORT).show();
 
             return super.onOptionsItemSelected(item);
@@ -100,7 +98,7 @@ public abstract class SecuredFragment extends Fragment {
     }
 
     public void logoutUser() {
-        context.userService().logout();
+        context().userService().logout();
         startActivity(new Intent(getActivity(), LoginActivity.class));
     }
 
@@ -143,6 +141,10 @@ public abstract class SecuredFragment extends Fragment {
 
     private boolean hasMetadata() {
         return this.metaData != null && !this.metaData.equalsIgnoreCase("undefined");
+    }
+
+    protected Context context() {
+        return Context.getInstance().updateApplicationContext(this.getActivity().getApplicationContext());
     }
 
     public boolean isPaused() {

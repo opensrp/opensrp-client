@@ -85,7 +85,7 @@ public class NativeKISmartRegisterActivity extends SecuredNativeSmartRegisterAct
             }
         });
 
-        ziggyService = context.ziggyService();
+        ziggyService = context().ziggyService();
     }
     public void onPageChanged(int page){
         setRequestedOrientation(page == 0 ? ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -164,7 +164,7 @@ public class NativeKISmartRegisterActivity extends SecuredNativeSmartRegisterAct
 
             ziggyService.saveForm(getParams(submission), submission.instance());
 
-            context.formSubmissionService().updateFTSsearch(submission);
+            context().formSubmissionService().updateFTSsearch(submission);
 
             //switch to forms list fragment
             switchToBaseFragment(formSubmission); // Unnecessary!! passing on data

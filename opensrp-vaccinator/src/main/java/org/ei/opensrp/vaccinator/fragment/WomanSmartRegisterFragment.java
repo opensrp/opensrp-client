@@ -152,7 +152,7 @@ public class WomanSmartRegisterFragment extends SecuredNativeSmartRegisterFragme
     protected SmartRegisterClientsProvider clientsProvider() {
         if (clientProvider == null) {
             clientProvider = new WomanSmartClientsProvider(
-                    getActivity(), clientActionHandler, controller, context.alertService());
+                    getActivity(), clientActionHandler, controller, context().alertService());
         }
         return clientProvider;
     }//end of method
@@ -160,13 +160,17 @@ public class WomanSmartRegisterFragment extends SecuredNativeSmartRegisterFragme
     @Override
     protected void onInitialization() {
         if (controller == null) {
-            controller = new CommonPersonObjectController(context.allCommonsRepositoryobjects("pkwoman"),
-                    context.allBeneficiaries(), context.listCache(),
-                    context.personObjectClientsCache(), "first_name", "pkwoman", "client_reg_date",
+            controller = new CommonPersonObjectController(context().allCommonsRepositoryobjects
+                    ("pkwoman"),
+                    context().allBeneficiaries(), context().listCache(),
+                    context().personObjectClientsCache(), "first_name", "pkwoman",
+                    "client_reg_date",
                     CommonPersonObjectController.ByColumnAndByDetails.byDetails.byDetails);
 
         }
-        context.formSubmissionRouter().getHandlerMap().put("woman_followup_form", new WomanFollowupHandler(new WomanService(context.allTimelineEvents(), context.allCommonsRepositoryobjects("pkwoman"), context.alertService())));
+        context().formSubmissionRouter().getHandlerMap().put("woman_followup_form",
+                new WomanFollowupHandler(new WomanService(context().allTimelineEvents(), context()
+                        .allCommonsRepositoryobjects("pkwoman"), context().alertService())));
         dialogOptionMapper = new DialogOptionMapper();
     }//end of method
 
@@ -204,7 +208,7 @@ public class WomanSmartRegisterFragment extends SecuredNativeSmartRegisterFragme
                 case R.id.woman_next_visit:
                     HashMap<String, String> map = new HashMap<String, String>();
                     CommonPersonObjectClient client = (CommonPersonObjectClient) view.getTag();
-                    String locationjson = context.anmLocationController().get();
+                    String locationjson = context().anmLocationController().get();
                     LocationTree locationTree = EntityUtils.fromJson(locationjson, LocationTree.class);
 
                     Map<String, TreeNode<String, Location>> locationMap =
@@ -226,7 +230,7 @@ public class WomanSmartRegisterFragment extends SecuredNativeSmartRegisterFragme
                     map.put("provider_location_id", locations.get("uc"));
                     map.put("existing_gender", "female");
                     map.put("provider_location_name", locations.get("uc"));
-                    map.put("provider_id", context.anmService().fetchDetails().name());
+                    map.put("provider_id", context().anmService().fetchDetails().name());
                     map.put("existing_house_number", client.getDetails().get("house_number") != null ? client.getDetails().get("house_number") : "");
                     map.put("existing_street", client.getDetails().get("street") != null ? client.getDetails().get("street") : "");
                     map.put("existing_union_council", client.getDetails().get("union_council") != null ? client.getDetails().get("union_council") : "");
@@ -488,8 +492,8 @@ public class WomanSmartRegisterFragment extends SecuredNativeSmartRegisterFragme
        #TODO:after reading the code , app first search for that id in database if he it is there , that client appears  on register only . if it doesnt then it shows two options
        */
         //controller.getClients().
-        org.ei.opensrp.util.Log.logDebug("ANM DETAILS" + context.anmController().get());
-        String locationjson = context.anmLocationController().get();
+        org.ei.opensrp.util.Log.logDebug("ANM DETAILS" + context().anmController().get());
+        String locationjson = context().anmLocationController().get();
         LocationTree locationTree = EntityUtils.fromJson(locationjson, LocationTree.class);
 
         Map<String, TreeNode<String, Location>> locationMap =
@@ -511,7 +515,7 @@ public class WomanSmartRegisterFragment extends SecuredNativeSmartRegisterFragme
             map.put("provider_location_id", locations.get("uc"));
             map.put("gender", "female");
             map.put("provider_location_name", locations.get("uc"));
-            map.put("provider_id", context.anmService().fetchDetails().name());
+            map.put("provider_id", context().anmService().fetchDetails().name());
 
 
             showFragmentDialog(new EditDialogOptionModel(map), null);

@@ -1,6 +1,11 @@
 package org.ei.opensrp;
 
 public class AllConstants {
+    public static final String DRISHTI_BASE_URL = "DRISHTI_BASE_URL";
+    public static final String PROFILE_IMAGES_DOWNLOAD_PATH = "/multimedia/profileimage";
+    public static final String PROFILE_IMAGES_UPLOAD_PATH = "/multimedia-file";
+
+
     public static final String REPORT_CATEGORY = "reportCategory";
     public static final String INDICATOR_DETAIL = "indicatorDetail";
     public static final String CATEGORY_DESCRIPTION = "categoryDescription";
@@ -39,6 +44,7 @@ public class AllConstants {
     public static final String ANM_LOCATION_CONTROLLER = "anmLocationContext";
 
     public static final String REPOSITORY = "formDataRepositoryContext";
+
 
     public static final String NEW_FP_METHOD_FIELD_NAME = "newMethod";
 
@@ -316,5 +322,13 @@ public class AllConstants {
         public static final String DELIVERY_FACILITY_HOME_VALUE = "home";
         public static final String DELIVERY_FACILITY_SDH_VALUE = "sdh";
         public static final String DELIVERY_FACILITY_DH_VALUE = "dh";
+    }
+    public static final int ANIMATION_FADE_IN_TIME = 250;
+
+    public  final class ImageCache {
+        public static final int DISK_CACHE_MAX_SIZE = 250 * 1024 * 1024; // in bytes totalling 250MB
+        public static final float MEM_CACHE_PERCENT = 0.05f; // Default memory cache size as a percent of device memory class
+        public static final int MEM_CACHE_MAX_SIZE = 10 * 1024; // in kilobytes (value calculated using MEM_CACHE_PERCENT should not exceed this maximum 10MB)
+        public static final String DISK_CACHE_DIR = "opensrp-images";
     }
 }

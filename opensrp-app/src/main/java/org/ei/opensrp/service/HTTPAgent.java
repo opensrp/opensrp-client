@@ -19,6 +19,7 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -48,6 +49,7 @@ import java.security.KeyStore;
 import javax.net.ssl.SSLException;
 
 import static org.ei.opensrp.AllConstants.REALM;
+import static org.ei.opensrp.domain.LoginResponse.MALFORMED_URL;
 import static org.ei.opensrp.domain.LoginResponse.NO_INTERNET_CONNECTIVITY;
 import static org.ei.opensrp.domain.LoginResponse.SUCCESS;
 import static org.ei.opensrp.domain.LoginResponse.UNAUTHORIZED;
@@ -57,6 +59,7 @@ import static org.ei.opensrp.util.Log.logError;
 import static org.ei.opensrp.util.Log.logWarn;
 
 public class HTTPAgent {
+    private static final String TAG=HTTPAgent.class.getCanonicalName();
     private final GZipEncodingHttpClient httpClient;
     private Context context;
     private AllSettings settings;
@@ -119,6 +122,7 @@ public class HTTPAgent {
     public LoginResponse urlCanBeAccessWithGivenCredentials(String requestURL, String userName, String password) {
         setCredentials(userName, password);
         try {
+            requestURL=requestURL.replaceAll("\\s+","");
             HttpResponse response = httpClient.execute(new HttpGet(requestURL));
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode == HttpStatus.SC_OK) {
@@ -130,9 +134,13 @@ public class HTTPAgent {
                 logError("Bad response from Dristhi. Status code:  " + statusCode + " username: " + userName + " using " + requestURL);
                 return UNKNOWN_RESPONSE;
             }
-        } catch (IOException e) {
+        }catch (IOException e) {
             logError("Failed to check credentials of: " + userName + " using " + requestURL + ". Error: " + e.toString());
             return NO_INTERNET_CONNECTIVITY;
+        }catch (IllegalArgumentException e){
+            logError(e.getMessage());
+            return MALFORMED_URL;
+
         }
     }
 
@@ -189,32 +197,35 @@ public class HTTPAgent {
 
         String responseString = "";
         try {
-            setCredentials(allSharedPreferences.fetchRegisteredANM(), settings.fetchANMPassword());
+            File uploadFile = new File(image.getFilepath());
+            if(uploadFile.exists()) {
+                setCredentials(allSharedPreferences.fetchRegisteredANM(), settings.fetchANMPassword());
 
-            HttpPost httpost = new HttpPost(url);
+                HttpPost httpost = new HttpPost(url);
 
-            httpost.setHeader("Accept", "multipart/form-data");
-            File filetoupload = new File(image.getFilepath());
-            Log.v("file to upload",""+filetoupload.length());
-            MultipartEntity entity = new MultipartEntity();
-            entity.addPart("anm-id", new StringBody(image.getAnmId()));
-            entity.addPart("entity-id", new StringBody(image.getEntityID()));
-            entity.addPart("content-type", new StringBody(image.getContenttype()));
-            entity.addPart("file-category", new StringBody(image.getFilecategory()));
-            entity.addPart("file", new FileBody(new File(image.getFilepath())));
-            httpost.setEntity(entity);
-            String authToken = null;
-            HttpResponse response = httpClient.postContent(httpost);
-            responseString = EntityUtils.toString(response.getEntity());
-            Log.v("response so many",responseString);
-            int RESPONSE_OK = 200;
-            int RESPONSE_OK_ = 201;
+                httpost.setHeader("Accept", "multipart/form-data");
+                File filetoupload = new File(image.getFilepath());
+                Log.v("file to upload", "" + filetoupload.length());
+                MultipartEntity entity = new MultipartEntity();
+                entity.addPart("anm-id", new StringBody(image.getAnmId()));
+                entity.addPart("entity-id", new StringBody(image.getEntityID()));
+                entity.addPart("content-type", new StringBody(image.getContenttype() != null ? image.getContenttype() : "jpeg"));
+                entity.addPart("file-category", new StringBody(image.getFilecategory() != null ? image.getFilecategory() : "profilepic"));
+                ContentBody cbFile = new FileBody(uploadFile,"image/jpeg");
+                entity.addPart("file", cbFile);
+                httpost.setEntity(entity);
+                String authToken = null;
+                HttpResponse response = httpClient.postContent(httpost);
+                responseString = EntityUtils.toString(response.getEntity());
+                Log.v("response so many", responseString);
+                int RESPONSE_OK = 200;
+                int RESPONSE_OK_ = 201;
 
-            if (response.getStatusLine().getStatusCode() != RESPONSE_OK_ && response.getStatusLine().getStatusCode() != RESPONSE_OK) {
+                if (response.getStatusLine().getStatusCode() != RESPONSE_OK_ && response.getStatusLine().getStatusCode() != RESPONSE_OK) {
+                }
             }
-
         }catch (Exception e){
-
+            Log.e(TAG, e.getMessage());
         }
         return responseString;
     }

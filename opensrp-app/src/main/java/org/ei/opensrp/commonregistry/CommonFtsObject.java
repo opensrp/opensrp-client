@@ -1,5 +1,7 @@
 package org.ei.opensrp.commonregistry;
 
+import android.util.Pair;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -14,10 +16,12 @@ import java.util.Map;
 public class CommonFtsObject {
 
     private String[] tables;
+    private String[] alertFilterVisitCodes;
     private Map<String, String[]> searchMap;
     private Map<String, String[]> sortMap;
     private Map<String, String[]> mainConditionMap;
     private Map<String, String> customRelationalIdMap;
+    private Map<String, Pair<String, Boolean>> alertsScheduleMap;
     public static final String idColumn = "object_id";
     public static final String relationalIdColumn = "object_relational_id";
     public static final String phraseColumnName = "phrase";
@@ -28,6 +32,7 @@ public class CommonFtsObject {
         this.sortMap = new HashMap<String, String[]>();
         this.mainConditionMap = new HashMap<String, String[]>();
         this.customRelationalIdMap = new HashMap<String, String>();
+        this.alertsScheduleMap = new HashMap<String, Pair<String, Boolean>>();
     }
 
     public void updateSearchFields(String table, String[] searchFields) {
@@ -54,6 +59,14 @@ public class CommonFtsObject {
         }
     }
 
+    public void updateAlertScheduleMap(Map<String, Pair<String, Boolean>> alertsScheduleMap) {
+        this.alertsScheduleMap = alertsScheduleMap;
+    }
+
+    public void updateAlertFilterVisitCodes(String[] alertFilterVisitCodes) {
+        this.alertFilterVisitCodes = alertFilterVisitCodes;
+    }
+
     public String[] getTables() {
         if(tables == null){
             tables = ArrayUtils.EMPTY_STRING_ARRAY;
@@ -73,6 +86,34 @@ public class CommonFtsObject {
 
     public String getCustomRelationalId(String table) {
         return customRelationalIdMap.get(table);
+    }
+
+    public String getAlertBindType(String schedule) {
+        if(StringUtils.isBlank(schedule)){
+            return null;
+        }
+        Pair<String, Boolean> pair =  alertsScheduleMap.get(schedule);
+        if(pair == null){
+            return null;
+        }
+
+        return pair.first;
+    }
+
+    public Boolean alertUpdateVisitCode(String schedule) {
+        if(StringUtils.isBlank(schedule)){
+            return null;
+        }
+        Pair<String, Boolean> pair =  alertsScheduleMap.get(schedule);
+        if(pair == null){
+            return null;
+        }
+
+        return pair.second;
+    }
+
+    public String[] getAlertFilterVisitCodes(){
+        return alertFilterVisitCodes;
     }
 
     public boolean containsTable(String table) {

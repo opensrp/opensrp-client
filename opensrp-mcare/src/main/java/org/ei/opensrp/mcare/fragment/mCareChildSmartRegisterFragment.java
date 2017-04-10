@@ -7,8 +7,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
+import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
+import org.ei.opensrp.commonregistry.CommonFtsObject;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
@@ -16,6 +18,7 @@ import org.ei.opensrp.commonregistry.CommonRepository;
 import org.ei.opensrp.commonregistry.ControllerFilterMap;
 import org.ei.opensrp.cursoradapter.CursorCommonObjectFilterOption;
 import org.ei.opensrp.cursoradapter.CursorCommonObjectSort;
+import org.ei.opensrp.cursoradapter.CursorFilterOption;
 import org.ei.opensrp.cursoradapter.SecuredNativeSmartRegisterCursorAdapterFragment;
 import org.ei.opensrp.cursoradapter.SmartRegisterPaginatedCursorAdapter;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
@@ -32,7 +35,6 @@ import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
 import org.ei.opensrp.view.contract.ECClient;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
-import org.ei.opensrp.view.contract.SmartRegisterClients;
 import org.ei.opensrp.view.controller.VillageController;
 import org.ei.opensrp.view.customControls.CustomFontTextView;
 import org.ei.opensrp.view.dialog.AllClientsFilter;
@@ -50,8 +52,6 @@ import org.opensrp.api.util.TreeNode;
 
 import java.util.ArrayList;
 import java.util.Map;
-
-import util.AsyncTask;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
@@ -113,7 +113,7 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
                 dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_encc2),filterStringForENCCRV2()));
                 dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_encc3),filterStringForENCCRV3()));
 
-                String locationjson = context.anmLocationController().get();
+                String locationjson = context().anmLocationController().get();
                 LocationTree locationTree = EntityUtils.fromJson(locationjson, LocationTree.class);
 
                 Map<String,TreeNode<String, Location>> locationMap =
@@ -260,44 +260,19 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
 
             @Override
             public void onTextChanged(final CharSequence cs, int start, int before, int count) {
-                (new AsyncTask() {
-                    SmartRegisterClients filteredClients;
 
-                    @Override
-                    protected Object doInBackground(Object[] params) {
-//                        currentSearchFilter =
-//                        setCurrentSearchFilter(new HHSearchOption(cs.toString()));
-//                        filteredClients = getClientsAdapter().getListItemProvider()
-//                                .updateClients(getCurrentVillageFilter(), getCurrentServiceModeOption(),
-//                                        getCurrentSearchFilter(), getCurrentSortOption());
-//
-                        if(cs.toString().equalsIgnoreCase("")){
-                            filters = "";
-                        }else {
-                            //filters = "and FWWOMFNAME Like '%" + cs.toString() + "%' or GOBHHID Like '%" + cs.toString() + "%'  or JiVitAHHID Like '%" + cs.toString() + "%' ";
-                            filters =  cs.toString();
-                        }
-                        joinTable = "";
-                        mainCondition = " FWBNFGEN is not null ";
-                        return null;
-                    }
+                if (cs.toString().equalsIgnoreCase("")) {
+                    filters = "";
+                } else {
+                    //filters = "and FWWOMFNAME Like '%" + cs.toString() + "%' or GOBHHID Like '%" + cs.toString() + "%'  or JiVitAHHID Like '%" + cs.toString() + "%' ";
+                    filters = cs.toString();
+                }
+                joinTable = "";
+                mainCondition = " FWBNFGEN is not null ";
 
-                    @Override
-                    protected void onPostExecute(Object o) {
-//                        clientsAdapter
-//                                .refreshList(currentVillageFilter, currentServiceModeOption,
-//                                        currentSearchFilter, currentSortOption);
-//                        getClientsAdapter().refreshClients(filteredClients);
-//                        getClientsAdapter().notifyDataSetChanged();
-                        getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
-                        CountExecute();
-                        filterandSortExecute();
-                        super.onPostExecute(o);
-                    }
-                }).execute();
-
-
-
+                getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
+                CountExecute();
+                filterandSortExecute();
 
             }
 
@@ -316,7 +291,7 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
             }else{
                 StringUtil.humanize(entry.getValue().getLabel());
                 String name = StringUtil.humanize(entry.getValue().getLabel());
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(name,"and mcaremother.details like '%"+name +"%'"));
+                dialogOptionslist.add(new CursorCommonObjectFilterOption(name," and mcaremother.details like '%"+name +"%'"));
 
             }
         }
@@ -344,7 +319,8 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
         }
     }
     public void initializeQueries(){
-        mCareChildSmartClientsProvider hhscp = new mCareChildSmartClientsProvider(getActivity(), clientActionHandler,context.alertService());
+        mCareChildSmartClientsProvider hhscp = new mCareChildSmartClientsProvider(getActivity(),
+                clientActionHandler,context().alertService());
         clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, hhscp, new CommonRepository("mcarechild",new String []{ "FWBNFGEN"}));
         clientsView.setAdapter(clientAdapter);
 
@@ -369,26 +345,21 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
 
     }
     private String sortByAlertmethod() {
-        return " CASE WHEN alerts.status = 'urgent' THEN '1'"
-                +
-                "WHEN alerts.status = 'upcoming' THEN '2'\n" +
-                "WHEN alerts.status = 'normal' THEN '3'\n" +
-                "WHEN alerts.status = 'expired' THEN '4'\n" +
-                "WHEN alerts.status is Null THEN '5'\n" +
-                "WHEN alerts.status = 'complete' THEN '6'\n" +
-                "Else alerts.status END ASC";
+        return " CASE WHEN Essential_Newborn_Care_Checklist = 'urgent' THEN '1'\n" +
+                "WHEN Essential_Newborn_Care_Checklist = 'upcoming' THEN '2'\n" +
+                "WHEN Essential_Newborn_Care_Checklist = 'normal' THEN '3'\n" +
+                "WHEN Essential_Newborn_Care_Checklist = 'expired' THEN '4'\n" +
+                "WHEN Essential_Newborn_Care_Checklist is Null THEN '5'\n" +
+                "WHEN Essential_Newborn_Care_Checklist = 'complete' THEN '6'\n" +
+                "Else Essential_Newborn_Care_Checklist END ASC";
     }
     public String childMainSelectWithJoins(){
         return "Select mcarechild.id as _id,mcarechild.relationalid,mcarechild.details,mcarechild.FWBNFGEN \n" +
-                "from mcarechild\n" +
-                "Left Join mcaremother on mcarechild.relationalid = mcaremother.id \n" +
-                "Left Join alerts on alerts.caseID = mcarechild.id and alerts.scheduleName = 'Essential Newborn Care Checklist'";
+                "from mcarechild\n";
     }
     public String childMainCountWithJoins() {
         return "Select Count(*) \n" +
-                "from mcarechild\n" +
-                "Left Join mcaremother on mcarechild.relationalid = mcaremother.id \n" +
-                "Left Join alerts on alerts.caseID = mcarechild.id and alerts.scheduleName = 'Essential Newborn Care Checklist'";
+                "from mcarechild\n";
     }
 
     private String sortBySortValue(){
@@ -404,13 +375,32 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
         return " GOBHHID ASC";
     }
     private String filterStringForENCCRV1(){
-        return "and alerts.visitCode LIKE '%enccrv_1%'";
+        return "enccrv_1";
     }
     private String filterStringForENCCRV2(){
-        return "and alerts.visitCode LIKE '%enccrv_2%'";
+        return "enccrv_2";
     }
     private String filterStringForENCCRV3(){
-        return "and alerts.visitCode LIKE '%enccrv_3%'";
+        return "enccrv_3";
+    }
+
+    /**
+     * Override filter to capture fts filter by location
+     * @param filter
+     */
+    @Override
+    public void onFilterSelection(FilterOption filter) {
+        appliedVillageFilterView.setText(filter.name());
+        filters = ((CursorFilterOption)filter).filter();
+        mainCondition = " FWBNFGEN is not null ";
+
+        if(StringUtils.isNotBlank(filters) && filters.contains(" and mcaremother.details like ")){
+            String searchString = filters.replace(" and mcaremother.details like ", "");
+            mainCondition += " AND "+ CommonFtsObject.relationalIdColumn +" IN (SELECT "+CommonFtsObject.idColumn+ " FROM " + CommonFtsObject.searchTableName("mcaremother")+ " WHERE details LIKE " + searchString+ " ) ";
+            filters = "";
+        }
+        CountExecute();
+        filterandSortExecute();
     }
 
 }

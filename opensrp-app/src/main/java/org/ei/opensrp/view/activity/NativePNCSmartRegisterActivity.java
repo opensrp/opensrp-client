@@ -113,11 +113,12 @@ public class NativePNCSmartRegisterActivity extends SecuredNativeSmartRegisterAc
 
     @Override
     protected void onInitialization() {
-        controller = new PNCSmartRegisterController(context.serviceProvidedService(), context.alertService(), context.allEligibleCouples(),
-                context.allBeneficiaries(),
-                context.listCache(), context.pncClientsCache());
-        villageController = new VillageController(context.allEligibleCouples(),
-                context.listCache(), context.villagesCache());
+        controller = new PNCSmartRegisterController(context().serviceProvidedService(),
+                context().alertService(), context().allEligibleCouples(),
+                context().allBeneficiaries(),
+                context().listCache(), context().pncClientsCache());
+        villageController = new VillageController(context().allEligibleCouples(),
+                context().listCache(), context().villagesCache());
         dialogOptionMapper = new DialogOptionMapper();
         clientsProvider().onServiceModeSelected(new PNCOverviewServiceMode(clientsProvider()));
     }
@@ -129,7 +130,8 @@ public class NativePNCSmartRegisterActivity extends SecuredNativeSmartRegisterAc
 
     @Override
     public void startRegistration() {
-        FieldOverrides fieldOverrides = new FieldOverrides(context.anmLocationController().getLocationJSON());
+        FieldOverrides fieldOverrides = new FieldOverrides(context().anmLocationController()
+                .getLocationJSON());
         startFormActivity(PNC_REGISTRATION_OA, null, fieldOverrides.getJSONString());
     }
 

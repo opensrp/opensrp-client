@@ -22,4 +22,8 @@ public class Log {
     public static void logError(String message) {
         e("DRISHTI", message);
     }
+    public static void logError(String tag,String message) {
+        e(tag, message);
+    }
+
 }

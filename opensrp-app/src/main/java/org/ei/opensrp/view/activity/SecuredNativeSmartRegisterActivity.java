@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.*;
 import com.google.gson.Gson;
+
+import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.R;
 import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
 import org.ei.opensrp.domain.ReportMonth;
@@ -25,10 +27,14 @@ import org.ei.opensrp.view.customControls.CustomFontTextView;
 import org.ei.opensrp.view.customControls.FontVariant;
 import org.ei.opensrp.view.dialog.*;
 import org.joda.time.LocalDate;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONML;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import static android.os.AsyncTask.THREAD_POOL_EXECUTOR;
 import static android.view.View.INVISIBLE;
@@ -594,13 +600,49 @@ public abstract class SecuredNativeSmartRegisterActivity extends SecuredActivity
                     editor.remove(overridesKey);
                     editor.remove(idKey);
                     editor.apply();
-                    return savedDataStr;
+                    return updateSavedDataCurrentDate(savedDataStr);
                 }
             }
         }catch (Exception e){
             e.printStackTrace();
         }
         return null;
+    }
+
+    private String updateSavedDataCurrentDate(String savedDataStr){
+        if(StringUtils.isBlank(savedDataStr)){
+            return savedDataStr;
+        }
+
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+
+            JSONObject parentJson= JSONML.toJSONObject(savedDataStr);
+            JSONArray jsonArray = parentJson.getJSONArray("childNodes");
+
+            for(int i = 0; i < jsonArray.length(); i++)
+            {
+                JSONObject object = jsonArray.getJSONObject(i);
+                String tagName = object.getString("tagName");
+                if(tagName.equals("today")){
+                    object.put("childNodes", dateFormat.format(new Date()));
+                }
+                if(tagName.equals("start")){
+                    object.put("childNodes", dateTimeFormat.format(new Date()));
+                }
+                if(tagName.equals("end")){
+                    object.put("childNodes", dateTimeFormat.format(new Date()));
+                }
+            }
+
+            return JSONML.toString(parentJson);
+
+        } catch (JSONException e){
+            Log.e(getClass().getName(), "", e);
+
+        }
+        return savedDataStr;
     }
 
 

@@ -12,7 +12,9 @@ public class PNCDetailActivity extends SecuredWebActivity {
     protected void onInitialization() {
         String caseId = (String) getIntent().getExtras().get("caseId");
 
-        webView.addJavascriptInterface(new PNCDetailController(this, caseId, context.allEligibleCouples(), context.allBeneficiaries(), context.allTimelineEvents()), "context");
+        webView.addJavascriptInterface(new PNCDetailController(this, caseId,
+                context().allEligibleCouples(), context().allBeneficiaries(),
+                context().allTimelineEvents()), "context");
         webView.loadUrl("file:///android_asset/www/pnc_detail.html");
 
         photoCaptureListener = new Listener<CapturedPhotoInformation>() {

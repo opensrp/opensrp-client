@@ -28,18 +28,16 @@ import static org.ei.opensrp.event.Event.ON_LOGOUT;
 import static org.ei.opensrp.util.Log.logInfo;
 
 public abstract class SecuredActivity extends ActionBarActivity {
-    protected Context context;
     protected Listener<Boolean> logoutListener;
     protected FormController formController;
     protected ANMController anmController;
     protected NavigationController navigationController;
+    protected final int MENU_ITEM_LOGOUT = 2312;
     private String metaData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        context = Context.getInstance().updateApplicationContext(this.getApplicationContext());
 
         logoutListener = new Listener<Boolean>() {
             public void onEvent(Boolean data) {
@@ -48,14 +46,14 @@ public abstract class SecuredActivity extends ActionBarActivity {
         };
         ON_LOGOUT.addListener(logoutListener);
 
-        if (context.IsUserLoggedOut()) {
+        if (context().IsUserLoggedOut()) {
             DrishtiApplication application = (DrishtiApplication)getApplication();
             application.logoutCurrentUser();
             return;
         }
 
         formController = new FormController(this);
-        anmController = context.anmController();
+        anmController = context().anmController();
         navigationController = new NavigationController(this, anmController);
         onCreation();
     }
@@ -63,7 +61,7 @@ public abstract class SecuredActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (context.IsUserLoggedOut()) {
+        if (context().IsUserLoggedOut()) {
             DrishtiApplication application = (DrishtiApplication)getApplication();
             application.logoutCurrentUser();
             return;
@@ -76,8 +74,13 @@ public abstract class SecuredActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (i == R.id.switchLanguageMenuItem) {
-            String newLanguagePreference = context.userService().switchLanguagePreference();
+            String newLanguagePreference = context().userService().switchLanguagePreference();
             Toast.makeText(this, "Language preference set to " + newLanguagePreference + ". Please restart the application.", LENGTH_SHORT).show();
+
+            return super.onOptionsItemSelected(item);
+        } else if (i == MENU_ITEM_LOGOUT) {
+            DrishtiApplication application = (DrishtiApplication)getApplication();
+            application.logoutCurrentUser();
 
             return super.onOptionsItemSelected(item);
         } else {
@@ -85,10 +88,20 @@ public abstract class SecuredActivity extends ActionBarActivity {
         }
     }
 
+    /**
+     * Attaches a logout menu item to the provided menu
+     *
+     * @param menu      The menu to attach the logout menu item
+     */
+    protected void attachLogoutMenuItem(Menu menu) {
+        menu.add(0, MENU_ITEM_LOGOUT, menu.size(), R.string.logout_text);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
+        attachLogoutMenuItem(menu);
         return true;
     }
 
@@ -146,5 +159,9 @@ public abstract class SecuredActivity extends ActionBarActivity {
 
     private boolean hasMetadata() {
         return this.metaData != null && !this.metaData.equalsIgnoreCase("undefined");
+    }
+
+    protected Context context() {
+        return Context.getInstance().updateApplicationContext(this.getApplicationContext());
     }
 }

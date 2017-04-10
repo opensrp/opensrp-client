@@ -27,6 +27,7 @@ import org.ei.opensrp.domain.LoginResponse;
 import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.domain.ResponseStatus;
 import org.ei.opensrp.event.Listener;
+import org.ei.opensrp.mcare.application.McareApplication;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
 import org.ei.opensrp.util.Log;
@@ -299,6 +300,7 @@ public class LoginActivity extends Activity {
     }
 
     private void goToHome() {
+        McareApplication.setCrashlyticsUser(context);
         startActivity(new Intent(this, NativeHomeActivity.class));
         finish();
     }

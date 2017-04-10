@@ -99,10 +99,10 @@ public class CameraLaunchActivity extends SecuredActivity {
 
     private void updateEntity(String imagePath) {
         if (WOMAN_TYPE.equals(entityType)) {
-            context.allEligibleCouples().updatePhotoPath(entityId, imagePath);
+            context().allEligibleCouples().updatePhotoPath(entityId, imagePath);
         }
         if(CHILD_TYPE.equals(entityType)) {
-            context.childService().updatePhotoPath(entityId, imagePath);
+            context().childService().updatePhotoPath(entityId, imagePath);
         }
         ON_PHOTO_CAPTURED.notifyListeners(new CapturedPhotoInformation(entityId, imagePath));
     }

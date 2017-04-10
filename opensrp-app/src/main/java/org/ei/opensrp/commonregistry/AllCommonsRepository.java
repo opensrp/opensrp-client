@@ -68,7 +68,7 @@ public class AllCommonsRepository {
     }
 
     public List<CommonPersonObject> customQueryForCompleteRow(String sql , String[] selections , String tableName){
-        return personRepository.customQueryForCompleteRow(sql,selections,tableName);
+        return personRepository.customQueryForCompleteRow(sql, selections, tableName);
     }
 
     public List<String> updateSearch(List<String> caseIds) {
@@ -110,5 +110,14 @@ public class AllCommonsRepository {
         }
 
         return true;
+    }
+
+    public boolean updateSearch(String caseId, String field, String value, String[] listToRemove) {
+        if(StringUtils.isBlank(caseId)){
+            return false;
+        }
+
+        return personRepository.populateSearchValues(caseId, field, value, listToRemove);
+
     }
 }

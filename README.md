@@ -1,4 +1,4 @@
-[![Dristhi](opensrp-app/res/drawable-mdpi/login_logo.png)] (https://smartregister.atlassian.net/wiki/dashboard.action)
+[![Dristhi](opensrp-app/res/drawable-mdpi/login_logo.png)](https://smartregister.atlassian.net/wiki/dashboard.action)
 
 To run this project, you need to do this:
 ========================================

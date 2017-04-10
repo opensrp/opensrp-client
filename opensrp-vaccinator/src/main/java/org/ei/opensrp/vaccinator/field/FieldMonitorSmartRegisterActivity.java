@@ -110,17 +110,19 @@ public class FieldMonitorSmartRegisterActivity extends SecuredNativeSmartRegiste
         });
 
         if (sortbymonth) {
-            controller = new CommonPersonObjectController(context.allCommonsRepositoryobjects("field"),
-                    context.allBeneficiaries(), context.listCache(),
-                    context.personObjectClientsCache(), "date", "field", "report", "monthly",
+            controller = new CommonPersonObjectController(
+                    context().allCommonsRepositoryobjects("field"),
+                    context().allBeneficiaries(), context().listCache(),
+                    context().personObjectClientsCache(), "date", "field", "report", "monthly",
                     CommonPersonObjectController.ByColumnAndByDetails.byColumn
                     , "date",
                     CommonPersonObjectController.ByColumnAndByDetails.byColumn);
 
         } else {
-            controller = new CommonPersonObjectController(context.allCommonsRepositoryobjects("field"),
-                    context.allBeneficiaries(), context.listCache(),
-                    context.personObjectClientsCache(), "date", "field", "report", "daily",
+            controller = new CommonPersonObjectController(
+                    context().allCommonsRepositoryobjects("field"),
+                    context().allBeneficiaries(), context().listCache(),
+                    context().personObjectClientsCache(), "date", "field", "report", "daily",
                     CommonPersonObjectController.ByColumnAndByDetails.byColumn
                     , "date",
                     CommonPersonObjectController.ByColumnAndByDetails.byColumn);

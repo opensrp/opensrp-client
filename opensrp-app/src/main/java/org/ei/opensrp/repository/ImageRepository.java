@@ -48,10 +48,14 @@ public class ImageRepository extends DrishtiRepository {
     public ProfileImage findByEntityId(String entityId) {
         SQLiteDatabase database = masterRepository.getReadableDatabase();
         Cursor cursor = database.query(Image_TABLE_NAME, Image_TABLE_COLUMNS, entityID_COLUMN + " = ?", new String[]{entityId}, null, null, null, null);
-        return readAll(cursor).get(0);
+        return readAll(cursor).isEmpty()?null:readAll(cursor).get(0);
     }
 
-
+    public List<ProfileImage> findAllUnSynced() {
+        SQLiteDatabase database = masterRepository.getReadableDatabase();
+        Cursor cursor = database.query(Image_TABLE_NAME, Image_TABLE_COLUMNS, syncStatus_COLUMN + " = ?", new String[]{TYPE_Unsynced}, null, null, null, null);
+        return readAll(cursor);
+    }
 
     public void close(String caseId) {
         ContentValues values = new ContentValues();
@@ -72,15 +76,20 @@ public class ImageRepository extends DrishtiRepository {
     }
 
     private List<ProfileImage> readAll(Cursor cursor) {
-        cursor.moveToFirst();
         List<ProfileImage> ProfileImages = new ArrayList<ProfileImage>();
-        while (!cursor.isAfterLast()) {
 
-            ProfileImages.add(new ProfileImage(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6)));
+        try {
+            cursor.moveToFirst();
+            while (cursor.getCount() > 0 && !cursor.isAfterLast()) {
 
-            cursor.moveToNext();
+                ProfileImages.add(new ProfileImage(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6)));
+
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }catch(Exception e){
+
         }
-        cursor.close();
         return ProfileImages;
     }
 

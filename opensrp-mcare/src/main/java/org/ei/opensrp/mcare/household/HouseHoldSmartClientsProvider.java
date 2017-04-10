@@ -3,6 +3,7 @@ package org.ei.opensrp.mcare.household;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -151,7 +152,7 @@ public class HouseHoldSmartClientsProvider implements SmartRegisterCLientsProvid
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                Log.e(getClass().getName(), "Exception", e);
             }
         }else if (pc.getDetails().get("FWNHREGDATE")!= null && pc.getDetails().get("FWCENDATE")== null){
             viewHolder.last_visit_date.setText(pc.getDetails().get("FWNHREGDATE")!=null?pc.getDetails().get("FWNHREGDATE"):"");

@@ -114,11 +114,11 @@ public class NativeECSmartRegisterActivity extends SecuredNativeSmartRegisterAct
 
     @Override
     protected void onInitialization() {
-        controller = new ECSmartRegisterController(context.allEligibleCouples(),
-                context.allBeneficiaries(), context.listCache(),
-                context.ecClientsCache());
-        villageController = new VillageController(context.allEligibleCouples(),
-                context.listCache(), context.villagesCache());
+        controller = new ECSmartRegisterController(context().allEligibleCouples(),
+                context().allBeneficiaries(), context().listCache(),
+                context().ecClientsCache());
+        villageController = new VillageController(context().allEligibleCouples(),
+                context().listCache(), context().villagesCache());
         dialogOptionMapper = new DialogOptionMapper();
     }
 
@@ -139,7 +139,8 @@ public class NativeECSmartRegisterActivity extends SecuredNativeSmartRegisterAct
         }
         ft.addToBackStack(null);
             LocationSelectorDialogFragment
-                .newInstance(this, new EditDialogOptionModel(), context.anmLocationController().get(),EC_REGISTRATION)
+                .newInstance(this, new EditDialogOptionModel(),
+                        context().anmLocationController().get(),EC_REGISTRATION)
                 .show(ft, locationDialogTAG);
     }
 

@@ -120,7 +120,7 @@ public class BidanHomeActivity extends SecuredActivity {
     }
 
     private void initialize() {
-        pendingFormSubmissionService = context.pendingFormSubmissionService();
+        pendingFormSubmissionService = context().pendingFormSubmissionService();
         SYNC_STARTED.addListener(onSyncStartListener);
         SYNC_COMPLETED.addListener(onSyncCompleteListener);
         FORM_SUBMITTED.addListener(onFormSubmittedListener);
@@ -155,30 +155,37 @@ public class BidanHomeActivity extends SecuredActivity {
 
     private void updateRegisterCounts(HomeContext homeContext) {
         SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder();
-        Cursor kicountcursor = context.commonrepository("kartu_ibu").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("kartu_ibu", "kartu_ibu.isClosed NOT Null and kartu_ibu.isClosed != ''"));
+        Cursor kicountcursor = context().commonrepository("kartu_ibu").RawCustomQueryForAdapter(
+                sqb.queryForCountOnRegisters("kartu_ibu",
+                        "kartu_ibu.isClosed NOT Null and kartu_ibu.isClosed != ''"));
         kicountcursor.moveToFirst();
         kicount= kicountcursor.getInt(0);
         kicountcursor.close();
 
-        Cursor kbcountcursor = context.commonrepository("kartu_ibu").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("kartu_ibu", "kartu_ibu.isClosed NOT Null and kartu_ibu.isClosed != '' and details not LIKE '%\"jenisKontrasepsi\":\"\"%'"));
+        Cursor kbcountcursor = context().commonrepository("kartu_ibu").RawCustomQueryForAdapter(
+                sqb.queryForCountOnRegisters("kartu_ibu",
+                        "kartu_ibu.isClosed NOT Null and kartu_ibu.isClosed != '' and details not LIKE '%\"jenisKontrasepsi\":\"\"%'"));
         kbcountcursor.moveToFirst();
         kbcount= kbcountcursor.getInt(0);
         kbcountcursor.close();
 
 
-        Cursor anccountcursor = context.commonrepository("ibu").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("ibu", "ibu.isClosed !='true' and ibu.type ='anc'"));
+        Cursor anccountcursor = context().commonrepository("ibu").RawCustomQueryForAdapter(
+                sqb.queryForCountOnRegisters("ibu", "ibu.isClosed !='true' and ibu.type ='anc'"));
         anccountcursor.moveToFirst();
         anccount= anccountcursor.getInt(0);
         anccountcursor.close();
 
 
-        Cursor pnccountcursor = context.commonrepository("ibu").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("ibu", "ibu.type NOT Null and ibu.type = 'pnc'"));
+        Cursor pnccountcursor = context().commonrepository("ibu").RawCustomQueryForAdapter(
+                sqb.queryForCountOnRegisters("ibu", "ibu.type NOT Null and ibu.type = 'pnc'"));
         pnccountcursor.moveToFirst();
         pnccount= pnccountcursor.getInt(0);
         pnccountcursor.close();
 
 
-        Cursor childcountcursor = context.commonrepository("anak").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("anak", "anak.isClosed = 'false'"));
+        Cursor childcountcursor = context().commonrepository("anak").RawCustomQueryForAdapter(
+                sqb.queryForCountOnRegisters("anak", "anak.isClosed = 'false'"));
         childcountcursor.moveToFirst();
         childcount= childcountcursor.getInt(0);
         childcountcursor.close();
@@ -194,6 +201,7 @@ public class BidanHomeActivity extends SecuredActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+        attachLogoutMenuItem(menu);
         return true;
     }
 
@@ -231,8 +239,8 @@ public class BidanHomeActivity extends SecuredActivity {
     public void updateFromServer() {
         FlurryFacade.logEvent("clicked_update_from_server");
         UpdateActionsTask updateActionsTask = new UpdateActionsTask(
-                this, context.actionService(), context.formSubmissionSyncService(),
-                new SyncProgressIndicator(), context.allFormVersionSyncService());
+                this, context().actionService(), context().formSubmissionSyncService(),
+                new SyncProgressIndicator(), context().allFormVersionSyncService());
         updateActionsTask.updateFromServer(new SyncAfterFetchListener());
     }
 
@@ -248,7 +256,7 @@ public class BidanHomeActivity extends SecuredActivity {
 
     private void updateSyncIndicator() {
         if (updateMenuItem != null) {
-            if (context.allSharedPreferences().fetchIsSyncInProgress()) {
+            if (context().allSharedPreferences().fetchIsSyncInProgress()) {
                 updateMenuItem.setActionView(R.layout.progress);
             } else
                 updateMenuItem.setActionView(null);

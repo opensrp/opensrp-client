@@ -43,6 +43,15 @@ public class DisplayFormFragment extends Fragment {
 
     WebView webView;
     ProgressBar progressBar;
+    boolean formPartialSaving = true;
+
+    public boolean isFormPartialSaving() {
+        return formPartialSaving;
+    }
+
+    public void setFormPartialSaving(boolean formPartialSaving) {
+        this.formPartialSaving = formPartialSaving;
+    }
 
     public static String formInputErrorMessage = "Form contains errors please try again";// externalize this
 
@@ -334,7 +343,9 @@ public class DisplayFormFragment extends Fragment {
         @JavascriptInterface
         public void savePartialFormData(String partialData){
             //Toast.makeText(mContext, "saving un-submitted form data", Toast.LENGTH_LONG).show();
-            ((SecuredNativeSmartRegisterActivity)getActivity()).savePartialFormData(partialData, recordId, formName, getFormFieldsOverrides());
+            if(formPartialSaving) {
+                ((SecuredNativeSmartRegisterActivity) getActivity()).savePartialFormData(partialData, recordId, formName, getFormFieldsOverrides());
+            }
         }
 
         @JavascriptInterface

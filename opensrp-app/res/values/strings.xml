@@ -5,6 +5,7 @@
     <string name="userNameEditText">Enter user name</string>
     <string name="passwordEditText">Enter password</string>
     <string name="login_text">Log In</string>
+    <string name="logout_text">Logout</string>
     <string name="image_description">logo</string>
     <string name="spacer">spacer</string>
     <string name="loggin_in_dialog_title">Logging in…</string>

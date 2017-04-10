@@ -121,11 +121,11 @@ public class NativeFPSmartRegisterActivity extends SecuredNativeSmartRegisterAct
 
     @Override
     protected void onInitialization() {
-        controller = new FPSmartRegisterController(context.allEligibleCouples(),
-                context.allBeneficiaries(), context.alertService(),
-                context.listCache(), context.fpClientsCache());
-        villageController = new VillageController(context.allEligibleCouples(),
-                context.listCache(), context.villagesCache());
+        controller = new FPSmartRegisterController(context().allEligibleCouples(),
+                context().allBeneficiaries(), context().alertService(),
+                context().listCache(), context().fpClientsCache());
+        villageController = new VillageController(context().allEligibleCouples(),
+                context().listCache(), context().villagesCache());
         dialogOptionMapper = new DialogOptionMapper();
         clientsProvider().onServiceModeSelected(new FPAllMethodsServiceMode(clientsProvider()));
     }
@@ -138,7 +138,8 @@ public class NativeFPSmartRegisterActivity extends SecuredNativeSmartRegisterAct
 
     @Override
     public void startRegistration() {
-        FieldOverrides fieldOverrides = new FieldOverrides(context.anmLocationController().getLocationJSON());
+        FieldOverrides fieldOverrides = new FieldOverrides(context().anmLocationController()
+                .getLocationJSON());
         startFormActivity(EC_REGISTRATION, null, fieldOverrides.getJSONString());
     }
 

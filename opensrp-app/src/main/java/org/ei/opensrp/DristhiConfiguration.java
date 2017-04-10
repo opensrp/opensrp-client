@@ -1,19 +1,15 @@
 package org.ei.opensrp;
 
 import android.content.res.AssetManager;
-import android.util.Log;
 
-import org.apache.commons.io.IOUtils;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.util.IntegerUtil;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 public class DristhiConfiguration {
 
-    protected static final String DRISHTI_BASE_URL = "DRISHTI_BASE_URL";
     protected static final String HOST = "HOST";
     protected static final String PORT = "PORT";
     protected static final String SHOULD_VERIFY_CERTIFICATE = "SHOULD_VERIFY_CERTIFICATE";
@@ -57,7 +53,7 @@ public class DristhiConfiguration {
 
     public String dristhiBaseURL() {
 
-        return preferences.fetchBaseURL(this.get(DRISHTI_BASE_URL));
+        return preferences.fetchBaseURL(this.get(AllConstants.DRISHTI_BASE_URL));
     }
 
     public int syncDownloadBatchSize() {

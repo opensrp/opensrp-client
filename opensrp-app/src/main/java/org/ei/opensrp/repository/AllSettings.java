@@ -1,5 +1,8 @@
 package org.ei.opensrp.repository;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AllSettings {
     public static final String APPLIED_VILLAGE_FILTER_SETTING_KEY = "appliedVillageFilter";
     public static final String PREVIOUS_FETCH_INDEX_SETTING_KEY = "previousFetchIndex";
@@ -62,4 +65,11 @@ public class AllSettings {
     }
 
     public String fetchUserInformation() { return settingsRepository.querySetting(USER_INFORMATION, "");}
+
+    public Map<String,String> getAuthParams(){
+        Map<String,String> authParams= new HashMap<String,String>();
+        authParams.put("username",preferences.fetchRegisteredANM());
+        authParams.put("password",fetchANMPassword());
+        return  authParams;
+    }
 }

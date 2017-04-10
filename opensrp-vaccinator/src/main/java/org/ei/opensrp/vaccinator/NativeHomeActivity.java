@@ -130,7 +130,7 @@ public class NativeHomeActivity extends SecuredActivity {
     }
 
     private void initialize() {
-        pendingFormSubmissionService = context.pendingFormSubmissionService();
+        pendingFormSubmissionService = context().pendingFormSubmissionService();
         SYNC_STARTED.addListener(onSyncStartListener);
         SYNC_COMPLETED.addListener(onSyncCompleteListener);
         FORM_SUBMITTED.addListener(onFormSubmittedListener);
@@ -163,18 +163,21 @@ public class NativeHomeActivity extends SecuredActivity {
     }
 
     private void updateRegisterCounts(HomeContext homeContext) {
-        CommonPersonObjectController childController = new CommonPersonObjectController(context.allCommonsRepositoryobjects("pkchild"),
-                context.allBeneficiaries(), context.listCache(),
-                context.personObjectClientsCache(), "first_name", "pkchild", "child_reg_date",
+        CommonPersonObjectController childController = new CommonPersonObjectController(
+                context().allCommonsRepositoryobjects("pkchild"),
+                context().allBeneficiaries(), context().listCache(),
+                context().personObjectClientsCache(), "first_name", "pkchild", "child_reg_date",
                 CommonPersonObjectController.ByColumnAndByDetails.byDetails );
-        CommonPersonObjectController womanController = new CommonPersonObjectController(context.allCommonsRepositoryobjects("pkwoman"),
-                context.allBeneficiaries(), context.listCache(),
-                context.personObjectClientsCache(), "first_name", "pkwoman", "client_reg_date",
+        CommonPersonObjectController womanController = new CommonPersonObjectController(
+                context().allCommonsRepositoryobjects("pkwoman"),
+                context().allBeneficiaries(), context().listCache(),
+                context().personObjectClientsCache(), "first_name", "pkwoman", "client_reg_date",
                 CommonPersonObjectController.ByColumnAndByDetails.byDetails.byDetails );
 
-        CommonPersonObjectController fieldController = new CommonPersonObjectController(context.allCommonsRepositoryobjects("field"),
-                context.allBeneficiaries(), context.listCache(),
-                context.personObjectClientsCache(), "date", "field", "report",
+        CommonPersonObjectController fieldController = new CommonPersonObjectController(
+                context().allCommonsRepositoryobjects("field"),
+                context().allBeneficiaries(), context().listCache(),
+                context().personObjectClientsCache(), "date", "field", "report",
                 CommonPersonObjectController.ByColumnAndByDetails.byColumn );
 
        // ecRegisterClientCountView.setText(valueOf(hhcontroller.getClients().size()));
@@ -216,8 +219,8 @@ public class NativeHomeActivity extends SecuredActivity {
 
     public void updateFromServer() {
         UpdateActionsTask updateActionsTask = new UpdateActionsTask(
-                this, context.actionService(), context.formSubmissionSyncService(),
-                new SyncProgressIndicator(), context.allFormVersionSyncService());
+                this, context().actionService(), context().formSubmissionSyncService(),
+                new SyncProgressIndicator(), context().allFormVersionSyncService());
         updateActionsTask.updateFromServer(new SyncAfterFetchListener());
     }
 
@@ -233,7 +236,7 @@ public class NativeHomeActivity extends SecuredActivity {
 
     private void updateSyncIndicator() {
         if (updateMenuItem != null) {
-            if (context.allSharedPreferences().fetchIsSyncInProgress()) {
+            if (context().allSharedPreferences().fetchIsSyncInProgress()) {
               updateMenuItem.setActionView(R.layout.progress);
             } else
                 updateMenuItem.setActionView(null);

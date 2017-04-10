@@ -2,7 +2,9 @@ package org.ei.opensrp.repository;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+
 import net.sqlcipher.database.SQLiteDatabase;
+
 import org.ei.opensrp.domain.Alert;
 import org.joda.time.LocalDate;
 
@@ -12,10 +14,13 @@ import java.util.List;
 import static java.lang.String.format;
 import static org.apache.commons.lang3.ArrayUtils.addAll;
 import static org.apache.commons.lang3.StringUtils.repeat;
-import static org.ei.drishti.dto.AlertStatus.*;
+import static org.ei.drishti.dto.AlertStatus.complete;
+import static org.ei.drishti.dto.AlertStatus.from;
+import static org.ei.drishti.dto.AlertStatus.inProcess;
 
 public class AlertRepository extends DrishtiRepository {
-    private static final String ALERTS_SQL = "CREATE TABLE alerts(caseID VARCHAR, scheduleName VARCHAR, visitCode VARCHAR, status VARCHAR, startDate VARCHAR, expiryDate VARCHAR, completionDate VARCHAR)";
+    private static final String ALERTS_SQL = "CREATE TABLE alerts (caseID VARCHAR, scheduleName VARCHAR, visitCode VARCHAR, status VARCHAR, startDate VARCHAR, expiryDate VARCHAR, completionDate VARCHAR)";
+
     private static final String ALERTS_TABLE_NAME = "alerts";
     public static final String ALERTS_CASEID_COLUMN = "caseID";
     public static final String ALERTS_SCHEDULE_NAME_COLUMN = "scheduleName";
@@ -34,10 +39,16 @@ public class AlertRepository extends DrishtiRepository {
             ALERTS_COMPLETIONDATE_COLUMN
     };
     public static final String CASE_AND_VISIT_CODE_COLUMN_SELECTIONS = ALERTS_CASEID_COLUMN + " = ? AND " + ALERTS_VISIT_CODE_COLUMN + " = ?";
+    private static final String CASE_ID_INDEX = "CREATE INDEX " + ALERTS_TABLE_NAME + "_" + ALERTS_CASEID_COLUMN + "_index ON " + ALERTS_TABLE_NAME + "(" + ALERTS_CASEID_COLUMN + " COLLATE NOCASE);";
+    private static final String SCHEDULE_NAME_INDEX = "CREATE INDEX " + ALERTS_TABLE_NAME + "_" + ALERTS_SCHEDULE_NAME_COLUMN + "_index ON " + ALERTS_TABLE_NAME + "(" + ALERTS_SCHEDULE_NAME_COLUMN + " COLLATE NOCASE);";
+    private static final String STATUS_NAME_INDEX = "CREATE INDEX " + ALERTS_TABLE_NAME + "_" + ALERTS_STATUS_COLUMN + "_index ON " + ALERTS_TABLE_NAME + "(" + ALERTS_STATUS_COLUMN + " COLLATE NOCASE);";
 
     @Override
     protected void onCreate(SQLiteDatabase database) {
         database.execSQL(ALERTS_SQL);
+        database.execSQL(CASE_ID_INDEX);
+        database.execSQL(SCHEDULE_NAME_INDEX);
+        database.execSQL(STATUS_NAME_INDEX);
     }
 
     public List<Alert> allAlerts() {
@@ -157,4 +168,6 @@ public class AlertRepository extends DrishtiRepository {
         valuesToBeUpdated.put(ALERTS_STATUS_COLUMN, complete.value());
         database.update(ALERTS_TABLE_NAME, valuesToBeUpdated, CASE_AND_VISIT_CODE_COLUMN_SELECTIONS, caseAndVisitCodeColumnValues);
     }
+
+
 }

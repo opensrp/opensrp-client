@@ -115,16 +115,16 @@ public class NativeChildSmartRegisterActivity extends SecuredNativeSmartRegister
     @Override
     protected void onInitialization() {
         controller = new ChildSmartRegisterController(
-                context.serviceProvidedService(),
-                context.alertService(),
-                context.allBeneficiaries(),
-                context.listCache(),
-                context.smartRegisterClientsCache());
+                context().serviceProvidedService(),
+                context().alertService(),
+                context().allBeneficiaries(),
+                context().listCache(),
+                context().smartRegisterClientsCache());
 
         villageController = new VillageController(
-                context.allEligibleCouples(),
-                context.listCache(),
-                context.villagesCache());
+                context().allEligibleCouples(),
+                context().listCache(),
+                context().villagesCache());
 
         dialogOptionMapper = new DialogOptionMapper();
 
@@ -133,7 +133,8 @@ public class NativeChildSmartRegisterActivity extends SecuredNativeSmartRegister
 
     @Override
     public void startRegistration() {
-        FieldOverrides fieldOverrides = new FieldOverrides(context.anmLocationController().getLocationJSON());
+        FieldOverrides fieldOverrides = new FieldOverrides(context().anmLocationController()
+                .getLocationJSON());
         startFormActivity(AllConstants.FormNames.CHILD_REGISTRATION_OA, null, fieldOverrides.getJSONString());
     }
 

@@ -123,7 +123,7 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
             int calc_age = days / 365;
             age.setText("("+calc_age+") ");
         }catch (Exception e){
-            e.printStackTrace();
+            Log.e(getClass().getName(), "Exception", e);
         }
 
         dateofdelivery.setText(pc.getColumnmaps().get("FWBNFDTOO")!=null?pc.getColumnmaps().get("FWBNFDTOO"):"");
@@ -155,7 +155,7 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
                    dateofdelivery.setText(Html.fromHtml("" +" "+ doolay(pc)));
 
         } catch (Exception e) {
-            e.printStackTrace();
+              Log.e(getClass().getName(), "Exception", e);
         }
         itemView.setLayoutParams(clientViewLayoutParams);
         constructRiskFlagView(pc, itemView);
@@ -178,7 +178,7 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
             edd_date.setTime(calendar.getTime().getTime());
             return McareApplication.convertToEnglishDigits(format.format(edd_date));
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.e(getClass().getName(), "Exception", e);
             return "";
         }
 
@@ -514,7 +514,7 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
             pnc_date.setTime(calendar.getTime().getTime());
             pncdate = format.format(pnc_date);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(getClass().getName(), "Exception", e);
             pncdate = "";
         }
         return pncdate;
