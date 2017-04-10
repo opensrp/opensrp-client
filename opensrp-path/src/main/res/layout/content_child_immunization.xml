@@ -29,28 +29,19 @@
             app:cardElevation="@dimen/card_elevation">
 
             <LinearLayout
+                android:id="@+id/profile_name_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:id="@+id/profile_name_layout">
+                android:orientation="horizontal">
 
-                <FrameLayout
+
+                <ImageView
+                    android:id="@+id/profile_image_iv"
                     android:layout_width="@dimen/immun_child_card_height"
-                    android:layout_height="@dimen/immun_child_card_height">
-
-                    <ImageView
-                        android:id="@+id/profile_image_iv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/child_transgender_inflant" />
-
-                    <ImageView
-                        android:layout_width="@dimen/immun_pencil_card_height"
-                        android:layout_height="@dimen/immun_pencil_card_height"
-                        android:src="@drawable/ic_icon_edit" />
-                </FrameLayout>
+                    android:layout_height="@dimen/immun_child_card_height"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/child_transgender_inflant" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -96,6 +87,13 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:layout_marginRight="12.5dp"
+                android:src="@drawable/ic_more_vert" />
         </android.support.v7.widget.CardView>
 
         <LinearLayout
@@ -146,29 +144,29 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1.5"
                             android:background="@drawable/record_weight_bg"
-                            android:paddingBottom="16dp"
-                            android:paddingTop="16dp"
                             android:gravity="center"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:paddingBottom="16dp"
+                            android:paddingTop="16dp">
 
                             <ImageView
                                 android:id="@+id/record_weight_check"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/ic_action_check"
                                 android:paddingRight="3dp"
+                                android:src="@drawable/ic_action_check"
                                 android:visibility="gone" />
 
                             <TextView
                                 android:id="@+id/record_weight_text"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:gravity="center"
                                 android:text="@string/record_weight"
                                 android:textAllCaps="false"
                                 android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:textColor="@color/text_black"
-                                android:gravity="center"
-                                android:textSize="19sp"/>
+                                android:textSize="19sp" />
                         </LinearLayout>
 
                         <ImageButton

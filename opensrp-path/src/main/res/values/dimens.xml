@@ -79,6 +79,7 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="immun_child_card_height">100dp</dimen>
     <dimen name="immun_pencil_card_height">24dp</dimen>
+    <dimen name="immun_more_vert_width">50dp</dimen>
     <dimen name="card_view_corner_radius">3dp</dimen>
     <dimen name="activity_title_size">18sp</dimen>
     <dimen name="activity_sub_title_size">14sp</dimen>
