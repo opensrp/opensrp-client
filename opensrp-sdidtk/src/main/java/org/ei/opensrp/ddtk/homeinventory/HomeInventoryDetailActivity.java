@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.ei.opensrp.Context;
+import org.ei.opensrp.commonregistry.AllCommonsRepository;
+import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.ddtk.R;
 import org.ei.opensrp.repository.DetailsRepository;
@@ -71,14 +73,14 @@ public class HomeInventoryDetailActivity extends Activity {
         TextView Keterlibatan = (TextView) findViewById(R.id.Keterlibatan);
         TextView Varisai = (TextView) findViewById(R.id.Varisai);
 
-        TextView belajar_3 = (TextView) findViewById(R.id.belajar_3);
-        TextView Stimulasi_3 = (TextView) findViewById(R.id.Stimulasi_3);
-        TextView fisik_3 = (TextView) findViewById(R.id.fisik_3);
-        TextView Responsivitas_3 = (TextView) findViewById(R.id.Responsivitas_3);
-        TextView Akademis_3 = (TextView) findViewById(R.id.Akademis_3);
-        TextView Keteladanan_3 = (TextView) findViewById(R.id.Keteladanan_3);
-        TextView Variasi_3 = (TextView) findViewById(R.id.Variasi_3);
-        TextView Penerimaan_3 = (TextView) findViewById(R.id.Penerimaan_3);
+        TextView Lingkungan_3 = (TextView) findViewById(R.id.Lingkungan_3);
+        TextView berbicara_3 = (TextView) findViewById(R.id.berbicara_3);
+        TextView Interaksi_3 = (TextView) findViewById(R.id.Interaksi_3);
+        TextView Sikap_3 = (TextView) findViewById(R.id.Sikap_3);
+        TextView umum_3 = (TextView) findViewById(R.id.umum_3);
+        TextView Mainan_3 = (TextView) findViewById(R.id.Mainan_3);
+        TextView pembelajaran_3 = (TextView) findViewById(R.id.pembelajaran_3);
+        TextView Kebiasaan_3 = (TextView) findViewById(R.id.Kebiasaan_3);
 
 
 
@@ -127,38 +129,88 @@ public class HomeInventoryDetailActivity extends Activity {
 
         String ages = childclient.getColumnmaps().get("tanggalLahirAnak").substring(0, childclient.getColumnmaps().get("tanggalLahirAnak").indexOf("T"));
 
-        anakUmur.setText(getString(R.string.detailUmur) +": "+ ages+" Bulan" );
+        anakUmur.setText(getString(R.string.detailUmur) +": "+ Integer.toString(monthRangeToToday(ages))+" Bulan" );
+
+
+        AllCommonsRepository childRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_anak");
+        CommonPersonObject childobject = childRepository.findByCaseID(childclient.entityId());
+        AllCommonsRepository kirep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_kartu_ibu");
+        final CommonPersonObject kiparent = kirep.findByCaseID(childobject.getColumnmaps().get("relational_id"));
+
+        if(kiparent != null) {
+            detailsRepository.updateDetails(kiparent);
+            String namaayah = kiparent.getDetails().get("namaSuami") != null ? kiparent.getDetails().get("namaSuami") : "";
+            String namaibu = kiparent.getColumnmaps().get("namalengkap") != null ? kiparent.getColumnmaps().get("namalengkap") : "";
+
+            anakNamaIbu.setText(namaibu + "," + namaayah);
+            //   viewHolder.village_name.setText(kiparent.getDetails().get("address1")!=null?kiparent.getDetails().get("address1") :"-");
+        }
+
         anakBerat.setText(getString(R.string.detailBerat) +": "+ (childclient.getDetails().get("berat") != null ? childclient.getDetails().get("berat").replaceAll("_", " ") : "-"));
         anakTinggi.setText(getString(R.string.detailTinggi) +": "+ (childclient.getDetails().get("tinggi") != null ? childclient.getDetails().get("tinggi").replaceAll("_", " ") : "-"));
         anakLingKepala.setText(getString(R.string.detailLingkarKepala) +": "+ (childclient.getDetails().get("lingkar_kepala") != null ? childclient.getDetails().get("lingkar_kepala").replaceAll("_", " ") : "-"));
 
 
-        Responsivitas.setText("5");
-       Penerimaan.setText("5");
-        Keteraturan.setText("5");
-        Sumber_belajar.setText("7");
-                Keterlibatan.setText("0");
-                        Varisai.setText("0");
 
 
 
-        belajar_3.setText("0");
-        Stimulasi_3.setText("0");
-        fisik_3.setText("0");
-        Responsivitas_3.setText("0");
-        Akademis_3.setText("0");
-        Keteladanan_3.setText("0");
-        Variasi_3.setText("0");
-        Penerimaan_3.setText("0");
-        //KMS calculation
+        checkHome02(1,11,Responsivitas);
+        checkHome02(12,19,Penerimaan);
+        checkHome02(20,25,Keteraturan);
+        checkHome02(26,34,Sumber_belajar);
+        checkHome02(35,40,Keterlibatan);
+        checkHome02(41,45,Varisai);
 
-        //Graph
+        checkHome36(1,5,Lingkungan_3);
+        checkHome36(6,9,berbicara_3);
+        checkHome36(10,15,Interaksi_3);
+        checkHome36(16,21,Sikap_3);
+        checkHome36(22,30,umum_3);
+        checkHome36(31,37,Mainan_3);
+        checkHome36(38,45,pembelajaran_3);
+        checkHome36(48,55,Kebiasaan_3);
 
 
 
 
     }
 
+    public void checkHome02 (int fisrt, int last , TextView total1 ) {
+        int _endlinecount = 0;
+        for (int i = fisrt ; i <=last ; i++){
+            String home_endline = "home"+i+"_it";
+            if(childclient.getDetails().get(home_endline) !=null) {
+                if (childclient.getDetails().get(home_endline).equalsIgnoreCase("Yes")) {
+                    _endlinecount = _endlinecount + 1;
+                } else {
+
+                }
+            }
+        }
+        total1.setText(""+_endlinecount);
+    }
+
+    public void checkHome36 (int fisrt, int last , TextView total ) {
+        int _endlinecount = 0;
+        for (int i = fisrt ; i <=last ; i++){
+            String home_endline = "home"+i+"_ec";
+            if(childclient.getDetails().get(home_endline) !=null) {
+                if (childclient.getDetails().get(home_endline).equalsIgnoreCase("Yes")) {
+                    _endlinecount = _endlinecount + 1;
+                } else {
+
+                }
+            }
+        }
+        total.setText(""+_endlinecount);
+    }
+
+
+    private int monthRangeToToday(String lastVisitDate){
+        String currentDate[] = new SimpleDateFormat("yyyy-MM").format(new java.util.Date()).substring(0,7).split("-");
+        return ((Integer.parseInt(currentDate[0]) - Integer.parseInt(lastVisitDate.substring(0,4)))*12 +
+                (Integer.parseInt(currentDate[1]) - Integer.parseInt(lastVisitDate.substring(5,7))));
+    }
 
     // NOT USING PICTURE AT THE MOMENT
     String mCurrentPhotoPath;
