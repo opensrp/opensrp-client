@@ -48,7 +48,7 @@
       "openmrs_data_type": "phonenumber",
       "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     },
-    "encounter_location":""
+    "encounter_location": ""
   },
   "step1": {
     "title": "Birth Registration",
@@ -227,6 +227,7 @@
         "type": "edit_text",
         "hint": "Mother/guardian first name *",
         "edit_type": "name",
+        "look_up": "true",
         "v_required": {
           "value": "true",
           "err": "Please enter the mother/guardian's first name"
@@ -245,6 +246,7 @@
         "type": "edit_text",
         "hint": "Mother/guardian last name *",
         "edit_type": "name",
+        "look_up": "true",
         "v_required": {
           "value": "true",
           "err": "Please enter the mother/guardian's last name"
@@ -262,6 +264,7 @@
         "entity_id": "mother",
         "type": "date_picker",
         "hint": "Mother/guardian DOB",
+        "look_up": "true",
         "expanded": false,
         "duration": {
           "label": "Age"

@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.vijay.jsonwizard.activities.JsonFormActivity;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -28,6 +27,7 @@ import org.ei.opensrp.domain.ProfileImage;
 import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.domain.Weight;
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.activity.PathJsonFormActivity;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.repository.BaseRepository;
 import org.ei.opensrp.path.repository.PathRepository;
@@ -2051,7 +2051,7 @@ public class JsonFormUtils {
      *
      * @param context                       The activity form is being launched from
      * @param openSrpContext                Current OpenSRP context
-     * @param jsonFormActivityRequestCode   The request code to be used to launch {@link JsonFormActivity}
+     * @param jsonFormActivityRequestCode   The request code to be used to launch {@link PathJsonFormActivity}
      * @param formName                      The name of the form to launch
      * @param entityId                      The unique entity id for the form (e.g child's ZEIR id)
      * @param metaData                      The form's meta data
@@ -2062,7 +2062,7 @@ public class JsonFormUtils {
                                  int jsonFormActivityRequestCode,
                                  String formName, String entityId, String metaData,
                                  String currentLocationId) throws Exception {
-        Intent intent = new Intent(context, JsonFormActivity.class);
+        Intent intent = new Intent(context, PathJsonFormActivity.class);
 
         JSONObject form = FormUtils.getInstance(context).getFormJson(formName);
         if (form != null) {

@@ -60,11 +60,17 @@ public class JsonFormFragmentPresenter extends MvpBasePresenter<JsonFormFragment
     private JSONObject mStepDetails;
     private String mCurrentKey;
     private String mCurrentPhotoPath;
-    private JsonFormInteractor mJsonFormInteractor = JsonFormInteractor.getInstance();
+    private JsonFormInteractor mJsonFormInteractor;
     private final JsonFormFragment formFragment;
 
     public JsonFormFragmentPresenter(JsonFormFragment formFragment) {
         this.formFragment = formFragment;
+        mJsonFormInteractor = JsonFormInteractor.getInstance();
+    }
+
+    public JsonFormFragmentPresenter(JsonFormFragment formFragment, JsonFormInteractor jsonFormInteractor) {
+        this(formFragment);
+        mJsonFormInteractor = jsonFormInteractor;
     }
 
     public void addFormElements() {
@@ -154,7 +160,8 @@ public class JsonFormFragmentPresenter extends MvpBasePresenter<JsonFormFragment
                     getView().writeValue(mStepName, parentKey, childKey, openMrsEntityParent,
                             openMrsEntity, openMrsEntityId);
                 }
-            } else if (childAt instanceof MaterialSpinner) {}
+            } else if (childAt instanceof MaterialSpinner) {
+            }
         }
 
         if (firstError == null) {

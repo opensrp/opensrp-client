@@ -28,8 +28,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.vijay.jsonwizard.activities.JsonFormActivity;
-
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.clientandeventmodel.Event;
@@ -359,7 +357,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                 form.put("entity_id", childDetails.entityId());
                 form.put("relational_id", childDetails.getColumnmaps().get("relational_id"));
 
-                Intent intent = new Intent(getApplicationContext(), JsonFormActivity.class);
+                Intent intent = new Intent(getApplicationContext(), PathJsonFormActivity.class);
                 //inject zeir id into the form
                 JSONObject stepOne = form.getJSONObject(JsonFormUtils.STEP1);
                 JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
@@ -489,7 +487,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     public void startFormActivity(String formName, String entityId, String metaData) {
         Context context = getOpenSRPContext();
 
-        Intent intent = new Intent(getApplicationContext(), JsonFormActivity.class);
+        Intent intent = new Intent(getApplicationContext(), PathJsonFormActivity.class);
 
         intent.putExtra("json", metaData);
         startActivityForResult(intent, REQUEST_CODE_GET_JSON);

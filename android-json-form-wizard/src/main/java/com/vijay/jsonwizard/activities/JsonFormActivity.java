@@ -1,9 +1,5 @@
 package com.vijay.jsonwizard.activities;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -34,6 +28,10 @@ import com.vijay.jsonwizard.interfaces.JsonApi;
 import com.vijay.jsonwizard.interfaces.OnActivityResultListener;
 import com.vijay.jsonwizard.utils.FormUtils;
 import com.vijay.jsonwizard.utils.PropertyManager;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,12 +76,16 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
         onActivityResultListeners = new HashMap<>();
         if (savedInstanceState == null) {
             init(getIntent().getStringExtra("json"));
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, JsonFormFragment.getFormFragment(JsonFormConstants.FIRST_STEP_NAME)).commit();
+            initializeFormFragment();
             onFormStart();
         } else {
             init(savedInstanceState.getString("jsonState"));
         }
+    }
+
+    public void initializeFormFragment(){
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.container, JsonFormFragment.getFormFragment(JsonFormConstants.FIRST_STEP_NAME)).commit();
     }
 
     @Override
