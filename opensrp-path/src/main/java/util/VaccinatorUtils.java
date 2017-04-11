@@ -388,6 +388,11 @@ public class VaccinatorUtils {
         Map<String, Object> v = null;
         for (Map<String, Object> m : schedule) {
             if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
+                if (m.get("vaccine") != null && ((Vaccine) m.get("vaccine")).equals(Vaccine.bcg2)) {
+                    // bcg is a special alert and should not be considered as the next vaccine
+                    continue;
+                }
+
                 if (v == null) {
                     v = m;
                 } else if (m.get("date") != null && v.get("date") != null
@@ -405,6 +410,11 @@ public class VaccinatorUtils {
         Map<String, Object> v = null;
         for (Map<String, Object> m : schedule) {
             if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
+                if (m.get("vaccine") != null && ((Vaccine) m.get("vaccine")).equals(Vaccine.bcg2)) {
+                    // bcg is a special alert and should not be considered as the next vaccine
+                    continue;
+                }
+
                 if (v == null) {
                     if (m.get("vaccine") != null && vaccineList.contains((Vaccine) m.get("vaccine"))) {
                         v = m;
