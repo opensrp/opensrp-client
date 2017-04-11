@@ -107,7 +107,7 @@ public class ChildDetailActivity extends Activity {
         doolay(ChildClient);
         assign_text_to_givenView(ChildClient, (TextView) findViewById(R.id.critical_disease_problem), "Diseases_Prob");
         assign_text_to_givenView(ChildClient, (TextView) findViewById(R.id.referred), "Has_Referred");
-        assign_text_to_givenView(ChildClient, (TextView) findViewById(R.id.vaccination_history), "Vaccines");
+        //assign_text_to_givenView(ChildClient, (TextView) findViewById(R.id.vaccination_history), "Vaccines");
 
     }
 

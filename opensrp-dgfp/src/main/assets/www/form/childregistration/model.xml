@@ -1,7 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <model>
     <instance>
-        <ChildRegistraton
-             encounter_type="Child Registration" id="ChildRegistration" version="201701180632">
+        <ChildRegistraton encounter_type="Child Registration" id="ChildRegistration" version="201704041130">
             <formhub>
                 <uuid />
             </formhub>
@@ -40,7 +40,7 @@
                 <Mem_L_Name openmrs_entity="person" openmrs_entity_id="last_name">"."</Mem_L_Name>
                 <Member_Birth_Date />
                 <Calc_Age />
-                <Member_Age openmrs_entity="Concept" openmrs_entity_id="a04427c9-c616-48c9-8588-5bb96173f56a" />
+                <Member_Age />
                 <Mem_BRID />
                 <Retype_Mem_BRID openmrs_entity="person_identifier" openmrs_entity_id="Birth Registration ID" />
                 <Mem_BRID_Concept openmrs_entity="concept" openmrs_entity_id="163083AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
