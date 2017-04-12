@@ -1,5 +1,6 @@
 package org.ei.opensrp.dghs.stock;
 
+import android.content.ContentValues;
 import android.util.Log;
 
 import org.ei.opensrp.Context;
@@ -27,6 +28,14 @@ public class stockhandler implements FormSubmissionHandler {
     public void handle(FormSubmission submission) {
 
 
+//            FormSubmission submission1 = new FormSubmission(submission.instanceId(),entityID,submission.formName(),submission.instance(),submission.version(),submission.syncStatus(),submission.formDataDefinitionVersion());
+//            submission = submission1;
+
+
+
+
 
     }
+
+
 }

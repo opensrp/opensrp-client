@@ -2,9 +2,11 @@ package org.ei.opensrp.dghs.stock;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -18,10 +20,14 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
+import org.ei.opensrp.commonregistry.CommonRepository;
 import org.ei.opensrp.dghs.LoginActivity;
 import org.ei.opensrp.dghs.R;
 import org.ei.opensrp.dghs.fragment.HouseHoldSmartRegisterFragment;
@@ -164,17 +170,6 @@ public class StockSmartRegisterActivity extends SecuredNativeSmartRegisterActivi
         Log.v("bengay string",formSubmission);
 
         // save the form
-        JSONObject formSubmissionjson = null;
-        try {
-             String databaseIdKey = "_id";
-            formSubmissionjson = XML.toJSONObject(formSubmission);
-            String rootNodeKey = formSubmissionjson.keys().next();
-            Log.v("bengay id",formSubmissionjson.getJSONObject(rootNodeKey).getString(databaseIdKey));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
 
         try{
             FormUtils formUtils = FormUtils.getInstance(getApplicationContext());
@@ -182,26 +177,50 @@ public class StockSmartRegisterActivity extends SecuredNativeSmartRegisterActivi
 
             //////////////////////////////////////////////////////////////////////////////
 
-            String entityID = "bd2fcd59-3121-4fe6-abfa-060266816e5d";
-            Log.v("can see this",submission.getForm().getFieldValue("date"));
-            AllCommonsRepository stockrep = Context.getInstance().allCommonsRepositoryobjects("stock");
-            List<CommonPersonObject> cpo = stockrep.customQuery("Select * from stock where date like ?", new String[]{submission.getForm().getFieldValue("date") + "%"},"stock");
-            for(int i = 0;i<cpo.size();i++){
-                entityID = cpo.get(i).getCaseId();
-            }
-
-            submission = formUtils.generateFormSubmisionFromXMLString(entityID, formSubmission, formName, fieldOverrides);
-
-//            FormSubmission submission1 = new FormSubmission(submission.instanceId(),entityID,submission.formName(),submission.instance(),submission.version(),submission.syncStatus(),submission.formDataDefinitionVersion());
-//            submission = submission1;
-
-
 
 
 
             //////////////////////////////////////////////////////////////////////////////
 
             ziggyService.saveForm(getParams(submission), submission.instance());
+
+
+
+
+
+
+            ////////////////////////////////////////////////////////////////////////////////
+            String entityID = "";
+            String entityIDsubmission = submission.entityId();
+            Log.v("can see this",submission.getForm().getFieldValue("date"));
+            CommonRepository stockrep = Context.getInstance().commonrepository("stock");
+            Cursor cursor = stockrep.RawCustomQueryForAdapter("Select * from stock where date = '"+submission.getForm().getFieldValue("date")+"'");
+            Log.v("cursor size",cursor.getCount()+"");
+            cursor.moveToFirst();
+            List<CommonPersonObject> cpo = new ArrayList<CommonPersonObject>();
+            while (!cursor.isAfterLast()) {
+
+
+                cpo.add( stockrep.readAllcommonforCursorAdapter(cursor));
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+//            List<CommonPersonObject> cpo =
+            for(int i = 0;i<cpo.size();i++){
+                entityID = cpo.get(i).getCaseId();
+                digest(entityID,entityIDsubmission);
+            }
+
+            ///////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
 
             //switch to forms list fragment
             switchToBaseFragment(formSubmission); // Unnecessary!! passing on data
@@ -213,6 +232,22 @@ public class StockSmartRegisterActivity extends SecuredNativeSmartRegisterActivi
                 displayFormFragment.hideTranslucentProgressDialog();
             }
             e.printStackTrace();
+        }
+    }
+    private void digest(String entityID, String entityIDsubmission) {
+        AllCommonsRepository stockrep = Context.getInstance().allCommonsRepositoryobjects("stock");
+        CommonPersonObject cpo =  Context.getInstance().commonrepository("stock").findByCaseID(entityID);
+        ContentValues cv = new ContentValues();
+        if(cpo!=null) {
+            if (cpo.getColumnmaps() != null) {
+                if (cpo.getColumnmaps().get("tt_used") != null) {
+                    cv.put("tt_used", cpo.getColumnmaps().get("tt_used"));
+                }
+            }
+        }
+        if(cv.size()>0) {
+            stockrep.update("stock", cv, entityIDsubmission);
+//            Context.getInstance().commonrepository("stock").customQuery("DELETE FROM stock where id = ?", new String[]{entityID}, "stock");
         }
     }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model>
   <instance>
-    <Woman_TT_Followup_Form encounter_type="Woman TT Follow Up" id="woman_tt_followup_form" version="201704101057">
+    <Woman_TT_Followup_Form encounter_type="Woman TT Follow Up" id="woman_tt_followup_form" version="201704120651">
       <formhub>
         <uuid />
       </formhub>
@@ -115,7 +115,7 @@
     </Woman_TT_Followup_Form>
   </instance>
   <instance id="vaccines">
-    <root>
+    <root >
       <item>
         <itextId>static_instance-vaccines-0</itextId>
         <name>TT1</name>
@@ -139,7 +139,7 @@
     </root>
   </instance>
   <instance id="gender">
-    <root xmlns:jr="http://openrosa.org/javarosa" xmlns:orx="http://openrosa.org/xforms">
+    <root >
       <item>
         <itextId>static_instance-gender-0</itextId>
         <name>1</name>
@@ -151,7 +151,7 @@
     </root>
   </instance>
   <instance id="edd_lmp">
-    <root xmlns:jr="http://openrosa.org/javarosa" xmlns:orx="http://openrosa.org/xforms">
+    <root >
       <item>
         <itextId>static_instance-edd_lmp-0</itextId>
         <name>edd</name>
