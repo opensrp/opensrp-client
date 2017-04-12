@@ -2,6 +2,7 @@ package util;
 
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -26,6 +27,7 @@ import static android.view.View.VISIBLE;
  * Created by keyman on 26/01/2017.
  */
 public class MotherLookUpUtils {
+    private static final String TAG = MotherLookUpUtils.class.getName();
 
     private static final String firstName = "first_name";
     private static final String lastName = "last_name";
@@ -68,6 +70,10 @@ public class MotherLookUpUtils {
             String entityId = entry.getKey();
             EntityLookUp entityLookUp = entry.getValue();
 
+            if (entityLookUp.isEmpty()) {
+                return results;
+            }
+
             String tableName = "ec_" + entityId;
 
             List<CommonPersonObject> commons = new ArrayList<CommonPersonObject>();
@@ -75,18 +81,28 @@ public class MotherLookUpUtils {
             CommonRepository commonRepository = context.commonrepository(tableName);
             String query = lookUpQuery(entityLookUp.getMap(), tableName);
 
-            Cursor cursor = commonRepository.RawCustomQueryForAdapter(query);
-            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
-                while (!cursor.isAfterLast()) {
-                    CommonPersonObject commonPersonObject = commonRepository.readAllcommonforCursorAdapter(cursor);
-                    commons.add(commonPersonObject);
+            Cursor cursor = null;
+            try {
 
-                    cursor.moveToNext();
+                cursor = commonRepository.RawCustomQueryForAdapter(query);
+                if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                    while (!cursor.isAfterLast()) {
+                        CommonPersonObject commonPersonObject = commonRepository.readAllcommonforCursorAdapter(cursor);
+                        commons.add(commonPersonObject);
+
+                        cursor.moveToNext();
+                    }
+                }
+
+                results.put(entityId, commons);
+
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage(), e);
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
                 }
             }
-
-            results.put(entityId, commons);
-
         }
 
         return results;

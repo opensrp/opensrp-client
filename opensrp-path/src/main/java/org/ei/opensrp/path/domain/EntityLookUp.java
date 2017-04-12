@@ -31,4 +31,12 @@ public class EntityLookUp {
     public Map<String, String> getMap() {
         return map;
     }
+
+    public boolean containsKey(String key) {
+        return map.containsKey(key);
+    }
+
+    public boolean isEmpty() {
+        return map.isEmpty();
+    }
 }

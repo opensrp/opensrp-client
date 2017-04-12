@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.vijay.jsonwizard.R;
 import com.vijay.jsonwizard.fragments.JsonFormFragment;
 
+import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.event.Listener;
@@ -63,7 +64,14 @@ public class LookUpTextWatcher implements TextWatcher {
                 entityLookUp = lookUpMap.get(mEntityId);
             }
 
-            entityLookUp.put(key, text);
+            if (StringUtils.isBlank(text)) {
+                if (entityLookUp.containsKey(key)) {
+                    entityLookUp.remove(key);
+                }
+            } else {
+                entityLookUp.put(key, text);
+            }
+
             lookUpMap.put(mEntityId, entityLookUp);
 
             Context context = null;

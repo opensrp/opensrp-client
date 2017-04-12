@@ -331,4 +331,8 @@ public class JsonFormFragment extends MvpFragment<JsonFormFragmentPresenter, Jso
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+    public LinearLayout getMainView() {
+        return mMainView;
+    }
 }

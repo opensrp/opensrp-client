@@ -107,4 +107,6 @@
     <dimen name="noti_button_text_size">16sp</dimen>
 
     <dimen name="register_drawable_padding">10dp</dimen>
+
+    <dimen name="snack_bar_text_size">20dp</dimen>
 </resources>
