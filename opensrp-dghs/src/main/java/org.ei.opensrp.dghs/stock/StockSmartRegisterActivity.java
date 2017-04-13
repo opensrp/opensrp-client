@@ -209,7 +209,9 @@ public class StockSmartRegisterActivity extends SecuredNativeSmartRegisterActivi
 //            List<CommonPersonObject> cpo =
             for(int i = 0;i<cpo.size();i++){
                 entityID = cpo.get(i).getCaseId();
-                digest(entityID,entityIDsubmission);
+                if(!entityID.equalsIgnoreCase(entityIDsubmission)) {
+                    digestTT(entityID, entityIDsubmission);
+                }
             }
 
             ///////////////////////////////////////////////////////////////////////////////
@@ -234,20 +236,26 @@ public class StockSmartRegisterActivity extends SecuredNativeSmartRegisterActivi
             e.printStackTrace();
         }
     }
-    private void digest(String entityID, String entityIDsubmission) {
+    private void digestTT(String entityID, String entityIDsubmission) {
         AllCommonsRepository stockrep = Context.getInstance().allCommonsRepositoryobjects("stock");
         CommonPersonObject cpo =  Context.getInstance().commonrepository("stock").findByCaseID(entityID);
+        CommonPersonObject cpoSubmission =  Context.getInstance().commonrepository("stock").findByCaseID(entityIDsubmission);
+
         ContentValues cv = new ContentValues();
         if(cpo!=null) {
             if (cpo.getColumnmaps() != null) {
+                if(cpoSubmission.getColumnmaps().get("tt_used") == null){
                 if (cpo.getColumnmaps().get("tt_used") != null) {
                     cv.put("tt_used", cpo.getColumnmaps().get("tt_used"));
+                }
+                }else{
+                    cv.put("tt_used",Integer.parseInt(cpoSubmission.getColumnmaps().get("tt_used"))+Integer.parseInt( cpo.getColumnmaps().get("tt_used"))+"");
                 }
             }
         }
         if(cv.size()>0) {
             stockrep.update("stock", cv, entityIDsubmission);
-//            Context.getInstance().commonrepository("stock").customQuery("DELETE FROM stock where id = ?", new String[]{entityID}, "stock");
+            Context.getInstance().commonrepository("stock").customQuery("DELETE FROM stock where id = ?", new String[]{entityID}, "stock");
         }
     }
 
