@@ -75,14 +75,16 @@ public class LookUpTextWatcher implements TextWatcher {
             lookUpMap.put(mEntityId, entityLookUp);
 
             Context context = null;
-            Listener<Map<String, List<CommonPersonObject>>> listener = null;
+            Listener<HashMap<CommonPersonObject, List<CommonPersonObject>>> listener = null;
             if (formFragment instanceof PathJsonFormFragment) {
                 PathJsonFormFragment pathJsonFormFragment = (PathJsonFormFragment) formFragment;
                 context = pathJsonFormFragment.context();
-                listener = pathJsonFormFragment.listener();
+                listener = pathJsonFormFragment.motherLookUpListener();
             }
 
-            MotherLookUpUtils.motherLookUp(context, lookUpMap, listener, null);
+            if (mEntityId.equalsIgnoreCase("mother")) {
+                MotherLookUpUtils.motherLookUp(context, lookUpMap.get(mEntityId), listener, null);
+            }
         }
     }
 

@@ -118,7 +118,7 @@ public class MotherLookUpSmartClientsProvider implements SmartRegisterCLientsPro
 
     @Override
     public View inflatelayoutForCursorAdapter() {
-        ViewGroup view = (ViewGroup) inflater().inflate(R.layout.smart_register_mother_lookup_client, null);
+        ViewGroup view = (ViewGroup) inflater().inflate(R.layout.mother_lookup_client, null);
         return view;
     }
 
