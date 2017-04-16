@@ -81,7 +81,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="25dp"
-                    android:layout_marginLeft="10dp">
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/statusview">
 
                     <ImageView
                         android:layout_width="wrap_content"

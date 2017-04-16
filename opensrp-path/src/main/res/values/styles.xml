@@ -102,6 +102,11 @@
         <item name="fontVariant">light</item>
     </style>
 
+    <style name="CustomFontTextViewStyle.ClientList.Light.twoline" parent="CustomFontTextViewStyle.ClientList.Light">
+        <item name="android:singleLine">false</item>
+        <item name="android:maxLines">2</item>
+    </style>
+
     <style name="CustomFontTextViewStyle.ClientList.Thin" parent="CustomFontTextViewStyle">
         <item name="fontVariant">thin</item>
     </style>

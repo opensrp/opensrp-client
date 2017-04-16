@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,8 @@ import org.ei.opensrp.path.domain.Photo;
 import org.ei.opensrp.path.domain.VaccineWrapper;
 import org.ei.opensrp.path.domain.WeightWrapper;
 import org.ei.opensrp.path.fragment.EditWeightDialogFragment;
+import org.ei.opensrp.path.fragment.StatusEditDialogFragment;
+import org.ei.opensrp.path.listener.StatusChangeListener;
 import org.ei.opensrp.path.listener.VaccinationActionListener;
 import org.ei.opensrp.path.listener.WeightActionListener;
 import org.ei.opensrp.path.repository.BaseRepository;
@@ -91,7 +94,7 @@ import static util.Utils.getValue;
  * Created by raihan on 1/03/2017.
  */
 
-public class ChildDetailTabbedActivity extends BaseActivity implements VaccinationActionListener, WeightActionListener {
+public class ChildDetailTabbedActivity extends BaseActivity implements VaccinationActionListener, WeightActionListener ,StatusChangeListener {
 
     public Menu overflow;
     private ChildDetailsToolbar detailtoolbar;
@@ -113,6 +116,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
 
     private File currentfile;
     public String location_name = "";
+    private LinearLayout statusview;
 
     public CommonPersonObjectClient getChildDetails() {
         return childDetails;
@@ -212,6 +216,16 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         });
         detailtoolbar.setTitle(updateActivityTitle());
 
+        statusview = (LinearLayout)findViewById(R.id.statusview);
+        statusview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                android.app.Fragment prev = getFragmentManager().findFragmentByTag(DIALOG_TAG);
+
+                StatusEditDialogFragment.newInstance(ChildDetailTabbedActivity.this,details).show(ft,DIALOG_TAG);
+            }
+        });
 
         tabLayout.setupWithViewPager(viewPager);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -260,18 +274,18 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         //super.onPrepareOptionsMenu(menu);
         //getMenuInflater().inflate(R.menu.menu_child_detail_settings, menu);
 
-        if (details.containsKey(lostToFollowUp) && details.get(lostToFollowUp).equalsIgnoreCase(Boolean.TRUE.toString())) {
-            menu.findItem(R.id.mark_as_lost_to_followup).setTitle(getResources().getString(R.string.mark_as_not_lost_to_followup));
-        }else{
-            menu.findItem(R.id.mark_as_lost_to_followup).setTitle(getResources().getString(R.string.mark_as_lost_to_followup));
-
-        }
-
-        if (details.containsKey(inactive) && details.get(inactive).equalsIgnoreCase(Boolean.TRUE.toString())) {
-            menu.findItem(R.id.mark_inactive).setTitle(getResources().getString(R.string.mark_active));
-        }else{
-            menu.findItem(R.id.mark_inactive).setTitle(getResources().getString(R.string.mark_inactive));
-        }
+//        if (details.containsKey(lostToFollowUp) && details.get(lostToFollowUp).equalsIgnoreCase(Boolean.TRUE.toString())) {
+//            menu.findItem(R.id.mark_as_lost_to_followup).setTitle(getResources().getString(R.string.mark_as_not_lost_to_followup));
+//        }else{
+//            menu.findItem(R.id.mark_as_lost_to_followup).setTitle(getResources().getString(R.string.mark_as_lost_to_followup));
+//
+//        }
+//
+//        if (details.containsKey(inactive) && details.get(inactive).equalsIgnoreCase(Boolean.TRUE.toString())) {
+//            menu.findItem(R.id.mark_inactive).setTitle(getResources().getString(R.string.mark_active));
+//        }else{
+//            menu.findItem(R.id.mark_inactive).setTitle(getResources().getString(R.string.mark_inactive));
+//        }
 
         return true;
     }
@@ -310,25 +324,29 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                 String reportDeceasedMetadata = getReportDeceasedMetadata();
                 startFormActivity("report_deceased", childDetails.entityId(), reportDeceasedMetadata);
                 return true;
-            case R.id.mark_inactive:
-                if (details.containsKey(inactive) && details.get(inactive).equalsIgnoreCase(Boolean.TRUE.toString())) {
-                    updateClientAttribute(inactive, false);
+            case R.id.change_status:
+                FragmentTransaction ft = this.getFragmentManager().beginTransaction();
+                android.app.Fragment prev = this.getFragmentManager().findFragmentByTag(DIALOG_TAG);
 
-                } else {
-                    updateClientAttribute(inactive, true);
-
-                }
-                updateStatus();
+                StatusEditDialogFragment.newInstance(this,details).show(ft,DIALOG_TAG);
+//                if (details.containsKey(inactive) && details.get(inactive).equalsIgnoreCase(Boolean.TRUE.toString())) {
+//                    updateClientAttribute(inactive, false);
+//
+//                } else {
+//                    updateClientAttribute(inactive, true);
+//
+//                }
+//                updateStatus();
                 return true;
-            case R.id.mark_as_lost_to_followup:
-                if (details.containsKey(lostToFollowUp) && details.get(lostToFollowUp).equalsIgnoreCase(Boolean.TRUE.toString())) {
-                    updateClientAttribute(lostToFollowUp, false);
-                } else {
-                    updateClientAttribute(lostToFollowUp, true);
-
-                }
-                updateStatus();
-                return true;
+//            case R.id.mark_as_lost_to_followup:
+//                if (details.containsKey(lostToFollowUp) && details.get(lostToFollowUp).equalsIgnoreCase(Boolean.TRUE.toString())) {
+//                    updateClientAttribute(lostToFollowUp, false);
+//                } else {
+//                    updateClientAttribute(lostToFollowUp, true);
+//
+//                }
+//                updateStatus();
+//                return true;
             case R.id.report_adverse_event:
                 return launchAdverseEventForm();
             default:
@@ -604,7 +622,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         updateProfilePicture(gender);
         updateStatus();
     }
-
+    @Override
     public void updateStatus() {
         ImageView statusImage = (ImageView)findViewById(R.id.statusimage);
         TextView status_name = (TextView)findViewById(R.id.statusname);
@@ -626,14 +644,14 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
             status_name.setVisibility(View.GONE);
             status.setText("Lost to\nFollow-Up");
         }
-//        if (!((details.containsKey(lostToFollowUp) && details.get(lostToFollowUp).equalsIgnoreCase(Boolean.TRUE.toString()))||(details.containsKey(inactive) && details.get(inactive).equalsIgnoreCase(Boolean.TRUE.toString())))){
-//            statusImage.setImageResource(R.drawable.ic_icon_status_active);
-//            statusImage.setColorFilter(getResources().getColor(R.color.alert_completed));
-//            status_name.setText("Active");
-//            status_name.setTextColor(getResources().getColor(R.color.alert_completed));
-//            status_name.setVisibility(View.VISIBLE);
-//            status.setText("status");
-//        }
+        if (!((details.containsKey(lostToFollowUp) && details.get(lostToFollowUp).equalsIgnoreCase(Boolean.TRUE.toString()))||(details.containsKey(inactive) && details.get(inactive).equalsIgnoreCase(Boolean.TRUE.toString())))){
+            statusImage.setImageResource(R.drawable.ic_icon_status_active);
+            statusImage.setColorFilter(getResources().getColor(R.color.alert_completed));
+            status_name.setText("Active");
+            status_name.setTextColor(getResources().getColor(R.color.alert_completed));
+            status_name.setVisibility(View.VISIBLE);
+            status.setText("status");
+        }
     }
 
     private String updateActivityTitle() {
@@ -1161,8 +1179,8 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
 
         return ok;
     }
-
-    private void updateClientAttribute(String attributeName, Object attributeValue) {
+    @Override
+    public void updateClientAttribute(String attributeName, Object attributeValue) {
         try {
             Date date= new Date();
             PathRepository db = (PathRepository) VaccinatorApplication.getInstance().getRepository();
