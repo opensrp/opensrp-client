@@ -210,7 +210,7 @@ public class StockSmartRegisterActivity extends SecuredNativeSmartRegisterActivi
             for(int i = 0;i<cpo.size();i++){
                 entityID = cpo.get(i).getCaseId();
                 if(!entityID.equalsIgnoreCase(entityIDsubmission)) {
-                    digestTT(entityID, entityIDsubmission);
+                    digest(entityID, entityIDsubmission);
                 }
             }
 
@@ -236,7 +236,7 @@ public class StockSmartRegisterActivity extends SecuredNativeSmartRegisterActivi
             e.printStackTrace();
         }
     }
-    private void digestTT(String entityID, String entityIDsubmission) {
+    private void digest(String entityID, String entityIDsubmission) {
         AllCommonsRepository stockrep = Context.getInstance().allCommonsRepositoryobjects("stock");
         CommonPersonObject cpo =  Context.getInstance().commonrepository("stock").findByCaseID(entityID);
         CommonPersonObject cpoSubmission =  Context.getInstance().commonrepository("stock").findByCaseID(entityIDsubmission);
@@ -249,7 +249,63 @@ public class StockSmartRegisterActivity extends SecuredNativeSmartRegisterActivi
                     cv.put("tt_used", cpo.getColumnmaps().get("tt_used"));
                 }
                 }else{
-                    cv.put("tt_used",Integer.parseInt(cpoSubmission.getColumnmaps().get("tt_used"))+Integer.parseInt( cpo.getColumnmaps().get("tt_used"))+"");
+                    if (cpo.getColumnmaps().get("tt_used") != null) {
+                        cv.put("tt_used", Integer.parseInt(cpoSubmission.getColumnmaps().get("tt_used")) + Integer.parseInt(cpo.getColumnmaps().get("tt_used")) + "");
+                    }
+                }
+                if(cpoSubmission.getColumnmaps().get("bcg_used") == null){
+                    if (cpo.getColumnmaps().get("bcg_used") != null) {
+                        cv.put("bcg_used", cpo.getColumnmaps().get("bcg_used"));
+                    }
+                }else{
+                    if (cpo.getColumnmaps().get("bcg_used") != null) {
+                        cv.put("bcg_used", Integer.parseInt(cpoSubmission.getColumnmaps().get("bcg_used")) + Integer.parseInt(cpo.getColumnmaps().get("bcg_used")) + "");
+                    }
+                }
+                if(cpoSubmission.getColumnmaps().get("opv_used") == null){
+                    if (cpo.getColumnmaps().get("opv_used") != null) {
+                        cv.put("opv_used", cpo.getColumnmaps().get("opv_used"));
+                    }
+                }else{
+                    if (cpo.getColumnmaps().get("opv_used") != null) {
+                        cv.put("opv_used",Integer.parseInt(cpoSubmission.getColumnmaps().get("opv_used"))+Integer.parseInt( cpo.getColumnmaps().get("opv_used"))+"");
+                    }
+                }
+                if(cpoSubmission.getColumnmaps().get("pcv_used") == null){
+                    if (cpo.getColumnmaps().get("pcv_used") != null) {
+                        cv.put("pcv_used", cpo.getColumnmaps().get("pcv_used"));
+                    }
+                }else {
+                    if (cpo.getColumnmaps().get("pcv_used") != null) {
+                        cv.put("pcv_used", Integer.parseInt(cpoSubmission.getColumnmaps().get("pcv_used")) + Integer.parseInt(cpo.getColumnmaps().get("pcv_used")) + "");
+                    }
+                }
+                if(cpoSubmission.getColumnmaps().get("penta_used") == null){
+                    if (cpo.getColumnmaps().get("penta_used") != null) {
+                        cv.put("penta_used", cpo.getColumnmaps().get("penta_used"));
+                    }
+                }else{
+                    if (cpo.getColumnmaps().get("penta_used") != null) {
+                        cv.put("penta_used", Integer.parseInt(cpoSubmission.getColumnmaps().get("penta_used")) + Integer.parseInt(cpo.getColumnmaps().get("penta_used")) + "");
+                    }
+                }
+                if(cpoSubmission.getColumnmaps().get("ipv_used") == null){
+                    if (cpo.getColumnmaps().get("ipv_used") != null) {
+                        cv.put("ipv_used", cpo.getColumnmaps().get("ipv_used"));
+                    }
+                }else{
+                    if (cpo.getColumnmaps().get("ipv_used") != null) {
+                        cv.put("ipv_used", Integer.parseInt(cpoSubmission.getColumnmaps().get("ipv_used")) + Integer.parseInt(cpo.getColumnmaps().get("ipv_used")) + "");
+                    }
+                }
+                if(cpoSubmission.getColumnmaps().get("measles_used") == null){
+                    if (cpo.getColumnmaps().get("measles_used") != null) {
+                        cv.put("measles_used", cpo.getColumnmaps().get("measles_used"));
+                    }
+                }else{
+                    if (cpo.getColumnmaps().get("measles_used") != null) {
+                        cv.put("measles_used", Integer.parseInt(cpoSubmission.getColumnmaps().get("measles_used")) + Integer.parseInt(cpo.getColumnmaps().get("measles_used")) + "");
+                    }
                 }
             }
         }

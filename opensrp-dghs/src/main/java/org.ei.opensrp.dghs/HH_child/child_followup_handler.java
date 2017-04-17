@@ -60,12 +60,14 @@ public class child_followup_handler implements FormSubmissionHandler {
             while (!cursor.isAfterLast()) {
                 CommonPersonObject tocheck = stockrep.readAllcommonforCursorAdapter(cursor);
                 if (tocheck.getColumnmaps().get("total_wasted") != null) {
-                    if (tocheck.getColumnmaps().get(usedString) != null || !tocheck.getColumnmaps().get(usedString).equalsIgnoreCase("")) {
-                        int tt_used = Integer.parseInt(tocheck.getColumnmaps().get(usedString)) + 1;
-                        ContentValues cv = new ContentValues();
-                        cv.put(usedString, tt_used + "");
-                        stockrep.updateColumn("stock", cv, tocheck.getCaseId());
-                        rowpresent =true;
+                    if (tocheck.getColumnmaps().get(usedString) != null ) {
+                        if(!tocheck.getColumnmaps().get(usedString).equalsIgnoreCase("")) {
+                            int tt_used = Integer.parseInt(tocheck.getColumnmaps().get(usedString)) + 1;
+                            ContentValues cv = new ContentValues();
+                            cv.put(usedString, tt_used + "");
+                            stockrep.updateColumn("stock", cv, tocheck.getCaseId());
+                            rowpresent = true;
+                        }
                     }
 
                 }
