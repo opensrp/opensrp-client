@@ -407,6 +407,10 @@
     <string name="single_vaccine_miss">Vaccine Missed : 1</string>
     <string name="double_vaccine_miss">Vaccine Missed : 2</string>
     <string name="triple_vaccine_miss">Vaccine Missed : 3 or more</string>
+    <string name="stock_register_label">Stock</string>
+    <string name="date">Date</string>
+    <string name="total_vaccine_stock_used">Total Vaccine Stock Used</string>
+    <string name="total_vaccine_stock_wasted">Total Vaccine Stock Wasted</string>
 
 
 </resources>

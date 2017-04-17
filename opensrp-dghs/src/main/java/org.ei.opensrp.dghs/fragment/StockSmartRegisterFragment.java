@@ -27,6 +27,8 @@ import org.ei.opensrp.dghs.hh_member.HouseHoldDetailActivity;
 import org.ei.opensrp.dghs.hh_member.HouseHoldServiceModeOption;
 import org.ei.opensrp.dghs.hh_member.HouseHoldSmartClientsProvider;
 import org.ei.opensrp.dghs.hh_member.HouseholdCensusDueDateSort;
+import org.ei.opensrp.dghs.stock.StockClientsProvider;
+import org.ei.opensrp.dghs.stock.StockModeOption;
 import org.ei.opensrp.dghs.stock.StockSmartRegisterActivity;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.util.StringUtil;
@@ -81,7 +83,7 @@ public class StockSmartRegisterFragment extends SecuredNativeSmartRegisterCursor
 
             @Override
             public ServiceModeOption serviceMode() {
-                return new HouseHoldServiceModeOption(clientsProvider());
+                return new StockModeOption(clientsProvider());
             }
 
             @Override
@@ -97,7 +99,7 @@ public class StockSmartRegisterFragment extends SecuredNativeSmartRegisterCursor
 
             @Override
             public String nameInShortFormForTitle() {
-                return Context.getInstance().getStringResource(R.string.hh_register_title_in_short);
+                return Context.getInstance().getStringResource(R.string.stock_register_label);
             }
         };
     }
@@ -214,36 +216,39 @@ public class StockSmartRegisterFragment extends SecuredNativeSmartRegisterCursor
                 "Else alerts.status END ASC";
     }
     public void initializeQueries(){
-        CommonRepository commonRepository = context().commonrepository("household");
-        setTablename("household");
+        CommonRepository commonRepository = context().commonrepository("stock");
+        setTablename("stock");
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
-        countqueryBUilder.SelectInitiateMainTableCounts("household");
-        countqueryBUilder.joinwithALerts("household","FW CENSUS");
-        Sortqueries = sortByAlertmethod();
-        countSelect = countqueryBUilder.mainCondition(" HoH_Fname is not null ");
+        countqueryBUilder.SelectInitiateMainTableCounts("stock");
+        Sortqueries = sortByDate();
+        countSelect = countqueryBUilder.mainCondition(" total_wasted is not null ");
         CountExecute();
 
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
-        queryBUilder.SelectInitiateMainTable("household", new String[]{"relationalid", "details","HoH_FName","HHID"});
-        queryBUilder.joinwithALerts("household","FW CENSUS");
-        mainSelect = queryBUilder.mainCondition(" HoH_Fname is not null ");
+        queryBUilder.SelectInitiateMainTable("stock", new String[]{"relationalid", "details","total_wasted","total_received","total_balanceInHand","date","bcg_wasted","bcg_used","opv_wasted","opv_used","ipv_wasted","ipv_used","pcv_wasted","pcv_used","penta_wasted","penta_used","measles_wasted","measles_used","tt_wasted","tt_used","dilutants_wasted","dilutants_used"});
+        mainSelect = queryBUilder.mainCondition(" total_wasted is not null ");
         queryBUilder.addCondition(filters);
-        Sortqueries = sortByAlertmethod();
+        Sortqueries = sortByDate();
         currentquery  = queryBUilder.orderbyCondition(Sortqueries);
 
 
 //        queryBUilder.queryForRegisterSortBasedOnRegisterAndAlert("household", new String[]{"relationalid" ,"details","FWHOHFNAME", "FWGOBHHID","FWJIVHHID"}, null, "FW CENSUS");
 //        Cursor c = commonRepository.CustomQueryForAdapter(new String[]{"id as _id","relationalid","details"},"household",""+currentlimit,""+currentoffset);
         Cursor c = commonRepository.RawCustomQueryForAdapter(queryBUilder.Endquery(queryBUilder.addlimitandOffset(currentquery, 20, 0)));
-        HouseHoldSmartClientsProvider hhscp = new HouseHoldSmartClientsProvider(getActivity(),clientActionHandler,context().alertService());
-        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), c, hhscp, new CommonRepository("household",new String []{"HoH_FName","HHID"}));
+        StockClientsProvider hhscp = new StockClientsProvider(getActivity(),clientActionHandler,context().alertService());
+
+        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), c, hhscp, new CommonRepository("stock",new String []{"total_wasted","total_received","total_balanceInHand","date","bcg_wasted","bcg_used","opv_wasted","opv_used","ipv_wasted","ipv_used","pcv_wasted","pcv_used","penta_wasted","penta_used","measles_wasted","measles_used","tt_wasted","tt_used","dilutants_wasted","dilutants_used"}));
         clientsView.setAdapter(clientAdapter);
 //        setServiceModeViewDrawableRight(null);
         updateSearchView();
         refresh();
 //        checkforNidMissing(view);
 
+    }
+
+    private String sortByDate() {
+        return " date ASC";
     }
 
 
@@ -357,7 +362,7 @@ public class StockSmartRegisterFragment extends SecuredNativeSmartRegisterCursor
 //                                .updateClients(getCurrentVillageFilter(), getCurrentServiceModeOption(),
 //                                        getCurrentSearchFilter(), getCurrentSortOption());
 //
-                        filters = "and (HoH_FName Like '%" + cs.toString() + "%' or HHID Like '%" + cs.toString() + "%'  or details Like '%" + cs.toString() + "%'" +"or household.id in (Select members.relationalid from members where Member_Fname Like '%"+cs.toString()+"%' ))";
+                        filters = "and date Like '%" + cs.toString() + "%' ";
                         return null;
                     }
 
