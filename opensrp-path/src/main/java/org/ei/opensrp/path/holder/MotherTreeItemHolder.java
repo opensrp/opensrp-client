@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.AbsListView;
 import android.widget.TextView;
 
 import com.github.johnkil.print.PrintView;
@@ -14,15 +14,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.path.R;
-import org.ei.opensrp.util.OpenSRPImageLoader;
-import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.joda.time.DateTime;
 
 import java.util.Date;
 
 import util.DateUtils;
-import util.ImageUtils;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static util.Utils.fillValue;
 import static util.Utils.getName;
 import static util.Utils.getValue;
@@ -45,18 +43,26 @@ public class MotherTreeItemHolder extends TreeNode.BaseNodeViewHolder<MotherTree
 
         arrowView = (PrintView) view.findViewById(R.id.arrow_icon);
 
+        if (!value.hasChildren) {
+            arrowView.setVisibility(View.INVISIBLE);
+        }
 
         CommonPersonObject client = value.commonPersonObject;
 
-        CommonPersonObjectClient pc = new CommonPersonObjectClient(client.getCaseId(), client.getColumnmaps(), client.getColumnmaps().get("first_name"));
+        final CommonPersonObjectClient pc = new CommonPersonObjectClient(client.getCaseId(), client.getColumnmaps(), client.getColumnmaps().get("first_name"));
         pc.setColumnmaps(client.getColumnmaps());
 
+        String zeirId = getValue(pc.getColumnmaps(), "zeir_id", false);
 
-        fillValue((TextView) view.findViewById(R.id.child_zeir_id), getValue(pc.getColumnmaps(), "zeir_id", false));
+        if (StringUtils.isNotBlank(zeirId) && zeirId.contains("_")) {
+            zeirId = zeirId.split("_")[0];
+        }
+
+        fillValue((TextView) view.findViewById(R.id.child_zeir_id), zeirId);
 
         String firstName = getValue(pc.getColumnmaps(), "first_name", true);
         String lastName = getValue(pc.getColumnmaps(), "last_name", true);
-        String childName = getName(firstName, lastName);
+        final String childName = getName(firstName, lastName);
 
         fillValue((TextView) view.findViewById(R.id.child_name), childName);
 
@@ -78,21 +84,19 @@ public class MotherTreeItemHolder extends TreeNode.BaseNodeViewHolder<MotherTree
 
         fillValue((TextView) view.findViewById(R.id.child_card_number), pc.getColumnmaps(), "nrc_number", false);
 
-        String gender = "female";
-        int defaultImageResId = ImageUtils.profileImageResourceByGender(gender);
 
-        ImageView profilePic = (ImageView) view.findViewById(R.id.child_profilepic);
-        profilePic.setImageResource(defaultImageResId);
-        if (pc.entityId() != null) {//image already in local storage most likey ):
-            //set profile image by passing the client id.If the image doesn't exist in the image repository then download and save locally
-            profilePic.setTag(org.ei.opensrp.R.id.entity_id, pc.getCaseId());
-            DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pc.getCaseId(), OpenSRPImageLoader.getStaticImageListener(profilePic, 0, 0));
-        }
+        view.findViewById(R.id.select).setTag(client);
+        view.findViewById(R.id.select).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (node.getClickListener() != null) {
+                    node.getClickListener().onClick(node, pc);
+                }
+            }
+        });
 
-        view.findViewById(R.id.child_profile_info_layout).setTag(client);
-        // view.findViewById(R.id.child_profile_info_layout).setOnClickListener(onClickListener);
-
-
+        AbsListView.LayoutParams clientViewLayoutParams = new AbsListView.LayoutParams(MATCH_PARENT, (int) context.getResources().getDimension(org.ei.opensrp.R.dimen.list_item_height));
+        view.setLayoutParams(clientViewLayoutParams);
         return view;
     }
 
@@ -103,9 +107,11 @@ public class MotherTreeItemHolder extends TreeNode.BaseNodeViewHolder<MotherTree
 
     public static class MotherTreeItem {
         public CommonPersonObject commonPersonObject;
+        public boolean hasChildren;
 
-        public MotherTreeItem(CommonPersonObject commonPersonObject) {
+        public MotherTreeItem(CommonPersonObject commonPersonObject, boolean hasChildren) {
             this.commonPersonObject = commonPersonObject;
+            this.hasChildren = hasChildren;
         }
     }
 }

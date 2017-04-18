@@ -8,6 +8,7 @@
     <item type="id" name="imagePath"/>
     <item type="id" name="raw_value"/>
     <item type="id" name="canvas_ids"/>
+    <item type="id" name="after_look_up"/>
 
     <item type="id" name="v_required"/>
     <item type="id" name="error"/>

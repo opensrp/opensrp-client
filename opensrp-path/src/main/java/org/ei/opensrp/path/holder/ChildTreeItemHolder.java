@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import java.util.Date;
 import util.DateUtils;
 import util.ImageUtils;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static util.Utils.fillValue;
 import static util.Utils.getName;
 import static util.Utils.getValue;
@@ -86,8 +88,8 @@ public class ChildTreeItemHolder extends TreeNode.BaseNodeViewHolder<ChildTreeIt
             DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pc.getCaseId(), OpenSRPImageLoader.getStaticImageListener(profilePic, 0, 0));
         }
 
-        view.findViewById(R.id.child_profile_info_layout).setTag(client);
-
+        AbsListView.LayoutParams clientViewLayoutParams = new AbsListView.LayoutParams(MATCH_PARENT, (int) context.getResources().getDimension(org.ei.opensrp.R.dimen.list_item_height));
+        view.setLayoutParams(clientViewLayoutParams);
         return view;
     }
 

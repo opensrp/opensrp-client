@@ -33,20 +33,20 @@ public class LookUpTextWatcher implements TextWatcher {
     private View mView;
     private JsonFormFragment formFragment;
     private String mEntityId;
-    private boolean mLookUp;
 
 
-    public LookUpTextWatcher(JsonFormFragment formFragment, View view, String entityId, boolean lookUp) {
+    public LookUpTextWatcher(JsonFormFragment formFragment, View view, String entityId) {
         this.formFragment = formFragment;
         mView = view;
         mEntityId = entityId;
-        mLookUp = lookUp;
+
     }
 
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
     }
 
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+
     }
 
     public void afterTextChanged(Editable editable) {
@@ -58,7 +58,25 @@ public class LookUpTextWatcher implements TextWatcher {
 
         String key = (String) mView.getTag(R.id.key);
 
-        if (mLookUp) {
+        boolean afterLookUp = mView.getTag(R.id.after_look_up) != null && (boolean) mView.getTag(R.id.after_look_up);
+
+        //clear mother lookup
+        /* if (text.isEmpty() && !resetLookUp) {
+            if (formFragment instanceof PathJsonFormFragment) {
+                PathJsonFormFragment pathJsonFormFragment = (PathJsonFormFragment) formFragment;
+                if (mEntityId.equalsIgnoreCase("mother")) {
+                    pathJsonFormFragment.clearMotherLookUp();
+                }
+                resetLookUp = true;
+            }
+            return;
+
+        }
+
+        resetLookUp = false;
+        */
+
+        if (!afterLookUp) {
             EntityLookUp entityLookUp = new EntityLookUp();
             if (lookUpMap.containsKey(mEntityId)) {
                 entityLookUp = lookUpMap.get(mEntityId);
@@ -85,6 +103,8 @@ public class LookUpTextWatcher implements TextWatcher {
             if (mEntityId.equalsIgnoreCase("mother")) {
                 MotherLookUpUtils.motherLookUp(context, lookUpMap.get(mEntityId), listener, null);
             }
+        } else if (afterLookUp) {
+            mView.setTag(R.id.after_look_up, false);
         }
     }
 

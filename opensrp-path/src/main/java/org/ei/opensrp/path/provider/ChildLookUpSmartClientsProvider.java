@@ -1,17 +1,27 @@
 package org.ei.opensrp.path.provider;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.cursoradapter.SmartRegisterCLientsProviderForCursorAdapter;
+import org.ei.opensrp.domain.Alert;
+import org.ei.opensrp.domain.Vaccine;
+import org.ei.opensrp.domain.Weight;
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.db.VaccineRepo;
+import org.ei.opensrp.path.repository.VaccineRepository;
+import org.ei.opensrp.path.repository.WeightRepository;
+import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.util.OpenSRPImageLoader;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
@@ -22,31 +32,41 @@ import org.ei.opensrp.view.dialog.SortOption;
 import org.ei.opensrp.view.viewHolder.OnClickFormLauncher;
 import org.joda.time.DateTime;
 
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import util.DateUtils;
 import util.ImageUtils;
+import util.VaccinateActionUtils;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static util.Utils.fillValue;
 import static util.Utils.getName;
 import static util.Utils.getValue;
+import static util.VaccinatorUtils.generateScheduleList;
 import static util.VaccinatorUtils.nextVaccineDue;
+import static util.VaccinatorUtils.receivedVaccines;
 
 /**
  * Created by Ahmed on 13-Oct-15.
  */
-public class MotherLookUpSmartClientsProvider implements SmartRegisterCLientsProviderForCursorAdapter {
+public class ChildLookUpSmartClientsProvider implements SmartRegisterCLientsProviderForCursorAdapter {
     private final LayoutInflater inflater;
     private final Context context;
     private final View.OnClickListener onClickListener;
+    private final AbsListView.LayoutParams clientViewLayoutParams;
+    private static final String VACCINES_FILE = "vaccines.json";
 
-    public MotherLookUpSmartClientsProvider(Context context, View.OnClickListener onClickListener) {
+    public ChildLookUpSmartClientsProvider(Context context, View.OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
         this.context = context;
-
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-
+        clientViewLayoutParams = new AbsListView.LayoutParams(MATCH_PARENT, (int) context.getResources().getDimension(org.ei.opensrp.R.dimen.list_item_height));
     }
 
     @Override
@@ -59,6 +79,10 @@ public class MotherLookUpSmartClientsProvider implements SmartRegisterCLientsPro
         String lastName = getValue(pc.getColumnmaps(), "last_name", true);
         String childName = getName(firstName, lastName);
 
+        String motherFirstName = getValue(pc.getColumnmaps(), "mother_first_name", true);
+        if (StringUtils.isBlank(childName) && StringUtils.isNotBlank(motherFirstName)) {
+            childName = "B/o " + motherFirstName.trim();
+        }
         fillValue((TextView) convertView.findViewById(R.id.child_name), childName);
 
         DateTime birthDateTime = new DateTime((new Date()).getTime());
@@ -77,23 +101,23 @@ public class MotherLookUpSmartClientsProvider implements SmartRegisterCLientsPro
         }
         fillValue((TextView) convertView.findViewById(R.id.child_age), durationString);
 
-        fillValue((TextView) convertView.findViewById(R.id.child_card_number), pc.getColumnmaps(), "nrc_number", false);
+        fillValue((TextView) convertView.findViewById(R.id.child_card_number), pc.getColumnmaps(), "epi_card_number", false);
 
-        String gender = "female";
+        String gender = getValue(pc.getColumnmaps(), "gender", true);
         int defaultImageResId = ImageUtils.profileImageResourceByGender(gender);
 
-        /*ImageView profilePic = (ImageView) convertView.findViewById(R.id.child_profilepic);
+        ImageView profilePic = (ImageView) convertView.findViewById(R.id.child_profilepic);
         profilePic.setImageResource(defaultImageResId);
         if (client.entityId() != null) {//image already in local storage most likey ):
             //set profile image by passing the client id.If the image doesn't exist in the image repository then download and save locally
             profilePic.setTag(org.ei.opensrp.R.id.entity_id, pc.getCaseId());
             DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pc.getCaseId(), OpenSRPImageLoader.getStaticImageListener(profilePic, 0, 0));
-        } */
+        }
 
         convertView.findViewById(R.id.child_profile_info_layout).setTag(client);
         convertView.findViewById(R.id.child_profile_info_layout).setOnClickListener(onClickListener);
 
-
+        convertView.setLayoutParams(clientViewLayoutParams);
     }
 
     @Override
@@ -115,7 +139,7 @@ public class MotherLookUpSmartClientsProvider implements SmartRegisterCLientsPro
 
     @Override
     public View inflatelayoutForCursorAdapter() {
-        ViewGroup view = (ViewGroup) inflater().inflate(R.layout.mother_lookup_client, null);
+        ViewGroup view = (ViewGroup) inflater().inflate(R.layout.child_lookup_client, null);
         return view;
     }
 

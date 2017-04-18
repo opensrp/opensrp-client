@@ -1,42 +1,54 @@
 package org.ei.opensrp.path.fragment;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.internal.widget.TintContextWrapper;
 import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.unnamed.b.atv.model.TreeNode;
-import com.unnamed.b.atv.view.AndroidTreeView;
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vijay.jsonwizard.fragments.JsonFormFragment;
+import com.vijay.jsonwizard.interfaces.JsonApi;
 import com.vijay.jsonwizard.presenters.JsonFormFragmentPresenter;
+import com.vijay.jsonwizard.utils.FormUtils;
+import com.vijay.jsonwizard.widgets.DatePickerFactory;
 
+import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
+import org.ei.opensrp.clientandeventmodel.DateUtil;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.path.R;
-import org.ei.opensrp.path.application.VaccinatorApplication;
-import org.ei.opensrp.path.holder.ChildTreeItemHolder;
-import org.ei.opensrp.path.holder.MotherTreeItemHolder;
 import org.ei.opensrp.path.interactors.PathJsonFormInteractor;
-import org.ei.opensrp.path.provider.ChildSmartClientsProvider;
+import org.ei.opensrp.path.provider.ChildLookUpSmartClientsProvider;
 import org.ei.opensrp.path.provider.MotherLookUpSmartClientsProvider;
+import org.ei.opensrp.path.view.MotherLookUpDialog;
+import org.ei.opensrp.path.viewstates.PathJsonFormFragmentViewState;
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import util.MotherLookUpUtils;
+
+import static android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS;
 import static util.Utils.getValue;
 
 /**
@@ -46,19 +58,27 @@ public class PathJsonFormFragment extends JsonFormFragment {
 
     Snackbar snackbar = null;
     AlertDialog alertDialog = null;
+    static String stepName;
 
     public static PathJsonFormFragment getFormFragment(String stepName) {
         PathJsonFormFragment jsonFormFragment = new PathJsonFormFragment();
         Bundle bundle = new Bundle();
         bundle.putString("stepName", stepName);
+        PathJsonFormFragment.stepName = stepName;
         jsonFormFragment.setArguments(bundle);
         return jsonFormFragment;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         return rootView;
+    }
+
+    @Override
+    protected PathJsonFormFragmentViewState createViewState() {
+        return new PathJsonFormFragmentViewState();
     }
 
     @Override
@@ -91,7 +111,9 @@ public class PathJsonFormFragment extends JsonFormFragment {
                 @Override
                 public void onClick(View v) {
                     //updateResults(map);
-                    updateResults2(map);
+                    //updateResults2(map);
+                    snackbar.dismiss();
+                    updateResult3(map);
                 }
             });
             show(snackbar);
@@ -119,7 +141,7 @@ public class PathJsonFormFragment extends JsonFormFragment {
 
 
         final MotherLookUpSmartClientsProvider motherLookUpSmartClientsProvider = new MotherLookUpSmartClientsProvider(getActivity(), lookUpRecordOnClickLister);
-        final ChildSmartClientsProvider childSmartClientsProvider = new ChildSmartClientsProvider(getActivity(), lookUpRecordOnClickLister, context().alertService(), VaccinatorApplication.getInstance().vaccineRepository(), VaccinatorApplication.getInstance().weightRepository());
+        final ChildLookUpSmartClientsProvider childLookUpSmartClientsProvider = new ChildLookUpSmartClientsProvider(getActivity(), lookUpRecordOnClickLister);
 
         BaseExpandableListAdapter expandableListAdapter = new BaseExpandableListAdapter() {
             @Override
@@ -140,7 +162,7 @@ public class PathJsonFormFragment extends JsonFormFragment {
 
                 View v;
                 if (convertView == null) {
-                    v = childSmartClientsProvider.inflatelayoutForCursorAdapter();
+                    v = childLookUpSmartClientsProvider.inflatelayoutForCursorAdapter();
                     v.setPadding(20, 0, 0, 0);
                 } else {
                     v = convertView;
@@ -151,7 +173,7 @@ public class PathJsonFormFragment extends JsonFormFragment {
                 CommonPersonObjectClient client = new CommonPersonObjectClient(childPersonObject.getCaseId(), childPersonObject.getColumnmaps(), childPersonObject.getColumnmaps().get("first_name"));
                 client.setColumnmaps(childPersonObject.getColumnmaps());
 
-                childSmartClientsProvider.getView(client, v);
+                childLookUpSmartClientsProvider.getView(client, v);
 
                 return v;
             }
@@ -220,52 +242,107 @@ public class PathJsonFormFragment extends JsonFormFragment {
 
     }
 
-    private void updateResults2(final HashMap<CommonPersonObject, List<CommonPersonObject>> map) {
+    private void updateResult3(final HashMap<CommonPersonObject, List<CommonPersonObject>> map) {
 
+        final MotherLookUpDialog motherLookUpDialog = new MotherLookUpDialog(getActivity(),
+                map);
 
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View rootView = inflater.inflate(R.layout.mother_lookup_default, null, false);
-        final ViewGroup containerView = (ViewGroup) rootView.findViewById(R.id.container);
-        rootView.findViewById(R.id.status_bar).setVisibility(View.GONE);
+        motherLookUpDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                InputMethodManager inputManager = (InputMethodManager) getActivity()
+                        .getSystemService(android.content.Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow((getActivity()).getCurrentFocus().getWindowToken(),
+                        HIDE_NOT_ALWAYS);
+            }
+        });
 
+        motherLookUpDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                CommonPersonObjectClient pc = motherLookUpDialog.getSelectClient();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), AlertDialog.THEME_HOLO_LIGHT);
-        builder.setView(rootView).setNegativeButton(R.string.dismiss, null);
-        builder.setTitle(getString(R.string.mother_lookup_results));
-        builder.setCancelable(true);
+                if (pc != null) {
 
-        alertDialog = builder.create();
+                    String entityId = "mother";
 
+                    Map<String, List<View>> lookupMap = getLookUpMap();
+                    if (lookupMap.containsKey(entityId)) {
+                        List<View> lookUpViews = lookupMap.get(entityId);
+                        if (lookUpViews != null && !lookUpViews.isEmpty()) {
 
-        final TreeNode rootNode = TreeNode.root();
+                            for (View view : lookUpViews) {
 
-        for (Map.Entry<CommonPersonObject, List<CommonPersonObject>> entry : map.entrySet()) {
-            CommonPersonObject motherObject = entry.getKey();
-            List<CommonPersonObject> childList = entry.getValue();
+                                String key = (String) view.getTag(com.vijay.jsonwizard.R.id.key);
+                                String text = "";
 
-            TreeNode motherNode = new TreeNode(new MotherTreeItemHolder.MotherTreeItem(motherObject)).setViewHolder(new MotherTreeItemHolder(getActivity()));
-            motherNode.setExpanded(true);
-            addChildren(motherNode, childList);
-            rootNode.addChild(motherNode);
+                                if (StringUtils.containsIgnoreCase(key, MotherLookUpUtils.firstName)) {
+                                    text = getValue(pc.getColumnmaps(), MotherLookUpUtils.firstName, true);
+                                }
 
-        }
+                                if (StringUtils.containsIgnoreCase(key, MotherLookUpUtils.lastName)) {
+                                    text = getValue(pc.getColumnmaps(), MotherLookUpUtils.lastName, true);
+                                }
 
-        AndroidTreeView androidTreeView = new AndroidTreeView(getActivity(), rootNode);
-        androidTreeView.setDefaultContainerStyle(com.vijay.jsonwizard.R.style.TreeNodeStyle);
-        containerView.addView(androidTreeView.getView());
+                                if (StringUtils.containsIgnoreCase(key, MotherLookUpUtils.birthDate)) {
+                                    String dobString = getValue(pc.getColumnmaps(), MotherLookUpUtils.dob, false);
+                                    if (StringUtils.isNotBlank(dobString)) {
+                                        try {
+                                            DateTime birthDateTime = new DateTime(dobString);
+                                            text = DatePickerFactory.DATE_FORMAT.format(birthDateTime.toDate());
+                                        } catch (Exception e) {
+                                            Log.e(getClass().getName(), e.toString(), e);
+                                        }
+                                    }
+                                }
 
-        alertDialog.show();
+                                if (view instanceof MaterialEditText) {
+                                    MaterialEditText materialEditText = (MaterialEditText) view;
+                                    materialEditText.setTag(com.vijay.jsonwizard.R.id.after_look_up, true);
+                                    materialEditText.setText(text);
+
+                                }
+                            }
+
+                            Map<String, String> metadataMap = new HashMap<>();
+                            metadataMap.put("entity_id", entityId);
+                            metadataMap.put("value", getValue(pc.getColumnmaps(), MotherLookUpUtils.baseEntityId, false));
+
+                            writeMetaDataValue(FormUtils.LOOK_UP_JAVAROSA_PROPERTY, metadataMap);
+                        }
+                    }
+                }
+            }
+        });
+
+        motherLookUpDialog.show();
     }
 
-    private void addChildren(TreeNode motherNode, List<CommonPersonObject> childList) {
+    public void clearMotherLookUp() {
+        String entityId = "mother";
+        Map<String, List<View>> lookupMap = getLookUpMap();
+        if (lookupMap.containsKey(entityId)) {
+            List<View> lookUpViews = lookupMap.get(entityId);
+            if (lookUpViews != null && !lookUpViews.isEmpty()) {
 
-        for (CommonPersonObject child : childList) {
-            TreeNode childNode = new TreeNode(new ChildTreeItemHolder.ChildTreeItem(child)).setViewHolder(new ChildTreeItemHolder(getActivity()));
-            motherNode.addChild(childNode);
+                for (View view : lookUpViews) {
+
+                    if (view instanceof MaterialEditText) {
+                        MaterialEditText materialEditText = (MaterialEditText) view;
+                        materialEditText.setTag(com.vijay.jsonwizard.R.id.after_look_up, true);
+                        materialEditText.setText("");
+
+                    }
+                }
+
+                Map<String, String> metadataMap = new HashMap<>();
+                metadataMap.put("entity_id", "");
+                metadataMap.put("value", "");
+
+                writeMetaDataValue(FormUtils.LOOK_UP_JAVAROSA_PROPERTY, metadataMap);
+            }
         }
-
     }
-
 
     private void show(Snackbar snackbar) {
 

@@ -31,10 +31,11 @@ import static util.Utils.getValue;
 public class MotherLookUpUtils {
     private static final String TAG = MotherLookUpUtils.class.getName();
 
-    private static final String firstName = "first_name";
-    private static final String lastName = "last_name";
-    private static final String birthDate = "date_birth";
-    private static final String dob = "dob";
+    public static final String firstName = "first_name";
+    public static final String lastName = "last_name";
+    public static final String birthDate = "date_birth";
+    public static final String dob = "dob";
+    public static final String baseEntityId = "base_entity_id";
 
     public static void motherLookUp(final Context context, final EntityLookUp entityLookUp, final Listener<HashMap<CommonPersonObject, List<CommonPersonObject>>> listener, final ProgressBar progressBar) {
 
@@ -150,7 +151,8 @@ public class MotherLookUpUtils {
                                 "gender",
                                 "dob",
                                 "nrc_number",
-                                "contact_phone_number"
+                                "contact_phone_number",
+                                "base_entity_id"
                         }
 
         );

@@ -180,23 +180,36 @@ public class JsonFormUtils {
                 }
             }
 
+            JSONObject lookUpJSONObject = getJSONObject(metadata, "look_up");
+            String lookUpEntityId = "";
+            String lookUpBaseEntityId = "";
+            if(lookUpJSONObject != null){
+                lookUpEntityId = getString(lookUpJSONObject,"entity_id");
+                lookUpBaseEntityId = getString(lookUpJSONObject, "value");
+            }
+
             Client c = JsonFormUtils.createBaseClient(fields, entityId);
             Event e = JsonFormUtils.createEvent(openSrpContext, fields, metadata, entityId, encounterType, providerId, bindType);
 
             Client s = null;
-
-            if (StringUtils.isNotBlank(subBindType)) {
-                s = JsonFormUtils.createSubformClient(context, fields, c, subBindType,null);
-            }
-
             Event se = null;
-            if (s != null && e != null) {
-                JSONObject subBindTypeJson = getJSONObject(jsonForm, subBindType);
-                if (subBindTypeJson != null) {
-                    String subBindTypeEncounter = getString(subBindTypeJson, ENCOUNTER_TYPE);
-                    if (StringUtils.isNotBlank(subBindTypeEncounter)) {
-                        se = JsonFormUtils.createSubFormEvent(null, metadata, e, s.getBaseEntityId(), subBindTypeEncounter, providerId, subBindType);
+            if(lookUpEntityId.equals("mother") && StringUtils.isNotBlank(lookUpBaseEntityId)){
+                Client ss = new Client(lookUpBaseEntityId);
+                addRelationship(context, ss, c);
+            } else {
 
+                if (StringUtils.isNotBlank(subBindType)) {
+                    s = JsonFormUtils.createSubformClient(context, fields, c, subBindType, null);
+                }
+
+                if (s != null && e != null) {
+                    JSONObject subBindTypeJson = getJSONObject(jsonForm, subBindType);
+                    if (subBindTypeJson != null) {
+                        String subBindTypeEncounter = getString(subBindTypeJson, ENCOUNTER_TYPE);
+                        if (StringUtils.isNotBlank(subBindTypeEncounter)) {
+                            se = JsonFormUtils.createSubFormEvent(null, metadata, e, s.getBaseEntityId(), subBindTypeEncounter, providerId, subBindType);
+
+                        }
                     }
                 }
             }

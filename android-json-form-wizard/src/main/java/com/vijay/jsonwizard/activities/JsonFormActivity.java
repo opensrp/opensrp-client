@@ -34,8 +34,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -159,6 +161,24 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    @Override
+    public void writeMetaDataValue(String metaDataKey, Map<String, String> values) throws JSONException {
+        synchronized (mJSONObject) {
+            if (mJSONObject.has(FormUtils.METADATA_PROPERTY) && !values.isEmpty()) {
+                if (mJSONObject.getJSONObject(FormUtils.METADATA_PROPERTY).has(metaDataKey)) {
+                    JSONObject metaData = mJSONObject.getJSONObject(FormUtils.METADATA_PROPERTY).getJSONObject(metaDataKey);
+                    for (Map.Entry<String, String> entry : values.entrySet()) {
+                        String key = entry.getKey();
+                        String value = entry.getValue();
+                        if (value == null) value = "";
+                        metaData.put(key, value);
+                    }
+                }
+
             }
         }
     }
