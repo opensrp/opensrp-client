@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 import static java.lang.System.currentTimeMillis;
@@ -155,14 +157,18 @@ public class FormDataRepository extends DrishtiRepository {
 
     @JavascriptInterface
     public String saveEntity(String entityType, String fields) {
+        Log.e("saveEntity_fields",fields);
         SQLiteDatabase database = masterRepository.getWritableDatabase();
         Map<String, String> updatedFieldsMap = new Gson().fromJson(fields, new TypeToken<Map<String, String>>() {
         }.getType());
+        Log.e("saveEntity_updatedField",updatedFieldsMap.toString());
 
         String entityId = updatedFieldsMap.get(ENTITY_ID_FIELD_NAME);
         Map<String, String> entityMap = loadEntityMap(entityType, database, entityId);
-
+        Log.e("saveEntity_entityMap",entityMap.toString());
         ContentValues contentValues = getContentValues(updatedFieldsMap, entityType, entityMap);
+        Log.e("saveEntity_contentVal",contentValues.toString());
+
         database.replace(entityType, null, contentValues);
         return entityId;
     }

@@ -131,7 +131,7 @@
       },
       {
         "name": "Child",
-        "bind": "/model/instance/Nutrition/existing_Child"      ,
+        "bind": "/model/instance/Nutrition/existing_Child",
         "shouldLoadValue": true
       },
       {

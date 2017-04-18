@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -105,16 +106,116 @@ public class ChildDetailActivity extends Activity {
         }
         today.setText("Today: " + new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime()) + AllConstants.SPACE);
         doolay(ChildClient);
-        assign_text_to_givenView(ChildClient, (TextView) findViewById(R.id.critical_disease_problem), "Diseases_Prob");
-        assign_text_to_givenView(ChildClient, (TextView) findViewById(R.id.referred), "Has_Referred");
-        //assign_text_to_givenView(ChildClient, (TextView) findViewById(R.id.vaccination_history), "Vaccines");
 
+        assign_text_to_critical_desease(ChildClient, (TextView) findViewById(R.id.critical_disease_problem), "Diseases_Prob");
+        assign_text_to_reffered(ChildClient, (TextView) findViewById(R.id.referred), "Has_Referred");
+
+        assign_given_vaccines(ChildClient);
+    }
+
+    private void assign_text_to_reffered(CommonPersonObjectClient ecclient,TextView tview,String detailvariable) {
+        String text = ecclient.getDetails().get(detailvariable)!=null?ecclient.getDetails().get(detailvariable):"N/A";
+        if(text.equalsIgnoreCase("0")) {
+            text = "No";
+        }
+        else if(text.equalsIgnoreCase("1")){
+            text = "Yes";
+        }
+        else {
+            text = "N/A";
+        }
+        tview.setText(text);
+    }
+
+    private void assign_text_to_critical_desease(CommonPersonObjectClient ecclient,TextView tview,String detailvariable) {
+        String[] deseases = new String[]{"Dangerous Desease", "Pneumonia", "Diarrhea","Other Problem"};
+        String[] text = (ecclient.getDetails().get(detailvariable)!=null?ecclient.getDetails().get(detailvariable):"N/A").split(" ");
+        String comma = "", deseasesText = "";
+        for (int i = 0; i < text.length; i++){
+            deseasesText += comma;
+            comma = ",";
+            switch (text[i]){
+                case "1" :
+                    deseasesText += deseases[0];
+                    break;
+                case "2" :
+                    deseasesText += deseases[1];
+                    break;
+                case "3" :
+                    deseasesText += deseases[2];
+                    break;
+                case "4" :
+                    deseasesText += deseases[3];
+                    break;
+            }
+
+        }
+        tview.setText(deseasesText);
+    }
+
+    private void assign_given_vaccines(CommonPersonObjectClient childClient){
+        String[] vaccines = (childClient.getDetails().get("Vaccines") != null ? childClient.getDetails().get("Vaccines") : "").split(" ");
+        //BCG OPV0 PCV1 OPV1 Penta1 PCV2 OPV2 Penta2 PCV3 OPV3 Penta3 IPV MR1 MR2
+        CheckBox bcg = (CheckBox) findViewById(R.id.bcg);CheckBox penta1 = (CheckBox) findViewById(R.id.penta1);
+        CheckBox pcv1 = (CheckBox) findViewById(R.id.pcv1);CheckBox ipv = (CheckBox) findViewById(R.id.ipv);
+        CheckBox opv0 = (CheckBox) findViewById(R.id.opv0);CheckBox penta2 = (CheckBox) findViewById(R.id.penta2);
+        CheckBox pcv2 = (CheckBox) findViewById(R.id.pcv2);CheckBox measles1 = (CheckBox) findViewById(R.id.measles1);
+        CheckBox opv1 = (CheckBox) findViewById(R.id.opv1);CheckBox penta3 = (CheckBox) findViewById(R.id.penta3);
+        CheckBox pcv3 = (CheckBox) findViewById(R.id.pcv3);CheckBox measles2 = (CheckBox) findViewById(R.id.measles2);
+        CheckBox opv2 = (CheckBox) findViewById(R.id.opv2);CheckBox opv3 = (CheckBox) findViewById(R.id.opv3);
+
+        for (int i = 0; i < vaccines.length; i++){
+            switch (vaccines[i]){
+                case "BCG" :
+                    bcg.setChecked(true);
+                    break;
+                case "OPV0" :
+                    opv0.setChecked(true);
+                    break;
+                case "PCV1" :
+                    pcv1.setChecked(true);
+                    break;
+                case "OPV1" :
+                    opv1.setChecked(true);
+                    break;
+                case "Penta1" :
+                    penta1.setChecked(true);
+                    break;
+                case "PCV2" :
+                    pcv2.setChecked(true);
+                    break;
+                case "OPV2" :
+                    opv2.setChecked(true);
+                    break;
+                case "Penta2" :
+                    penta2.setChecked(true);
+                    break;
+                case "PCV3" :
+                    pcv3.setChecked(true);
+                    break;
+                case "OPV3" :
+                    opv3.setChecked(true);
+                    break;
+                case "Penta3" :
+                    penta3.setChecked(true);
+                    break;
+                case "IPV" :
+                    ipv.setChecked(true);
+                    break;
+                case "MR1" :
+                    measles1.setChecked(true);
+                    break;
+                case "MR2" :
+                    measles2.setChecked(true);
+                    break;
+            }
+        }
     }
 
     private Long age(CommonPersonObjectClient ancclient) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Date edd_date = format.parse(ancclient.getDetails().get("FWBNFDOB")!=null?ancclient.getDetails().get("FWBNFDOB"):"");
+            Date edd_date = format.parse(ancclient.getDetails().get("Member_Birth_Date")!=null?ancclient.getDetails().get("Member_Birth_Date"):"");
             Calendar thatDay = Calendar.getInstance();
             thatDay.setTime(edd_date);
 
@@ -146,21 +247,6 @@ public class ChildDetailActivity extends Activity {
         }
 
     }
-
-
-
-
-    private void assign_text_to_givenView(CommonPersonObjectClient ecclient,TextView tview,String detailvariable) {
-        String text = ecclient.getDetails().get(detailvariable)!=null?ecclient.getDetails().get(detailvariable):"N/A";
-        tview.setText(text);
-    }
-
-
-
-
-
-
-
 
     String mCurrentPhotoPath;
 

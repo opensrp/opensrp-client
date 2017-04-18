@@ -53,8 +53,7 @@
       },
       {
         "name": "Member_Birth_Date",
-        "bind": "/model/instance/Child_0-5yr/existing_Member_Birth_Date",
-        "shouldLoadValue": true
+        "bind": "/model/instance/Child_0-5yr/existing_Member_Birth_Date"
       },
       {
         "name": "Premature_Birth",

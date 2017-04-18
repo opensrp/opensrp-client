@@ -164,11 +164,11 @@ public class nutrition_SmartClientsProvider implements SmartRegisterCLientsProvi
 
             for (int i = 0; i < nutritions.length; i++) {
                 if(i != 0) stringBuilder.append(",");
-                if (childOrMother.equalsIgnoreCase("Child_Nutrition")) {
+                if (childOrMother.equalsIgnoreCase("Child_Nutrition") && nutritions[i].length() > 0) {
                     stringBuilder.append(child_nutrition[Integer.parseInt(nutritions[i]) - 1]);
 
                 }
-                if(childOrMother.equalsIgnoreCase("Mother_Nutrition")){
+                if(childOrMother.equalsIgnoreCase("Mother_Nutrition") && nutritions[i].length() > 0){
                     stringBuilder.append(mother_nutrition[Integer.parseInt(nutritions[i]) - 1]);
                 }
             }

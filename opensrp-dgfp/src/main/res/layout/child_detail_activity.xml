@@ -35,7 +35,6 @@
                 </LinearLayout>
                 <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="2.0dip" android:layout_marginTop="2.0dip">
                     <org.ei.opensrp.view.customControls.CustomFontTextView android:textAppearance="?android:textAppearanceMedium" android:textColor="@color/text_black" android:layout_gravity="center_vertical" android:id="@id/textView10" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Vaccination History" android:layout_weight="1.0" style="@style/CustomFontTextViewStyle" />
-                    <TextView android:textAppearance="?android:textAppearanceMedium" android:textColor="@color/text_black" android:layout_gravity="center_vertical" android:id="@+id/vaccination_history" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="5.0dip" android:text="Medium Text" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -43,29 +42,84 @@
 
     <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
         <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
-            <CheckBox android:id="@+id/bcg" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BCG" />
-            <CheckBox android:id="@+id/penta1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="23.0dip" android:checked="false" android:text="Penta-1" />
-            <CheckBox android:id="@+id/pcv1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="PCV-1" />
-            <CheckBox android:id="@+id/ipv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="IPV" />
+            <CheckBox android:id="@+id/bcg" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BCG"
+                android:textColor="@color/text_black"
+                android:enabled="false"
+                android:clickable="false"
+                android:checked="false" />
+            <CheckBox android:id="@+id/penta1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="23.0dip" android:checked="false" android:text="Penta-1"
+                android:textColor="@color/text_black"
+                android:enabled="false"
+                android:clickable="false" />
+            <CheckBox android:id="@+id/pcv1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="PCV-1"
+                android:textColor="@color/text_black"
+                android:enabled="false"
+                android:clickable="false"
+                android:checked="false" />
+            <CheckBox android:id="@+id/ipv" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="IPV"
+                android:textColor="@color/text_black"
+                android:enabled="false"
+                android:clickable="false"
+                android:checked="false" />
         </LinearLayout>
         <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
-            <CheckBox android:id="@+id/opv0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="OPV-0" />
-            <CheckBox android:id="@+id/penta2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="Penta-2" />
-            <CheckBox android:id="@+id/pcv2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="PCV-2" />
-            <CheckBox android:id="@+id/measles1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="Measles-1" />
+            <CheckBox android:id="@+id/opv0" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="OPV-0"
+                android:textColor="@color/text_black"
+                android:enabled="false"
+                android:clickable="false"
+                android:checked="false" />
+            <CheckBox android:id="@+id/penta2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="Penta-2"
+                android:textColor="@color/text_black"
+                android:enabled="false"
+                android:clickable="false"
+                android:checked="false" />
+            <CheckBox android:id="@+id/pcv2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="PCV-2"
+                android:textColor="@color/text_black"
+                android:enabled="false"
+                android:clickable="false"
+                android:checked="false" />
+            <CheckBox android:id="@+id/measles1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="Measles-1"
+                android:textColor="@color/text_black"
+                android:enabled="false"
+                android:clickable="false"
+                android:checked="false" />
         </LinearLayout>
         <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
-            <CheckBox android:id="@+id/opv1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="OPV-1" />
-            <CheckBox android:id="@+id/penta3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="Penta-3" />
-            <CheckBox android:id="@+id/pcv3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="PCV-3" />
-            <CheckBox android:id="@+id/measles2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="Measles-2" />
+            <CheckBox android:id="@+id/opv1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="OPV-1"
+                android:textColor="@color/text_black"
+                android:enabled="false"
+                android:clickable="false"
+                android:checked="false" />
+            <CheckBox android:id="@+id/penta3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="Penta-3"
+                android:textColor="@color/text_black"
+                android:enabled="false"
+                android:clickable="false"
+                android:checked="false" />
+            <CheckBox android:id="@+id/pcv3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="PCV-3"
+                android:textColor="@color/text_black"
+                android:enabled="false"
+                android:clickable="false"
+                android:checked="false" />
+            <CheckBox android:id="@+id/measles2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="Measles-2"
+                android:textColor="@color/text_black"
+                android:enabled="false"
+                android:clickable="false"
+                android:checked="false" />
         </LinearLayout>
         <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
-            <CheckBox android:id="@+id/opv2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="OPV-2" />
+            <CheckBox android:id="@+id/opv2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="OPV-2"
+                android:textColor="@color/text_black"
+                android:enabled="false"
+                android:clickable="false"
+                android:checked="false" />
         </LinearLayout>
 
         <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
-            <CheckBox android:id="@+id/opv3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="OPV-3" />
+            <CheckBox android:id="@+id/opv3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="OPV-3"
+                android:checked="false"
+                android:clickable="false"
+                android:enabled="false"
+                android:textColor="@color/text_black" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

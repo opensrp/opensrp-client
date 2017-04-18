@@ -23,6 +23,7 @@ import org.ei.opensrp.cursoradapter.SmartRegisterPaginatedCursorAdapter;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.dgfp.LoginActivity;
 import org.ei.opensrp.dgfp.R;
+import org.ei.opensrp.dgfp.application.dgfpApplication;
 import org.ei.opensrp.dgfp.elco.HH_woman_member_SmartClientsProvider;
 import org.ei.opensrp.dgfp.elco.HH_woman_member_SmartRegisterActivity;
 import org.ei.opensrp.dgfp.elco.WomanDetailActivity;
@@ -58,7 +59,11 @@ import org.json.JSONObject;
 import org.opensrp.api.domain.Location;
 import org.opensrp.api.util.TreeNode;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Map;
 
 import static android.view.View.INVISIBLE;
@@ -249,24 +254,45 @@ public class dgfp_nutrition_SmartRegisterFragment extends SecuredNativeSmartRegi
                     break;
                 case R.id.nutrition_form:
                  CommonPersonObjectClient pc = ((CommonPersonObjectClient) view.getTag());
+
+
+                    Log.d("-------------------",pc.getDetails().toString() + "");
+
                     JSONObject overridejsonobject = new JSONObject();
                     try {
-                        overridejsonobject.put("Calc_Dob_Confirm",((pc.getDetails().get("Member_Birth_Date")!=null?pc.getDetails().get("Member_Birth_Date"):"")));
+                        overridejsonobject.put("existing_Calc_Dob_Confirm",doolay(pc));
+                        //overridejsonobject.put("existing_Preg_Status","1");
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
                     FieldOverrides fieldOverrides = new FieldOverrides(overridejsonobject.toString());
 
-//                    if(pc.getDetails().get("Calc_Dob_Confirm") == null){
-//                        pc.getDetails().put("Calc_Dob_Confirm",pc.getDetails().get("Member_Birth_Date"));
-//                    }
-                    ((dgfp_nutrition_SmartRegisterActivity)getActivity()).startFormActivity("nutrition", ((CommonPersonObjectClient) view.getTag()).entityId(), null);
+                    Log.d("calc_dob",pc.getDetails().get("Calc_Dob_Confirm") != null ? pc.getDetails().get("Calc_Dob_Confirm") + "":"null");
+                    Log.d("calc_newMom",pc.getDetails().get("Calc_Age_Newmom") != null ? pc.getDetails().get("Calc_Age_Newmom"):"null");
+                    Log.d("calc_Preg_Status",pc.getDetails().get("Preg_Status") != null ? pc.getDetails().get("Preg_Status"):"null");
+                    ((dgfp_nutrition_SmartRegisterActivity)getActivity()).startFormActivity("nutrition", ((CommonPersonObjectClient) view.getTag()).entityId(), fieldOverrides.getJSONString());
 //                    CustomFontTextView ancreminderDueDate = (CustomFontTextView)view.findViewById(R.id.anc_reminder_due_date);
                     Log.v("do as you will", "button was click");
 
                     break;
             }
+        }
+
+        private String doolay(CommonPersonObjectClient ancclient) {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date edd_date = format.parse(ancclient.getDetails().get("Member_Birth_Date")!=null?ancclient.getDetails().get("Member_Birth_Date"):"");
+                GregorianCalendar calendar = new GregorianCalendar();
+                calendar.setTime(edd_date);
+                edd_date.setTime(calendar.getTime().getTime());
+                return dgfpApplication.convertToEnglishDigits(format.format(edd_date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return "";
+            }
+
         }
 
         private void showProfileView(ECClient client) {

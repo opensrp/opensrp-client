@@ -23,6 +23,7 @@ import org.ei.opensrp.cursoradapter.SmartRegisterPaginatedCursorAdapter;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.dgfp.LoginActivity;
 import org.ei.opensrp.dgfp.R;
+import org.ei.opensrp.dgfp.application.dgfpApplication;
 import org.ei.opensrp.dgfp.child.ChildDetailActivity;
 import org.ei.opensrp.dgfp.child.childServiceModeOption;
 import org.ei.opensrp.dgfp.child.child_SmartClientsProvider;
@@ -39,6 +40,7 @@ import org.ei.opensrp.dgfp.hh_member.HouseholdCensusDueDateSort;
 import org.ei.opensrp.dgfp.nutrition.dgfp_nutrition_SmartRegisterActivity;
 import org.ei.opensrp.dgfp.nutrition.nutritionServiceModeOption;
 import org.ei.opensrp.dgfp.nutrition.nutrition_SmartClientsProvider;
+import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
@@ -54,10 +56,16 @@ import org.ei.opensrp.view.dialog.EditOption;
 import org.ei.opensrp.view.dialog.FilterOption;
 import org.ei.opensrp.view.dialog.ServiceModeOption;
 import org.ei.opensrp.view.dialog.SortOption;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.opensrp.api.domain.Location;
 import org.opensrp.api.util.TreeNode;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Map;
 
 import static android.view.View.INVISIBLE;
@@ -248,12 +256,38 @@ public class dgfp_child_SmartRegisterFragment extends SecuredNativeSmartRegister
                     break;
                 case R.id.child_followup_form:
                     CommonPersonObjectClient pc = ((CommonPersonObjectClient) view.getTag());
-                    ((dgfp_child_SmartRegisterActivity)getActivity()).startFormActivity("child_zero_to_five_form", ((CommonPersonObjectClient) view.getTag()).entityId(), null);
+
+                    JSONObject overridejsonobject = new JSONObject();
+                    try {
+                        overridejsonobject.put("existing_Member_Birth_Date", doolay(pc));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    FieldOverrides fieldOverrides = new FieldOverrides(overridejsonobject.toString());
+
+                    ((dgfp_child_SmartRegisterActivity)getActivity()).startFormActivity("child_zero_to_five_form", ((CommonPersonObjectClient) view.getTag()).entityId(),fieldOverrides.getJSONString());
 //                    CustomFontTextView ancreminderDueDate = (CustomFontTextView)view.findViewById(R.id.anc_reminder_due_date);
                     Log.v("do as you will", "button was click");
 
                     break;
             }
+        }
+
+        private String doolay(CommonPersonObjectClient ancclient) {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date edd_date = format.parse(ancclient.getDetails().get("Member_Birth_Date")!=null?ancclient.getDetails().get("Member_Birth_Date"):"");
+                GregorianCalendar calendar = new GregorianCalendar();
+                calendar.setTime(edd_date);
+                edd_date.setTime(calendar.getTime().getTime());
+                return dgfpApplication.convertToEnglishDigits(format.format(edd_date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return "";
+            }
+
         }
 
         private void showProfileView(ECClient client) {

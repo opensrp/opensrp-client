@@ -3,6 +3,7 @@ package org.ei.opensrp.dgfp.anc;
 import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,10 +128,14 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
 //            e.printStackTrace();
 //        }
 
-        if(pc.getDetails().get("Mem_NID").length()>0) {
-            String NIDSourcestring = "NID: " +  (pc.getDetails().get("Mem_NID") != null ? pc.getDetails().get("Mem_NID") : "") + " ";
-            nid.setText(Html.fromHtml(NIDSourcestring));
-            nid.setVisibility(View.VISIBLE);
+        Log.e("---------",pc.getDetails().toString());
+
+        if((pc.getDetails().get("Mem_NID") != null)) {
+            if(pc.getDetails().get("Mem_NID").length()>0) {
+                String NIDSourcestring = "NID: " + (pc.getDetails().get("Mem_NID") != null ? pc.getDetails().get("Mem_NID") : "") + " ";
+                nid.setText(Html.fromHtml(NIDSourcestring));
+                nid.setVisibility(View.VISIBLE);
+            }
         }
         if(pc.getDetails().get("Mem_BRID").length()>0) {
             String BRIDSourcestring = "BRID: " +  (pc.getDetails().get("Mem_BRID") != null ? pc.getDetails().get("Mem_BRID") : "") + " ";

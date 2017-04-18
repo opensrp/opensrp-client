@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model>
     <instance>
-        <ChildRegistraton encounter_type="Child Registration" id="ChildRegistration" version="201704041130">
+        <ChildRegistraton encounter_type="Child Registration" id="ChildRegistration" version="201704121204">
             <formhub>
                 <uuid />
             </formhub>
@@ -33,7 +33,7 @@
                 <Child_Vital_Status openmrs_entity="concept" openmrs_entity_id="159926AAAAAAAAAAAAAAAAAAAAAAAAAA" />
                 <Child_Weight />
                 <Premature_Birth />
-                <Member_Gender openmrs_entity="concept" openmrs_entity_id="1587AAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+                <Member_Gender openmrs_entity="person" openmrs_entity_id="gender" />
                 <Name_Check />
                 <Child_Name />
                 <Mem_F_Name openmrs_entity="person" openmrs_entity_id="first_name" />

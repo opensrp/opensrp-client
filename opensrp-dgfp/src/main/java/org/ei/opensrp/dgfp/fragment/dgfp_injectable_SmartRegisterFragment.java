@@ -268,7 +268,7 @@ public class dgfp_injectable_SmartRegisterFragment extends SecuredNativeSmartReg
 
                     FieldOverrides fieldOverrides = new FieldOverrides(overridejsonobject.toString());
 
-
+                    Log.d("injectable",pc.getDetails().toString());
                     ((dgfp_injectable_SmartRegisterActivity)getActivity()).startFormActivity("injectable", ((CommonPersonObjectClient) view.getTag()).entityId(), fieldOverrides.getJSONString());
 //                    CustomFontTextView ancreminderDueDate = (CustomFontTextView)view.findViewById(R.id.anc_reminder_due_date);
                     Log.v("do as you will", "button was click");
