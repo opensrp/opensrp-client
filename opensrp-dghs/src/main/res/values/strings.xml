@@ -411,6 +411,8 @@
     <string name="date">Date</string>
     <string name="total_vaccine_stock_used">Total Vaccine Stock Used</string>
     <string name="total_vaccine_stock_wasted">Total Vaccine Stock Wasted</string>
+    <string name="daily_stock_position_summary">Daily Stock Position Summary</string>
+    <string name="stock_details">Stock Details</string>
 
 
 </resources>

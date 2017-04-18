@@ -68,6 +68,12 @@ public class child_followup_handler implements FormSubmissionHandler {
                             stockrep.updateColumn("stock", cv, tocheck.getCaseId());
                             rowpresent = true;
                         }
+                    }else{
+                        int tt_used = 1;
+                        ContentValues cv = new ContentValues();
+                        cv.put(usedString, ""+tt_used);
+                        stockrep.updateColumn("stock", cv, tocheck.getCaseId());
+                        rowpresent = true;
                     }
 
                 }

@@ -61,6 +61,9 @@
         <activity android:name=".HH_child.ChildDetailActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
             android:screenOrientation="landscape"/>
+        <activity android:name=".stock.StockDetailActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
+            android:screenOrientation="landscape"/>
 
     </application>
 

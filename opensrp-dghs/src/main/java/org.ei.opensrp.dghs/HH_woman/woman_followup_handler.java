@@ -63,6 +63,11 @@ public class woman_followup_handler implements FormSubmissionHandler {
                         cv.put("tt_used", tt_used + "");
                         stockrep.updateColumn("stock", cv, tocheck.getCaseId());
                         rowpresent =true;
+                    }else{
+                        ContentValues cv = new ContentValues();
+                        cv.put("tt_used", 1 + "");
+                        stockrep.updateColumn("stock", cv, tocheck.getCaseId());
+                        rowpresent =true;
                     }
 
                 }

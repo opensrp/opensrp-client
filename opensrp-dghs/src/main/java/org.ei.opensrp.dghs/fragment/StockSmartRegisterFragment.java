@@ -2,6 +2,7 @@ package org.ei.opensrp.dghs.fragment;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.text.Editable;
@@ -28,6 +29,7 @@ import org.ei.opensrp.dghs.hh_member.HouseHoldServiceModeOption;
 import org.ei.opensrp.dghs.hh_member.HouseHoldSmartClientsProvider;
 import org.ei.opensrp.dghs.hh_member.HouseholdCensusDueDateSort;
 import org.ei.opensrp.dghs.stock.StockClientsProvider;
+import org.ei.opensrp.dghs.stock.StockDetailActivity;
 import org.ei.opensrp.dghs.stock.StockModeOption;
 import org.ei.opensrp.dghs.stock.StockSmartRegisterActivity;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
@@ -248,7 +250,7 @@ public class StockSmartRegisterFragment extends SecuredNativeSmartRegisterCursor
     }
 
     private String sortByDate() {
-        return " date ASC";
+        return " date DESC";
     }
 
 
@@ -270,11 +272,11 @@ public class StockSmartRegisterFragment extends SecuredNativeSmartRegisterCursor
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.profile_info_layout:
-                    HouseHoldDetailActivity.householdclient = (CommonPersonObjectClient)view.getTag();
-                    ((HH_member_SmartRegisterActivity)getActivity()).showProfileView();
-//                    Intent intent = new Intent(getActivity(),HouseHoldDetailActivity.class);
-//                    startActivity(intent);
+                case R.id.date:
+                    StockDetailActivity.childclient = (CommonPersonObjectClient)view.getTag();
+
+                    Intent intent = new Intent(getActivity(),StockDetailActivity.class);
+                    startActivity(intent);
 //                    getActivity().finish();
                     break;
                 case R.id.next_visit_date:
@@ -408,7 +410,7 @@ public class StockSmartRegisterFragment extends SecuredNativeSmartRegisterCursor
 //                                .updateClients(getCurrentVillageFilter(), getCurrentServiceModeOption(),
 //                                        getCurrentSearchFilter(), getCurrentSortOption());
 //
-                        filters = "and HoH_FName Like '%" + cs.toString() + "%' or HHID Like '%" + cs.toString() + "%'  or details Like '%" + cs.toString() + "%'" +"or household.id in (Select members.relationalid from members where Member_Fname Like '%"+cs.toString()+"%' )";
+                        filters = "and date Like '%" + cs.toString() + "%' ";
                         return null;
                     }
 

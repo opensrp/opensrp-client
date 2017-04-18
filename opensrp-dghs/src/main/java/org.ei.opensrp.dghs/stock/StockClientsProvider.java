@@ -98,6 +98,8 @@ public class StockClientsProvider implements SmartRegisterCLientsProviderForCurs
 //        constructENCCReminderDueBlock(pc, itemView);
 ////        constructNBNFDueBlock(pc, itemView);s
 //        constructENCCVisitStatusBlock(pc,itemView);
+        date.setOnClickListener(onClickListener);
+        date.setTag(pc);
 
 
 

@@ -89,6 +89,8 @@ public class NativeHomeActivity extends SecuredActivity {
     private int hhcount;
     private int childcount;
     private int womancount;
+    private TextView StockRegisterClientCountView;
+    private int stockcount;
 
     @Override
     protected void onCreation() {
@@ -120,6 +122,7 @@ public class NativeHomeActivity extends SecuredActivity {
         ancRegisterClientCountView = (TextView) findViewById(R.id.txt_anc_register_client_count);
         fpRegisterClientCountView = (TextView) findViewById(R.id.txt_fp_register_client_count);
         childRegisterClientCountView = (TextView) findViewById(R.id.txt_child_register_client_count);
+        StockRegisterClientCountView = (TextView) findViewById(R.id.txt_pnc_register_client_count);
     }
 
     private void initialize() {
@@ -173,9 +176,16 @@ public class NativeHomeActivity extends SecuredActivity {
         childcountcursor.moveToFirst();
         childcount = childcountcursor.getInt(0);
         childcountcursor.close();
+
+        Cursor stockcountcursor = context().commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("stock"," total_wasted is not null "));
+        stockcountcursor.moveToFirst();
+        stockcount = stockcountcursor.getInt(0);
+        stockcountcursor.close();
+
         ecRegisterClientCountView.setText(valueOf(hhcount));
         fpRegisterClientCountView.setText(valueOf(womancount));
         childRegisterClientCountView.setText(valueOf(childcount));
+        StockRegisterClientCountView.setText(valueOf(stockcount));
     }
 
     @Override
