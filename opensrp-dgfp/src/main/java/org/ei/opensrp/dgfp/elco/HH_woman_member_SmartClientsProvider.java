@@ -2,6 +2,7 @@ package org.ei.opensrp.dgfp.elco;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -191,6 +192,9 @@ public class HH_woman_member_SmartClientsProvider implements SmartRegisterCLient
 
         constructRiskFlagView(pc, itemView);
         itemView.setLayoutParams(clientViewLayoutParams);
+
+
+        Log.e("------elco-------",pc.getDetails().toString());
     }
 
     public void singleALertButtonView(List<Alert> alertlist_for_client,TextView due_visit_date, CommonPersonObjectClient smartRegisterClient,String textforComplete,String textfornotcomplete){

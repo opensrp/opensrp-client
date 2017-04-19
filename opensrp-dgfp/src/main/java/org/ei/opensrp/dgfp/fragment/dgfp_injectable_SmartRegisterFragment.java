@@ -253,11 +253,11 @@ public class dgfp_injectable_SmartRegisterFragment extends SecuredNativeSmartReg
                     CommonPersonObjectClient pc = ((CommonPersonObjectClient) view.getTag());
                     JSONObject overridejsonobject = new JSONObject();
                     try {
-                        if(pc.getDetails().get("Dose_No")!=null){
-                            if(!pc.getDetails().get("Dose_No").equalsIgnoreCase("NaN")){
-                                overridejsonobject.put("existing_Dose_No",(pc.getDetails().get("Dose_No")));
-                            }else{
+                        if(pc.getDetails().get("Todays_Dose_No")!=null){
+                            if(pc.getDetails().get("Todays_Dose_No").equalsIgnoreCase("NaN")){
                                 overridejsonobject.put("existing_Dose_No","0");
+                            }else{
+                                overridejsonobject.put("existing_Dose_No",(pc.getDetails().get("Todays_Dose_No")));
                             }
                         }else{
                             overridejsonobject.put("existing_Dose_No","0");

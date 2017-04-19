@@ -58,10 +58,10 @@ public class nutrition_SmartClientsProvider implements SmartRegisterCLientsProvi
     protected CommonPersonObjectController controller;
     AlertService alertService;
 
-    private String[] child_nutrition = {"Breas fed within 1 hour","Breat fed for 6 months","Supplementary food after 6 months","Child is suffering MAM","Child is suffering SAM"};
+    private String[] child_nutrition = {"Breast fed within 1 hour","Breat fed for 6 months","Supplementary food after 6 months","Child is suffering MAM","Child is suffering SAM"};
     private String[] mother_nutrition = {"Consume IFA tablet and extra food","Multiple micronutrient powder (MNP)","Breast milk and supplementary food","Hand wash"};
-    public nutrition_SmartClientsProvider(Context context,
-                                          View.OnClickListener onClickListener, AlertService alertService) {
+
+    public nutrition_SmartClientsProvider(Context context, View.OnClickListener onClickListener, AlertService alertService) {
         this.onClickListener = onClickListener;
         this.alertService = alertService;
         this.context = context;
@@ -139,12 +139,12 @@ public class nutrition_SmartClientsProvider implements SmartRegisterCLientsProvi
 //        tt_dose_given.setText("TT Dose Given: " + (pc.getDetails().get("TT_Count") != null ? pc.getDetails().get("TT_Count") : ""));
 //        last_vstatus.setText("Last VStatus: " + (pc.getDetails().get("ELCO_Status") != null ? pc.getDetails().get("ELCO_Status") : ""));
 
-        Log.d("-------------------",pc.getDetails().toString()+"");
+        Log.d("-------------------",pc.getDetails().toString());
 
         if((pc.getDetails().get("Child") != null ? pc.getDetails().get("Child") : "").equalsIgnoreCase("1")){//
             setNutritionTaken(pc,"Child_Nutrition",nutrition_taken);
         }
-        else if ((pc.getDetails().get("Preg_Status") != null ? pc.getDetails().get("Preg_Status") : "").equalsIgnoreCase("1")){
+        else{
             setNutritionTaken(pc,"Mother_Nutrition",nutrition_taken);
         }
         List<Alert> alertlist_for_client = alertService.findByEntityIdAndAlertNames(pc.entityId(), "Nutrition");

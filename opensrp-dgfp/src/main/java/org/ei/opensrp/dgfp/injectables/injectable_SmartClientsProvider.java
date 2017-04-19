@@ -55,8 +55,6 @@ public class injectable_SmartClientsProvider implements SmartRegisterCLientsProv
     protected CommonPersonObjectController controller;
     AlertService alertService;
 
-    private String[] doseName = {"Dose1","Dose2","Dose3","Dose4","Dose5","Dose6"};
-
     public injectable_SmartClientsProvider(Context context,
                                            View.OnClickListener onClickListener, AlertService alertService) {
         this.onClickListener = onClickListener;
@@ -126,7 +124,7 @@ public class injectable_SmartClientsProvider implements SmartRegisterCLientsProv
             coupleno_or_fathersname.setText((pc.getDetails().get("Couple_No") != null ? pc.getDetails().get("Couple_No") : ""));
 
             //lastinjectable_dose.setText((pc.getDetails().get("Todays_Dose_No") != null ? pc.getDetails().get("Todays_Dose_No") : ""));
-            ///////-------------------------------lastInjectableDose(lastInjectibleTick,lastinjectable_dose,pc);
+            lastInjectableDose(lastInjectibleTick,lastinjectable_dose,pc);
 //        if((pc.getColumnmaps().get("Pregnancy_Status")!=null?pc.getColumnmaps().get("Pregnancy_Status"):"").equalsIgnoreCase("0")){
 //            pregnancystatus.setText(",Not Pregnant");
 //        }
@@ -180,10 +178,12 @@ public class injectable_SmartClientsProvider implements SmartRegisterCLientsProv
             if((pc.getDetails().get("Is_On_Time") != null ? pc.getDetails().get("Is_On_Time"):"").equalsIgnoreCase("1")){
                 lastInjectibleTick.setImageResource(R.mipmap.doneintime);
             }
-            String value = doseName[Integer.parseInt(lastInjectableNumberString) - 1] + ", ";
+            String value = "Dose" + lastInjectableNumberString + ", ";
             value += pc.getDetails().get("Injection_Date") != null ?pc.getDetails().get("Injection_Date"):"";
             lastInjectableText.setText(value);
+            return;
         }
+        lastInjectableText.setText("N/A");
 
     }
 
@@ -392,8 +392,5 @@ public class injectable_SmartClientsProvider implements SmartRegisterCLientsProv
             this.alertstatus = alertstatus;
         }
     }
-
-
-
 
 }

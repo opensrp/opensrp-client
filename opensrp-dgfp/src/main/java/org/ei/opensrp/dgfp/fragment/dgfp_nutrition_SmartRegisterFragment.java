@@ -256,7 +256,7 @@ public class dgfp_nutrition_SmartRegisterFragment extends SecuredNativeSmartRegi
                  CommonPersonObjectClient pc = ((CommonPersonObjectClient) view.getTag());
 
 
-                    Log.d("-------------------",pc.getDetails().toString() + "");
+                    Log.e("-------------------",pc.getDetails().toString() + "");
 
                     JSONObject overridejsonobject = new JSONObject();
                     try {
