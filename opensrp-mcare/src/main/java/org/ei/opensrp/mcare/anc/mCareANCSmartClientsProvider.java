@@ -597,6 +597,9 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
         ImageView hrp = (ImageView)itemView.findViewById(R.id.hrp);
         ImageView hp = (ImageView)itemView.findViewById(R.id.hr);
         ImageView vg = (ImageView)itemView.findViewById(R.id.vg);
+        hrp.setVisibility(View.VISIBLE);
+        hp.setVisibility(View.VISIBLE);
+        vg.setVisibility(View.VISIBLE);
         if(pc.getDetails().get("FWVG") != null && pc.getDetails().get("FWVG").equalsIgnoreCase("1")){
 
         }else{

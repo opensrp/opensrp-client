@@ -375,7 +375,7 @@ public class mCarePNCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
                 "Else Post_Natal_Care_Reminder_Visit END ASC";
     }
     private String sortBySortValue(){
-        return " FWSORTVALUE ASC";
+        return " FWSORTVALUE DESC";
     }
     private String sortByFWWOMFNAME(){
         return " FWWOMFNAME ASC";
