@@ -44,6 +44,7 @@ public class PathDatePickerFactory extends DatePickerFactory {
                 lookupMap.put(entityId, lookUpViews);
 
                 editText.addTextChangedListener(new LookUpTextWatcher(formFragment, editText, entityId));
+                editText.setTag(com.vijay.jsonwizard.R.id.after_look_up, false);
             }
 
 

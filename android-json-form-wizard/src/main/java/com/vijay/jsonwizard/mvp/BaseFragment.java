@@ -19,10 +19,10 @@ public abstract class BaseFragment<VS extends ViewState> extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Icepick.restoreInstanceState(this, savedInstanceState);
-        if (savedInstanceState == null || mViewState == null) {
+        if (savedInstanceState == null) {
             mViewState = createViewState();
             mViewState.setSavedInstance(false);
-        } else {
+        } else if(mViewState != null){
             mViewState.setSavedInstance(true);
         }
     }

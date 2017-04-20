@@ -42,6 +42,7 @@ public class PathEditTextFactory extends EditTextFactory {
             lookupMap.put(entityId, lookUpViews);
 
             editText.addTextChangedListener(new LookUpTextWatcher(formFragment, editText, entityId));
+            editText.setTag(com.vijay.jsonwizard.R.id.after_look_up, false);
         }
 
     }
