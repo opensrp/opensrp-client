@@ -222,6 +222,7 @@ public class JsonFormFragment extends MvpFragment<JsonFormFragmentPresenter, Jso
             mMainView.addView(view);
         }
         mJsonApi.refreshHiddenViews();
+        mJsonApi.resetFocus();
     }
 
     @Override

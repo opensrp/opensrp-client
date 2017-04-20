@@ -59,4 +59,5 @@ public interface JsonApi {
 
     void addOnActivityResultListener(Integer requestCode, OnActivityResultListener onActivityResultListener);
 
+    void resetFocus();
 }
