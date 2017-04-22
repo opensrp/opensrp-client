@@ -110,7 +110,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     public static final String EXTRA_CHILD_DETAILS = "child_details";
     private static final String EXTRA_REGISTER_CLICKABLES = "register_clickables";
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
-    private ChildRegistrationDataFragment child_data_fragment;
+    private ChildRegistrationDataFragment childDataFragment;
     private child_under_five_fragment child_under_five_Fragment;
     private static final String DIALOG_TAG = "ChildDetailActivity_DIALOG_TAG";
 
@@ -149,9 +149,9 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
 
         setContentView(R.layout.child_detail_activity_simple_tabs);
 
-        child_data_fragment = new ChildRegistrationDataFragment();
+        childDataFragment = new ChildRegistrationDataFragment();
 
-        child_data_fragment.setArguments(this.getIntent().getExtras());
+        childDataFragment.setArguments(this.getIntent().getExtras());
 
         child_under_five_Fragment = new child_under_five_fragment();
         child_under_five_Fragment.setArguments(this.getIntent().getExtras());
@@ -557,7 +557,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                         JsonFormUtils.saveAdverseEvent(jsonString, location_name,
                                 childDetails.entityId(), allSharedPreferences.fetchRegisteredANM());
                     }
-                child_data_fragment.LoadData();
+                childDataFragment.loadData();
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage());
                 }
@@ -704,7 +704,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(child_data_fragment, "Registration Data");
+        adapter.addFragment(childDataFragment, "Registration Data");
         adapter.addFragment(child_under_five_Fragment, "Under Five History");
         viewPager.setAdapter(adapter);
     }
