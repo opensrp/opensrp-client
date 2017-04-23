@@ -129,7 +129,7 @@ public class WeightRepository extends BaseRepository {
     }
 
     public List<Weight> findLast5(String entityid) {
-        Cursor cursor = getPathRepository().getReadableDatabase().query(WEIGHT_TABLE_NAME, WEIGHT_TABLE_COLUMNS, BASE_ENTITY_ID + " = ?", new String[]{entityid}, null, null, UPDATED_AT_COLUMN, null);
+        Cursor cursor = getPathRepository().getReadableDatabase().query(WEIGHT_TABLE_NAME, WEIGHT_TABLE_COLUMNS, BASE_ENTITY_ID + " = ?", new String[]{entityid}, null, null, UPDATED_AT_COLUMN + " DESC", null);
         List<Weight> weights = readAllWeights(cursor);
 //        if (!weights.isEmpty()) {
         return weights;
