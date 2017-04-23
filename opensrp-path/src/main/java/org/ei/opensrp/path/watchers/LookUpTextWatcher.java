@@ -58,54 +58,43 @@ public class LookUpTextWatcher implements TextWatcher {
 
         String key = (String) mView.getTag(R.id.key);
 
-        boolean afterLookUp = mView.getTag(R.id.after_look_up) != null && (boolean) mView.getTag(R.id.after_look_up);
-
-        //clear mother lookup
-        /* if (text.isEmpty() && !resetLookUp) {
-            if (formFragment instanceof PathJsonFormFragment) {
-                PathJsonFormFragment pathJsonFormFragment = (PathJsonFormFragment) formFragment;
-                if (mEntityId.equalsIgnoreCase("mother")) {
-                    pathJsonFormFragment.clearMotherLookUp();
-                }
-                resetLookUp = true;
-            }
+        if(text.isEmpty()){
             return;
-
         }
 
-        resetLookUp = false;
-        */
-
-        if (!afterLookUp) {
-            EntityLookUp entityLookUp = new EntityLookUp();
-            if (lookUpMap.containsKey(mEntityId)) {
-                entityLookUp = lookUpMap.get(mEntityId);
-            }
-
-            if (StringUtils.isBlank(text)) {
-                if (entityLookUp.containsKey(key)) {
-                    entityLookUp.remove(key);
-                }
-            } else {
-                entityLookUp.put(key, text);
-            }
-
-            lookUpMap.put(mEntityId, entityLookUp);
-
-            Context context = null;
-            Listener<HashMap<CommonPersonObject, List<CommonPersonObject>>> listener = null;
-            if (formFragment instanceof PathJsonFormFragment) {
-                PathJsonFormFragment pathJsonFormFragment = (PathJsonFormFragment) formFragment;
-                context = pathJsonFormFragment.context();
-                listener = pathJsonFormFragment.motherLookUpListener();
-            }
-
-            if (mEntityId.equalsIgnoreCase("mother")) {
-                MotherLookUpUtils.motherLookUp(context, lookUpMap.get(mEntityId), listener, null);
-            }
-        } else if (afterLookUp) {
+        boolean afterLookUp = (Boolean) mView.getTag(R.id.after_look_up);
+        if (afterLookUp) {
             mView.setTag(R.id.after_look_up, false);
+            return;
         }
+
+        EntityLookUp entityLookUp = new EntityLookUp();
+        if (lookUpMap.containsKey(mEntityId)) {
+            entityLookUp = lookUpMap.get(mEntityId);
+        }
+
+        if (StringUtils.isBlank(text)) {
+            if (entityLookUp.containsKey(key)) {
+                entityLookUp.remove(key);
+            }
+        } else {
+            entityLookUp.put(key, text);
+        }
+
+        lookUpMap.put(mEntityId, entityLookUp);
+
+        Context context = null;
+        Listener<HashMap<CommonPersonObject, List<CommonPersonObject>>> listener = null;
+        if (formFragment instanceof PathJsonFormFragment) {
+            PathJsonFormFragment pathJsonFormFragment = (PathJsonFormFragment) formFragment;
+            context = pathJsonFormFragment.context();
+            listener = pathJsonFormFragment.motherLookUpListener();
+        }
+
+        if (mEntityId.equalsIgnoreCase("mother")) {
+            MotherLookUpUtils.motherLookUp(context, lookUpMap.get(mEntityId), listener, null);
+        }
+
     }
 
 }

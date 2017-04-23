@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -40,6 +42,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS;
 
 public class JsonFormActivity extends AppCompatActivity implements JsonApi {
 
@@ -392,6 +396,14 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
     public void addOnActivityResultListener(final Integer requestCode,
                                             OnActivityResultListener onActivityResultListener) {
         onActivityResultListeners.put(requestCode, onActivityResultListener);
+    }
+
+    @Override
+    public void resetFocus() {
+        EditText defaultFocusView = (EditText) findViewById(R.id.default_focus_view);
+        defaultFocusView.requestFocus();
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), HIDE_NOT_ALWAYS);
     }
 
     private void checkViewConstraints(View curView) {

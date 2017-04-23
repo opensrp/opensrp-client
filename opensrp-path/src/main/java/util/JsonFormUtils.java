@@ -1762,6 +1762,75 @@ public class JsonFormUtils {
         return null;
     }
 
+    /**
+     * This method returns the name hierarchy of a location given it's id
+     *
+     * @param context
+     * @param locationId    The ID for the location we want the hierarchy for
+     * @return  The name hierarchy (starting with the top-most parent) for the location or {@code NULL}
+     *          if location id is not found
+     */
+    public static JSONArray getOpenMrsLocationHierarchy(org.ei.opensrp.Context context,
+                                                      String locationId) {
+        JSONArray response = null;
+
+        try {
+            if (locationId != null) {
+                JSONObject locationData = new JSONObject(context.anmLocationController().get());
+                Log.d(TAG, "Location data is "+locationData);
+                if (locationData.has("locationsHierarchy")
+                        && locationData.getJSONObject("locationsHierarchy").has("map")) {
+                    JSONObject map = locationData.getJSONObject("locationsHierarchy").getJSONObject("map");
+                    Iterator<String> keys = map.keys();
+                    while (keys.hasNext()) {
+                        String curKey = keys.next();
+                        JSONArray curResult = getOpenMrsLocationHierarchy(locationId, map.getJSONObject(curKey), new JSONArray());
+
+                        if (curResult != null) {
+                            response = curResult;
+                            break;
+                        }
+                    }
+                } else {
+                    Log.e(TAG, "locationData doesn't have locationHierarchy");
+                }
+            } else {
+                Log.e(TAG, "Location id is null");
+            }
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
+
+        return response;
+    }
+
+    private static JSONArray getOpenMrsLocationHierarchy(String locationId,
+                                                      JSONObject openMrsLocation,
+                                                      JSONArray parents) throws JSONException {
+        JSONArray hierarchy = new JSONArray(parents.toString());
+        hierarchy.put(openMrsLocation.getJSONObject("node").getString("name"));
+        String id = openMrsLocation.getJSONObject("node").getString("locationId");
+        Log.d(TAG, "Current location id is "+id);
+        if (locationId.equals(id)) {
+            return hierarchy;
+        }
+
+        if (openMrsLocation.has("children")) {
+            Iterator<String> childIterator = openMrsLocation.getJSONObject("children").keys();
+            while (childIterator.hasNext()) {
+                String curChildKey = childIterator.next();
+                JSONArray curResult = getOpenMrsLocationHierarchy(locationId,
+                        openMrsLocation.getJSONObject("children").getJSONObject(curChildKey),
+                        hierarchy);
+                if (curResult != null) return curResult;
+            }
+        } else {
+            Log.d(TAG, id+" does not have children");
+        }
+
+        return null;
+    }
+
     public static String getOpenMrsLocationName(org.ei.opensrp.Context context,
                                               String locationId) {
         String response = locationId;

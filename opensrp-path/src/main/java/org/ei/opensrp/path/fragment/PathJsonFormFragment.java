@@ -2,11 +2,12 @@ package org.ei.opensrp.path.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v7.internal.widget.TintContextWrapper;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,14 +22,12 @@ import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vijay.jsonwizard.fragments.JsonFormFragment;
-import com.vijay.jsonwizard.interfaces.JsonApi;
 import com.vijay.jsonwizard.presenters.JsonFormFragmentPresenter;
 import com.vijay.jsonwizard.utils.FormUtils;
 import com.vijay.jsonwizard.widgets.DatePickerFactory;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
-import org.ei.opensrp.clientandeventmodel.DateUtil;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.event.Listener;
@@ -56,9 +54,11 @@ import static util.Utils.getValue;
  */
 public class PathJsonFormFragment extends JsonFormFragment {
 
+    static String stepName;
+
     Snackbar snackbar = null;
     AlertDialog alertDialog = null;
-    static String stepName;
+    boolean lookedUp = false;
 
     public static PathJsonFormFragment getFormFragment(String stepName) {
         PathJsonFormFragment jsonFormFragment = new PathJsonFormFragment();
@@ -101,23 +101,8 @@ public class PathJsonFormFragment extends JsonFormFragment {
             snackbar.dismiss();
         }
 
-        LinearLayout mainView = getMainView();
-        View focusedView = mainView.findFocus();
-
         if (!map.isEmpty()) {
-            snackbar = Snackbar
-                    .make(focusedView, map.size() + " mother/guardian match.", Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction("Tap to view", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //updateResults(map);
-                    //updateResults2(map);
-                    snackbar.dismiss();
-                    updateResult3(map);
-                }
-            });
-            show(snackbar);
-
+            tapToView(map);
         }
     }
 
@@ -242,7 +227,7 @@ public class PathJsonFormFragment extends JsonFormFragment {
 
     }
 
-    private void updateResult3(final HashMap<CommonPersonObject, List<CommonPersonObject>> map) {
+    private void updateResultTree(final HashMap<CommonPersonObject, List<CommonPersonObject>> map) {
 
         final MotherLookUpDialog motherLookUpDialog = new MotherLookUpDialog(getActivity(),
                 map);
@@ -300,6 +285,8 @@ public class PathJsonFormFragment extends JsonFormFragment {
                                     MaterialEditText materialEditText = (MaterialEditText) view;
                                     materialEditText.setTag(com.vijay.jsonwizard.R.id.after_look_up, true);
                                     materialEditText.setText(text);
+                                    materialEditText.setInputType(InputType.TYPE_NULL);
+                                    disableEditText(materialEditText);
 
                                 }
                             }
@@ -309,6 +296,9 @@ public class PathJsonFormFragment extends JsonFormFragment {
                             metadataMap.put("value", getValue(pc.getColumnmaps(), MotherLookUpUtils.baseEntityId, false));
 
                             writeMetaDataValue(FormUtils.LOOK_UP_JAVAROSA_PROPERTY, metadataMap);
+
+                            lookedUp = true;
+                            clearView();
                         }
                     }
                 }
@@ -329,8 +319,10 @@ public class PathJsonFormFragment extends JsonFormFragment {
 
                     if (view instanceof MaterialEditText) {
                         MaterialEditText materialEditText = (MaterialEditText) view;
-                        materialEditText.setTag(com.vijay.jsonwizard.R.id.after_look_up, true);
+                        enableEditText(materialEditText);
+                        materialEditText.setTag(com.vijay.jsonwizard.R.id.after_look_up, false);
                         materialEditText.setText("");
+
 
                     }
                 }
@@ -340,8 +332,39 @@ public class PathJsonFormFragment extends JsonFormFragment {
                 metadataMap.put("value", "");
 
                 writeMetaDataValue(FormUtils.LOOK_UP_JAVAROSA_PROPERTY, metadataMap);
+
+                lookedUp = false;
             }
         }
+    }
+
+    private void tapToView(final HashMap<CommonPersonObject, List<CommonPersonObject>> map) {
+        snackbar = Snackbar
+                .make(getMainView(), map.size() + " mother/guardian match.", Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("Tap to view", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //updateResults(map);
+                //updateResults2(map);
+                snackbar.dismiss();
+                updateResultTree(map);
+            }
+        });
+        show(snackbar);
+
+    }
+
+    private void clearView() {
+        snackbar = Snackbar
+                .make(getMainView(), "Undo Lookup", Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("Clear", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+                clearMotherLookUp();
+            }
+        });
+        show(snackbar);
     }
 
     private void show(Snackbar snackbar) {
@@ -377,10 +400,20 @@ public class PathJsonFormFragment extends JsonFormFragment {
 
     }
 
+    private void disableEditText(MaterialEditText editText) {
+        editText.setInputType(InputType.TYPE_NULL);
+    }
+
+    private void enableEditText(MaterialEditText editText) {
+        editText.setInputType(InputType.TYPE_CLASS_TEXT);
+    }
+
     final Listener<HashMap<CommonPersonObject, List<CommonPersonObject>>> motherLookUpListener = new Listener<HashMap<CommonPersonObject, List<CommonPersonObject>>>() {
         @Override
         public void onEvent(HashMap<CommonPersonObject, List<CommonPersonObject>> data) {
-            showMotherLookUp(data);
+            if (!lookedUp) {
+                showMotherLookUp(data);
+            }
         }
     };
 
