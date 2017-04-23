@@ -557,6 +557,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                         JsonFormUtils.saveAdverseEvent(jsonString, location_name,
                                 childDetails.entityId(), allSharedPreferences.fetchRegisteredANM());
                     }
+                childDataFragment.childDetails = childDetails;
                 childDataFragment.loadData();
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage());
