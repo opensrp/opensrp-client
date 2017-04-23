@@ -258,13 +258,13 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
            }
         }
         if(vaccineList.size() ==0 || all_synced){
-            overflow.getItem(2).setEnabled(false);
+            overflow.getItem(3).setEnabled(false);
 
         }
         WeightRepository wp =  VaccinatorApplication.getInstance().weightRepository();
         List <Weight> weightlist =  wp.findLast5(childDetails.entityId());
         if(weightlist.size() ==0){
-            overflow.getItem(1).setEnabled(false);
+            overflow.getItem(2).setEnabled(false);
 
         }
         return true;
