@@ -1,7 +1,5 @@
 package org.ei.opensrp.domain;
 
-import org.ei.opensrp.clientandeventmodel.Event;
-
 import java.util.Date;
 import java.util.HashMap;
 
@@ -20,11 +18,12 @@ public class Vaccine {
     String locationId;
     String syncStatus;
     Long updatedAt;
+    String eventId;
 
     public Vaccine() {
     }
 
-    public Vaccine(Long id, String baseEntityId, String name, Integer calculation, Date date, String anmId, String locationId, String syncStatus, Long updatedAt) {
+    public Vaccine(Long id, String baseEntityId, String name, Integer calculation, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId) {
         this.id = id;
         this.baseEntityId = baseEntityId;
         this.programClientId = null;
@@ -35,9 +34,10 @@ public class Vaccine {
         this.locationId = locationId;
         this.syncStatus = syncStatus;
         this.updatedAt = updatedAt;
+        this.eventId=eventId;
     }
 
-    public Vaccine(Long id, String baseEntityId, String programClientId, String name, Integer calculation, Date date, String anmId, String locationId, String syncStatus, Long updatedAt) {
+    public Vaccine(Long id, String baseEntityId, String programClientId, String name, Integer calculation, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId) {
         this.id = id;
         this.baseEntityId = baseEntityId;
         this.programClientId = programClientId;
@@ -48,6 +48,7 @@ public class Vaccine {
         this.locationId = locationId;
         this.syncStatus = syncStatus;
         this.updatedAt = updatedAt;
+        this.eventId=eventId;
     }
 
     public Long getId() {
@@ -137,5 +138,12 @@ public class Vaccine {
 
     public void setSyncStatus(String syncStatus) {
         this.syncStatus = syncStatus;
+    }
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
     }
 }
