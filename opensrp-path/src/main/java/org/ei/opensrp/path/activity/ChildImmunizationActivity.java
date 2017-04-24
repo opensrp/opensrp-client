@@ -555,7 +555,6 @@ public class ChildImmunizationActivity extends BaseActivity
                 vaccineRepository.deleteVaccine(dbKey);
 
                 tag.setUpdatedVaccineDate(null, false);
-                tag.setRecordedDate(null);
                 tag.setDbKey(null);
 
                 View view = getLastOpenedView();
