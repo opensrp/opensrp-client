@@ -113,9 +113,9 @@ public class MotherLookUpSmartClientsProvider {
 
                 long diff = lhsTime.getMillis() - rhsTime.getMillis();
                 if (diff > 0) {
-                    return 1;
-                } else if (diff < 0) {
                     return -1;
+                } else if (diff < 0) {
+                    return 1;
                 }
 
                 return 0;

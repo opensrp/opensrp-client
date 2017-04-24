@@ -1975,12 +1975,19 @@ public class JsonFormUtils {
     }
 
     private static String convertToOpenMRSDate(String value) {
-        try {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            Date date = simpleDateFormat.parse(value);
+        if (value.matches("\\d{4}-\\d{2}-\\d{2}")) { // already in openmrs date format
+            return value;
+        }
 
-            SimpleDateFormat openmrsDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            return openmrsDateFormat.format(date);
+        try {
+            if(value.matches("\\d{2}-\\d{2}-\\d{4}")){
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                Date date = simpleDateFormat.parse(value);
+
+                return DateUtil.yyyyMMdd.format(date);
+            } else {
+                return value;
+            }
         } catch (Exception e) {
             Log.e(TAG, "", e);
         }
