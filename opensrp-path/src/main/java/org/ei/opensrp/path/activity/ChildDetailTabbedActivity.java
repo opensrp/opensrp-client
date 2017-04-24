@@ -817,7 +817,6 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                 vaccineRepository.deleteVaccine(dbKey);
 
                 tag.setUpdatedVaccineDate(null, false);
-                tag.setRecordedDate(null);
                 tag.setDbKey(null);
 
 
