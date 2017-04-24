@@ -262,7 +262,7 @@ public class ImmunizationRowCard extends LinearLayout {
 
     private Date getDateDone() {
         if (vaccineWrapper != null) {
-            DateTime dateDone = vaccineWrapper.getUpdatedVaccineDate();
+            DateTime dateDone = vaccineWrapper.getRecordedDate();
             if (dateDone != null) return dateDone.toDate();
         }
 
