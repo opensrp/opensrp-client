@@ -1,11 +1,9 @@
 package org.ei.opensrp.path.fragment;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.InputType;
 import android.util.Log;
@@ -13,12 +11,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.LinearLayout;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vijay.jsonwizard.fragments.JsonFormFragment;
@@ -33,9 +28,7 @@ import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.interactors.PathJsonFormInteractor;
-import org.ei.opensrp.path.provider.ChildLookUpSmartClientsProvider;
 import org.ei.opensrp.path.provider.MotherLookUpSmartClientsProvider;
-import org.ei.opensrp.path.view.MotherLookUpDialog;
 import org.ei.opensrp.path.viewstates.PathJsonFormFragmentViewState;
 import org.joda.time.DateTime;
 
@@ -46,7 +39,6 @@ import java.util.Map;
 
 import util.MotherLookUpUtils;
 
-import static android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS;
 import static util.Utils.getValue;
 
 /**
@@ -97,10 +89,6 @@ public class PathJsonFormFragment extends JsonFormFragment {
     }
 
     public void showMotherLookUp(final HashMap<CommonPersonObject, List<CommonPersonObject>> map) {
-        if (snackbar != null) {
-            snackbar.dismiss();
-        }
-
         if (!map.isEmpty()) {
             tapToView(map);
         }
@@ -110,84 +98,39 @@ public class PathJsonFormFragment extends JsonFormFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.mother_lookup_results, null);
 
-        ExpandableListView expandableListView = (ExpandableListView) view.findViewById(R.id.list_view);
+        ListView listView = (ListView) view.findViewById(R.id.list_view);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), AlertDialog.THEME_HOLO_LIGHT);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.PathDialog);
         builder.setView(view).setNegativeButton(R.string.dismiss, null);
-        builder.setTitle(getString(R.string.mother_lookup_results));
         builder.setCancelable(true);
 
         alertDialog = builder.create();
 
-        final List<CommonPersonObject> headers = new ArrayList<>();
+        final List<CommonPersonObject> mothers = new ArrayList<>();
         for (Map.Entry<CommonPersonObject, List<CommonPersonObject>> entry : map.entrySet()) {
-            headers.add(entry.getKey());
+            mothers.add(entry.getKey());
         }
 
-
         final MotherLookUpSmartClientsProvider motherLookUpSmartClientsProvider = new MotherLookUpSmartClientsProvider(getActivity(), lookUpRecordOnClickLister);
-        final ChildLookUpSmartClientsProvider childLookUpSmartClientsProvider = new ChildLookUpSmartClientsProvider(getActivity(), lookUpRecordOnClickLister);
-
-        BaseExpandableListAdapter expandableListAdapter = new BaseExpandableListAdapter() {
+        BaseAdapter baseAdapter = new BaseAdapter() {
             @Override
-            public Object getChild(int groupPosition, int childPosititon) {
-                return map.get(headers.get(groupPosition))
-                        .get(childPosititon);
+            public int getCount() {
+                return mothers.size();
             }
 
             @Override
-            public long getChildId(int groupPosition, int childPosition) {
-                return childPosition;
+            public Object getItem(int position) {
+                return mothers.get(position);
             }
 
             @Override
-            public View getChildView(int groupPosition, final int childPosition,
-                                     boolean isLastChild, View convertView, ViewGroup parent) {
-
-
-                View v;
-                if (convertView == null) {
-                    v = childLookUpSmartClientsProvider.inflatelayoutForCursorAdapter();
-                    v.setPadding(20, 0, 0, 0);
-                } else {
-                    v = convertView;
-                }
-
-                CommonPersonObject childPersonObject = (CommonPersonObject) getChild(groupPosition, childPosition);
-
-                CommonPersonObjectClient client = new CommonPersonObjectClient(childPersonObject.getCaseId(), childPersonObject.getColumnmaps(), childPersonObject.getColumnmaps().get("first_name"));
-                client.setColumnmaps(childPersonObject.getColumnmaps());
-
-                childLookUpSmartClientsProvider.getView(client, v);
-
-                return v;
+            public long getItemId(int position) {
+                return Long.valueOf(mothers.get(position).getCaseId().replaceAll("\\D+", ""));
             }
 
             @Override
-            public int getChildrenCount(int groupPosition) {
-                return map.get(headers.get(groupPosition))
-                        .size();
-            }
-
-            @Override
-            public Object getGroup(int groupPosition) {
-                return headers.get(groupPosition);
-            }
-
-            @Override
-            public int getGroupCount() {
-                return headers.size();
-            }
-
-            @Override
-            public long getGroupId(int groupPosition) {
-                return groupPosition;
-            }
-
-            @Override
-            public View getGroupView(int groupPosition, boolean isExpanded,
-                                     View convertView, ViewGroup parent) {
-
+            public View getView(int position, View convertView, ViewGroup parent) {
                 View v;
                 if (convertView == null) {
                     v = motherLookUpSmartClientsProvider.inflatelayoutForCursorAdapter();
@@ -195,117 +138,21 @@ public class PathJsonFormFragment extends JsonFormFragment {
                     v = convertView;
                 }
 
-                CommonPersonObject parentPersonObject = (CommonPersonObject) getGroup(groupPosition);
+                CommonPersonObject commonPersonObject = mothers.get(position);
+                List<CommonPersonObject> children = map.get(commonPersonObject);
 
-                CommonPersonObjectClient client = new CommonPersonObjectClient(parentPersonObject.getCaseId(), parentPersonObject.getDetails(), parentPersonObject.getDetails().get("FWHOHFNAME"));
-                client.setColumnmaps(parentPersonObject.getColumnmaps());
+                motherLookUpSmartClientsProvider.getView(commonPersonObject, children, v);
 
-                motherLookUpSmartClientsProvider.getView(client, v);
-
-                ExpandableListView mExpandableListView = (ExpandableListView) parent;
-                mExpandableListView.expandGroup(groupPosition);
+                v.setOnClickListener(lookUpRecordOnClickLister);
+                v.setTag(MotherLookUpSmartClientsProvider.convert(commonPersonObject));
 
                 return v;
-
             }
-
-            @Override
-            public boolean hasStableIds() {
-                return false;
-            }
-
-            @Override
-            public boolean isChildSelectable(int groupPosition, int childPosition) {
-                return true;
-            }
-
         };
 
-        expandableListView.setAdapter(expandableListAdapter);
-
+        listView.setAdapter(baseAdapter);
         alertDialog.show();
 
-    }
-
-    private void updateResultTree(final HashMap<CommonPersonObject, List<CommonPersonObject>> map) {
-
-        final MotherLookUpDialog motherLookUpDialog = new MotherLookUpDialog(getActivity(),
-                map);
-
-        motherLookUpDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
-                InputMethodManager inputManager = (InputMethodManager) getActivity()
-                        .getSystemService(android.content.Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow((getActivity()).getCurrentFocus().getWindowToken(),
-                        HIDE_NOT_ALWAYS);
-            }
-        });
-
-        motherLookUpDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                CommonPersonObjectClient pc = motherLookUpDialog.getSelectClient();
-
-                if (pc != null) {
-
-                    String entityId = "mother";
-
-                    Map<String, List<View>> lookupMap = getLookUpMap();
-                    if (lookupMap.containsKey(entityId)) {
-                        List<View> lookUpViews = lookupMap.get(entityId);
-                        if (lookUpViews != null && !lookUpViews.isEmpty()) {
-
-                            for (View view : lookUpViews) {
-
-                                String key = (String) view.getTag(com.vijay.jsonwizard.R.id.key);
-                                String text = "";
-
-                                if (StringUtils.containsIgnoreCase(key, MotherLookUpUtils.firstName)) {
-                                    text = getValue(pc.getColumnmaps(), MotherLookUpUtils.firstName, true);
-                                }
-
-                                if (StringUtils.containsIgnoreCase(key, MotherLookUpUtils.lastName)) {
-                                    text = getValue(pc.getColumnmaps(), MotherLookUpUtils.lastName, true);
-                                }
-
-                                if (StringUtils.containsIgnoreCase(key, MotherLookUpUtils.birthDate)) {
-                                    String dobString = getValue(pc.getColumnmaps(), MotherLookUpUtils.dob, false);
-                                    if (StringUtils.isNotBlank(dobString)) {
-                                        try {
-                                            DateTime birthDateTime = new DateTime(dobString);
-                                            text = DatePickerFactory.DATE_FORMAT.format(birthDateTime.toDate());
-                                        } catch (Exception e) {
-                                            Log.e(getClass().getName(), e.toString(), e);
-                                        }
-                                    }
-                                }
-
-                                if (view instanceof MaterialEditText) {
-                                    MaterialEditText materialEditText = (MaterialEditText) view;
-                                    materialEditText.setTag(com.vijay.jsonwizard.R.id.after_look_up, true);
-                                    materialEditText.setText(text);
-                                    materialEditText.setInputType(InputType.TYPE_NULL);
-                                    disableEditText(materialEditText);
-
-                                }
-                            }
-
-                            Map<String, String> metadataMap = new HashMap<>();
-                            metadataMap.put("entity_id", entityId);
-                            metadataMap.put("value", getValue(pc.getColumnmaps(), MotherLookUpUtils.baseEntityId, false));
-
-                            writeMetaDataValue(FormUtils.LOOK_UP_JAVAROSA_PROPERTY, metadataMap);
-
-                            lookedUp = true;
-                            clearView();
-                        }
-                    }
-                }
-            }
-        });
-
-        motherLookUpDialog.show();
     }
 
     public void clearMotherLookUp() {
@@ -344,10 +191,8 @@ public class PathJsonFormFragment extends JsonFormFragment {
         snackbar.setAction("Tap to view", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //updateResults(map);
-                //updateResults2(map);
-                snackbar.dismiss();
-                updateResultTree(map);
+                updateResults(map);
+                //updateResultTree(map);
             }
         });
         show(snackbar);
@@ -368,6 +213,9 @@ public class PathJsonFormFragment extends JsonFormFragment {
     }
 
     private void show(Snackbar snackbar) {
+        if (snackbar == null) {
+            return;
+        }
 
         float textSize = getActivity().getResources().getDimension(R.dimen.snack_bar_text_size);
 
@@ -408,6 +256,64 @@ public class PathJsonFormFragment extends JsonFormFragment {
         editText.setInputType(InputType.TYPE_CLASS_TEXT);
     }
 
+    private void lookupDialogDismissed(CommonPersonObjectClient pc) {
+        if (pc != null) {
+
+            String entityId = "mother";
+
+            Map<String, List<View>> lookupMap = getLookUpMap();
+            if (lookupMap.containsKey(entityId)) {
+                List<View> lookUpViews = lookupMap.get(entityId);
+                if (lookUpViews != null && !lookUpViews.isEmpty()) {
+
+                    for (View view : lookUpViews) {
+
+                        String key = (String) view.getTag(com.vijay.jsonwizard.R.id.key);
+                        String text = "";
+
+                        if (StringUtils.containsIgnoreCase(key, MotherLookUpUtils.firstName)) {
+                            text = getValue(pc.getColumnmaps(), MotherLookUpUtils.firstName, true);
+                        }
+
+                        if (StringUtils.containsIgnoreCase(key, MotherLookUpUtils.lastName)) {
+                            text = getValue(pc.getColumnmaps(), MotherLookUpUtils.lastName, true);
+                        }
+
+                        if (StringUtils.containsIgnoreCase(key, MotherLookUpUtils.birthDate)) {
+                            String dobString = getValue(pc.getColumnmaps(), MotherLookUpUtils.dob, false);
+                            if (StringUtils.isNotBlank(dobString)) {
+                                try {
+                                    DateTime birthDateTime = new DateTime(dobString);
+                                    text = DatePickerFactory.DATE_FORMAT.format(birthDateTime.toDate());
+                                } catch (Exception e) {
+                                    Log.e(getClass().getName(), e.toString(), e);
+                                }
+                            }
+                        }
+
+                        if (view instanceof MaterialEditText) {
+                            MaterialEditText materialEditText = (MaterialEditText) view;
+                            materialEditText.setTag(com.vijay.jsonwizard.R.id.after_look_up, true);
+                            materialEditText.setText(text);
+                            materialEditText.setInputType(InputType.TYPE_NULL);
+                            disableEditText(materialEditText);
+
+                        }
+                    }
+
+                    Map<String, String> metadataMap = new HashMap<>();
+                    metadataMap.put("entity_id", entityId);
+                    metadataMap.put("value", getValue(pc.getColumnmaps(), MotherLookUpUtils.baseEntityId, false));
+
+                    writeMetaDataValue(FormUtils.LOOK_UP_JAVAROSA_PROPERTY, metadataMap);
+
+                    lookedUp = true;
+                    clearView();
+                }
+            }
+        }
+    }
+
     final Listener<HashMap<CommonPersonObject, List<CommonPersonObject>>> motherLookUpListener = new Listener<HashMap<CommonPersonObject, List<CommonPersonObject>>>() {
         @Override
         public void onEvent(HashMap<CommonPersonObject, List<CommonPersonObject>> data) {
@@ -420,15 +326,15 @@ public class PathJsonFormFragment extends JsonFormFragment {
     final View.OnClickListener lookUpRecordOnClickLister = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            CommonPersonObjectClient client = null;
-            if (view.getTag() != null && view.getTag() instanceof CommonPersonObjectClient) {
-                client = (CommonPersonObjectClient) view.getTag();
-            }
+            if (alertDialog != null && alertDialog.isShowing()) {
+                alertDialog.dismiss();
+                CommonPersonObjectClient client = null;
+                if (view.getTag() != null && view.getTag() instanceof CommonPersonObjectClient) {
+                    client = (CommonPersonObjectClient) view.getTag();
+                }
 
-            if (client != null) {
-                Toast.makeText(getActivity(), client.getCaseId(), Toast.LENGTH_LONG).show();
-                if (alertDialog != null) {
-                    alertDialog.dismiss();
+                if (client != null) {
+                    lookupDialogDismissed(client);
                 }
             }
         }

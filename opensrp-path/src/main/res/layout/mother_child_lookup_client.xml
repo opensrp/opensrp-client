@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@+id/child_profile_info_layout"
+        android:background="@color/light_grey" />
+
+    <LinearLayout
+        android:id="@+id/child_profile_info_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+
+        android:orientation="vertical">
+
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/name"
+            style="@style/CustomFontTextViewStyle.ClientList.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="Name"
+            android:textColor="@color/client_list_grey"
+            android:textSize="22sp" />
+
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/details"
+            style="@style/CustomFontTextViewStyle.ClientList.Light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="5dp"
+            android:minLines="1"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:singleLine="false"
+            android:text="Details"
+            android:textColor="@color/client_list_grey"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/child_gender_tags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/child_profilepic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:adjustViewBounds="true"
+            android:paddingBottom="2dp"
+            android:paddingLeft="2dp"
+            android:paddingTop="2dp"
+            android:scaleType="centerCrop" />
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/child_profile_info_layout"
+        android:background="@color/light_grey" />
+
+</RelativeLayout>

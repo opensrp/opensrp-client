@@ -5,122 +5,140 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
+import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
-import org.ei.opensrp.cursoradapter.SmartRegisterCLientsProviderForCursorAdapter;
 import org.ei.opensrp.path.R;
-import org.ei.opensrp.util.OpenSRPImageLoader;
-import org.ei.opensrp.view.activity.DrishtiApplication;
-import org.ei.opensrp.view.contract.SmartRegisterClient;
-import org.ei.opensrp.view.contract.SmartRegisterClients;
-import org.ei.opensrp.view.dialog.FilterOption;
-import org.ei.opensrp.view.dialog.ServiceModeOption;
-import org.ei.opensrp.view.dialog.SortOption;
-import org.ei.opensrp.view.viewHolder.OnClickFormLauncher;
 import org.joda.time.DateTime;
 
-import java.util.Date;
-
-import util.DateUtils;
-import util.ImageUtils;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import static util.Utils.fillValue;
 import static util.Utils.getName;
 import static util.Utils.getValue;
-import static util.VaccinatorUtils.nextVaccineDue;
 
 /**
  * Created by Ahmed on 13-Oct-15.
  */
-public class MotherLookUpSmartClientsProvider implements SmartRegisterCLientsProviderForCursorAdapter {
+public class MotherLookUpSmartClientsProvider {
     private final LayoutInflater inflater;
     private final Context context;
     private final View.OnClickListener onClickListener;
+    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+
 
     public MotherLookUpSmartClientsProvider(Context context, View.OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
         this.context = context;
-
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-
     }
 
-    @Override
-    public void getView(SmartRegisterClient client, View convertView) {
-        CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
+    public void getView(CommonPersonObject commonPersonObject, List<CommonPersonObject> children, View convertView) {
+        CommonPersonObjectClient pc = convert(commonPersonObject);
 
-        fillValue((TextView) convertView.findViewById(R.id.child_zeir_id), getValue(pc.getColumnmaps(), "zeir_id", false));
-
-        String firstName = getValue(pc.getColumnmaps(), "first_name", true);
-        String lastName = getValue(pc.getColumnmaps(), "last_name", true);
-        String childName = getName(firstName, lastName);
-
-        fillValue((TextView) convertView.findViewById(R.id.child_name), childName);
-
-        DateTime birthDateTime = new DateTime((new Date()).getTime());
-        String dobString = getValue(pc.getColumnmaps(), "dob", false);
-        String durationString = "";
-        if (StringUtils.isNotBlank(dobString)) {
-            try {
-                birthDateTime = new DateTime(dobString);
-                String duration = DateUtils.getDuration(birthDateTime);
-                if (duration != null) {
-                    durationString = duration;
-                }
-            } catch (Exception e) {
-                Log.e(getClass().getName(), e.toString(), e);
-            }
+        List<CommonPersonObjectClient> childList = new ArrayList<CommonPersonObjectClient>();
+        for (CommonPersonObject childCommonPersonObject : children) {
+            childList.add(convert(childCommonPersonObject));
         }
-        fillValue((TextView) convertView.findViewById(R.id.child_age), durationString);
 
-        fillValue((TextView) convertView.findViewById(R.id.child_card_number), pc.getColumnmaps(), "nrc_number", false);
+        String childName = name(pc);
 
-        String gender = "female";
-        int defaultImageResId = ImageUtils.profileImageResourceByGender(gender);
+        fillValue((TextView) convertView.findViewById(R.id.name), childName);
 
-        /*ImageView profilePic = (ImageView) convertView.findViewById(R.id.child_profilepic);
-        profilePic.setImageResource(defaultImageResId);
-        if (client.entityId() != null) {//image already in local storage most likey ):
-            //set profile image by passing the client id.If the image doesn't exist in the image repository then download and save locally
-            profilePic.setTag(org.ei.opensrp.R.id.entity_id, pc.getCaseId());
-            DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pc.getCaseId(), OpenSRPImageLoader.getStaticImageListener(profilePic, 0, 0));
-        } */
-
-        convertView.findViewById(R.id.child_profile_info_layout).setTag(client);
-        convertView.findViewById(R.id.child_profile_info_layout).setOnClickListener(onClickListener);
+        String birthDateString = "Birthdate missing";
+        DateTime birthDateTime = dob(pc);
+        if (birthDateTime != null) {
+            birthDateString = dateFormat.format(birthDateTime.toDate());
+        }
 
 
+        String childListString = "";
+        if (!childList.isEmpty()) {
+            if (childList.size() > 1) {
+                //sort youngest to oldest
+                sortList(childList);
+            }
+
+            for (int i = 0; i < childList.size(); i++) {
+                String name = name(childList.get(i));
+                if (i == (childList.size() - 1)) {
+                    childListString += name;
+                } else {
+                    childListString += name + ", ";
+                }
+            }
+
+        }
+
+        fillValue((TextView) convertView.findViewById(R.id.details), birthDateString + " - " + childListString);
     }
 
-    @Override
-    public SmartRegisterClients updateClients(FilterOption villageFilter, ServiceModeOption
-            serviceModeOption, FilterOption searchFilter, SortOption sortOption) {
-        throw new UnsupportedOperationException("Operation not supported");
-    }
 
-    @Override
-    public void onServiceModeSelected(ServiceModeOption serviceModeOption) {
-
-    }
-
-    @Override
-    public OnClickFormLauncher newFormLauncher(String formName, String entityId, String
-            metaData) {
-        throw new UnsupportedOperationException("Operation not supported");
-    }
-
-    @Override
     public View inflatelayoutForCursorAdapter() {
-        ViewGroup view = (ViewGroup) inflater().inflate(R.layout.mother_lookup_client, null);
+        ViewGroup view = (ViewGroup) inflater().inflate(R.layout.mother_child_lookup_client, null);
         return view;
     }
 
     public LayoutInflater inflater() {
         return inflater;
+    }
+
+    public static CommonPersonObjectClient convert(CommonPersonObject commonPersonObject) {
+        CommonPersonObjectClient pc = new CommonPersonObjectClient(commonPersonObject.getCaseId(), commonPersonObject.getDetails(), commonPersonObject.getColumnmaps().get("first_name"));
+        pc.setColumnmaps(commonPersonObject.getColumnmaps());
+        return pc;
+    }
+
+    private void sortList(List<CommonPersonObjectClient> childList) {
+        Collections.sort(childList, new Comparator<CommonPersonObjectClient>() {
+            @Override
+            public int compare(CommonPersonObjectClient lhs, CommonPersonObjectClient rhs) {
+                DateTime lhsTime = dob(lhs);
+                DateTime rhsTime = dob(rhs);
+
+                if (lhsTime == null && rhsTime == null) {
+                    return 0;
+                } else if (lhsTime == null) {
+                    return 1;
+                } else if (rhsTime == null) {
+                    return -1;
+                }
+
+                long diff = lhsTime.getMillis() - rhsTime.getMillis();
+                if (diff > 0) {
+                    return 1;
+                } else if (diff < 0) {
+                    return -1;
+                }
+
+                return 0;
+            }
+        });
+    }
+
+    private DateTime dob(CommonPersonObjectClient pc) {
+        String dobString = getValue(pc.getColumnmaps(), "dob", false);
+        if (StringUtils.isNotBlank(dobString)) {
+            try {
+                return new DateTime(dobString);
+            } catch (Exception e) {
+                Log.e(getClass().getName(), e.toString(), e);
+            }
+        }
+        return null;
+    }
+
+    private String name(CommonPersonObjectClient pc) {
+        String firstName = getValue(pc.getColumnmaps(), "first_name", true);
+        String lastName = getValue(pc.getColumnmaps(), "last_name", true);
+        return getName(firstName, lastName);
     }
 
 }
