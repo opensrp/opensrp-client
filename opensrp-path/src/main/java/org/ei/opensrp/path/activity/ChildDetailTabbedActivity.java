@@ -476,7 +476,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Residential_Area")) {
                         JSONArray residentialAreaHierarchy = JsonFormUtils.getOpenMrsLocationHierarchy(
                                 getOpenSRPContext(), Utils.getValue(detailmaps,
-                                        "Residential_Area", true));
+                                        "address3", true));
                         if (residentialAreaHierarchy != null) {
                             jsonObject.put(JsonFormUtils.VALUE, residentialAreaHierarchy.toString());
                         }
@@ -495,7 +495,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("PMTCT_Status")) {
                         jsonObject.put(JsonFormUtils.READ_ONLY, true);
-                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "pmtct_status", true));
+                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "PMTCT_Status", true));
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Home_Facility")) {
                         JSONArray homeFacilityHierarchy = JsonFormUtils.getOpenMrsLocationHierarchy(
