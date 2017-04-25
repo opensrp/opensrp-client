@@ -414,7 +414,6 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                         if(Utils.getValue(childDetails.getColumnmaps(), "mother_dob", true)!=null || Utils.getValue(childDetails.getColumnmaps(), "mother_dob", true).equalsIgnoreCase(""))
                         {
                             try {
-                                jsonObject.put(JsonFormUtils.READ_ONLY, true);
                                 DateTime dateTime = new DateTime(Utils.getValue(childDetails.getColumnmaps(), "mother_dob", true));
                                 Date dob = dateTime.toDate();
                                 jsonObject.put(JsonFormUtils.VALUE, DATE_FORMAT.format(dob));
@@ -424,7 +423,6 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                         }
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Mother_Guardian_NRC")) {
-                        jsonObject.put(JsonFormUtils.READ_ONLY, true);
                         jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(childDetails.getColumnmaps(), "mother_nrc_number", true));
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Mother_Guardian_Number")) {
@@ -478,7 +476,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Residential_Area")) {
                         JSONArray residentialAreaHierarchy = JsonFormUtils.getOpenMrsLocationHierarchy(
                                 getOpenSRPContext(), Utils.getValue(detailmaps,
-                                        "Residential_Area", true));
+                                        "address3", true));
                         if (residentialAreaHierarchy != null) {
                             jsonObject.put(JsonFormUtils.VALUE, residentialAreaHierarchy.toString());
                         }
@@ -497,7 +495,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("PMTCT_Status")) {
                         jsonObject.put(JsonFormUtils.READ_ONLY, true);
-                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "pmtct_status", true));
+                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "PMTCT_Status", true));
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Home_Facility")) {
                         JSONArray homeFacilityHierarchy = JsonFormUtils.getOpenMrsLocationHierarchy(

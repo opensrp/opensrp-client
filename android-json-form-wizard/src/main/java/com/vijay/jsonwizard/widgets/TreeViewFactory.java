@@ -74,10 +74,6 @@ public class TreeViewFactory implements FormWidgetFactory {
             }
             final String defaultValueString = jsonObject.optString("default");
 
-            if (!TextUtils.isEmpty(jsonObject.optString("value"))) {
-                changeEditTextValue(editText, jsonObject.optString("value"));
-            }
-
             if (jsonObject.has("read_only")) {
                 boolean readOnly = jsonObject.getBoolean("read_only");
                 editText.setEnabled(!readOnly);
@@ -96,6 +92,11 @@ public class TreeViewFactory implements FormWidgetFactory {
             final TreeViewDialog treeViewDialog = new TreeViewDialog(context,
                     jsonObject.getJSONArray("tree"), defaultValue);
 
+            if (!TextUtils.isEmpty(jsonObject.optString("value"))) {
+                JSONArray name = new JSONArray(treeViewDialog.getName());
+                changeEditTextValue(editText, jsonObject.optString("value"), name.toString());
+            }
+
             treeViewDialog.setOnShowListener(new DialogInterface.OnShowListener() {
                 @Override
                 public void onShow(DialogInterface dialog) {
@@ -112,7 +113,8 @@ public class TreeViewFactory implements FormWidgetFactory {
                     ArrayList<String> value = treeViewDialog.getValue();
                     if (value != null && value.size() > 0) {
                         JSONArray array = new JSONArray(value);
-                        changeEditTextValue(editText, array.toString());
+                        JSONArray name = new JSONArray(treeViewDialog.getName());
+                        changeEditTextValue(editText, array.toString(), name.toString());
                     }
                 }
             });
@@ -127,7 +129,7 @@ public class TreeViewFactory implements FormWidgetFactory {
             editText.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    changeEditTextValue(editText, "");
+                    changeEditTextValue(editText, "", "");
                     return true;
                 }
             });
@@ -179,19 +181,19 @@ public class TreeViewFactory implements FormWidgetFactory {
         treeViewDialog.show();
     }
 
-    private static void changeEditTextValue(EditText editText, String value) {
+    private static void changeEditTextValue(EditText editText, String value, String name) {
         String readableValue = "";
         editText.setTag(R.id.raw_value, value);
-        if (!TextUtils.isEmpty(value)) {
+        if (!TextUtils.isEmpty(name)) {
             try {
-                JSONArray valueArray = new JSONArray(value);
-                if (valueArray.length() > 0) {
-                    readableValue = valueArray.getString(valueArray.length() - 1);
+                JSONArray nameArray = new JSONArray(name);
+                if (nameArray.length() > 0) {
+                    readableValue = nameArray.getString(nameArray.length() - 1);
 
-                    /*if (valueArray.length() > 1) {
+                    if (nameArray.length() > 1) {
                         readableValue = readableValue + ", "
-                                + valueArray.getString(valueArray.length() - 2);
-                    }*/
+                                + nameArray.getString(nameArray.length() - 2);
+                    }
                 }
             } catch (JSONException e) {
                 Log.e(TAG, Log.getStackTraceString(e));

@@ -62,6 +62,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import id.zelory.compressor.Compressor;
 
@@ -1484,6 +1486,12 @@ public class JsonFormUtils {
     public static String getOpenMrsReadableName(String name) {
         String readableName = new String(name);
 
+        Pattern prefixPattern = Pattern.compile("[a-z]{2} (.*)");
+        Matcher prefixMatcher = prefixPattern.matcher(readableName);
+        if (prefixMatcher.find()) {
+            readableName = prefixMatcher.group(1);
+        }
+
         if (readableName.contains(":")) {
             String[] splitName = readableName.split(":");
             readableName = splitName[splitName.length - 1].trim();
@@ -1502,6 +1510,7 @@ public class JsonFormUtils {
             allLevels.add("District");
             allLevels.add("Health Facility");
             allLevels.add("Zone");
+            allLevels.add("Residential Area");
 
             ArrayList<String> healthFacilities = new ArrayList<>();
             healthFacilities.add("Country");

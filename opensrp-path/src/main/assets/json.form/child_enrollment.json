@@ -375,7 +375,7 @@
       {
         "key": "Residential_Area",
         "openmrs_entity_parent": "usual_residence",
-        "openmrs_entity": "personal_address",
+        "openmrs_entity": "person_address",
         "openmrs_entity_id": "address3",
         "openmrs_data_type": "text",
         "type": "tree",
@@ -389,7 +389,7 @@
       {
         "key": "Residential_Area_Other",
         "openmrs_entity_parent": "usual_residence",
-        "openmrs_entity": "personal_address",
+        "openmrs_entity": "person_address",
         "openmrs_entity_id": "address3",
         "type": "edit_text",
         "hint": "Other residential area *",

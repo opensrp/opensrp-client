@@ -349,7 +349,14 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
     private void toggleViewVisibility(View view, boolean visible) {
         try {
             JSONArray canvasViewIds = new JSONArray((String) view.getTag(R.id.canvas_ids));
-            view.setEnabled(visible);
+            String addressString = (String) view.getTag(R.id.address);
+            String[] address = addressString.split(":");
+            JSONObject object = getObjectUsingAddress(address);
+            boolean enabled = visible;
+            if (object.has("read_only") && object.getBoolean("read_only") && visible) {
+                enabled = false;
+            }
+            view.setEnabled(enabled);
             for (int i = 0; i < canvasViewIds.length(); i++) {
                 int curId = canvasViewIds.getInt(i);
                 View curCanvasView = findViewById(curId);
@@ -361,7 +368,7 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
                     curCanvasView.setVisibility(View.GONE);
                 }
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
         }
     }

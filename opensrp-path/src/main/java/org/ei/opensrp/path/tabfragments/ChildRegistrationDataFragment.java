@@ -95,7 +95,7 @@ public class ChildRegistrationDataFragment extends Fragment {
 //        detailsMap = childDetails.getColumnmaps();
             WidgetFactory wd = new WidgetFactory();
 
-            layout.addView(wd.createTableRow(inflater, container, "Child's home health facility", fixlocationview(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "Home_Facility", false)))));
+            layout.addView(wd.createTableRow(inflater, container, "Child's home health facility", JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "Home_Facility", false)))));
             layout.addView(wd.createTableRow(inflater, container, "Child's ZEIR ID", Utils.getValue(childDetails.getColumnmaps(), "zeir_id", false)));
             layout.addView(wd.createTableRow(inflater, container, "Child's register card number", Utils.getValue(detailsMap, "Child_Register_Card_Number", false)));
             layout.addView(wd.createTableRow(inflater, container, "Child's birth certificate number", Utils.getValue(detailsMap, "Child_Birth_Certificate", false)));
@@ -127,17 +127,20 @@ public class ChildRegistrationDataFragment extends Fragment {
             layout.addView(wd.createTableRow(inflater, container, "Mother/guardian first name", (Utils.getValue(childDetails.getColumnmaps(), "mother_first_name", true).isEmpty()?Utils.getValue(childDetails.getDetails(), "mother_first_name", true):Utils.getValue(childDetails.getColumnmaps(), "mother_first_name", true))));
             layout.addView(wd.createTableRow(inflater, container, "Mother/guardian last name",(Utils.getValue(childDetails.getColumnmaps(), "mother_last_name", true).isEmpty() ? Utils.getValue(childDetails.getDetails(), "mother_last_name", true) : Utils.getValue(childDetails.getColumnmaps(), "mother_last_name", true))));
             String motherDob = Utils.getValue(childDetails, "mother_dob", true);
+
+            try {
+                DateTime dateTime = new DateTime(motherDob);
+                Date mother_dob = dateTime.toDate();
+                motherDob = ChildDetailTabbedActivity.DATE_FORMAT.format(mother_dob);
+            }catch (Exception e){
+
+            }
+
+            // If default mother dob ... set it as blank
             if (motherDob != null && motherDob.equals(JsonFormUtils.MOTHER_DEFAULT_DOB)) {
                 motherDob = "";
-            }else{
-                try {
-                    DateTime dateTime = new DateTime(motherDob);
-                    Date mother_dob = dateTime.toDate();
-                    motherDob = ChildDetailTabbedActivity.DATE_FORMAT.format(mother_dob);
-                }catch (Exception e){
-
-                }
             }
+
             layout.addView(wd.createTableRow(inflater, container, "Mother/guardian DOB",motherDob));
 
             layout.addView(wd.createTableRow(inflater, container, "Mother/guardian NRC number", Utils.getValue(childDetails, "mother_nrc_number", true)));
@@ -153,34 +156,15 @@ public class ChildRegistrationDataFragment extends Fragment {
                 placeofnearth_Choice = "Home";
             }
             layout.addView(wd.createTableRow(inflater, container, "Place of birth", placeofnearth_Choice));
-            layout.addView(wd.createTableRow(inflater, container, "Health facility the child was born in", fixlocationview(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "Birth_Facility_Name", false)))));
-            layout.addView(wd.createTableRow(inflater, container, "Child's residential area", fixlocationview(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "Residential_Area", true)))));
+            layout.addView(wd.createTableRow(inflater, container, "Health facility the child was born in", JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "Birth_Facility_Name", false)))));
+            layout.addView(wd.createTableRow(inflater, container, "Child's residential area", JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "address3", true)))));
             layout.addView(wd.createTableRow(inflater, container, "Other residential area", Utils.getValue(detailsMap, "Residential_Area_Other", true)));
             layout.addView(wd.createTableRow(inflater, container, "Home address", Utils.getValue(detailsMap, "address2", true)));
 
             layout.addView(wd.createTableRow(inflater, container, "Landmark", Utils.getValue(detailsMap, "address1", true)));
             layout.addView(wd.createTableRow(inflater, container, "CHW name", Utils.getValue(detailsMap, "CHW_Name", true)));
             layout.addView(wd.createTableRow(inflater, container, "CHW phone number", Utils.getValue(detailsMap, "CHW_Phone_Number", true)));
-            layout.addView(wd.createTableRow(inflater, container, "HIV exposure", Utils.getValue(detailsMap, "pmtct_status", true)));
+            layout.addView(wd.createTableRow(inflater, container, "HIV exposure", Utils.getValue(detailsMap, "PMTCT_Status", true)));
         }
     }
-
-    public String fixlocationview(String value){
-        if(value.contains("[")){
-            value = value.replace("[","").replace("]","");
-            if(value.contains(",")){
-                value = value.split(",")[value.split(",").length-1];
-            }
-            if(value.contains("\"")){
-                value = value.replace("\"","");
-            }
-            return value;
-        }else{
-            return value;
-        }
-    }
-
-
-
-
 }

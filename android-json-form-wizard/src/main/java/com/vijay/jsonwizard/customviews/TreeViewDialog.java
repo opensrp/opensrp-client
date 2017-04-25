@@ -26,6 +26,7 @@ public class TreeViewDialog extends Dialog implements TreeNode.TreeNodeClickList
 
     private final Context context;
     private ArrayList<String> value;
+    private ArrayList<String> name;
     private HashMap<TreeNode, String> treeNodeHashMap;
     private TreeNode rootNode;
 
@@ -56,6 +57,7 @@ public class TreeViewDialog extends Dialog implements TreeNode.TreeNodeClickList
 
 
         this.value = new ArrayList<>();
+        this.name = new ArrayList<>();
         this.treeNodeHashMap = new HashMap<>();
 
         JSONObject rootObject = new JSONObject();
@@ -69,6 +71,8 @@ public class TreeViewDialog extends Dialog implements TreeNode.TreeNodeClickList
         androidTreeView.setDefaultContainerStyle(R.style.TreeNodeStyle);
 
         canvas.addView(androidTreeView.getView());
+
+        setDefaultName(name, defaultValue, treeNodeHashMap);
     }
 
     private TreeNode constructTreeView(JSONObject structure, TreeNode parent, ArrayList<String> defaultValue) throws
@@ -99,25 +103,45 @@ public class TreeViewDialog extends Dialog implements TreeNode.TreeNodeClickList
         return curNode;
     }
 
+    private static void setDefaultName(ArrayList<String> name, ArrayList<String> defaultValue,
+                                       HashMap<TreeNode, String> treeNodeHashMap) {
+        if (defaultValue != null && defaultValue.size() > 0) {
+            HashMap<String, TreeNode> reverseHashMap = new HashMap<>();
+            for (TreeNode curNode : treeNodeHashMap.keySet()) {
+                reverseHashMap.put(treeNodeHashMap.get(curNode), curNode);
+            }
+
+            for (String curLevel : defaultValue) {
+                name.add((String) reverseHashMap.get(curLevel).getValue());
+            }
+        }
+    }
+
     @Override
     public void onClick(TreeNode node, Object value) {
         value = new ArrayList<>();
+        name = new ArrayList<>();
         if (node.getChildren().size() == 0) {
             ArrayList<String> reversedValue = new ArrayList<>();
-            retrieveValue(treeNodeHashMap, node, reversedValue);
+            ArrayList<String> reversedName = new ArrayList<>();
+            retrieveValue(treeNodeHashMap, node, reversedValue, reversedName);
 
             Collections.reverse(reversedValue);
             this.value = reversedValue;
+
+            Collections.reverse(reversedName);
+            this.name = reversedName;
 
             dismiss();
         }
     }
 
     private static void retrieveValue(HashMap<TreeNode, String> treeNodeHashMap,TreeNode node,
-                                      ArrayList<String> value) {
+                                      ArrayList<String> value, ArrayList<String> name) {
         if (node.getParent() != null) {
             value.add(getTreeNodeKey(treeNodeHashMap, node));
-            retrieveValue(treeNodeHashMap, node.getParent(), value);
+            name.add((String) node.getValue());
+            retrieveValue(treeNodeHashMap, node.getParent(), value, name);
         }
     }
 
@@ -130,6 +154,10 @@ public class TreeViewDialog extends Dialog implements TreeNode.TreeNodeClickList
 
     public ArrayList<String> getValue() {
         return this.value;
+    }
+
+    public ArrayList<String> getName() {
+        return this.name;
     }
 
     public void setValue(final ArrayList<String> value) {
