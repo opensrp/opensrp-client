@@ -90,14 +90,16 @@ public class VaccineIntentService extends IntentService {
     }
 
     private String getParentId(String name) {
+        String parentEntityId="";
         try {
+
             for (int i = 0; i < availableVaccines.length(); i++) {
                 JSONObject curVaccineGroup = availableVaccines.getJSONObject(i);
                 JSONArray vaccines = curVaccineGroup.getJSONArray("vaccines");
                 for (int j = 0; j < vaccines.length(); j++) {
                     JSONObject vaccine = vaccines.getJSONObject(j);
                     if (StringUtils.containsIgnoreCase(vaccine.getString("name"), name)) {
-                        String parentEntityId = vaccine.getJSONObject("openmrs_date").getString("parent_entity");
+                         parentEntityId = vaccine.getJSONObject("openmrs_date").getString("parent_entity");
                         if (parentEntityId.contains("/")) {
                             String[] parentEntityArray = parentEntityId.split("/");
                             if (StringUtils.containsIgnoreCase(name, "measles")) {
@@ -114,7 +116,7 @@ public class VaccineIntentService extends IntentService {
             Log.e(TAG, Log.getStackTraceString(e));
         }
 
-        return "";
+        return parentEntityId;
     }
 
     @Override
