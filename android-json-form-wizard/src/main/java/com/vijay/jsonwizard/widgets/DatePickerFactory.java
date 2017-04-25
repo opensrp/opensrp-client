@@ -23,6 +23,7 @@ import com.vijay.jsonwizard.fragments.JsonFormFragment;
 import com.vijay.jsonwizard.interfaces.CommonListener;
 import com.vijay.jsonwizard.interfaces.FormWidgetFactory;
 import com.vijay.jsonwizard.interfaces.JsonApi;
+import com.vijay.jsonwizard.utils.DatePickerUtils;
 import com.vijay.jsonwizard.validators.edittext.RequiredValidator;
 
 import org.json.JSONArray;
@@ -344,6 +345,8 @@ public class DatePickerFactory implements FormWidgetFactory {
 
         datePickerDialog.setTitle("");
         datePickerDialog.show();
+
+        DatePickerUtils.orderDate(datePickerDialog, new char[]{'d', 'm', 'y'});
     }
 
     /**
