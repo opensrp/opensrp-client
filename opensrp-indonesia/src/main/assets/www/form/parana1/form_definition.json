@@ -2,6 +2,7 @@
   "form_data_definition_version": "1",
   "form": {
     "bind_type": "kartu_ibu",
+    "ec_bind_type": "ec_kartu_ibu",
     "default_bind_path": "/model/instance/Parana/",
     "fields": [
       {
@@ -9,9 +10,30 @@
         "shouldLoadValue": true
       },
       {
-        "name": "childId",
-        "shouldLoadValue": true,
-        "source": "ibu.anak.id"
+        "name": "start",
+        "bind": "/model/instance/Parana/start"
+      },
+      {
+        "name": "end",
+        "bind": "/model/instance/Parana/end"
+      },
+      {
+        "name": "cityVillage",
+        "bind": "/model/instance/Parana/Village",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "existing_location",
+        "bind": "/model/instance/Parana/existing_location",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "lokasi1",
+        "bind": "/model/instance/Parana/lokasi"
+      },
+      {
+        "name": "jumlahPeserta1",
+        "bind": "/model/instance/Parana/jumlah_peserta"
       },
       {
         "name": "tanggal_sesi1",
@@ -22,17 +44,7 @@
         "bind": "/model/instance/Parana/parana_status"
       },
       {
-        "name": "sesi",
-        "bind": "/model/instance/Parana/tanggal_kunjungan"
-      },
-      {
-        "name": "tanggalLahirAnak",
-        "source": "ibu.anak.tanggalLahirAnak",
-        "bind": "/model/instance/Parana/tanggal_lahir_anak",
-        "shouldLoadValue": true
-      },
-      {
-        "name": "submissionDate",
+        "name": "today",
         "bind": "/model/instance/Parana/today"
       },
       {

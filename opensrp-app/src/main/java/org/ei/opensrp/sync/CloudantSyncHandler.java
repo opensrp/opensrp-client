@@ -191,7 +191,7 @@ public class CloudantSyncHandler {
         CloudantDataHandler mCloudantDataHandler = CloudantDataHandler.getInstance(mContext);
         Datastore mDatastore = mCloudantDataHandler.getDatastore();
 
-        ReplicatorBuilder.Pull mPullBuilder = ReplicatorBuilder.pull().to(mDatastore).from(uri);
+        ReplicatorBuilder.Pull mPullBuilder = ReplicatorBuilder.pull().to(mDatastore).from(pullUri);
         ReplicatorBuilder.Push mPushBuilder = ReplicatorBuilder.push().from(mDatastore).to(uri);
 
         String username = AllConstants.CloudantSync.COUCH_DATABASE_USER;

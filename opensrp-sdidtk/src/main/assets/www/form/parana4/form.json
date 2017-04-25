@@ -6,7 +6,7 @@
   "instance": {
     "encounter_type": "Parana"
   },
-  "version": "201704030955",
+  "version": "201704250244",
   "id_string": "parana",
   "type": "survey",
   "children": [
@@ -108,6 +108,19 @@
       }
     },
     {
+      "instance": {
+        "openmrs_entity_parent": "cityVillage",
+        "openmrs_entity_id": "160632AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "text",
+      "name": "lokasi",
+      "label": {
+        "Bahasa": "Lokasi",
+        "English": "Location :"
+      }
+    },
+    {
       "bind": {
         "required": "yes"
       },
@@ -155,6 +168,19 @@
         }
       ],
       "name": "parana_status"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "160632AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "integer",
+      "name": "jumlah_peserta",
+      "label": {
+        "Bahasa": "Jumlah Peserta :",
+        "English": "-"
+      }
     },
     {
       "control": {

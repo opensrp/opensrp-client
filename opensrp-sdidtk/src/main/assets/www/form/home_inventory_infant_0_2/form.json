@@ -1,1 +1,2336 @@
-{"name":"Home_0-2yo","title":"Home Inventory (0-2 Tahun)","sms_keyword":"home_infant_toddler","default_language":"Bahasa","instance":{"encounter_type":"Home Inventory (0-2 Tahun)"},"version":"201704040824","id_string":"home_infant_toddler","type":"survey","children":[{"instance":{"openmrs_entity_id":"encounter_start","openmrs_entity":"encounter"},"type":"start","name":"start"},{"instance":{"openmrs_entity_id":"encounter_date","openmrs_entity":"encounter"},"type":"today","name":"today"},{"type":"deviceid","name":"deviceid"},{"type":"simserial","name":"simserial"},{"type":"phonenumber","name":"phonenumber"},{"type":"hidden","name":"Province"},{"type":"hidden","name":"District","hint":{"Bahasa":"Inject from app"}},{"type":"hidden","name":"Sub-district","hint":{"Bahasa":"Inject from app"}},{"type":"hidden","name":"Village","hint":{"Bahasa":"Inject from app"}},{"type":"hidden","name":"Sub-village","hint":{"Bahasa":"Inject from app"}},{"type":"note","name":"generated_note_name_13","label":{"Bahasa":"Desa : ${Village}"}},{"type":"note","name":"generated_note_name_14","label":{"Bahasa":"Dusun : ${Sub-village}"}},{"bind":{"calculate":"${Village}"},"type":"hidden","name":"existing_location","instance":{"openmrs_entity_id":"location_id","openmrs_entity":"encounter"}},{"bind":{"calculate":"${Province}"},"type":"calculate","name":"provinsi","instance":{"openmrs_entity_parent":"usual_residence","openmrs_entity_id":"stateProvince","openmrs_entity":"person_address"}},{"bind":{"calculate":"${District}"},"type":"calculate","name":"kabupaten","instance":{"openmrs_entity_parent":"usual_residence","openmrs_entity_id":"countyDistrict","openmrs_entity":"person_address"}},{"bind":{"calculate":"${Village}"},"type":"calculate","name":"desa","instance":{"openmrs_entity_parent":"usual_residence","openmrs_entity_id":"cityVillage","openmrs_entity":"person_address"}},{"bind":{"calculate":"${Sub-village}"},"type":"calculate","name":"dusun","instance":{"openmrs_entity_parent":"usual_residence","openmrs_entity_id":"address1","openmrs_entity":"person_address"}},{"bind":{"calculate":"${Sub-district}"},"type":"calculate","name":"kecamatan","instance":{"openmrs_entity_parent":"usual_residence","openmrs_entity_id":"address2","openmrs_entity":"person_address"}},{"instance":{"openmrs_entity_id":"birthdate","openmrs_entity":"person"},"type":"hidden","name":"tanggal_lahir"},{"name":"tanggal_kunjungan","hint":{"Bahasa":"Tanggal kunjungan rumah untuk wawancara Home Inventory","English":"Date of Home Inventory Visit"},"bind":{"required":"yes","constraint":".>${tanggal_lahir}"},"label":{"Bahasa":"Tanggal kunjungan","English":"Date of home visit"},"instance":{"openmrs_entity_id":"160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"type":"date"},{"bind":{"calculate":"int((${tanggal_kunjungan} - ${tanggal_lahir}))"},"type":"calculate","instance":{"openmrs_entity_id":"1532AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"name":"umur","label":{"Bahasa":"Umur","English":"Age"}},{"label":{"Bahasa":"Umur : ${umur}","English":"Age (Years)"},"type":"note","name":"generated_note_name_29","hint":{"Bahasa":"Umur bayi/balita","English":"age of baby/child"}},{"control":{"appearance":"minimal"},"name":"pengasuh","hint":{"Bahasa":"Hubungan orang yang diwawancara dengan anak","English":"The relationship of the interviewee with the child"},"bind":{"required":"yes"},"label":{"Bahasa":"Pengasuh yang diwawancara","English":"Interviewee"},"instance":{"openmrs_entity_id":"1560AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"type":"select all that apply","children":[{"instance":{"openmrs_code":"970AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"ibu","label":{"Bahasa":"Ibu","English":"Mother"}},{"instance":{"openmrs_code":"971AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"bapak","label":{"Bahasa":"Bapak","English":"Father"}},{"instance":{"openmrs_code":"159772AAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"nenek","label":{"Bahasa":"Nenek","English":"Grandmother"}},{"instance":{"openmrs_code":"160273AAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"kakek","label":{"Bahasa":"Kakek","English":"Grandfather"}},{"instance":{"openmrs_code":"972AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"kakak","label":{"Bahasa":"Kakak","English":"Sibling"}},{"instance":{"openmrs_code":"975AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"bibi","label":{"Bahasa":"Bibi","English":"Aunt"}},{"instance":{"openmrs_code":"974AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"paman","label":{"Bahasa":"Paman","English":"Uncle"}},{"instance":{"openmrs_code":"5620AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"lainnya","label":{"Bahasa":"Lainnya","English":"Other"}}]},{"instance":{"openmrs_entity_parent":"1560AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"160632AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"type":"text","name":"pengasuh_lainnya","label":{"Bahasa":"Lainnya","English":"Other"}},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"1. Orang tua mengizinkan anaknya bermain permainan yang membuat kotor. T\n Anak-anak pada usia ini bisa sangat nakal. Terkadang mereka sangat senang bermain permainan yang membuat mereka terlihat berantakan dan kotor seperti lumpur, air, makanan mereka sendiri, dan yang lainnya. Apakah (nama)? Bagaimana perasaan anda dengan hal tersebut?"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home1_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"2. Orang tua sesekali berbicara pada anaknya. O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home2_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"3. Orang tua merespon secara lisan kepada vokalisasi anak. O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home3_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"4. Orang tua memberitahukan nama anak atau objek saat kunjungan. O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home4_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"5. Kata-kata orang tua terdengar terang dan jelas. O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home5_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"6. Orang tua berinisiatif bicara dengan pengunjung. O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home6_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"7. Orang tua berbicara dengan bebas. O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home7_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"8. Orang tua memuji anak setidaknya dua kali. O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home8_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"9. Suara Orang tua mengembangkan perasaan yang positif pada anak.O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home9_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"10. Orang tua memeluk atau mencium anaknya setidaknya sekali. O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home10_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"11. Orang tua merespon secara positif terhadap pujian pada anaknya yang dikatakan oleh tamu/pengunjung. O\n Buatlah komen positif tentang anak dan lihat respon yang diberikan oleh Orang tua. Jika kamu tidak mendapatkan respon pertama, ulangi pujianmu tiga kali selama kunjungan Anda."},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home11_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"12. Pemukulan/hukuman fisik dilakukan tidak lebih dari sekali dalam satu minggu terakhir. T\n Dan pastinya, mereka tidak selalu melakukan hal yang mereka inginkan. Secara umum, apakah (nama) mematuhi anda dengan baik? Bagaimana anda mendisiplinkan dia? Apa yang membuat mereka mematuhi perintah? Jika orang tua mengatakan sesuatu tentang harus memukul anaknya demi membuat mereka mengerti, lanjutkan dengan bertanya : berapa kali anda melakukannya minggu lalu? Jika pemukulan tidak disebutkan, tanya secara jelas. Apakah anda pernah memukul mereka (anak)? Jika jawabannya Iya, tanyakan telah berepa kali anda melakukannya minggu lalu?"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home12_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"13. Keluarga memiliki binatang peliharaan. T/O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home13_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"14. Orang tua tidak membentak anaknya.O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home14_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"15. Orang tua tidak menunjukkan kejengkelan tau rasa sebal terhadap anaknya. O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home15_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"16. Orang tua tidak menampar atau memukul anaknya selama kunjungan.O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home16_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"17. Orang tua tidak mengomeli atau mengkritik anaknya selama kunjungan. O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home17_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"18. Orang tua tidak mengganggu atau membatasi anak lebih dari 3 kali selama kunjungan."},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home18_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"19. Setidaknya ada 10 buku (selain buku sekolah) ada dan terlihat. T/O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home19_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"20. Perawatan anak, jika digunakan, apakah disediakan oleh salah satu dari 3 pengganti biasa.T\n Anak seumuran (nama) bergelanyut setiap waktu, apakah anda pernah mencoba melepaskannya? Jika jaabannya iya, tanyakan, siapa yang mengasuh (nama) jika anda pergi. Jika belum jelas perawatan diberikan oleh orang yang biasanya atau sekelompok kecil orang, tanyakan, bisakah anda menghitung mereka atau apakah mereka harus menemukan orang yang berbeda setiap waktunya? Perjelas bahwa perekrutan maternal termasuk dalamsalah satu alasan untuk berada jauh dan menentukan apakah pengaturan perawatan alternatif telahstabil atau kacau."},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home20_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"21. Anak dibawa ikut ke pasar sayur setidaknya sekali dalam satu minggu. T\n beritahu saya tentang beberapa tempat yang anda kunjungi bersama (nama). Jika diperlukan, tanyakan dengan jelas tentang pasar sayur(item 2.21) dan klinik atau pusat kesehatan (item 2.23). lalu tanyakan seberapa sering mereka melakukan perjalanan seperti itu? (item 2.22). jika perjalanan tidak diberitahukan, tanyakan apakah dia membawa (nama) untuk keluar bermain dan membawanya dengan kereta dorong? Seberapa sering?"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home21_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"22. Anak dapat [keluar bermain] setidaknya 4 kali dalam satu minggu. T"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home22_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"23. Anak secara rutin dibawa ke pusat kesehatan atau klinik. T"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home23_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"24. Anak memiliki tempat penyumpanan khusus untuk mainan dan benda special lainnya. T \nJika tempat penyimpanan khusus untuk mainan tidak terlihat, katakan dimanakah (nama) menyimpan [mainannya]?"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home24_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"25. lingkungan tempat bermain anak aman.O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home25_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"26. Permainan yang membutuhkan tenaga atau peralatan.T/O\n Jika kamu melihat mainan atau benda-benda tersebut di rumah. Jika memungkinkan tanyakan hal-hal khusus, katakan ceritakan saya tentang beberapa mainan yang anda beli atau buatkan untuk (nama). Lanjutkan dengan pertanyaan khusus untuk setiap barang."},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home26_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"27. Permainan tarik ulur.T/O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home27_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"28. Kereta dorong, Mobil-mobilan, skuter, atau sepeda roda tiga.T/O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home28_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"29. Boneka atau Mainan (alat-alat masak, dokter, dll).T/O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home29_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"30. Perangkat fasilitas pembelajaran, kursi dan meja belajar, kursi tinggi, boks. T/O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home30_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"31. Penyimpanan mainan yang mudah dijangkau. T/O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home31_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"32. Penyimpanan mainan yang sulit dijangkau. T/O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home32_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"33. Permainan untuk sastra dan musik. T/O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home33_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"34. Orang tua menyediakan mainan untuk anaknya selama kunjungan.O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home34_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"35. Orang tua berbicara pada anaknya saat bekerja.T\n Salah satu hal paling sulit ketika anak berada di sekitar rumah adalah mereka yang selalu mencari perhatian. Namun anda memiliki banyak hal untuk dilakukan selain memperhatikan mereka. Contohnya, bagaimana anda mengatur waktu untuk melakukan berbagai pekerjaan rumah seperti mencuci dan bersih-bersih? Cari tau apakah orang tua tersebut mengajak anaknya untuk melakukan hal-hal yang sisebutkan (bersih-bersih, mencuci, dll) (meletakkan mereka pada [kursi bayi] di sekitar tempat mereka bekerja, berikan mereka hal untuk dilakukan disekitar atau menaruh mereka pada tempat dimana anak-anak tersebut tidak memperlambat pekerjaan mereka). Kapan anda melakukan pekerjaan rumah, apakah anda berkonsentrasi pada hal tersebut, atau apakah anda terkadang berbicara dengan (nama) saat bekerja?"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home35_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"36. Orang tua sadar dalam menyemangati anaknya dalam mengembangkan hal.T\n Apakah hal-hal yang coba anda ajarkan pada (nama)?"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home36_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"37. Orang tua menciptakan mainan untuk perkembangan dengan penilaian pribadi. T\n [terkadang kita membeli permainan yang kreatif] untuk anak-anak dan mereka terlihat tidak begitu menyukainya. Apakah hal tersebut pernah terjadi pada (nama)? Meskipun ibunya menyangkal hal tersebut pernah terjadi, tanyakan bagaimana ia membuat anaknya [bermain dengan mainan yang anda pikir paling bagus?"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home37_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"38. Orang tua mengatur periode bermain anak. T\n Apakah (nama) sering menunjukan keadaan dimana ia tidak memiliki hal untuk dilakukan, hal untuk dimainkan, atau dia terlihat bosan? Jika itu terjadi, apa yang anda lakukan?"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home38_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"39. Orang tua menyediakn permainan yang akan memberikan tantangan baru pada anak. T"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home39_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"40. Orang tua menjaga anaknya dalam jarak yang terlihat, sering mengecek mereka. O"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home40_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"41. Ayah memberikan beberapa perawatan sehari-hari. T\n Apakah suami ibuk membantu dalam mengurus (nama)?Atau ada figur seorang ayah dirumah namun mereka tidak menikah, tanyakan apakah ayahnya membantu mengurus (nama)? Jika ibu menjawab “tidak” tidak diperlukan tindakan lanjutan. Jika ia menjawab “iya”, tanyakan, apakah dia selalu melakukannya? Setiaknya 15 sampai 20 menit dalam satu hari?"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home41_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"42. Orang tua membacakan cerita setidaknya tiga kali dalam satu minggu. T\n Apakah anak anda sudah cukup umur untuk dibacakan sesuatu? Jika ibu menjaab “iya” tanyakan, berapa kali dalam satu minggu anda membacakan cerita padanya?"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home42_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"43. Anak ikut makan bersama dengan orang tua setidaknya sekali dalam sehari.T\n Bagaimana anda mengatur waktu makan di rumah? Apakah (nama) [makan di atas meja] dengan seluruh keluarga? Apakah anda menyuapinya secara terpisah? Jika ibu tidak mengatakan apapun tentang sang ayah, tanyakan apakah ayahnya, tanyakan apakah ayahnya hadir atau ikut makan bersama setidaknya sekali dalam setiapharinya?"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home43_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"44. Mendapat kunjungan dari keluarga atau mengunjungi keluarga sekali dalam satu bulan atau lebih. T\n seberapa sering anda melakukan kontak dengan keluarga anda – ayah dan ibu, saudara, dan yang lainnya? Seberap sering mereka datang mengunjungi anda? Seberapa sering anda pergi mengunjungi mereka?"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home44_it"},{"instance":{"openmrs_entity_parent":"162190AAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity_id":"1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"label":{"Bahasa":"45. Anak memiliki 3 atau lebih bukunya sendiri.T/O\n Apakah (nama) memiliki bukunya sendiri? Seberapa banyak?"},"type":"select one","children":[{"instance":{"openmrs_code":"1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"Yes","label":{"Bahasa":"1","English":"1"}},{"instance":{"openmrs_code":"1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"No","label":{"Bahasa":"0","English":"0"}},{"instance":{"openmrs_code":"1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"},"name":"unknown","label":{"Bahasa":"Tidak diketahui","English":"Tidak diketahui"}}],"name":"home45_it"},{"instance":{"openmrs_entity_id":"encounter_end","openmrs_entity":"encounter"},"type":"end","name":"end"},{"control":{"bodyless":true},"type":"group","children":[{"bind":{"readonly":"true()","calculate":"concat('uuid:', uuid())"},"type":"calculate","name":"instanceID"}],"name":"meta"}]}
+{
+  "name": "Home_0-2yo",
+  "title": "Home Inventory (0-2 Tahun)",
+  "sms_keyword": "home_infant_toddler",
+  "default_language": "Bahasa",
+  "instance": {
+    "encounter_type": "Home Inventory 0 2 Tahun"
+  },
+  "version": "201704040824",
+  "id_string": "home_infant_toddler",
+  "type": "survey",
+  "children": [
+    {
+      "instance": {
+        "openmrs_entity_id": "encounter_start",
+        "openmrs_entity": "encounter"
+      },
+      "type": "start",
+      "name": "start"
+    },
+    {
+      "instance": {
+        "openmrs_entity_id": "encounter_date",
+        "openmrs_entity": "encounter"
+      },
+      "type": "today",
+      "name": "today"
+    },
+    {
+      "type": "deviceid",
+      "name": "deviceid"
+    },
+    {
+      "type": "simserial",
+      "name": "simserial"
+    },
+    {
+      "type": "phonenumber",
+      "name": "phonenumber"
+    },
+    {
+      "type": "hidden",
+      "name": "Province"
+    },
+    {
+      "type": "hidden",
+      "name": "District",
+      "hint": {
+        "Bahasa": "Inject from app"
+      }
+    },
+    {
+      "type": "hidden",
+      "name": "Sub-district",
+      "hint": {
+        "Bahasa": "Inject from app"
+      }
+    },
+    {
+      "type": "hidden",
+      "name": "Village",
+      "hint": {
+        "Bahasa": "Inject from app"
+      }
+    },
+    {
+      "type": "hidden",
+      "name": "Sub-village",
+      "hint": {
+        "Bahasa": "Inject from app"
+      }
+    },
+    {
+      "type": "note",
+      "name": "generated_note_name_13",
+      "label": {
+        "Bahasa": "Desa : ${Village}"
+      }
+    },
+    {
+      "type": "note",
+      "name": "generated_note_name_14",
+      "label": {
+        "Bahasa": "Dusun : ${Sub-village}"
+      }
+    },
+    {
+      "bind": {
+        "calculate": "${Village}"
+      },
+      "type": "hidden",
+      "name": "existing_location",
+      "instance": {
+        "openmrs_entity_id": "location_id",
+        "openmrs_entity": "encounter"
+      }
+    },
+    {
+      "bind": {
+        "calculate": "${Province}"
+      },
+      "type": "calculate",
+      "name": "provinsi",
+      "instance": {
+        "openmrs_entity_parent": "usual_residence",
+        "openmrs_entity_id": "stateProvince",
+        "openmrs_entity": "person_address"
+      }
+    },
+    {
+      "bind": {
+        "calculate": "${District}"
+      },
+      "type": "calculate",
+      "name": "kabupaten",
+      "instance": {
+        "openmrs_entity_parent": "usual_residence",
+        "openmrs_entity_id": "countyDistrict",
+        "openmrs_entity": "person_address"
+      }
+    },
+    {
+      "bind": {
+        "calculate": "${Village}"
+      },
+      "type": "calculate",
+      "name": "desa",
+      "instance": {
+        "openmrs_entity_parent": "usual_residence",
+        "openmrs_entity_id": "cityVillage",
+        "openmrs_entity": "person_address"
+      }
+    },
+    {
+      "bind": {
+        "calculate": "${Sub-village}"
+      },
+      "type": "calculate",
+      "name": "dusun",
+      "instance": {
+        "openmrs_entity_parent": "usual_residence",
+        "openmrs_entity_id": "address1",
+        "openmrs_entity": "person_address"
+      }
+    },
+    {
+      "bind": {
+        "calculate": "${Sub-district}"
+      },
+      "type": "calculate",
+      "name": "kecamatan",
+      "instance": {
+        "openmrs_entity_parent": "usual_residence",
+        "openmrs_entity_id": "address2",
+        "openmrs_entity": "person_address"
+      }
+    },
+    {
+      "instance": {
+        "openmrs_entity_id": "birthdate",
+        "openmrs_entity": "person"
+      },
+      "type": "hidden",
+      "name": "tanggal_lahir"
+    },
+    {
+      "name": "tanggal_kunjungan",
+      "hint": {
+        "Bahasa": "Tanggal kunjungan rumah untuk wawancara Home Inventory",
+        "English": "Date of Home Inventory Visit"
+      },
+      "bind": {
+        "required": "yes",
+        "constraint": ".>${tanggal_lahir}"
+      },
+      "label": {
+        "Bahasa": "Tanggal kunjungan",
+        "English": "Date of home visit"
+      },
+      "instance": {
+        "openmrs_entity_id": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "date"
+    },
+    {
+      "bind": {
+        "calculate": "int((${tanggal_kunjungan} - ${tanggal_lahir}))"
+      },
+      "type": "calculate",
+      "instance": {
+        "openmrs_entity_id": "1532AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "name": "umur",
+      "label": {
+        "Bahasa": "Umur",
+        "English": "Age"
+      }
+    },
+    {
+      "label": {
+        "Bahasa": "Umur : ${umur}",
+        "English": "Age (Years)"
+      },
+      "type": "note",
+      "name": "generated_note_name_29",
+      "hint": {
+        "Bahasa": "Umur bayi/balita",
+        "English": "age of baby/child"
+      }
+    },
+    {
+      "control": {
+        "appearance": "minimal"
+      },
+      "name": "pengasuh",
+      "hint": {
+        "Bahasa": "Hubungan orang yang diwawancara dengan anak",
+        "English": "The relationship of the interviewee with the child"
+      },
+      "bind": {
+        "required": "yes"
+      },
+      "label": {
+        "Bahasa": "Pengasuh yang diwawancara",
+        "English": "Interviewee"
+      },
+      "instance": {
+        "openmrs_entity_id": "1560AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "select all that apply",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "970AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "ibu",
+          "label": {
+            "Bahasa": "Ibu",
+            "English": "Mother"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "971AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "bapak",
+          "label": {
+            "Bahasa": "Bapak",
+            "English": "Father"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "159772AAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "nenek",
+          "label": {
+            "Bahasa": "Nenek",
+            "English": "Grandmother"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "160273AAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "kakek",
+          "label": {
+            "Bahasa": "Kakek",
+            "English": "Grandfather"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "972AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "kakak",
+          "label": {
+            "Bahasa": "Kakak",
+            "English": "Sibling"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "975AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "bibi",
+          "label": {
+            "Bahasa": "Bibi",
+            "English": "Aunt"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "974AAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "paman",
+          "label": {
+            "Bahasa": "Paman",
+            "English": "Uncle"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "5620AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "lainnya",
+          "label": {
+            "Bahasa": "Lainnya",
+            "English": "Other"
+          }
+        }
+      ]
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "1560AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "160632AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "text",
+      "name": "pengasuh_lainnya",
+      "label": {
+        "Bahasa": "Lainnya",
+        "English": "Other"
+      }
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "1. Orang tua mengizinkan anaknya bermain permainan yang membuat kotor. T\n Anak-anak pada usia ini bisa sangat nakal. Terkadang mereka sangat senang bermain permainan yang membuat mereka terlihat berantakan dan kotor seperti lumpur, air, makanan mereka sendiri, dan yang lainnya. Apakah (nama)? Bagaimana perasaan anda dengan hal tersebut?"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home1_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "2. Orang tua sesekali berbicara pada anaknya. O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home2_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "3. Orang tua merespon secara lisan kepada vokalisasi anak. O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home3_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "4. Orang tua memberitahukan nama anak atau objek saat kunjungan. O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home4_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "5. Kata-kata orang tua terdengar terang dan jelas. O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home5_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "6. Orang tua berinisiatif bicara dengan pengunjung. O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home6_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "7. Orang tua berbicara dengan bebas. O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home7_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "8. Orang tua memuji anak setidaknya dua kali. O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home8_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "9. Suara Orang tua mengembangkan perasaan yang positif pada anak.O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home9_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "10. Orang tua memeluk atau mencium anaknya setidaknya sekali. O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home10_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "11. Orang tua merespon secara positif terhadap pujian pada anaknya yang dikatakan oleh tamu/pengunjung. O\n Buatlah komen positif tentang anak dan lihat respon yang diberikan oleh Orang tua. Jika kamu tidak mendapatkan respon pertama, ulangi pujianmu tiga kali selama kunjungan Anda."
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home11_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "12. Pemukulan/hukuman fisik dilakukan tidak lebih dari sekali dalam satu minggu terakhir. T\n Dan pastinya, mereka tidak selalu melakukan hal yang mereka inginkan. Secara umum, apakah (nama) mematuhi anda dengan baik? Bagaimana anda mendisiplinkan dia? Apa yang membuat mereka mematuhi perintah? Jika orang tua mengatakan sesuatu tentang harus memukul anaknya demi membuat mereka mengerti, lanjutkan dengan bertanya : berapa kali anda melakukannya minggu lalu? Jika pemukulan tidak disebutkan, tanya secara jelas. Apakah anda pernah memukul mereka (anak)? Jika jawabannya Iya, tanyakan telah berepa kali anda melakukannya minggu lalu?"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home12_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "13. Keluarga memiliki binatang peliharaan. T/O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home13_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "14. Orang tua tidak membentak anaknya.O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home14_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "15. Orang tua tidak menunjukkan kejengkelan tau rasa sebal terhadap anaknya. O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home15_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "16. Orang tua tidak menampar atau memukul anaknya selama kunjungan.O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home16_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "17. Orang tua tidak mengomeli atau mengkritik anaknya selama kunjungan. O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home17_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "18. Orang tua tidak mengganggu atau membatasi anak lebih dari 3 kali selama kunjungan."
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home18_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "19. Setidaknya ada 10 buku (selain buku sekolah) ada dan terlihat. T/O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home19_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "20. Perawatan anak, jika digunakan, apakah disediakan oleh salah satu dari 3 pengganti biasa.T\n Anak seumuran (nama) bergelanyut setiap waktu, apakah anda pernah mencoba melepaskannya? Jika jaabannya iya, tanyakan, siapa yang mengasuh (nama) jika anda pergi. Jika belum jelas perawatan diberikan oleh orang yang biasanya atau sekelompok kecil orang, tanyakan, bisakah anda menghitung mereka atau apakah mereka harus menemukan orang yang berbeda setiap waktunya? Perjelas bahwa perekrutan maternal termasuk dalamsalah satu alasan untuk berada jauh dan menentukan apakah pengaturan perawatan alternatif telahstabil atau kacau."
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home20_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "21. Anak dibawa ikut ke pasar sayur setidaknya sekali dalam satu minggu. T\n beritahu saya tentang beberapa tempat yang anda kunjungi bersama (nama). Jika diperlukan, tanyakan dengan jelas tentang pasar sayur(item 2.21) dan klinik atau pusat kesehatan (item 2.23). lalu tanyakan seberapa sering mereka melakukan perjalanan seperti itu? (item 2.22). jika perjalanan tidak diberitahukan, tanyakan apakah dia membawa (nama) untuk keluar bermain dan membawanya dengan kereta dorong? Seberapa sering?"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home21_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "22. Anak dapat [keluar bermain] setidaknya 4 kali dalam satu minggu. T"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home22_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "23. Anak secara rutin dibawa ke pusat kesehatan atau klinik. T"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home23_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "24. Anak memiliki tempat penyumpanan khusus untuk mainan dan benda special lainnya. T \nJika tempat penyimpanan khusus untuk mainan tidak terlihat, katakan dimanakah (nama) menyimpan [mainannya]?"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home24_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "25. lingkungan tempat bermain anak aman.O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home25_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "26. Permainan yang membutuhkan tenaga atau peralatan.T/O\n Jika kamu melihat mainan atau benda-benda tersebut di rumah. Jika memungkinkan tanyakan hal-hal khusus, katakan ceritakan saya tentang beberapa mainan yang anda beli atau buatkan untuk (nama). Lanjutkan dengan pertanyaan khusus untuk setiap barang."
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home26_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "27. Permainan tarik ulur.T/O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home27_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "28. Kereta dorong, Mobil-mobilan, skuter, atau sepeda roda tiga.T/O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home28_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "29. Boneka atau Mainan (alat-alat masak, dokter, dll).T/O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home29_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "30. Perangkat fasilitas pembelajaran, kursi dan meja belajar, kursi tinggi, boks. T/O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home30_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "31. Penyimpanan mainan yang mudah dijangkau. T/O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home31_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "32. Penyimpanan mainan yang sulit dijangkau. T/O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home32_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "33. Permainan untuk sastra dan musik. T/O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home33_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "34. Orang tua menyediakan mainan untuk anaknya selama kunjungan.O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home34_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "35. Orang tua berbicara pada anaknya saat bekerja.T\n Salah satu hal paling sulit ketika anak berada di sekitar rumah adalah mereka yang selalu mencari perhatian. Namun anda memiliki banyak hal untuk dilakukan selain memperhatikan mereka. Contohnya, bagaimana anda mengatur waktu untuk melakukan berbagai pekerjaan rumah seperti mencuci dan bersih-bersih? Cari tau apakah orang tua tersebut mengajak anaknya untuk melakukan hal-hal yang sisebutkan (bersih-bersih, mencuci, dll) (meletakkan mereka pada [kursi bayi] di sekitar tempat mereka bekerja, berikan mereka hal untuk dilakukan disekitar atau menaruh mereka pada tempat dimana anak-anak tersebut tidak memperlambat pekerjaan mereka). Kapan anda melakukan pekerjaan rumah, apakah anda berkonsentrasi pada hal tersebut, atau apakah anda terkadang berbicara dengan (nama) saat bekerja?"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home35_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "36. Orang tua sadar dalam menyemangati anaknya dalam mengembangkan hal.T\n Apakah hal-hal yang coba anda ajarkan pada (nama)?"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home36_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "37. Orang tua menciptakan mainan untuk perkembangan dengan penilaian pribadi. T\n [terkadang kita membeli permainan yang kreatif] untuk anak-anak dan mereka terlihat tidak begitu menyukainya. Apakah hal tersebut pernah terjadi pada (nama)? Meskipun ibunya menyangkal hal tersebut pernah terjadi, tanyakan bagaimana ia membuat anaknya [bermain dengan mainan yang anda pikir paling bagus?"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home37_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "38. Orang tua mengatur periode bermain anak. T\n Apakah (nama) sering menunjukan keadaan dimana ia tidak memiliki hal untuk dilakukan, hal untuk dimainkan, atau dia terlihat bosan? Jika itu terjadi, apa yang anda lakukan?"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home38_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "39. Orang tua menyediakn permainan yang akan memberikan tantangan baru pada anak. T"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home39_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "40. Orang tua menjaga anaknya dalam jarak yang terlihat, sering mengecek mereka. O"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home40_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "41. Ayah memberikan beberapa perawatan sehari-hari. T\n Apakah suami ibuk membantu dalam mengurus (nama)?Atau ada figur seorang ayah dirumah namun mereka tidak menikah, tanyakan apakah ayahnya membantu mengurus (nama)? Jika ibu menjawab “tidak” tidak diperlukan tindakan lanjutan. Jika ia menjawab “iya”, tanyakan, apakah dia selalu melakukannya? Setiaknya 15 sampai 20 menit dalam satu hari?"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home41_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "42. Orang tua membacakan cerita setidaknya tiga kali dalam satu minggu. T\n Apakah anak anda sudah cukup umur untuk dibacakan sesuatu? Jika ibu menjaab “iya” tanyakan, berapa kali dalam satu minggu anda membacakan cerita padanya?"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home42_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "43. Anak ikut makan bersama dengan orang tua setidaknya sekali dalam sehari.T\n Bagaimana anda mengatur waktu makan di rumah? Apakah (nama) [makan di atas meja] dengan seluruh keluarga? Apakah anda menyuapinya secara terpisah? Jika ibu tidak mengatakan apapun tentang sang ayah, tanyakan apakah ayahnya, tanyakan apakah ayahnya hadir atau ikut makan bersama setidaknya sekali dalam setiapharinya?"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home43_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "44. Mendapat kunjungan dari keluarga atau mengunjungi keluarga sekali dalam satu bulan atau lebih. T\n seberapa sering anda melakukan kontak dengan keluarga anda – ayah dan ibu, saudara, dan yang lainnya? Seberap sering mereka datang mengunjungi anda? Seberapa sering anda pergi mengunjungi mereka?"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home44_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "162190AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "label": {
+        "Bahasa": "45. Anak memiliki 3 atau lebih bukunya sendiri.T/O\n Apakah (nama) memiliki bukunya sendiri? Seberapa banyak?"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "1",
+            "English": "1"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "0",
+            "English": "0"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "unknown",
+          "label": {
+            "Bahasa": "Tidak diketahui",
+            "English": "Tidak diketahui"
+          }
+        }
+      ],
+      "name": "home45_it"
+    },
+    {
+      "instance": {
+        "openmrs_entity_id": "encounter_end",
+        "openmrs_entity": "encounter"
+      },
+      "type": "end",
+      "name": "end"
+    },
+    {
+      "control": {
+        "bodyless": true
+      },
+      "type": "group",
+      "children": [
+        {
+          "bind": {
+            "readonly": "true()",
+            "calculate": "concat('uuid:', uuid())"
+          },
+          "type": "calculate",
+          "name": "instanceID"
+        }
+      ],
+      "name": "meta"
+    }
+  ]
+}

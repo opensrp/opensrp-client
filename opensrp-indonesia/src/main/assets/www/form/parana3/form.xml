@@ -1,4 +1,4 @@
-<form autocomplete="off" novalidate="novalidate" class="or clearfix" dir="ltr" id="parana">
+<form autocomplete="off" novalidate="novalidate" class="or clearfix" dir="ltr" id="parana">\n
     <!--This form was created by transforming a OpenRosa-flavored (X)Form using an XSL stylesheet created by Enketo LLC.-->
     <section class="form-logo"></section>
     <h3 dir="auto" id="form-title">Parana</h3>
@@ -19,6 +19,11 @@
         </span>
         <span lang="en" class="question-label " data-itext-id="/Parana/generated_note_name_14:label">-</span>
         <input type="text" name="/Parana/generated_note_name_14" data-type-xml="string" readonly="readonly"/>
+    </label>
+    <label class="question non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Parana/lokasi:label">Lokasi</span>
+        <span lang="en" class="question-label " data-itext-id="/Parana/lokasi:label">Location :</span>
+        <input type="text" name="/Parana/lokasi" data-type-xml="string"/>
     </label>
     <label class="question non-select ">
         <span lang="Bahasa" class="question-label active" data-itext-id="/Parana/tanggal_sesi:label">Tanggal :</span>
@@ -47,6 +52,11 @@
             </div>
         </fieldset>
     </fieldset>
+    <label class="question non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Parana/jumlah_peserta:label">Jumlah Peserta :</span>
+        <span lang="en" class="question-label " data-itext-id="/Parana/jumlah_peserta:label">-</span>
+        <input type="number" name="/Parana/jumlah_peserta" data-type-xml="int"/>
+    </label> \n
     <fieldset id="or-preload-items" style="display:none;">
         <label class="calculation non-select ">
             <input type="hidden" name="/Parana/start" data-preload="timestamp" data-preload-params="start" data-type-xml="dateTime"/>
@@ -69,19 +79,7 @@
             <input type="hidden" name="/Parana/existing_location" data-calculate=" /Parana/Village " data-type-xml="string"/>
         </label>
         <label class="calculation non-select ">
-            <input type="hidden" name="/Parana/provinsi" data-calculate=" /Parana/Province " data-type-xml="string"/>
-        </label>
-        <label class="calculation non-select ">
-            <input type="hidden" name="/Parana/kabupaten" data-calculate=" /Parana/District " data-type-xml="string"/>
-        </label>
-        <label class="calculation non-select ">
             <input type="hidden" name="/Parana/desa" data-calculate=" /Parana/Village " data-type-xml="string"/>
-        </label>
-        <label class="calculation non-select ">
-            <input type="hidden" name="/Parana/dusun" data-calculate=" /Parana/Sub-village " data-type-xml="string"/>
-        </label>
-        <label class="calculation non-select ">
-            <input type="hidden" name="/Parana/kecamatan" data-calculate=" /Parana/Sub-district " data-type-xml="string"/>
         </label>
         <label class="calculation non-select ">
             <input type="hidden" name="/Parana/meta/instanceID" data-calculate="concat('uuid:', uuid())" data-type-xml="string"/>

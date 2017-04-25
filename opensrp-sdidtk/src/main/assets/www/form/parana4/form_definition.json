@@ -1,5 +1,5 @@
 {
-  "form_data_definition_version": "1",
+  "form_data_definition_version": "2",
   "form": {
     "bind_type": "kartu_ibu",
     "ec_bind_type": "ec_kartu_ibu",
@@ -30,6 +30,14 @@
       {
         "name": "tanggal_sesi4",
         "bind": "/model/instance/Parana/tanggal_sesi"
+      },
+      {
+        "name": "lokasi4",
+        "bind": "/model/instance/Parana/lokasi"
+      },
+      {
+        "name": "jumlahPeserta4",
+        "bind": "/model/instance/Parana/jumlah_peserta"
       },
       {
         "name": "paranaStatus4",

@@ -28,6 +28,14 @@
         "shouldLoadValue": true
       },
       {
+        "name": "lokasi1",
+        "bind": "/model/instance/Parana/lokasi"
+      },
+      {
+        "name": "jumlahPeserta1",
+        "bind": "/model/instance/Parana/jumlah_peserta"
+      },
+      {
         "name": "tanggal_sesi1",
         "bind": "/model/instance/Parana/tanggal_sesi"
       },

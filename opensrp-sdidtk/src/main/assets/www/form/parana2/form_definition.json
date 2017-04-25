@@ -3,7 +3,7 @@
   "form": {
     "bind_type": "kartu_ibu",
     "ec_bind_type": "ec_kartu_ibu",
-    "default_bind_path": "/model/instance/parana2/",
+    "default_bind_path": "/model/instance/Parana/",
     "fields": [
       {
         "name": "id",
@@ -11,37 +11,45 @@
       },
       {
         "name": "start",
-        "bind": "/model/instance/parana2/start"
+        "bind": "/model/instance/Parana/start"
       },
       {
         "name": "end",
-        "bind": "/model/instance/parana2/end"
+        "bind": "/model/instance/Parana/end"
       },
       {
         "name": "cityVillage",
-        "bind": "/model/instance/parana2/Village",
+        "bind": "/model/instance/Parana/Village",
         "shouldLoadValue": true
       },
       {
         "name": "existing_location",
-        "bind": "/model/instance/parana2/existing_location",
+        "bind": "/model/instance/Parana/existing_location",
         "shouldLoadValue": true
       },
       {
+        "name": "lokasi2",
+        "bind": "/model/instance/Parana/lokasi"
+      },
+      {
+        "name": "jumlahPeserta2",
+        "bind": "/model/instance/Parana/jumlah_peserta"
+      },
+      {
         "name": "tanggal_sesi2",
-        "bind": "/model/instance/parana2/tanggal_sesi"
+        "bind": "/model/instance/Parana/tanggal_sesi"
       },
       {
         "name": "paranaStatus2",
-        "bind": "/model/instance/parana2/parana_status"
+        "bind": "/model/instance/Parana/parana_status"
       },
       {
         "name": "today",
-        "bind": "/model/instance/parana2/today"
+        "bind": "/model/instance/Parana/today"
       },
       {
         "name": "registrationDate",
-        "bind": "/model/instance/parana2/reg_date"
+        "bind": "/model/instance/Parana/reg_date"
       }
     ]
   }
