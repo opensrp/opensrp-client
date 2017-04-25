@@ -141,7 +141,7 @@ public class KIParanaClientsProvider implements SmartRegisterCLientsProviderForC
         viewHolder.village_name.setText(pc.getDetails().get("address1")!=null?pc.getDetails().get("address1"):"");
         viewHolder.wife_age.setText(pc.getDetails().get("umur")!=null?pc.getDetails().get("umur"):"");
 
-        viewHolder.mmn_date.setText(pc.getDetails().get("date_invitation")!=null?pc.getDetails().get("date_invitation"):"");
+        viewHolder.mmn_date.setText(pc.getDetails().get("anc_date")!=null?pc.getDetails().get("anc_date"):"");
         viewHolder.txt_total.setText(pc.getDetails().get("jumlahMmn")!=null?pc.getDetails().get("jumlahMmn"):"");
 
         viewHolder.tgl1.setText("");

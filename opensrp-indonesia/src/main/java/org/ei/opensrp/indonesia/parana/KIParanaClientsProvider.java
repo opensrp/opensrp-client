@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
@@ -21,14 +22,20 @@ import org.ei.opensrp.cursoradapter.SmartRegisterCLientsProviderForCursorAdapter
 import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.service.AlertService;
+import org.ei.opensrp.util.Log;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.contract.SmartRegisterClients;
 import org.ei.opensrp.view.dialog.FilterOption;
 import org.ei.opensrp.view.dialog.ServiceModeOption;
 import org.ei.opensrp.view.dialog.SortOption;
 import org.ei.opensrp.view.viewHolder.OnClickFormLauncher;
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static org.joda.time.LocalDateTime.parse;
 
 /**
  * Created by Dimas Ciputra on 3/4/15.
@@ -71,6 +78,10 @@ public class KIParanaClientsProvider implements SmartRegisterCLientsProviderForC
             viewHolder.husband_name = (TextView) convertView.findViewById(R.id.txt_husband_name);
             viewHolder.village_name = (TextView) convertView.findViewById(R.id.txt_village_name);
             viewHolder.wife_age = (TextView) convertView.findViewById(R.id.wife_age);
+
+
+            viewHolder.mmn_date = (TextView) convertView.findViewById(R.id.lbl_tgl);
+            viewHolder.txt_total = (TextView) convertView.findViewById(R.id.txt_total);
 
             viewHolder.hr_badge = (ImageView) convertView.findViewById(R.id.img_hr_badge);
          //   viewHolder.img_hrl_badge = (ImageView) convertView.findViewById(R.id.img_hrl_badge);
@@ -121,6 +132,15 @@ public class KIParanaClientsProvider implements SmartRegisterCLientsProviderForC
         viewHolder.village_name.setText(pc.getDetails().get("address1")!=null?pc.getDetails().get("address1"):"");
         viewHolder.wife_age.setText(pc.getDetails().get("umur")!=null?pc.getDetails().get("umur"):"");
 
+
+        viewHolder.parana1.setBackgroundColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+        viewHolder.parana2.setBackgroundColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+        viewHolder.parana3.setBackgroundColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+        viewHolder.parana4.setBackgroundColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+
+        viewHolder.mmn_date.setText(pc.getDetails().get("anc_date")!=null?pc.getDetails().get("anc_date"):"");
+        viewHolder.txt_total.setText(pc.getDetails().get("jumlahMmn")!=null?pc.getDetails().get("jumlahMmn"):"");
+
         viewHolder.tgl1.setText("");
         viewHolder.tgl2.setText("");
         viewHolder.tgl3.setText("");
@@ -134,7 +154,67 @@ public class KIParanaClientsProvider implements SmartRegisterCLientsProviderForC
         Status_parana(pc.getDetails().get("paranaStatus2"),pc.getDetails().get("tanggal_sesi2"),viewHolder.tgl2,viewHolder.sesi2);
         Status_parana(pc.getDetails().get("paranaStatus3"),pc.getDetails().get("tanggal_sesi3"),viewHolder.tgl3,viewHolder.sesi3);
         Status_parana(pc.getDetails().get("paranaStatus4"),pc.getDetails().get("tanggal_sesi4"),viewHolder.tgl4,viewHolder.sesi4);
+        String invitation = pc.getDetails().get("date_invitation")!=null?pc.getDetails().get("date_invitation"):"";
 
+        if(StringUtils.isNotBlank(pc.getDetails().get("date_invitation"))) {
+            String _invitation = invitation;
+            String _due_invitation = "";
+            DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+            LocalDate date = parse(_invitation, formatter).toLocalDate();
+            LocalDate dateNow = LocalDate.now();
+            Log.logInfo("Today"+dateNow);
+            Log.logInfo("date"+date);
+            date = date.withDayOfMonth(1);
+            dateNow = dateNow.withDayOfMonth(1);
+            int days = Days.daysBetween(date,dateNow).getDays();
+            Log.logInfo(""+days);
+            //int months = Months.monthsBetween(dateNow, date).ge();
+            if(days < 14) {
+                if(pc.getDetails().get("paranaStatus1") == null){
+                    viewHolder.parana1.setBackgroundColor(context.getResources().getColor(R.color.alert_urgent_red));
+                }
+                //setTextColor(context.getResources().getColor(R.color.alert_in_progress_blue));
+            }
+/*            if(days >=7 && days < 14) {
+                if(pc.getDetails().get("paranaStatus1") == null){
+                    viewHolder.parana1.setBackgroundColor(context.getResources().getColor(R.color.alert_in_progress_blue));
+                }
+                        //setTextColor(context.getResources().getColor(R.color.alert_in_progress_blue));
+            }*/ else if(days >=14 && days < 21){
+                if(pc.getDetails().get("paranaStatus1") == null){
+                    viewHolder.parana1.setBackgroundColor(context.getResources().getColor(R.color.alert_urgent_red));
+                }
+                else if(pc.getDetails().get("paranaStatus2") == null){
+                    viewHolder.parana2.setBackgroundColor(context.getResources().getColor(R.color.alert_in_progress_blue));
+                }
+            }
+            else if(days >=21 && days < 28){
+                if(pc.getDetails().get("paranaStatus2") == null) {
+                    viewHolder.parana2.setBackgroundColor(context.getResources().getColor(R.color.alert_urgent_red));
+                }
+                else if(pc.getDetails().get("paranaStatus3") == null) {
+                    viewHolder.parana3.setBackgroundColor(context.getResources().getColor(R.color.alert_in_progress_blue));
+                }
+
+            }
+            else if(days >=28 && days < 35){
+                if(pc.getDetails().get("paranaStatus3") == null) {
+                    viewHolder.parana3.setBackgroundColor(context.getResources().getColor(R.color.alert_urgent_red));
+                }
+                else if(pc.getDetails().get("paranaStatus4") == null) {
+                    viewHolder.parana4.setBackgroundColor(context.getResources().getColor(R.color.alert_in_progress_blue));
+                }
+            }
+            else if(days >=35){
+                if(pc.getDetails().get("paranaStatus4") == null) {
+                    viewHolder.parana4.setBackgroundColor(context.getResources().getColor(R.color.alert_urgent_red));
+                }
+            }
+
+        }
+        else{
+//            viewHolder.edd_due.setText("-");
+        }
         convertView.setLayoutParams(clientViewLayoutParams);
         //   return convertView;
     }
@@ -230,7 +310,15 @@ public class KIParanaClientsProvider implements SmartRegisterCLientsProviderForC
         ImageView sesi2;
         ImageView sesi3;
         ImageView sesi4;
+        public TextView mmn_date;
+        public TextView txt_total;
+        public LinearLayout parana1;
 
+        public LinearLayout parana2;
+
+        public LinearLayout parana3;
+
+        public LinearLayout parana4;
     }
 
 

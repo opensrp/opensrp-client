@@ -142,6 +142,7 @@ public class NativeKIParanaSmartRegisterActivity extends SecuredNativeSmartRegis
 
     public DialogOption[] getEditOptions() {
         return new DialogOption[]{
+                new OpenFormOption("PARANA  INVITASI", "parana_invitation", formController),
                 new OpenFormOption("Sesi 1 ", "parana1", formController),
                 new OpenFormOption("Sesi 2 ", "parana2", formController),
                 new OpenFormOption("Sesi 3 ", "parana3", formController),
@@ -260,6 +261,7 @@ public class NativeKIParanaSmartRegisterActivity extends SecuredNativeSmartRegis
         formNames.add("parana3");
         formNames.add("parana4");
 
+        formNames.add("parana_invitation");
 
 
        // DialogOption[] options = getEditOptions();
