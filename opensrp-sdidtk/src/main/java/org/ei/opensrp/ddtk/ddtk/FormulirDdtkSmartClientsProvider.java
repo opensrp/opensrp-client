@@ -32,6 +32,7 @@ import org.ei.opensrp.view.viewHolder.OnClickFormLauncher;
 
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
@@ -102,6 +103,12 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterCLientsPro
 
             viewHolder.autis = (TextView)convertView.findViewById(R.id.text_autis);
             viewHolder.autis_test_date = (TextView)convertView.findViewById(R.id.text_autis_test_date);
+
+
+            viewHolder.riskFlag[0] = (ImageView)convertView.findViewById(R.id.riskFlag01);
+            viewHolder.riskFlag[1] = (ImageView)convertView.findViewById(R.id.riskFlag02);
+            viewHolder.riskFlag[2] = (ImageView)convertView.findViewById(R.id.riskFlag03);
+
 
         /*    viewHolder.status_kembang2 = (TextView)convertView.findViewById(R.id.text_status_kembang);
             viewHolder.kpsp_test_date2 = (TextView)convertView.findViewById(R.id.text_kpsp_test_date);
@@ -216,6 +223,43 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterCLientsPro
         viewHolder.autis_test_date.setText("Tgl: "+ (pc.getDetails().get("autis_test_date")!=null?pc.getDetails().get("autis_test_date").replaceAll("_", " "):"-"));
         viewHolder.autis.setText("Test Autist: "+ (pc.getDetails().get("autis")!=null ? pc.getDetails().get("autis").replaceAll("_", " "):"-"));
 
+        int baselinecount = 0;
+        for (int i = 1 ; i <=45 ; i++){
+            String home = "home"+i+"_it";
+            if(pc.getDetails().get(home) !=null) {
+                if (pc.getDetails().get(home).equalsIgnoreCase("Yes")) {
+                    baselinecount = baselinecount + 1;
+                } else {
+
+                }
+            }
+
+        }
+
+        int _endlinecount = 0;
+        for (int i = 1 ; i <=45 ; i++){
+            String home = "home"+i+"_it";
+            if(pc.getDetails().get(home) !=null) {
+                if (pc.getDetails().get(home).equalsIgnoreCase("Yes")) {
+                    _endlinecount = baselinecount + 1;
+                } else {
+
+                }
+            }
+
+        }
+
+        int counter=0;
+        if(isLowHomeScore(baselinecount,_endlinecount)){
+            viewHolder.riskFlag[counter].setImageResource(R.drawable.risk_h);
+            counter++;
+        }
+        if(pc.getDetails().get("bgm") != null && pc.getDetails().get("garis_kuning") != null){
+            if(isMalnourished(pc.getDetails().get("bgm").toLowerCase().contains("y"),pc.getDetails().get("garis_kuning").toLowerCase().contains("y"))){
+                viewHolder.riskFlag[counter].setImageResource(R.drawable.risk_m);
+            }
+        }
+
 
 /*
         viewHolder.kpsp_test_date2.setText(pc.getDetails().get("kpsp_test_date2")!=null?pc.getDetails().get("kpsp_test_date2").replaceAll("_", " "):"-");
@@ -290,6 +334,73 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterCLientsPro
                 (Integer.parseInt(currentDate[1]) - Integer.parseInt(lastVisitDate.substring(5,7))));
     }
 
+
+    // ---------------------------- RISK FLAG HANDLER -------------------------------------------
+
+    // ------------------------ RISK FLAG CLASSIFICATION ----------------------------------------
+
+    private boolean isPrimigravida(String gravida){
+        return Integer.parseInt(gravida)==1;
+    }
+
+    private boolean isLowEducated(String education){
+        return !education.toLowerCase().contains("tinggi");
+    }
+
+    private boolean isTooManyChildren(String children){
+        return Integer.parseInt(children)>3;
+    }
+
+    private boolean isTooYoungMother(String birthDate){
+        return age(birthDate)<20;
+    }
+
+    private boolean isTooYoungMother(int age){
+        return age<20;
+    }
+
+    private boolean isMalnourished(boolean bgm, boolean yellow){
+        return bgm || yellow;
+    }
+
+    private boolean isLowHomeScore(CommonPersonObjectClient pc){
+        int baselineCount_it = 0, baselineCount_ec = 0;
+        for(int i=1;i<=45;i++){
+            if(pc.getDetails().get("home"+i+"_it") != null){
+                if(pc.getDetails().get("home"+i+"_it").toLowerCase().contains("yes"))
+                    baselineCount_it++;
+            }
+            if(pc.getDetails().get("home"+i+"_ec") != null) {
+                if (pc.getDetails().get("home" + i + "_ec").toLowerCase().contains("yes"))
+                    baselineCount_ec++;
+            }
+        }
+
+        return isLowHomeScore(baselineCount_it,baselineCount_ec);
+
+    }
+
+    private boolean isLowHomeScore(int baselineCount_it, int baselineCount_ec){
+        return ((baselineCount_it>0 && baselineCount_it<22) || (baselineCount_ec>0 && baselineCount_ec<34));
+    }
+
+    private int age(String date){
+        if(date.toLowerCase().contains("t"))
+            date = date.substring(0,10);
+
+        String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        return  (Integer.parseInt(today.substring(0,4)) - Integer.parseInt(date.substring(0,4))) -
+                (Integer.parseInt(today.substring(5,7)) - Integer.parseInt(date.substring(5,7))<0 ? 1 : 0);
+    }
+
+    // ------------------------------- HIGH RISK FLAG MANAGER -------------------------------------
+
+    private void flagColor(){
+
+    }
+
+
+
     class ViewHolder {
 
         TextView today ;
@@ -333,6 +444,8 @@ public class FormulirDdtkSmartClientsProvider implements SmartRegisterCLientsPro
         TextView gpph_test_date;
         TextView village_name;
         TextView tgl_kpsp;
+        ImageView riskFlag[] = new ImageView[3];
+
         public TextView text_daya_lihat;
     }
 

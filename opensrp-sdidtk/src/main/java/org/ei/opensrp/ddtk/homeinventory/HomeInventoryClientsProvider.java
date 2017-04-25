@@ -28,6 +28,7 @@ import org.ei.opensrp.view.dialog.SortOption;
 import org.ei.opensrp.view.viewHolder.OnClickFormLauncher;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
@@ -88,6 +89,11 @@ public class HomeInventoryClientsProvider implements SmartRegisterCLientsProvide
 
             viewHolder.profilepic =(ImageView)convertView.findViewById(R.id.img_profile);
             viewHolder.follow_up = (ImageButton)convertView.findViewById(R.id.btn_edit);
+
+            viewHolder.riskFlag[0] = (ImageView)convertView.findViewById(R.id.riskFlagHome01);
+            viewHolder.riskFlag[1] = (ImageView)convertView.findViewById(R.id.riskFlagHome02);
+            viewHolder.riskFlag[2] = (ImageView)convertView.findViewById(R.id.riskFlagHome03);
+
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -221,6 +227,16 @@ public class HomeInventoryClientsProvider implements SmartRegisterCLientsProvide
         viewHolder.end_age.setText("Umur : "+umurs_endline);
         viewHolder.end_skors.setText("Skor : "+_endlinecount);
 
+        int counter=0;
+        if(isLowHomeScore(baselinecount,_endlinecount)){
+            viewHolder.riskFlag[counter].setImageResource(R.drawable.risk_h);
+            counter++;
+        }
+        if(pc.getDetails().get("bgm") != null && pc.getDetails().get("garis_kuning") != null){
+            if(isMalnourished(pc.getDetails().get("bgm").toLowerCase().contains("y"),pc.getDetails().get("garis_kuning").toLowerCase().contains("y"))){
+                viewHolder.riskFlag[counter].setImageResource(R.drawable.risk_m);
+            }
+        }
 
       /*  String home1_it = pc.getDetails().get("home1_it") != null ? pc.getDetails().get("home1_it") : "";
         String home2_it =  pc.getDetails().get("home1_it") != null ? pc.getDetails().get("home1_it") : "";
@@ -309,6 +325,70 @@ public class HomeInventoryClientsProvider implements SmartRegisterCLientsProvide
                 (Integer.parseInt(currentDate[1]) - Integer.parseInt(lastVisitDate.substring(5,7))));
     }
 
+    // ---------------------------- RISK FLAG HANDLER -------------------------------------------
+
+    // ------------------------ RISK FLAG CLASSIFICATION ----------------------------------------
+
+    private boolean isPrimigravida(String gravida){
+        return Integer.parseInt(gravida)==1;
+    }
+
+    private boolean isLowEducated(String education){
+        return !education.toLowerCase().contains("tinggi");
+    }
+
+    private boolean isTooManyChildren(String children){
+        return Integer.parseInt(children)>3;
+    }
+
+    private boolean isTooYoungMother(String birthDate){
+        return age(birthDate)<20;
+    }
+
+    private boolean isMalnourished(boolean bgm, boolean yellow){
+        return bgm || yellow;
+    }
+
+    private boolean isLowHomeScore(CommonPersonObjectClient pc){
+        int baselineCount_it = 0, baselineCount_ec = 0;
+        for(int i=1;i<=45;i++){
+            if(pc.getDetails().get("home"+i+"_it") != null){
+                if(pc.getDetails().get("home"+i+"_it").toLowerCase().contains("yes"))
+                    baselineCount_it++;
+            }
+            if(pc.getDetails().get("home"+i+"_ec") != null) {
+                if (pc.getDetails().get("home" + i + "_ec").toLowerCase().contains("yes"))
+                    baselineCount_ec++;
+            }
+        }
+
+        return isLowHomeScore(baselineCount_it,baselineCount_ec);
+
+    }
+
+    private boolean isLowHomeScore(int baselineCount_it, int baselineCount_ec){
+        return ((baselineCount_it>0 && baselineCount_it<22) || (baselineCount_ec>0 && baselineCount_ec<34));
+    }
+
+    private int age(String date){
+        if(date.toLowerCase().contains("t"))
+            date = date.substring(0,10);
+
+        String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        return  (Integer.parseInt(today.substring(0,4)) - Integer.parseInt(date.substring(0,4))) -
+                (Integer.parseInt(today.substring(5,7)) - Integer.parseInt(date.substring(5,7))<0 ? 1 : 0);
+    }
+
+    // ------------------------------- HIGH RISK FLAG MANAGER -------------------------------------
+
+    private void flagColor(int risk, ImageView img){
+        if(risk>2)
+            img.setImageResource(R.drawable.risk_p_red);
+        else
+            img.setImageResource(R.drawable.risk_p_yellow);
+    }
+
+
     class ViewHolder {
 
         TextView today ;
@@ -340,6 +420,9 @@ public class HomeInventoryClientsProvider implements SmartRegisterCLientsProvide
         public TextView txt_parana_date;
         public TextView txt_parana_sesi;
         public TextView txt_parana_status;
+
+        public ImageView riskFlag[] = new ImageView[3];
+
     }
 
 

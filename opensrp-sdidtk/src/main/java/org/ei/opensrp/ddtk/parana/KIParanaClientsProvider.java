@@ -2,6 +2,7 @@ package org.ei.opensrp.ddtk.parana;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,9 @@ import org.joda.time.Months;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.util.Date;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
@@ -110,6 +114,13 @@ public class KIParanaClientsProvider implements SmartRegisterCLientsProviderForC
 
             viewHolder.profilepic = (ImageView) convertView.findViewById(R.id.img_profile);
             viewHolder.follow_up = (ImageButton) convertView.findViewById(R.id.btn_edit);
+
+            viewHolder.img_p_red_badge = (ImageView) convertView.findViewById(R.id.img_p_red_badge);
+            viewHolder.img_p_yellow_badge = (ImageView) convertView.findViewById(R.id.img_p_yellow_badge);
+
+            viewHolder.img_p_red_badge.setVisibility(View.INVISIBLE);
+            viewHolder.img_p_yellow_badge.setVisibility(View.INVISIBLE);
+
             convertView.setTag(viewHolder);
 
         } else {
@@ -224,7 +235,53 @@ public class KIParanaClientsProvider implements SmartRegisterCLientsProviderForC
         Status_parana(pc.getDetails().get("paranaStatus3"),pc.getDetails().get("tanggal_sesi3"),viewHolder.tgl3,viewHolder.sesi3);
         Status_parana(pc.getDetails().get("paranaStatus4"),pc.getDetails().get("tanggal_sesi4"),viewHolder.tgl4,viewHolder.sesi4);
 
+
+
         convertView.setLayoutParams(clientViewLayoutParams);
+        int baselineCount = 0;
+        for (int i = 1 ; i <=45 ; i++){
+            String home_endline = "home"+i+"_it";
+            if(pc.getDetails().get(home_endline) !=null) {
+                if (pc.getDetails().get(home_endline).equalsIgnoreCase("Yes")) {
+                    baselineCount = baselineCount + 1;
+                } else {
+
+                }
+            }
+
+        }
+
+        int _endlinecount = 0;
+        for (int i = 1 ; i <=45 ; i++){
+            String home_endline = "home"+i+"_ec";
+            if(pc.getDetails().get(home_endline) !=null) {
+                if (pc.getDetails().get(home_endline).equalsIgnoreCase("Yes")) {
+                    _endlinecount = _endlinecount + 1;
+                } else {
+
+                }
+            }
+
+        }
+        int counter = 0;
+        if(pc.getDetails().get("umur") != null ? isTooYoungMother(pc.getDetails().get("umur")) : false){
+            counter++;
+        }
+        if(pc.getDetails().get("hidup") != null ? isTooManyChildren(pc.getDetails().get("hidup")) : false){
+            counter++;
+        }
+        if(pc.getDetails().get("pendidikan") != null ? isLowEducated(pc.getDetails().get("pendidikan")) : false){
+            counter++;
+        }
+        if(pc.getDetails().get("gravida") != null ? isPrimigravida(pc.getDetails().get("gravida")) : false){
+            counter++;
+        }
+
+        if(counter>2)
+            viewHolder.img_p_red_badge.setVisibility(View.VISIBLE);
+        else if(counter>0)
+            viewHolder.img_p_yellow_badge.setVisibility(View.VISIBLE);
+
         //   return convertView;
     }
     // CommonPersonObjectController householdelcocontroller;
@@ -274,6 +331,72 @@ public class KIParanaClientsProvider implements SmartRegisterCLientsProviderForC
         return View;
     }
 
+    // ---------------------------- RISK FLAG HANDLER -------------------------------------------
+
+    // ------------------------ RISK FLAG CLASSIFICATION ----------------------------------------
+
+    private boolean isPrimigravida(String gravida){
+        return Integer.parseInt(gravida)==1;
+    }
+
+    private boolean isLowEducated(String education){
+        return !education.toLowerCase().contains("tinggi");
+    }
+
+    private boolean isTooManyChildren(String children){
+        return Integer.parseInt(children)>3;
+    }
+
+    private boolean isTooYoungMother(String birthDate){
+        return Integer.parseInt(birthDate)<20;
+    }
+
+    private boolean isTooYoungMother(int age){
+        return age<20;
+    }
+
+    private boolean isMalnourished(boolean bgm, boolean yellow){
+        return bgm || yellow;
+    }
+
+    private boolean isLowHomeScore(CommonPersonObjectClient pc){
+        int baselineCount_it = 0, baselineCount_ec = 0;
+        for(int i=1;i<=45;i++){
+            if(pc.getDetails().get("home"+i+"_it") != null){
+                if(pc.getDetails().get("home"+i+"_it").toLowerCase().contains("yes"))
+                    baselineCount_it++;
+            }
+            if(pc.getDetails().get("home"+i+"_ec") != null) {
+                if (pc.getDetails().get("home" + i + "_ec").toLowerCase().contains("yes"))
+                    baselineCount_ec++;
+            }
+        }
+
+        return isLowHomeScore(baselineCount_it,baselineCount_ec);
+
+    }
+
+    private boolean isLowHomeScore(int baselineCount_it, int baselineCount_ec){
+        return (baselineCount_it<22 || baselineCount_ec<34);
+    }
+
+    private int age(String date){
+        if(date.toLowerCase().contains("t"))
+            date = date.substring(0,10);
+
+        String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        return  (Integer.parseInt(today.substring(0,4)) - Integer.parseInt(date.substring(0,4))) -
+                (Integer.parseInt(today.substring(5,7)) - Integer.parseInt(date.substring(5,7))<0 ? 1 : 0);
+    }
+
+    // ------------------------------- HIGH RISK FLAG MANAGER -------------------------------------
+
+    private void flagColor(){
+
+    }
+
+
+
     class ViewHolder {
 
         TextView wife_name ;
@@ -309,6 +432,9 @@ public class KIParanaClientsProvider implements SmartRegisterCLientsProviderForC
         ImageView bpl_badge;
         ImageView hrp_badge;
         ImageView img_hrl_badge;
+        ImageView img_p_yellow_badge;
+        ImageView img_p_red_badge;
+
         TextView edd_due;
         TextView tgl1;
         TextView tgl2;

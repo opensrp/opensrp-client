@@ -11,13 +11,64 @@
         android:layout_height="150dp"
         android:weightSum="1">
 
-        <ImageView
-            android:layout_width="103dp"
-            android:layout_height="100dp"
-            android:id="@+id/motherdetailprofileview"
-            android:src="@drawable/woman_placeholder"
-            android:layout_margin="10dp"
-            android:scaleType="fitXY" />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="103dp"
+                android:layout_height="100dp"
+                android:id="@+id/motherdetailprofileview"
+                android:src="@drawable/woman_placeholder"
+                android:layout_margin="10dp"
+                android:scaleType="fitXY" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="42dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="left|center_vertical"
+                android:gravity="top"
+                android:weightSum="1">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/riskFlagBidan01"
+                        android:layout_gravity="center|left"
+                        android:src="@drawable/abc_list_divider_mtrl_alpha" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/riskFlagBidan02"
+                        android:layout_gravity="center|left"
+                        android:src="@drawable/abc_list_divider_mtrl_alpha" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/riskFlagBidan03"
+                        android:layout_gravity="center|left"
+                        android:src="@drawable/abc_list_divider_mtrl_alpha" />
+                </FrameLayout>
+            </LinearLayout>
+
+        </FrameLayout>
 
         <LinearLayout
             android:orientation="vertical"

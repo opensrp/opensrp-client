@@ -28,6 +28,9 @@ import org.ei.opensrp.view.dialog.ServiceModeOption;
 import org.ei.opensrp.view.dialog.SortOption;
 import org.ei.opensrp.view.viewHolder.OnClickFormLauncher;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 /**
@@ -77,6 +80,8 @@ public class KIParanaClientsProvider implements SmartRegisterCLientsProviderForC
             viewHolder.bpl_badge = (ImageView) convertView.findViewById(R.id.img_bpl_badge);
           //  viewHolder.hrp_badge = (ImageView) convertView.findViewById(R.id.img_hrp_badge);
           //  viewHolder.hrpp_badge = (ImageView) convertView.findViewById(R.id.img_hrpp_badge);
+
+            viewHolder.riskFlag = (ImageView) convertView.findViewById(R.id.riskFlagBidan01);
 
             viewHolder.tgl1 = (TextView) convertView.findViewById(R.id.txt_tgl1);
             viewHolder.tgl2 = (TextView) convertView.findViewById(R.id.txt_tgl2);
@@ -135,10 +140,31 @@ public class KIParanaClientsProvider implements SmartRegisterCLientsProviderForC
         Status_parana(pc.getDetails().get("paranaStatus3"),pc.getDetails().get("tanggal_sesi3"),viewHolder.tgl3,viewHolder.sesi3);
         Status_parana(pc.getDetails().get("paranaStatus4"),pc.getDetails().get("tanggal_sesi4"),viewHolder.tgl4,viewHolder.sesi4);
 
+        int counter = 0;
+        if(pc.getDetails().get("umur") != null ? isTooYoungMother(pc.getDetails().get("umur")) : false){
+            counter++;
+        }
+        if(pc.getDetails().get("hidup") != null ? isTooManyChildren(pc.getDetails().get("hidup")) : false){
+            counter++;
+        }
+        if(pc.getDetails().get("pendidikan") != null ? isLowEducated(pc.getDetails().get("pendidikan")) : false){
+            counter++;
+        }
+        if(pc.getDetails().get("gravida") != null ? isPrimigravida(pc.getDetails().get("gravida")) : false){
+            counter++;
+        }
+
+        if(counter>2)
+            viewHolder.riskFlag.setImageResource(R.drawable.risk_p_red);
+        else if(counter>0)
+            viewHolder.riskFlag.setImageResource(R.drawable.risk_p_yellow);
+
+
         convertView.setLayoutParams(clientViewLayoutParams);
         //   return convertView;
     }
     // CommonPersonObjectController householdelcocontroller;
+
 
 
     //    @Override
@@ -185,6 +211,71 @@ public class KIParanaClientsProvider implements SmartRegisterCLientsProviderForC
         return View;
     }
 
+    // ---------------------------- RISK FLAG HANDLER -------------------------------------------
+
+    // ------------------------ RISK FLAG CLASSIFICATION ----------------------------------------
+
+    private boolean isPrimigravida(String gravida){
+        return Integer.parseInt(gravida)==1;
+    }
+
+    private boolean isLowEducated(String education){
+        return !education.toLowerCase().contains("tinggi");
+    }
+
+    private boolean isTooManyChildren(String children){
+        return Integer.parseInt(children)>3;
+    }
+
+    private boolean isTooYoungMother(String birthDate){
+        return Integer.parseInt(birthDate)<20;
+    }
+
+    private boolean isTooYoungMother(int age){
+        return age<20;
+    }
+
+    private boolean isMalnourished(boolean bgm, boolean yellow){
+        return bgm || yellow;
+    }
+
+    private boolean isLowHomeScore(CommonPersonObjectClient pc){
+        int baselineCount_it = 0, baselineCount_ec = 0;
+        for(int i=1;i<=45;i++){
+            if(pc.getDetails().get("home"+i+"_it") != null){
+                if(pc.getDetails().get("home"+i+"_it").toLowerCase().contains("yes"))
+                    baselineCount_it++;
+            }
+            if(pc.getDetails().get("home"+i+"_ec") != null) {
+                if (pc.getDetails().get("home" + i + "_ec").toLowerCase().contains("yes"))
+                    baselineCount_ec++;
+            }
+        }
+
+        return isLowHomeScore(baselineCount_it,baselineCount_ec);
+
+    }
+
+    private boolean isLowHomeScore(int baselineCount_it, int baselineCount_ec){
+        return (baselineCount_it<22 || baselineCount_ec<34);
+    }
+
+    private int age(String date){
+        if(date.toLowerCase().contains("t"))
+            date = date.substring(0,10);
+
+        String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        return  (Integer.parseInt(today.substring(0,4)) - Integer.parseInt(date.substring(0,4))) -
+                (Integer.parseInt(today.substring(5,7)) - Integer.parseInt(date.substring(5,7))<0 ? 1 : 0);
+    }
+
+    // ------------------------------- HIGH RISK FLAG MANAGER -------------------------------------
+
+    private void flagColor(){
+
+    }
+
+
     class ViewHolder {
 
         TextView wife_name ;
@@ -225,6 +316,8 @@ public class KIParanaClientsProvider implements SmartRegisterCLientsProviderForC
         TextView tgl2;
         TextView tgl3;
         TextView tgl4;
+
+        ImageView riskFlag;
 
         ImageView sesi1;
         ImageView sesi2;
