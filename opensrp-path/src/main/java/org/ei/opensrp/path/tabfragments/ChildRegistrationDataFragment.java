@@ -158,7 +158,7 @@ public class ChildRegistrationDataFragment extends Fragment {
             layout.addView(wd.createTableRow(inflater, container, "Place of birth", placeofnearth_Choice));
             layout.addView(wd.createTableRow(inflater, container, "Health facility the child was born in", JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "Birth_Facility_Name", false)))));
             layout.addView(wd.createTableRow(inflater, container, "Child's residential area", JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "address3", true)))));
-            layout.addView(wd.createTableRow(inflater, container, "Other residential area", Utils.getValue(detailsMap, "Residential_Area_Other", true)));
+            layout.addView(wd.createTableRow(inflater, container, "Other residential area", Utils.getValue(detailsMap, "address5", true)));
             layout.addView(wd.createTableRow(inflater, container, "Home address", Utils.getValue(detailsMap, "address2", true)));
 
             layout.addView(wd.createTableRow(inflater, container, "Landmark", Utils.getValue(detailsMap, "address1", true)));

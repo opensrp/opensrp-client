@@ -1486,7 +1486,7 @@ public class JsonFormUtils {
     public static String getOpenMrsReadableName(String name) {
         String readableName = new String(name);
 
-        Pattern prefixPattern = Pattern.compile("[a-z]{2} (.*)");
+        Pattern prefixPattern = Pattern.compile("^[a-z]{2} (.*)$");
         Matcher prefixMatcher = prefixPattern.matcher(readableName);
         if (prefixMatcher.find()) {
             readableName = prefixMatcher.group(1);
