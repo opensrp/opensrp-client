@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Bidan OpenSRP</string>
+    <string name="app_name">EC Bidan OpenSRP +</string>
     <string name="userNameEditText">Enter user name</string>
     <string name="passwordEditText">Enter password</string>
     <string name="login_text">Log In</string>
@@ -590,4 +590,12 @@
     <string name="action_settings">Settings</string>
     <string name="cell_phone">No. HP :</string>
 
+    <string name="MMN">MMN</string>
+    <string name="sesi1">Sesi 1</string>
+    <string name="sesi2">Sesi 2</string>
+    <string name="sesi3">Sesi 3</string>
+    <string name="sesi4">Sesi 4</string>
+    <string name="parana_register_title_in_short">PARANA</string>
+
+    <string name="parana_header">Parana</string>
 </resources>

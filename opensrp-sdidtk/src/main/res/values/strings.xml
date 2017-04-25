@@ -421,9 +421,10 @@
     <string name="sesi3">Sesi 3</string>
     <string name="sesi4">Sesi 4</string>
     <string name="parana_register_title_in_short">PARANA</string>
+
+    <string name="parana_header">Parana</string>
     <string name="baseline">Home (Baseline)</string>
     <string name="endline">Home (Endline)</string>
-    <string name="parana_header">Parana</string>
     <string name="home_invent">Home Inventory</string>
     <string name="name">Name :</string>
     <string name="nik">NIK :</string>

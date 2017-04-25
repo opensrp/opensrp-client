@@ -1,6 +1,6 @@
 <model>
     <instance>
-        <kunjungan_anc_reviewed_anc_visit encounter_type="Kunjungan ANC" id="kunjungan_anc" version="201703060708">
+        <kunjungan_anc_split_anc_visit_gen encounter_type="Kunjungan ANC" id="kunjungan_anc_1" version="201704100219">
             <formhub>
                 <uuid/>
             </formhub>
@@ -54,15 +54,17 @@
             <generated_note_name_54/>
             <persentasi_janin openmrs_entity="concept" openmrs_entity_id="160090AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
             <jumlah_janin openmrs_entity="concept" openmrs_entity_id="159949AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-            <status_imunisasi_tt openmrs_entity="concept" openmrs_entity_id="163522AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
             <pelayanan_injeksi_tt openmrs_entity="concept" openmrs_entity_id="160701AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <status_imunisasi_tt openmrs_entity="concept" openmrs_entity_id="163522AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
             <pelayanan_catat_buku_kia openmrs_entity="concept" openmrs_entity_id="163148AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
             <pelayananfe openmrs_entity="concept" openmrs_entity_id="104677AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-            <jumlah_fe openmrs_entity="concept" openmrs_entity_id="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <jumlah_fe openmrs_entity="concept" openmrs_entity_id="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="104677AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <pemberianmmn openmrs_entity="concept" openmrs_entity_id="161004AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <jumlah_mmn openmrs_entity="concept" openmrs_entity_id="1443AAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="161004AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
             <fe1_fe3/>
+            <resiko_terdeksi_pertama_kali openmrs_entity="concept" openmrs_entity_id="163519AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
             <komplikasi_dalam_kehamilan openmrs_entity="concept" openmrs_entity_id="1576AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
             <komplikasi_lain openmrs_entity="concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="1576AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-            <resiko_terdeksi_pertama_kali openmrs_entity="concept" openmrs_entity_id="163519AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
             <treatment openmrs_entity="concept" openmrs_entity_id="1774AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
             <treatment_text openmrs_entity="concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="1774AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
             <rujukan openmrs_entity="concept" openmrs_entity_id="1788AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
@@ -80,6 +82,6 @@
             <meta>
                 <instanceID/>
             </meta>
-        </kunjungan_anc_reviewed_anc_visit>
+        </kunjungan_anc_split_anc_visit_gen>
     </instance>
 </model>

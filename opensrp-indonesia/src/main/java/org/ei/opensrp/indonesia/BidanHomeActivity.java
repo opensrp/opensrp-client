@@ -102,6 +102,8 @@ public class BidanHomeActivity extends SecuredActivity {
     private TextView kartuIbuPNCRegisterClientCountView;
     private TextView anakRegisterClientCountView;
     private TextView kohortKbCountView;
+
+    private TextView ParanaClientCount;
 //    public static CommonPersonObjectController kicontroller;
 //    public static CommonPersonObjectController anccontroller;
 //    public static CommonPersonObjectController kbcontroller;
@@ -144,6 +146,9 @@ public class BidanHomeActivity extends SecuredActivity {
         kartuIbuPNCRegisterClientCountView = (TextView) findViewById(R.id.txt_kartu_ibu_pnc_register_client_count);
         anakRegisterClientCountView = (TextView) findViewById(R.id.txt_anak_client_count);
         kohortKbCountView = (TextView) findViewById(R.id.txt_kohort_kb_register_count);
+        findViewById(R.id.btn_parana_register).setOnClickListener(onRegisterStartListener);
+
+        ParanaClientCount = (TextView) findViewById(R.id.txt_parana_client_count);
     }
 
     private void initialize() {
@@ -206,11 +211,18 @@ public class BidanHomeActivity extends SecuredActivity {
         int childcount = childcountcursor.getInt(0);
         childcountcursor.close();
 
+        Cursor kiparana = context().commonrepository("ec_kartu_ibu").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("ec_kartu_ibu_search", "ec_kartu_ibu_search.is_closed=0"));
+        kiparana.moveToFirst();
+        int paranacount= kiparana.getInt(0);
+        kiparana.close();
+
         ecRegisterClientCountView.setText(valueOf(kicount));
         kartuIbuANCRegisterClientCountView.setText(valueOf(anccount));
         kartuIbuPNCRegisterClientCountView.setText(valueOf(pnccount));
         anakRegisterClientCountView.setText(valueOf(childcount));
         kohortKbCountView.setText(valueOf(kbcount));
+
+        ParanaClientCount.setText(valueOf(paranacount));
     }
 
     @Override
@@ -325,6 +337,9 @@ public class BidanHomeActivity extends SecuredActivity {
                case R.id.btn_kartu_ibu_pnc_register:
                    navigationController.startPNCSmartRegistry();
                    break;
+                case R.id.btn_parana_register:
+                    navigationController.startVideos();
+                    break;
             }
             String HomeEnd = timer.format(new Date());
             Map<String, String> Home = new HashMap<String, String>();

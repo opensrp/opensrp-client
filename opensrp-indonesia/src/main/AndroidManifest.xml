@@ -78,7 +78,16 @@
             android:name=".child.AnakDetailActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppThemeNoTitle"/>
-
+        <activity android:name=".parana.NativeKIParanaSmartRegisterActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/AppThemeNoActionBarAndTitle"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".parana.ParanaDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/AppThemeNoActionBarAndTitle"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="landscape"/>
         <activity android:name=".face.camera.SmartShutterActivity" />
         <activity android:name=".face.camera.ImageConfirmation" />
         <activity android:name=".face.camera.ClientsList" />

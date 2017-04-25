@@ -153,7 +153,7 @@
     <string name="header_dob">Tgl Lahir</string>
     <string name="header_dok_persalinan">Dok Prsalinan</string>
 
-    <string name="app_name">Bidan</string>
+    <string name="app_name">EC Bidan +</string>
 
     <string name="home_ec_label">Eligible Couple</string>
     <string name="home_fp_label">FP</string>
@@ -480,4 +480,13 @@
 
     <string name="Nutrition_status">Status Gizi:</string>
     <string name="mother_already_registered_in_fp">Mother already registered</string>
+
+    <string name="MMN">MMN</string>
+    <string name="sesi1">Sesi 1</string>
+    <string name="sesi2">Sesi 2</string>
+    <string name="sesi3">Sesi 3</string>
+    <string name="sesi4">Sesi 4</string>
+    <string name="parana_register_title_in_short">PARANA</string>
+
+    <string name="parana_header">Parana</string>
 </resources>
