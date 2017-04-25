@@ -65,6 +65,8 @@ public class PathRepository extends Repository {
         UniqueIdRepository.createTable(database);
         WeightRepository.createTable(database);
         VaccineRepository.createTable(database);
+        onUpgrade(database,1,3);
+
     }
 
     @Override
@@ -72,8 +74,22 @@ public class PathRepository extends Repository {
         Log.w(PathRepository.class.getName(),
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data");
-        upgradeToVersion2(db, oldVersion);
-        //db.execSQL("DROP TABLE IF EXISTS " + SmsTarseelTables.unsubmitted_outbound);
+
+        int upgradeTo = oldVersion + 1;
+        while (upgradeTo <= newVersion) {
+            switch (upgradeTo) {
+                case 2:
+                    upgradeToVersion2(db);
+                    break;
+                case 3:
+                    upgradeToVersion3(db);
+                    break;
+                default:
+
+                    break;
+            }
+            upgradeTo++;
+        }
     }
 
     @Override
@@ -138,6 +154,10 @@ public class PathRepository extends Repository {
                 fm.put(client_column.baseEntityId, serverJsonObject.getString(client_column.baseEntityId.name()));
                 fm.put(client_column.syncStatus, BaseRepository.TYPE_Synced);
                 fm.put(client_column.updatedAt, new DateTime(new Date().getTime()));
+                if(table.name().equalsIgnoreCase("event")){
+                    fm.put(event_column.eventId,serverJsonObject.getString("id") );
+
+                }
             } else {
                 return;
             }
@@ -159,7 +179,11 @@ public class PathRepository extends Repository {
 
                 f.setAccessible(true);
                 Object v = f.get(o);
-                fm.put(c, v);
+                if(c.name().equalsIgnoreCase(event_column.eventId.name())){
+                    fm.put(c, serverJsonObject.getString("id"));//grrr!!!!!!
+                }else {
+                    fm.put(c, v);
+                }
             }
 
             String columns = referenceColumn == null ? "" : ("`" + referenceColumn + "`,");
@@ -1027,7 +1051,7 @@ public class PathRepository extends Repository {
         voider(ColumnAttribute.Type.text, false, false),
         voidReason(ColumnAttribute.Type.text, false, false),
 
-        eventId(ColumnAttribute.Type.text, true, false),
+        eventId(ColumnAttribute.Type.text, true, true),
         baseEntityId(ColumnAttribute.Type.text, false, true),
         syncStatus(ColumnAttribute.Type.text, false, true),
         json(ColumnAttribute.Type.text, false, false),
@@ -1104,10 +1128,8 @@ public class PathRepository extends Repository {
      * Version 2 added some columns to the ec_child table
      *
      * @param database
-     * @param oldVersion
      */
-    private void upgradeToVersion2(SQLiteDatabase database, int oldVersion) {
-        if (oldVersion < 2) {
+    private void upgradeToVersion2(SQLiteDatabase database) {
             // Create the new ec_child table
             String newTableNameSuffix = "_v2";
             String originalTableName = "ec_child";
@@ -1185,6 +1207,11 @@ public class PathRepository extends Repository {
                     + " rename to " + CommonFtsObject.searchTableName(originalTableName);
             Log.d(TAG, "Rename query is\n---------------------------\n" + renameQuery);
             database.execSQL(renameQuery);
-        }
+    }
+    private void upgradeToVersion3(SQLiteDatabase db){
+        db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_EVENT_ID_COL);
+        db.execSQL(VaccineRepository.EVENT_ID_INDEX);
+        db.execSQL(WeightRepository.UPDATE_TABLE_ADD_EVENT_ID_COL);
+        db.execSQL(WeightRepository.EVENT_ID_INDEX);
     }
 }

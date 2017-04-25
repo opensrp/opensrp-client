@@ -160,7 +160,6 @@ public class ImmunizationRowAdapter extends BaseAdapter {
                     } else {
                         tag.setUpdatedVaccineDate(new DateTime(vaccine.getDate()), true);
                     }
-                    tag.setRecordedDate(new DateTime(new Date(vaccine.getUpdatedAt())));
                     tag.setDbKey(vaccine.getId());
                 }
             }

@@ -815,7 +815,6 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                 vaccineRepository.deleteVaccine(dbKey);
 
                 tag.setUpdatedVaccineDate(null, false);
-                tag.setRecordedDate(null);
                 tag.setDbKey(null);
 
 
@@ -1123,6 +1122,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         vaccine.setBaseEntityId(childDetails.entityId());
         vaccine.setName(tag.getName());
         vaccine.setDate(tag.getUpdatedVaccineDate().toDate());
+        vaccine.setUpdatedAt(tag.getUpdatedVaccineDate().toDate().getTime());
         vaccine.setAnmId(getOpenSRPContext().allSharedPreferences().fetchRegisteredANM());
         if (StringUtils.isNotBlank(location_name)) {
             vaccine.setLocationId(location_name);

@@ -127,17 +127,20 @@ public class ChildRegistrationDataFragment extends Fragment {
             layout.addView(wd.createTableRow(inflater, container, "Mother/guardian first name", (Utils.getValue(childDetails.getColumnmaps(), "mother_first_name", true).isEmpty()?Utils.getValue(childDetails.getDetails(), "mother_first_name", true):Utils.getValue(childDetails.getColumnmaps(), "mother_first_name", true))));
             layout.addView(wd.createTableRow(inflater, container, "Mother/guardian last name",(Utils.getValue(childDetails.getColumnmaps(), "mother_last_name", true).isEmpty() ? Utils.getValue(childDetails.getDetails(), "mother_last_name", true) : Utils.getValue(childDetails.getColumnmaps(), "mother_last_name", true))));
             String motherDob = Utils.getValue(childDetails, "mother_dob", true);
+
+            try {
+                DateTime dateTime = new DateTime(motherDob);
+                Date mother_dob = dateTime.toDate();
+                motherDob = ChildDetailTabbedActivity.DATE_FORMAT.format(mother_dob);
+            }catch (Exception e){
+
+            }
+
+            // If default mother dob ... set it as blank
             if (motherDob != null && motherDob.equals(JsonFormUtils.MOTHER_DEFAULT_DOB)) {
                 motherDob = "";
-            }else{
-                try {
-                    DateTime dateTime = new DateTime(motherDob);
-                    Date mother_dob = dateTime.toDate();
-                    motherDob = ChildDetailTabbedActivity.DATE_FORMAT.format(mother_dob);
-                }catch (Exception e){
-
-                }
             }
+
             layout.addView(wd.createTableRow(inflater, container, "Mother/guardian DOB",motherDob));
 
             layout.addView(wd.createTableRow(inflater, container, "Mother/guardian NRC number", Utils.getValue(childDetails, "mother_nrc_number", true)));

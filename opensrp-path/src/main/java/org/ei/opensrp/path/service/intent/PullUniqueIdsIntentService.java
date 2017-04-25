@@ -57,13 +57,9 @@ public class PullUniqueIdsIntentService extends IntentService {
             String userName = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
             String password = Context.getInstance().allSettings().fetchANMPassword();
 
-//<<<<<<< HEAD
-//            String localUrlString = PathConstants.openmrsUrl() +  PathConstants.OPENMRS_IDGEN_URL + "?source="+PathConstants.OPENMRS_UNIQUE_ID_SOURCE+"&numberToGenerate=" + numberToGenerate + "&username=" + userName + "&password=" + password;
+            String localUrlString = PathConstants.openmrsUrl() +  PathConstants.OPENMRS_IDGEN_URL + "?source="+PathConstants.OPENMRS_UNIQUE_ID_SOURCE+"&numberToGenerate=" + numberToGenerate + "&username=" + userName + "&password=" + password;
 //           // Convert the incoming data string to a URL.
-//=======
-            String localUrlString = PathConstants.openmrsUrl() + PathConstants.OPENMRS_IDGEN_URL + "?source=" + PathConstants.OPENMRS_UNIQUE_ID_SOURCE + "&numberToGenerate=" + numberToGenerate + "&username=" + "biddemo" + "&password=" + "Linda123";
-            // Convert the incoming data string to a URL.
-//>>>>>>> 9791ec7f7b876dcc5ff04cdfc79a13c60a3396bc
+
             localURL = new URL(localUrlString);
              /*
              * Tries to open a connection to the URL. If an IO error occurs, this throws an
