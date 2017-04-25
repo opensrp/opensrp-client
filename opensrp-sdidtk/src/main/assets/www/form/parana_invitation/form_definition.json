@@ -1,0 +1,48 @@
+{
+  "form_data_definition_version": "1",
+  "form": {
+    "bind_type": "kartu_ibu",
+    "ec_bind_type": "ec_kartu_ibu",
+    "default_bind_path": "/model/instance/Parana_invitation/",
+    "fields": [
+      {
+        "name": "id",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "start",
+        "bind": "/model/instance/Parana_invitation/start"
+      },
+      {
+        "name": "end",
+        "bind": "/model/instance/Parana_invitation/end"
+      },
+      {
+        "name": "cityVillage",
+        "bind": "/model/instance/Parana_invitation/Village",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "existing_location",
+        "bind": "/model/instance/Parana_invitation/existing_location",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "invitation",
+        "bind": "/model/instance/Parana_invitation/invitation"
+      },
+      {
+        "name": "date_invitation",
+        "bind": "/model/instance/Parana_invitation/date_invitation"
+      },
+      {
+        "name": "date_parana",
+        "bind": "/model/instance/Parana_invitation/date_parana"
+      },
+      {
+        "name": "today",
+        "bind": "/model/instance/Parana_invitation/today"
+      }
+    ]
+  }
+}

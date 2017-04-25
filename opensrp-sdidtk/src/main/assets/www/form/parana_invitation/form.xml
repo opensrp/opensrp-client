@@ -1,0 +1,105 @@
+<form autocomplete="off" novalidate="novalidate" class="or clearfix" dir="ltr" id="invitation_parana">\n
+    <!--This form was created by transforming a OpenRosa-flavored (X)Form using an XSL stylesheet created by Enketo LLC.-->
+    <section class="form-logo"></section>
+    <h3 dir="auto" id="form-title">Form Invitasi</h3>
+    <select id="form-languages" data-default-lang="Bahasa">
+        <option value="Bahasa" data-dir="ltr">Bahasa</option>
+        <option value="en" data-dir="ltr">English</option>
+    </select>
+    <label class="question note non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Parana_invitation/generated_note_name_13:label">Desa :
+            <span class="or-output" data-value=" /Parana_invitation/Village "></span>
+        </span>
+        <span lang="en" class="question-label " data-itext-id="/Parana_invitation/generated_note_name_13:label">-</span>
+        <input type="text" name="/Parana_invitation/generated_note_name_13" data-type-xml="string" readonly="readonly"/>
+    </label>
+    <label class="question note non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Parana_invitation/generated_note_name_14:label">Dusun :
+            <span class="or-output" data-value=" /Parana_invitation/Sub-village "></span>
+        </span>
+        <span lang="en" class="question-label " data-itext-id="/Parana_invitation/generated_note_name_14:label">-</span>
+        <input type="text" name="/Parana_invitation/generated_note_name_14" data-type-xml="string" readonly="readonly"/>
+    </label>
+    <fieldset class="question simple-select ">
+        <fieldset>
+            <legend>
+                <span lang="Bahasa" class="question-label active" data-itext-id="/Parana_invitation/invitation:label">Apakah ibu diundang untuk mengikuti program Parana?</span>
+                <span lang="en" class="question-label " data-itext-id="/Parana_invitation/invitation:label">Is mother invited to join Parana program?</span>
+                <span class="required">*</span>
+            </legend>
+            <div class="option-wrapper">
+                <label class="">
+                    <input type="radio" name="/Parana_invitation/invitation" data-name="/Parana_invitation/invitation" value="Yes" data-required="true()" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Parana_invitation/invitation/Yes:label">Ya</span>
+                    <span lang="en" class="option-label " data-itext-id="/Parana_invitation/invitation/Yes:label">Yes</span>
+                </label>
+                <label class="">
+                    <input type="radio" name="/Parana_invitation/invitation" data-name="/Parana_invitation/invitation" value="No" data-required="true()" data-type-xml="select1"/>
+                    <span lang="Bahasa" class="option-label active" data-itext-id="/Parana_invitation/invitation/No:label">Tidak</span>
+                    <span lang="en" class="option-label " data-itext-id="/Parana_invitation/invitation/No:label">No</span>
+                </label>
+            </div>
+        </fieldset>
+        <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
+    </fieldset>
+    <label class="question non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Parana_invitation/date_invitation:label">Tanggal invitasi</span>
+        <span lang="en" class="question-label " data-itext-id="/Parana_invitation/date_invitation:label">Date of invitation</span>
+        <span class="required">*</span>
+        <input type="date" name="/Parana_invitation/date_invitation" data-required="true()" data-constraint=".&gt;= /Parana_invitation/today " data-type-xml="date"/>
+        <span class="or-constraint-msg active" lang="" data-i18n="constraint.invalid">Value not allowed</span>
+        <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
+    </label>
+    <label class="question non-select ">
+        <span lang="Bahasa" class="question-label active" data-itext-id="/Parana_invitation/date_parana:label">Tanggal Sesi Parana</span>
+        <span lang="en" class="question-label " data-itext-id="/Parana_invitation/date_parana:label">Date of the Parana session</span>
+        <input type="date" name="/Parana_invitation/date_parana" data-constraint=".&gt; /Parana_invitation/today " data-type-xml="date"/>
+        <span class="or-constraint-msg active" lang="" data-i18n="constraint.invalid">Value not allowed</span>
+    </label> \n
+    <fieldset id="or-preload-items" style="display:none;">
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Parana_invitation/start" data-preload="timestamp" data-preload-params="start" data-type-xml="dateTime"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Parana_invitation/today" data-preload="date" data-preload-params="today" data-type-xml="date"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Parana_invitation/deviceid" data-preload="property" data-preload-params="deviceid" data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Parana_invitation/simserial" data-preload="property" data-preload-params="simserial" data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Parana_invitation/phonenumber" data-preload="property" data-preload-params="phonenumber" data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Parana_invitation/end" data-preload="timestamp" data-preload-params="end" data-type-xml="dateTime"/>
+        </label>
+    </fieldset>
+    <fieldset id="or-calculated-items" style="display:none;">
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Parana_invitation/existing_location" data-calculate=" /Parana_invitation/Village " data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Parana_invitation/provinsi" data-calculate=" /Parana_invitation/Province " data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Parana_invitation/kabupaten" data-calculate=" /Parana_invitation/District " data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Parana_invitation/desa" data-calculate=" /Parana_invitation/Village " data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Parana_invitation/dusun" data-calculate=" /Parana_invitation/Sub-village " data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Parana_invitation/kecamatan" data-calculate=" /Parana_invitation/Sub-district " data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Parana_invitation/meta/instanceID" data-calculate="concat('uuid:', uuid())" data-type-xml="string"/>
+        </label>
+        <label class="calculation non-select ">
+            <input type="hidden" name="/Parana_invitation/formhub/uuid" data-calculate="'02f5c8fd4b324850ba59a83041c8e66a'" data-type-xml="string"/>
+        </label>
+    </fieldset>
+</form>
