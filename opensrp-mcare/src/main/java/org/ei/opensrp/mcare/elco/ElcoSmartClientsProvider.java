@@ -153,6 +153,8 @@ public class ElcoSmartClientsProvider implements SmartRegisterCLientsProviderFor
 //        village.setText(humanize(location));
 
         Date lastdate = null;
+        Log.e("-----------------------", householdparent.getDetails().toString());
+        Log.e("-----------------------",pc.getColumnmaps().get("FWWOMFNAME"));
         if(householdparent.getDetails().get("FWNHREGDATE")!= null && householdparent.getDetails().get("FWCENDATE")!= null) {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             try {
@@ -228,9 +230,15 @@ public class ElcoSmartClientsProvider implements SmartRegisterCLientsProviderFor
 
             //Alert colors/////////////////////////////////////////////
 
+
+
         List<Alert> alertlist_for_client = org.ei.opensrp.Context.getInstance().alertService().findByEntityIdAndAlertNames(pc.entityId(), "ELCO PSRF");
+        for (Alert alert:alertlist_for_client) {
+            Log.e("---------alert",alert.toString());
+        }
         if(alertlist_for_client.size() == 0 ){
-           psrfdue.setText(format.format(lastdate));
+            Log.e("lastDate",lastdate != null ? lastdate.toString() : "null");
+            psrfdue.setText(format.format(lastdate));
             psrfdue.setBackgroundColor(context.getResources().getColor(org.ei.opensrp.R.color.status_bar_text_almost_white));
             Log.v("is here", "3");
             try {

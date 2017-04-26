@@ -274,6 +274,7 @@ public class ElcoSmartRegisterActivity extends SecuredNativeSmartRegisterActivit
     @Override
     public void saveFormSubmission(String formSubmission, String id, String formName, JSONObject fieldOverrides){
         // save the form
+        Log.e("----------",formSubmission.toString());
         try{
             FormUtils formUtils = FormUtils.getInstance(getApplicationContext());
             FormSubmission submission = formUtils.generateFormSubmisionFromXMLString(id, formSubmission, formName, fieldOverrides);

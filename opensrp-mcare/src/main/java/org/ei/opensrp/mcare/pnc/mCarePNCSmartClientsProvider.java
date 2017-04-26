@@ -165,8 +165,9 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
 
 
 
-
-
+        Log.e("----details",pc.getDetails().toString());
+        Log.e("----column",pc.getColumnmaps().toString());
+        Log.e("----","---------------------------------");
 //        return itemView;
     }
     private String doolay(CommonPersonObjectClient ancclient) {
