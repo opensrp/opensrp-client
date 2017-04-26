@@ -14,15 +14,65 @@
         android:id="@+id/profile_info_layout">
 
 
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="@dimen/client_profile_pic_width"
-            android:layout_height="80dp"
-            android:id="@+id/childdetailprofileview"
-            android:src="@drawable/child_boy_infant"
-            android:layout_margin="2dp"
-            android:layout_gravity="center_vertical"
-            android:scaleType="fitXY" />
+            <ImageView
+                android:layout_width="@dimen/client_profile_pic_width"
+                android:layout_height="80dp"
+                android:id="@+id/childdetailprofileview"
+                android:src="@drawable/child_boy_infant"
+                android:layout_margin="2dp"
+                android:layout_gravity="center"
+                android:scaleType="fitXY" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="42dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="left|center_vertical"
+                android:gravity="bottom"
+                android:weightSum="1">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/riskFlag03"
+                        android:layout_gravity="center"
+                        android:src="@drawable/abc_list_divider_mtrl_alpha" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/riskFlag02"
+                        android:layout_gravity="center"
+                        android:src="@drawable/abc_list_divider_mtrl_alpha" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/riskFlag01"
+                        android:layout_gravity="center|left"
+                        android:src="@drawable/abc_list_divider_mtrl_alpha" />
+                </FrameLayout>
+            </LinearLayout>
+
+        </FrameLayout>
 
 
         <LinearLayout

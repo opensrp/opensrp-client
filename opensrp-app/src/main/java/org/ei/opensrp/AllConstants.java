@@ -335,11 +335,11 @@ public class AllConstants {
         public static final String REPLICATION_ERROR = "REPLICATION_ERROR";
         public static final String DOCUMENTS_REPLICATED = "DOCUMENTS_REPLICATED";
         public static final String BATCHES_REPLICATED = "BATCHES_REPLICATED";
-        public static final String COUCHDB_PORT = "5983";
+        public static final String COUCHDB_PORT = "5984";
 
         public static final String COUCH_DATABASE_NAME = "opensrp";
-        public static final String COUCH_DATABASE_USER = "admin";
-        public static final String COUCH_DATABASE_PASS = "Satu2345";
+        public static final String COUCH_DATABASE_USER = "demo_admin";
+        public static final String COUCH_DATABASE_PASS = "Admin123";
     }
 
     public static class SyncFilters {

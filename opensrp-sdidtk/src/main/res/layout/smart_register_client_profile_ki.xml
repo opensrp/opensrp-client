@@ -66,6 +66,24 @@
                 android:layout_marginBottom="-5dp"
                 android:src="@drawable/flag_st"
                 android:visibility="gone"/>
+
+            <ImageView
+                android:id="@+id/img_p_yellow_badge"
+                android:layout_width="@dimen/client_profile_badge_width"
+                android:layout_height="@dimen/client_profile_badge_height"
+                android:scaleType="fitStart"
+                android:layout_marginBottom="-5dp"
+                android:src="@drawable/risk_p_yellow"
+                android:visibility="gone"/>
+
+            <ImageView
+                android:id="@+id/img_p_red_badge"
+                android:layout_width="@dimen/client_profile_badge_width"
+                android:layout_height="@dimen/client_profile_badge_height"
+                android:scaleType="fitStart"
+                android:layout_marginBottom="-5dp"
+                android:src="@drawable/risk_p_red"
+                android:visibility="gone"/>
         </LinearLayout>
 
     </FrameLayout>
