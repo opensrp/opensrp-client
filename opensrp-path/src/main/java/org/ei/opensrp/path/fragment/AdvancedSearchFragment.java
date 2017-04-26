@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.vijay.jsonwizard.utils.DatePickerUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
@@ -792,6 +793,8 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
                 }, mYear, mMonth, mDay);
                 mDatePicker.getDatePicker().setCalendarViewShown(false);
                 mDatePicker.show();
+
+                DatePickerUtils.orderDate(mDatePicker, new char[]{'d', 'm', 'y'});
             }
         });
 

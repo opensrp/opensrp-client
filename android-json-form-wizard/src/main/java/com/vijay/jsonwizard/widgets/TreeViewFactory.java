@@ -73,6 +73,7 @@ public class TreeViewFactory implements FormWidgetFactory {
                 }
             }
             final String defaultValueString = jsonObject.optString("default");
+            final String valueString = jsonObject.optString("value");
 
             if (jsonObject.has("read_only")) {
                 boolean readOnly = jsonObject.getBoolean("read_only");
@@ -89,8 +90,18 @@ public class TreeViewFactory implements FormWidgetFactory {
             } catch (JSONException e) {
             }
 
+            ArrayList<String> value = new ArrayList<>();
+            try {
+                JSONArray jsonArray = new JSONArray(valueString);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    value.add(jsonArray.getString(i));
+                }
+            } catch (JSONException e) {
+            }
+
+
             final TreeViewDialog treeViewDialog = new TreeViewDialog(context,
-                    jsonObject.getJSONArray("tree"), defaultValue);
+                    jsonObject.getJSONArray("tree"), defaultValue, value);
 
             if (!TextUtils.isEmpty(jsonObject.optString("value"))) {
                 JSONArray name = new JSONArray(treeViewDialog.getName());
@@ -165,19 +176,6 @@ public class TreeViewFactory implements FormWidgetFactory {
     }
 
     private static void showTreeDialog(MaterialEditText editText, TreeViewDialog treeViewDialog) {
-        ArrayList<String> data = new ArrayList<>();
-        try {
-            String rawValue = (String) editText.getTag(R.id.raw_value);
-            if (!TextUtils.isEmpty(rawValue)) {
-                JSONArray jsonArray = new JSONArray(rawValue);
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    data.add(jsonArray.getString(i));
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        treeViewDialog.setValue(data);
         treeViewDialog.show();
     }
 

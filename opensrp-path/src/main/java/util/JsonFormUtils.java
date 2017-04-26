@@ -104,7 +104,7 @@ public class JsonFormUtils {
 
 
 
-    public static final SimpleDateFormat FORM_DATE = new SimpleDateFormat("dd-MM-yyyy");
+    public static final SimpleDateFormat dd_MM_yyyy = new SimpleDateFormat("dd-MM-yyyy");
     //public static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").create();
     //2007-03-31T04:00:00.000Z
     public static  Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").registerTypeAdapter(DateTime.class, new DateTimeTypeConverter()).create();
@@ -348,7 +348,7 @@ public class JsonFormUtils {
         //originalClient.setRev(null);
         //cloudantDataHandler.addClient(originalClient);
 
-        ecUpdater.addClient(baseClient.getBaseEntityId(),mergedJson);
+        ecUpdater.addClient(baseClient.getBaseEntityId(), mergedJson);
 
 
     }
@@ -1001,15 +1001,22 @@ public class JsonFormUtils {
 
     private static Date formatDate(String dateString, boolean startOfToday) {
         try {
+
             if (StringUtils.isBlank(dateString)) {
                 return null;
             }
 
-            return FORM_DATE.parse(dateString);
+            if(dateString.matches("\\d{2}-\\d{2}-\\d{4}")){
+                return dd_MM_yyyy.parse(dateString);
+            } else if (dateString.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                return DateUtil.parseDate(dateString);
+            }
+
         } catch (ParseException e) {
             Log.e(TAG, "", e);
-            return null;
         }
+
+        return null;
     }
 
     public static String generateRandomUUIDString() {
@@ -1486,7 +1493,7 @@ public class JsonFormUtils {
     public static String getOpenMrsReadableName(String name) {
         String readableName = new String(name);
 
-        Pattern prefixPattern = Pattern.compile("[a-z]{2} (.*)");
+        Pattern prefixPattern = Pattern.compile("^[a-z]{2} (.*)$");
         Matcher prefixMatcher = prefixPattern.matcher(readableName);
         if (prefixMatcher.find()) {
             readableName = prefixMatcher.group(1);
@@ -1989,13 +1996,9 @@ public class JsonFormUtils {
         }
 
         try {
-            if(value.matches("\\d{2}-\\d{2}-\\d{4}")){
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                Date date = simpleDateFormat.parse(value);
-
+            Date date = formatDate(value, false);
+            if(date != null){
                 return DateUtil.yyyyMMdd.format(date);
-            } else {
-                return value;
             }
         } catch (Exception e) {
             Log.e(TAG, "", e);
