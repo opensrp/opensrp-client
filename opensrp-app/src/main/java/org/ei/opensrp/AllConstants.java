@@ -5,7 +5,6 @@ public class AllConstants {
     public static final String PROFILE_IMAGES_DOWNLOAD_PATH = "/multimedia/profileimage";
     public static final String PROFILE_IMAGES_UPLOAD_PATH = "/multimedia/upload";
 
-
     public static final String REPORT_CATEGORY = "reportCategory";
     public static final String INDICATOR_DETAIL = "indicatorDetail";
     public static final String CATEGORY_DESCRIPTION = "categoryDescription";
@@ -336,7 +335,7 @@ public class AllConstants {
         public static final String REPLICATION_ERROR = "REPLICATION_ERROR";
         public static final String DOCUMENTS_REPLICATED = "DOCUMENTS_REPLICATED";
         public static final String BATCHES_REPLICATED = "BATCHES_REPLICATED";
-        public static final String COUCHDB_PORT = "5984";
+        public static final String COUCHDB_PORT = "5983";
 
         public static final String COUCH_DATABASE_NAME = "opensrp";
         public static final String COUCH_DATABASE_USER = "admin";

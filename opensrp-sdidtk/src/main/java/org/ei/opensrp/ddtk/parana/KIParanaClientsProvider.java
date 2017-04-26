@@ -170,7 +170,7 @@ public class KIParanaClientsProvider implements SmartRegisterCLientsProviderForC
             date = date.withDayOfMonth(1);
             dateNow = dateNow.withDayOfMonth(1);
             int days = Days.daysBetween(date,dateNow).getDays();
-            Log.logInfo("asdasdsadsasadasdasd"+days);
+            Log.logInfo(""+days);
             //int months = Months.monthsBetween(dateNow, date).ge();
             if(days < 14) {
                 if(pc.getDetails().get("paranaStatus1") == null){

@@ -80,6 +80,11 @@ public class KIParanaClientsProvider implements SmartRegisterCLientsProviderForC
             viewHolder.wife_age = (TextView) convertView.findViewById(R.id.wife_age);
 
 
+            viewHolder.parana1 = (LinearLayout) convertView.findViewById(R.id.parana1);
+            viewHolder.parana2 = (LinearLayout) convertView.findViewById(R.id.parana2);
+            viewHolder.parana3 = (LinearLayout) convertView.findViewById(R.id.parana3);
+            viewHolder.parana4 = (LinearLayout) convertView.findViewById(R.id.parana4);
+
             viewHolder.mmn_date = (TextView) convertView.findViewById(R.id.lbl_tgl);
             viewHolder.txt_total = (TextView) convertView.findViewById(R.id.txt_total);
 
@@ -125,7 +130,6 @@ public class KIParanaClientsProvider implements SmartRegisterCLientsProviderForC
         AllCommonsRepository kiRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ibu");
 
         CommonPersonObject kiobject = kiRepository.findByCaseID(pc.entityId());
-        
 
         viewHolder.wife_name.setText(pc.getColumnmaps().get("namalengkap")!=null?pc.getColumnmaps().get("namalengkap"):"");
         viewHolder.husband_name.setText(pc.getColumnmaps().get("namaSuami")!=null?pc.getColumnmaps().get("namaSuami"):"");
@@ -154,8 +158,14 @@ public class KIParanaClientsProvider implements SmartRegisterCLientsProviderForC
         Status_parana(pc.getDetails().get("paranaStatus2"),pc.getDetails().get("tanggal_sesi2"),viewHolder.tgl2,viewHolder.sesi2);
         Status_parana(pc.getDetails().get("paranaStatus3"),pc.getDetails().get("tanggal_sesi3"),viewHolder.tgl3,viewHolder.sesi3);
         Status_parana(pc.getDetails().get("paranaStatus4"),pc.getDetails().get("tanggal_sesi4"),viewHolder.tgl4,viewHolder.sesi4);
-        String invitation = pc.getDetails().get("date_invitation")!=null?pc.getDetails().get("date_invitation"):"";
 
+
+        viewHolder.parana1.setBackgroundColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+        viewHolder.parana2.setBackgroundColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+        viewHolder.parana3.setBackgroundColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+        viewHolder.parana4.setBackgroundColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+
+        String invitation = pc.getDetails().get("date_invitation")!=null?pc.getDetails().get("date_invitation"):"";
         if(StringUtils.isNotBlank(pc.getDetails().get("date_invitation"))) {
             String _invitation = invitation;
             String _due_invitation = "";
