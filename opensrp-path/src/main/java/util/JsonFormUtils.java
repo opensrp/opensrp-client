@@ -279,6 +279,28 @@ public class JsonFormUtils {
                 return;
             }
 
+            for (int i = 0; i < fields.length(); i++) {
+                String key = fields.getJSONObject(i).getString("key");
+                if (key.equals("Home_Facility")
+                        || key.equals("Birth_Facility_Name")
+                        || key.equals("Residential_Area")) {
+                    try {
+                        String rawValue = fields.getJSONObject(i).getString("value");
+                        JSONArray valueArray = new JSONArray(rawValue);
+                        if (valueArray.length() > 0) {
+                            String lastLocationName = valueArray.getString(valueArray.length() - 1);
+                            String lastLocationId = getOpenMrsLocationId(openSrpContext, lastLocationName);
+                            fields.getJSONObject(i).put("value", lastLocationId);
+                        }
+                    } catch (Exception e) {
+                        Log.e(TAG, Log.getStackTraceString(e));
+                    }
+                } else if (key.equals("Mother_Guardian_Date_Birth")) {
+                    if(TextUtils.isEmpty(fields.getJSONObject(i).optString("value"))) {
+                        fields.getJSONObject(i).put("value", MOTHER_DEFAULT_DOB);
+                    }
+                }
+            }
 
             JSONObject metadata = getJSONObject(jsonForm, METADATA);
 
@@ -1528,12 +1550,17 @@ public class JsonFormUtils {
             JSONArray defaultLocation = generateDefaultLocationHierarchy(context, allLevels);
             JSONArray defaultFacility = generateDefaultLocationHierarchy(context, healthFacilities);
             JSONArray upToFacilities = generateLocationHierarchyTree(context, false, healthFacilities);
+            JSONArray upToFacilitiesWithOther = generateLocationHierarchyTree(context, true, healthFacilities);
             JSONArray entireTree = generateLocationHierarchyTree(context, true, allLevels);
 
             for (int i = 0; i < questions.length(); i++) {
-                if (questions.getJSONObject(i).getString("key").equals("Home_Facility")
-                        || questions.getJSONObject(i).getString("key").equals("Birth_Facility_Name")) {
+                if (questions.getJSONObject(i).getString("key").equals("Home_Facility")) {
                     questions.getJSONObject(i).put("tree", new JSONArray(upToFacilities.toString()));
+                    if (defaultFacility != null) {
+                        questions.getJSONObject(i).put("default", defaultFacility.toString());
+                    }
+                } else if (questions.getJSONObject(i).getString("key").equals("Birth_Facility_Name")) {
+                    questions.getJSONObject(i).put("tree", new JSONArray(upToFacilitiesWithOther.toString()));
                     if (defaultFacility != null) {
                         questions.getJSONObject(i).put("default", defaultFacility.toString());
                     }

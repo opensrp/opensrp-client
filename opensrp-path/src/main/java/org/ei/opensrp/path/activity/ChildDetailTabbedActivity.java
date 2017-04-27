@@ -466,16 +466,28 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Birth_Facility_Name")) {
                         jsonObject.put(JsonFormUtils.READ_ONLY, true);
-                        JSONArray birthFacilityHierarchy = JsonFormUtils.getOpenMrsLocationHierarchy(
-                                getOpenSRPContext(), Utils.getValue(detailmaps,
-                                        "Birth_Facility_Name", true));
+                        JSONArray birthFacilityHierarchy = null;
+                        String birthFacilityName =Utils.getValue(detailmaps, "Birth_Facility_Name", false);
+
+                        if(birthFacilityName != null && birthFacilityName.equalsIgnoreCase("other")) {
+                            birthFacilityHierarchy = new JSONArray();
+                            birthFacilityHierarchy.put(birthFacilityName);
+                        } else {
+                            birthFacilityHierarchy = JsonFormUtils.getOpenMrsLocationHierarchy(
+                                    getOpenSRPContext(), birthFacilityName);
+                        }
+
                         if (birthFacilityHierarchy != null) {
                             jsonObject.put(JsonFormUtils.VALUE, birthFacilityHierarchy.toString());
                         }
                     }
+                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Birth_Facility_Name_Other")) {
+                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "Birth_Facility_Name_Other", false));
+                        jsonObject.put(JsonFormUtils.READ_ONLY, true);
+                    }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Residential_Area")) {
                         JSONArray residentialAreaHierarchy = null;
-                        String address3 = Utils.getValue(detailmaps, "address3", true);
+                        String address3 = Utils.getValue(detailmaps, "address3", false);
                         if (address3 != null && address3.equalsIgnoreCase("Other")) {
                             residentialAreaHierarchy = new JSONArray();
                             residentialAreaHierarchy.put(address3);

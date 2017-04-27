@@ -373,6 +373,25 @@
         }
       },
       {
+        "key": "Birth_Facility_Name_Other",
+        "openmrs_entity_parent": "163531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "edit_text",
+        "hint": "Other health facility *",
+        "edit_type": "name",
+        "v_required": {
+          "value": true,
+          "err": "Please specify the health facility the child was born in"
+        },
+        "relevance": {
+          "step1:Birth_Facility_Name": {
+            "type": "string",
+            "ex": "equalTo(., \"[\"Other\"]\")"
+          }
+        }
+      },
+      {
         "key": "Residential_Area",
         "openmrs_entity_parent": "usual_residence",
         "openmrs_entity": "person_address",
