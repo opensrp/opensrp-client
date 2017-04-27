@@ -794,7 +794,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
                 mDatePicker.getDatePicker().setCalendarViewShown(false);
                 mDatePicker.show();
 
-                DatePickerUtils.orderDate(mDatePicker, new char[]{'d', 'm', 'y'});
+                DatePickerUtils.themeDatePicker(mDatePicker, new char[]{'d', 'm', 'y'});
             }
         });
 

@@ -185,7 +185,7 @@ public class VaccinationEditDialogFragment extends DialogFragment {
                 earlierDatePicker.setVisibility(View.VISIBLE);
                 set.setVisibility(View.VISIBLE);
 
-                DatePickerUtils.orderDate(earlierDatePicker, new char[]{'d', 'm', 'y'});
+                DatePickerUtils.themeDatePicker(earlierDatePicker, new char[]{'d', 'm', 'y'});
 
 //                dismiss();
 //

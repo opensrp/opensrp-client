@@ -16,22 +16,20 @@ public class DatePickerUtils {
 
     private static final int SPINNER_COUNT = 3;
 
-    public static void orderDate(DatePickerDialog dialog, char[] ymdOrder) {
-
+    public static void themeDatePicker(DatePickerDialog dialog, char[] ymdOrder) {
         if (!dialog.isShowing()) {
             throw new IllegalStateException("Dialog must be showing");
         }
 
-        orderDate(dialog.getDatePicker(), ymdOrder);
+        themeDatePicker(dialog.getDatePicker(), ymdOrder);
     }
 
-    public static void preventShowingKeyboard(DatePickerDialog dialog) {
-        dialog.getDatePicker().setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+    public static void preventShowingKeyboard(DatePicker datePicker) {
+        datePicker.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
     }
 
-    public static void orderDate(DatePicker datePicker, char[] ymdOrder) {
-
-
+    public static void themeDatePicker(DatePicker datePicker, char[] ymdOrder) {
+        preventShowingKeyboard(datePicker);
         final int idYear = Resources.getSystem().getIdentifier("year", "id", "android");
         final int idMonth = Resources.getSystem().getIdentifier("month", "id", "android");
         final int idDay = Resources.getSystem().getIdentifier("day", "id", "android");

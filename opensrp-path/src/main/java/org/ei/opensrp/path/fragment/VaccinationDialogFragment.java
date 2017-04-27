@@ -3,7 +3,6 @@ package org.ei.opensrp.path.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -281,7 +280,7 @@ public class VaccinationDialogFragment extends DialogFragment {
                 earlierDatePicker.setVisibility(View.VISIBLE);
                 set.setVisibility(View.VISIBLE);
 
-                DatePickerUtils.orderDate(earlierDatePicker, new char[]{'d', 'm', 'y'});
+                DatePickerUtils.themeDatePicker(earlierDatePicker, new char[]{'d', 'm', 'y'});
             }
         });
 

@@ -346,8 +346,7 @@ public class DatePickerFactory implements FormWidgetFactory {
         datePickerDialog.setTitle("");
         datePickerDialog.show();
 
-        DatePickerUtils.preventShowingKeyboard(datePickerDialog);
-        DatePickerUtils.orderDate(datePickerDialog, new char[]{'d', 'm', 'y'});
+        DatePickerUtils.themeDatePicker(datePickerDialog, new char[]{'d', 'm', 'y'});
     }
 
     /**

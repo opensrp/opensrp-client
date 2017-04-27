@@ -186,7 +186,7 @@ public class EditWeightDialogFragment extends DialogFragment {
                 earlierDatePicker.requestFocus();
                 set.setVisibility(View.VISIBLE);
 
-                DatePickerUtils.orderDate(earlierDatePicker, new char[]{'d', 'm', 'y'});
+                DatePickerUtils.themeDatePicker(earlierDatePicker, new char[]{'d', 'm', 'y'});
             }
         });
 
