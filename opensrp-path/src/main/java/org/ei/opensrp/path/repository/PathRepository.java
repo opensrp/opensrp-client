@@ -65,7 +65,7 @@ public class PathRepository extends Repository {
         UniqueIdRepository.createTable(database);
         WeightRepository.createTable(database);
         VaccineRepository.createTable(database);
-//onUpgrade(database,1,3);
+        onUpgrade(database, 1, PathConstants.DATABASE_VERSION);
 
     }
 
@@ -154,8 +154,8 @@ public class PathRepository extends Repository {
                 fm.put(client_column.baseEntityId, serverJsonObject.getString(client_column.baseEntityId.name()));
                 fm.put(client_column.syncStatus, BaseRepository.TYPE_Synced);
                 fm.put(client_column.updatedAt, new DateTime(new Date().getTime()));
-                if(table.name().equalsIgnoreCase("event")){
-                    fm.put(event_column.eventId,serverJsonObject.getString("id") );
+                if (table.name().equalsIgnoreCase("event")) {
+                    fm.put(event_column.eventId, serverJsonObject.getString("id"));
 
                 }
             } else {
@@ -179,9 +179,9 @@ public class PathRepository extends Repository {
 
                 f.setAccessible(true);
                 Object v = f.get(o);
-                if(c.name().equalsIgnoreCase(event_column.eventId.name())){
+                if (c.name().equalsIgnoreCase(event_column.eventId.name())) {
                     fm.put(c, serverJsonObject.getString("id"));//grrr!!!!!!
-                }else {
+                } else {
                     fm.put(c, v);
                 }
             }
@@ -1130,7 +1130,8 @@ public class PathRepository extends Repository {
      * @param database
      */
     private void upgradeToVersion2(SQLiteDatabase database) {
-            // Create the new ec_child table
+        // Create the new ec_child table
+        try {
             String newTableNameSuffix = "_v2";
             String originalTableName = "ec_child";
 
@@ -1207,11 +1208,19 @@ public class PathRepository extends Repository {
                     + " rename to " + CommonFtsObject.searchTableName(originalTableName);
             Log.d(TAG, "Rename query is\n---------------------------\n" + renameQuery);
             database.execSQL(renameQuery);
+        } catch (Exception e) {
+            Log.e(TAG, "upgradeToVersion2 " + e.getMessage());
+        }
     }
-    private void upgradeToVersion3(SQLiteDatabase db){
-        db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_EVENT_ID_COL);
-        db.execSQL(VaccineRepository.EVENT_ID_INDEX);
-        db.execSQL(WeightRepository.UPDATE_TABLE_ADD_EVENT_ID_COL);
-        db.execSQL(WeightRepository.EVENT_ID_INDEX);
+
+    private void upgradeToVersion3(SQLiteDatabase db) {
+        try {
+            db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_EVENT_ID_COL);
+            db.execSQL(VaccineRepository.EVENT_ID_INDEX);
+            db.execSQL(WeightRepository.UPDATE_TABLE_ADD_EVENT_ID_COL);
+            db.execSQL(WeightRepository.EVENT_ID_INDEX);
+        } catch (Exception e) {
+            Log.e(TAG, "upgradeToVersion3 " + e.getMessage());
+        }
     }
 }
