@@ -2,6 +2,7 @@ package com.vijay.jsonwizard.utils;
 
 import android.app.DatePickerDialog;
 import android.content.res.Resources;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
@@ -22,6 +23,10 @@ public class DatePickerUtils {
         }
 
         orderDate(dialog.getDatePicker(), ymdOrder);
+    }
+
+    public static void preventShowingKeyboard(DatePickerDialog dialog) {
+        dialog.getDatePicker().setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
     }
 
     public static void orderDate(DatePicker datePicker, char[] ymdOrder) {
