@@ -154,6 +154,7 @@ public class OpenSRPImageLoader extends ImageLoader {
 
             } else {
                 //get image record from the db
+                opensrpImageListener.setEntityId(entityId);
                 LoadProfileImageTask loadProfileImageTask = new LoadProfileImageTask(this, opensrpImageListener, entityId);
                 startAsyncTask(loadProfileImageTask, null);
 
@@ -508,6 +509,13 @@ public class OpenSRPImageLoader extends ImageLoader {
                     return;
                 }
                 if (response.getBitmap() != null) {
+                    String entityId = this.getEntityId();
+                    String taggedEntityId= imageView.getTag(R.id.entity_id).toString();
+
+                    if(!entityId.equals(taggedEntityId)) {
+                        return;
+                    }
+
                     imageView.post(new Runnable() {
                         @Override
                         public void run() {
