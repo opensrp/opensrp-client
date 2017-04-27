@@ -140,7 +140,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
             switchViews(false);
             updateLocationText();
             updateSeachLimits();
-            //resetForm();
+            resetForm();
         }
     }
 

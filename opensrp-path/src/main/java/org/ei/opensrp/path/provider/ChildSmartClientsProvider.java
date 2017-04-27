@@ -79,7 +79,7 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
 
     @Override
     public void getView(SmartRegisterClient client, View convertView) {
-        CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
+        final CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
 
         fillValue((TextView) convertView.findViewById(R.id.child_zeir_id), getValue(pc.getColumnmaps(), "zeir_id", false));
 
@@ -117,16 +117,22 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
 
         fillValue((TextView) convertView.findViewById(R.id.child_card_number), pc.getColumnmaps(), "epi_card_number", false);
 
-        String gender = getValue(pc.getColumnmaps(), "gender", true);
-        int defaultImageResId = ImageUtils.profileImageResourceByGender(gender);
+        final String gender = getValue(pc.getColumnmaps(), "gender", true);
 
-        ImageView profilePic = (ImageView) convertView.findViewById(R.id.child_profilepic);
-        profilePic.setImageResource(defaultImageResId);
-        if (client.entityId() != null) {//image already in local storage most likey ):
-            //set profile image by passing the client id.If the image doesn't exist in the image repository then download and save locally
-            profilePic.setTag(org.ei.opensrp.R.id.entity_id, pc.getCaseId());
-            DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pc.getCaseId(), OpenSRPImageLoader.getStaticImageListener(profilePic, 0, 0));
-        }
+        final ImageView profilePic = (ImageView) convertView.findViewById(R.id.child_profilepic);
+        profilePic.post(new Runnable() {
+            @Override
+            public void run() {
+                int defaultImageResId = ImageUtils.profileImageResourceByGender(gender);
+
+                profilePic.setImageResource(defaultImageResId);
+                if (pc.entityId() != null) {//image already in local storage most likey ):
+                    //set profile image by passing the client id.If the image doesn't exist in the image repository then download and save locally
+                    profilePic.setTag(org.ei.opensrp.R.id.entity_id, pc.entityId());
+                    DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pc.getCaseId(), OpenSRPImageLoader.getStaticImageListener(profilePic, 0, 0));
+                }
+            }
+        });
 
         convertView.findViewById(R.id.child_profile_info_layout).setTag(client);
         convertView.findViewById(R.id.child_profile_info_layout).setOnClickListener(onClickListener);

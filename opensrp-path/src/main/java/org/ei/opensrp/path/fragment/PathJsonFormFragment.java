@@ -1,12 +1,14 @@
 package org.ei.opensrp.path.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.InputType;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -187,7 +189,7 @@ public class PathJsonFormFragment extends JsonFormFragment {
 
     private void tapToView(final HashMap<CommonPersonObject, List<CommonPersonObject>> map) {
         snackbar = Snackbar
-                .make(getMainView(), map.size() + " mother/guardian match.", Snackbar.LENGTH_LONG);
+                .make(getMainView(), map.size() + " mother/guardian match.", Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction("Tap to view", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -195,13 +197,13 @@ public class PathJsonFormFragment extends JsonFormFragment {
                 //updateResultTree(map);
             }
         });
-        show(snackbar);
+        show(snackbar, 30000);
 
     }
 
     private void clearView() {
         snackbar = Snackbar
-                .make(getMainView(), "Undo Lookup", Snackbar.LENGTH_LONG);
+                .make(getMainView(), "Undo Lookup.", Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction("Clear", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -209,26 +211,30 @@ public class PathJsonFormFragment extends JsonFormFragment {
                 clearMotherLookUp();
             }
         });
-        show(snackbar);
+        show(snackbar, 30000);
     }
 
-    private void show(Snackbar snackbar) {
+    private void show(final Snackbar snackbar, int duration) {
         if (snackbar == null) {
             return;
         }
+
+        float drawablePadding = getResources().getDimension(R.dimen.register_drawable_padding);
+        int paddingInt = Float.valueOf(drawablePadding).intValue();
 
         float textSize = getActivity().getResources().getDimension(R.dimen.snack_bar_text_size);
 
         View snackbarView = snackbar.getView();
         snackbarView.setMinimumHeight(Float.valueOf(textSize).intValue());
+        snackbarView.setBackgroundResource(R.color.snackbar_background_yellow);
 
         final AppCompatTextView actionView = (AppCompatTextView) snackbarView.findViewById(android.support.design.R.id.snackbar_action);
-        actionView.setTextSize(textSize);
+        actionView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
         actionView.setGravity(Gravity.CENTER);
-
+        actionView.setTextColor(getResources().getColor(R.color.text_black));
 
         TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextSize(textSize);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
         textView.setGravity(Gravity.CENTER);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,6 +242,10 @@ public class PathJsonFormFragment extends JsonFormFragment {
                 actionView.performClick();
             }
         });
+        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0);
+        textView.setCompoundDrawablePadding(paddingInt);
+        textView.setPadding(paddingInt, 0, 0, 0);
+        textView.setTextColor(getResources().getColor(R.color.text_black));
 
         snackbarView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -245,6 +255,14 @@ public class PathJsonFormFragment extends JsonFormFragment {
         });
 
         snackbar.show();
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                snackbar.dismiss();
+            }
+        }, duration);
 
     }
 
