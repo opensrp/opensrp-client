@@ -169,15 +169,7 @@ public class child_under_five_fragment extends Fragment  {
             }
             if(!formattedAge.equalsIgnoreCase("0d")) {
                 weightmap.put(formattedAge, weightlist.get(i).getKg() + " kg");
-
-                Date dateWeightTaken = weightlist.get(i).getDate();
-                Months m = Months.monthsBetween(new DateTime(dateWeightTaken), new DateTime(new Date()));
-                int months = m.getMonths();
-                if(months <= 3) {
-                    weighteditmode.add(editmode);
-                }else {
-                    weighteditmode.add(false);
-                }
+                weighteditmode.add(editmode);
 
                 final int finalI = i;
                 View.OnClickListener onclicklistener = new View.OnClickListener() {
