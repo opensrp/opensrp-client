@@ -41,7 +41,7 @@ public class WidgetFactory {
         View rows = inflater.inflate(R.layout.tablerows_weight, container, false);
         TextView label = (TextView)rows.findViewById(R.id.label);
         TextView value = (TextView)rows.findViewById(R.id.value);
-        TextView edit = (TextView)rows.findViewById(R.id.edit);
+        Button edit = (Button)rows.findViewById(R.id.edit);
         if(editenabled){
             edit.setVisibility(View.VISIBLE);
             edit.setOnClickListener(listener);
