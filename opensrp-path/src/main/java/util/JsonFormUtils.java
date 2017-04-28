@@ -1021,7 +1021,7 @@ public class JsonFormUtils {
         }
     }
 
-    private static Date formatDate(String dateString, boolean startOfToday) {
+    public static Date formatDate(String dateString, boolean startOfToday) {
         try {
 
             if (StringUtils.isBlank(dateString)) {

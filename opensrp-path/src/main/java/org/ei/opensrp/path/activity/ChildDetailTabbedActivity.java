@@ -411,14 +411,16 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Mother_Guardian_Date_Birth")) {
 
-                        if(Utils.getValue(childDetails.getColumnmaps(), "mother_dob", true)!=null || Utils.getValue(childDetails.getColumnmaps(), "mother_dob", true).equalsIgnoreCase(""))
-                        {
+                        if (!TextUtils.isEmpty(Utils.getValue(childDetails.getColumnmaps(), "mother_dob", true))) {
                             try {
                                 DateTime dateTime = new DateTime(Utils.getValue(childDetails.getColumnmaps(), "mother_dob", true));
                                 Date dob = dateTime.toDate();
-                                jsonObject.put(JsonFormUtils.VALUE, DATE_FORMAT.format(dob));
-                            }catch (Exception e){
-
+                                Date defaultDate = DATE_FORMAT.parse(JsonFormUtils.MOTHER_DEFAULT_DOB);
+                                long timeDiff = Math.abs(dob.getTime() - defaultDate.getTime());
+                                if (timeDiff > 86400000) {// Mother's date of birth occurs more than a day from the default date
+                                    jsonObject.put(JsonFormUtils.VALUE, DATE_FORMAT.format(dob));
+                                }
+                            } catch (Exception e) {
                             }
                         }
                     }
@@ -438,7 +440,13 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("First_Health_Facility_Contact")) {
                         jsonObject.put(JsonFormUtils.READ_ONLY, true);
-                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "First_Health_Facility_Contact", true));
+                        String dateString = Utils.getValue(detailmaps, "First_Health_Facility_Contact", false);
+                        if (!TextUtils.isEmpty(dateString)) {
+                            Date date = JsonFormUtils.formatDate(dateString, false);
+                            if (date != null) {
+                                jsonObject.put(JsonFormUtils.VALUE, DATE_FORMAT.format(date));
+                            }
+                        }
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Date_Birth")) {
                         jsonObject.put(JsonFormUtils.READ_ONLY, true);

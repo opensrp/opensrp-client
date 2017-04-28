@@ -120,8 +120,14 @@ public class ChildRegistrationDataFragment extends Fragment {
 
             layout.addView(wd.createTableRow(inflater, container, "Age", formattedAge));
 
-
-            layout.addView(wd.createTableRow(inflater, container, "Date first seen", Utils.getValue(detailsMap, "First_Health_Facility_Contact", true)));
+            String dateString = Utils.getValue(detailsMap, "First_Health_Facility_Contact", false);
+            if (!TextUtils.isEmpty(dateString)) {
+                Date date = JsonFormUtils.formatDate(dateString, false);
+                if (date != null) {
+                    dateString = ChildDetailTabbedActivity.DATE_FORMAT.format(date);
+                }
+            }
+            layout.addView(wd.createTableRow(inflater, container, "Date first seen", dateString));
             layout.addView(wd.createTableRow(inflater, container, "Birth weight", Utils.getValue(detailsMap, "Birth_Weight", true) + " kg"));
 
             layout.addView(wd.createTableRow(inflater, container, "Mother/guardian first name", (Utils.getValue(childDetails.getColumnmaps(), "mother_first_name", true).isEmpty()?Utils.getValue(childDetails.getDetails(), "mother_first_name", true):Utils.getValue(childDetails.getColumnmaps(), "mother_first_name", true))));
