@@ -168,7 +168,7 @@ public class ChildRegistrationDataFragment extends Fragment {
                             false))).equalsIgnoreCase("other")) {
                 layout.addView(wd.createTableRow(inflater, container, "Other birth facility", Utils.getValue(detailsMap, "Birth_Facility_Name_Other", true)));
             }
-            layout.addView(wd.createTableRow(inflater, container, "Child's residential area", JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "address3", true)))));
+            layout.addView(wd.createTableRow(inflater, container, "Child's residential area", JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "address3", false)))));
             if(JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(
                     Context.getInstance(),
                     Utils.getValue(detailsMap, "address3", true))).equalsIgnoreCase("other")) {
