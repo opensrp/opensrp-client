@@ -90,9 +90,10 @@ public class JsonFormUtils {
     private static final String VALUES = "values";
     public static final String FIELDS = "fields";
     public static final String KEY = "key";
-    private static final String ENTITY_ID = "entity_id";
-    private static final String RELATIONAL_ID = "relational_id";
+    public static final String ENTITY_ID = "entity_id";
+    public static final String RELATIONAL_ID = "relational_id";
     private static final String ENCOUNTER_TYPE = "encounter_type";
+    public static final String CURRENT_ZEIR_ID = "current_zeir_id";
     public static final String STEP1 = "step1";
     public static final String READ_ONLY = "read_only";
     private static final String METADATA = "metadata";
@@ -270,6 +271,7 @@ public class JsonFormUtils {
 
             String entityId = getString(jsonForm, ENTITY_ID);
             String relationalId = getString(jsonForm, RELATIONAL_ID);
+
             if (StringUtils.isBlank(entityId)) {
                 entityId = generateRandomUUIDString();
             }
@@ -348,6 +350,16 @@ public class JsonFormUtils {
             Date lastSyncDate = new Date(lastSyncTimeStamp);
             PathClientProcessor.getInstance(context).processClient(ecUpdater.getEvents(lastSyncDate,BaseRepository.TYPE_Unsynced));
             allSharedPreferences.saveLastUpdatedAtDate(lastSyncDate.getTime());
+
+            // Unassign current id
+            if(baseClient !=null) {
+                String newZeirId =  baseClient.getIdentifier(ZEIR_ID).replace("-", "");
+                String currentZeirId = getString(jsonForm, "current_zeir_id").replace("-", "");
+                if(!newZeirId.equals(currentZeirId)){
+                    //ZEIR_ID was changed
+                    VaccinatorApplication.getInstance().uniqueIdRepository().open(currentZeirId);
+                }
+            }
 
         } catch (Exception e) {
             Log.e(TAG, "", e);

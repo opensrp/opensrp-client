@@ -109,4 +109,6 @@
     <dimen name="register_drawable_padding">10dp</dimen>
 
     <dimen name="snack_bar_text_size">20dp</dimen>
+
+    <dimen name="title_label_text_max_width">150dp</dimen>
 </resources>
