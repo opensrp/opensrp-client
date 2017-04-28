@@ -198,6 +198,11 @@ public class PathRepository extends Repository {
 
             }
             String beid = fm.get(client_column.baseEntityId).toString();
+            String eid = null;
+            if (table.name().equalsIgnoreCase("event")) {
+                eid = fm.get(event_column.eventId).toString();
+
+            }
 
 
             if (table.name().equalsIgnoreCase("client") && checkIfExists(table, beid)) {
@@ -207,8 +212,15 @@ public class PathRepository extends Repository {
                 }
                 int id = db.update(table.name(), cv, client_column.baseEntityId.name() + "=?", new String[]{beid});
 
+            } else if(table.name().equalsIgnoreCase("event") && checkIfExistsByEventId(table, eid)){
+                //check if a event exists
+                if (cv.containsKey(event_column.eventId.name())) {
+                    cv.remove(event_column.eventId.name());//this tends to avoid unique constraint exception :)
+                }
+                int id = db.update(table.name(), cv, event_column.eventId.name() + "=?", new String[]{eid});
+
             } else {
-//for events just insert
+                //for events just insert
                 columns = removeEndingComma(columns);
                 values = removeEndingComma(values);
 
@@ -226,6 +238,23 @@ public class PathRepository extends Repository {
         Cursor mCursor = null;
         try {
             String query = "SELECT " + event_column.baseEntityId + " FROM " + table.name() + " WHERE " + event_column.baseEntityId + " = '" + baseEntityId + "'";
+            mCursor = getWritableDatabase().rawQuery(query, null);
+            if (mCursor != null && mCursor.moveToFirst()) {
+
+                return true;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.toString(), e);
+        } finally {
+            if (mCursor != null) mCursor.close();
+        }
+        return false;
+    }
+
+    private Boolean checkIfExistsByEventId(Table table, String eventId) {
+        Cursor mCursor = null;
+        try {
+            String query = "SELECT " + event_column.eventId + " FROM " + table.name() + " WHERE " + event_column.eventId + " = '" + eventId + "'";
             mCursor = getWritableDatabase().rawQuery(query, null);
             if (mCursor != null && mCursor.moveToFirst()) {
 
