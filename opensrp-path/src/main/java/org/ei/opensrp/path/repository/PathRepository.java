@@ -18,7 +18,6 @@ import org.ei.opensrp.path.db.Client;
 import org.ei.opensrp.path.db.Column;
 import org.ei.opensrp.path.db.ColumnAttribute;
 import org.ei.opensrp.path.db.Event;
-import org.ei.opensrp.path.db.Obs;
 import org.ei.opensrp.repository.Repository;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
@@ -156,7 +155,6 @@ public class PathRepository extends Repository {
                 fm.put(client_column.updatedAt, new DateTime(new Date().getTime()));
                 if (table.name().equalsIgnoreCase("event")) {
                     fm.put(event_column.eventId, serverJsonObject.getString("id"));
-
                 }
             } else {
                 return;
@@ -198,9 +196,9 @@ public class PathRepository extends Repository {
 
             }
             String beid = fm.get(client_column.baseEntityId).toString();
-            String eid = null;
+            String formSubmissionId = null;
             if (table.name().equalsIgnoreCase("event")) {
-                eid = fm.get(event_column.eventId).toString();
+                formSubmissionId = fm.get(event_column.formSubmissionId).toString();
 
             }
 
@@ -212,12 +210,12 @@ public class PathRepository extends Repository {
                 }
                 int id = db.update(table.name(), cv, client_column.baseEntityId.name() + "=?", new String[]{beid});
 
-            } else if(table.name().equalsIgnoreCase("event") && checkIfExistsByEventId(table, eid)){
+            } else if (table.name().equalsIgnoreCase("event") && checkIfExistsByFormSubmissionId(table, formSubmissionId)) {
                 //check if a event exists
-                if (cv.containsKey(event_column.eventId.name())) {
-                    cv.remove(event_column.eventId.name());//this tends to avoid unique constraint exception :)
+                if (cv.containsKey(event_column.formSubmissionId.name())) {
+                    cv.remove(event_column.formSubmissionId.name());//this tends to avoid unique constraint exception :)
                 }
-                int id = db.update(table.name(), cv, event_column.eventId.name() + "=?", new String[]{eid});
+                int id = db.update(table.name(), cv, event_column.formSubmissionId.name() + "=?", new String[]{formSubmissionId});
 
             } else {
                 //for events just insert
@@ -251,10 +249,10 @@ public class PathRepository extends Repository {
         return false;
     }
 
-    private Boolean checkIfExistsByEventId(Table table, String eventId) {
+    private Boolean checkIfExistsByFormSubmissionId(Table table, String formSubmissionId) {
         Cursor mCursor = null;
         try {
-            String query = "SELECT " + event_column.eventId + " FROM " + table.name() + " WHERE " + event_column.eventId + " = '" + eventId + "'";
+            String query = "SELECT " + event_column.formSubmissionId + " FROM " + table.name() + " WHERE " + event_column.formSubmissionId + " = '" + formSubmissionId + "'";
             mCursor = getWritableDatabase().rawQuery(query, null);
             if (mCursor != null && mCursor.moveToFirst()) {
 
@@ -289,9 +287,9 @@ public class PathRepository extends Repository {
                 event.setFormSubmissionId(generateRandomUUIDString());
             }
             insert(db, Event.class, Table.event, event_column.values(), event, serverJsonObject);
-            for (Obs o : event.getObs()) {
-                insert(db, Obs.class, Table.obs, obs_column.values(), obs_column.formSubmissionId.name(), event.getFormSubmissionId(), o, serverJsonObject);
-            }
+//            for (Obs o : event.getObs()) {
+//                insert(db, Obs.class, Table.obs, obs_column.values(), obs_column.formSubmissionId.name(), event.getFormSubmissionId(), o, serverJsonObject);
+//            }
         } catch (Exception e) {
             Log.e(getClass().getName(), "", e);
         }
@@ -718,6 +716,34 @@ public class PathRepository extends Repository {
         return list;
     }
 
+    public JSONObject getEventsByEventId(String eventId) {
+        List<JSONObject> list = new ArrayList<JSONObject>();
+        if (StringUtils.isBlank(eventId)) {
+            return null;
+        }
+
+        Cursor cursor = null;
+        try {
+            cursor = getWritableDatabase().rawQuery("SELECT json FROM " + Table.event.name() +
+                    " WHERE " + event_column.eventId.name() + "='" + eventId + "' ", null);
+            while (cursor.moveToNext()) {
+                String jsonEventStr = cursor.getString(0);
+
+                jsonEventStr = jsonEventStr.replaceAll("'", "");
+
+                JSONObject ev = new JSONObject(jsonEventStr);
+                return ev;
+
+            }
+        } catch (Exception e) {
+            Log.e(getClass().getName(), "Exception", e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
+
     public JSONObject getClientByBaseEntityId(String baseEntityId) {
         Cursor cursor = null;
         try {
@@ -801,22 +827,36 @@ public class PathRepository extends Repository {
             values.put(event_column.updatedAt.name(), dateFormat.format(new Date()));
             values.put(event_column.baseEntityId.name(), baseEntityId);
             values.put(event_column.syncStatus.name(), BaseRepository.TYPE_Unsynced);
+            //update existing event if eventid present
+            if (jsonObject.has(event_column.formSubmissionId.name()) && jsonObject.getString(event_column.formSubmissionId.name()) != null) {
+                //sanity check
+                if(checkIfExistsByFormSubmissionId(Table.event,jsonObject.getString(event_column.formSubmissionId.name()))){
+                    int id = getWritableDatabase().update(Table.event.name(), values, event_column.formSubmissionId.name() + "=?", new String[]{jsonObject.getString(event_column.formSubmissionId.name())});
+                }else{
+                    //that odd case
+                    values.put(event_column.formSubmissionId.name(), jsonObject.getString(event_column.formSubmissionId.name()));
 
-            getWritableDatabase().insert(Table.event.name(), null, values);
+                    getWritableDatabase().insert(Table.event.name(), null, values);
+
+                }
+            }else {
+// a case here would be if an event comes from openmrs
+                getWritableDatabase().insert(Table.event.name(), null, values);
+            }
 
         } catch (Exception e) {
             Log.e(getClass().getName(), "Exception", e);
         }
     }
 
-    public void markEventAsSynced(String baseEntityId) {
+    public void markEventAsSynced(String formSubmissionId) {
         try {
 
             ContentValues values = new ContentValues();
-            values.put(event_column.baseEntityId.name(), baseEntityId);
+            values.put(event_column.formSubmissionId.name(), formSubmissionId);
             values.put(event_column.syncStatus.name(), BaseRepository.TYPE_Synced);
 
-            getWritableDatabase().update(Table.event.name(), values, event_column.baseEntityId.name() + " = ?", new String[]{baseEntityId});
+            getWritableDatabase().update(Table.event.name(), values, event_column.formSubmissionId.name() + " = ?", new String[]{formSubmissionId});
 
         } catch (Exception e) {
             Log.e(getClass().getName(), "Exception", e);
@@ -850,8 +890,8 @@ public class PathRepository extends Repository {
             }
             if (events != null && !events.isEmpty()) {
                 for (JSONObject event : events) {
-                    String baseEntityId = event.getString(client_column.baseEntityId.name());
-                    markEventAsSynced(baseEntityId);
+                    String formSubmissionId = event.getString(event_column.formSubmissionId.name());
+                    markEventAsSynced(formSubmissionId);
                 }
             }
         } catch (Exception e) {
@@ -1149,7 +1189,7 @@ public class PathRepository extends Repository {
         return null;
     }
 
-    private String generateRandomUUIDString() {
+    protected String generateRandomUUIDString() {
         return UUID.randomUUID().toString();
     }
 
@@ -1248,6 +1288,10 @@ public class PathRepository extends Repository {
             db.execSQL(VaccineRepository.EVENT_ID_INDEX);
             db.execSQL(WeightRepository.UPDATE_TABLE_ADD_EVENT_ID_COL);
             db.execSQL(WeightRepository.EVENT_ID_INDEX);
+            db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_FORMSUBMISSION_ID_COL);
+            db.execSQL(VaccineRepository.FORMSUBMISSION_INDEX);
+            db.execSQL(WeightRepository.UPDATE_TABLE_ADD_FORMSUBMISSION_ID_COL);
+            db.execSQL(WeightRepository.FORMSUBMISSION_INDEX);
         } catch (Exception e) {
             Log.e(TAG, "upgradeToVersion3 " + e.getMessage());
         }

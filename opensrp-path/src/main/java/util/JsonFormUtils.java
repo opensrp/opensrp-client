@@ -1138,16 +1138,16 @@ public class JsonFormUtils {
         return c;
     }
 
-    private static JSONObject merge(JSONObject json1, JSONObject json2) {
+    private static JSONObject merge(JSONObject original, JSONObject updated) {
         JSONObject mergedJSON = new JSONObject();
         try {
-            mergedJSON = new JSONObject(json1, getNames(json1));
-            for (String crunchifyKey : getNames(json2)) {
-                mergedJSON.put(crunchifyKey, json2.get(crunchifyKey));
+            mergedJSON = new JSONObject(original, getNames(original));
+            for (String key : getNames(updated)) {
+                mergedJSON.put(key, updated.get(key));
             }
 
         } catch (JSONException e) {
-            throw new RuntimeException("JSON Exception" + e);
+            Log.e(TAG,e.getMessage());
         }
         return mergedJSON;
     }
@@ -1712,8 +1712,9 @@ public class JsonFormUtils {
                     .withLocationId(weight.getLocationId())
                     .withProviderId(weight.getAnmId())
                     .withEntityType(entityType)
-                    .withFormSubmissionId(generateRandomUUIDString())
+                    .withFormSubmissionId(weight.getFormSubmissionId()==null?generateRandomUUIDString():weight.getFormSubmissionId())
                     .withDateCreated(new Date());
+
 
             if (fields != null && fields.length() != 0)
                 for (int i = 0; i < fields.length(); i++) {
@@ -1726,7 +1727,16 @@ public class JsonFormUtils {
 
 
             if (event != null) {
+
                 JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(event));
+
+                //check if an event already exists and update instead
+                if(weight.getEventId()!=null){
+                    JSONObject existingEvent=db.getEventsByEventId(weight.getEventId());
+                    eventJson= merge(existingEvent,eventJson);
+                }
+
+                //merge if event exists
                 db.addEvent(event.getBaseEntityId(), eventJson);
 
             }
@@ -1747,7 +1757,7 @@ public class JsonFormUtils {
                     .withLocationId(vaccine.getLocationId())
                     .withProviderId(vaccine.getAnmId())
                     .withEntityType(entityType)
-                    .withFormSubmissionId(generateRandomUUIDString())
+                    .withFormSubmissionId(vaccine.getFormSubmissionId()==null?generateRandomUUIDString():vaccine.getFormSubmissionId())
                     .withDateCreated(new Date());
 
             if (fields != null && fields.length() != 0)
@@ -1761,7 +1771,16 @@ public class JsonFormUtils {
 
 
             if (event != null) {
+
                 JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(event));
+
+                //check if an event already exists and update instead
+                if(vaccine.getEventId()!=null){
+                    JSONObject existingEvent=db.getEventsByEventId(vaccine.getEventId());
+                    eventJson= merge(existingEvent,eventJson);
+                }
+
+                //merge if event exists
                 db.addEvent(event.getBaseEntityId(), eventJson);
             }
         } catch (Exception e) {
