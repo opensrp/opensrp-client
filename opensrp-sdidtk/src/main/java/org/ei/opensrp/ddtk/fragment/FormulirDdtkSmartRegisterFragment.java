@@ -256,19 +256,16 @@ public class FormulirDdtkSmartRegisterFragment extends SecuredNativeSmartRegiste
             ft.remove(prev);
         }
 
-        // String uniqueIdJson = LoginActivity.generator.uniqueIdController().getUniqueIdJson();
-      /*  if(uniqueIdJson == null || uniqueIdJson.isEmpty()){
+         String uniqueIdJson = LoginActivity.generator.uniqueIdController().getUniqueIdJson();
+        if(uniqueIdJson == null || uniqueIdJson.isEmpty()){
             Toast.makeText(getActivity(),"No unique id",Toast.LENGTH_LONG).show();
             return;
-        }*/
+        }
 
         ft.addToBackStack(null);
         LocationSelectorDialogFragment
-//<<<<<<< HEAD
-//                .newInstance((GiziSmartRegisterActivity) getActivity(), new EditDialogOptionModel(), context.anmLocationController().get(), "registrasi_gizi")
-//=======
-                .newInstance((FormulirDdtkSmartRegisterActivity) getActivity(), new EditDialogOptionModel(), context().anmLocationController().get(), "registrasi_sdidtk")
-//>>>>>>> a226fad729247ae36c3882a71e1d3f15be4ade8a
+                .newInstance((FormulirDdtkSmartRegisterActivity) getActivity(), new EditDialogOptionModel(), context()
+                        .anmLocationController().get(), "registrasi_sdidtk")
                 .show(ft, locationDialogTAG);
     }
 

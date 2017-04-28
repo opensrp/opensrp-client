@@ -214,6 +214,9 @@ public class NativeHomeActivity extends SecuredActivity {
 
         Map<String,TreeNode<String, Location>> locationMap =
                 locationTree.getLocationsHierarchy();
+
+        if(LoginActivity.generator.uniqueIdController().needToRefillUniqueId(LoginActivity.generator.UNIQUE_ID_LIMIT))  // unique id part
+            LoginActivity.generator.requestUniqueId();                                                                  // unique id part
     }
 
     @Override

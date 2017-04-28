@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
@@ -86,6 +87,13 @@ public class FormulirDdtkSmartRegisterActivity extends SecuredNativeSmartRegiste
             }
         });
 
+        if(LoginActivity.generator.uniqueIdController().needToRefillUniqueId(LoginActivity.generator.UNIQUE_ID_LIMIT)) {
+            String toastMessage =  "need to refill unique id, its only "+
+                                           LoginActivity.generator.uniqueIdController().countRemainingUniqueId()+
+                                           " remaining";
+            Toast.makeText(context().applicationContext(), toastMessage, Toast.LENGTH_LONG).show();
+        }
+
         ziggyService = context().ziggyService();
     }
     public void onPageChanged(int page){
@@ -139,15 +147,15 @@ public class FormulirDdtkSmartRegisterActivity extends SecuredNativeSmartRegiste
 
         try {
             JSONObject locationJSON = new JSONObject(locationJSONString);
-        //    JSONObject uniqueId = new JSONObject(LoginActivity.generator.uniqueIdController().getUniqueIdJson());
+            JSONObject uniqueId = new JSONObject(LoginActivity.generator.uniqueIdController().getUniqueIdJson());
 
             combined = locationJSON;
-          //  Iterator<String> iter = uniqueId.keys();
+            Iterator<String> iter = uniqueId.keys();
 
-         //   while (iter.hasNext()) {
-           //     String key = iter.next();
-            //    combined.put(key, uniqueId.get(key));
-        //    }
+            while (iter.hasNext()) {
+                String key = iter.next();
+                combined.put(key, uniqueId.get(key));
+            }
 
        //     System.out.println("injection string: " + combined.toString());
         } catch (JSONException e) {
@@ -191,6 +199,10 @@ public class FormulirDdtkSmartRegisterActivity extends SecuredNativeSmartRegiste
 
             context().formSubmissionService().updateFTSsearch(submission);
             context().formSubmissionRouter().handleSubmission(submission, formName);
+
+            if(formName.equals("registrasi_gizi")) {
+                saveuniqueid();
+            }
 
             //switch to forms list fragment
             switchToBaseFragment(formSubmission); // Unnecessary!! passing on data
@@ -337,6 +349,17 @@ public class FormulirDdtkSmartRegisterActivity extends SecuredNativeSmartRegiste
 //            formNames.add(((OpenFormOption) options[i]).getFormName());
 //        }
         return formNames.toArray(new String[formNames.size()]);
+    }
+
+    public void saveuniqueid() {
+        try {
+            JSONObject uniqueId = new JSONObject(LoginActivity.generator.uniqueIdController().getUniqueIdJson());
+            String uniq = uniqueId.getString("unique_id");
+            LoginActivity.generator.uniqueIdController().updateCurrentUniqueId(uniq);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
