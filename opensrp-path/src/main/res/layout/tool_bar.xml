@@ -53,6 +53,7 @@
             android:background="@android:color/transparent"
             android:ellipsize="end"
             android:singleLine="true"
+            android:maxWidth="@dimen/title_label_text_max_width"
             android:text="ZEIR"/>
 
         <org.ei.opensrp.view.customControls.CustomFontTextView

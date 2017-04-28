@@ -252,12 +252,12 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
         List <Vaccine> vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
         boolean all_synced = true;
-        for(int i = 0;i < vaccineList.size();i++){
-           if(vaccineList.get(i).getSyncStatus().equalsIgnoreCase(VaccineRepository.TYPE_Unsynced)){
-               all_synced = false;
-           }
-        }
-        if(vaccineList.size() ==0 || all_synced){
+//        for(int i = 0;i < vaccineList.size();i++){
+//           if(vaccineList.get(i).getSyncStatus().equalsIgnoreCase(VaccineRepository.TYPE_Unsynced)){
+//               all_synced = false;
+//           }
+//        }
+        if(vaccineList.size() ==0 ){
             overflow.getItem(3).setEnabled(false);
 
         }
@@ -372,8 +372,10 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
             JsonFormUtils.addChildRegLocHierarchyQuestions(form, context);
             Log.d(TAG, "Form is "+form.toString());
             if (form != null) {
-                form.put("entity_id", childDetails.entityId());
-                form.put("relational_id", childDetails.getColumnmaps().get("relational_id"));
+                form.put(JsonFormUtils.ENTITY_ID, childDetails.entityId());
+                form.put(JsonFormUtils.RELATIONAL_ID, childDetails.getColumnmaps().get("relational_id"));
+                form.put(JsonFormUtils.CURRENT_ZEIR_ID, Utils.getValue(childDetails.getColumnmaps(), "zeir_id", true).replace("-", ""));
+
 
                 Intent intent = new Intent(getApplicationContext(), PathJsonFormActivity.class);
                 //inject zeir id into the form

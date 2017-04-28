@@ -11,6 +11,7 @@ public class Weight {
     Long id;
     String baseEntityId;
     String eventId;
+    String formSubmissionId;
     String programClientId;
     Float kg;
     Date date;
@@ -22,7 +23,7 @@ public class Weight {
     public Weight() {
     }
 
-    public Weight(Long id, String baseEntityId, Float kg, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId) {
+    public Weight(Long id, String baseEntityId, Float kg, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId) {
         this.id = id;
         this.baseEntityId = baseEntityId;
         this.programClientId = null;
@@ -33,9 +34,10 @@ public class Weight {
         this.syncStatus = syncStatus;
         this.updatedAt = updatedAt;
         this.eventId=eventId;
+        this.formSubmissionId=formSubmissionId;
     }
 
-    public Weight(Long id, String baseEntityId, String programClientId, Float kg, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId) {
+    public Weight(Long id, String baseEntityId, String programClientId, Float kg, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId) {
         this.id = id;
         this.baseEntityId = baseEntityId;
         this.programClientId = programClientId;
@@ -46,6 +48,7 @@ public class Weight {
         this.syncStatus = syncStatus;
         this.updatedAt = updatedAt;
         this.eventId=eventId;
+        this.formSubmissionId=formSubmissionId;
     }
 
 
@@ -134,4 +137,13 @@ public class Weight {
     public void setEventId(String eventId) {
         this.eventId = eventId;
     }
+
+    public String getFormSubmissionId() {
+        return formSubmissionId;
+    }
+
+    public void setFormSubmissionId(String formSubmissionId) {
+        this.formSubmissionId = formSubmissionId;
+    }
+
 }
