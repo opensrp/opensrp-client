@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+    android:weightSum="10">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/list_item_height"
+        android:weightSum="10">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/ischildofarrow"
+            android:visibility="gone"
+            android:src="@mipmap/ischildof" />
+
+        <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+            android:id="@+id/profile_info_layout"
+            android:paddingRight="20dp">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/profilepic"
+                android:src="@drawable/child_boy_infant"
+                android:scaleType="fitXY"
+                android:layout_marginLeft="5dp" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="3dp">
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                style="@style/CustomFontTextViewStyle.ListView.Bold.NoPadding"
+                android:text="Medium Text"
+                android:id="@+id/name" />
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                style="@style/CustomFontTextViewStyle.noPadding"
+                android:text="Medium Text"
+                android:textSize="12sp"
+                android:id="@+id/unique_id" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    style="@style/CustomFontTextViewStyle.noPadding"
+                    android:textSize="12sp"
+                    android:id="@+id/age" />
+
+
+
+
+            </LinearLayout>
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                style="@style/CustomFontTextViewStyle.noPadding"
+                android:textSize="14sp"
+                android:id="@+id/marital_status" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:layout_gravity="right">
+
+                <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.5"
+                >
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="New Born"
+                    style="@style/CustomFontTextViewStyle.ListView.Medium"
+                    android:id="@+id/newborn_pr_fp"
+                    android:background="@color/alert_upcoming_yellow"
+                    android:layout_gravity="center"
+                    android:padding="25dp"
+                    android:gravity="center" />
+
+                </LinearLayout>
+
+                <ImageView
+                android:layout_width="@dimen/smart_register_client_divider_height"
+                android:layout_height="fill_parent"
+                android:src="@color/smart_register_client_divider_color"/>
+
+                <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.5"
+                >
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="General"
+                    style="@style/CustomFontTextViewStyle.ListView.Medium"
+                    android:id="@+id/general"
+                    android:padding="25dp"
+                    android:background="@color/alert_upcoming_yellow"
+                    android:layout_gravity="center"
+                    android:gravity="center" />
+            </LinearLayout>
+
+                <ImageView
+                    android:layout_width="@dimen/smart_register_client_divider_height"
+                    android:layout_height="fill_parent"
+                    android:src="@color/smart_register_client_divider_color"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/childlist" />
+</LinearLayout>
