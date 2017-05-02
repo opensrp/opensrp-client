@@ -136,6 +136,8 @@ public class HouseHoldDetailActivity extends Activity {
         Clientsview = (ListView)findViewById(R.id.list);
         paginationViewHandler.addPagination(Clientsview);
 
+        Log.d("householdClient",householdclient.entityId() != null ? householdclient.entityId() + "not null":"null");
+
         householdcontroller = new CommonPersonObjectController(Context.getInstance().allCommonsRepositoryobjects("elco"), Context.getInstance().allBeneficiaries(),context.listCache(),
                 context.personObjectClientsCache(),"FWWOMFNAME","elco","relationalid",householdclient.entityId(), CommonPersonObjectController.ByColumnAndByDetails.byrelationalid,"FWWOMFNAME", CommonPersonObjectController.ByColumnAndByDetails.byColumn);
                 clientsAdapter = adapter();

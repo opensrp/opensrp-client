@@ -136,6 +136,8 @@ public class HouseHoldSmartClientsProvider implements SmartRegisterCLientsProvid
         viewHolder.village.setText((humanize((pc.getDetails().get("existing_Mauzapara")!=null?pc.getDetails().get("existing_Mauzapara"):"").replace("+","_"))));
         viewHolder.headofhouseholdname.setText(humanize(pc.getColumnmaps().get("FWHOHFNAME")!=null?pc.getColumnmaps().get("FWHOHFNAME"):""));
         viewHolder.no_of_mwra.setText(pc.getDetails().get("ELCO")!=null?pc.getDetails().get("ELCO"):"");
+
+
         Date lastdate = null;
         if(pc.getDetails().get("FWNHREGDATE")!= null && pc.getDetails().get("FWCENDATE")!= null) {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

@@ -30,6 +30,7 @@ import org.ei.opensrp.mcare.child.encc3handler;
 import org.ei.opensrp.mcare.elco.MIS_elco_form_handler;
 import org.ei.opensrp.mcare.elco.PSRFHandler;
 import org.ei.opensrp.mcare.household.CensusEnrollmentHandler;
+import org.ei.opensrp.mcare.household.HouseholdHandler;
 import org.ei.opensrp.mcare.household.tutorial.tutorialCircleViewFlow;
 import org.ei.opensrp.mcare.pnc.pnc1handler;
 import org.ei.opensrp.mcare.pnc.pnc2handler;
@@ -140,6 +141,10 @@ public class NativeHomeActivity extends SecuredActivity {
                 "mis_elco", new MIS_elco_form_handler());
         context().formSubmissionRouter().getHandlerMap().put(
                 "birthnotificationpregnancystatusfollowup", new nbnfhandler());
+
+
+        context().formSubmissionRouter().getHandlerMap().put(
+                "new_household_registration", new HouseholdHandler());
     }
 
     private void setupViews() {
