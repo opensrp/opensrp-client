@@ -74,6 +74,7 @@ import static util.Utils.getValue;
  */
 public class VaccinatorUtils {
     private static final String TAG = "VaccinatorUtils";
+
     public static HashMap<String, String> providerDetails() {
         org.ei.opensrp.Context context = org.ei.opensrp.Context.getInstance();
         org.ei.opensrp.util.Log.logDebug("ANM DETAILS" + context.anmController().get());
@@ -300,7 +301,7 @@ public class VaccinatorUtils {
             DateTime recDate = getReceivedDate(received, v);
             if (recDate != null) {
                 m = createVaccineMap("done", null, recDate, v);
-            } else if (milestoneDate != null && milestoneDate.plusDays(v.expiryDays()).isBefore(DateTime.now())) {
+            } else if (milestoneDate != null && v.expiryDays() > 0 && milestoneDate.plusDays(v.expiryDays()).isBefore(DateTime.now())) {
                 m = createVaccineMap("expired", null, milestoneDate.plusDays(v.expiryDays()), v);
             } else if (alerts.size() > 0) {
                 for (Alert a : alerts) {
@@ -340,7 +341,7 @@ public class VaccinatorUtils {
             Date recDate = received.get(v.display().toLowerCase());
             if (recDate != null) {
                 m = createVaccineMap("done", null, new DateTime(recDate), v);
-            } else if (milestoneDate != null && milestoneDate.plusDays(v.expiryDays()).isBefore(DateTime.now())) {
+            } else if (milestoneDate != null && v.expiryDays() > 0 && milestoneDate.plusDays(v.expiryDays()).isBefore(DateTime.now())) {
                 m = createVaccineMap("expired", null, milestoneDate.plusDays(v.expiryDays()), v);
             } else if (alerts.size() > 0) {
                 for (Alert a : alerts) {
@@ -387,6 +388,11 @@ public class VaccinatorUtils {
         Map<String, Object> v = null;
         for (Map<String, Object> m : schedule) {
             if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
+                if (m.get("vaccine") != null && ((Vaccine) m.get("vaccine")).equals(Vaccine.bcg2)) {
+                    // bcg is a special alert and should not be considered as the next vaccine
+                    continue;
+                }
+
                 if (v == null) {
                     v = m;
                 } else if (m.get("date") != null && v.get("date") != null
@@ -404,6 +410,11 @@ public class VaccinatorUtils {
         Map<String, Object> v = null;
         for (Map<String, Object> m : schedule) {
             if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
+                if (m.get("vaccine") != null && ((Vaccine) m.get("vaccine")).equals(Vaccine.bcg2)) {
+                    // bcg is a special alert and should not be considered as the next vaccine
+                    continue;
+                }
+
                 if (v == null) {
                     if (m.get("vaccine") != null && vaccineList.contains((Vaccine) m.get("vaccine"))) {
                         v = m;
@@ -481,6 +492,7 @@ public class VaccinatorUtils {
 
     /**
      * This method retrieves the human readable name corresponding to the vaccine name from {@code Vaccine.getName()}
+     *
      * @param vaccineDbName
      * @return
      */

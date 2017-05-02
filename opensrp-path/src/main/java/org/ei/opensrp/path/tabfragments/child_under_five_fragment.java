@@ -32,6 +32,7 @@ import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.view.customControls.CustomFontTextView;
 import org.joda.time.DateTime;
+import org.joda.time.Months;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -122,7 +123,7 @@ public class child_under_five_fragment extends Fragment  {
 //        weightmap.put("7 m","6.7 Kg");
 //        weightmap.put("6 m","5.6 Kg");
 //        weightmap.put("5 m","5.0 Kg");
-        createWeightLayout(editweightmode);
+        createWeightLayout(fragmentcontainer, editweightmode);
             View view = new View(getActivity());
             int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, Context.getInstance().applicationContext().getResources().getDisplayMetrics());
 
@@ -139,7 +140,7 @@ public class child_under_five_fragment extends Fragment  {
 
     }
 
-    private void createWeightLayout(boolean editmode) {
+    private void createWeightLayout(LinearLayout fragmentcontainer, boolean editmode) {
         LinkedHashMap<String, String> weightmap = new LinkedHashMap<>();
         ArrayList<Boolean> weighteditmode = new ArrayList<Boolean>();
         ArrayList<View.OnClickListener> listeners = new ArrayList<View.OnClickListener>();
@@ -168,11 +169,8 @@ public class child_under_five_fragment extends Fragment  {
             }
             if(!formattedAge.equalsIgnoreCase("0d")) {
                 weightmap.put(formattedAge, weightlist.get(i).getKg() + " kg");
-                if (weightlist.get(i).getSyncStatus().equalsIgnoreCase(BaseRepository.TYPE_Unsynced)) {
-                    weighteditmode.add(editmode);
-                } else {
-                    weighteditmode.add(false);
-                }
+                weighteditmode.add(editmode);
+
                 final int finalI = i;
                 View.OnClickListener onclicklistener = new View.OnClickListener() {
 

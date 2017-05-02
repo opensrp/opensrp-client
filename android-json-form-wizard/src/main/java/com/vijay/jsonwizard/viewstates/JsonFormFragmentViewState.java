@@ -21,7 +21,7 @@ public class JsonFormFragmentViewState extends ViewState implements android.os.P
     public JsonFormFragmentViewState() {
     }
 
-    private JsonFormFragmentViewState(Parcel in) {
+    protected JsonFormFragmentViewState(Parcel in) {
         super(in);
     }
 

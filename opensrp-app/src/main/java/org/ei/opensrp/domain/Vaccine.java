@@ -1,7 +1,5 @@
 package org.ei.opensrp.domain;
 
-import org.ei.opensrp.clientandeventmodel.Event;
-
 import java.util.Date;
 import java.util.HashMap;
 
@@ -20,11 +18,13 @@ public class Vaccine {
     String locationId;
     String syncStatus;
     Long updatedAt;
+    String eventId;
+    String formSubmissionId;
 
     public Vaccine() {
     }
 
-    public Vaccine(Long id, String baseEntityId, String name, Integer calculation, Date date, String anmId, String locationId, String syncStatus, Long updatedAt) {
+    public Vaccine(Long id, String baseEntityId, String name, Integer calculation, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId) {
         this.id = id;
         this.baseEntityId = baseEntityId;
         this.programClientId = null;
@@ -35,9 +35,11 @@ public class Vaccine {
         this.locationId = locationId;
         this.syncStatus = syncStatus;
         this.updatedAt = updatedAt;
+        this.eventId=eventId;
+        this.formSubmissionId=formSubmissionId;
     }
 
-    public Vaccine(Long id, String baseEntityId, String programClientId, String name, Integer calculation, Date date, String anmId, String locationId, String syncStatus, Long updatedAt) {
+    public Vaccine(Long id, String baseEntityId, String programClientId, String name, Integer calculation, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId) {
         this.id = id;
         this.baseEntityId = baseEntityId;
         this.programClientId = programClientId;
@@ -48,6 +50,8 @@ public class Vaccine {
         this.locationId = locationId;
         this.syncStatus = syncStatus;
         this.updatedAt = updatedAt;
+        this.eventId=eventId;
+        this.formSubmissionId=formSubmissionId;
     }
 
     public Long getId() {
@@ -137,5 +141,20 @@ public class Vaccine {
 
     public void setSyncStatus(String syncStatus) {
         this.syncStatus = syncStatus;
+    }
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    public String getFormSubmissionId() {
+        return formSubmissionId;
+    }
+
+    public void setFormSubmissionId(String formSubmissionId) {
+        this.formSubmissionId = formSubmissionId;
     }
 }

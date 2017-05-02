@@ -16,6 +16,7 @@ public abstract class OpenSRPImageListener implements ImageListener {
     private final int imageViewId;
     private String absoluteFileName;
     private boolean hasImageViewTag;
+    private String entityId;
 
     public OpenSRPImageListener(ImageView imageView, int defaultImageResId, int errorImageResId) {
         this.imageView = imageView;
@@ -23,6 +24,11 @@ public abstract class OpenSRPImageListener implements ImageListener {
         this.errorImageResId = errorImageResId;
         this.remoteView = null;
         this.imageViewId = 0;
+    }
+
+    public OpenSRPImageListener(ImageView imageView, String entityId, int defaultImageResId, int errorImageResId) {
+        this(imageView, defaultImageResId, errorImageResId);
+        this.entityId = entityId;
     }
 
     public OpenSRPImageListener(RemoteViews remoteView, int imageViewId, int defaultImageResId, int errorImageResId) {
@@ -59,6 +65,14 @@ public abstract class OpenSRPImageListener implements ImageListener {
 
     public boolean getHasImageViewTag() {
         return hasImageViewTag;
+    }
+
+    public String getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(String entityId) {
+        this.entityId = entityId;
     }
 
     @Override

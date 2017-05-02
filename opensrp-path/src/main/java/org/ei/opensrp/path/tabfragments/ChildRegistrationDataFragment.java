@@ -1,6 +1,5 @@
 package org.ei.opensrp.path.tabfragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -8,12 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TableLayout;
-import android.widget.TextView;
 
 import org.ei.opensrp.Context;
-import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.ChildDetailTabbedActivity;
@@ -31,14 +26,14 @@ import util.JsonFormUtils;
 import util.Utils;
 
 
-public class child_registration_data_fragment extends Fragment {
+public class ChildRegistrationDataFragment extends Fragment {
     public CommonPersonObjectClient childDetails;
-    public Map<String, String> Detailsmap;
+    public Map<String, String> detailsMap;
     private LayoutInflater inflater;
     private ViewGroup container;
     private LinearLayout layout;
 
-    public child_registration_data_fragment() {
+    public ChildRegistrationDataFragment() {
         // Required empty public constructor
 
     }
@@ -64,7 +59,6 @@ public class child_registration_data_fragment extends Fragment {
         this.inflater = inflater;
         this.container = container;
         this.layout = layout;
-        LoadData();
 
 //        layout.addView(createTableRow(inflater,container,"Catchment Area","Linda"));
 //        layout.addView(createTableRow(inflater,container,"Catchment Area","Linda"));
@@ -83,22 +77,28 @@ public class child_registration_data_fragment extends Fragment {
         return fragmentview;
     }
 
-    public void LoadData() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+    }
+
+    public void loadData() {
         if(layout != null && container!=null && inflater!=null) {
             if (layout.getChildCount() > 0) {
                 layout.removeAllViews();
             }
 
             DetailsRepository detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
-            Detailsmap = detailsRepository.getAllDetailsForClient(childDetails.entityId());
+            detailsMap = detailsRepository.getAllDetailsForClient(childDetails.entityId());
 
-//        Detailsmap = childDetails.getColumnmaps();
+//        detailsMap = childDetails.getColumnmaps();
             WidgetFactory wd = new WidgetFactory();
 
-            layout.addView(wd.createTableRow(inflater, container, "Child's home health facility", fixlocationview(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(Detailsmap, "Home_Facility", false)))));
+            layout.addView(wd.createTableRow(inflater, container, "Child's home health facility", JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "Home_Facility", false)))));
             layout.addView(wd.createTableRow(inflater, container, "Child's ZEIR ID", Utils.getValue(childDetails.getColumnmaps(), "zeir_id", false)));
-            layout.addView(wd.createTableRow(inflater, container, "Child's register card number", Utils.getValue(Detailsmap, "Child_Register_Card_Number", false)));
-            layout.addView(wd.createTableRow(inflater, container, "Child's birth certificate number", Utils.getValue(Detailsmap, "Child_Birth_Certificate", false)));
+            layout.addView(wd.createTableRow(inflater, container, "Child's register card number", Utils.getValue(detailsMap, "Child_Register_Card_Number", false)));
+            layout.addView(wd.createTableRow(inflater, container, "Child's birth certificate number", Utils.getValue(detailsMap, "Child_Birth_Certificate", false)));
             layout.addView(wd.createTableRow(inflater, container, "First name", Utils.getValue(childDetails.getColumnmaps(), "first_name", true)));
             layout.addView(wd.createTableRow(inflater, container, "Last name", Utils.getValue(childDetails.getColumnmaps(), "last_name", true)));
             layout.addView(wd.createTableRow(inflater, container, "Sex", Utils.getValue(childDetails.getColumnmaps(), "gender", true)));
@@ -120,32 +120,41 @@ public class child_registration_data_fragment extends Fragment {
 
             layout.addView(wd.createTableRow(inflater, container, "Age", formattedAge));
 
-
-            layout.addView(wd.createTableRow(inflater, container, "Date first seen", Utils.getValue(Detailsmap, "First_Health_Facility_Contact", true)));
-            layout.addView(wd.createTableRow(inflater, container, "Birth weight", Utils.getValue(Detailsmap, "Birth_Weight", true) + " kg"));
+            String dateString = Utils.getValue(detailsMap, "First_Health_Facility_Contact", false);
+            if (!TextUtils.isEmpty(dateString)) {
+                Date date = JsonFormUtils.formatDate(dateString, false);
+                if (date != null) {
+                    dateString = ChildDetailTabbedActivity.DATE_FORMAT.format(date);
+                }
+            }
+            layout.addView(wd.createTableRow(inflater, container, "Date first seen", dateString));
+            layout.addView(wd.createTableRow(inflater, container, "Birth weight", Utils.getValue(detailsMap, "Birth_Weight", true) + " kg"));
 
             layout.addView(wd.createTableRow(inflater, container, "Mother/guardian first name", (Utils.getValue(childDetails.getColumnmaps(), "mother_first_name", true).isEmpty()?Utils.getValue(childDetails.getDetails(), "mother_first_name", true):Utils.getValue(childDetails.getColumnmaps(), "mother_first_name", true))));
             layout.addView(wd.createTableRow(inflater, container, "Mother/guardian last name",(Utils.getValue(childDetails.getColumnmaps(), "mother_last_name", true).isEmpty() ? Utils.getValue(childDetails.getDetails(), "mother_last_name", true) : Utils.getValue(childDetails.getColumnmaps(), "mother_last_name", true))));
             String motherDob = Utils.getValue(childDetails, "mother_dob", true);
+
+            try {
+                DateTime dateTime = new DateTime(motherDob);
+                Date mother_dob = dateTime.toDate();
+                motherDob = ChildDetailTabbedActivity.DATE_FORMAT.format(mother_dob);
+            }catch (Exception e){
+
+            }
+
+            // If default mother dob ... set it as blank
             if (motherDob != null && motherDob.equals(JsonFormUtils.MOTHER_DEFAULT_DOB)) {
                 motherDob = "";
-            }else{
-                try {
-                    DateTime dateTime = new DateTime(motherDob);
-                    Date mother_dob = dateTime.toDate();
-                    motherDob = ChildDetailTabbedActivity.DATE_FORMAT.format(mother_dob);
-                }catch (Exception e){
-
-                }
             }
+
             layout.addView(wd.createTableRow(inflater, container, "Mother/guardian DOB",motherDob));
 
             layout.addView(wd.createTableRow(inflater, container, "Mother/guardian NRC number", Utils.getValue(childDetails, "mother_nrc_number", true)));
-            layout.addView(wd.createTableRow(inflater, container, "Mother/guardian phone number", Utils.getValue(Detailsmap, "Mother_Guardian_Number", true)));
-            layout.addView(wd.createTableRow(inflater, container, "Father/guardian full name", Utils.getValue(Detailsmap, "Father_Guardian_Name", true)));
-            layout.addView(wd.createTableRow(inflater, container, "Father/guardian NRC number", Utils.getValue(Detailsmap, "Father_NRC_Number", true)));
+            layout.addView(wd.createTableRow(inflater, container, "Mother/guardian phone number", Utils.getValue(detailsMap, "Mother_Guardian_Number", true)));
+            layout.addView(wd.createTableRow(inflater, container, "Father/guardian full name", Utils.getValue(detailsMap, "Father_Guardian_Name", true)));
+            layout.addView(wd.createTableRow(inflater, container, "Father/guardian NRC number", Utils.getValue(detailsMap, "Father_NRC_Number", true)));
 
-            String placeofnearth_Choice = Utils.getValue(Detailsmap, "Place_Birth", true);
+            String placeofnearth_Choice = Utils.getValue(detailsMap, "Place_Birth", true);
             if (placeofnearth_Choice.equalsIgnoreCase("1588AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")) {
                 placeofnearth_Choice = "Health facility";
             }
@@ -153,34 +162,24 @@ public class child_registration_data_fragment extends Fragment {
                 placeofnearth_Choice = "Home";
             }
             layout.addView(wd.createTableRow(inflater, container, "Place of birth", placeofnearth_Choice));
-            layout.addView(wd.createTableRow(inflater, container, "Health facility the child was born in", fixlocationview(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(Detailsmap, "Birth_Facility_Name", false)))));
-            layout.addView(wd.createTableRow(inflater, container, "Child's residential area", fixlocationview(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(Detailsmap, "Residential_Area", true)))));
-            layout.addView(wd.createTableRow(inflater, container, "Other residential area", Utils.getValue(Detailsmap, "Residential_Area_Other", true)));
-            layout.addView(wd.createTableRow(inflater, container, "Home address", Utils.getValue(Detailsmap, "address2", true)));
+            layout.addView(wd.createTableRow(inflater, container, "Health facility the child was born in", JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "Birth_Facility_Name", false)))));
+            if(JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(
+                    Context.getInstance(), Utils.getValue(detailsMap, "Birth_Facility_Name",
+                            false))).equalsIgnoreCase("other")) {
+                layout.addView(wd.createTableRow(inflater, container, "Other birth facility", Utils.getValue(detailsMap, "Birth_Facility_Name_Other", true)));
+            }
+            layout.addView(wd.createTableRow(inflater, container, "Child's residential area", JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "address3", false)))));
+            if(JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(
+                    Context.getInstance(),
+                    Utils.getValue(detailsMap, "address3", true))).equalsIgnoreCase("other")) {
+                layout.addView(wd.createTableRow(inflater, container, "Other residential area", Utils.getValue(detailsMap, "address5", true)));
+            }
+            layout.addView(wd.createTableRow(inflater, container, "Home address", Utils.getValue(detailsMap, "address2", true)));
 
-            layout.addView(wd.createTableRow(inflater, container, "Landmark", Utils.getValue(Detailsmap, "address1", true)));
-            layout.addView(wd.createTableRow(inflater, container, "CHW name", Utils.getValue(Detailsmap, "CHW_Name", true)));
-            layout.addView(wd.createTableRow(inflater, container, "CHW phone number", Utils.getValue(Detailsmap, "CHW_Phone_Number", true)));
-            layout.addView(wd.createTableRow(inflater, container, "HIV exposure", Utils.getValue(Detailsmap, "pmtct_status", true)));
+            layout.addView(wd.createTableRow(inflater, container, "Landmark", Utils.getValue(detailsMap, "address1", true)));
+            layout.addView(wd.createTableRow(inflater, container, "CHW name", Utils.getValue(detailsMap, "CHW_Name", true)));
+            layout.addView(wd.createTableRow(inflater, container, "CHW phone number", Utils.getValue(detailsMap, "CHW_Phone_Number", true)));
+            layout.addView(wd.createTableRow(inflater, container, "HIV exposure", Utils.getValue(detailsMap, "PMTCT_Status", true)));
         }
     }
-
-    public String fixlocationview(String value){
-        if(value.contains("[")){
-            value = value.replace("[","").replace("]","");
-            if(value.contains(",")){
-                value = value.split(",")[value.split(",").length-1];
-            }
-            if(value.contains("\"")){
-                value = value.replace("\"","");
-            }
-            return value;
-        }else{
-            return value;
-        }
-    }
-
-
-
-
 }

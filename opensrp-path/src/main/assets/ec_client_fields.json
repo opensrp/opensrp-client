@@ -279,7 +279,7 @@
           "type":"Event",
           "json_mapping":{
             "field":"obs.fieldCode",
-            "formSubmissionField":"PMTCT_Status"
+            "concept":"1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
           }
         },
         {

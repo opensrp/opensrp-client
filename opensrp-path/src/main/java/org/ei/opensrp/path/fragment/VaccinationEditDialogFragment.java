@@ -22,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.vijay.jsonwizard.utils.DatePickerUtils;
+
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.db.VaccineRepo;
@@ -182,6 +184,9 @@ public class VaccinationEditDialogFragment extends DialogFragment {
                 vaccinateToday.setVisibility(View.GONE);
                 earlierDatePicker.setVisibility(View.VISIBLE);
                 set.setVisibility(View.VISIBLE);
+
+                DatePickerUtils.themeDatePicker(earlierDatePicker, new char[]{'d', 'm', 'y'});
+
 //                dismiss();
 //
 //                Calendar calendar = Calendar.getInstance();

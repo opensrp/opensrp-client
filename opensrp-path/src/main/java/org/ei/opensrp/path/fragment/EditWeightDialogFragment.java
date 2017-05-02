@@ -20,6 +20,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.vijay.jsonwizard.utils.DatePickerUtils;
+
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
@@ -183,6 +185,8 @@ public class EditWeightDialogFragment extends DialogFragment {
                 earlierDatePicker.setVisibility(View.VISIBLE);
                 earlierDatePicker.requestFocus();
                 set.setVisibility(View.VISIBLE);
+
+                DatePickerUtils.themeDatePicker(earlierDatePicker, new char[]{'d', 'm', 'y'});
             }
         });
 

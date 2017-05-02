@@ -1,7 +1,9 @@
 package com.vijay.jsonwizard.views;
 
 import java.util.List;
+import java.util.Map;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -55,6 +57,8 @@ public interface JsonFormFragmentView<VS extends ViewState> extends MvpView {
     void writeValue(String stepName, String prentKey, String childObjectKey, String childKey,
                     String value, String openMrsEntityParent, String openMrsEntity,
                     String openMrsEntityId);
+
+    void writeMetaDataValue(String metaDataKey, Map<String, String> values);
 
     JSONObject getStep(String stepName);
 

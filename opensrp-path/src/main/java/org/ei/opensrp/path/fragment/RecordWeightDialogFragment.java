@@ -6,10 +6,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
 import android.text.Selection;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +18,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.vijay.jsonwizard.utils.DatePickerUtils;
+
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.path.R;
-import org.ei.opensrp.path.domain.VaccineWrapper;
 import org.ei.opensrp.path.domain.WeightWrapper;
 import org.ei.opensrp.path.listener.WeightActionListener;
 import org.ei.opensrp.util.OpenSRPImageLoader;
@@ -31,7 +29,6 @@ import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.joda.time.DateTime;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import util.ImageUtils;
@@ -183,6 +180,8 @@ public class RecordWeightDialogFragment extends DialogFragment {
                 earlierDatePicker.setVisibility(View.VISIBLE);
                 earlierDatePicker.requestFocus();
                 set.setVisibility(View.VISIBLE);
+
+                DatePickerUtils.themeDatePicker(earlierDatePicker, new char[]{'d', 'm', 'y'});
             }
         });
 

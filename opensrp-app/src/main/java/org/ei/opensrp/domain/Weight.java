@@ -1,7 +1,5 @@
 package org.ei.opensrp.domain;
 
-import org.ei.opensrp.clientandeventmodel.Event;
-
 import java.util.Date;
 import java.util.HashMap;
 
@@ -12,6 +10,8 @@ public class Weight {
     private static final String ZEIR_ID = "ZEIR_ID";
     Long id;
     String baseEntityId;
+    String eventId;
+    String formSubmissionId;
     String programClientId;
     Float kg;
     Date date;
@@ -23,7 +23,7 @@ public class Weight {
     public Weight() {
     }
 
-    public Weight(Long id, String baseEntityId, Float kg, Date date, String anmId, String locationId, String syncStatus, Long updatedAt) {
+    public Weight(Long id, String baseEntityId, Float kg, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId) {
         this.id = id;
         this.baseEntityId = baseEntityId;
         this.programClientId = null;
@@ -33,9 +33,11 @@ public class Weight {
         this.locationId = locationId;
         this.syncStatus = syncStatus;
         this.updatedAt = updatedAt;
+        this.eventId=eventId;
+        this.formSubmissionId=formSubmissionId;
     }
 
-    public Weight(Long id, String baseEntityId, String programClientId, Float kg, Date date, String anmId, String locationId, String syncStatus, Long updatedAt) {
+    public Weight(Long id, String baseEntityId, String programClientId, Float kg, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId) {
         this.id = id;
         this.baseEntityId = baseEntityId;
         this.programClientId = programClientId;
@@ -45,7 +47,11 @@ public class Weight {
         this.locationId = locationId;
         this.syncStatus = syncStatus;
         this.updatedAt = updatedAt;
+        this.eventId=eventId;
+        this.formSubmissionId=formSubmissionId;
     }
+
+
 
     public Long getId() {
         return id;
@@ -124,4 +130,20 @@ public class Weight {
     public void setSyncStatus(String syncStatus) {
         this.syncStatus = syncStatus;
     }
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    public String getFormSubmissionId() {
+        return formSubmissionId;
+    }
+
+    public void setFormSubmissionId(String formSubmissionId) {
+        this.formSubmissionId = formSubmissionId;
+    }
+
 }

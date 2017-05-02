@@ -1,9 +1,5 @@
 package com.vijay.jsonwizard.activities;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
-import android.widget.TextView;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -35,11 +31,19 @@ import com.vijay.jsonwizard.interfaces.OnActivityResultListener;
 import com.vijay.jsonwizard.utils.FormUtils;
 import com.vijay.jsonwizard.utils.PropertyManager;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS;
 
 public class JsonFormActivity extends AppCompatActivity implements JsonApi {
 
@@ -78,12 +82,16 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
         onActivityResultListeners = new HashMap<>();
         if (savedInstanceState == null) {
             init(getIntent().getStringExtra("json"));
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, JsonFormFragment.getFormFragment(JsonFormConstants.FIRST_STEP_NAME)).commit();
+            initializeFormFragment();
             onFormStart();
         } else {
             init(savedInstanceState.getString("jsonState"));
         }
+    }
+
+    public void initializeFormFragment(){
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.container, JsonFormFragment.getFormFragment(JsonFormConstants.FIRST_STEP_NAME)).commit();
     }
 
     @Override
@@ -157,6 +165,24 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    @Override
+    public void writeMetaDataValue(String metaDataKey, Map<String, String> values) throws JSONException {
+        synchronized (mJSONObject) {
+            if (mJSONObject.has(FormUtils.METADATA_PROPERTY) && !values.isEmpty()) {
+                if (mJSONObject.getJSONObject(FormUtils.METADATA_PROPERTY).has(metaDataKey)) {
+                    JSONObject metaData = mJSONObject.getJSONObject(FormUtils.METADATA_PROPERTY).getJSONObject(metaDataKey);
+                    for (Map.Entry<String, String> entry : values.entrySet()) {
+                        String key = entry.getKey();
+                        String value = entry.getValue();
+                        if (value == null) value = "";
+                        metaData.put(key, value);
+                    }
+                }
+
             }
         }
     }
@@ -323,7 +349,14 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
     private void toggleViewVisibility(View view, boolean visible) {
         try {
             JSONArray canvasViewIds = new JSONArray((String) view.getTag(R.id.canvas_ids));
-            view.setEnabled(visible);
+            String addressString = (String) view.getTag(R.id.address);
+            String[] address = addressString.split(":");
+            JSONObject object = getObjectUsingAddress(address);
+            boolean enabled = visible;
+            if (object.has("read_only") && object.getBoolean("read_only") && visible) {
+                enabled = false;
+            }
+            view.setEnabled(enabled);
             for (int i = 0; i < canvasViewIds.length(); i++) {
                 int curId = canvasViewIds.getInt(i);
                 View curCanvasView = findViewById(curId);
@@ -335,7 +368,7 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
                     curCanvasView.setVisibility(View.GONE);
                 }
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
         }
     }
@@ -370,6 +403,14 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
     public void addOnActivityResultListener(final Integer requestCode,
                                             OnActivityResultListener onActivityResultListener) {
         onActivityResultListeners.put(requestCode, onActivityResultListener);
+    }
+
+    @Override
+    public void resetFocus() {
+        EditText defaultFocusView = (EditText) findViewById(R.id.default_focus_view);
+        defaultFocusView.requestFocus();
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), HIDE_NOT_ALWAYS);
     }
 
     private void checkViewConstraints(View curView) {

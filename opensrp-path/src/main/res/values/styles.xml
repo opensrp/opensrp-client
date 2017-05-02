@@ -102,6 +102,11 @@
         <item name="fontVariant">light</item>
     </style>
 
+    <style name="CustomFontTextViewStyle.ClientList.Light.twoline" parent="CustomFontTextViewStyle.ClientList.Light">
+        <item name="android:singleLine">false</item>
+        <item name="android:maxLines">2</item>
+    </style>
+
     <style name="CustomFontTextViewStyle.ClientList.Thin" parent="CustomFontTextViewStyle">
         <item name="fontVariant">thin</item>
     </style>
@@ -125,5 +130,11 @@
         <item name="cbd_cornerRadius">0dp</item>
         <item name="cbd_strokeSize">3.5dp</item>
         <item name="cbd_boxSize">25dp</item>
+    </style>
+
+    <style name="PathDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
     </style>
 </resources>

@@ -118,14 +118,14 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
         fillValue((TextView) convertView.findViewById(R.id.child_card_number), pc.getColumnmaps(), "epi_card_number", false);
 
         String gender = getValue(pc.getColumnmaps(), "gender", true);
-        int defaultImageResId = ImageUtils.profileImageResourceByGender(gender);
 
-        ImageView profilePic = (ImageView) convertView.findViewById(R.id.child_profilepic);
+        final ImageView profilePic = (ImageView) convertView.findViewById(R.id.child_profilepic);
+        int defaultImageResId = ImageUtils.profileImageResourceByGender(gender);
         profilePic.setImageResource(defaultImageResId);
-        if (client.entityId() != null) {//image already in local storage most likey ):
+        if (pc.entityId() != null) {//image already in local storage most likey ):
             //set profile image by passing the client id.If the image doesn't exist in the image repository then download and save locally
-            profilePic.setTag(org.ei.opensrp.R.id.entity_id, pc.getCaseId());
-            DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pc.getCaseId(), OpenSRPImageLoader.getStaticImageListener(profilePic, 0, 0));
+            profilePic.setTag(org.ei.opensrp.R.id.entity_id, pc.entityId());
+            DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pc.entityId(), OpenSRPImageLoader.getStaticImageListener(profilePic, 0, 0));
         }
 
         convertView.findViewById(R.id.child_profile_info_layout).setTag(client);
@@ -135,6 +135,7 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
         recordWeight.setBackground(context.getResources().getDrawable(R.drawable.record_weight_bg));
         recordWeight.setTag(client);
         recordWeight.setOnClickListener(onClickListener);
+        recordWeight.setVisibility(View.VISIBLE);
 
         Weight weight = weightRepository.findUnSyncedByEntityId(pc.entityId());
         if (weight != null) {
@@ -252,12 +253,16 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
             recordVaccination.setCompoundDrawablePadding(paddingInt * -1);
             recordVaccination.setPadding(paddingInt, 0, 0, 0);
             recordVaccination.setEnabled(false);
+
+            recordWeight.setVisibility(View.INVISIBLE);
         } else if (state.equals(State.LOST_TO_FOLLOW_UP)) {
             recordVaccination.setText("Lost to\nFollow-Up");
             recordVaccination.setTextColor(context.getResources().getColor(R.color.client_list_grey));
             recordVaccination.setBackgroundColor(context.getResources().getColor(R.color.white));
             recordVaccination.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_status_losttofollowup, 0, 0, 0);
             recordVaccination.setEnabled(false);
+
+            recordWeight.setVisibility(View.INVISIBLE);
         } else if (state.equals(State.WAITING)) {
             recordVaccination.setText("Waiting");
             recordVaccination.setTextColor(context.getResources().getColor(R.color.client_list_grey));
@@ -289,7 +294,7 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
             recordVaccination.setBackground(context.getResources().getDrawable(R.drawable.due_vaccine_red_bg));
             recordVaccination.setEnabled(true);
         } else if (state.equals(State.NO_ALERT)) {
-            if (StringUtils.isNotBlank(stateKey) && (StringUtils.containsIgnoreCase(stateKey, "week") || StringUtils.containsIgnoreCase(stateKey, "month"))) {
+            if (StringUtils.isNotBlank(stateKey) && (StringUtils.containsIgnoreCase(stateKey, "week") || StringUtils.containsIgnoreCase(stateKey, "month")) && !vaccines.isEmpty()) {
                 recordVaccination.setText(stateKey);
                 recordVaccination.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_check, 0, 0, 0);
                 recordVaccination.setCompoundDrawablePadding(paddingInt * -1);

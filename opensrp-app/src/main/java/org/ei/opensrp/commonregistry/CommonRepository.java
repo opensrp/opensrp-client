@@ -12,6 +12,7 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.ei.opensrp.domain.AlertStatus;
 import org.ei.opensrp.repository.DrishtiRepository;
 
 import java.util.ArrayList;
@@ -545,7 +546,7 @@ public class CommonRepository extends DrishtiRepository {
         }
     }
 
-    public boolean populateSearchValues(String caseId, String field, String value, String[] listToRemove){
+    public boolean populateSearchValues(String caseId, String field, String value, String[] listToRemove) {
         SQLiteDatabase database = masterRepository.getWritableDatabase();
 
         CommonPersonObject commonPersonObject = findByCaseID(caseId);
@@ -553,33 +554,39 @@ public class CommonRepository extends DrishtiRepository {
             return false;
         }
 
-        if(commonFtsObject == null){
+        if (commonFtsObject == null) {
             return false;
         }
 
         ContentValues searchValues = new ContentValues();
 
         String ftsSearchTable = CommonFtsObject.searchTableName(TABLE_NAME);
-        ArrayList<HashMap<String, String>> mapList = rawQuery(String.format("SELECT " + CommonFtsObject.idColumn + ", " + CommonFtsObject.phraseColumn + " FROM " + ftsSearchTable + " WHERE  " + CommonFtsObject.idColumn + " = '%s'", caseId));
 
-        if(mapList.isEmpty()){
+        String selectSql = "SELECT " + CommonFtsObject.idColumn + ", " + CommonFtsObject.phraseColumn + " FROM " + ftsSearchTable + " WHERE  " + CommonFtsObject.idColumn + " = '%s'";
+        if (!field.equals(CommonFtsObject.phraseColumn)) {
+            selectSql = "SELECT " + CommonFtsObject.idColumn + ", " + field + " FROM " + ftsSearchTable + " WHERE  " + CommonFtsObject.idColumn + " = '%s'";
+        }
+
+        ArrayList<HashMap<String, String>> mapList = rawQuery(String.format(selectSql, caseId));
+
+        if (mapList.isEmpty()) {
             return false;
         }
 
-        if(field.equals(CommonFtsObject.phraseColumn)){
+        if (field.equals(CommonFtsObject.phraseColumn)) {
             HashMap<String, String> map = mapList.get(0);
-            String oldSearchValue  = map.get(CommonFtsObject.phraseColumn);
+            String oldSearchValue = map.get(CommonFtsObject.phraseColumn);
 
-            if(listToRemove != null && listToRemove.length > 0){
-                for(String s: listToRemove){
-                    if(oldSearchValue.contains(s)){
-                       oldSearchValue =  oldSearchValue.replace("| "+ s, "");
+            if (listToRemove != null && listToRemove.length > 0) {
+                for (String s : listToRemove) {
+                    if (oldSearchValue.contains(s)) {
+                        oldSearchValue = oldSearchValue.replace("| " + s, "");
                     }
                 }
             }
 
             // Underscore does not work well in fts search
-            if(value.contains("_")) {
+            if (value.contains("_")) {
                 value = value.replace("_", "");
             }
 
@@ -593,13 +600,20 @@ public class CommonRepository extends DrishtiRepository {
             searchValues.put(CommonFtsObject.phraseColumn, phrase);
 
         } else {
-           searchValues.put(field, value);
+            HashMap<String, String> map = mapList.get(0);
+            String fieldValue = map.get(field);
+            // If field value is complete it should not be changed
+            if (fieldValue != null && fieldValue.equals(AlertStatus.complete.value())) {
+                return false;
+            }
+
+            searchValues.put(field, value);
         }
 
         try {
             int rowsAffected = database.update(ftsSearchTable, searchValues, CommonFtsObject.idColumn + " = ?", new String[]{caseId});
             return rowsAffected > 0;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }

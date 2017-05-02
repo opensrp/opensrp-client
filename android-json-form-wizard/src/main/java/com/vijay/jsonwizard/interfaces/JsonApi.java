@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by vijay on 5/16/15.
@@ -23,6 +24,9 @@ public interface JsonApi {
     void writeValue(String stepName, String prentKey, String childObjectKey, String childKey,
                     String value, String openMrsEntityParent, String openMrsEntity,
                     String openMrsEntityId)
+            throws JSONException;
+
+    void writeMetaDataValue(String metaDataKey, Map<String, String> values)
             throws JSONException;
 
     String currentJsonState();
@@ -54,4 +58,6 @@ public interface JsonApi {
     void refreshConstraints(String parentKey, String childKey);
 
     void addOnActivityResultListener(Integer requestCode, OnActivityResultListener onActivityResultListener);
+
+    void resetFocus();
 }

@@ -14,12 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 /**
  * Created by keyman on 05/10/16.
  */
@@ -71,14 +65,14 @@ public class ProcessCaseModelTest extends BaseClientProcessorTest {
 
             Mockito.doNothing().when(spy).closeCase("case1", client.getString(baseEntityIdJSONKey));
 
-            Mockito.doNothing().when(spy).updateFTSsearch("case1", client.getString(baseEntityIdJSONKey));
+            Mockito.doNothing().when(spy).updateFTSsearch("case1", client.getString(baseEntityIdJSONKey), Mockito.any(ContentValues.class));
 
             Boolean processed = spy.closeCase(client, createCases("case1"));
             assertTrue("Case Model should not be processed", processed);
 
             Mockito.verify(spy, Mockito.times(1)).closeCase("case1", client.getString(baseEntityIdJSONKey));
 
-            Mockito.verify(spy, Mockito.times(1)).updateFTSsearch("case1", client.getString(baseEntityIdJSONKey));
+            Mockito.verify(spy, Mockito.times(1)).updateFTSsearch("case1", client.getString(baseEntityIdJSONKey), Mockito.any(ContentValues.class));
 
         } catch (Exception e) {
             fail(e.getMessage());
@@ -99,13 +93,14 @@ public class ProcessCaseModelTest extends BaseClientProcessorTest {
 
             Mockito.doNothing().when(spy).closeCase(Mockito.anyString(), Mockito.anyString());
 
-            Mockito.doNothing().when(spy).updateFTSsearch(Mockito.anyString(), Mockito.anyString());
+            Mockito.doNothing().when(spy).updateFTSsearch(Mockito.anyString(), Mockito.anyString(), Mockito.any(ContentValues.class));
 
             Boolean processed = spy.closeCase(client, cases);
             assertTrue("Case Model should not be processed", processed);
 
             ArgumentCaptor<String> caseCaptor = ArgumentCaptor.forClass(String.class);
             ArgumentCaptor<String> baseEntityCaptor = ArgumentCaptor.forClass(String.class);
+            ArgumentCaptor<ContentValues> contentValuesCaptor = ArgumentCaptor.forClass(ContentValues.class);
 
             Mockito.verify(spy, Mockito.times(2)).closeCase(caseCaptor.capture(), baseEntityCaptor.capture());
 
@@ -116,7 +111,7 @@ public class ProcessCaseModelTest extends BaseClientProcessorTest {
 
             assertEquals(baseEntityId, baseEntityCaptor.getValue());
 
-            Mockito.verify(spy, Mockito.times(2)).updateFTSsearch(caseCaptor.capture(), baseEntityCaptor.capture());
+            Mockito.verify(spy, Mockito.times(2)).updateFTSsearch(caseCaptor.capture(), baseEntityCaptor.capture(), contentValuesCaptor.capture());
 
             assertEquals(baseEntityId, baseEntityCaptor.getValue());
 
@@ -175,7 +170,7 @@ public class ProcessCaseModelTest extends BaseClientProcessorTest {
 
             Mockito.doReturn(1l).when(spy).executeInsertStatement(Mockito.any(ContentValues.class), Mockito.any(String.class));
 
-            Mockito.doNothing().when(spy).updateFTSsearch(Mockito.anyString(), Mockito.anyString());
+            Mockito.doNothing().when(spy).updateFTSsearch(Mockito.anyString(), Mockito.anyString(), Mockito.any(ContentValues.class));
 
             Mockito.doNothing().when(spy).saveClientDetails(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyLong());
 
@@ -200,7 +195,7 @@ public class ProcessCaseModelTest extends BaseClientProcessorTest {
             ArgumentCaptor<String> caseCaptor = ArgumentCaptor.forClass(String.class);
             ArgumentCaptor<String> baseEntityCaptor = ArgumentCaptor.forClass(String.class);
 
-            Mockito.verify(spy).updateFTSsearch(caseCaptor.capture(), baseEntityCaptor.capture());
+            Mockito.verify(spy).updateFTSsearch(caseCaptor.capture(), baseEntityCaptor.capture(), contentValuesCaptor.capture());
             assertEquals("case5", caseCaptor.getValue());
             assertEquals(baseEntityId, baseEntityCaptor.getValue());
 
@@ -281,7 +276,7 @@ public class ProcessCaseModelTest extends BaseClientProcessorTest {
 
             Mockito.doReturn(1l).when(spy).executeInsertStatement(Mockito.any(ContentValues.class), Mockito.anyString());
 
-            Mockito.doNothing().when(spy).updateFTSsearch(Mockito.anyString(), Mockito.anyString());
+            Mockito.doNothing().when(spy).updateFTSsearch(Mockito.anyString(), Mockito.anyString(), Mockito.any(ContentValues.class));
 
             Mockito.doNothing().when(spy).saveClientDetails(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyLong());
 
@@ -306,7 +301,7 @@ public class ProcessCaseModelTest extends BaseClientProcessorTest {
             ArgumentCaptor<String> caseCaptor = ArgumentCaptor.forClass(String.class);
             ArgumentCaptor<String> baseEntityCaptor = ArgumentCaptor.forClass(String.class);
 
-            Mockito.verify(spy).updateFTSsearch(caseCaptor.capture(), baseEntityCaptor.capture());
+            Mockito.verify(spy).updateFTSsearch(caseCaptor.capture(), baseEntityCaptor.capture(), contentValuesCaptor.capture());
             assertEquals("case6", caseCaptor.getValue());
             assertEquals(baseEntityId, baseEntityCaptor.getValue());
 
@@ -386,7 +381,7 @@ public class ProcessCaseModelTest extends BaseClientProcessorTest {
 
             Mockito.doReturn(1l).when(spy).executeInsertStatement(Mockito.any(ContentValues.class), Mockito.any(String.class));
 
-            Mockito.doNothing().when(spy).updateFTSsearch(Mockito.anyString(), Mockito.anyString());
+            Mockito.doNothing().when(spy).updateFTSsearch(Mockito.anyString(), Mockito.anyString(), Mockito.any(ContentValues.class));
 
             Mockito.doNothing().when(spy).saveClientDetails(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyLong());
 
@@ -412,7 +407,7 @@ public class ProcessCaseModelTest extends BaseClientProcessorTest {
             ArgumentCaptor<String> caseCaptor = ArgumentCaptor.forClass(String.class);
             ArgumentCaptor<String> baseEntityCaptor = ArgumentCaptor.forClass(String.class);
 
-            Mockito.verify(spy).updateFTSsearch(caseCaptor.capture(), baseEntityCaptor.capture());
+            Mockito.verify(spy).updateFTSsearch(caseCaptor.capture(), baseEntityCaptor.capture(), contentValuesCaptor.capture());
             assertEquals("case7", caseCaptor.getValue());
             assertEquals(baseEntityId, baseEntityCaptor.getValue());
 
@@ -489,7 +484,7 @@ public class ProcessCaseModelTest extends BaseClientProcessorTest {
 
             Mockito.doReturn(1l).when(spy).executeInsertStatement(Mockito.any(ContentValues.class), Mockito.any(String.class));
 
-            Mockito.doNothing().when(spy).updateFTSsearch(Mockito.anyString(), Mockito.anyString());
+            Mockito.doNothing().when(spy).updateFTSsearch(Mockito.anyString(), Mockito.anyString(), Mockito.any(ContentValues.class));
 
             Mockito.doNothing().when(spy).saveClientDetails(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyLong());
 
@@ -514,7 +509,7 @@ public class ProcessCaseModelTest extends BaseClientProcessorTest {
             ArgumentCaptor<String> caseCaptor = ArgumentCaptor.forClass(String.class);
             ArgumentCaptor<String> baseEntityCaptor = ArgumentCaptor.forClass(String.class);
 
-            Mockito.verify(spy).updateFTSsearch(caseCaptor.capture(), baseEntityCaptor.capture());
+            Mockito.verify(spy).updateFTSsearch(caseCaptor.capture(), baseEntityCaptor.capture(), contentValuesCaptor.capture());
             assertEquals("case8", caseCaptor.getValue());
             assertEquals(baseEntityId, baseEntityCaptor.getValue());
 

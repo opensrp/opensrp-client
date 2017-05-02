@@ -23,10 +23,11 @@ public class FormUtils {
     public static final int WRAP_CONTENT = -2;
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
     public static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private static final String METADATA_PROPERTY = "metadata";
+    public static final String METADATA_PROPERTY = "metadata";
     private static final String START_JAVAROSA_PROPERTY = "start";
     private static final String END_JAVAROSA_PROPERTY = "end";
     private static final String TODAY_JAVAROSA_PROPERTY = "today";
+    public static final String LOOK_UP_JAVAROSA_PROPERTY = "look_up";
 
     public static LinearLayout.LayoutParams getLayoutParams(int width, int height, int left, int top, int right, int bottom) {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);

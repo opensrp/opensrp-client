@@ -70,4 +70,6 @@
 
     <color name="transparent_dark_blue">#ff196d99</color>
 
+    <color name="snackbar_background_yellow">#FFED18</color>
+
 </resources>

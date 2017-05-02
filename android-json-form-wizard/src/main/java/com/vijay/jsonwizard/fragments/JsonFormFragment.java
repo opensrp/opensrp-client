@@ -35,7 +35,10 @@ import com.vijay.jsonwizard.viewstates.JsonFormFragmentViewState;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by vijay on 5/7/15.
@@ -47,6 +50,7 @@ public class JsonFormFragment extends MvpFragment<JsonFormFragmentPresenter, Jso
     private ScrollView          mScrollView;
     private Menu                mMenu;
     private JsonApi             mJsonApi;
+    private Map<String, List<View>> lookUpMap = new HashMap<>();
 
     @Override
     public void onAttach(Activity activity) {
@@ -171,6 +175,17 @@ public class JsonFormFragment extends MvpFragment<JsonFormFragmentPresenter, Jso
     }
 
     @Override
+    public void writeMetaDataValue(String metaDataKey, Map<String, String> values) {
+        Log.d("RealtimeValidation", "Fragment write value called");
+        try {
+            mJsonApi.writeMetaDataValue(metaDataKey, values);
+        } catch (JSONException e) {
+            // TODO - handle
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public JSONObject getStep(String stepName) {
         return mJsonApi.getStep(stepName);
     }
@@ -207,6 +222,7 @@ public class JsonFormFragment extends MvpFragment<JsonFormFragmentPresenter, Jso
             mMainView.addView(view);
         }
         mJsonApi.refreshHiddenViews();
+        mJsonApi.resetFocus();
     }
 
     @Override
@@ -330,5 +346,13 @@ public class JsonFormFragment extends MvpFragment<JsonFormFragmentPresenter, Jso
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    public LinearLayout getMainView() {
+        return mMainView;
+    }
+
+    public Map<String, List<View>> getLookUpMap() {
+        return lookUpMap;
     }
 }

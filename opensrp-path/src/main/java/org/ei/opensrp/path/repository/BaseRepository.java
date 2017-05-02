@@ -1,5 +1,7 @@
 package org.ei.opensrp.path.repository;
 
+import java.util.UUID;
+
 /**
  * Created by keyman on 09/03/2017.
  */
@@ -15,5 +17,9 @@ public class BaseRepository {
 
     public PathRepository getPathRepository() {
         return pathRepository;
+    }
+
+    protected String generateRandomUUIDString() {
+        return UUID.randomUUID().toString();
     }
 }

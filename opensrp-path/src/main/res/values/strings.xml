@@ -191,4 +191,8 @@
     <string name="check_child_bcg_scar">"Check for child's BCG scar"</string>
     <string name="move_to_catchment_confirm_dialog_title">Confirm move</string>
     <string name="move_to_catchment_confirm_dialog_message">Are you sure you want to move this record to your catchment area?</string>
+
+    <string name="mother_lookup_results">Matching records</string>
+    <string name="dismiss">Cancel</string>
+    <string name="change_status">Change status</string>
 </resources>

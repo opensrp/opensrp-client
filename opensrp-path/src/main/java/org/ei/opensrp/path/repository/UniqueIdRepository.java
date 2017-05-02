@@ -124,14 +124,38 @@ public class UniqueIdRepository extends BaseRepository {
      * @param openmrsId
      */
     public void close(String openmrsId) {
-        String userName = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
-        if (!openmrsId.contains("-")) {
-            openmrsId = formatId(openmrsId);
+        try {
+            String userName = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
+            if (!openmrsId.contains("-")) {
+                openmrsId = formatId(openmrsId);
+            }
+            ContentValues values = new ContentValues();
+            values.put(STATUS_COLUMN, STATUS_USED);
+            values.put(USED_BY_COLUMN, userName);
+            getPathRepository().getWritableDatabase().update(UniqueIds_TABLE_NAME, values, OPENMRS_ID_COLUMN + " = ?", new String[]{openmrsId});
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
         }
-        ContentValues values = new ContentValues();
-        values.put(STATUS_COLUMN, STATUS_USED);
-        values.put(USED_BY_COLUMN, userName);
-        getPathRepository().getWritableDatabase().update(UniqueIds_TABLE_NAME, values, OPENMRS_ID_COLUMN + " = ?", new String[]{openmrsId});
+    }
+
+    /**
+     * mark and openmrsid as NOT used
+     *
+     * @param openmrsId
+     */
+    public void open(String openmrsId) {
+        try {
+            String userName = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
+            if (!openmrsId.contains("-")) {
+                openmrsId = formatId(openmrsId);
+            }
+            ContentValues values = new ContentValues();
+            values.put(STATUS_COLUMN, STATUS_NOT_USED);
+            values.put(USED_BY_COLUMN, "");
+            getPathRepository().getWritableDatabase().update(UniqueIds_TABLE_NAME, values, OPENMRS_ID_COLUMN + " = ?", new String[]{openmrsId});
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
     }
 
     private String formatId(String openmrsId) {

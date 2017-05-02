@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.vijay.jsonwizard.activities.JsonFormActivity;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -28,6 +27,7 @@ import org.ei.opensrp.domain.ProfileImage;
 import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.domain.Weight;
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.activity.PathJsonFormActivity;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.repository.BaseRepository;
 import org.ei.opensrp.path.repository.PathRepository;
@@ -62,6 +62,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import id.zelory.compressor.Compressor;
 
@@ -88,9 +90,10 @@ public class JsonFormUtils {
     private static final String VALUES = "values";
     public static final String FIELDS = "fields";
     public static final String KEY = "key";
-    private static final String ENTITY_ID = "entity_id";
-    private static final String RELATIONAL_ID = "relational_id";
+    public static final String ENTITY_ID = "entity_id";
+    public static final String RELATIONAL_ID = "relational_id";
     private static final String ENCOUNTER_TYPE = "encounter_type";
+    public static final String CURRENT_ZEIR_ID = "current_zeir_id";
     public static final String STEP1 = "step1";
     public static final String READ_ONLY = "read_only";
     private static final String METADATA = "metadata";
@@ -102,10 +105,10 @@ public class JsonFormUtils {
 
 
 
-    public static final SimpleDateFormat FORM_DATE = new SimpleDateFormat("dd-MM-yyyy");
+    public static final SimpleDateFormat dd_MM_yyyy = new SimpleDateFormat("dd-MM-yyyy");
     //public static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").create();
     //2007-03-31T04:00:00.000Z
-    public static  Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").registerTypeAdapter(DateTime.class, new DateTimeTypeConverter()).create();
+    public static  Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").registerTypeAdapter(DateTime.class, new DateTimeTypeConverter()).create();
 
 
     public static void saveForm(Context context, org.ei.opensrp.Context openSrpContext,
@@ -180,23 +183,36 @@ public class JsonFormUtils {
                 }
             }
 
+            JSONObject lookUpJSONObject = getJSONObject(metadata, "look_up");
+            String lookUpEntityId = "";
+            String lookUpBaseEntityId = "";
+            if(lookUpJSONObject != null){
+                lookUpEntityId = getString(lookUpJSONObject,"entity_id");
+                lookUpBaseEntityId = getString(lookUpJSONObject, "value");
+            }
+
             Client c = JsonFormUtils.createBaseClient(fields, entityId);
             Event e = JsonFormUtils.createEvent(openSrpContext, fields, metadata, entityId, encounterType, providerId, bindType);
 
             Client s = null;
-
-            if (StringUtils.isNotBlank(subBindType)) {
-                s = JsonFormUtils.createSubformClient(context, fields, c, subBindType,null);
-            }
-
             Event se = null;
-            if (s != null && e != null) {
-                JSONObject subBindTypeJson = getJSONObject(jsonForm, subBindType);
-                if (subBindTypeJson != null) {
-                    String subBindTypeEncounter = getString(subBindTypeJson, ENCOUNTER_TYPE);
-                    if (StringUtils.isNotBlank(subBindTypeEncounter)) {
-                        se = JsonFormUtils.createSubFormEvent(null, metadata, e, s.getBaseEntityId(), subBindTypeEncounter, providerId, subBindType);
+            if(lookUpEntityId.equals("mother") && StringUtils.isNotBlank(lookUpBaseEntityId)){
+                Client ss = new Client(lookUpBaseEntityId);
+                addRelationship(context, ss, c);
+            } else {
 
+                if (StringUtils.isNotBlank(subBindType)) {
+                    s = JsonFormUtils.createSubformClient(context, fields, c, subBindType, null);
+                }
+
+                if (s != null && e != null) {
+                    JSONObject subBindTypeJson = getJSONObject(jsonForm, subBindType);
+                    if (subBindTypeJson != null) {
+                        String subBindTypeEncounter = getString(subBindTypeJson, ENCOUNTER_TYPE);
+                        if (StringUtils.isNotBlank(subBindTypeEncounter)) {
+                            se = JsonFormUtils.createSubFormEvent(null, metadata, e, s.getBaseEntityId(), subBindTypeEncounter, providerId, subBindType);
+
+                        }
                     }
                 }
             }
@@ -255,6 +271,7 @@ public class JsonFormUtils {
 
             String entityId = getString(jsonForm, ENTITY_ID);
             String relationalId = getString(jsonForm, RELATIONAL_ID);
+
             if (StringUtils.isBlank(entityId)) {
                 entityId = generateRandomUUIDString();
             }
@@ -264,6 +281,28 @@ public class JsonFormUtils {
                 return;
             }
 
+            for (int i = 0; i < fields.length(); i++) {
+                String key = fields.getJSONObject(i).getString("key");
+                if (key.equals("Home_Facility")
+                        || key.equals("Birth_Facility_Name")
+                        || key.equals("Residential_Area")) {
+                    try {
+                        String rawValue = fields.getJSONObject(i).getString("value");
+                        JSONArray valueArray = new JSONArray(rawValue);
+                        if (valueArray.length() > 0) {
+                            String lastLocationName = valueArray.getString(valueArray.length() - 1);
+                            String lastLocationId = getOpenMrsLocationId(openSrpContext, lastLocationName);
+                            fields.getJSONObject(i).put("value", lastLocationId);
+                        }
+                    } catch (Exception e) {
+                        Log.e(TAG, Log.getStackTraceString(e));
+                    }
+                } else if (key.equals("Mother_Guardian_Date_Birth")) {
+                    if(TextUtils.isEmpty(fields.getJSONObject(i).optString("value"))) {
+                        fields.getJSONObject(i).put("value", MOTHER_DEFAULT_DOB);
+                    }
+                }
+            }
 
             JSONObject metadata = getJSONObject(jsonForm, METADATA);
 
@@ -312,6 +351,16 @@ public class JsonFormUtils {
             PathClientProcessor.getInstance(context).processClient(ecUpdater.getEvents(lastSyncDate,BaseRepository.TYPE_Unsynced));
             allSharedPreferences.saveLastUpdatedAtDate(lastSyncDate.getTime());
 
+            // Unassign current id
+            if(baseClient !=null) {
+                String newZeirId =  baseClient.getIdentifier(ZEIR_ID).replace("-", "");
+                String currentZeirId = getString(jsonForm, "current_zeir_id").replace("-", "");
+                if(!newZeirId.equals(currentZeirId)){
+                    //ZEIR_ID was changed
+                    VaccinatorApplication.getInstance().uniqueIdRepository().open(currentZeirId);
+                }
+            }
+
         } catch (Exception e) {
             Log.e(TAG, "", e);
         }
@@ -333,7 +382,7 @@ public class JsonFormUtils {
         //originalClient.setRev(null);
         //cloudantDataHandler.addClient(originalClient);
 
-        ecUpdater.addClient(baseClient.getBaseEntityId(),mergedJson);
+        ecUpdater.addClient(baseClient.getBaseEntityId(), mergedJson);
 
 
     }
@@ -984,17 +1033,24 @@ public class JsonFormUtils {
         }
     }
 
-    private static Date formatDate(String dateString, boolean startOfToday) {
+    public static Date formatDate(String dateString, boolean startOfToday) {
         try {
+
             if (StringUtils.isBlank(dateString)) {
                 return null;
             }
 
-            return FORM_DATE.parse(dateString);
+            if(dateString.matches("\\d{2}-\\d{2}-\\d{4}")){
+                return dd_MM_yyyy.parse(dateString);
+            } else if (dateString.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                return DateUtil.parseDate(dateString);
+            }
+
         } catch (ParseException e) {
             Log.e(TAG, "", e);
-            return null;
         }
+
+        return null;
     }
 
     public static String generateRandomUUIDString() {
@@ -1082,16 +1138,16 @@ public class JsonFormUtils {
         return c;
     }
 
-    private static JSONObject merge(JSONObject json1, JSONObject json2) {
+    private static JSONObject merge(JSONObject original, JSONObject updated) {
         JSONObject mergedJSON = new JSONObject();
         try {
-            mergedJSON = new JSONObject(json1, getNames(json1));
-            for (String crunchifyKey : getNames(json2)) {
-                mergedJSON.put(crunchifyKey, json2.get(crunchifyKey));
+            mergedJSON = new JSONObject(original, getNames(original));
+            for (String key : getNames(updated)) {
+                mergedJSON.put(key, updated.get(key));
             }
 
         } catch (JSONException e) {
-            throw new RuntimeException("JSON Exception" + e);
+            Log.e(TAG,e.getMessage());
         }
         return mergedJSON;
     }
@@ -1471,6 +1527,12 @@ public class JsonFormUtils {
     public static String getOpenMrsReadableName(String name) {
         String readableName = new String(name);
 
+        Pattern prefixPattern = Pattern.compile("^[a-z]{2} (.*)$");
+        Matcher prefixMatcher = prefixPattern.matcher(readableName);
+        if (prefixMatcher.find()) {
+            readableName = prefixMatcher.group(1);
+        }
+
         if (readableName.contains(":")) {
             String[] splitName = readableName.split(":");
             readableName = splitName[splitName.length - 1].trim();
@@ -1489,6 +1551,7 @@ public class JsonFormUtils {
             allLevels.add("District");
             allLevels.add("Health Facility");
             allLevels.add("Zone");
+            allLevels.add("Residential Area");
 
             ArrayList<String> healthFacilities = new ArrayList<>();
             healthFacilities.add("Country");
@@ -1499,12 +1562,17 @@ public class JsonFormUtils {
             JSONArray defaultLocation = generateDefaultLocationHierarchy(context, allLevels);
             JSONArray defaultFacility = generateDefaultLocationHierarchy(context, healthFacilities);
             JSONArray upToFacilities = generateLocationHierarchyTree(context, false, healthFacilities);
+            JSONArray upToFacilitiesWithOther = generateLocationHierarchyTree(context, true, healthFacilities);
             JSONArray entireTree = generateLocationHierarchyTree(context, true, allLevels);
 
             for (int i = 0; i < questions.length(); i++) {
-                if (questions.getJSONObject(i).getString("key").equals("Home_Facility")
-                        || questions.getJSONObject(i).getString("key").equals("Birth_Facility_Name")) {
+                if (questions.getJSONObject(i).getString("key").equals("Home_Facility")) {
                     questions.getJSONObject(i).put("tree", new JSONArray(upToFacilities.toString()));
+                    if (defaultFacility != null) {
+                        questions.getJSONObject(i).put("default", defaultFacility.toString());
+                    }
+                } else if (questions.getJSONObject(i).getString("key").equals("Birth_Facility_Name")) {
+                    questions.getJSONObject(i).put("tree", new JSONArray(upToFacilitiesWithOther.toString()));
                     if (defaultFacility != null) {
                         questions.getJSONObject(i).put("default", defaultFacility.toString());
                     }
@@ -1644,8 +1712,9 @@ public class JsonFormUtils {
                     .withLocationId(weight.getLocationId())
                     .withProviderId(weight.getAnmId())
                     .withEntityType(entityType)
-                    .withFormSubmissionId(generateRandomUUIDString())
+                    .withFormSubmissionId(weight.getFormSubmissionId()==null?generateRandomUUIDString():weight.getFormSubmissionId())
                     .withDateCreated(new Date());
+
 
             if (fields != null && fields.length() != 0)
                 for (int i = 0; i < fields.length(); i++) {
@@ -1658,7 +1727,16 @@ public class JsonFormUtils {
 
 
             if (event != null) {
+
                 JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(event));
+
+                //check if an event already exists and update instead
+                if(weight.getEventId()!=null){
+                    JSONObject existingEvent=db.getEventsByEventId(weight.getEventId());
+                    eventJson= merge(existingEvent,eventJson);
+                }
+
+                //merge if event exists
                 db.addEvent(event.getBaseEntityId(), eventJson);
 
             }
@@ -1679,7 +1757,7 @@ public class JsonFormUtils {
                     .withLocationId(vaccine.getLocationId())
                     .withProviderId(vaccine.getAnmId())
                     .withEntityType(entityType)
-                    .withFormSubmissionId(generateRandomUUIDString())
+                    .withFormSubmissionId(vaccine.getFormSubmissionId()==null?generateRandomUUIDString():vaccine.getFormSubmissionId())
                     .withDateCreated(new Date());
 
             if (fields != null && fields.length() != 0)
@@ -1693,7 +1771,16 @@ public class JsonFormUtils {
 
 
             if (event != null) {
+
                 JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(event));
+
+                //check if an event already exists and update instead
+                if(vaccine.getEventId()!=null){
+                    JSONObject existingEvent=db.getEventsByEventId(vaccine.getEventId());
+                    eventJson= merge(existingEvent,eventJson);
+                }
+
+                //merge if event exists
                 db.addEvent(event.getBaseEntityId(), eventJson);
             }
         } catch (Exception e) {
@@ -1744,6 +1831,75 @@ public class JsonFormUtils {
                     return curResult;
                 }
             }
+        }
+
+        return null;
+    }
+
+    /**
+     * This method returns the name hierarchy of a location given it's id
+     *
+     * @param context
+     * @param locationId    The ID for the location we want the hierarchy for
+     * @return  The name hierarchy (starting with the top-most parent) for the location or {@code NULL}
+     *          if location id is not found
+     */
+    public static JSONArray getOpenMrsLocationHierarchy(org.ei.opensrp.Context context,
+                                                      String locationId) {
+        JSONArray response = null;
+
+        try {
+            if (locationId != null) {
+                JSONObject locationData = new JSONObject(context.anmLocationController().get());
+                Log.d(TAG, "Location data is "+locationData);
+                if (locationData.has("locationsHierarchy")
+                        && locationData.getJSONObject("locationsHierarchy").has("map")) {
+                    JSONObject map = locationData.getJSONObject("locationsHierarchy").getJSONObject("map");
+                    Iterator<String> keys = map.keys();
+                    while (keys.hasNext()) {
+                        String curKey = keys.next();
+                        JSONArray curResult = getOpenMrsLocationHierarchy(locationId, map.getJSONObject(curKey), new JSONArray());
+
+                        if (curResult != null) {
+                            response = curResult;
+                            break;
+                        }
+                    }
+                } else {
+                    Log.e(TAG, "locationData doesn't have locationHierarchy");
+                }
+            } else {
+                Log.e(TAG, "Location id is null");
+            }
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
+
+        return response;
+    }
+
+    private static JSONArray getOpenMrsLocationHierarchy(String locationId,
+                                                      JSONObject openMrsLocation,
+                                                      JSONArray parents) throws JSONException {
+        JSONArray hierarchy = new JSONArray(parents.toString());
+        hierarchy.put(openMrsLocation.getJSONObject("node").getString("name"));
+        String id = openMrsLocation.getJSONObject("node").getString("locationId");
+        Log.d(TAG, "Current location id is "+id);
+        if (locationId.equals(id)) {
+            return hierarchy;
+        }
+
+        if (openMrsLocation.has("children")) {
+            Iterator<String> childIterator = openMrsLocation.getJSONObject("children").keys();
+            while (childIterator.hasNext()) {
+                String curChildKey = childIterator.next();
+                JSONArray curResult = getOpenMrsLocationHierarchy(locationId,
+                        openMrsLocation.getJSONObject("children").getJSONObject(curChildKey),
+                        hierarchy);
+                if (curResult != null) return curResult;
+            }
+        } else {
+            Log.d(TAG, id+" does not have children");
         }
 
         return null;
@@ -1893,12 +2049,15 @@ public class JsonFormUtils {
     }
 
     private static String convertToOpenMRSDate(String value) {
-        try {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            Date date = simpleDateFormat.parse(value);
+        if (value.matches("\\d{4}-\\d{2}-\\d{2}")) { // already in openmrs date format
+            return value;
+        }
 
-            SimpleDateFormat openmrsDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            return openmrsDateFormat.format(date);
+        try {
+            Date date = formatDate(value, false);
+            if(date != null){
+                return DateUtil.yyyyMMdd.format(date);
+            }
         } catch (Exception e) {
             Log.e(TAG, "", e);
         }
@@ -2051,7 +2210,7 @@ public class JsonFormUtils {
      *
      * @param context                       The activity form is being launched from
      * @param openSrpContext                Current OpenSRP context
-     * @param jsonFormActivityRequestCode   The request code to be used to launch {@link JsonFormActivity}
+     * @param jsonFormActivityRequestCode   The request code to be used to launch {@link PathJsonFormActivity}
      * @param formName                      The name of the form to launch
      * @param entityId                      The unique entity id for the form (e.g child's ZEIR id)
      * @param metaData                      The form's meta data
@@ -2062,7 +2221,7 @@ public class JsonFormUtils {
                                  int jsonFormActivityRequestCode,
                                  String formName, String entityId, String metaData,
                                  String currentLocationId) throws Exception {
-        Intent intent = new Intent(context, JsonFormActivity.class);
+        Intent intent = new Intent(context, PathJsonFormActivity.class);
 
         JSONObject form = FormUtils.getInstance(context).getFormJson(formName);
         if (form != null) {

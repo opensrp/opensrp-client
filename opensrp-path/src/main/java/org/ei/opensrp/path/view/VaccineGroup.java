@@ -334,7 +334,6 @@ public class VaccineGroup extends LinearLayout implements View.OnClickListener,
                     } else {
                         tag.setUpdatedVaccineDate(new DateTime(vaccine.getDate()), true);
                     }
-                    tag.setRecordedDate(new DateTime(new Date(vaccine.getUpdatedAt())));
                     tag.setDbKey(vaccine.getId());
                     tag.setSynced(vaccine.getSyncStatus() != null && vaccine.getSyncStatus().equals(VaccineRepository.TYPE_Synced));
                     if (tag.getName().contains("/")) {

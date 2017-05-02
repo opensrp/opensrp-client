@@ -33,14 +33,14 @@ import com.vijay.jsonwizard.widgets.TreeViewFactory;
 public class JsonFormInteractor {
 
     private static final String                     TAG               = "JsonFormInteractor";
-    private static final Map<String, FormWidgetFactory>    map = new HashMap<>();
+    protected static final Map<String, FormWidgetFactory>    map = new HashMap<>();
     private static final JsonFormInteractor         INSTANCE          = new JsonFormInteractor();
 
-    private JsonFormInteractor() {
+    protected JsonFormInteractor() {
         registerWidgets();
     }
 
-    private void registerWidgets() {
+    protected void registerWidgets() {
         map.put(JsonFormConstants.EDIT_TEXT, new EditTextFactory());
         map.put(JsonFormConstants.LABEL, new LabelFactory());
         map.put(JsonFormConstants.CHECK_BOX, new CheckBoxFactory());

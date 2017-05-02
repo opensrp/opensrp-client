@@ -48,7 +48,11 @@
       "openmrs_data_type": "phonenumber",
       "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     },
-    "encounter_location":""
+    "encounter_location": "",
+    "look_up": {
+        "entity_id":"",
+        "value":""
+    }
   },
   "step1": {
     "title": "Birth Registration",
@@ -227,6 +231,7 @@
         "type": "edit_text",
         "hint": "Mother/guardian first name *",
         "edit_type": "name",
+        "look_up": "true",
         "v_required": {
           "value": "true",
           "err": "Please enter the mother/guardian's first name"
@@ -245,6 +250,7 @@
         "type": "edit_text",
         "hint": "Mother/guardian last name *",
         "edit_type": "name",
+        "look_up": "true",
         "v_required": {
           "value": "true",
           "err": "Please enter the mother/guardian's last name"
@@ -262,6 +268,7 @@
         "entity_id": "mother",
         "type": "date_picker",
         "hint": "Mother/guardian DOB",
+        "look_up": "true",
         "expanded": false,
         "duration": {
           "label": "Age"
@@ -366,9 +373,28 @@
         }
       },
       {
+        "key": "Birth_Facility_Name_Other",
+        "openmrs_entity_parent": "163531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "edit_text",
+        "hint": "Other health facility *",
+        "edit_type": "name",
+        "v_required": {
+          "value": true,
+          "err": "Please specify the health facility the child was born in"
+        },
+        "relevance": {
+          "step1:Birth_Facility_Name": {
+            "type": "string",
+            "ex": "equalTo(., \"[\"Other\"]\")"
+          }
+        }
+      },
+      {
         "key": "Residential_Area",
         "openmrs_entity_parent": "usual_residence",
-        "openmrs_entity": "personal_address",
+        "openmrs_entity": "person_address",
         "openmrs_entity_id": "address3",
         "openmrs_data_type": "text",
         "type": "tree",
@@ -382,8 +408,8 @@
       {
         "key": "Residential_Area_Other",
         "openmrs_entity_parent": "usual_residence",
-        "openmrs_entity": "personal_address",
-        "openmrs_entity_id": "address3",
+        "openmrs_entity": "person_address",
+        "openmrs_entity_id": "address5",
         "type": "edit_text",
         "hint": "Other residential area *",
         "edit_type": "name",

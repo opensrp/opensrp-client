@@ -23,13 +23,25 @@
                 android:layout_margin="20dp"
                 android:background="@drawable/border">
 
-                <ImageView
-                    android:layout_width="@dimen/immun_child_card_height"
-                    android:layout_height="@dimen/immun_child_card_height"
-                    android:id="@+id/profile_image_iv"
-                    android:src="@drawable/child_boy_infant"
-                    android:scaleType="centerCrop"
-                    android:adjustViewBounds="true" />
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="@dimen/immun_child_card_height"
+                        android:layout_height="@dimen/immun_child_card_height"
+                        android:id="@+id/profile_image_iv"
+                        android:src="@drawable/child_boy_infant"
+                        android:scaleType="centerCrop"
+                        android:adjustViewBounds="true" />
+
+                    <ImageView
+                        android:layout_width="@dimen/navigation_icon_size"
+                        android:layout_height="@dimen/navigation_icon_size"
+                        android:id="@+id/imageView2"
+                        android:src="@drawable/ic_icon_edit"
+                        android:layout_gravity="left|top" />
+                </FrameLayout>
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -81,7 +93,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="25dp"
-                    android:layout_marginLeft="10dp">
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/statusview">
 
                     <ImageView
                         android:layout_width="wrap_content"

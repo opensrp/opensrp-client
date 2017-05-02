@@ -25,10 +25,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.vijay.jsonwizard.activities.JsonFormActivity;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
@@ -42,6 +41,8 @@ import org.ei.opensrp.path.domain.Photo;
 import org.ei.opensrp.path.domain.VaccineWrapper;
 import org.ei.opensrp.path.domain.WeightWrapper;
 import org.ei.opensrp.path.fragment.EditWeightDialogFragment;
+import org.ei.opensrp.path.fragment.StatusEditDialogFragment;
+import org.ei.opensrp.path.listener.StatusChangeListener;
 import org.ei.opensrp.path.listener.VaccinationActionListener;
 import org.ei.opensrp.path.listener.WeightActionListener;
 import org.ei.opensrp.path.repository.BaseRepository;
@@ -50,7 +51,7 @@ import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.repository.WeightRepository;
 import org.ei.opensrp.path.sync.ECSyncUpdater;
 import org.ei.opensrp.path.sync.PathClientProcessor;
-import org.ei.opensrp.path.tabfragments.child_registration_data_fragment;
+import org.ei.opensrp.path.tabfragments.ChildRegistrationDataFragment;
 import org.ei.opensrp.path.tabfragments.child_under_five_fragment;
 import org.ei.opensrp.path.toolbar.ChildDetailsToolbar;
 import org.ei.opensrp.path.view.LocationPickerView;
@@ -93,7 +94,7 @@ import static util.Utils.getValue;
  * Created by raihan on 1/03/2017.
  */
 
-public class ChildDetailTabbedActivity extends BaseActivity implements VaccinationActionListener, WeightActionListener {
+public class ChildDetailTabbedActivity extends BaseActivity implements VaccinationActionListener, WeightActionListener ,StatusChangeListener {
 
     public Menu overflow;
     private ChildDetailsToolbar detailtoolbar;
@@ -109,12 +110,13 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     public static final String EXTRA_CHILD_DETAILS = "child_details";
     private static final String EXTRA_REGISTER_CLICKABLES = "register_clickables";
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
-    private child_registration_data_fragment child_data_fragment;
+    private ChildRegistrationDataFragment childDataFragment;
     private child_under_five_fragment child_under_five_Fragment;
     private static final String DIALOG_TAG = "ChildDetailActivity_DIALOG_TAG";
 
     private File currentfile;
     public String location_name = "";
+    private LinearLayout statusview;
 
     public CommonPersonObjectClient getChildDetails() {
         return childDetails;
@@ -147,9 +149,9 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
 
         setContentView(R.layout.child_detail_activity_simple_tabs);
 
-        child_data_fragment = new child_registration_data_fragment();
+        childDataFragment = new ChildRegistrationDataFragment();
 
-        child_data_fragment.setArguments(this.getIntent().getExtras());
+        childDataFragment.setArguments(this.getIntent().getExtras());
 
         child_under_five_Fragment = new child_under_five_fragment();
         child_under_five_Fragment.setArguments(this.getIntent().getExtras());
@@ -214,6 +216,16 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         });
         detailtoolbar.setTitle(updateActivityTitle());
 
+        statusview = (LinearLayout)findViewById(R.id.statusview);
+        statusview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                android.app.Fragment prev = getFragmentManager().findFragmentByTag(DIALOG_TAG);
+
+                StatusEditDialogFragment.newInstance(ChildDetailTabbedActivity.this,details).show(ft,DIALOG_TAG);
+            }
+        });
 
         tabLayout.setupWithViewPager(viewPager);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -240,19 +252,19 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
         List <Vaccine> vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
         boolean all_synced = true;
-        for(int i = 0;i < vaccineList.size();i++){
-           if(vaccineList.get(i).getSyncStatus().equalsIgnoreCase(VaccineRepository.TYPE_Unsynced)){
-               all_synced = false;
-           }
-        }
-        if(vaccineList.size() ==0 || all_synced){
-            overflow.getItem(2).setEnabled(false);
+//        for(int i = 0;i < vaccineList.size();i++){
+//           if(vaccineList.get(i).getSyncStatus().equalsIgnoreCase(VaccineRepository.TYPE_Unsynced)){
+//               all_synced = false;
+//           }
+//        }
+        if(vaccineList.size() ==0 ){
+            overflow.getItem(3).setEnabled(false);
 
         }
         WeightRepository wp =  VaccinatorApplication.getInstance().weightRepository();
         List <Weight> weightlist =  wp.findLast5(childDetails.entityId());
         if(weightlist.size() ==0){
-            overflow.getItem(1).setEnabled(false);
+            overflow.getItem(2).setEnabled(false);
 
         }
         return true;
@@ -262,18 +274,18 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         //super.onPrepareOptionsMenu(menu);
         //getMenuInflater().inflate(R.menu.menu_child_detail_settings, menu);
 
-        if (details.containsKey(lostToFollowUp) && details.get(lostToFollowUp).equalsIgnoreCase(Boolean.TRUE.toString())) {
-            menu.findItem(R.id.mark_as_lost_to_followup).setTitle(getResources().getString(R.string.mark_as_not_lost_to_followup));
-        }else{
-            menu.findItem(R.id.mark_as_lost_to_followup).setTitle(getResources().getString(R.string.mark_as_lost_to_followup));
-
-        }
-
-        if (details.containsKey(inactive) && details.get(inactive).equalsIgnoreCase(Boolean.TRUE.toString())) {
-            menu.findItem(R.id.mark_inactive).setTitle(getResources().getString(R.string.mark_active));
-        }else{
-            menu.findItem(R.id.mark_inactive).setTitle(getResources().getString(R.string.mark_inactive));
-        }
+//        if (details.containsKey(lostToFollowUp) && details.get(lostToFollowUp).equalsIgnoreCase(Boolean.TRUE.toString())) {
+//            menu.findItem(R.id.mark_as_lost_to_followup).setTitle(getResources().getString(R.string.mark_as_not_lost_to_followup));
+//        }else{
+//            menu.findItem(R.id.mark_as_lost_to_followup).setTitle(getResources().getString(R.string.mark_as_lost_to_followup));
+//
+//        }
+//
+//        if (details.containsKey(inactive) && details.get(inactive).equalsIgnoreCase(Boolean.TRUE.toString())) {
+//            menu.findItem(R.id.mark_inactive).setTitle(getResources().getString(R.string.mark_active));
+//        }else{
+//            menu.findItem(R.id.mark_inactive).setTitle(getResources().getString(R.string.mark_inactive));
+//        }
 
         return true;
     }
@@ -312,25 +324,29 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                 String reportDeceasedMetadata = getReportDeceasedMetadata();
                 startFormActivity("report_deceased", childDetails.entityId(), reportDeceasedMetadata);
                 return true;
-            case R.id.mark_inactive:
-                if (details.containsKey(inactive) && details.get(inactive).equalsIgnoreCase(Boolean.TRUE.toString())) {
-                    updateClientAttribute(inactive, false);
+            case R.id.change_status:
+                FragmentTransaction ft = this.getFragmentManager().beginTransaction();
+                android.app.Fragment prev = this.getFragmentManager().findFragmentByTag(DIALOG_TAG);
 
-                } else {
-                    updateClientAttribute(inactive, true);
-
-                }
-                updateStatus();
+                StatusEditDialogFragment.newInstance(this,details).show(ft,DIALOG_TAG);
+//                if (details.containsKey(inactive) && details.get(inactive).equalsIgnoreCase(Boolean.TRUE.toString())) {
+//                    updateClientAttribute(inactive, false);
+//
+//                } else {
+//                    updateClientAttribute(inactive, true);
+//
+//                }
+//                updateStatus();
                 return true;
-            case R.id.mark_as_lost_to_followup:
-                if (details.containsKey(lostToFollowUp) && details.get(lostToFollowUp).equalsIgnoreCase(Boolean.TRUE.toString())) {
-                    updateClientAttribute(lostToFollowUp, false);
-                } else {
-                    updateClientAttribute(lostToFollowUp, true);
-
-                }
-                updateStatus();
-                return true;
+//            case R.id.mark_as_lost_to_followup:
+//                if (details.containsKey(lostToFollowUp) && details.get(lostToFollowUp).equalsIgnoreCase(Boolean.TRUE.toString())) {
+//                    updateClientAttribute(lostToFollowUp, false);
+//                } else {
+//                    updateClientAttribute(lostToFollowUp, true);
+//
+//                }
+//                updateStatus();
+//                return true;
             case R.id.report_adverse_event:
                 return launchAdverseEventForm();
             default:
@@ -356,10 +372,12 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
             JsonFormUtils.addChildRegLocHierarchyQuestions(form, context);
             Log.d(TAG, "Form is "+form.toString());
             if (form != null) {
-                form.put("entity_id", childDetails.entityId());
-                form.put("relational_id", childDetails.getColumnmaps().get("relational_id"));
+                form.put(JsonFormUtils.ENTITY_ID, childDetails.entityId());
+                form.put(JsonFormUtils.RELATIONAL_ID, childDetails.getColumnmaps().get("relational_id"));
+                form.put(JsonFormUtils.CURRENT_ZEIR_ID, Utils.getValue(childDetails.getColumnmaps(), "zeir_id", true).replace("-", ""));
 
-                Intent intent = new Intent(getApplicationContext(), JsonFormActivity.class);
+
+                Intent intent = new Intent(getApplicationContext(), PathJsonFormActivity.class);
                 //inject zeir id into the form
                 JSONObject stepOne = form.getJSONObject(JsonFormUtils.STEP1);
                 JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
@@ -376,7 +394,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                         jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(childDetails.getColumnmaps(), "gender", true));
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase(JsonFormUtils.ZEIR_ID)) {
-                        jsonObject.put(JsonFormUtils.READ_ONLY, true);
+                        jsonObject.put(JsonFormUtils.READ_ONLY, false);
                         jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(childDetails.getColumnmaps(), "zeir_id", true).replace("-", ""));
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Child_Register_Card_Number")) {
@@ -395,20 +413,20 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Mother_Guardian_Date_Birth")) {
 
-                        if(Utils.getValue(childDetails.getColumnmaps(), "mother_dob", true)!=null || Utils.getValue(childDetails.getColumnmaps(), "mother_dob", true).equalsIgnoreCase(""))
-                        {
+                        if (!TextUtils.isEmpty(Utils.getValue(childDetails.getColumnmaps(), "mother_dob", true))) {
                             try {
-                                jsonObject.put(JsonFormUtils.READ_ONLY, true);
                                 DateTime dateTime = new DateTime(Utils.getValue(childDetails.getColumnmaps(), "mother_dob", true));
                                 Date dob = dateTime.toDate();
-                                jsonObject.put(JsonFormUtils.VALUE, DATE_FORMAT.format(dob));
-                            }catch (Exception e){
-
+                                Date defaultDate = DATE_FORMAT.parse(JsonFormUtils.MOTHER_DEFAULT_DOB);
+                                long timeDiff = Math.abs(dob.getTime() - defaultDate.getTime());
+                                if (timeDiff > 86400000) {// Mother's date of birth occurs more than a day from the default date
+                                    jsonObject.put(JsonFormUtils.VALUE, DATE_FORMAT.format(dob));
+                                }
+                            } catch (Exception e) {
                             }
                         }
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Mother_Guardian_NRC")) {
-                        jsonObject.put(JsonFormUtils.READ_ONLY, true);
                         jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(childDetails.getColumnmaps(), "mother_nrc_number", true));
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Mother_Guardian_Number")) {
@@ -424,7 +442,13 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("First_Health_Facility_Contact")) {
                         jsonObject.put(JsonFormUtils.READ_ONLY, true);
-                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "First_Health_Facility_Contact", true));
+                        String dateString = Utils.getValue(detailmaps, "First_Health_Facility_Contact", false);
+                        if (!TextUtils.isEmpty(dateString)) {
+                            Date date = JsonFormUtils.formatDate(dateString, false);
+                            if (date != null) {
+                                jsonObject.put(JsonFormUtils.VALUE, DATE_FORMAT.format(date));
+                            }
+                        }
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Date_Birth")) {
                         jsonObject.put(JsonFormUtils.READ_ONLY, true);
@@ -452,10 +476,42 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Birth_Facility_Name")) {
                         jsonObject.put(JsonFormUtils.READ_ONLY, true);
-                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "Birth_Facility_Name", true));
+                        JSONArray birthFacilityHierarchy = null;
+                        String birthFacilityName =Utils.getValue(detailmaps, "Birth_Facility_Name", false);
+
+                        if(birthFacilityName != null && birthFacilityName.equalsIgnoreCase("other")) {
+                            birthFacilityHierarchy = new JSONArray();
+                            birthFacilityHierarchy.put(birthFacilityName);
+                        } else {
+                            birthFacilityHierarchy = JsonFormUtils.getOpenMrsLocationHierarchy(
+                                    getOpenSRPContext(), birthFacilityName);
+                        }
+
+                        if (birthFacilityHierarchy != null) {
+                            jsonObject.put(JsonFormUtils.VALUE, birthFacilityHierarchy.toString());
+                        }
+                    }
+                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Birth_Facility_Name_Other")) {
+                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "Birth_Facility_Name_Other", false));
+                        jsonObject.put(JsonFormUtils.READ_ONLY, true);
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Residential_Area")) {
-                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "Residential_Area", true));
+                        JSONArray residentialAreaHierarchy = null;
+                        String address3 = Utils.getValue(detailmaps, "address3", false);
+                        if (address3 != null && address3.equalsIgnoreCase("Other")) {
+                            residentialAreaHierarchy = new JSONArray();
+                            residentialAreaHierarchy.put(address3);
+                        } else {
+                            residentialAreaHierarchy = JsonFormUtils.getOpenMrsLocationHierarchy(
+                                    getOpenSRPContext(), address3);
+                        }
+
+                        if (residentialAreaHierarchy != null) {
+                            jsonObject.put(JsonFormUtils.VALUE, residentialAreaHierarchy.toString());
+                        }
+                    }
+                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Residential_Area_Other")) {
+                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "address5", true));
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Residential_Address")) {
                         jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "address2", true));
@@ -471,7 +527,15 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("PMTCT_Status")) {
                         jsonObject.put(JsonFormUtils.READ_ONLY, true);
-                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "pmtct_status", true));
+                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "PMTCT_Status", true));
+                    }
+                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Home_Facility")) {
+                        JSONArray homeFacilityHierarchy = JsonFormUtils.getOpenMrsLocationHierarchy(
+                                getOpenSRPContext(), Utils.getValue(detailmaps,
+                                        "Home_Facility", true));
+                        if (homeFacilityHierarchy != null) {
+                            jsonObject.put(JsonFormUtils.VALUE, homeFacilityHierarchy.toString());
+                        }
                     }
 
                 }
@@ -489,7 +553,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     public void startFormActivity(String formName, String entityId, String metaData) {
         Context context = getOpenSRPContext();
 
-        Intent intent = new Intent(getApplicationContext(), JsonFormActivity.class);
+        Intent intent = new Intent(getApplicationContext(), PathJsonFormActivity.class);
 
         intent.putExtra("json", metaData);
         startActivityForResult(intent, REQUEST_CODE_GET_JSON);
@@ -523,7 +587,8 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                         JsonFormUtils.saveAdverseEvent(jsonString, location_name,
                                 childDetails.entityId(), allSharedPreferences.fetchRegisteredANM());
                     }
-                child_data_fragment.LoadData();
+                childDataFragment.childDetails = childDetails;
+                childDataFragment.loadData();
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage());
                 }
@@ -606,7 +671,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         updateProfilePicture(gender);
         updateStatus();
     }
-
+    @Override
     public void updateStatus() {
         ImageView statusImage = (ImageView)findViewById(R.id.statusimage);
         TextView status_name = (TextView)findViewById(R.id.statusname);
@@ -628,14 +693,14 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
             status_name.setVisibility(View.GONE);
             status.setText("Lost to\nFollow-Up");
         }
-//        if (!((details.containsKey(lostToFollowUp) && details.get(lostToFollowUp).equalsIgnoreCase(Boolean.TRUE.toString()))||(details.containsKey(inactive) && details.get(inactive).equalsIgnoreCase(Boolean.TRUE.toString())))){
-//            statusImage.setImageResource(R.drawable.ic_icon_status_active);
-//            statusImage.setColorFilter(getResources().getColor(R.color.alert_completed));
-//            status_name.setText("Active");
-//            status_name.setTextColor(getResources().getColor(R.color.alert_completed));
-//            status_name.setVisibility(View.VISIBLE);
-//            status.setText("status");
-//        }
+        if (!((details.containsKey(lostToFollowUp) && details.get(lostToFollowUp).equalsIgnoreCase(Boolean.TRUE.toString()))||(details.containsKey(inactive) && details.get(inactive).equalsIgnoreCase(Boolean.TRUE.toString())))){
+            statusImage.setImageResource(R.drawable.ic_icon_status_active);
+            statusImage.setColorFilter(getResources().getColor(R.color.alert_completed));
+            status_name.setText("Active");
+            status_name.setTextColor(getResources().getColor(R.color.alert_completed));
+            status_name.setVisibility(View.VISIBLE);
+            status.setText("status");
+        }
     }
 
     private String updateActivityTitle() {
@@ -670,7 +735,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(child_data_fragment, "Registration Data");
+        adapter.addFragment(childDataFragment, "Registration Data");
         adapter.addFragment(child_under_five_Fragment, "Under Five History");
         viewPager.setAdapter(adapter);
     }
@@ -782,7 +847,6 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                 vaccineRepository.deleteVaccine(dbKey);
 
                 tag.setUpdatedVaccineDate(null, false);
-                tag.setRecordedDate(null);
                 tag.setDbKey(null);
 
 
@@ -1090,6 +1154,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         vaccine.setBaseEntityId(childDetails.entityId());
         vaccine.setName(tag.getName());
         vaccine.setDate(tag.getUpdatedVaccineDate().toDate());
+        vaccine.setUpdatedAt(tag.getUpdatedVaccineDate().toDate().getTime());
         vaccine.setAnmId(getOpenSRPContext().allSharedPreferences().fetchRegisteredANM());
         if (StringUtils.isNotBlank(location_name)) {
             vaccine.setLocationId(location_name);
@@ -1163,8 +1228,8 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
 
         return ok;
     }
-
-    private void updateClientAttribute(String attributeName, Object attributeValue) {
+    @Override
+    public void updateClientAttribute(String attributeName, Object attributeValue) {
         try {
             Date date= new Date();
             PathRepository db = (PathRepository) VaccinatorApplication.getInstance().getRepository();

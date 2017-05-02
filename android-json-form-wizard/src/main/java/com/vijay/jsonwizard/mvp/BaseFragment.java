@@ -22,7 +22,7 @@ public abstract class BaseFragment<VS extends ViewState> extends Fragment {
         if (savedInstanceState == null) {
             mViewState = createViewState();
             mViewState.setSavedInstance(false);
-        } else {
+        } else if(mViewState != null){
             mViewState.setSavedInstance(true);
         }
     }

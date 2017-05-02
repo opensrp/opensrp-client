@@ -154,6 +154,7 @@ public class OpenSRPImageLoader extends ImageLoader {
 
             } else {
                 //get image record from the db
+                opensrpImageListener.setEntityId(entityId);
                 LoadProfileImageTask loadProfileImageTask = new LoadProfileImageTask(this, opensrpImageListener, entityId);
                 startAsyncTask(loadProfileImageTask, null);
 
@@ -490,7 +491,14 @@ public class OpenSRPImageLoader extends ImageLoader {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (this.getErrorImageResId() != 0 && this.getImageView() != null) {
-                    this.getImageView().setImageResource(this.getErrorImageResId());
+                    final int errorImageResId = this.getErrorImageResId();
+                    final ImageView imageView = this.getImageView();
+                    imageView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            imageView.setImageResource(errorImageResId);
+                        }
+                    });
                 }
             }
 
@@ -501,7 +509,19 @@ public class OpenSRPImageLoader extends ImageLoader {
                     return;
                 }
                 if (response.getBitmap() != null) {
-                    imageView.setImageBitmap(response.getBitmap());
+                    String entityId = this.getEntityId();
+                    String taggedEntityId= imageView.getTag(R.id.entity_id).toString();
+
+                    if(!entityId.equals(taggedEntityId)) {
+                        return;
+                    }
+
+                    imageView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            imageView.setImageBitmap(response.getBitmap());
+                        }
+                    });
 
                     // perform I/O on non UI thread
                     if (!isImmediate) {
@@ -514,7 +534,13 @@ public class OpenSRPImageLoader extends ImageLoader {
                         }).start();
                     }
                 } else if (this.getDefaultImageResId() != 0) {
-                    imageView.setImageResource(this.getDefaultImageResId());
+                    final int defaultImageResId = this.getDefaultImageResId();
+                    imageView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            imageView.setImageResource(defaultImageResId);
+                        }
+                    });
                 }
             }
         };

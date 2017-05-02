@@ -14,7 +14,7 @@ public class VaccineRepo {
         opv2("OPV 2", opv1, 1799, 70, 28, "child"),
         opv3("OPV 3", opv2, 1830, 98, 28, "child"),
         opv4("OPV 4", null, 1830, 274, 28, "child"),
-        ipv("IPV", opv2, 1830, 98, 28, "child"),
+        ipv("IPV", opv3, 1830, 274, 28, "child"),
         pcv1("PCV 1", null, 1768, 42, 0, "child"),
         pcv2("PCV 2", pcv1, 1799, 70, 28, "child"),
         pcv3("PCV 3", pcv2, 1830, 98, 28, "child"),

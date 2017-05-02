@@ -20,18 +20,27 @@ public class WeightRepository extends BaseRepository {
     public static final String WEIGHT_TABLE_NAME = "weights";
     public static final String ID_COLUMN = "_id";
     public static final String BASE_ENTITY_ID = "base_entity_id";
+    public static final String EVENT_ID = "event_id";
     public static final String PROGRAM_CLIENT_ID = "program_client_id";// ID to be used to identify entity when base_entity_id is unavailable
+    public static final String FORMSUBMISSION_ID = "formSubmissionId";
+
     public static final String KG = "kg";
     public static final String DATE = "date";
     public static final String ANMID = "anmid";
     public static final String LOCATIONID = "location_id";
     public static final String SYNC_STATUS = "sync_status";
     public static final String UPDATED_AT_COLUMN = "updated_at";
-    public static final String[] WEIGHT_TABLE_COLUMNS = {ID_COLUMN, BASE_ENTITY_ID, PROGRAM_CLIENT_ID, KG, DATE, ANMID, LOCATIONID, SYNC_STATUS, UPDATED_AT_COLUMN};
+    public static final String[] WEIGHT_TABLE_COLUMNS = {ID_COLUMN, BASE_ENTITY_ID, PROGRAM_CLIENT_ID, KG, DATE, ANMID, LOCATIONID, SYNC_STATUS, UPDATED_AT_COLUMN,EVENT_ID,FORMSUBMISSION_ID};
 
     private static final String BASE_ENTITY_ID_INDEX = "CREATE INDEX " + WEIGHT_TABLE_NAME + "_" + BASE_ENTITY_ID + "_index ON " + WEIGHT_TABLE_NAME + "(" + BASE_ENTITY_ID + " COLLATE NOCASE);";
     private static final String SYNC_STATUS_INDEX = "CREATE INDEX " + WEIGHT_TABLE_NAME + "_" + SYNC_STATUS + "_index ON " + WEIGHT_TABLE_NAME + "(" + SYNC_STATUS + " COLLATE NOCASE);";
     private static final String UPDATED_AT_INDEX = "CREATE INDEX " + WEIGHT_TABLE_NAME + "_" + UPDATED_AT_COLUMN + "_index ON " + WEIGHT_TABLE_NAME + "(" + UPDATED_AT_COLUMN + ");";
+    public static final String UPDATE_TABLE_ADD_EVENT_ID_COL = "ALTER TABLE "+ WEIGHT_TABLE_NAME +" ADD COLUMN "+EVENT_ID+" VARCHAR;";
+    public static final String EVENT_ID_INDEX = "CREATE INDEX " + WEIGHT_TABLE_NAME + "_" + EVENT_ID + "_index ON " + WEIGHT_TABLE_NAME + "(" + EVENT_ID + " COLLATE NOCASE);";
+    public static final String UPDATE_TABLE_ADD_FORMSUBMISSION_ID_COL = "ALTER TABLE "+ WEIGHT_TABLE_NAME +" ADD COLUMN "+FORMSUBMISSION_ID+" VARCHAR;";
+    public static final String FORMSUBMISSION_INDEX = "CREATE INDEX " + WEIGHT_TABLE_NAME + "_" + FORMSUBMISSION_ID + "_index ON " + WEIGHT_TABLE_NAME + "(" + FORMSUBMISSION_ID + " COLLATE NOCASE);";
+
+
 
 
     public WeightRepository(PathRepository pathRepository) {
@@ -52,6 +61,9 @@ public class WeightRepository extends BaseRepository {
         if (StringUtils.isBlank(weight.getSyncStatus())) {
             weight.setSyncStatus(TYPE_Unsynced);
         }
+        if (StringUtils.isBlank(weight.getFormSubmissionId())) {
+            weight.setFormSubmissionId(generateRandomUUIDString());
+        }
 
 
         if (weight.getUpdatedAt() == null) {
@@ -62,6 +74,7 @@ public class WeightRepository extends BaseRepository {
         if (weight.getId() == null) {
             weight.setId(database.insert(WEIGHT_TABLE_NAME, null, createValuesFor(weight)));
         } else {
+            weight.setSyncStatus(TYPE_Unsynced);
             String idSelection = ID_COLUMN + " = ?";
             database.update(WEIGHT_TABLE_NAME, createValuesFor(weight), idSelection, new String[]{weight.getId().toString()});
         }
@@ -129,7 +142,7 @@ public class WeightRepository extends BaseRepository {
     }
 
     public List<Weight> findLast5(String entityid) {
-        Cursor cursor = getPathRepository().getReadableDatabase().query(WEIGHT_TABLE_NAME, WEIGHT_TABLE_COLUMNS, BASE_ENTITY_ID + " = ?", new String[]{entityid}, null, null, UPDATED_AT_COLUMN, null);
+        Cursor cursor = getPathRepository().getReadableDatabase().query(WEIGHT_TABLE_NAME, WEIGHT_TABLE_COLUMNS, BASE_ENTITY_ID + " = ?", new String[]{entityid}, null, null, UPDATED_AT_COLUMN + " DESC", null);
         List<Weight> weights = readAllWeights(cursor);
 //        if (!weights.isEmpty()) {
         return weights;
@@ -163,7 +176,7 @@ public class WeightRepository extends BaseRepository {
                                     cursor.getString(cursor.getColumnIndex(ANMID)),
                                     cursor.getString(cursor.getColumnIndex(LOCATIONID)),
                                     cursor.getString(cursor.getColumnIndex(SYNC_STATUS)),
-                                    cursor.getLong(cursor.getColumnIndex(UPDATED_AT_COLUMN))
+                                    cursor.getLong(cursor.getColumnIndex(UPDATED_AT_COLUMN)),cursor.getString(cursor.getColumnIndex(EVENT_ID)),cursor.getString(cursor.getColumnIndex(FORMSUBMISSION_ID))
                             ));
 
                     cursor.moveToNext();
@@ -190,6 +203,8 @@ public class WeightRepository extends BaseRepository {
         values.put(LOCATIONID, weight.getLocationId());
         values.put(SYNC_STATUS, weight.getSyncStatus());
         values.put(UPDATED_AT_COLUMN, weight.getUpdatedAt() != null ? weight.getUpdatedAt() : null);
+        values.put(EVENT_ID, weight.getEventId() != null ? weight.getEventId() : null);
+        values.put(FORMSUBMISSION_ID, weight.getFormSubmissionId() != null ? weight.getFormSubmissionId() : null);
         return values;
     }
 }

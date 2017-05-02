@@ -41,7 +41,7 @@ public class WidgetFactory {
         View rows = inflater.inflate(R.layout.tablerows_weight, container, false);
         TextView label = (TextView)rows.findViewById(R.id.label);
         TextView value = (TextView)rows.findViewById(R.id.value);
-        TextView edit = (TextView)rows.findViewById(R.id.edit);
+        Button edit = (Button)rows.findViewById(R.id.edit);
         if(editenabled){
             edit.setVisibility(View.VISIBLE);
             edit.setOnClickListener(listener);
@@ -56,10 +56,7 @@ public class WidgetFactory {
         View weightwidget = inflater.inflate(R.layout.weightwidget, container, false);
         LinearLayout tableLayout = (LinearLayout) weightwidget.findViewById(R.id.weightvalues);
         ViewGroup.LayoutParams weightvaluesparams = tableLayout.getLayoutParams();
-        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,last_five_weight_map.size()*40 ,Context.getInstance().applicationContext().getResources().getDisplayMetrics());
 
-        weightvaluesparams.height = height;
-        tableLayout.setLayoutParams(weightvaluesparams);
         int i = 0;
         for (Map.Entry<String, String> entry : last_five_weight_map.entrySet())
         {

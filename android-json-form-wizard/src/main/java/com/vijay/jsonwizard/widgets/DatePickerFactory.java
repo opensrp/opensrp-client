@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.support.v4.util.TimeUtils;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -24,6 +23,7 @@ import com.vijay.jsonwizard.fragments.JsonFormFragment;
 import com.vijay.jsonwizard.interfaces.CommonListener;
 import com.vijay.jsonwizard.interfaces.FormWidgetFactory;
 import com.vijay.jsonwizard.interfaces.JsonApi;
+import com.vijay.jsonwizard.utils.DatePickerUtils;
 import com.vijay.jsonwizard.validators.edittext.RequiredValidator;
 
 import org.json.JSONArray;
@@ -55,16 +55,40 @@ public class DatePickerFactory implements FormWidgetFactory {
                                        CommonListener listener) throws Exception {
         List<View> views = new ArrayList<>(1);
         try {
+
+            RelativeLayout dateViewRelativeLayout = (RelativeLayout) LayoutInflater
+                    .from(context).inflate(R.layout.item_date_picker, null);
+
+            MaterialEditText editText = (MaterialEditText) dateViewRelativeLayout.findViewById(R.id.edit_text);
+
+            TextView duration = (TextView) dateViewRelativeLayout.findViewById(R.id.duration);
+
+            attachJson(stepName, context, formFragment, jsonObject, editText, duration);
+
+            JSONArray canvasIds = new JSONArray();
+            dateViewRelativeLayout.setId(ViewUtil.generateViewId());
+            canvasIds.put(dateViewRelativeLayout.getId());
+            editText.setTag(R.id.canvas_ids, canvasIds.toString());
+
+            ((JsonApi) context).addFormDataView(editText);
+            views.add(dateViewRelativeLayout);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return views;
+    }
+
+    protected void attachJson(String stepName, final Context context, JsonFormFragment formFragment, JSONObject jsonObject, final MaterialEditText editText, final TextView duration){
+
+        try {
             String openMrsEntityParent = jsonObject.getString("openmrs_entity_parent");
             String openMrsEntity = jsonObject.getString("openmrs_entity");
             String openMrsEntityId = jsonObject.getString("openmrs_entity_id");
             String relevance = jsonObject.optString("relevance");
             String constraints = jsonObject.optString("constraints");
 
-            final RelativeLayout dateViewRelativeLayout = (RelativeLayout) LayoutInflater
-                    .from(context).inflate(R.layout.item_date_picker, null);
-
-            final TextView duration = (TextView) dateViewRelativeLayout.findViewById(R.id.duration);
             duration.setTag(R.id.key, jsonObject.getString("key"));
             duration.setTag(R.id.openmrs_entity_parent, openMrsEntityParent);
             duration.setTag(R.id.openmrs_entity, openMrsEntity);
@@ -73,7 +97,6 @@ public class DatePickerFactory implements FormWidgetFactory {
                 duration.setTag(R.id.label, jsonObject.getJSONObject("duration").getString("label"));
             }
 
-            final MaterialEditText editText = (MaterialEditText) dateViewRelativeLayout.findViewById(R.id.edit_text);
             editText.setHint(jsonObject.getString("hint"));
             editText.setFloatingLabelText(jsonObject.getString("hint"));
             editText.setId(ViewUtil.generateViewId());
@@ -195,13 +218,6 @@ public class DatePickerFactory implements FormWidgetFactory {
             });
             editText.addTextChangedListener(genericTextWatcher);
 
-            JSONArray canvasIds = new JSONArray();
-            dateViewRelativeLayout.setId(ViewUtil.generateViewId());
-            canvasIds.put(dateViewRelativeLayout.getId());
-            editText.setTag(R.id.canvas_ids, canvasIds.toString());
-
-            ((JsonApi) context).addFormDataView(editText);
-            views.add(dateViewRelativeLayout);
             if (relevance != null && context instanceof JsonApi) {
                 editText.setTag(R.id.relevance, relevance);
                 ((JsonApi) context).addSkipLogicView(editText);
@@ -215,8 +231,9 @@ public class DatePickerFactory implements FormWidgetFactory {
             e.printStackTrace();
         }
 
-        return views;
     }
+
+
 
     private static void updateDateText(MaterialEditText editText, TextView duration, String date) {
         editText.setText(date);
@@ -328,6 +345,8 @@ public class DatePickerFactory implements FormWidgetFactory {
 
         datePickerDialog.setTitle("");
         datePickerDialog.show();
+
+        DatePickerUtils.themeDatePicker(datePickerDialog, new char[]{'d', 'm', 'y'});
     }
 
     /**
