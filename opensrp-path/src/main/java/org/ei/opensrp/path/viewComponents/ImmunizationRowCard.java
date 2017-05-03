@@ -239,7 +239,8 @@ public class ImmunizationRowCard extends LinearLayout {
 //                statusIV.setVisibility(GONE);
                 undoB.setVisibility(INVISIBLE);
                 nameTV.setText(getVaccineName());
-                StatusTV.setText(DATE_FORMAT.format(getDateDue()));
+                StatusTV.setText("Expired");
+//                StatusTV.setText(DATE_FORMAT.format(getDateDue()));
                 setClickable(false);
                 break;
         }
