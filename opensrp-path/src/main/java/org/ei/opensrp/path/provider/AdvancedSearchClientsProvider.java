@@ -3,6 +3,7 @@ package org.ei.opensrp.path.provider;
 import android.content.Context;
 import android.database.Cursor;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -50,6 +51,13 @@ public class AdvancedSearchClientsProvider extends ChildSmartClientsProvider {
                 String ftsSearchTable = CommonFtsObject.searchTableName(commonRepository.TABLE_NAME);
                 ArrayList<HashMap<String, String>> mapList = commonRepository.rawQuery(String.format("SELECT " + CommonFtsObject.idColumn + " FROM " + ftsSearchTable + " WHERE  " + CommonFtsObject.idColumn + " = '%s'", pc.entityId()));
 
+
+                Button recordVaccination = (Button) convertView.findViewById(R.id.record_vaccination);
+                recordVaccination.setVisibility(View.VISIBLE);
+
+                View moveToCatchment = convertView.findViewById(R.id.move_to_catchment);
+                moveToCatchment.setVisibility(View.GONE);
+
                 if (mapList.isEmpty()) { //Out of area -- doesn't exist in local database
                     TextView recordWeightText = (TextView) convertView.findViewById(R.id.record_weight_text);
                     recordWeightText.setText("Record\nservice");
@@ -63,15 +71,18 @@ public class AdvancedSearchClientsProvider extends ChildSmartClientsProvider {
                     recordWeight.setEnabled(true);
                     recordWeight.setOnClickListener(onClickListener);
 
-                    Button recordVaccination = (Button) convertView.findViewById(R.id.record_vaccination);
-                    recordVaccination.setText("Move to my\ncatchment");
-                    recordVaccination.setTag(pc.entityId());
-                    recordVaccination.setClickable(true);
-                    recordVaccination.setEnabled(true);
-                    recordVaccination.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                    recordVaccination.setTextColor(context.getResources().getColor(R.color.text_black));
-                    recordVaccination.setBackground(context.getResources().getDrawable(R.drawable.record_weight_bg));
-                    recordVaccination.setOnClickListener(onClickListener);
+
+                    TextView moveToCatchmentText = (TextView) convertView.findViewById(R.id.move_to_catchment_text);
+                    moveToCatchmentText.setText("Move to my\ncatchment");
+
+                    moveToCatchment.setBackground(context.getResources().getDrawable(R.drawable.record_weight_bg));
+                    moveToCatchment.setTag(pc.entityId());
+                    moveToCatchment.setClickable(true);
+                    moveToCatchment.setEnabled(true);
+                    moveToCatchment.setOnClickListener(onClickListener);
+
+                    moveToCatchment.setVisibility(View.VISIBLE);
+                    recordVaccination.setVisibility(View.GONE);
                 }
             }
         }
@@ -82,5 +93,11 @@ public class AdvancedSearchClientsProvider extends ChildSmartClientsProvider {
     @Override
     public void getView(SmartRegisterClient client, View convertView) {
         super.getView(client, convertView);
+    }
+
+    @Override
+    public View inflatelayoutForCursorAdapter() {
+        ViewGroup view = (ViewGroup) inflater().inflate(R.layout.advanced_search_client, null);
+        return view;
     }
 }

@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -24,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.vijay.jsonwizard.customviews.CheckBox;
+import com.vijay.jsonwizard.customviews.RadioButton;
 import com.vijay.jsonwizard.utils.DatePickerUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -64,7 +66,8 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     private View mView;
     private final ClientActionHandler clientActionHandler = new ClientActionHandler();
     private Button search;
-    private RadioGroup searchLimits;
+    private RadioButton outsideInside;
+    private RadioButton myCatchment;
     private CheckBox active;
     private CheckBox inactive;
     private CheckBox lostToFollowUp;
@@ -229,14 +232,17 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
                     break;
 
                 case R.id.record_vaccination:
+                    if (client != null) {
+                        registerClickables.setRecordAll(true);
+                        ChildImmunizationActivity.launchActivity(getActivity(), client, registerClickables);
+                    }
+                    break;
+                case R.id.move_to_catchment:
                     if (client == null) {
                         if (view.getTag() != null && view.getTag() instanceof String) {
                             String entityId = view.getTag().toString();
                             moveToMyCatchmentArea(entityId);
                         }
-                    } else {
-                        registerClickables.setRecordAll(true);
-                        ChildImmunizationActivity.launchActivity(getActivity(), client, registerClickables);
                     }
                     break;
             }
@@ -247,11 +253,67 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
         searchCriteria = (TextView) view.findViewById(R.id.search_criteria);
         matchingResults = (TextView) view.findViewById(R.id.matching_results);
         search = (Button) view.findViewById(R.id.search);
-        searchLimits = (RadioGroup) view.findViewById(R.id.search_limits);
+
+        outsideInside = (RadioButton) view.findViewById(R.id.out_and_inside);
+        myCatchment = (RadioButton) view.findViewById(R.id.my_catchment);
+
+        outsideInside.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                myCatchment.setChecked(!isChecked);
+            }
+        });
+
+        myCatchment.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                outsideInside.setChecked(!isChecked);
+            }
+        });
+
+        View outsideInsideLayout = view.findViewById(R.id.out_and_inside_layout);
+        outsideInsideLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                outsideInside.performClick();
+            }
+        });
+
+        View mycatchmentLayout = view.findViewById(R.id.my_catchment_layout);
+        mycatchmentLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myCatchment.performClick();
+            }
+        });
 
         active = (CheckBox) view.findViewById(R.id.active);
         inactive = (CheckBox) view.findViewById(R.id.inactive);
         lostToFollowUp = (CheckBox) view.findViewById(R.id.lost_to_follow_up);
+
+        View activeLayout = view.findViewById(R.id.active_layout);
+        activeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                active.performClick();
+            }
+        });
+
+        View inactiveLayout = view.findViewById(R.id.inactive_layout);
+        inactiveLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inactive.performClick();
+            }
+        });
+
+        View lostToFollowUpLayout = view.findViewById(R.id.lost_to_follow_up_layout);
+        lostToFollowUpLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lostToFollowUp.performClick();
+            }
+        });
 
         zeirId = (MaterialEditText) view.findViewById(R.id.zeir_id);
         firstName = (MaterialEditText) view.findViewById(R.id.first_name);
@@ -295,13 +357,14 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     }
 
     private void updateSeachLimits() {
-        if (searchLimits != null) {
-            if (Utils.isConnectedToNetwork(getActivity())) {
-                searchLimits.check(R.id.out_and_inside);
-            } else {
-                searchLimits.check(R.id.my_catchment);
-            }
+        if (Utils.isConnectedToNetwork(getActivity())) {
+            outsideInside.setChecked(true);
+            myCatchment.setChecked(false);
+        } else {
+            myCatchment.setChecked(true);
+            outsideInside.setChecked(false);
         }
+
     }
 
     public void search(final View view) {
@@ -321,10 +384,10 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
 
         String searchCriteriaString = "Search criteria: Include: ";
 
-        if (searchLimits.getCheckedRadioButtonId() == R.id.out_and_inside) {
+        if (outsideInside.isChecked()) {
             outOfArea = true;
             searchCriteriaString += " \"Outside and Inside My Catchment Area\", ";
-        } else {
+        } else if (myCatchment.isChecked()) {
             outOfArea = false;
             searchCriteriaString += " \"My Catchment Area\", ";
         }
@@ -359,7 +422,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
         }
 
         if (isActive || isInactive || isLostToFollowUp) {
-            String statusString = " \" ";
+            String statusString = " \"";
             if (isActive) {
                 statusString += "Active";
             }
@@ -978,7 +1041,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     }
 
     private String bold(String textToBold) {
-        return "<b>" + textToBold + "</b> ";
+        return "<b>" + textToBold + "</b>";
     }
 
     final Listener<JSONArray> listener = new Listener<JSONArray>() {

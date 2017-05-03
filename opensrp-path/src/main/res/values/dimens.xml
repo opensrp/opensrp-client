@@ -103,6 +103,9 @@
 
     <dimen name="advanced_search_text_size">28dp</dimen>
     <dimen name="advanced_search_label_size">20dp</dimen>
+    <dimen name="advanced_search_label_small_size">16dp</dimen>
+    <dimen name="advanced_search_label_padding">5dp</dimen>
+
     <dimen name="noti_message_text_size">20sp</dimen>
     <dimen name="noti_button_text_size">16sp</dimen>
 
