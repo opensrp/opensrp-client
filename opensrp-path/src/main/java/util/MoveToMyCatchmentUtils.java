@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.Map;
 
 import static android.view.View.VISIBLE;
@@ -27,13 +28,13 @@ import static android.view.View.VISIBLE;
  */
 public class MoveToMyCatchmentUtils {
 
-    public static void moveToMyCatchment(final String entityId, final Listener<JSONObject> listener, final ProgressBar progressBar) {
+    public static void moveToMyCatchment(final List<String> ids, final Listener<JSONObject> listener, final ProgressBar progressBar) {
 
         Utils.startAsyncTask(new AsyncTask<Void, Void, JSONObject>() {
             @Override
             protected JSONObject doInBackground(Void... params) {
                 publishProgress();
-                Response<String> response = move(entityId);
+                Response<String> response = move(ids);
                 if (response.isFailure()) {
                     return null;
                 } else {
@@ -60,8 +61,8 @@ public class MoveToMyCatchmentUtils {
         }, null);
     }
 
-    public static Response<String> move(String baseEntityId) {
-        if (StringUtils.isBlank(baseEntityId)) {
+    public static Response<String> move(List<String> ids) {
+        if (ids == null || ids.isEmpty()) {
             return new Response<String>(ResponseStatus.failure, "entityId doesn't exist");
         }
 
@@ -69,7 +70,9 @@ public class MoveToMyCatchmentUtils {
         DristhiConfiguration configuration = context.configuration();
 
         String baseUrl = configuration.dristhiBaseURL();
-        String paramString = "?baseEntityId=" + urlEncode(baseEntityId.trim()) + "&serverVersion=0";
+        String idString = StringUtils.join(ids, ",");
+
+        String paramString = "?baseEntityId=" + urlEncode(idString.trim()) + "&serverVersion=0";
         String uri = baseUrl + ECSyncUpdater.SEARCH_URL + paramString;
 
         Response<String> response = context.getHttpAgent().fetch(uri);
