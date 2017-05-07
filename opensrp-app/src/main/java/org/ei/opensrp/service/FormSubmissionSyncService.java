@@ -14,7 +14,10 @@ import org.ei.opensrp.domain.form.FormSubmission;
 import org.ei.opensrp.repository.AllSettings;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.repository.FormDataRepository;
+import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.activity.DrishtiApplication;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +81,6 @@ public class FormSubmissionSyncService {
         String anmId = allSharedPreferences.fetchRegisteredANM();
         int downloadBatchSize = configuration.syncDownloadBatchSize();
         String baseURL = configuration.dristhiBaseURL();
-        int k = 1;
         while (true) {
 
             String uri = format("{0}/{1}?anm-id={2}&timestamp={3}&batch-size={4}",
@@ -95,7 +97,6 @@ public class FormSubmissionSyncService {
             List<FormSubmissionDTO> formSubmissions = new Gson().fromJson(response.payload(),
                     new TypeToken<List<FormSubmissionDTO>>() {
                     }.getType());
-            Log.e("------------","total_submission" + formSubmissions.size());
             if (formSubmissions.isEmpty()) {
                 return dataStatus;
             } else {

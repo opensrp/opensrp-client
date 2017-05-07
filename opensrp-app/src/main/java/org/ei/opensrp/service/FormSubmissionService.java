@@ -40,12 +40,9 @@ public class FormSubmissionService {
         this.allCommonsRepositoryMap = allCommonsRepositoryMap;
     }
 
-    private boolean isProcess = false;
     public void processSubmissions(List<FormSubmission> formSubmissions) {
-        //if(isProcess) return;
         for (FormSubmission submission : formSubmissions) {
-            isProcess = true;
-            Log.e("----------",submission + "");
+
             if (!formDataRepository.submissionExists(submission.instanceId())) {
                 try {
                     ziggyService.saveForm(getParams(submission), submission.instance());
