@@ -72,7 +72,7 @@ public class MoveToMyCatchmentUtils {
         String baseUrl = configuration.dristhiBaseURL();
         String idString = StringUtils.join(ids, ",");
 
-        String paramString = "?baseEntityId=" + urlEncode(idString.trim()) + "&serverVersion=0";
+        String paramString = "?baseEntityId=" + urlEncode(idString.trim());
         String uri = baseUrl + ECSyncUpdater.SEARCH_URL + paramString;
 
         Response<String> response = context.getHttpAgent().fetch(uri);

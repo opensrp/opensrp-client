@@ -239,7 +239,7 @@ public class ChildSmartRegisterActivity extends BaseRegisterActivity {
             return;
         }
         if (currentPage != 0) {
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(this, R.style.PathAlertDialog)
                     .setMessage(org.ei.opensrp.path.R.string.form_back_confirm_dialog_message)
                     .setTitle(org.ei.opensrp.path.R.string.form_back_confirm_dialog_title)
                     .setCancelable(false)
