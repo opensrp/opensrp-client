@@ -106,6 +106,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     private static final String CONTACT_PHONE_NUMBER = "contact_phone_number";
     private static final String BIRTH_DATE = "birth_date";
 
+    private static final String MOTHER_BASE_ENTITY_ID = "mother_base_entity_id";
     private static final String MOTHER_GUARDIAN_FIRST_NAME = "mother_first_name";
     private static final String MOTHER_GUARDIAN_LAST_NAME = "mother_last_name";
     private static final String MOTHER_GUARDIAN_NRC_NUMBER = "mother_nrc_number";
@@ -239,9 +240,9 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
                     break;
                 case R.id.move_to_catchment:
                     if (client == null) {
-                        if (view.getTag() != null && view.getTag() instanceof String) {
-                            String entityId = view.getTag().toString();
-                            moveToMyCatchmentArea(entityId);
+                        if (view.getTag() != null && view.getTag() instanceof List) {
+                            List<String> ids = (List<String>) view.getTag();
+                            moveToMyCatchmentArea(ids);
                         }
                     }
                     break;
@@ -775,26 +776,21 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
             String key = entry.getKey();
             String value = entry.getValue();
             if (key.contains(ACTIVE) || key.contains(INACTIVE) || key.contains(LOST_TO_FOLLOW_UP)) {
-                if (key.contains(ACTIVE) && !key.contains(INACTIVE)) {
-                    key = tableName + "." + INACTIVE;
-                    boolean v = !Boolean.valueOf(value);
-                    value = Boolean.toString(v);
-                }
 
                 if (StringUtils.isBlank(statusConditionString)) {
-                    if (value.equalsIgnoreCase(Boolean.TRUE.toString())) {
-                        statusConditionString += " " + key + " = '" + value + "'";
+                    if (key.contains(ACTIVE) && !key.contains(INACTIVE)) {
+                        statusConditionString += " (" + tableName + "." + INACTIVE + " != '" + Boolean.TRUE.toString() + "' AND " + tableName + "." + LOST_TO_FOLLOW_UP + " != '" + Boolean.TRUE.toString() + "') ";
                     } else {
-                        value = Boolean.TRUE.toString();
-                        statusConditionString += " " + key + " != '" + value + "'";
+                        statusConditionString += " " + key + " = '" + value + "'";
                     }
                 } else {
-                    if (value.equalsIgnoreCase(Boolean.TRUE.toString())) {
-                        statusConditionString += " OR " + key + " = '" + value + "'";
+                    if (key.contains(ACTIVE) && !key.contains(INACTIVE)) {
+                        statusConditionString += " OR (" + tableName + "." + INACTIVE + " != '" + Boolean.TRUE.toString() + "' AND " + tableName + "." + LOST_TO_FOLLOW_UP + " != '" + Boolean.TRUE.toString() + "') ";
+
                     } else {
-                        value = Boolean.TRUE.toString();
-                        statusConditionString += " OR " + key + " != '" + value + "'";
+                        statusConditionString += " OR " + key + " = '" + value + "'";
                     }
+
                 }
             }
         }
@@ -1021,7 +1017,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
         }
     }
 
-    private void moveToMyCatchmentArea(final String entityId) {
+    private void moveToMyCatchmentArea(final List<String> ids) {
         new AlertDialog.Builder(getActivity())
                 .setMessage(R.string.move_to_catchment_confirm_dialog_message)
                 .setTitle(R.string.move_to_catchment_confirm_dialog_title)
@@ -1029,7 +1025,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
                 .setPositiveButton(org.ei.opensrp.path.R.string.yes_button_label,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                MoveToMyCatchmentUtils.moveToMyCatchment(entityId, moveToMyCatchmentListener, clientsProgressView);
+                                MoveToMyCatchmentUtils.moveToMyCatchment(ids, moveToMyCatchmentListener, clientsProgressView);
                             }
                         })
                 .setNegativeButton(org.ei.opensrp.path.R.string.no_button_label,
@@ -1048,7 +1044,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
         public void onEvent(final JSONArray jsonArray) {
 
 
-            String[] columns = new String[]{"_id", "relationalid", FIRST_NAME, "middle_name", LAST_NAME, "gender", "dob", ZEIR_ID, "epi_card_number", MOTHER_GUARDIAN_FIRST_NAME, MOTHER_GUARDIAN_LAST_NAME, "inactive", "lost_to_follow_up"};
+            String[] columns = new String[]{"_id", "relationalid", FIRST_NAME, "middle_name", LAST_NAME, "gender", "dob", ZEIR_ID, "epi_card_number", MOTHER_BASE_ENTITY_ID, MOTHER_GUARDIAN_FIRST_NAME, MOTHER_GUARDIAN_LAST_NAME, "inactive", "lost_to_follow_up"};
             matrixCursor = new AdvancedMatrixCursor(columns);
 
             if (jsonArray != null) {
@@ -1143,6 +1139,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
                     }
 
 
+                    String motherBaseEntityId = "";
                     String motherFirstName = "";
                     String motherLastName = "";
 
@@ -1150,9 +1147,10 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
                         JSONObject mother = getJsonObject(client, "mother");
                         motherFirstName = getJsonString(mother, "firstName");
                         motherLastName = getJsonString(mother, "lastName");
+                        motherBaseEntityId = getJsonString(mother, "baseEntityId");
                     }
 
-                    matrixCursor.addRow(new Object[]{entityId, null, firstName, middleName, lastName, gender, dob, zeirId, epiCardNumber, motherFirstName, motherLastName, inactive, lostToFollowUp});
+                    matrixCursor.addRow(new Object[]{entityId, null, firstName, middleName, lastName, gender, dob, zeirId, epiCardNumber, motherBaseEntityId, motherFirstName, motherLastName, inactive, lostToFollowUp});
                 }
             }
 

@@ -20,6 +20,7 @@ import org.ei.opensrp.view.contract.SmartRegisterClient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static util.Utils.getValue;
 
@@ -75,8 +76,15 @@ public class AdvancedSearchClientsProvider extends ChildSmartClientsProvider {
                     TextView moveToCatchmentText = (TextView) convertView.findViewById(R.id.move_to_catchment_text);
                     moveToCatchmentText.setText("Move to my\ncatchment");
 
+                    String motherBaseEntityId = getValue(pc.getColumnmaps(), "mother_base_entity_id", false);
+                    String entityId = pc.entityId();
+
+                    List<String> ids = new ArrayList<>();
+                    ids.add(motherBaseEntityId);
+                    ids.add(entityId);
+
                     moveToCatchment.setBackground(context.getResources().getDrawable(R.drawable.record_weight_bg));
-                    moveToCatchment.setTag(pc.entityId());
+                    moveToCatchment.setTag(ids);
                     moveToCatchment.setClickable(true);
                     moveToCatchment.setEnabled(true);
                     moveToCatchment.setOnClickListener(onClickListener);
