@@ -282,7 +282,10 @@ public class PathClientProcessor extends ClientProcessor {
                                 if (StringUtils.isNotBlank(valueField) && jsonDocObject.has(valueField)) {
                                     columnValue = jsonDocObject.getString(valueField);
                                 } else {
-                                    columnValue = getValues(jsonDocObject.get(responseKey)).get(0);
+                                    List<String> values =  getValues(jsonDocObject.get(responseKey));
+                                    if(!values.isEmpty()) {
+                                        columnValue = values.get(0);
+                                    }
                                 }
                             }
                         }

@@ -38,6 +38,8 @@ import org.ei.opensrp.path.activity.ChildImmunizationActivity;
 import org.ei.opensrp.path.activity.ChildSmartRegisterActivity;
 import org.ei.opensrp.path.adapter.AdvancedSearchPaginatedCursorAdapter;
 import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.db.Event;
+import org.ei.opensrp.path.db.Obs;
 import org.ei.opensrp.path.domain.RegisterClickables;
 import org.ei.opensrp.path.provider.AdvancedSearchClientsProvider;
 import org.ei.opensrp.path.sync.ECSyncUpdater;
@@ -1185,7 +1187,35 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
                     JSONArray events = jsonObject.has("events") ? jsonObject.getJSONArray("events") : new JSONArray();
                     JSONArray clients = jsonObject.has("clients") ? jsonObject.getJSONArray("clients") : new JSONArray();
 
+
                     ecUpdater.batchSave(events, clients);
+
+
+                    // Update home facility
+                    String defaultLocationUuid = context().allSharedPreferences()
+                            .fetchDefaultLocalityId(context().allSharedPreferences().fetchRegisteredANM());
+
+                    for (int i = 0; i < events.length(); i++) {
+                        JSONObject event = events.getJSONObject(i);
+                        if (event.has("eventType") && event.getString("eventType").equals("Birth Registration")) {
+                            if (event.has("obs")) {
+                                JSONArray obses = event.getJSONArray("obs");
+                                for (int j = 0; j < obses.length(); j++) {
+                                    JSONObject obs = obses.getJSONObject(j);
+                                    if (obs.has("formSubmissionField") && obs.getString("formSubmissionField").equals("Home_Facility")) {
+                                        JSONArray values = new JSONArray();
+                                        values.put(defaultLocationUuid);
+                                        obs.put("values", values);
+                                    }
+                                }
+                            }
+                            if (event.has("baseEntityId")) {
+                                // Save unsynced event
+                                ecUpdater.addEvent(event.getString("baseEntityId"), event);
+                            }
+                        }
+                    }
+
 
                     List<String> ids = new ArrayList<>();
                     if (events != null && events.length() > 0) {
@@ -1215,6 +1245,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
                     if (savedEvents.isEmpty()) {
                         return;
                     }
+
 
                     PathClientProcessor.getInstance(getActivity()).processClient(savedEvents);
                     clientAdapter.notifyDataSetChanged();
