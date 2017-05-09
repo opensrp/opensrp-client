@@ -3,6 +3,7 @@ package org.ei.opensrp.util;
 import android.content.Context;
 import android.util.Xml;
 
+import org.ei.opensrp.Logger.Logger;
 import org.ei.opensrp.domain.SyncStatus;
 import org.ei.opensrp.domain.form.FormSubmission;
 import org.json.JSONArray;
@@ -66,6 +67,7 @@ public class FormUtils {
         fu.write("xmlformsubmission.txt", formSubmission.toString());
         System.out.println(formSubmission);
 
+        android.util.Log.d("test0",formSubmission.toString());
         // use the form_definition.json to iterate through fields
         String formDefinitionJson = readFileFromAssetsFolder("www/form/" + formName + "/form_definition.json");
         JSONObject formDefinition = new JSONObject(formDefinitionJson);
@@ -96,6 +98,7 @@ public class FormUtils {
                 JSONArray subFormFields = getFieldsArrayForSubFormDefinition(subFormDefinition);
                 String relationalId = subFormData.has(relationalIdKey) ? subFormData.getString(relationalIdKey) : entity_id;
                 String id = subFormData.has(databaseIdKey) ? subFormData.getString(databaseIdKey) : generateRandomUUIDString();
+                //String id = generateRandomUUIDString();
                 JSONObject subFormInstance = getFieldValuesForSubFormDefinition(subFormDefinition, relationalId, id, subFormData, overrides);
                 JSONArray subFormInstances = new JSONArray();
                 subFormInstances.put(0,subFormInstance);
@@ -111,7 +114,8 @@ public class FormUtils {
                 for (int i = 0; i < subFormDataArray.length(); i++){
                     JSONObject subFormData = subFormDataArray.getJSONObject(i);
                     String relationalId = subFormData.has(relationalIdKey) ? subFormData.getString(relationalIdKey) : entity_id;
-                    String id = subFormData.has(databaseIdKey) ? subFormData.getString(databaseIdKey) : generateRandomUUIDString();
+                    //String id = subFormData.has(databaseIdKey) ? subFormData.getString(databaseIdKey) : generateRandomUUIDString();
+                    String id = generateRandomUUIDString();
                     JSONObject subFormInstance = getFieldValuesForSubFormDefinition(subFormDefinition, relationalId, id, subFormData, overrides);
                     subFormInstances.put(i,subFormInstance);
                 }
@@ -191,6 +195,8 @@ public class FormUtils {
             //Add model and instance tags
             xml = xml.substring(56);
             System.out.println(xml);
+
+            Logger.largeLog("xmlform",xml);
 
             return xml;
 

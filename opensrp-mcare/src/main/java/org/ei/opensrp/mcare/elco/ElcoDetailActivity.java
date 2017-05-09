@@ -114,16 +114,21 @@ public class ElcoDetailActivity extends SecuredFragment implements View.OnClickL
             nid.setVisibility(View.GONE);
         }
         husbandname.setText(Html.fromHtml(getString(R.string.elco_details_husband_name_label) + " " + humanize((Elcoclient.getDetails().get("FWHUSNAME") != null ? Elcoclient.getDetails().get("FWHUSNAME") : ""))));
-        age.setText(Html.fromHtml(getString(R.string.elco_age_label)+ " " + (Elcoclient.getDetails().get("FWWOMAGE") != null ? Elcoclient.getDetails().get("FWWOMAGE") : "")));
 
-        DateUtil.setDefaultDateFormat("yyyy-MM-dd");
-        try {
-            int days = DateUtil.dayDifference(DateUtil.getLocalDate((Elcoclient.getDetails().get("FWBIRTHDATE") != null ?  Elcoclient.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
-            int calc_age = days / 365;
-            age.setText(Html.fromHtml(getString(R.string.elco_age_label)+ " " + calc_age));
-        }catch (Exception e){
-            e.printStackTrace();
+        if (Elcoclient.getDetails().get("FWWOMAGE") != null){
+            age.setText(Html.fromHtml(getString(R.string.elco_age_label)+ " " + Elcoclient.getDetails().get("FWWOMAGE")));
+        }else{
+            DateUtil.setDefaultDateFormat("yyyy-MM-dd");
+            try {
+                int days = DateUtil.dayDifference(DateUtil.getLocalDate((Elcoclient.getDetails().get("FWBIRTHDATE") != null ?  Elcoclient.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
+                int calc_age = days / 365;
+                age.setText(Html.fromHtml(getString(R.string.elco_age_label)+ " " + calc_age));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
+
+
 
 
         jivitahhid.setText(Html.fromHtml(getString(R.string.hhiid_jivita_elco_label)+ " "+(Elcoclient.getColumnmaps().get("JiVitAHHID") != null ? Elcoclient.getColumnmaps().get("JiVitAHHID") : "")));

@@ -1,5 +1,7 @@
 package org.ei.opensrp.service;
 
+import android.util.Log;
+
 import org.ei.opensrp.repository.FormDataRepository;
 import org.ei.opensrp.service.formSubmissionHandler.FormSubmissionRouter;
 import org.mozilla.javascript.Context;
@@ -35,6 +37,8 @@ public class ZiggyService {
     }
 
     public void saveForm(String params, String formInstance) throws Exception {
+        Log.e("test1",formInstance);
+        Log.e("test11",params);
         context = enter();
         saveFunction.call(context, scope, scope, new Object[]{params, formInstance});
         logInfo(format("Saving form successful, with params: {0}, with instance {1}.", params, formInstance));

@@ -107,15 +107,18 @@ public class ElcoSmartClientsProvider implements SmartRegisterCLientsProviderFor
         gobhhid.setText(" "+(pc.getColumnmaps().get("GOBHHID")!=null?pc.getColumnmaps().get("GOBHHID"):""));
         jivitahhid.setText(pc.getColumnmaps().get("JiVitAHHID")!=null?pc.getColumnmaps().get("JiVitAHHID"):"");
         village.setText((humanize((pc.getDetails().get("FWWOMMAUZA_PARA") != null ? pc.getDetails().get("FWWOMMAUZA_PARA") : "").replace("+", "_"))));
-        age.setText("("+(pc.getDetails().get("FWWOMAGE")!=null?pc.getDetails().get("FWWOMAGE"):"")+") ");
 
-        DateUtil.setDefaultDateFormat("yyyy-MM-dd");
-        try {
-            int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("FWBIRTHDATE") != null ?  pc.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
-            int calc_age = days / 365;
-            age.setText("("+calc_age+") ");
-        }catch (Exception e){
-            e.printStackTrace();
+        if(pc.getDetails().get("FWWOMAGE") != null){
+            age.setText( "(" + pc.getDetails().get("FWWOMAGE") + ")" );
+        }else {
+            DateUtil.setDefaultDateFormat("yyyy-MM-dd");
+            try {
+                int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("FWBIRTHDATE") != null ?  pc.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
+                int calc_age = days / 365;
+                age.setText("("+calc_age+") ");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
         if((pc.getDetails().get("FWWOMNID")!=null?pc.getDetails().get("FWWOMNID"):"").length()>0) {
