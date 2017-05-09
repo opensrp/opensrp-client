@@ -192,7 +192,7 @@ public class PathRepository extends Repository {
                 columns += "`" + c.name() + "`,";
                 values += formatValue(fm.get(c), c.column()) + ",";
 
-                cv.put(c.name(), formatValue(fm.get(c), c.column())); //These Fields should be your String values of actual column names
+                cv.put(c.name(), formatValueRemoveSingleQuote(fm.get(c), c.column())); //These Fields should be your String values of actual column names
 
             }
             String beid = fm.get(client_column.baseEntityId).toString();
@@ -986,6 +986,15 @@ public class PathRepository extends Repository {
             return v.toString();
         }
         return null;
+    }
+
+    private String formatValueRemoveSingleQuote(Object v, ColumnAttribute c) {
+        String formatValue = formatValue(v, c);
+        if(formatValue !=null){
+            formatValue = formatValue.replace("'", "");
+        }
+
+        return formatValue;
     }
 
     private String getSQLDate(DateTime date) {

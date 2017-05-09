@@ -1,6 +1,5 @@
 package org.ei.opensrp.path.fragment;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
@@ -8,6 +7,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +19,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -838,7 +837,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
                 int mMonth = mcurrentDate.get(Calendar.MONTH);
                 int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog mDatePicker = new DatePickerDialog(getActivity(), AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog mDatePicker = new DatePickerDialog(getActivity(), android.app.AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                         Calendar calendar = Calendar.getInstance();
                         calendar.set(Calendar.YEAR, selectedyear);
@@ -1018,22 +1017,24 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     }
 
     private void moveToMyCatchmentArea(final List<String> ids) {
-        new AlertDialog.Builder(getActivity())
+        AlertDialog dialog = new AlertDialog.Builder(getActivity(), R.style.PathAlertDialog)
                 .setMessage(R.string.move_to_catchment_confirm_dialog_message)
                 .setTitle(R.string.move_to_catchment_confirm_dialog_title)
                 .setCancelable(false)
-                .setPositiveButton(org.ei.opensrp.path.R.string.yes_button_label,
+                .setPositiveButton(org.ei.opensrp.path.R.string.no_button_label,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                            }
+                        })
+                .setNegativeButton(org.ei.opensrp.path.R.string.yes_button_label,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 MoveToMyCatchmentUtils.moveToMyCatchment(ids, moveToMyCatchmentListener, clientsProgressView);
                             }
-                        })
-                .setNegativeButton(org.ei.opensrp.path.R.string.no_button_label,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                            }
-                        })
-                .show();
+                        }).create();
+
+        dialog.show();
     }
 
     private String bold(String textToBold) {
@@ -1186,15 +1187,36 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
 
                     ecUpdater.batchSave(events, clients);
 
-                    String baseEntityId = "";
-                    if (events != null && events.length() > 0 && events.get(0) instanceof JSONObject) {
-                        JSONObject jo = (JSONObject) events.get(0);
-                        if (jo.has("baseEntityId")) {
-                            baseEntityId = jo.getString("baseEntityId");
+                    List<String> ids = new ArrayList<>();
+                    if (events != null && events.length() > 0) {
+                        for (int i = 0; i < events.length(); i++) {
+                            Object o = events.get(i);
+                            if (o instanceof JSONObject) {
+                                JSONObject jo = (JSONObject) o;
+                                if (jo.has("baseEntityId")) {
+                                    String baseEntityId = jo.getString("baseEntityId");
+                                    if (!ids.contains(baseEntityId)) {
+                                        ids.add(baseEntityId);
+                                    }
+                                }
+                            }
                         }
                     }
 
-                    PathClientProcessor.getInstance(getActivity()).processClient(ecUpdater.getEventsByBaseEnityId(baseEntityId));
+                    if (ids.isEmpty()) {
+                        return;
+                    }
+
+                    List<JSONObject> savedEvents = new ArrayList<>();
+                    for (String baseEntityId : ids) {
+                        savedEvents.addAll(ecUpdater.getEventsByBaseEnityId(baseEntityId));
+                    }
+
+                    if (savedEvents.isEmpty()) {
+                        return;
+                    }
+
+                    PathClientProcessor.getInstance(getActivity()).processClient(savedEvents);
                     clientAdapter.notifyDataSetChanged();
 
                 } catch (Exception e) {
