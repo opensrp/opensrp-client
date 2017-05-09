@@ -1017,19 +1017,20 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     }
 
     private void moveToMyCatchmentArea(final List<String> ids) {
-        AlertDialog dialog = new AlertDialog.Builder(getActivity(), R.style.PathDialog)
+        AlertDialog dialog = new AlertDialog.Builder(getActivity(), R.style.PathAlertDialog)
                 .setMessage(R.string.move_to_catchment_confirm_dialog_message)
                 .setTitle(R.string.move_to_catchment_confirm_dialog_title)
                 .setCancelable(false)
-                .setPositiveButton(org.ei.opensrp.path.R.string.yes_button_label,
+                .setPositiveButton(org.ei.opensrp.path.R.string.no_button_label,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                            }
+                        })
+                .setNegativeButton(org.ei.opensrp.path.R.string.yes_button_label,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 MoveToMyCatchmentUtils.moveToMyCatchment(ids, moveToMyCatchmentListener, clientsProgressView);
-                            }
-                        })
-                .setNegativeButton(org.ei.opensrp.path.R.string.no_button_label,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
                             }
                         }).create();
 
