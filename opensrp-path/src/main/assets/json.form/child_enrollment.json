@@ -488,9 +488,9 @@
           "CNE"
         ],
         "openmrs_choice_ids": {
-          "CE": "",
-          "MSU": "",
-          "CNE": ""
+          "CE": "703AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "MSU": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "CNE": "664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         }
       }
     ]
