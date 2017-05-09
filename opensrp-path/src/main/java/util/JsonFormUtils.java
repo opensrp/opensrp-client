@@ -351,6 +351,11 @@ public class JsonFormUtils {
             PathClientProcessor.getInstance(context).processClient(ecUpdater.getEvents(lastSyncDate,BaseRepository.TYPE_Unsynced));
             allSharedPreferences.saveLastUpdatedAtDate(lastSyncDate.getTime());
 
+            String imageLocation = getFieldValue(fields, imageKey);
+            if (!TextUtils.isEmpty(imageLocation)) {
+                saveImage(context, providerId, entityId, imageLocation);
+            }
+
             // Unassign current id
             if(baseClient !=null) {
                 String newZeirId =  baseClient.getIdentifier(ZEIR_ID).replace("-", "");
