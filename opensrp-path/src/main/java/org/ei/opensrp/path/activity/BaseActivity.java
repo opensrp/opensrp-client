@@ -109,6 +109,10 @@ public abstract class BaseActivity extends AppCompatActivity
         initializeProgressDialog();
     }
 
+    public BaseToolbar getBaseToolbar() {
+        return toolbar;
+    }
+
     private void toggleIsSyncing() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null && navigationView.getMenu() != null) {

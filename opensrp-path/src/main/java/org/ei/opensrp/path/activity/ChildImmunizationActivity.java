@@ -40,6 +40,7 @@ import org.ei.opensrp.path.listener.WeightActionListener;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.repository.WeightRepository;
 import org.ei.opensrp.path.toolbar.LocationSwitcherToolbar;
+import org.ei.opensrp.path.view.SiblingPicturesGroup;
 import org.ei.opensrp.path.view.VaccineGroup;
 import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.service.AlertService;
@@ -220,6 +221,8 @@ public class ChildImmunizationActivity extends BaseActivity
         nameTV.setText(name);
         TextView childIdTV = (TextView) findViewById(R.id.child_id_tv);
         childIdTV.setText(String.format("%s: %s", getString(R.string.label_zeir), childId));
+
+        new GetSiblingsTask().execute();
     }
 
     private void updateAgeViews() {
@@ -899,6 +902,29 @@ public class ChildImmunizationActivity extends BaseActivity
 
             Triple<Weight, List<Vaccine>, List<Alert>> triple = Triple.of(weight, vaccineList, alertList);
             return triple;
+        }
+    }
+
+    private class GetSiblingsTask extends AsyncTask<Void, Void, ArrayList<String>> {
+
+        @Override
+        protected ArrayList<String> doInBackground(Void... params) {
+            // TODO: insert logic for getting base entity ids
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> baseEntityIds) {
+            super.onPostExecute(baseEntityIds);
+            if (baseEntityIds != null) {
+
+            }
+            SiblingPicturesGroup siblingPicturesGroup = (SiblingPicturesGroup) ChildImmunizationActivity.this.findViewById(R.id.sibling_pictures);
+            ArrayList<String> test = new ArrayList<>();
+            test.add("07a0f2fd-ee9f-4bdf-8841-1acfb4b0748a");
+            //test.add("e0e29b61-1216-4486-86c1-79212fbcb232");
+            //test.add("50750c9a-5e1f-44c0-b4a3-a60bb41308b");
+            siblingPicturesGroup.setSiblingBaseEntityIds(ChildImmunizationActivity.this, test);
         }
     }
 }
