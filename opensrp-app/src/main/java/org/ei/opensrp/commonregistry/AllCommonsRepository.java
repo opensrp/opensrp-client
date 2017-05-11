@@ -128,4 +128,13 @@ public class AllCommonsRepository {
         return personRepository.populateSearchValues(caseId, field, value, listToRemove);
 
     }
+
+    public boolean deleteSearchRecord(String caseId) {
+        if(StringUtils.isBlank(caseId)){
+            return false;
+        }
+
+        return personRepository.deleteSearchRecord(caseId);
+    }
+
 }

@@ -41,6 +41,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import util.JsonFormUtils;
+import util.MoveToMyCatchmentUtils;
 import util.PathConstants;
 
 public class PathRepository extends Repository {
@@ -351,7 +352,7 @@ public class PathRepository extends Repository {
         return lastServerVersion;
     }
 
-    private <T> T convert(JSONObject jo, Class<T> t) {
+    public <T> T convert(JSONObject jo, Class<T> t) {
         if (jo == null) {
             return null;
         }
@@ -360,6 +361,19 @@ public class PathRepository extends Repository {
         } catch (Exception e) {
             Log.e(getClass().getName(), "", e);
             Log.e(getClass().getName(), "Unable to convert: " + jo.toString());
+            return null;
+        }
+    }
+
+    public JSONObject convertToJson(Object object) {
+        if (object == null) {
+            return null;
+        }
+        try {
+            return new JSONObject(JsonFormUtils.gson.toJson(object));
+        } catch (Exception e) {
+            Log.e(getClass().getName(), "", e);
+            Log.e(getClass().getName(), "Unable to convert to json : " + object.toString());
             return null;
         }
     }
@@ -830,16 +844,16 @@ public class PathRepository extends Repository {
             //update existing event if eventid present
             if (jsonObject.has(event_column.formSubmissionId.name()) && jsonObject.getString(event_column.formSubmissionId.name()) != null) {
                 //sanity check
-                if(checkIfExistsByFormSubmissionId(Table.event,jsonObject.getString(event_column.formSubmissionId.name()))){
+                if (checkIfExistsByFormSubmissionId(Table.event, jsonObject.getString(event_column.formSubmissionId.name()))) {
                     int id = getWritableDatabase().update(Table.event.name(), values, event_column.formSubmissionId.name() + "=?", new String[]{jsonObject.getString(event_column.formSubmissionId.name())});
-                }else{
+                } else {
                     //that odd case
                     values.put(event_column.formSubmissionId.name(), jsonObject.getString(event_column.formSubmissionId.name()));
 
                     getWritableDatabase().insert(Table.event.name(), null, values);
 
                 }
-            }else {
+            } else {
 // a case here would be if an event comes from openmrs
                 getWritableDatabase().insert(Table.event.name(), null, values);
             }
@@ -990,7 +1004,7 @@ public class PathRepository extends Repository {
 
     private String formatValueRemoveSingleQuote(Object v, ColumnAttribute c) {
         String formatValue = formatValue(v, c);
-        if(formatValue !=null){
+        if (formatValue != null) {
             formatValue = formatValue.replace("'", "");
         }
 
@@ -1200,6 +1214,31 @@ public class PathRepository extends Repository {
 
     protected String generateRandomUUIDString() {
         return UUID.randomUUID().toString();
+    }
+
+    public boolean deleteClient(String baseEntityId) {
+        try {
+            int rowsAffected = getWritableDatabase().delete(Table.client.name(), client_column.baseEntityId.name() + " = ?", new String[]{baseEntityId});
+            if (rowsAffected > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            Log.e(getClass().getName(), "Exception", e);
+        }
+        return false;
+    }
+
+    public boolean deleteEventsByBaseEntityId(String baseEntityId) {
+
+        try {
+            int rowsAffected = getWritableDatabase().delete(Table.event.name(), event_column.baseEntityId.name() + " = ? AND " + event_column.eventType.name() + " != ?", new String[]{baseEntityId, MoveToMyCatchmentUtils.MOVE_TO_CATCHMENT_EVENT});
+            if (rowsAffected > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            Log.e(getClass().getName(), "Exception", e);
+        }
+        return false;
     }
 
     /**

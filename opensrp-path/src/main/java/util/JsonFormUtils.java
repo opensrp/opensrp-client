@@ -100,22 +100,21 @@ public class JsonFormUtils {
     public static final String ZEIR_ID = "ZEIR_ID";
     public static final String M_ZEIR_ID = "M_ZEIR_ID";
     public static final String attributes = "attributes";
-    public static final  String encounterType = "Update Birth Registration";
+    public static final String encounterType = "Update Birth Registration";
     private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
 
 
     public static final SimpleDateFormat dd_MM_yyyy = new SimpleDateFormat("dd-MM-yyyy");
     //public static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").create();
     //2007-03-31T04:00:00.000Z
-    public static  Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").registerTypeAdapter(DateTime.class, new DateTimeTypeConverter()).create();
+    public static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").registerTypeAdapter(DateTime.class, new DateTimeTypeConverter()).create();
 
 
     public static void saveForm(Context context, org.ei.opensrp.Context openSrpContext,
                                 String jsonString, String providerId) {
         try {
             JSONObject form = new JSONObject(jsonString);
-            if(form.getString("encounter_type").equals("Out of Catchment Service")) {
+            if (form.getString("encounter_type").equals("Out of Catchment Service")) {
                 saveOutOfAreaService(context, openSrpContext, jsonString);
             } else if (form.getString("encounter_type").equals("Birth Registration")) {
                 saveBirthRegistration(context, openSrpContext, jsonString, providerId, "Child_Photo", "child", "mother");
@@ -131,8 +130,8 @@ public class JsonFormUtils {
     }
 
     private static void saveBirthRegistration(Context context, org.ei.opensrp.Context openSrpContext,
-                            String jsonString, String providerId, String imageKey, String bindType,
-                            String subBindType) {
+                                              String jsonString, String providerId, String imageKey, String bindType,
+                                              String subBindType) {
         if (context == null || openSrpContext == null || StringUtils.isBlank(providerId)
                 || StringUtils.isBlank(jsonString)) {
             return;
@@ -177,7 +176,7 @@ public class JsonFormUtils {
                         Log.e(TAG, Log.getStackTraceString(e));
                     }
                 } else if (key.equals("Mother_Guardian_Date_Birth")) {
-                    if(TextUtils.isEmpty(fields.getJSONObject(i).optString("value"))) {
+                    if (TextUtils.isEmpty(fields.getJSONObject(i).optString("value"))) {
                         fields.getJSONObject(i).put("value", MOTHER_DEFAULT_DOB);
                     }
                 }
@@ -186,8 +185,8 @@ public class JsonFormUtils {
             JSONObject lookUpJSONObject = getJSONObject(metadata, "look_up");
             String lookUpEntityId = "";
             String lookUpBaseEntityId = "";
-            if(lookUpJSONObject != null){
-                lookUpEntityId = getString(lookUpJSONObject,"entity_id");
+            if (lookUpJSONObject != null) {
+                lookUpEntityId = getString(lookUpJSONObject, "entity_id");
                 lookUpBaseEntityId = getString(lookUpJSONObject, "value");
             }
 
@@ -196,7 +195,7 @@ public class JsonFormUtils {
 
             Client s = null;
             Event se = null;
-            if(lookUpEntityId.equals("mother") && StringUtils.isNotBlank(lookUpBaseEntityId)){
+            if (lookUpEntityId.equals("mother") && StringUtils.isNotBlank(lookUpBaseEntityId)) {
                 Client ss = new Client(lookUpBaseEntityId);
                 addRelationship(context, ss, c);
             } else {
@@ -244,7 +243,7 @@ public class JsonFormUtils {
 
             String zeirId = c.getIdentifier(ZEIR_ID);
             //mark zeir id as used
-           VaccinatorApplication.getInstance().uniqueIdRepository().close(zeirId);
+            VaccinatorApplication.getInstance().uniqueIdRepository().close(zeirId);
 
             String imageLocation = getFieldValue(fields, imageKey);
             saveImage(context, providerId, entityId, imageLocation);
@@ -259,7 +258,7 @@ public class JsonFormUtils {
         }
     }
 
-    public static void editsave(Context context,org.ei.opensrp.Context openSrpContext, String jsonString, String providerId, String imageKey, String bindType, String subBindType) {
+    public static void editsave(Context context, org.ei.opensrp.Context openSrpContext, String jsonString, String providerId, String imageKey, String bindType, String subBindType) {
         if (context == null || StringUtils.isBlank(providerId) || StringUtils.isBlank(jsonString)) {
             return;
         }
@@ -298,7 +297,7 @@ public class JsonFormUtils {
                         Log.e(TAG, Log.getStackTraceString(e));
                     }
                 } else if (key.equals("Mother_Guardian_Date_Birth")) {
-                    if(TextUtils.isEmpty(fields.getJSONObject(i).optString("value"))) {
+                    if (TextUtils.isEmpty(fields.getJSONObject(i).optString("value"))) {
                         fields.getJSONObject(i).put("value", MOTHER_DEFAULT_DOB);
                     }
                 }
@@ -312,7 +311,7 @@ public class JsonFormUtils {
             Client subFormClient = null;
 
             if (StringUtils.isNotBlank(subBindType)) {
-                subFormClient = JsonFormUtils.createSubformClient(context, fields, baseClient, subBindType,relationalId);
+                subFormClient = JsonFormUtils.createSubformClient(context, fields, baseClient, subBindType, relationalId);
             }
             Event se = null;
             if (subFormClient != null && e != null) {
@@ -325,13 +324,13 @@ public class JsonFormUtils {
                 }
             }
             if (baseClient != null) {
-                mergeAndSaveClient(context,baseClient);
+                mergeAndSaveClient(context, baseClient);
 
             }
             if (e != null) {
 
                 JSONObject eventJson = new JSONObject(gson.toJson(e));
-                ecUpdater.addEvent(e.getBaseEntityId(),eventJson);
+                ecUpdater.addEvent(e.getBaseEntityId(), eventJson);
 
             }
             if (subFormClient != null) {
@@ -340,7 +339,7 @@ public class JsonFormUtils {
             }
             if (se != null) {
                 JSONObject eventJson = new JSONObject(gson.toJson(se));
-                ecUpdater.addEvent(se.getBaseEntityId(),eventJson);
+                ecUpdater.addEvent(se.getBaseEntityId(), eventJson);
             }
 
 
@@ -348,7 +347,7 @@ public class JsonFormUtils {
             AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
             long lastSyncTimeStamp = allSharedPreferences.fetchLastUpdatedAtDate(0);
             Date lastSyncDate = new Date(lastSyncTimeStamp);
-            PathClientProcessor.getInstance(context).processClient(ecUpdater.getEvents(lastSyncDate,BaseRepository.TYPE_Unsynced));
+            PathClientProcessor.getInstance(context).processClient(ecUpdater.getEvents(lastSyncDate, BaseRepository.TYPE_Unsynced));
             allSharedPreferences.saveLastUpdatedAtDate(lastSyncDate.getTime());
 
             String imageLocation = getFieldValue(fields, imageKey);
@@ -357,10 +356,10 @@ public class JsonFormUtils {
             }
 
             // Unassign current id
-            if(baseClient !=null) {
-                String newZeirId =  baseClient.getIdentifier(ZEIR_ID).replace("-", "");
+            if (baseClient != null) {
+                String newZeirId = baseClient.getIdentifier(ZEIR_ID).replace("-", "");
                 String currentZeirId = getString(jsonForm, "current_zeir_id").replace("-", "");
-                if(!newZeirId.equals(currentZeirId)){
+                if (!newZeirId.equals(currentZeirId)) {
                     //ZEIR_ID was changed
                     VaccinatorApplication.getInstance().uniqueIdRepository().open(currentZeirId);
                 }
@@ -371,19 +370,19 @@ public class JsonFormUtils {
         }
     }
 
-    public static void mergeAndSaveClient(Context context,Client baseClient ) throws Exception {
+    public static void mergeAndSaveClient(Context context, Client baseClient) throws Exception {
         ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(context);
 
         JSONObject updatedClientJson = new JSONObject(gson.toJson(baseClient));
 
         JSONObject originalClientJsonObject = ecUpdater.getClient(baseClient.getBaseEntityId());
 
-        JSONObject mergedJson= merge(originalClientJsonObject, updatedClientJson);
+        JSONObject mergedJson = merge(originalClientJsonObject, updatedClientJson);
 
         //TODO Save edit log
 
         //save the updated client (the one updated and generated from the form) as EditClient to keep an edit log of the client doc
-       // originalClient.setType("PristineClient");
+        // originalClient.setType("PristineClient");
         //originalClient.setRev(null);
         //cloudantDataHandler.addClient(originalClient);
 
@@ -403,10 +402,9 @@ public class JsonFormUtils {
     /**
      * Constructs a weight object using the out of service area form
      *
-     * @param openSrpContext    The context to work with
-     * @param outOfAreaForm     Out of area form to extract the weight form
-     *
-     * @return  A weight object if weight recorded in form, or {@code null} if weight not recorded
+     * @param openSrpContext The context to work with
+     * @param outOfAreaForm  Out of area form to extract the weight form
+     * @return A weight object if weight recorded in form, or {@code null} if weight not recorded
      * @throws Exception
      */
     private static Weight getWeightObject(org.ei.opensrp.Context openSrpContext, JSONObject outOfAreaForm) throws Exception {
@@ -418,9 +416,9 @@ public class JsonFormUtils {
         int foundFields = 0;
         for (int i = 0; i < fields.length(); i++) {
             JSONObject curField = fields.getJSONObject(i);
-            if(curField.getString("key").equals("Weight_Kg")) {
+            if (curField.getString("key").equals("Weight_Kg")) {
                 foundFields++;
-                if(StringUtils.isNotEmpty(curField.getString("value"))) {
+                if (StringUtils.isNotEmpty(curField.getString("value"))) {
                     weight = new Weight();
                     weight.setBaseEntityId("");
                     weight.setKg(Float.parseFloat(curField.getString("value")));
@@ -457,9 +455,9 @@ public class JsonFormUtils {
     /**
      * Constructs a list of recorded vaccines from the out of area form provided
      *
-     * @param openSrpContext    The context to use
-     * @param outOfAreaForm     Out of area form to extract recorded vaccines from
-     * @return  A list of recorded vaccines
+     * @param openSrpContext The context to use
+     * @param outOfAreaForm  Out of area form to extract recorded vaccines from
+     * @return A list of recorded vaccines
      */
     private static ArrayList<Vaccine> getVaccineObjects(Context context,
                                                         org.ei.opensrp.Context openSrpContext,
@@ -706,9 +704,9 @@ public class JsonFormUtils {
                 dataType = "text";
             }
 
-            if(dataType.equals("date") && StringUtils.isNotBlank(value) ){
+            if (dataType.equals("date") && StringUtils.isNotBlank(value)) {
                 String newValue = convertToOpenMRSDate(value);
-                if(newValue != null){
+                if (newValue != null) {
                     value = newValue;
                 }
             }
@@ -803,8 +801,7 @@ public class JsonFormUtils {
      * This method formats the child unique id obtained from a JSON Form to something that is useable
      *
      * @param unformattedId The unformatted unique identifier
-     *
-     * @return  A formatted ID or the original id if method is unable to format
+     * @return A formatted ID or the original id if method is unable to format
      */
     private static String formatChildUniqueId(String unformattedId) {
         if (StringUtils.isNotBlank(unformattedId) && !unformattedId.contains("-")) {
@@ -1045,7 +1042,7 @@ public class JsonFormUtils {
                 return null;
             }
 
-            if(dateString.matches("\\d{2}-\\d{2}-\\d{4}")){
+            if (dateString.matches("\\d{2}-\\d{2}-\\d{4}")) {
                 return dd_MM_yyyy.parse(dateString);
             } else if (dateString.matches("\\d{4}-\\d{2}-\\d{2}")) {
                 return DateUtil.parseDate(dateString);
@@ -1080,7 +1077,7 @@ public class JsonFormUtils {
             return null;
         }
 
-        String entityId = relationalId==null?generateRandomUUIDString():relationalId;
+        String entityId = relationalId == null ? generateRandomUUIDString() : relationalId;
         String firstName = getSubFormFieldValue(fields, FormEntityConstants.Person.first_name, bindType);
         String gender = getSubFormFieldValue(fields, FormEntityConstants.Person.gender, bindType);
         String bb = getSubFormFieldValue(fields, FormEntityConstants.Person.birthdate, bindType);
@@ -1143,7 +1140,7 @@ public class JsonFormUtils {
         return c;
     }
 
-    private static JSONObject merge(JSONObject original, JSONObject updated) {
+    public static JSONObject merge(JSONObject original, JSONObject updated) {
         JSONObject mergedJSON = new JSONObject();
         try {
             mergedJSON = new JSONObject(original, getNames(original));
@@ -1152,7 +1149,7 @@ public class JsonFormUtils {
             }
 
         } catch (JSONException e) {
-            Log.e(TAG,e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
         return mergedJSON;
     }
@@ -1171,6 +1168,7 @@ public class JsonFormUtils {
         }
         return names;
     }
+
     public static Event createSubFormEvent(JSONArray fields, JSONObject metadata, Event parent, String entityId, String encounterType, String providerId, String bindType) {
 
 
@@ -1717,7 +1715,7 @@ public class JsonFormUtils {
                     .withLocationId(weight.getLocationId())
                     .withProviderId(weight.getAnmId())
                     .withEntityType(entityType)
-                    .withFormSubmissionId(weight.getFormSubmissionId()==null?generateRandomUUIDString():weight.getFormSubmissionId())
+                    .withFormSubmissionId(weight.getFormSubmissionId() == null ? generateRandomUUIDString() : weight.getFormSubmissionId())
                     .withDateCreated(new Date());
 
 
@@ -1736,9 +1734,9 @@ public class JsonFormUtils {
                 JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(event));
 
                 //check if an event already exists and update instead
-                if(weight.getEventId()!=null){
-                    JSONObject existingEvent=db.getEventsByEventId(weight.getEventId());
-                    eventJson= merge(existingEvent,eventJson);
+                if (weight.getEventId() != null) {
+                    JSONObject existingEvent = db.getEventsByEventId(weight.getEventId());
+                    eventJson = merge(existingEvent, eventJson);
                 }
 
                 //merge if event exists
@@ -1762,7 +1760,7 @@ public class JsonFormUtils {
                     .withLocationId(vaccine.getLocationId())
                     .withProviderId(vaccine.getAnmId())
                     .withEntityType(entityType)
-                    .withFormSubmissionId(vaccine.getFormSubmissionId()==null?generateRandomUUIDString():vaccine.getFormSubmissionId())
+                    .withFormSubmissionId(vaccine.getFormSubmissionId() == null ? generateRandomUUIDString() : vaccine.getFormSubmissionId())
                     .withDateCreated(new Date());
 
             if (fields != null && fields.length() != 0)
@@ -1780,9 +1778,9 @@ public class JsonFormUtils {
                 JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(event));
 
                 //check if an event already exists and update instead
-                if(vaccine.getEventId()!=null){
-                    JSONObject existingEvent=db.getEventsByEventId(vaccine.getEventId());
-                    eventJson= merge(existingEvent,eventJson);
+                if (vaccine.getEventId() != null) {
+                    JSONObject existingEvent = db.getEventsByEventId(vaccine.getEventId());
+                    eventJson = merge(existingEvent, eventJson);
                 }
 
                 //merge if event exists
@@ -1794,7 +1792,7 @@ public class JsonFormUtils {
     }
 
     public static String getOpenMrsLocationId(org.ei.opensrp.Context context,
-                                       String locationName) throws JSONException {
+                                              String locationName) throws JSONException {
         String response = locationName;
 
         if (locationName != null) {
@@ -1845,18 +1843,18 @@ public class JsonFormUtils {
      * This method returns the name hierarchy of a location given it's id
      *
      * @param context
-     * @param locationId    The ID for the location we want the hierarchy for
-     * @return  The name hierarchy (starting with the top-most parent) for the location or {@code NULL}
-     *          if location id is not found
+     * @param locationId The ID for the location we want the hierarchy for
+     * @return The name hierarchy (starting with the top-most parent) for the location or {@code NULL}
+     * if location id is not found
      */
     public static JSONArray getOpenMrsLocationHierarchy(org.ei.opensrp.Context context,
-                                                      String locationId) {
+                                                        String locationId) {
         JSONArray response = null;
 
         try {
             if (locationId != null) {
                 JSONObject locationData = new JSONObject(context.anmLocationController().get());
-                Log.d(TAG, "Location data is "+locationData);
+                Log.d(TAG, "Location data is " + locationData);
                 if (locationData.has("locationsHierarchy")
                         && locationData.getJSONObject("locationsHierarchy").has("map")) {
                     JSONObject map = locationData.getJSONObject("locationsHierarchy").getJSONObject("map");
@@ -1884,12 +1882,12 @@ public class JsonFormUtils {
     }
 
     private static JSONArray getOpenMrsLocationHierarchy(String locationId,
-                                                      JSONObject openMrsLocation,
-                                                      JSONArray parents) throws JSONException {
+                                                         JSONObject openMrsLocation,
+                                                         JSONArray parents) throws JSONException {
         JSONArray hierarchy = new JSONArray(parents.toString());
         hierarchy.put(openMrsLocation.getJSONObject("node").getString("name"));
         String id = openMrsLocation.getJSONObject("node").getString("locationId");
-        Log.d(TAG, "Current location id is "+id);
+        Log.d(TAG, "Current location id is " + id);
         if (locationId.equals(id)) {
             return hierarchy;
         }
@@ -1904,19 +1902,19 @@ public class JsonFormUtils {
                 if (curResult != null) return curResult;
             }
         } else {
-            Log.d(TAG, id+" does not have children");
+            Log.d(TAG, id + " does not have children");
         }
 
         return null;
     }
 
     public static String getOpenMrsLocationName(org.ei.opensrp.Context context,
-                                              String locationId) {
+                                                String locationId) {
         String response = locationId;
         try {
             if (locationId != null) {
                 JSONObject locationData = new JSONObject(context.anmLocationController().get());
-                Log.d(TAG, "Location data is "+locationData);
+                Log.d(TAG, "Location data is " + locationData);
                 if (locationData.has("locationsHierarchy")
                         && locationData.getJSONObject("locationsHierarchy").has("map")) {
                     JSONObject map = locationData.getJSONObject("locationsHierarchy").getJSONObject("map");
@@ -1946,7 +1944,7 @@ public class JsonFormUtils {
     private static String getOpenMrsLocationName(String locationId, JSONObject openMrsLocations)
             throws JSONException {
         String id = openMrsLocations.getJSONObject("node").getString("locationId");
-        Log.d(TAG, "Current location id is "+id);
+        Log.d(TAG, "Current location id is " + id);
         if (locationId.equals(id)) {
             return openMrsLocations.getJSONObject("node").getString("name");
         }
@@ -1962,7 +1960,7 @@ public class JsonFormUtils {
                 }
             }
         } else {
-            Log.d(TAG, id+" does not have children");
+            Log.d(TAG, id + " does not have children");
         }
 
         return null;
@@ -1970,7 +1968,7 @@ public class JsonFormUtils {
 
 
     public static void saveReportDeceased(Context context, org.ei.opensrp.Context openSrpContext,
-                                           String jsonString, String providerId, String locationId, String entityId){
+                                          String jsonString, String providerId, String locationId, String entityId) {
 
         try {
             PathRepository db = (PathRepository) VaccinatorApplication.getInstance().getRepository();
@@ -2048,7 +2046,7 @@ public class JsonFormUtils {
 
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e(TAG, "", e);
         }
     }
@@ -2060,7 +2058,7 @@ public class JsonFormUtils {
 
         try {
             Date date = formatDate(value, false);
-            if(date != null){
+            if (date != null) {
                 return DateUtil.yyyyMMdd.format(date);
             }
         } catch (Exception e) {
@@ -2097,7 +2095,7 @@ public class JsonFormUtils {
                 ArrayList<Vaccine> vaccines = getVaccineObjects(context, openSrpContext, form);
                 if (vaccines.size() > 0) {
                     VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
-                    for(Vaccine curVaccine : vaccines) {
+                    for (Vaccine curVaccine : vaccines) {
                         vaccineRepository.add(curVaccine);
                     }
                 }
@@ -2213,13 +2211,13 @@ public class JsonFormUtils {
     /**
      * Starts an instance of JsonFormActivity with the provided form details
      *
-     * @param context                       The activity form is being launched from
-     * @param openSrpContext                Current OpenSRP context
-     * @param jsonFormActivityRequestCode   The request code to be used to launch {@link PathJsonFormActivity}
-     * @param formName                      The name of the form to launch
-     * @param entityId                      The unique entity id for the form (e.g child's ZEIR id)
-     * @param metaData                      The form's meta data
-     * @param currentLocationId             OpenMRS id for the current device's location
+     * @param context                     The activity form is being launched from
+     * @param openSrpContext              Current OpenSRP context
+     * @param jsonFormActivityRequestCode The request code to be used to launch {@link PathJsonFormActivity}
+     * @param formName                    The name of the form to launch
+     * @param entityId                    The unique entity id for the form (e.g child's ZEIR id)
+     * @param metaData                    The form's meta data
+     * @param currentLocationId           OpenMRS id for the current device's location
      * @throws Exception
      */
     public static void startForm(Activity context, org.ei.opensrp.Context openSrpContext,
@@ -2266,7 +2264,7 @@ public class JsonFormUtils {
                 } else {
                     JSONArray fields = form.getJSONObject("step1").getJSONArray("fields");
                     for (int i = 0; i < fields.length(); i++) {
-                        if(fields.getJSONObject(i).getString("key").equals("ZEIR_ID")) {
+                        if (fields.getJSONObject(i).getString("key").equals("ZEIR_ID")) {
                             fields.getJSONObject(i).put(READ_ONLY, false);
                             break;
                         }
@@ -2287,7 +2285,7 @@ public class JsonFormUtils {
 
                 JsonFormUtils.addAddAvailableVaccines(context, form);
             } else {
-                Log.w(TAG, "Unsupported form requested for launch "+formName);
+                Log.w(TAG, "Unsupported form requested for launch " + formName);
             }
 
             intent.putExtra("json", form.toString());
@@ -2296,16 +2294,16 @@ public class JsonFormUtils {
         }
     }
 
-    public static Event addMetaData(Context context,Event event,Date start) throws JSONException {
-        Map<String,String> metaFields= new HashMap<String,String>();
-        metaFields.put("deviceid","163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        metaFields.put("end","163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        metaFields.put("start","163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    public static Event addMetaData(Context context, Event event, Date start) throws JSONException {
+        Map<String, String> metaFields = new HashMap<String, String>();
+        metaFields.put("deviceid", "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        metaFields.put("end", "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        metaFields.put("start", "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         Calendar calendar = Calendar.getInstance();
 
         String end = DATE_TIME_FORMAT.format(calendar.getTime());
 
-        Obs obs= new Obs();
+        Obs obs = new Obs();
         obs.setFieldCode("163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         obs.setValue(DATE_TIME_FORMAT.format(start));
         obs.setFieldType("concept");
@@ -2355,5 +2353,56 @@ public class JsonFormUtils {
         }
 
         return sortedTree;
+    }
+
+    public static Event createMoveToCatchmentEvent(Context context, org.ei.opensrp.path.db.Event referenceEvent, String fromLocationId, String toProviderId, String toLocationId) {
+
+        try {
+            final String FORM_SUBMISSION_FIELD = "formsubmissionField";
+            final String DATA_TYPE = "text";
+
+            Event event = (Event) new Event()
+                    .withBaseEntityId(referenceEvent.getBaseEntityId())
+                    .withEventDate(new Date())
+                    .withEventType(MoveToMyCatchmentUtils.MOVE_TO_CATCHMENT_EVENT)
+                    .withLocationId(fromLocationId)
+                    .withProviderId(referenceEvent.getProviderId())
+                    .withEntityType("child")
+                    .withFormSubmissionId(JsonFormUtils.generateRandomUUIDString())
+                    .withDateCreated(new Date());
+
+
+            String formSubmissionField = "From_ProviderId";
+            List<Object> vall = new ArrayList<>();
+            vall.add(referenceEvent.getProviderId());
+            event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField,
+                    "", vall, new ArrayList<>(), null, formSubmissionField));
+
+            formSubmissionField = "From_LocationId";
+            vall = new ArrayList<>();
+            vall.add(fromLocationId);
+            event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField,
+                    "", vall, new ArrayList<>(), null, formSubmissionField));
+
+            formSubmissionField = "To_ProviderId";
+            vall = new ArrayList<>();
+            vall.add(toProviderId);
+            event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField,
+                    "", vall, new ArrayList<>(), null, formSubmissionField));
+
+            formSubmissionField = "To_LocationId";
+            vall = new ArrayList<>();
+            vall.add(toLocationId);
+            event.addObs(new Obs(FORM_SUBMISSION_FIELD, DATA_TYPE, formSubmissionField,
+                    "", vall, new ArrayList<>(), null, formSubmissionField));
+
+            addMetaData(context, event, new Date());
+
+            return event;
+
+        } catch (JSONException e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+            return null;
+        }
     }
 }

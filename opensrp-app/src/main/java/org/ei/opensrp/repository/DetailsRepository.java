@@ -123,4 +123,17 @@ public class DetailsRepository extends DrishtiRepository {
         return details;
     }
 
+    public boolean deleteDetails(String baseEntityId) {
+        try {
+            SQLiteDatabase db = masterRepository.getWritableDatabase();
+            int afftectedRows = db.delete(TABLE_NAME, BASE_ENTITY_ID_COLUMN + " = ?", new String[]{baseEntityId});
+            if(afftectedRows > 0){
+                return true;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.toString(), e);
+        }
+        return false;
+    }
+
 }
