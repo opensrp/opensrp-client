@@ -305,7 +305,7 @@ public class ChildSmartRegisterActivity extends BaseRegisterActivity {
         }
     };
 
-    private void refreshList(final FetchStatus fetchStatus) {
+    public void refreshList(final FetchStatus fetchStatus) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             BaseSmartRegisterFragment registerFragment = (BaseSmartRegisterFragment) findFragmentByPosition(0);
             if (registerFragment != null && fetchStatus.equals(FetchStatus.fetched)) {

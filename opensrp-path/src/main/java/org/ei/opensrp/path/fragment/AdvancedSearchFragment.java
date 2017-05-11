@@ -32,6 +32,7 @@ import org.ei.opensrp.Context;
 import org.ei.opensrp.clientandeventmodel.DateUtil;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
+import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.ChildImmunizationActivity;
@@ -593,7 +594,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
         setTablename(tableName);
         AdvancedSearchClientsProvider hhscp = new AdvancedSearchClientsProvider(getActivity(),
                 clientActionHandler, context().alertService(), VaccinatorApplication.getInstance().vaccineRepository(), VaccinatorApplication.getInstance().weightRepository(), commonRepository());
-        clientAdapter = new AdvancedSearchPaginatedCursorAdapter(getActivity(), null, hhscp, Context.getInstance().commonrepository(tableName));
+        clientAdapter = new AdvancedSearchPaginatedCursorAdapter(getActivity(), null, hhscp, context().commonrepository(tableName));
         clientsView.setAdapter(clientAdapter);
 
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
@@ -1018,6 +1019,10 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
         }
     }
 
+    private void refreshBaseRegister() {
+        ((ChildSmartRegisterActivity) getActivity()).refreshList(FetchStatus.fetched);
+    }
+
     private void moveToMyCatchmentArea(final List<String> ids) {
         AlertDialog dialog = new AlertDialog.Builder(getActivity(), R.style.PathAlertDialog)
                 .setMessage(R.string.move_to_catchment_confirm_dialog_message)
@@ -1177,83 +1182,14 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     final Listener<JSONObject> moveToMyCatchmentListener = new Listener<JSONObject>() {
         public void onEvent(final JSONObject jsonObject) {
             if (jsonObject != null) {
-                try {
-                    ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(getActivity());
-                    int eventsCount = jsonObject.has("no_of_events") ? jsonObject.getInt("no_of_events") : 0;
-                    if (eventsCount == 0) {
-                        return;
-                    }
-
-                    JSONArray events = jsonObject.has("events") ? jsonObject.getJSONArray("events") : new JSONArray();
-                    JSONArray clients = jsonObject.has("clients") ? jsonObject.getJSONArray("clients") : new JSONArray();
-
-
-                    ecUpdater.batchSave(events, clients);
-
-
-                    // Update home facility
-                    String defaultLocationUuid = context().allSharedPreferences()
-                            .fetchDefaultLocalityId(context().allSharedPreferences().fetchRegisteredANM());
-
-                    for (int i = 0; i < events.length(); i++) {
-                        JSONObject event = events.getJSONObject(i);
-                        if (event.has("eventType") && event.getString("eventType").equals("Birth Registration")) {
-                            if (event.has("obs")) {
-                                JSONArray obses = event.getJSONArray("obs");
-                                for (int j = 0; j < obses.length(); j++) {
-                                    JSONObject obs = obses.getJSONObject(j);
-                                    if (obs.has("formSubmissionField") && obs.getString("formSubmissionField").equals("Home_Facility")) {
-                                        JSONArray values = new JSONArray();
-                                        values.put(defaultLocationUuid);
-                                        obs.put("values", values);
-                                    }
-                                }
-                            }
-                            if (event.has("baseEntityId")) {
-                                // Save unsynced event
-                                ecUpdater.addEvent(event.getString("baseEntityId"), event);
-                            }
-                        }
-                    }
-
-
-                    List<String> ids = new ArrayList<>();
-                    if (events != null && events.length() > 0) {
-                        for (int i = 0; i < events.length(); i++) {
-                            Object o = events.get(i);
-                            if (o instanceof JSONObject) {
-                                JSONObject jo = (JSONObject) o;
-                                if (jo.has("baseEntityId")) {
-                                    String baseEntityId = jo.getString("baseEntityId");
-                                    if (!ids.contains(baseEntityId)) {
-                                        ids.add(baseEntityId);
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    if (ids.isEmpty()) {
-                        return;
-                    }
-
-                    List<JSONObject> savedEvents = new ArrayList<>();
-                    for (String baseEntityId : ids) {
-                        savedEvents.addAll(ecUpdater.getEventsByBaseEnityId(baseEntityId));
-                    }
-
-                    if (savedEvents.isEmpty()) {
-                        return;
-                    }
-
-
-                    PathClientProcessor.getInstance(getActivity()).processClient(savedEvents);
+                if (MoveToMyCatchmentUtils.processMoveToCatchment(getActivity(), context().allSharedPreferences(), jsonObject)) {
                     clientAdapter.notifyDataSetChanged();
-
-                } catch (Exception e) {
-                    Log.e(getClass().getName(), "Exception", e);
+                    refreshBaseRegister();
+                } else {
+                    Toast.makeText(getActivity(), "Error Processing Records", Toast.LENGTH_SHORT).show();
                 }
-
+            } else {
+                Toast.makeText(getActivity(), "Unable to Move to My Catchment", Toast.LENGTH_SHORT).show();
             }
         }
     };

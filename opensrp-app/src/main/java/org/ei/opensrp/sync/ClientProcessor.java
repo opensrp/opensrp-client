@@ -38,7 +38,8 @@ public class ClientProcessor {
     private static ClientProcessor instance;
     private CloudantDataHandler mCloudantDataHandler;
     private static final String TAG = "ClientProcessor";
-    private static final String baseEntityIdJSONKey = "baseEntityId";
+    protected static final String baseEntityIdJSONKey = "baseEntityId";
+    protected static final String providerIdJSONKey = "providerId";
 
     private static final String detailsUpdated = "detailsUpdated";
 
@@ -801,6 +802,11 @@ public class ClientProcessor {
         cr.closeCase(baseEntityId, tableName);
     }
 
+    public boolean deleteCase(String tableName, String baseEntityId) {
+        CommonRepository cr = org.ei.opensrp.Context.getInstance().commonrepository(tableName);
+        return cr.deleteCase(baseEntityId, tableName);
+    }
+
     public void executeInsertAlert(ContentValues contentValues) {
         if (!contentValues.getAsString(AlertRepository.ALERTS_STATUS_COLUMN).isEmpty()) {
             Alert alert = new Alert(contentValues.getAsString(AlertRepository.ALERTS_CASEID_COLUMN), contentValues.getAsString(AlertRepository.ALERTS_SCHEDULE_NAME_COLUMN), contentValues.getAsString(AlertRepository.ALERTS_VISIT_CODE_COLUMN), AlertStatus.from(contentValues.getAsString(AlertRepository.ALERTS_STATUS_COLUMN)), contentValues.getAsString(AlertRepository.ALERTS_STARTDATE_COLUMN), contentValues.getAsString(AlertRepository.ALERTS_EXPIRYDATE_COLUMN));
@@ -876,6 +882,17 @@ public class ClientProcessor {
             updateRegisterCount(entityId);
         }
         Log.i(TAG, "Finished updateFTSsearch table: " + tableName);
+    }
+
+    public boolean deleteFTSsearchRecord(String tableName, String entityId) {
+        boolean recordDeleted = false;
+        Log.i(TAG, "Starting deleteFTSsearch table: " + tableName);
+        AllCommonsRepository allCommonsRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects(tableName);
+        if (allCommonsRepository != null) {
+            recordDeleted = allCommonsRepository.deleteSearchRecord(entityId);
+        }
+        Log.i(TAG, "Finished deleteFTSsearch table: " + tableName);
+        return recordDeleted;
     }
 
     private JSONObject getClient(String baseEntityId) {

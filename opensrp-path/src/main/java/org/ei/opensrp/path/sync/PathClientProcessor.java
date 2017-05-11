@@ -19,6 +19,7 @@ import org.ei.opensrp.path.repository.WeightRepository;
 import org.ei.opensrp.path.service.intent.VaccineIntentService;
 import org.ei.opensrp.path.service.intent.WeightIntentService;
 import org.ei.opensrp.repository.AllSharedPreferences;
+import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.sync.ClientProcessor;
 import org.ei.opensrp.sync.CloudantDataHandler;
@@ -26,10 +27,12 @@ import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import util.MoveToMyCatchmentUtils;
 import util.VaccinateActionUtils;
 
 public class PathClientProcessor extends ClientProcessor {
@@ -83,6 +86,8 @@ public class PathClientProcessor extends ClientProcessor {
                     }
 
                     processWeight(event, clientWeightClassificationJson);
+                } else if (type.equals(MoveToMyCatchmentUtils.MOVE_TO_CATCHMENT_EVENT)) {
+                    unsync(event);
                 } else {
                     JSONObject clientClassificationJson = new JSONObject(clientClassificationStr);
                     if (isNullOrEmptyJSONObject(clientClassificationJson)) {
@@ -125,6 +130,8 @@ public class PathClientProcessor extends ClientProcessor {
                     }
 
                     processWeight(event, clientWeightClassificationJson);
+                } else if (eventType.equals(MoveToMyCatchmentUtils.MOVE_TO_CATCHMENT_EVENT)) {
+                    unsync(event);
                 } else {
                     JSONObject clientClassificationJson = new JSONObject(clientClassificationStr);
                     if (isNullOrEmptyJSONObject(clientClassificationJson)) {
@@ -200,6 +207,15 @@ public class PathClientProcessor extends ClientProcessor {
             // save the values to db
             if (contentValues != null && contentValues.size() > 0) {
                 Date date = DateUtil.getDateFromString(contentValues.getAsString(WeightRepository.DATE));
+                if (date == null) {
+                    try {
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+                        date = dateFormat.parse(contentValues.getAsString(WeightRepository.DATE));
+                    } catch (Exception e) {
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+                        date = dateFormat.parse(contentValues.getAsString(WeightRepository.DATE));
+                    }
+                }
 
                 WeightRepository weightRepository = VaccinatorApplication.getInstance().weightRepository();
                 Weight weightObj = new Weight();
@@ -282,8 +298,8 @@ public class PathClientProcessor extends ClientProcessor {
                                 if (StringUtils.isNotBlank(valueField) && jsonDocObject.has(valueField)) {
                                     columnValue = jsonDocObject.getString(valueField);
                                 } else {
-                                    List<String> values =  getValues(jsonDocObject.get(responseKey));
-                                    if(!values.isEmpty()) {
+                                    List<String> values = getValues(jsonDocObject.get(responseKey));
+                                    if (!values.isEmpty()) {
                                         columnValue = values.get(0);
                                     }
                                 }
@@ -342,6 +358,53 @@ public class PathClientProcessor extends ClientProcessor {
             VaccineRepo.Vaccine[] vArray = {VaccineRepo.Vaccine.opv0, VaccineRepo.Vaccine.bcg};
             VaccinateActionUtils.populateDefaultAlerts(alertService, vaccines, alertList, entityId, birthDateTime, vArray);
         }
+    }
+
+    public boolean unsync(JSONObject event) {
+        try {
+
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
+            String registeredAnm = allSharedPreferences.fetchRegisteredANM();
+
+            String clientClassificationStr = getFileContents("ec_client_fields.json");
+            JSONObject clientClassificationJson = new JSONObject(clientClassificationStr);
+            JSONArray bindObjects = clientClassificationJson.getJSONArray("bindobjects");
+
+            DetailsRepository detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
+            ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(getContext());
+
+            String baseEntityId = event.getString(baseEntityIdJSONKey);
+            String providerId = event.getString(providerIdJSONKey);
+
+            if (providerId.equals(registeredAnm)) {
+                boolean eventDeleted = ecUpdater.deleteEventsByBaseEntityId(baseEntityId);
+                boolean clientDeleted = ecUpdater.deleteClient(baseEntityId);
+                Log.d(getClass().getName(), "EVENT_DELETED:" + eventDeleted);
+                Log.d(getClass().getName(), "ClIENT_DELETED:" + clientDeleted);
+
+                boolean detailsDeleted = detailsRepository.deleteDetails(baseEntityId);
+                Log.d(getClass().getName(), "DETAILS_DELETED:" + detailsDeleted);
+
+                for (int i = 0; i < bindObjects.length(); i++) {
+
+                    JSONObject bindObject = bindObjects.getJSONObject(i);
+                    String registerName = bindObject.getString("name");
+
+                    boolean caseDeleted = deleteCase(registerName, baseEntityId);
+                    if (caseDeleted) {
+                        boolean searchRecordDeleted = deleteFTSsearchRecord(registerName, baseEntityId);
+                        Log.d(getClass().getName(), "CASE_AND_SEARCH:" + searchRecordDeleted);
+                        return searchRecordDeleted;
+
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.toString(), e);
+        }
+
+        return false;
     }
 
     private Integer parseInt(String string) {
