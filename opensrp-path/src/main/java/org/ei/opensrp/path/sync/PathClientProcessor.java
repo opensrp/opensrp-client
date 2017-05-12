@@ -9,6 +9,7 @@ import android.util.Log;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.clientandeventmodel.DateUtil;
+import org.ei.opensrp.clientandeventmodel.Event;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.domain.Weight;
@@ -29,6 +30,7 @@ import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -66,6 +68,7 @@ public class PathClientProcessor extends ClientProcessor {
         //this seems to be easy for now cloudant json to events model is crazy
         List<JSONObject> events = handler.getUpdatedEventsAndAlerts(lastSyncDate);
         if (!events.isEmpty()) {
+            List<JSONObject> unsyncEvents = new ArrayList<>();
             for (JSONObject event : events) {
                 String type = event.has("eventType") ? event.getString("eventType") : null;
                 if (type == null) {
@@ -87,7 +90,7 @@ public class PathClientProcessor extends ClientProcessor {
 
                     processWeight(event, clientWeightClassificationJson);
                 } else if (type.equals(MoveToMyCatchmentUtils.MOVE_TO_CATCHMENT_EVENT)) {
-                    unsync(event);
+                    unsyncEvents.add(event);
                 } else {
                     JSONObject clientClassificationJson = new JSONObject(clientClassificationStr);
                     if (isNullOrEmptyJSONObject(clientClassificationJson)) {
@@ -97,11 +100,17 @@ public class PathClientProcessor extends ClientProcessor {
                     processEvent(event, clientClassificationJson);
                 }
             }
+
+            // Unsync events that are should not be in this device
+            if (!unsyncEvents.isEmpty()) {
+                unSync(unsyncEvents);
+            }
         }
 
         allSharedPreferences.saveLastSyncDate(lastSyncDate.getTime());
     }
 
+    @Override
     public synchronized void processClient(List<JSONObject> events) throws Exception {
 
         String clientClassificationStr = getFileContents("ec_client_classification.json");
@@ -109,6 +118,7 @@ public class PathClientProcessor extends ClientProcessor {
         String clientWeightStr = getFileContents("ec_client_weight.json");
 
         if (!events.isEmpty()) {
+            List<JSONObject> unsyncEvents = new ArrayList<>();
             for (JSONObject event : events) {
 
                 String eventType = event.has("eventType") ? event.getString("eventType") : null;
@@ -131,7 +141,7 @@ public class PathClientProcessor extends ClientProcessor {
 
                     processWeight(event, clientWeightClassificationJson);
                 } else if (eventType.equals(MoveToMyCatchmentUtils.MOVE_TO_CATCHMENT_EVENT)) {
-                    unsync(event);
+                    unsyncEvents.add(event);
                 } else {
                     JSONObject clientClassificationJson = new JSONObject(clientClassificationStr);
                     if (isNullOrEmptyJSONObject(clientClassificationJson)) {
@@ -142,6 +152,11 @@ public class PathClientProcessor extends ClientProcessor {
                         processEvent(event, event.getJSONObject("client"), clientClassificationJson);
                     }
                 }
+            }
+
+            // Unsync events that are should not be in this device
+            if (!unsyncEvents.isEmpty()) {
+                unSync(unsyncEvents);
             }
         }
 
@@ -360,8 +375,12 @@ public class PathClientProcessor extends ClientProcessor {
         }
     }
 
-    public boolean unsync(JSONObject event) {
+    public boolean unSync(List<JSONObject> events) {
         try {
+
+            if (events == null && events.isEmpty()) {
+                return false;
+            }
 
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
             AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
@@ -374,36 +393,47 @@ public class PathClientProcessor extends ClientProcessor {
             DetailsRepository detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
             ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(getContext());
 
+            for (JSONObject event : events) {
+                unSync(ecUpdater, detailsRepository, bindObjects, event, registeredAnm);
+            }
+
+            return true;
+
+        } catch (Exception e) {
+            Log.e(TAG, e.toString(), e);
+        }
+
+        return false;
+    }
+
+    private boolean unSync(ECSyncUpdater ecUpdater, DetailsRepository detailsRepository, JSONArray bindObjects, JSONObject event, String registeredAnm) {
+        try {
             String baseEntityId = event.getString(baseEntityIdJSONKey);
             String providerId = event.getString(providerIdJSONKey);
 
             if (providerId.equals(registeredAnm)) {
                 boolean eventDeleted = ecUpdater.deleteEventsByBaseEntityId(baseEntityId);
                 boolean clientDeleted = ecUpdater.deleteClient(baseEntityId);
-                Log.d(getClass().getName(), "EVENT_DELETED:" + eventDeleted);
-                Log.d(getClass().getName(), "ClIENT_DELETED:" + clientDeleted);
+                Log.d(getClass().getName(), "EVENT_DELETED: " + eventDeleted);
+                Log.d(getClass().getName(), "ClIENT_DELETED: " + clientDeleted);
 
                 boolean detailsDeleted = detailsRepository.deleteDetails(baseEntityId);
-                Log.d(getClass().getName(), "DETAILS_DELETED:" + detailsDeleted);
+                Log.d(getClass().getName(), "DETAILS_DELETED: " + detailsDeleted);
 
                 for (int i = 0; i < bindObjects.length(); i++) {
 
                     JSONObject bindObject = bindObjects.getJSONObject(i);
-                    String registerName = bindObject.getString("name");
+                    String tableName = bindObject.getString("name");
 
-                    boolean caseDeleted = deleteCase(registerName, baseEntityId);
-                    if (caseDeleted) {
-                        boolean searchRecordDeleted = deleteFTSsearchRecord(registerName, baseEntityId);
-                        Log.d(getClass().getName(), "CASE_AND_SEARCH:" + searchRecordDeleted);
-                        return searchRecordDeleted;
-
-                    }
+                    boolean caseDeleted = deleteCase(tableName, baseEntityId);
+                    Log.d(getClass().getName(), "CASE_DELETED: " + caseDeleted);
                 }
+
+                return true;
             }
         } catch (Exception e) {
             Log.e(TAG, e.toString(), e);
         }
-
         return false;
     }
 

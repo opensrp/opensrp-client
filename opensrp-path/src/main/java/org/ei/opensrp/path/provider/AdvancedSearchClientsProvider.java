@@ -49,9 +49,7 @@ public class AdvancedSearchClientsProvider extends ChildSmartClientsProvider {
         //TODO check if record exists ...
         if (cursor instanceof AdvancedSearchFragment.AdvancedMatrixCursor) {
             if (commonRepository != null) {
-                String ftsSearchTable = CommonFtsObject.searchTableName(commonRepository.TABLE_NAME);
-                ArrayList<HashMap<String, String>> mapList = commonRepository.rawQuery(String.format("SELECT " + CommonFtsObject.idColumn + " FROM " + ftsSearchTable + " WHERE  " + CommonFtsObject.idColumn + " = '%s'", pc.entityId()));
-
+                CommonPersonObject commonPersonObject = commonRepository.findByBaseEntityId(pc.entityId());
 
                 Button recordVaccination = (Button) convertView.findViewById(R.id.record_vaccination);
                 recordVaccination.setVisibility(View.VISIBLE);
@@ -59,7 +57,7 @@ public class AdvancedSearchClientsProvider extends ChildSmartClientsProvider {
                 View moveToCatchment = convertView.findViewById(R.id.move_to_catchment);
                 moveToCatchment.setVisibility(View.GONE);
 
-                if (mapList.isEmpty()) { //Out of area -- doesn't exist in local database
+                if (commonPersonObject == null) { //Out of area -- doesn't exist in local database
                     TextView recordWeightText = (TextView) convertView.findViewById(R.id.record_weight_text);
                     recordWeightText.setText("Record\nservice");
 
