@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -39,6 +40,7 @@ import org.ei.opensrp.Context;
 import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.repository.UniqueIdRepository;
 import org.ei.opensrp.path.sync.ECSyncUpdater;
 import org.ei.opensrp.path.sync.PathAfterFetchListener;
@@ -73,7 +75,7 @@ import util.JsonFormUtils;
  * Created by Jason Rogena - jrogena@ona.io on 16/02/2017.
  */
 public abstract class BaseActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, SyncStatusBroadcastReceiver.SyncStatusListener {
     private static final String TAG = "BaseActivity";
     private BaseToolbar toolbar;
     private Menu menu;
@@ -100,29 +102,49 @@ public abstract class BaseActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         toggleIsSyncing();
 
-        pathAfterFetchListener = new PathAfterFetchListener() {
-            @Override
-            public void afterFetch(FetchStatus fetchStatus) {
-                isSyncing = false;
-                if(syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
-                ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
-                if (fetchStatus.equals(FetchStatus.fetchedFailed)) {
-                    syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_failed, Snackbar.LENGTH_INDEFINITE);
-                    syncStatusSnackbar.setAction(R.string.retry, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            startSync();
-                        }
-                    });
-                } else {
-                    syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_complete, Snackbar.LENGTH_LONG);
-                }
-                syncStatusSnackbar.show();
-                toggleIsSyncing();
-            }
-        };
+        pathAfterFetchListener = new PathAfterFetchListener();
 
         initializeProgressDialog();
+        registerSyncStatusBroadcastReceiver();
+    }
+
+    @Override
+    public void onSyncStart() {
+        isSyncing = true;
+        ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
+        if (syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
+        syncStatusSnackbar = Snackbar.make(rootView, R.string.syncing,
+                Snackbar.LENGTH_INDEFINITE);
+        syncStatusSnackbar.show();
+        toggleIsSyncing();
+    }
+
+    @Override
+    public void onSyncComplete(FetchStatus fetchStatus) {
+        isSyncing = false;
+        if (syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
+        ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
+        if (fetchStatus.equals(FetchStatus.fetchedFailed)) {
+            syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_failed, Snackbar.LENGTH_INDEFINITE);
+            syncStatusSnackbar.setAction(R.string.retry, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startSync();
+                }
+            });
+        } else if (fetchStatus.equals(FetchStatus.fetched)
+                || fetchStatus.equals(FetchStatus.nothingFetched)) {
+            syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_complete, Snackbar.LENGTH_LONG);
+        }
+        syncStatusSnackbar.show();
+        toggleIsSyncing();
+    }
+
+    private void registerSyncStatusBroadcastReceiver() {
+        SyncStatusBroadcastReceiver syncStatusBroadcastReceiver = new SyncStatusBroadcastReceiver();
+        syncStatusBroadcastReceiver.addSyncStatusListener(this);
+        registerReceiver(syncStatusBroadcastReceiver,
+                new IntentFilter(SyncStatusBroadcastReceiver.ACTION_SYNC_STATUS));
     }
 
     public BaseToolbar getBaseToolbar() {
@@ -266,13 +288,6 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
     private void startSync() {
-        isSyncing = true;
-        if(syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
-        syncStatusSnackbar = Snackbar.make(
-                (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0), R.string.syncing,
-                Snackbar.LENGTH_INDEFINITE);
-        syncStatusSnackbar.show();
-        toggleIsSyncing();
         PathUpdateActionsTask pathUpdateActionsTask = new PathUpdateActionsTask(
                 this, getOpenSRPContext().actionService(),
                 getOpenSRPContext().formSubmissionSyncService(),
