@@ -142,6 +142,9 @@
     <string name="report_deceased">Report deceased</string>
     <string name="report_adverse_event">Report adverse event</string>
     <string name="syncing">Syncing...</string>
+    <string name="sync_failed">Sync failed</string>
+    <string name="retry">Retry</string>
+    <string name="sync_complete">Sync complete</string>
     <string name="sync_">Sync%1$s</string>
     <string name="last_sync">(last %1$s)</string>
     <string name="now">now</string>

@@ -14,6 +14,7 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -79,6 +80,7 @@ public abstract class BaseActivity extends AppCompatActivity
     private static final int REQUEST_CODE_GET_JSON = 3432;
     private PathAfterFetchListener pathAfterFetchListener;
     private boolean isSyncing;
+    private Snackbar syncStatusSnackbar;
     private ProgressDialog progressDialog;
 
     @Override
@@ -102,6 +104,20 @@ public abstract class BaseActivity extends AppCompatActivity
             @Override
             public void afterFetch(FetchStatus fetchStatus) {
                 isSyncing = false;
+                if(syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
+                ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
+                if (fetchStatus.equals(FetchStatus.fetchedFailed)) {
+                    syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_failed, Snackbar.LENGTH_INDEFINITE);
+                    syncStatusSnackbar.setAction(R.string.retry, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startSync();
+                        }
+                    });
+                } else {
+                    syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_complete, Snackbar.LENGTH_LONG);
+                }
+                syncStatusSnackbar.show();
                 toggleIsSyncing();
             }
         };
@@ -241,19 +257,28 @@ public abstract class BaseActivity extends AppCompatActivity
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         }*/ else if (id == R.id.nav_sync) {
-            isSyncing = true;
-            toggleIsSyncing();
-            PathUpdateActionsTask pathUpdateActionsTask = new PathUpdateActionsTask(
-                    this, getOpenSRPContext().actionService(),
-                    getOpenSRPContext().formSubmissionSyncService(),
-                    new SyncProgressIndicator(),
-                    getOpenSRPContext().allFormVersionSyncService());
-            pathUpdateActionsTask.updateFromServer(pathAfterFetchListener);
+            startSync();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(getDrawerLayoutId());
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void startSync() {
+        isSyncing = true;
+        if(syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
+        syncStatusSnackbar = Snackbar.make(
+                (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0), R.string.syncing,
+                Snackbar.LENGTH_INDEFINITE);
+        syncStatusSnackbar.show();
+        toggleIsSyncing();
+        PathUpdateActionsTask pathUpdateActionsTask = new PathUpdateActionsTask(
+                this, getOpenSRPContext().actionService(),
+                getOpenSRPContext().formSubmissionSyncService(),
+                new SyncProgressIndicator(),
+                getOpenSRPContext().allFormVersionSyncService());
+        pathUpdateActionsTask.updateFromServer(pathAfterFetchListener);
     }
 
     /**
