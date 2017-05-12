@@ -80,7 +80,7 @@ public class SiblingPicture extends LinearLayout {
     }
 
     public void setChildBaseEntityId(BaseActivity baseActivity, String baseEntityId) {
-        new GetChildDetailsTask(baseActivity, baseEntityId).execute();
+        Utils.startAsyncTask(new GetChildDetailsTask(baseActivity, baseEntityId), null);
     }
 
     private class GetChildDetailsTask extends AsyncTask<Void, Void, CommonPersonObjectClient> {
@@ -113,7 +113,8 @@ public class SiblingPicture extends LinearLayout {
                 }
 
                 // Get mother details
-                String motherBaseEntityId = Utils.getValue(childDetails.getColumnmaps(), "relational_id", false);
+                String motherBaseEntityId = Utils.getValue(childDetails.getColumnmaps(),
+                        "relational_id", false);
 
                 Map<String, String> motherDetails = new HashMap<>();
                 motherDetails.put("mother_first_name", "");
