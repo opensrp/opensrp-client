@@ -257,15 +257,39 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
 //               all_synced = false;
 //           }
 //        }
-        if(vaccineList.size() ==0 ){
-            overflow.getItem(3).setEnabled(false);
+        boolean show_vaccine_list = false;
+        for (int i = 0;i<vaccineList.size();i++){
+            ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(ChildDetailTabbedActivity.this);
+            Vaccine vaccine = vaccineList.get(i);
+            PathRepository db = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+            org.ei.opensrp.path.db.Event event = null;
+            if(vaccine.getEventId()!=null) {
+                event = ecUpdater.convert(db.getEventsByEventId(vaccine.getEventId()), org.ei.opensrp.path.db.Event.class);
+            }else if (vaccine.getFormSubmissionId() != null){
+                event = ecUpdater.convert(db.getEventsByFormSubmissionId(vaccine.getFormSubmissionId()), org.ei.opensrp.path.db.Event.class);
+            }
+            if(event!=null) {
+                Date vaccine_create_date = event.getDateCreated().toDate();
+                if (!check_if_date_three_months_older(vaccine_create_date)) {
+                    show_vaccine_list = true;
+                }
+            }else{
+                show_vaccine_list = true;
+            }
 
         }
+//        if(vaccineList.size() ==0 ){
+//            overflow.getItem(3).setEnabled(false);
+//
+//        }
+        if(!show_vaccine_list ){
+            overflow.getItem(3).setEnabled(false);
+        }
+
         WeightRepository wp =  VaccinatorApplication.getInstance().weightRepository();
         List <Weight> weightlist =  wp.findLast5(childDetails.entityId());
         if(weightlist.size() ==0){
             overflow.getItem(2).setEnabled(false);
-
         }
         return true;
     }
@@ -1291,5 +1315,12 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         childDetails.getColumnmaps().putAll(details);
         updateActivityTitle();
         initiallization();
+    }
+    public static boolean  check_if_date_three_months_older(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(cal.getTime());
+        cal.add(Calendar.DATE, -90);
+        Date dateBefore90Days = cal.getTime();
+        return date.before(dateBefore90Days);
     }
 }

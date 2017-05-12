@@ -11,8 +11,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.ei.opensrp.domain.Alert;
+import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.activity.ChildDetailTabbedActivity;
+import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.db.Event;
 import org.ei.opensrp.path.domain.VaccineWrapper;
+import org.ei.opensrp.path.repository.PathRepository;
+import org.ei.opensrp.path.repository.VaccineRepository;
+import org.ei.opensrp.path.sync.ECSyncUpdater;
+import org.ei.opensrp.repository.EventRepository;
 import org.joda.time.DateTime;
 
 import java.text.SimpleDateFormat;
@@ -154,6 +162,22 @@ public class ImmunizationRowCard extends LinearLayout {
     }
 
     private void updateStateUi() {
+        ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(context);
+        VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
+        Vaccine vaccine = vaccineRepository.find(vaccineWrapper.getDbKey());
+        PathRepository db = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+        Event event = null;
+        if(vaccine.getEventId()!=null) {
+            event = ecUpdater.convert(db.getEventsByEventId(vaccine.getEventId()), org.ei.opensrp.path.db.Event.class);
+        }else if (vaccine.getFormSubmissionId() != null){
+            event = ecUpdater.convert(db.getEventsByFormSubmissionId(vaccine.getFormSubmissionId()), org.ei.opensrp.path.db.Event.class);
+        }
+        boolean status_for_more_than_three_months = false;
+        if(event != null) {
+            Date vaccine_create_date = event.getDateCreated().toDate();
+            status_for_more_than_three_months = ChildDetailTabbedActivity.check_if_date_three_months_older(vaccine_create_date);
+        }
+//        boolean status_for_more_than_three_months = false;
         switch (state) {
             case NOT_DUE:
                 setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_white));
@@ -191,7 +215,7 @@ public class ImmunizationRowCard extends LinearLayout {
                 setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_white));
                 statusIV.setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_green));
 //                statusIV.setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_white));
-                if(editmode) {
+                if(editmode && !status_for_more_than_three_months) {
                     undoB.setVisibility(VISIBLE);
                 }else{
                     undoB.setVisibility(INVISIBLE);
@@ -206,7 +230,7 @@ public class ImmunizationRowCard extends LinearLayout {
                 setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_white));
                 statusIV.setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_green));
 //                statusIV.setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_white));
-                if(editmode) {
+                if(editmode && !status_for_more_than_three_months) {
                     undoB.setVisibility(VISIBLE);
                 }else{
                     undoB.setVisibility(INVISIBLE);

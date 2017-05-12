@@ -757,6 +757,33 @@ public class PathRepository extends Repository {
         }
         return null;
     }
+    public JSONObject getEventsByFormSubmissionId(String formSubmissionId) {
+        List<JSONObject> list = new ArrayList<JSONObject>();
+        if (StringUtils.isBlank(formSubmissionId)) {
+            return null;
+        }
+
+        Cursor cursor = null;
+        try {
+            cursor = getWritableDatabase().rawQuery("SELECT json FROM " + Table.event.name() +
+                    " WHERE " + event_column.formSubmissionId.name() + "='" + formSubmissionId + "' ", null);
+            while (cursor.moveToNext()) {
+                String jsonEventStr = cursor.getString(0);
+
+                jsonEventStr = jsonEventStr.replaceAll("'", "");
+
+                JSONObject ev = new JSONObject(jsonEventStr);
+                return ev;
+
+            }
+        } catch (Exception e) {
+            Log.e(getClass().getName(), "Exception", e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
 
     public JSONObject getClientByBaseEntityId(String baseEntityId) {
         Cursor cursor = null;
