@@ -97,7 +97,7 @@ public class SiblingPicture extends LinearLayout {
         @Override
         protected CommonPersonObjectClient doInBackground(Void... params) {
             CommonPersonObject rawDetails = baseActivity.getOpenSRPContext()
-                    .commonrepository("ec_child").findByCaseID(baseEntityId);
+                    .commonrepository("ec_child").findByBaseEntityId(baseEntityId);
             if (rawDetails != null) {
                 // Get extra child details
                 CommonPersonObjectClient childDetails = MotherLookUpSmartClientsProvider.convert(rawDetails);
@@ -123,7 +123,7 @@ public class SiblingPicture extends LinearLayout {
                 motherDetails.put("mother_nrc_number", "");
                 if (!TextUtils.isEmpty(motherBaseEntityId)) {
                     CommonPersonObject rawMotherDetails = baseActivity.getOpenSRPContext()
-                            .commonrepository("ec_mother").findByCaseID(motherBaseEntityId);
+                            .commonrepository("ec_mother").findByBaseEntityId(motherBaseEntityId);
                     if (rawMotherDetails != null) {
                         motherDetails.put("mother_first_name",
                                 Utils.getValue(rawMotherDetails.getColumnmaps(), "first_name", false));

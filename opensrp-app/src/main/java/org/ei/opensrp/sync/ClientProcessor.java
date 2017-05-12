@@ -884,17 +884,6 @@ public class ClientProcessor {
         Log.i(TAG, "Finished updateFTSsearch table: " + tableName);
     }
 
-    public boolean deleteFTSsearchRecord(String tableName, String entityId) {
-        boolean recordDeleted = false;
-        Log.i(TAG, "Starting deleteFTSsearch table: " + tableName);
-        AllCommonsRepository allCommonsRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects(tableName);
-        if (allCommonsRepository != null) {
-            recordDeleted = allCommonsRepository.deleteSearchRecord(entityId);
-        }
-        Log.i(TAG, "Finished deleteFTSsearch table: " + tableName);
-        return recordDeleted;
-    }
-
     private JSONObject getClient(String baseEntityId) {
         try {
             return mCloudantDataHandler.getClientByBaseEntityId(baseEntityId);
