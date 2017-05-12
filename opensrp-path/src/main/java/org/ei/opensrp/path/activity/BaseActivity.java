@@ -84,6 +84,7 @@ public abstract class BaseActivity extends AppCompatActivity
     private boolean isSyncing;
     private Snackbar syncStatusSnackbar;
     private ProgressDialog progressDialog;
+    private SyncStatusBroadcastReceiver syncStatusBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,11 +141,23 @@ public abstract class BaseActivity extends AppCompatActivity
         toggleIsSyncing();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterSyncStatusBroadcastReceiver();
+    }
+
     private void registerSyncStatusBroadcastReceiver() {
-        SyncStatusBroadcastReceiver syncStatusBroadcastReceiver = new SyncStatusBroadcastReceiver();
+        syncStatusBroadcastReceiver = new SyncStatusBroadcastReceiver();
         syncStatusBroadcastReceiver.addSyncStatusListener(this);
         registerReceiver(syncStatusBroadcastReceiver,
                 new IntentFilter(SyncStatusBroadcastReceiver.ACTION_SYNC_STATUS));
+    }
+
+    private void unregisterSyncStatusBroadcastReceiver() {
+        if(syncStatusBroadcastReceiver != null) {
+            unregisterReceiver(syncStatusBroadcastReceiver);
+        }
     }
 
     public BaseToolbar getBaseToolbar() {

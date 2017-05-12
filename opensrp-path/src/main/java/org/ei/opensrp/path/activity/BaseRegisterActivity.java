@@ -47,6 +47,7 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
     public static final String IS_REMOTE_LOGIN = "is_remote_login";
     private PathAfterFetchListener pathAfterFetchListener;
     private Snackbar syncStatusSnackbar;
+    private SyncStatusBroadcastReceiver syncStatusBroadcastReceiver;
     private boolean isSyncing;
 
     @Override
@@ -90,6 +91,12 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterSyncStatusBroadcastReceiver();
+    }
+
+    @Override
     public void onSyncStart() {
         isSyncing = true;
         ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
@@ -122,10 +129,16 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
     }
 
     private void registerSyncStatusBroadcastReceiver() {
-        SyncStatusBroadcastReceiver syncStatusBroadcastReceiver = new SyncStatusBroadcastReceiver();
+        syncStatusBroadcastReceiver = new SyncStatusBroadcastReceiver();
         syncStatusBroadcastReceiver.addSyncStatusListener(this);
         registerReceiver(syncStatusBroadcastReceiver,
                 new IntentFilter(SyncStatusBroadcastReceiver.ACTION_SYNC_STATUS));
+    }
+
+    private void unregisterSyncStatusBroadcastReceiver() {
+        if(syncStatusBroadcastReceiver != null) {
+            unregisterReceiver(syncStatusBroadcastReceiver);
+        }
     }
 
     public void updateFromServer() {
