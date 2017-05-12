@@ -10,4 +10,14 @@
         android:layout_centerInParent="true"
         android:scaleType="centerCrop"
         android:src="@drawable/child_transgender_inflant" />
+
+    <TextView
+        android:id="@+id/initials"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00818181"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="30dp"
+        android:textStyle="bold" />
 </RelativeLayout>

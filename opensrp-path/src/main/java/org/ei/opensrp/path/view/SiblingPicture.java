@@ -13,18 +13,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
+import org.ei.opensrp.domain.ProfileImage;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.BaseActivity;
 import org.ei.opensrp.path.activity.ChildDetailTabbedActivity;
+import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.provider.MotherLookUpSmartClientsProvider;
 import org.ei.opensrp.path.toolbar.BaseToolbar;
 import org.ei.opensrp.path.toolbar.LocationSwitcherToolbar;
 import org.ei.opensrp.repository.DetailsRepository;
+import org.ei.opensrp.repository.ImageRepository;
 import org.ei.opensrp.util.OpenSRPImageLoader;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.json.JSONException;
@@ -44,6 +48,7 @@ import util.Utils;
 public class SiblingPicture extends LinearLayout {
     private Context context;
     private ImageView profilePhoto;
+    private TextView initials;
 
     public SiblingPicture(Context context) {
         super(context);
@@ -71,6 +76,7 @@ public class SiblingPicture extends LinearLayout {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(R.layout.view_sibling_picture, this, true);
         profilePhoto = (ImageView) findViewById(R.id.profile_photo);
+        initials = (TextView) findViewById(R.id.initials);
     }
 
     public void setChildBaseEntityId(BaseActivity baseActivity, String baseEntityId) {
@@ -96,6 +102,15 @@ public class SiblingPicture extends LinearLayout {
                 // Get extra child details
                 CommonPersonObjectClient childDetails = MotherLookUpSmartClientsProvider.convert(rawDetails);
                 childDetails.getColumnmaps().putAll(detailsRepository.getAllDetailsForClient(baseEntityId));
+
+                // Check if child has a profile pic
+                ProfileImage profileImage = baseActivity.getOpenSRPContext()
+                        .imageRepository().findByEntityId(baseEntityId);
+
+                childDetails.getColumnmaps().put("has_profile_image", "true");
+                if (profileImage == null) {
+                    childDetails.getColumnmaps().put("has_profile_image", "false");
+                }
 
                 // Get mother details
                 String motherBaseEntityId = Utils.getValue(childDetails.getColumnmaps(), "relational_id", false);
@@ -153,11 +168,28 @@ public class SiblingPicture extends LinearLayout {
                         ImageUtils.profileImageResourceByGender(gender),
                         ImageUtils.profileImageResourceByGender(gender)));
 
+        final String firstName = Utils.getValue(childDetails.getColumnmaps(), "first_name", true);
+        final String lastName = Utils.getValue(childDetails.getColumnmaps(), "last_name", true);
+
+        if (Utils.getValue(childDetails.getColumnmaps(), "has_profile_image", false).equals("false")) {
+            initials.setVisibility(VISIBLE);
+            String initialsString = "";
+            if (!TextUtils.isEmpty(firstName)) {
+                initialsString = firstName.substring(0, 1);
+            }
+
+            if (!TextUtils.isEmpty(lastName)) {
+                initialsString = initialsString + lastName.substring(0, 1);
+            }
+
+            initials.setText(initialsString.toUpperCase());
+        } else {
+            initials.setVisibility(GONE);
+        }
+
         this.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                String firstName = Utils.getValue(childDetails.getColumnmaps(), "first_name", true);
-                String lastName = Utils.getValue(childDetails.getColumnmaps(), "last_name", true);
                 Toast.makeText(context, firstName + " " + lastName, Toast.LENGTH_LONG).show();
                 return true;
             }

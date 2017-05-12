@@ -310,6 +310,19 @@ public class JsonFormUtils {
 
             Client subFormClient = null;
 
+            JSONObject lookUpJSONObject = getJSONObject(metadata, "look_up");
+            String lookUpEntityId = "";
+            String lookUpBaseEntityId = "";
+            if (lookUpJSONObject != null) {
+                lookUpEntityId = getString(lookUpJSONObject, "entity_id");
+                lookUpBaseEntityId = getString(lookUpJSONObject, "value");
+            }
+
+            if (lookUpEntityId.equals("mother") && StringUtils.isNotBlank(lookUpBaseEntityId)) {
+                Client ss = new Client(lookUpBaseEntityId);
+                addRelationship(context, ss, baseClient);
+            }
+
             if (StringUtils.isNotBlank(subBindType)) {
                 subFormClient = JsonFormUtils.createSubformClient(context, fields, baseClient, subBindType, relationalId);
             }
