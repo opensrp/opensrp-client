@@ -7,7 +7,21 @@
         "fields": [
           {
             "field": "eventType",
+            "field_value": "Household Registration",
+            "creates_case": [
+              "ec_household"
+            ]
+          },
+          {
+            "field": "eventType",
             "field_value": "New Woman Registration",
+            "creates_case": [
+              "ec_mother"
+            ]
+          },
+          {
+            "field": "eventType",
+            "field_value": "New Woman Member Registration",
             "creates_case": [
               "ec_mother"
             ]

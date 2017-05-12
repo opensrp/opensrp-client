@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 
 import org.apache.commons.lang3.StringUtils;
+import org.ei.opensrp.Context;
 import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
 import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.domain.form.FormSubmission;
@@ -35,6 +36,7 @@ import org.ei.opensrp.service.ZiggyService;
 import org.ei.opensrp.util.FormUtils;
 import org.ei.opensrp.view.dialog.DialogOptionModel;
 import org.ei.opensrp.view.viewpager.OpenSRPViewPager;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.Bind;
@@ -160,6 +162,16 @@ public class ChildSmartRegisterActivity extends BaseRegisterActivity {
 
     }
 
+    public void startWomanFormActivity(String formName, String entityId, String metaData) {
+
+        Intent intent = new Intent(getApplicationContext(), PathJsonFormActivity.class);
+
+//        intent.putExtra("json", metaData);
+        startActivityForResult(intent, REQUEST_CODE_GET_JSON);
+
+
+    }
+
     public void startAdvancedSearch() {
         try {
             mPager.setCurrentItem(ADVANCED_SEARCH_POSITION, false);
@@ -188,6 +200,18 @@ public class ChildSmartRegisterActivity extends BaseRegisterActivity {
                 AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
 
                 JsonFormUtils.saveForm(this, context(), jsonString, allSharedPreferences.fetchRegisteredANM());
+
+                JSONObject form = null;
+                try {
+                    form = new JSONObject(jsonString);
+                    if (form.getString("encounter_type").equals("Household Registration")) {
+                       startFormActivity("woman_member_registration", null, null);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         } else if (requestCode == BarcodeIntentIntegrator.REQUEST_CODE && resultCode == RESULT_OK) {
             BarcodeIntentResult res = BarcodeIntentIntegrator.parseActivityResult(requestCode, resultCode, data);

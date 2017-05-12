@@ -1,0 +1,384 @@
+{
+  "count": "1",
+  "encounter_type": "New Woman Member Registration",
+  "entity_id": "",
+  "relational_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": "",
+    "look_up": {
+        "entity_id":"",
+        "value":""
+    }
+  },
+  "step1": {
+    "title": "Woman Member Registration",
+    "fields": [
+      {
+        "key": "woman_photo",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "choose_image",
+        "uploadButtonText": "Take a photo of the woman"
+      },
+      {
+        "key": "HIE_FACILITIES",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "openmrs_data_type": "text",
+        "type": "tree",
+        "hint": "Household head's home health facility *",
+        "tree": [],
+        "v_required": {
+          "value": true,
+          "err": "Please enter the Household head's home facility"
+        }
+      },  
+      {
+        "key": "Date_Of_Reg",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "date_picker",
+        "hint": "Date of Registration",
+        "expanded": false,
+        "min_date": "today-5y",
+        "max_date": "today",
+        "v_required": {
+          "value": "true",
+          "err": "Please enter the date of Registration"
+        }
+      },
+      {
+        "key": "member_Reg_No",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hint": "Member's Registration No."
+      },
+      {
+        "key": "Member_Fname",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "first_name",
+        "type": "edit_text",
+        "hint": "Member's Name",
+        "edit_type": "name",
+        "v_regex": {
+          "value": "[A-Za-z\\s\.\-]*",
+          "err": "Please enter a valid name"
+        }
+      },
+      {
+        "key": "Member_LName",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "last_name",
+        "type": "edit_text",
+        "hint": "Last name *",
+        "edit_type": "name",
+        "v_required": {
+          "value": "true",
+          "err": "Please enter the last name"
+        },
+        "v_regex": {
+          "value": "[A-Za-z\\s\.\-]*",
+          "err": "Please enter a valid name"
+        }
+      },
+      {
+        "key": "calc_dob_confirm",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "birthdate",
+        "type": "date_picker",
+        "hint": "Birth Date of member",
+        "expanded": false,
+        "duration": {
+          "label": "Age"
+        },
+        "max_date": "today-25y",
+        "v_required": {
+          "value": "true",
+          "err": "Please enter the date of birth"
+        }
+      },
+      {
+        "key": "member_Unique_ID",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Which ID card do you have?",
+        "values": [
+          "NID",
+          "BRID"
+        ]
+      },
+      {
+        "key": "member_NID",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "nationalId",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "Type NID",
+        "v_required": {
+          "value": true,
+          "err": "Please Type NID"
+        },
+        "relevance": {
+          "step1:HoH_Unique_ID": {
+            "type": "string",
+            "ex": "equalTo(., \"NID\")"
+          }
+        }
+      },
+      {
+        "key": "member_BRID",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "birthRegistrationId",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "Type BRID",
+        "v_required": {
+          "value": true,
+          "err": "Please Type BRID"
+        },
+        "relevance": {
+          "step1:HoH_Unique_ID": {
+            "type": "string",
+            "ex": "equalTo(., \"BRID\")"
+          }
+        }
+      },
+      {
+        "key": "member_Gender",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "gender",
+        "type": "spinner",
+        "hint": "Member Gender",
+        "values": [
+          "Male",
+          "Female"
+        ],
+        "v_required": {
+          "value": "true",
+          "err": "Please enter the sex"
+        }
+      },
+      {
+        "key": "Father_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "fatherName",
+        "type": "edit_text",
+        "hint": "Father's Name",
+        "v_required": {
+          "value": "true",
+          "err": "Please enter the last name"
+        },
+        "v_regex": {
+          "value": "[A-Za-z\\s\.\-]*",
+          "err": "please enter a valid name"
+        }
+      },
+      {
+        "key": "epi_card_number",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "Epi Card Number",
+        "v_required": {
+          "value": true,
+          "err": "Please Type epi card number"
+        }
+      },
+      {
+        "key": "member_Mobile_No",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "phoneNumber",
+        "type": "edit_text",
+        "hint": "Mobile Number",
+        "v_numeric": {
+          "value": "true",
+          "err": "invalid phone number"
+        },
+        "v_regex": {
+          "value": "(01[5-9][0-9]{7})|\s*",
+          "err": "invalid phone number"
+        }
+      },      
+      {
+        "key": "Marital_status",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Marital Status",
+        "values": [
+          "Unmarried",
+          "Married",
+          "Divorced/Widow/Widower"
+        ]
+      },
+      {
+        "key": "Husband_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "spouseName",
+        "type": "edit_text",
+        "hint": "Father's Name",
+        "v_required": {
+          "value": "true",
+          "err": "Please enter the last name"
+        },
+        "v_regex": {
+          "value": "[A-Za-z\\s\.\-]*",
+          "err": "please enter a valid name"
+        },
+        "relevance": {
+          "step1:Marital_status": {
+            "type": "string",
+            "ex": "equalTo(., \"Married\")"
+          }
+        }
+      },
+      {
+        "key": "Couple_No",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "Couple No.",
+        "v_required": {
+          "value": true,
+          "err": "Please Type Couple No."
+        }
+      },
+      {
+        "key": "FP_Methods",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "50b7f374-9406-49d1-bcfb-9bf613184030",
+        "type": "spinner",
+        "hint": "Which method are you using?",
+        "values": [
+          "Condoms",
+          "Oral Pill",
+          "Injectable "
+        ],
+        "openmrs_choice_ids": {
+          "Condoms": "ce852ebe-cb83-449a-87ff-24f0779b135a",
+          "Oral Pill": "dc761620-f327-4279-9165-3a924b5ca900",
+          "Injectable": "61f65ba3-99e6-4e1a-aabc-7c91d225d179"
+        }
+      },
+      {
+        "key": "edd_lmp",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "spinner",
+        "hint": "Do you know your lmp, EDD or last Ultrasound information?",
+        "values": [
+          "edd",
+          "lmp",
+          "ultrasound",
+          "none"
+        ]
+      },
+      {
+        "key": "final_edd",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "8f983cb3-8223-45e3-bbe7-235df21b754d",
+        "type": "date_picker",
+        "hint": "EDD",        
+        "relevance": {
+          "step1:edd_lmp": {
+            "type": "string",
+            "ex": "equalTo(., \"edd\")"
+          }
+        }
+      },
+      {
+        "key": "final_lmp",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "a9557042-5d04-493f-aba0-c03b63a02243",
+        "type": "date_picker",
+        "hint": "lmp",        
+        "relevance": {
+          "step1:edd_lmp": {
+            "type": "string",
+            "ex": "equalTo(., \"lmp\")"
+          }
+        }
+      },
+      {
+        "key": "ultrasound_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "date_picker",
+        "hint": "Ultrasound Date",        
+        "relevance": {
+          "step1:edd_lmp": {
+            "type": "string",
+            "ex": "equalTo(., \"ultrasound\")"
+          }
+        }
+      }           
+    ]
+  }
+}
