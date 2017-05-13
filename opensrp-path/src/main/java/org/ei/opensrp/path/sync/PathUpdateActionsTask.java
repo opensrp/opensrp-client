@@ -121,9 +121,6 @@ public class PathUpdateActionsTask {
             }
 
             public void postExecuteInUIThread(FetchStatus result) {
-                if (result != null && context != null && result != nothingFetched) {
-                    Toast.makeText(context, result.displayValue(), Toast.LENGTH_SHORT).show();
-                }
                 pathAfterFetchListener.afterFetch(result);
                 sendSyncStatusBroadcastMessage(context, result);
             }

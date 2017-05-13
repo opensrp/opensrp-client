@@ -15,6 +15,7 @@ import org.ei.opensrp.path.BuildConfig;
 import org.ei.opensrp.path.activity.LoginActivity;
 import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.receiver.PathSyncBroadcastReceiver;
+import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.UniqueIdRepository;
 import org.ei.opensrp.path.repository.VaccineRepository;
@@ -60,6 +61,7 @@ public class VaccinatorApplication extends DrishtiApplication {
         context = Context.getInstance();
         context.updateApplicationContext(getApplicationContext());
         context.updateCommonFtsObject(createCommonFtsObject());
+        SyncStatusBroadcastReceiver.init(this);
 
         applyUserLanguagePreference();
         cleanUpSyncState();
@@ -89,6 +91,7 @@ public class VaccinatorApplication extends DrishtiApplication {
     public void onTerminate() {
         logInfo("Application is terminating. Stopping Bidan Sync scheduler and resetting isSyncInProgress setting.");
         cleanUpSyncState();
+        SyncStatusBroadcastReceiver.destroy(this);
         super.onTerminate();
     }
 

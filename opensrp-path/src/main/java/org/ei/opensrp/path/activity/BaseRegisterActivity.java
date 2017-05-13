@@ -1,8 +1,6 @@
 package org.ei.opensrp.path.activity;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
@@ -12,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,8 +44,6 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
     public static final String IS_REMOTE_LOGIN = "is_remote_login";
     private PathAfterFetchListener pathAfterFetchListener;
     private Snackbar syncStatusSnackbar;
-    private SyncStatusBroadcastReceiver syncStatusBroadcastReceiver;
-    private boolean isSyncing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +70,6 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        toggleIsSyncing();
 
         pathAfterFetchListener = new PathAfterFetchListener();
 
@@ -86,59 +80,24 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
                 updateFromServer();
             }
         }
-
-        registerSyncStatusBroadcastReceiver();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterSyncStatusBroadcastReceiver();
     }
 
     @Override
     public void onSyncStart() {
-        isSyncing = true;
-        ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
-        if(syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
-        syncStatusSnackbar = Snackbar.make(rootView, R.string.syncing,
-                Snackbar.LENGTH_INDEFINITE);
-        syncStatusSnackbar.show();
-        toggleIsSyncing();
+        refreshSyncStatusViews(null);
     }
 
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
-        isSyncing = false;
-        if(syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
-        ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
-        if (fetchStatus.equals(FetchStatus.fetchedFailed)) {
-            syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_failed, Snackbar.LENGTH_INDEFINITE);
-            syncStatusSnackbar.setAction(R.string.retry, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startSync();
-                }
-            });
-        } else if (fetchStatus.equals(FetchStatus.fetched)
-                || fetchStatus.equals(FetchStatus.nothingFetched)) {
-            syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_complete, Snackbar.LENGTH_LONG);
-        }
-        syncStatusSnackbar.show();
-        toggleIsSyncing();
+        refreshSyncStatusViews(fetchStatus);
     }
 
     private void registerSyncStatusBroadcastReceiver() {
-        syncStatusBroadcastReceiver = new SyncStatusBroadcastReceiver();
-        syncStatusBroadcastReceiver.addSyncStatusListener(this);
-        registerReceiver(syncStatusBroadcastReceiver,
-                new IntentFilter(SyncStatusBroadcastReceiver.ACTION_SYNC_STATUS));
+        SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(this);
     }
 
     private void unregisterSyncStatusBroadcastReceiver() {
-        if(syncStatusBroadcastReceiver != null) {
-            unregisterReceiver(syncStatusBroadcastReceiver);
-        }
+        SyncStatusBroadcastReceiver.getInstance().removeSyncStatusListener(this);
     }
 
     public void updateFromServer() {
@@ -161,7 +120,14 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
     @Override
     protected void onResume() {
         super.onResume();
+        registerSyncStatusBroadcastReceiver();
         initViews();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterSyncStatusBroadcastReceiver();
     }
 
     private void initViews() {
@@ -205,6 +171,7 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
 
         TextView nameTV = (TextView) navigationView.findViewById(R.id.name_tv);
         nameTV.setText(preferredName);
+        refreshSyncStatusViews(null);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -238,14 +205,36 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
         pathUpdateActionsTask.updateFromServer(pathAfterFetchListener);
     }
 
-    private void toggleIsSyncing() {
+    private void refreshSyncStatusViews(FetchStatus fetchStatus) {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null && navigationView.getMenu() != null) {
             MenuItem syncMenuItem = navigationView.getMenu().findItem(R.id.nav_sync);
             if (syncMenuItem != null) {
-                if (isSyncing) {
+                if (SyncStatusBroadcastReceiver.getInstance().isSyncing()) {
+                    ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
+                    if (syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
+                    syncStatusSnackbar = Snackbar.make(rootView, R.string.syncing,
+                            Snackbar.LENGTH_INDEFINITE);
+                    syncStatusSnackbar.show();
                     syncMenuItem.setTitle(R.string.syncing);
                 } else {
+                    if (fetchStatus != null) {
+                        if (syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
+                        ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
+                        if (fetchStatus.equals(FetchStatus.fetchedFailed)) {
+                            syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_failed, Snackbar.LENGTH_INDEFINITE);
+                            syncStatusSnackbar.setAction(R.string.retry, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startSync();
+                                }
+                            });
+                        } else if (fetchStatus.equals(FetchStatus.fetched)
+                                || fetchStatus.equals(FetchStatus.nothingFetched)) {
+                            syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_complete, Snackbar.LENGTH_LONG);
+                        }
+                        syncStatusSnackbar.show();
+                    }
                     String lastSync = getLastSyncTime();
 
                     if (!TextUtils.isEmpty(lastSync)) {
@@ -293,7 +282,6 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
         @Override
         public void onDrawerOpened(View drawerView) {
             super.onDrawerOpened(drawerView);
-            toggleIsSyncing();
         }
 
         @Override
