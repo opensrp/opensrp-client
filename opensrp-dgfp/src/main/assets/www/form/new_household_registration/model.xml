@@ -55,7 +55,7 @@
       <HoH_Mobile_number />
       <Member_Number openmrs_entity="concept" openmrs_entity_id="5611AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
       <MWRA />
-      <HH_Member  openmrs_entity="person" openmrs_entity_id="New Member Registration">
+      <HH_Member template="" openmrs_entity="person" openmrs_entity_id="New Member Registration">
         <Member_GoB_HHID openmrs_entity="person_attribute" openmrs_entity_id="GoB_HHID" />
         <Member_Reg_Date />
         <Mem_F_Name openmrs_entity="person" openmrs_entity_id="first_name" />
