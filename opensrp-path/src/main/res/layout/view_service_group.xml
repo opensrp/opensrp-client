@@ -34,7 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="Birth"
+                    android:text="Recurring Services"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/activity_sub_title_size" />
 
@@ -47,11 +47,12 @@
                     android:layout_marginRight="10dp"
                     android:text="@string/record_all"
                     android:textColor="@color/light_blue"
-                    android:textSize="@dimen/activity_sub_title_size" />
+                    android:textSize="@dimen/activity_sub_title_size"
+                    android:visibility="gone" />
             </RelativeLayout>
 
             <org.ei.opensrp.path.view.ExpandableHeightGridView
-                android:id="@+id/vaccines_gv"
+                android:id="@+id/services_gv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"

@@ -462,6 +462,17 @@ public class VaccinatorUtils {
         return supportedVaccinesString;
     }
 
+    /**
+     * Returns a JSON String containing a list of supported services
+     *
+     * @param context Current valid context to be used
+     * @return JSON String with the supported vaccines or NULL if unable to obtain the list
+     */
+    public static String getSupportedServices(Context context) {
+        String supportedServicesString = Utils.readAssetContents(context, "services.json");
+        return supportedServicesString;
+    }
+
     public static int getVaccineCalculation(Context context, String vaccineName)
             throws JSONException {
         JSONArray supportedVaccines = new JSONArray(getSupportedVaccines(context));

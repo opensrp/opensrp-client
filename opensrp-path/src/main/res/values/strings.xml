@@ -116,7 +116,7 @@
     <string name="female_sex_id">her</string>
     <string name="male_sex_id">his</string>
     <string name="label_zeir">ZEIR</string>
-    <string name="label_immunization_records">IMMUNISATION RECORD</string>
+    <string name="label_immunization_records">IMMUNISATION &amp; SERVICES</string>
 
     <string name="str_search_hint">Search name or ID</string>
 
