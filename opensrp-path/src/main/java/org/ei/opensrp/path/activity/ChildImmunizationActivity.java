@@ -60,6 +60,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -994,6 +995,8 @@ public class ChildImmunizationActivity extends BaseActivity
             if (baseEntityIds == null) {
                 baseEntityIds = new ArrayList<>();
             }
+
+            Collections.reverse(baseEntityIds);
 
             SiblingPicturesGroup siblingPicturesGroup = (SiblingPicturesGroup) ChildImmunizationActivity.this.findViewById(R.id.sibling_pictures);
             siblingPicturesGroup.setSiblingBaseEntityIds(ChildImmunizationActivity.this, baseEntityIds);

@@ -83,6 +83,7 @@ dependencies {
     compile 'com.android.support:support-v4:22.1.1'
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile 'com.android.support:cardview-v7:22.2.1'
+    compile 'com.android.support:leanback-v17:22.2.1'
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }

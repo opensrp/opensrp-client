@@ -198,7 +198,7 @@
                     android:orientation="vertical"
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
-                    android:paddingRight="20dp"
+                    android:paddingRight="10dp"
                     android:paddingTop="10dp">
 
                     <org.ei.opensrp.view.customControls.CustomFontTextView
