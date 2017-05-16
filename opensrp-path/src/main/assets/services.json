@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Recurring Services",
+    "id": "Recurring_Services",
+    "services": [
+      {
+        "type": "Vit A"
+      },
+      {
+        "type": "Deworming"
+      },
+      {
+        "type": "ITN"
+      }
+    ]
+  }
+]

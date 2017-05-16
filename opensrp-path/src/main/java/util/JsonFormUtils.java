@@ -126,7 +126,8 @@ public class JsonFormUtils {
 
     public static void saveAdverseEvent(String jsonString, String locationId, String baseEntityId,
                                         String providerId) {
-        new SaveAdverseEventTask(jsonString, locationId, baseEntityId, providerId).execute();
+        Utils.startAsyncTask(
+                new SaveAdverseEventTask(jsonString, locationId, baseEntityId, providerId), null);
     }
 
     private static void saveBirthRegistration(Context context, org.ei.opensrp.Context openSrpContext,
@@ -409,7 +410,7 @@ public class JsonFormUtils {
         SaveOutOfAreaServiceTask saveOutOfAreaServiceTask = new SaveOutOfAreaServiceTask(context,
                 openSrpContext, jsonString);
 
-        saveOutOfAreaServiceTask.execute();
+        Utils.startAsyncTask(saveOutOfAreaServiceTask, null);
     }
 
     /**

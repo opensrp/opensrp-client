@@ -180,6 +180,22 @@ public class CommonRepository extends DrishtiRepository {
         return commons.get(0);
     }
 
+    public CommonPersonObject findByBaseEntityId(String baseEntityId) {
+        try {
+            SQLiteDatabase database = masterRepository.getReadableDatabase();
+            Cursor cursor = database.query(TABLE_NAME, common_TABLE_COLUMNS, BASE_ENTITY_ID_COLUMN + " = ?", new String[]{baseEntityId},
+                    null, null, null, null);
+            List<CommonPersonObject> commons = readAllcommon(cursor);
+            if (commons.isEmpty()) {
+                return null;
+            }
+            return commons.get(0);
+        }catch (Exception e){
+            Log.e(TAG, e.toString(), e);
+        }
+        return null;
+    }
+
     public CommonPersonObject findHHByGOBHHID(String caseId) {
         SQLiteDatabase database = masterRepository.getReadableDatabase();
         Cursor cursor = database.query(TABLE_NAME, common_TABLE_COLUMNS, "FWGOBHHID" + " = ?", new String[]{caseId},

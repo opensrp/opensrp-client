@@ -31,6 +31,7 @@ import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.domain.Photo;
 import org.ei.opensrp.path.domain.RegisterClickables;
+import org.ei.opensrp.path.domain.ServiceWrapper;
 import org.ei.opensrp.path.domain.VaccineWrapper;
 import org.ei.opensrp.path.domain.WeightWrapper;
 import org.ei.opensrp.path.fragment.RecordWeightDialogFragment;
@@ -41,6 +42,7 @@ import org.ei.opensrp.path.listener.WeightActionListener;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.repository.WeightRepository;
 import org.ei.opensrp.path.toolbar.LocationSwitcherToolbar;
+import org.ei.opensrp.path.view.ServiceGroup;
 import org.ei.opensrp.path.view.SiblingPicturesGroup;
 import org.ei.opensrp.path.view.VaccineGroup;
 import org.ei.opensrp.repository.DetailsRepository;
@@ -87,6 +89,7 @@ public class ChildImmunizationActivity extends BaseActivity
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
     private static final String DIALOG_TAG = "ChildImmunoActivity_DIALOG_TAG";
     private ArrayList<VaccineGroup> vaccineGroups;
+    private ArrayList<ServiceGroup> serviceGroups;
 
     // Views
     private LocationSwitcherToolbar toolbar;
@@ -159,6 +162,12 @@ public class ChildImmunizationActivity extends BaseActivity
             vaccineGroupCanvasLL.removeAllViews();
             vaccineGroups = null;
         }
+
+        if (serviceGroups != null) {
+            LinearLayout serviceGroupCanvasLL = (LinearLayout) findViewById(R.id.service_group_canvas_ll);
+            serviceGroupCanvasLL.removeAllViews();
+            serviceGroups = null;
+        }
         updateViews();
     }
 
@@ -223,7 +232,7 @@ public class ChildImmunizationActivity extends BaseActivity
         TextView childIdTV = (TextView) findViewById(R.id.child_id_tv);
         childIdTV.setText(String.format("%s: %s", getString(R.string.label_zeir), childId));
 
-        new GetSiblingsTask().execute();
+        Utils.startAsyncTask(new GetSiblingsTask(), null);
     }
 
     private void updateAgeViews() {
@@ -285,13 +294,59 @@ public class ChildImmunizationActivity extends BaseActivity
         return selectedColor;
     }
 
+    private void updateServiceViews(List<Vaccine> vaccineList, List<Alert> alerts) {
+
+        if (serviceGroups == null) {
+            serviceGroups = new ArrayList<>();
+            LinearLayout serviceGroupCanvasLL = (LinearLayout) findViewById(R.id.service_group_canvas_ll);
+            String supportedServicesString = VaccinatorUtils.getSupportedServices(this);
+
+            if (StringUtils.isBlank(supportedServicesString)) {
+                return;
+            }
+
+            try {
+
+                JSONArray supportedServices = new JSONArray(supportedServicesString);
+
+                for (int i = 0; i < supportedServices.length(); i++) {
+                    ServiceGroup curGroup = new ServiceGroup(this);
+                    curGroup.setData(supportedServices.getJSONObject(i), childDetails, vaccineList, alerts);
+                    curGroup.setOnServiceClickedListener(new ServiceGroup.OnServiceClickedListener() {
+                        @Override
+                        public void onClick(ServiceGroup serviceGroup, ServiceWrapper
+                                serviceWrapper) {
+                            ArrayList<ServiceWrapper> serviceWrappers = new ArrayList<ServiceWrapper>();
+                            serviceWrappers.add(serviceWrapper);
+                            //addVaccinationDialogFragment(vaccineWrappers, vaccineGroup);
+                        }
+                    });
+                    curGroup.setOnServiceUndoClickListener(new ServiceGroup.OnServiceUndoClickListener() {
+                        @Override
+                        public void onUndoClick(ServiceGroup serviceGroup, ServiceWrapper serviceWrapper) {
+                            //addVaccineUndoDialogFragment(serviceGroup, serviceWrapper);
+                        }
+                    });
+                    serviceGroupCanvasLL.addView(curGroup);
+                    serviceGroups.add(curGroup);
+                }
+            } catch (JSONException e) {
+                Log.e(TAG, Log.getStackTraceString(e));
+            }
+        }
+
+    }
+
     private void updateVaccinationViews(List<Vaccine> vaccineList, List<Alert> alerts) {
+
         if (vaccineGroups == null) {
             vaccineGroups = new ArrayList<>();
             LinearLayout vaccineGroupCanvasLL = (LinearLayout) findViewById(R.id.vaccine_group_canvas_ll);
             String supportedVaccinesString = VaccinatorUtils.getSupportedVaccines(this);
+
             try {
                 JSONArray supportedVaccines = new JSONArray(supportedVaccinesString);
+
                 for (int i = 0; i < supportedVaccines.length(); i++) {
                     VaccineGroup curGroup = new VaccineGroup(this);
                     curGroup.setData(supportedVaccines.getJSONObject(i), childDetails, vaccineList, alerts);
@@ -879,6 +934,7 @@ public class ChildImmunizationActivity extends BaseActivity
         protected void onPostExecute(Triple<Weight, List<Vaccine>, List<Alert>> triple) {
             hideProgressDialog();
             updateRecordWeightView(triple.getLeft());
+            updateServiceViews(triple.getMiddle(), triple.getRight());
             updateVaccinationViews(triple.getMiddle(), triple.getRight());
             performRegisterActions(registerClickables);
         }
@@ -918,8 +974,8 @@ public class ChildImmunizationActivity extends BaseActivity
 
                 if (children != null) {
                     ArrayList<String> baseEntityIds = new ArrayList<>();
-                    for(CommonPersonObject curChild : children) {
-                        if(!baseEntityId.equals(Utils.getValue(curChild.getColumnmaps(),
+                    for (CommonPersonObject curChild : children) {
+                        if (!baseEntityId.equals(Utils.getValue(curChild.getColumnmaps(),
                                 "base_entity_id", false))) {
                             baseEntityIds.add(Utils.getValue(curChild.getColumnmaps(),
                                     "base_entity_id", false));

@@ -12,6 +12,7 @@ import org.ei.opensrp.domain.DownloadStatus;
 import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.service.intent.PathReplicationIntentService;
 import org.ei.opensrp.path.service.intent.PullUniqueIdsIntentService;
@@ -72,6 +73,8 @@ public class PathUpdateActionsTask {
 
     public void updateFromServer(final PathAfterFetchListener pathAfterFetchListener) {
         this.pathAfterFetchListener = pathAfterFetchListener;
+
+        sendSyncStatusBroadcastMessage(context, FetchStatus.fetchStarted);
         if (org.ei.opensrp.Context.getInstance().IsUserLoggedOut()) {
             logInfo("Not updating from server as user is not logged in.");
             return;
@@ -118,10 +121,8 @@ public class PathUpdateActionsTask {
             }
 
             public void postExecuteInUIThread(FetchStatus result) {
-                if (result != null && context != null && result != nothingFetched) {
-                    Toast.makeText(context, result.displayValue(), Toast.LENGTH_SHORT).show();
-                }
                 pathAfterFetchListener.afterFetch(result);
+                sendSyncStatusBroadcastMessage(context, result);
             }
         });
     }
@@ -237,5 +238,12 @@ public class PathUpdateActionsTask {
     private void startVaccineIntentService(Context context) {
         Intent intent = new Intent(context, VaccineIntentService.class);
         context.startService(intent);
+    }
+
+    private void sendSyncStatusBroadcastMessage(Context context, FetchStatus fetchStatus) {
+        Intent intent = new Intent();
+        intent.setAction(SyncStatusBroadcastReceiver.ACTION_SYNC_STATUS);
+        intent.putExtra(SyncStatusBroadcastReceiver.EXTRA_FETCH_STATUS, fetchStatus);
+        context.sendBroadcast(intent);
     }
 }

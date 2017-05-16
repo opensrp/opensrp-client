@@ -18,19 +18,6 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
-/*dependencies {
-    compile project(':opensrp-app')
-    compile 'com.android.support:design:22.2.1'
-    compile 'com.android.support:support-v4:22.1.1'
-    compile 'com.android.support:cardview-v7:22.2.1'
-    compile 'com.android.support:appcompat-v7:22.1.1'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
-        transitive = true;
-    }
-    compile 'id.zelory:compressor:1.0.4'
-}*/
-
 android {
     compileSdkVersion 22
     buildToolsVersion "23.0.2"
@@ -101,5 +88,5 @@ dependencies {
     }
     compile 'id.zelory:compressor:1.0.4'
     compile 'com.twotoasters.SectionCursorAdapter:library:1.0.+'
-    //compile 'com.github.vijayrawatsan:android-json-form-wizard:1.1.1-SNAPSHOT'
+    compile 'com.github.ybq:Android-SpinKit:1.1.0'
 }
