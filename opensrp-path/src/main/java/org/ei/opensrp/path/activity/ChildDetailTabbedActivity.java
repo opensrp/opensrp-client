@@ -257,9 +257,10 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
 //               all_synced = false;
 //           }
 //        }
+        ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(ChildDetailTabbedActivity.this);
+
         boolean show_vaccine_list = false;
         for (int i = 0;i<vaccineList.size();i++){
-            ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(ChildDetailTabbedActivity.this);
             Vaccine vaccine = vaccineList.get(i);
             PathRepository db = (PathRepository) VaccinatorApplication.getInstance().getRepository();
             org.ei.opensrp.path.db.Event event = null;
@@ -288,7 +289,27 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
 
         WeightRepository wp =  VaccinatorApplication.getInstance().weightRepository();
         List <Weight> weightlist =  wp.findLast5(childDetails.entityId());
-        if(weightlist.size() ==0){
+        boolean show_weight_edit = false;
+        for(int i = 0;i<weightlist.size();i++){
+            Weight weight = weightlist.get(i);
+            org.ei.opensrp.path.db.Event event = null;
+            PathRepository db = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+            if(weight.getEventId()!=null){
+                event = ecUpdater.convert(db.getEventsByEventId(weight.getEventId()), org.ei.opensrp.path.db.Event.class);
+            }else if (weight.getFormSubmissionId() != null){
+                event = ecUpdater.convert(db.getEventsByFormSubmissionId(weight.getFormSubmissionId()), org.ei.opensrp.path.db.Event.class);
+            }
+            if(event!=null) {
+                Date weight_create_date = event.getDateCreated().toDate();
+                if (!check_if_date_three_months_older(weight_create_date)) {
+                    show_weight_edit = true;
+                }
+            }else{
+                show_weight_edit = true;
+            }
+        }
+
+        if(!show_weight_edit ){
             overflow.getItem(2).setEnabled(false);
         }
         return true;
