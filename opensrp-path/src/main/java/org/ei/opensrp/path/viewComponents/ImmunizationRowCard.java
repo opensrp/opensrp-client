@@ -163,19 +163,23 @@ public class ImmunizationRowCard extends LinearLayout {
 
     private void updateStateUi() {
         ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(context);
-        VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
-        Vaccine vaccine = vaccineRepository.find(vaccineWrapper.getDbKey());
-        PathRepository db = (PathRepository) VaccinatorApplication.getInstance().getRepository();
-        Event event = null;
-        if(vaccine.getEventId()!=null) {
-            event = ecUpdater.convert(db.getEventsByEventId(vaccine.getEventId()), org.ei.opensrp.path.db.Event.class);
-        }else if (vaccine.getFormSubmissionId() != null){
-            event = ecUpdater.convert(db.getEventsByFormSubmissionId(vaccine.getFormSubmissionId()), org.ei.opensrp.path.db.Event.class);
-        }
         boolean status_for_more_than_three_months = false;
-        if(event != null) {
-            Date vaccine_create_date = event.getDateCreated().toDate();
-            status_for_more_than_three_months = ChildDetailTabbedActivity.check_if_date_three_months_older(vaccine_create_date);
+        VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
+        if(vaccineWrapper.getDbKey() != null) {
+            Vaccine vaccine = vaccineRepository.find(vaccineWrapper.getDbKey());
+            PathRepository db = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+
+            Event event = null;
+            if (vaccine.getEventId() != null) {
+                event = ecUpdater.convert(db.getEventsByEventId(vaccine.getEventId()), org.ei.opensrp.path.db.Event.class);
+            } else if (vaccine.getFormSubmissionId() != null) {
+                event = ecUpdater.convert(db.getEventsByFormSubmissionId(vaccine.getFormSubmissionId()), org.ei.opensrp.path.db.Event.class);
+            }
+
+            if (event != null) {
+                Date vaccine_create_date = event.getDateCreated().toDate();
+                status_for_more_than_three_months = ChildDetailTabbedActivity.check_if_date_three_months_older(vaccine_create_date);
+            }
         }
 //        boolean status_for_more_than_three_months = false;
         switch (state) {
