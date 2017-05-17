@@ -24,6 +24,8 @@ import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.domain.Alert;
+import org.ei.opensrp.domain.ServiceRecord;
+import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.domain.Weight;
 import org.ei.opensrp.path.R;
@@ -39,6 +41,8 @@ import org.ei.opensrp.path.fragment.UndoVaccinationDialogFragment;
 import org.ei.opensrp.path.fragment.VaccinationDialogFragment;
 import org.ei.opensrp.path.listener.VaccinationActionListener;
 import org.ei.opensrp.path.listener.WeightActionListener;
+import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
+import org.ei.opensrp.path.repository.RecurringServiceTypeRepository;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.repository.WeightRepository;
 import org.ei.opensrp.path.toolbar.LocationSwitcherToolbar;
@@ -61,6 +65,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -196,11 +201,17 @@ public class ChildImmunizationActivity extends BaseActivity
 
         VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
 
+        RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
+
+        RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
+
         AlertService alertService = getOpenSRPContext().alertService();
 
         UpdateViewTask updateViewTask = new UpdateViewTask();
         updateViewTask.setWeightRepository(weightRepository);
         updateViewTask.setVaccineRepository(vaccineRepository);
+        updateViewTask.setRecurringServiceTypeRepository(recurringServiceTypeRepository);
+        updateViewTask.setRecurringServiceRecordRepository(recurringServiceRecordRepository);
         updateViewTask.setAlertService(alertService);
         updateViewTask.setRegisterClickables(registerClickables);
         Utils.startAsyncTask(updateViewTask, null);
@@ -294,45 +305,31 @@ public class ChildImmunizationActivity extends BaseActivity
         return selectedColor;
     }
 
-    private void updateServiceViews(List<Vaccine> vaccineList, List<Alert> alerts) {
+    private void updateServiceViews(List<ServiceType> serviceTypes, List<ServiceRecord> serviceRecordList, List<Alert> alerts) {
 
         if (serviceGroups == null) {
             serviceGroups = new ArrayList<>();
             LinearLayout serviceGroupCanvasLL = (LinearLayout) findViewById(R.id.service_group_canvas_ll);
-            String supportedServicesString = VaccinatorUtils.getSupportedServices(this);
 
-            if (StringUtils.isBlank(supportedServicesString)) {
-                return;
-            }
-
-            try {
-
-                JSONArray supportedServices = new JSONArray(supportedServicesString);
-
-                for (int i = 0; i < supportedServices.length(); i++) {
-                    ServiceGroup curGroup = new ServiceGroup(this);
-                    curGroup.setData(supportedServices.getJSONObject(i), childDetails, vaccineList, alerts);
-                    curGroup.setOnServiceClickedListener(new ServiceGroup.OnServiceClickedListener() {
-                        @Override
-                        public void onClick(ServiceGroup serviceGroup, ServiceWrapper
-                                serviceWrapper) {
-                            ArrayList<ServiceWrapper> serviceWrappers = new ArrayList<ServiceWrapper>();
-                            serviceWrappers.add(serviceWrapper);
-                            //addVaccinationDialogFragment(vaccineWrappers, vaccineGroup);
-                        }
-                    });
-                    curGroup.setOnServiceUndoClickListener(new ServiceGroup.OnServiceUndoClickListener() {
-                        @Override
-                        public void onUndoClick(ServiceGroup serviceGroup, ServiceWrapper serviceWrapper) {
-                            //addVaccineUndoDialogFragment(serviceGroup, serviceWrapper);
-                        }
-                    });
-                    serviceGroupCanvasLL.addView(curGroup);
-                    serviceGroups.add(curGroup);
+            ServiceGroup curGroup = new ServiceGroup(this);
+            curGroup.setData(childDetails, serviceTypes, serviceRecordList, alerts);
+            curGroup.setOnServiceClickedListener(new ServiceGroup.OnServiceClickedListener() {
+                @Override
+                public void onClick(ServiceGroup serviceGroup, ServiceWrapper
+                        serviceWrapper) {
+                    ArrayList<ServiceWrapper> serviceWrappers = new ArrayList<ServiceWrapper>();
+                    serviceWrappers.add(serviceWrapper);
+                    //addVaccinationDialogFragment(vaccineWrappers, vaccineGroup);
                 }
-            } catch (JSONException e) {
-                Log.e(TAG, Log.getStackTraceString(e));
-            }
+            });
+            curGroup.setOnServiceUndoClickListener(new ServiceGroup.OnServiceUndoClickListener() {
+                @Override
+                public void onUndoClick(ServiceGroup serviceGroup, ServiceWrapper serviceWrapper) {
+                    //addVaccineUndoDialogFragment(serviceGroup, serviceWrapper);
+                }
+            });
+            serviceGroupCanvasLL.addView(curGroup);
+            serviceGroups.add(curGroup);
         }
 
     }
@@ -902,10 +899,12 @@ public class ChildImmunizationActivity extends BaseActivity
         return null;
     }
 
-    private class UpdateViewTask extends AsyncTask<Void, Void, Triple<Weight, List<Vaccine>, List<Alert>>> {
+    private class UpdateViewTask extends AsyncTask<Void, Void, Map<String, NamedObject<?>>> {
 
         private VaccineRepository vaccineRepository;
         private WeightRepository weightRepository;
+        private RecurringServiceTypeRepository recurringServiceTypeRepository;
+        private RecurringServiceRecordRepository recurringServiceRecordRepository;
         private AlertService alertService;
         private RegisterClickables registerClickables;
 
@@ -915,6 +914,14 @@ public class ChildImmunizationActivity extends BaseActivity
 
         public void setWeightRepository(WeightRepository weightRepository) {
             this.weightRepository = weightRepository;
+        }
+
+        public void setRecurringServiceTypeRepository(RecurringServiceTypeRepository recurringServiceTypeRepository) {
+            this.recurringServiceTypeRepository = recurringServiceTypeRepository;
+        }
+
+        public void setRecurringServiceRecordRepository(RecurringServiceRecordRepository recurringServiceRecordRepository) {
+            this.recurringServiceRecordRepository = recurringServiceRecordRepository;
         }
 
         public void setAlertService(AlertService alertService) {
@@ -930,19 +937,73 @@ public class ChildImmunizationActivity extends BaseActivity
             showProgressDialog(getString(R.string.updating_dialog_title), null);
         }
 
+        @SuppressWarnings("unchecked")
         @Override
-        protected void onPostExecute(Triple<Weight, List<Vaccine>, List<Alert>> triple) {
+        protected void onPostExecute(Map<String, NamedObject<?>> map) {
             hideProgressDialog();
-            updateRecordWeightView(triple.getLeft());
-            updateServiceViews(triple.getMiddle(), triple.getRight());
-            updateVaccinationViews(triple.getMiddle(), triple.getRight());
+
+            List<Vaccine> vaccineList = new ArrayList<>();
+            Weight weight = null;
+
+            List<ServiceType> serviceTypes = new ArrayList<>();
+            List<ServiceRecord> serviceRecords = new ArrayList<>();
+
+            List<Alert> alertList = new ArrayList<>();
+
+            if (map.containsKey(Weight.class.getName())) {
+                NamedObject<?> namedObject = map.get(Weight.class.getName());
+                if (namedObject != null) {
+                    weight = (Weight) namedObject.object;
+                }
+
+            }
+
+            if (map.containsKey(Vaccine.class.getName())) {
+                NamedObject<?> namedObject = map.get(Vaccine.class.getName());
+                if (namedObject != null) {
+                    vaccineList = (List<Vaccine>) namedObject.object;
+                }
+
+            }
+
+            if (map.containsKey(ServiceType.class.getName())) {
+                NamedObject<?> namedObject = map.get(ServiceType.class.getName());
+                if (namedObject != null) {
+                    serviceTypes = (List<ServiceType>) namedObject.object;
+                }
+
+            }
+
+            if (map.containsKey(ServiceRecord.class.getName())) {
+                NamedObject<?> namedObject = map.get(ServiceRecord.class.getName());
+                if (namedObject != null) {
+                    serviceRecords = (List<ServiceRecord>) namedObject.object;
+                }
+
+            }
+
+            if (map.containsKey(Alert.class.getName())) {
+                NamedObject<?> namedObject = map.get(Alert.class.getName());
+                if (namedObject != null) {
+                    alertList = (List<Alert>) namedObject.object;
+                }
+
+            }
+
+            updateRecordWeightView(weight);
+            updateServiceViews(serviceTypes, serviceRecords, alertList);
+            updateVaccinationViews(vaccineList, alertList);
             performRegisterActions(registerClickables);
         }
 
         @Override
-        protected Triple<Weight, List<Vaccine>, List<Alert>> doInBackground(Void... voids) {
+        protected Map<String, NamedObject<?>> doInBackground(Void... voids) {
             List<Vaccine> vaccineList = new ArrayList<>();
             Weight weight = null;
+
+            List<ServiceType> serviceTypes = new ArrayList<>();
+            List<ServiceRecord> serviceRecords = new ArrayList<>();
+
             List<Alert> alertList = new ArrayList<>();
             if (vaccineRepository != null) {
                 vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
@@ -952,13 +1013,45 @@ public class ChildImmunizationActivity extends BaseActivity
                 weight = weightRepository.findUnSyncedByEntityId(childDetails.entityId());
             }
 
+            if (recurringServiceRecordRepository != null) {
+                serviceRecords = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());
+                if (!serviceRecords.isEmpty() && recurringServiceTypeRepository != null) {
+                    for (ServiceRecord serviceRecord : serviceRecords) {
+                        ServiceType serviceType = recurringServiceTypeRepository.find(serviceRecord.getRecurringServiceId());
+                        if (serviceType != null) {
+                            serviceRecord.setServiceType(serviceType);
+                        }
+                    }
+                }
+            }
+
+            if (recurringServiceTypeRepository != null) {
+                serviceTypes = recurringServiceTypeRepository.fetchAll();
+            }
+
             if (alertService != null) {
                 alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
                         VaccinateActionUtils.allAlertNames("child"));
             }
 
-            Triple<Weight, List<Vaccine>, List<Alert>> triple = Triple.of(weight, vaccineList, alertList);
-            return triple;
+            Map<String, NamedObject<?>> map = new HashMap<>();
+
+            NamedObject<List<Vaccine>> vaccineNamedObject = new NamedObject<>(Vaccine.class.getName(), vaccineList);
+            map.put(vaccineNamedObject.name, vaccineNamedObject);
+
+            NamedObject<Weight> weightNamedObject = new NamedObject<>(Weight.class.getName(), weight);
+            map.put(weightNamedObject.name, weightNamedObject);
+
+            NamedObject<List<ServiceType>> serviceTypeNamedObject = new NamedObject<>(ServiceType.class.getName(), serviceTypes);
+            map.put(serviceTypeNamedObject.name, serviceTypeNamedObject);
+
+            NamedObject<List<ServiceRecord>> serviceRecordNamedObject = new NamedObject<>(ServiceRecord.class.getName(), serviceRecords);
+            map.put(serviceRecordNamedObject.name, serviceRecordNamedObject);
+
+            NamedObject<List<Alert>> alertsNamedObject = new NamedObject<>(Alert.class.getName(), alertList);
+            map.put(alertsNamedObject.name, alertsNamedObject);
+
+            return map;
         }
     }
 
@@ -997,6 +1090,16 @@ public class ChildImmunizationActivity extends BaseActivity
 
             SiblingPicturesGroup siblingPicturesGroup = (SiblingPicturesGroup) ChildImmunizationActivity.this.findViewById(R.id.sibling_pictures);
             siblingPicturesGroup.setSiblingBaseEntityIds(ChildImmunizationActivity.this, baseEntityIds);
+        }
+    }
+
+    public class NamedObject<T> {
+        public final String name;
+        public final T object;
+
+        public NamedObject(String name, T object) {
+            this.name = name;
+            this.object = object;
         }
     }
 }

@@ -199,4 +199,6 @@
     <string name="mother_lookup_results">Matching records</string>
     <string name="dismiss">Cancel</string>
     <string name="change_status">Change status</string>
+
+    <string name="recurring_services">Recurring Services</string>
 </resources>

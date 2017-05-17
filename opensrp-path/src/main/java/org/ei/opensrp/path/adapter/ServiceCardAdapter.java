@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import org.apache.commons.lang3.StringUtils;
+import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.path.domain.Photo;
 import org.ei.opensrp.path.domain.ServiceWrapper;
 import org.ei.opensrp.path.view.ServiceCard;
@@ -43,12 +44,10 @@ public class ServiceCardAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        try {
-            return serviceGroup.getServiceData().getJSONArray("services").length();
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (serviceGroup.getServiceTypes() == null) {
+            return 0;
         }
-        return 0;
+        return serviceGroup.getServiceTypes().size();
     }
 
     @Override
@@ -64,9 +63,8 @@ public class ServiceCardAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         try {
-            JSONObject vaccineData = serviceGroup.getServiceData().getJSONArray("services")
-                    .getJSONObject(position);
-            String serviceType = vaccineData.getString("type");
+            ServiceType serviceTypeObject = serviceGroup.getServiceTypes().get(position);
+            String serviceType = serviceTypeObject.getName();
             if (!serviceCards.containsKey(serviceType)) {
                 ServiceCard serviceCard = new ServiceCard(context);
                 serviceCard.setOnServiceStateChangeListener(serviceGroup);
@@ -106,7 +104,7 @@ public class ServiceCardAdapter extends BaseAdapter {
             }
 
             return serviceCards.get(serviceType);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
         }
 

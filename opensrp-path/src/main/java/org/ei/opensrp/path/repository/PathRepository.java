@@ -40,6 +40,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import util.DatabaseUtils;
 import util.JsonFormUtils;
 import util.MoveToMyCatchmentUtils;
 import util.PathConstants;
@@ -50,9 +51,11 @@ public class PathRepository extends Repository {
     protected SQLiteDatabase readableDatabase;
     protected SQLiteDatabase writableDatabase;
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private Context context;
 
     public PathRepository(Context context) {
         super(context, PathConstants.DATABASE_NAME, PathConstants.DATABASE_VERSION, org.ei.opensrp.Context.getInstance().session(), VaccinatorApplication.createCommonFtsObject(), org.ei.opensrp.Context.getInstance().sharedRepositoriesArray());
+        this.context = context;
     }
 
     @Override
@@ -83,6 +86,9 @@ public class PathRepository extends Repository {
                     break;
                 case 3:
                     upgradeToVersion3(db);
+                    break;
+                case 4:
+                    upgradeToVersion4(db);
                     break;
                 default:
 
@@ -1342,6 +1348,19 @@ public class PathRepository extends Repository {
             db.execSQL(WeightRepository.FORMSUBMISSION_INDEX);
         } catch (Exception e) {
             Log.e(TAG, "upgradeToVersion3 " + e.getMessage());
+        }
+    }
+
+    private void upgradeToVersion4(SQLiteDatabase db) {
+        try {
+            RecurringServiceTypeRepository.createTable(db);
+            RecurringServiceRecordRepository.createTable(db);
+
+            RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
+            DatabaseUtils.populateRecurringServices(context, db, recurringServiceTypeRepository);
+        } catch (Exception e) {
+            Log.e(TAG, "upgradeToVersion4 " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

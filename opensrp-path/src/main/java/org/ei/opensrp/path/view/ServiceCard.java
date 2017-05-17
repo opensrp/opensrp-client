@@ -14,7 +14,6 @@ import android.widget.TextView;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.domain.ServiceWrapper;
-import org.ei.opensrp.path.domain.VaccineWrapper;
 import org.joda.time.DateTime;
 
 import java.text.SimpleDateFormat;

@@ -17,6 +17,8 @@ import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.receiver.PathSyncBroadcastReceiver;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.repository.PathRepository;
+import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
+import org.ei.opensrp.path.repository.RecurringServiceTypeRepository;
 import org.ei.opensrp.path.repository.UniqueIdRepository;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.repository.WeightRepository;
@@ -45,6 +47,8 @@ public class VaccinatorApplication extends DrishtiApplication {
     private WeightRepository weightRepository;
     private UniqueIdRepository uniqueIdRepository;
     private VaccineRepository vaccineRepository;
+    private RecurringServiceRecordRepository recurringServiceRecordRepository;
+    private RecurringServiceTypeRepository recurringServiceTypeRepository;
     private boolean lastModified;
 
     @Override
@@ -123,7 +127,7 @@ public class VaccinatorApplication extends DrishtiApplication {
         return null;
     }
 
-    private static String[] getFtsSortFields(String tableName){
+    private static String[] getFtsSortFields(String tableName) {
 
 
         if (tableName.equals("ec_child")) {
@@ -137,7 +141,7 @@ public class VaccinatorApplication extends DrishtiApplication {
             names.add("lost_to_follow_up");
 
             for (VaccineRepo.Vaccine vaccine : vaccines) {
-                names.add( "alerts." + VaccinateActionUtils.addHyphen(vaccine.display()));
+                names.add("alerts." + VaccinateActionUtils.addHyphen(vaccine.display()));
             }
 
             return names.toArray(new String[names.size()]);
@@ -203,6 +207,8 @@ public class VaccinatorApplication extends DrishtiApplication {
             weightRepository();
             vaccineRepository();
             uniqueIdRepository();
+            recurringServiceTypeRepository();
+            recurringServiceRecordRepository();
         }
         return repository;
     }
@@ -227,6 +233,20 @@ public class VaccinatorApplication extends DrishtiApplication {
             uniqueIdRepository = new UniqueIdRepository((PathRepository) getRepository());
         }
         return uniqueIdRepository;
+    }
+
+    public RecurringServiceTypeRepository recurringServiceTypeRepository() {
+        if (recurringServiceTypeRepository == null) {
+            recurringServiceTypeRepository = new RecurringServiceTypeRepository((PathRepository) getRepository());
+        }
+        return recurringServiceTypeRepository;
+    }
+
+    public RecurringServiceRecordRepository recurringServiceRecordRepository() {
+        if (recurringServiceRecordRepository == null) {
+            recurringServiceRecordRepository = new RecurringServiceRecordRepository((PathRepository) getRepository(), createCommonFtsObject(), context.alertService());
+        }
+        return recurringServiceRecordRepository;
     }
 
     public boolean isLastModified() {

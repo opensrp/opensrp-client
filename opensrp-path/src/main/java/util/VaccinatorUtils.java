@@ -468,8 +468,8 @@ public class VaccinatorUtils {
      * @param context Current valid context to be used
      * @return JSON String with the supported vaccines or NULL if unable to obtain the list
      */
-    public static String getSupportedServices(Context context) {
-        String supportedServicesString = Utils.readAssetContents(context, "services.json");
+    public static String getSupportedRecurringServices(Context context) {
+        String supportedServicesString = Utils.readAssetContents(context, "recurring_service_types.json");
         return supportedServicesString;
     }
 
@@ -494,6 +494,19 @@ public class VaccinatorUtils {
             for (org.ei.opensrp.domain.Vaccine vaccine : vaccines) {
                 if (vaccine.getDate() != null) {
                     map.put(vaccine.getName(), vaccine.getDate());
+                }
+            }
+        }
+        return map;
+
+    }
+
+    public static Map<String, Date> receivedServices(List<org.ei.opensrp.domain.ServiceRecord> serviceRecordList) {
+        Map<String, Date> map = new LinkedHashMap<>();
+        if (serviceRecordList != null) {
+            for (org.ei.opensrp.domain.ServiceRecord serviceRecord : serviceRecordList) {
+                if (serviceRecord.getDate() != null) {
+                    map.put(serviceRecord.getName(), serviceRecord.getDate());
                 }
             }
         }

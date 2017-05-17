@@ -13,13 +13,15 @@ import android.widget.TextView;
 
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.domain.Alert;
-import org.ei.opensrp.domain.Vaccine;
+import org.ei.opensrp.domain.ServiceRecord;
+import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.adapter.ServiceCardAdapter;
 import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.domain.ServiceWrapper;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.joda.time.DateTime;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 import util.Utils;
 
 import static util.VaccinatorUtils.generateScheduleList;
-import static util.VaccinatorUtils.receivedVaccines;
+import static util.VaccinatorUtils.receivedServices;
 
 /**
  * Created by keyman on 15/05/2017.
@@ -49,9 +51,9 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
     private TextView recordAllTV;
     private ExpandableHeightGridView servicesGV;
     private ServiceCardAdapter serviceCardAdapter;
-    private JSONObject serviceData;
+    private List<ServiceType> serviceTypes;
     private CommonPersonObjectClient childDetails;
-    private List<Vaccine> vaccineList;
+    private List<ServiceRecord> serviceRecordList;
     private List<Alert> alertList;
     private State state;
     private OnServiceClickedListener onServiceClickedListener;
@@ -84,20 +86,20 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
         return this.childDetails;
     }
 
-    public JSONObject getServiceData() {
-        return serviceData;
+    public List<ServiceType> getServiceTypes() {
+        return serviceTypes;
     }
 
-    public List<Vaccine> getVaccineList() {
-        return this.vaccineList;
+    public List<ServiceRecord> getServiceRecordList() {
+        return this.serviceRecordList;
     }
 
     public List<Alert> getAlertList() {
         return alertList;
     }
 
-    public void setVaccineList(List<Vaccine> vaccineList) {
-        this.vaccineList = vaccineList;
+    public void setServiceRecordList(List<ServiceRecord> serviceRecordList) {
+        this.serviceRecordList = serviceRecordList;
     }
 
     public void setAlertList(List<Alert> alertList) {
@@ -124,10 +126,10 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
         recordAllTV.setOnClickListener(this);
     }
 
-    public void setData(JSONObject serviceData, CommonPersonObjectClient childDetails, List<Vaccine> vaccines, List<Alert> alerts) {
-        this.serviceData = serviceData;
+    public void setData(CommonPersonObjectClient childDetails, List<ServiceType> serviceTypes, List<ServiceRecord> serviceRecordList, List<Alert> alerts) {
         this.childDetails = childDetails;
-        this.vaccineList = vaccines;
+        this.serviceTypes = serviceTypes;
+        this.serviceRecordList = serviceRecordList;
         this.alertList = alerts;
         updateViews();
     }
@@ -152,7 +154,7 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
      */
     public void updateViews(ArrayList<ServiceWrapper> servicesToUpdate) {
         this.state = State.IN_PAST;
-        if (this.serviceData != null) {
+        if (this.serviceTypes != null) {
             String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
             DateTime dateTime = new DateTime(dobString);
             Date dob = dateTime.toDate();
@@ -177,31 +179,30 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
     }
 
     private void updateStatusViews() {
-        try {
-            switch (this.state) {
-                case IN_PAST:
-                    nameTV.setText(serviceData.getString("name"));
-                    break;
-                case CURRENT:
-                    nameTV.setText(String.format(context.getString(R.string.due_),
-                            serviceData.getString("name"), context.getString(R.string.today)));
-                    break;
-                case IN_FUTURE:
-                    String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
-                    Calendar dobCalender = Calendar.getInstance();
-                    DateTime dateTime = new DateTime(dobString);
-                    dobCalender.setTime(dateTime.toDate());
 
-                    //dobCalender.add(Calendar.DATE, serviceData.getInt("days_after_birth_due"));
+        String recurringServices = getResources().getString(R.string.recurring_services);
+        switch (this.state) {
+            case IN_PAST:
+                nameTV.setText(recurringServices);
+                break;
+            case CURRENT:
+                nameTV.setText(String.format(context.getString(R.string.due_),
+                        recurringServices, context.getString(R.string.today)));
+                break;
+            case IN_FUTURE:
+                String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+                Calendar dobCalender = Calendar.getInstance();
+                DateTime dateTime = new DateTime(dobString);
+                dobCalender.setTime(dateTime.toDate());
 
-                    nameTV.setText(String.format(context.getString(R.string.due_),
-                            serviceData.getString("name"),
-                            READABLE_DATE_FORMAT.format(dobCalender.getTime())));
-                    break;
-            }
-        } catch (JSONException e) {
-            Log.e(TAG, Log.getStackTraceString(e));
+                //dobCalender.add(Calendar.DATE, serviceData.getInt("days_after_birth_due"));
+
+                nameTV.setText(String.format(context.getString(R.string.due_),
+                        recurringServices,
+                        READABLE_DATE_FORMAT.format(dobCalender.getTime())));
+                break;
         }
+
     }
 
     private void updateServiceCards(ArrayList<ServiceWrapper> servicesToUpdate) {
@@ -270,14 +271,14 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
     }
 
     public void updateWrapperStatus(ServiceWrapper tag) {
-        List<Vaccine> vaccineList = getVaccineList();
+        List<ServiceRecord> serviceRecordList = getServiceRecordList();
 
         List<Alert> alertList = getAlertList();
 
-        Map<String, Date> recievedVaccines = receivedVaccines(vaccineList);
+        Map<String, Date> receivedServices = receivedServices(serviceRecordList);
 
         String dobString = Utils.getValue(getChildDetails().getColumnmaps(), "dob", false);
-        List<Map<String, Object>> sch = generateScheduleList("child", new DateTime(dobString), recievedVaccines, alertList);
+        List<Map<String, Object>> sch = generateScheduleList("child", new DateTime(dobString), receivedServices, alertList);
 
         for (Map<String, Object> m : sch) {
             VaccineRepo.Vaccine vaccine = (VaccineRepo.Vaccine) m.get("vaccine");
@@ -300,25 +301,25 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
     }
 
     public void updateWrapper(ServiceWrapper tag) {
-        List<Vaccine> vaccineList = getVaccineList();
+        List<ServiceRecord> serviceRecordList = getServiceRecordList();
 
-        if (!vaccineList.isEmpty()) {
-            for (Vaccine vaccine : vaccineList) {
-                if (tag.getName().toLowerCase().contains(vaccine.getName().toLowerCase()) && vaccine.getDate() != null) {
-                    long diff = vaccine.getUpdatedAt() - vaccine.getDate().getTime();
+        if (!serviceRecordList.isEmpty()) {
+            for (ServiceRecord serviceRecord : serviceRecordList) {
+                if (tag.getName().toLowerCase().contains(serviceRecord.getName().toLowerCase()) && serviceRecord.getDate() != null) {
+                    long diff = serviceRecord.getUpdatedAt() - serviceRecord.getDate().getTime();
                     if (diff > 0 && TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) > 1) {
-                        tag.setUpdatedVaccineDate(new DateTime(vaccine.getDate()), false);
+                        tag.setUpdatedVaccineDate(new DateTime(serviceRecord.getDate()), false);
                     } else {
-                        tag.setUpdatedVaccineDate(new DateTime(vaccine.getDate()), true);
+                        tag.setUpdatedVaccineDate(new DateTime(serviceRecord.getDate()), true);
                     }
-                    tag.setDbKey(vaccine.getId());
-                    tag.setSynced(vaccine.getSyncStatus() != null && vaccine.getSyncStatus().equals(VaccineRepository.TYPE_Synced));
+                    tag.setDbKey(serviceRecord.getId());
+                    tag.setSynced(serviceRecord.getSyncStatus() != null && serviceRecord.getSyncStatus().equals(VaccineRepository.TYPE_Synced));
                     if (tag.getName().contains("/")) {
                         String[] array = tag.getName().split("/");
 
-                        if ((array[0]).toLowerCase().contains(vaccine.getName().toLowerCase())) {
+                        if ((array[0]).toLowerCase().contains(serviceRecord.getName().toLowerCase())) {
                             tag.setName(array[0]);
-                        } else if ((array[1]).toLowerCase().contains(vaccine.getName().toLowerCase())) {
+                        } else if ((array[1]).toLowerCase().contains(serviceRecord.getName().toLowerCase())) {
 
                             tag.setName(array[1]);
                         }

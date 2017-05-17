@@ -1010,7 +1010,7 @@ public class JsonFormUtils {
         }
     }
 
-    private static JSONArray getJSONArray(JSONObject jsonObject, String field) {
+    public static JSONArray getJSONArray(JSONObject jsonObject, String field) {
         if (jsonObject == null || jsonObject.length() == 0) {
             return null;
         }
@@ -1023,7 +1023,7 @@ public class JsonFormUtils {
         }
     }
 
-    private static JSONObject getJSONObject(JSONObject jsonObject, String field) {
+    public static JSONObject getJSONObject(JSONObject jsonObject, String field) {
         if (jsonObject == null || jsonObject.length() == 0) {
             return null;
         }
@@ -1036,13 +1036,26 @@ public class JsonFormUtils {
         }
     }
 
-    private static String getString(JSONObject jsonObject, String field) {
+    public static String getString(JSONObject jsonObject, String field) {
         if (jsonObject == null) {
             return null;
         }
 
         try {
             return jsonObject.has(field) ? jsonObject.getString(field) : null;
+        } catch (JSONException e) {
+            return null;
+
+        }
+    }
+
+    public static Long getLong(JSONObject jsonObject, String field) {
+        if (jsonObject == null) {
+            return null;
+        }
+
+        try {
+            return jsonObject.has(field) ? jsonObject.getLong(field) : null;
         } catch (JSONException e) {
             return null;
 
