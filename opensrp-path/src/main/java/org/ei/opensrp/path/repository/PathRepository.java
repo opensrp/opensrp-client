@@ -84,11 +84,22 @@ public class PathRepository extends Repository {
                 case 3:
                     upgradeToVersion3(db);
                     break;
+                case 4:
+                    upgradeToVersion4(db);
+                    break;
                 default:
 
                     break;
             }
             upgradeTo++;
+        }
+    }
+
+    private void upgradeToVersion4(SQLiteDatabase db) {
+        try {
+            StockRepository.createTable(db);
+        } catch (Exception e) {
+            Log.e(TAG, "upgradeToVersion4 " + e.getMessage());
         }
     }
 
