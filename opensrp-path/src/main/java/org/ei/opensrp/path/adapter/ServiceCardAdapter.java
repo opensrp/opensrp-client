@@ -20,6 +20,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 import util.ImageUtils;
 import util.Utils;
@@ -44,10 +46,11 @@ public class ServiceCardAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (serviceGroup.getServiceTypes() == null) {
+        List<String> types = serviceGroup.getServiceTypeKeys();
+        if (types == null || types.isEmpty()) {
             return 0;
         }
-        return serviceGroup.getServiceTypes().size();
+        return types.size();
     }
 
     @Override
@@ -63,9 +66,8 @@ public class ServiceCardAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         try {
-            ServiceType serviceTypeObject = serviceGroup.getServiceTypes().get(position);
-            String serviceType = serviceTypeObject.getName();
-            if (!serviceCards.containsKey(serviceType)) {
+            String type = serviceGroup.getServiceTypeKeys().get(position);
+            if (!serviceCards.containsKey(type)) {
                 ServiceCard serviceCard = new ServiceCard(context);
                 serviceCard.setOnServiceStateChangeListener(serviceGroup);
                 serviceCard.setOnClickListener(serviceGroup);
@@ -74,8 +76,8 @@ public class ServiceCardAdapter extends BaseAdapter {
                 ServiceWrapper serviceWrapper = new ServiceWrapper();
                 serviceWrapper.setId(serviceGroup.getChildDetails().entityId());
                 serviceWrapper.setGender(serviceGroup.getChildDetails().getDetails().get("gender"));
-                serviceWrapper.setName(serviceType);
-                serviceWrapper.setDefaultName(serviceType);
+                serviceWrapper.setName(type);
+                serviceWrapper.setDefaultName(type);
 
                 String dobString = Utils.getValue(serviceGroup.getChildDetails().getColumnmaps(), "dob", false);
                 if (StringUtils.isNotBlank(dobString)) {
@@ -96,14 +98,14 @@ public class ServiceCardAdapter extends BaseAdapter {
                 String childName = getName(firstName, lastName);
                 serviceWrapper.setPatientName(childName.trim());
 
+                serviceGroup.updateWrapper(type, serviceWrapper);
                 serviceGroup.updateWrapper(serviceWrapper);
-                serviceGroup.updateWrapperStatus(serviceWrapper);
                 serviceCard.setServiceWrapper(serviceWrapper);
 
-                serviceCards.put(serviceType, serviceCard);
+                serviceCards.put(type, serviceCard);
             }
 
-            return serviceCards.get(serviceType);
+            return serviceCards.get(type);
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
         }

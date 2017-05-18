@@ -66,6 +66,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -305,7 +306,7 @@ public class ChildImmunizationActivity extends BaseActivity
         return selectedColor;
     }
 
-    private void updateServiceViews(List<ServiceType> serviceTypes, List<ServiceRecord> serviceRecordList, List<Alert> alerts) {
+    private void updateServiceViews(Map<String, List<ServiceType>> serviceTypes, List<ServiceRecord> serviceRecordList, List<Alert> alerts) {
 
         if (serviceGroups == null) {
             serviceGroups = new ArrayList<>();
@@ -945,7 +946,7 @@ public class ChildImmunizationActivity extends BaseActivity
             List<Vaccine> vaccineList = new ArrayList<>();
             Weight weight = null;
 
-            List<ServiceType> serviceTypes = new ArrayList<>();
+            Map<String, List<ServiceType>> serviceTypeMap = new HashMap<>();
             List<ServiceRecord> serviceRecords = new ArrayList<>();
 
             List<Alert> alertList = new ArrayList<>();
@@ -969,7 +970,7 @@ public class ChildImmunizationActivity extends BaseActivity
             if (map.containsKey(ServiceType.class.getName())) {
                 NamedObject<?> namedObject = map.get(ServiceType.class.getName());
                 if (namedObject != null) {
-                    serviceTypes = (List<ServiceType>) namedObject.object;
+                    serviceTypeMap = (Map<String, List<ServiceType>>) namedObject.object;
                 }
 
             }
@@ -991,7 +992,7 @@ public class ChildImmunizationActivity extends BaseActivity
             }
 
             updateRecordWeightView(weight);
-            updateServiceViews(serviceTypes, serviceRecords, alertList);
+            updateServiceViews(serviceTypeMap, serviceRecords, alertList);
             updateVaccinationViews(vaccineList, alertList);
             performRegisterActions(registerClickables);
         }
@@ -1001,7 +1002,7 @@ public class ChildImmunizationActivity extends BaseActivity
             List<Vaccine> vaccineList = new ArrayList<>();
             Weight weight = null;
 
-            List<ServiceType> serviceTypes = new ArrayList<>();
+            Map<String, List<ServiceType>> serviceTypeMap = new LinkedHashMap<>();
             List<ServiceRecord> serviceRecords = new ArrayList<>();
 
             List<Alert> alertList = new ArrayList<>();
@@ -1026,7 +1027,17 @@ public class ChildImmunizationActivity extends BaseActivity
             }
 
             if (recurringServiceTypeRepository != null) {
-                serviceTypes = recurringServiceTypeRepository.fetchAll();
+                List<ServiceType> serviceTypes = recurringServiceTypeRepository.fetchAll();
+                if (serviceTypes != null) {
+                    for (ServiceType serviceType : serviceTypes) {
+                        List<ServiceType> subTypes = serviceTypeMap.get(serviceType.getType());
+                        if (subTypes == null) {
+                            subTypes = new ArrayList<>();
+                            serviceTypeMap.put(serviceType.getType(), subTypes);
+                        }
+                        subTypes.add(serviceType);
+                    }
+                }
             }
 
             if (alertService != null) {
@@ -1042,7 +1053,7 @@ public class ChildImmunizationActivity extends BaseActivity
             NamedObject<Weight> weightNamedObject = new NamedObject<>(Weight.class.getName(), weight);
             map.put(weightNamedObject.name, weightNamedObject);
 
-            NamedObject<List<ServiceType>> serviceTypeNamedObject = new NamedObject<>(ServiceType.class.getName(), serviceTypes);
+            NamedObject<Map<String, List<ServiceType>>> serviceTypeNamedObject = new NamedObject<>(ServiceType.class.getName(), serviceTypeMap);
             map.put(serviceTypeNamedObject.name, serviceTypeNamedObject);
 
             NamedObject<List<ServiceRecord>> serviceRecordNamedObject = new NamedObject<>(ServiceRecord.class.getName(), serviceRecords);

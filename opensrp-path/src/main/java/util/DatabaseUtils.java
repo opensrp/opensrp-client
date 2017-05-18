@@ -1,6 +1,7 @@
 package util;
 
 import android.content.Context;
+import android.util.Log;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
@@ -50,7 +51,7 @@ public class DatabaseUtils {
 
                     JSONArray services = JsonFormUtils.getJSONArray(jsonObject, "services");
                     if (services != null) {
-                        for (int j = 0; i < services.length(); j++) {
+                        for (int j = 0; j < services.length(); j++) {
                             JSONObject service = services.getJSONObject(j);
                             Long id = JsonFormUtils.getLong(service, "id");
                             String name = JsonFormUtils.getString(service, "name");
@@ -58,6 +59,7 @@ public class DatabaseUtils {
 
                             ServiceType serviceType = new ServiceType();
                             serviceType.setId(id);
+                            serviceType.setType(type);
                             serviceType.setName(name);
                             serviceType.setServiceNameEntity(serviceNameEntity);
                             serviceType.setServiceNameEntityId(serviceNameEntityId);
@@ -75,7 +77,7 @@ public class DatabaseUtils {
                 }
             }
         } catch (JSONException e) {
-
+            Log.e(DatabaseUtils.class.getName(), e.getMessage(), e);
         }
     }
 }

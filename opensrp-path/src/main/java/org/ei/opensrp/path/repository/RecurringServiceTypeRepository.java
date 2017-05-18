@@ -17,9 +17,10 @@ import java.util.List;
 
 public class RecurringServiceTypeRepository extends BaseRepository {
     private static final String TAG = RecurringServiceTypeRepository.class.getCanonicalName();
-    private static final String CREATE_TABLE_SQL = "CREATE TABLE recurring_service_types (_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,name VARCHAR NOT NULL,service_name_entity VARCHAR,service_name_entity_id VARCHAR, date_entity VARCHAR, date_entity_id VARCHAR, units VARCHAR,service_logic VARCHAR NULL, updated_at INTEGER NULL, UNIQUE(name) ON CONFLICT IGNORE)";
+    private static final String CREATE_TABLE_SQL = "CREATE TABLE recurring_service_types (_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,type VARCHAR NOT NULL, name VARCHAR NOT NULL,service_name_entity VARCHAR,service_name_entity_id VARCHAR, date_entity VARCHAR, date_entity_id VARCHAR, units VARCHAR,service_logic VARCHAR NULL, updated_at INTEGER NULL, UNIQUE(type, name) ON CONFLICT IGNORE)";
     public static final String TABLE_NAME = "recurring_service_types";
     public static final String ID_COLUMN = "_id";
+    public static final String TYPE = "type";
     public static final String NAME = "name";
     public static final String SERVICE_NAME_ENTITY = "service_name_entity";
     public static final String SERVICE_NAME_ENTITY_ID = "service_name_entity_id";
@@ -28,8 +29,9 @@ public class RecurringServiceTypeRepository extends BaseRepository {
     public static final String UNITS = "units";
     public static final String SERVICE_LOGIC = "service_logic";
     public static final String UPDATED_AT_COLUMN = "updated_at";
-    public static final String[] TABLE_COLUMNS = {ID_COLUMN, NAME, SERVICE_NAME_ENTITY, SERVICE_NAME_ENTITY_ID, DATE_ENTITY, DATE_ENTITY_ID, UNITS, SERVICE_LOGIC, UPDATED_AT_COLUMN};
+    public static final String[] TABLE_COLUMNS = {ID_COLUMN, TYPE, NAME, SERVICE_NAME_ENTITY, SERVICE_NAME_ENTITY_ID, DATE_ENTITY, DATE_ENTITY_ID, UNITS, SERVICE_LOGIC, UPDATED_AT_COLUMN};
 
+    private static final String TYPE_INDEX = "CREATE INDEX " + TABLE_NAME + "_" + TYPE + "_index ON " + TABLE_NAME + "(" + TYPE + " COLLATE NOCASE);";
     private static final String NAME_INDEX = "CREATE INDEX " + TABLE_NAME + "_" + NAME + "_index ON " + TABLE_NAME + "(" + NAME + " COLLATE NOCASE);";
     private static final String UPDATED_AT_INDEX = "CREATE INDEX " + TABLE_NAME + "_" + UPDATED_AT_COLUMN + "_index ON " + TABLE_NAME + "(" + UPDATED_AT_COLUMN + ");";
 
@@ -39,37 +41,48 @@ public class RecurringServiceTypeRepository extends BaseRepository {
 
     protected static void createTable(SQLiteDatabase database) {
         database.execSQL(CREATE_TABLE_SQL);
+        database.execSQL(TYPE_INDEX);
         database.execSQL(NAME_INDEX);
         database.execSQL(UPDATED_AT_INDEX);
     }
 
     public void add(ServiceType serviceType, SQLiteDatabase database) {
-        if (serviceType == null) {
-            return;
-        }
+        try {
+            if (serviceType == null) {
+                return;
+            }
 
-        if (serviceType.getUpdatedAt() == null) {
-            serviceType.setUpdatedAt(Calendar.getInstance().getTimeInMillis());
-        }
+            if (serviceType.getUpdatedAt() == null) {
+                serviceType.setUpdatedAt(Calendar.getInstance().getTimeInMillis());
+            }
 
-        ServiceType currentServiceType = null;
-        if (serviceType.getId() != null) {
-            currentServiceType = find(serviceType.getId(), database);
-        }
+            ServiceType currentServiceType = null;
+            if (serviceType.getId() != null) {
+                currentServiceType = find(serviceType.getId(), database);
+            }
 
-        if (database == null) {
-            database = getPathRepository().getWritableDatabase();
-        }
-        if (currentServiceType == null) {
-            serviceType.setId(database.insert(TABLE_NAME, null, createValuesFor(serviceType)));
-        } else {
-            String idSelection = ID_COLUMN + " = ?";
-            database.update(TABLE_NAME, createValuesFor(serviceType), idSelection, new String[]{serviceType.getId().toString()});
+            if (database == null) {
+                database = getPathRepository().getWritableDatabase();
+            }
+            if (currentServiceType == null) {
+                serviceType.setId(database.insert(TABLE_NAME, null, createValuesFor(serviceType)));
+            } else {
+                String idSelection = ID_COLUMN + " = ?";
+                database.update(TABLE_NAME, createValuesFor(serviceType), idSelection, new String[]{serviceType.getId().toString()});
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
         }
     }
 
     public void add(ServiceType serviceType) {
         add(serviceType, null);
+    }
+
+    public List<ServiceType> findByType(String type) {
+        SQLiteDatabase database = getPathRepository().getReadableDatabase();
+        Cursor cursor = database.query(TABLE_NAME, TABLE_COLUMNS, TYPE + " = ? ORDER BY " + UPDATED_AT_COLUMN, new String[]{type}, null, null, null, null);
+        return readAllServiceTypes(cursor);
     }
 
     public List<ServiceType> findByName(String name) {
@@ -111,7 +124,7 @@ public class RecurringServiceTypeRepository extends BaseRepository {
         }
     }
 
-    public List<ServiceType> fetchAll(){
+    public List<ServiceType> fetchAll() {
         SQLiteDatabase database = getPathRepository().getReadableDatabase();
         Cursor cursor = database.query(TABLE_NAME, TABLE_COLUMNS, null, null, null, null, null);
         return readAllServiceTypes(cursor);
@@ -128,8 +141,16 @@ public class RecurringServiceTypeRepository extends BaseRepository {
                     if (name != null) {
                         name = removeHyphen(name);
                     }
+
+                    String type = cursor.getString(cursor.getColumnIndex(TYPE));
+                    if (type != null) {
+                        type = removeHyphen(type);
+                    }
+
+
                     serviceTypes.add(
                             new ServiceType(cursor.getLong(cursor.getColumnIndex(ID_COLUMN)),
+                                    type,
                                     name,
                                     cursor.getString(cursor.getColumnIndex(SERVICE_NAME_ENTITY)),
                                     cursor.getString(cursor.getColumnIndex(SERVICE_NAME_ENTITY_ID)),
@@ -155,7 +176,8 @@ public class RecurringServiceTypeRepository extends BaseRepository {
     private ContentValues createValuesFor(ServiceType serviceType) {
         ContentValues values = new ContentValues();
         values.put(ID_COLUMN, serviceType.getId());
-        values.put(NAME, serviceType.getName() != null ? addHyphen(serviceType.getName().toLowerCase()) : null);
+        values.put(TYPE, serviceType.getType() != null ? addHyphen(serviceType.getType()) : null);
+        values.put(NAME, serviceType.getName() != null ? addHyphen(serviceType.getName()) : null);
         values.put(SERVICE_NAME_ENTITY, serviceType.getServiceNameEntity());
         values.put(SERVICE_NAME_ENTITY_ID, serviceType.getServiceNameEntityId());
         values.put(DATE_ENTITY, serviceType.getDateEntity());

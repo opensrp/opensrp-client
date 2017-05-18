@@ -15,20 +15,21 @@ import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.ServiceRecord;
 import org.ei.opensrp.domain.ServiceType;
+import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.adapter.ServiceCardAdapter;
 import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.domain.ServiceWrapper;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.joda.time.DateTime;
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -37,6 +38,8 @@ import java.util.concurrent.TimeUnit;
 import util.Utils;
 
 import static util.VaccinatorUtils.generateScheduleList;
+import static util.VaccinatorUtils.nextServiceDue;
+import static util.VaccinatorUtils.nextVaccineDue;
 import static util.VaccinatorUtils.receivedServices;
 
 /**
@@ -51,7 +54,7 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
     private TextView recordAllTV;
     private ExpandableHeightGridView servicesGV;
     private ServiceCardAdapter serviceCardAdapter;
-    private List<ServiceType> serviceTypes;
+    private Map<String, List<ServiceType>> serviceTypeMap;
     private CommonPersonObjectClient childDetails;
     private List<ServiceRecord> serviceRecordList;
     private List<Alert> alertList;
@@ -86,8 +89,24 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
         return this.childDetails;
     }
 
-    public List<ServiceType> getServiceTypes() {
-        return serviceTypes;
+    public Map<String, List<ServiceType>> getServiceTypeMap() {
+        if (serviceTypeMap == null) {
+            serviceTypeMap = new LinkedHashMap<>();
+        }
+        return serviceTypeMap;
+    }
+
+    public List<String> getServiceTypeKeys() {
+        List<String> keys = new ArrayList<>();
+        if (serviceTypeMap == null || serviceTypeMap.isEmpty()) {
+            return keys;
+        }
+
+        for (String key : serviceTypeMap.keySet()) {
+            keys.add(key);
+        }
+
+        return keys;
     }
 
     public List<ServiceRecord> getServiceRecordList() {
@@ -126,9 +145,9 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
         recordAllTV.setOnClickListener(this);
     }
 
-    public void setData(CommonPersonObjectClient childDetails, List<ServiceType> serviceTypes, List<ServiceRecord> serviceRecordList, List<Alert> alerts) {
+    public void setData(CommonPersonObjectClient childDetails, Map<String, List<ServiceType>> serviceTypeMap, List<ServiceRecord> serviceRecordList, List<Alert> alerts) {
         this.childDetails = childDetails;
-        this.serviceTypes = serviceTypes;
+        this.serviceTypeMap = serviceTypeMap;
         this.serviceRecordList = serviceRecordList;
         this.alertList = alerts;
         updateViews();
@@ -154,7 +173,7 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
      */
     public void updateViews(ArrayList<ServiceWrapper> servicesToUpdate) {
         this.state = State.IN_PAST;
-        if (this.serviceTypes != null) {
+        if (this.serviceTypeMap != null) {
             String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
             DateTime dateTime = new DateTime(dobString);
             Date dob = dateTime.toDate();
@@ -253,6 +272,7 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
 
     public static interface OnServiceUndoClickListener {
         void onUndoClick(ServiceGroup serviceGroup, ServiceWrapper serviceWrapper);
+
     }
 
     public ArrayList<ServiceWrapper> getDueServices() {
@@ -270,7 +290,10 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
         this.modalOpen = modalOpen;
     }
 
-    public void updateWrapperStatus(ServiceWrapper tag) {
+    public void updateWrapper(String type, ServiceWrapper tag) {
+
+        List<ServiceType> serviceTypes = getServiceTypeMap().get(type);
+
         List<ServiceRecord> serviceRecordList = getServiceRecordList();
 
         List<Alert> alertList = getAlertList();
@@ -278,25 +301,29 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
         Map<String, Date> receivedServices = receivedServices(serviceRecordList);
 
         String dobString = Utils.getValue(getChildDetails().getColumnmaps(), "dob", false);
-        List<Map<String, Object>> sch = generateScheduleList("child", new DateTime(dobString), receivedServices, alertList);
+        List<Map<String, Object>> sch = generateScheduleList(serviceTypes, receivedServices, alertList);
 
-        for (Map<String, Object> m : sch) {
-            VaccineRepo.Vaccine vaccine = (VaccineRepo.Vaccine) m.get("vaccine");
-            if (tag.getName().toLowerCase().contains(vaccine.display().toLowerCase())) {
-                tag.setStatus(m.get("status").toString());
-                tag.setAlert((Alert) m.get("alert"));
 
+        Map<String, Object> nv = null;
+        if (serviceRecordList.isEmpty()) {
+            nv = nextServiceDue(sch, serviceTypes);
+        }
+
+        if (nv == null) {
+            Date lastVaccine = null;
+            if (!serviceRecordList.isEmpty()) {
+                ServiceRecord serviceRecord = serviceRecordList.get(serviceRecordList.size() - 1);
+                lastVaccine = serviceRecord.getDate();
             }
-        }
-    }
 
-    public void updateWrapperStatus(ArrayList<ServiceWrapper> tags) {
-        if (tags == null) {
-            return;
+            nv = nextServiceDue(sch, lastVaccine);
         }
 
-        for (ServiceWrapper tag : tags) {
-            updateWrapperStatus(tag);
+        if (nv != null) {
+            ServiceType nextServiceType = (ServiceType) nv.get("service");
+            tag.setName(nextServiceType.getName());
+            tag.setStatus(nv.get("status").toString());
+            tag.setAlert((Alert) nv.get("alert"));
         }
     }
 
@@ -314,16 +341,6 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
                     }
                     tag.setDbKey(serviceRecord.getId());
                     tag.setSynced(serviceRecord.getSyncStatus() != null && serviceRecord.getSyncStatus().equals(VaccineRepository.TYPE_Synced));
-                    if (tag.getName().contains("/")) {
-                        String[] array = tag.getName().split("/");
-
-                        if ((array[0]).toLowerCase().contains(serviceRecord.getName().toLowerCase())) {
-                            tag.setName(array[0]);
-                        } else if ((array[1]).toLowerCase().contains(serviceRecord.getName().toLowerCase())) {
-
-                            tag.setName(array[1]);
-                        }
-                    }
                 }
             }
         }

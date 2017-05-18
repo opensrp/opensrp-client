@@ -7,6 +7,7 @@ import java.util.Date;
  */
 public class ServiceType {
     Long id;
+    String type;
     String name;
     String serviceNameEntity;
     String serviceNameEntityId;
@@ -20,11 +21,12 @@ public class ServiceType {
     public ServiceType() {
     }
 
-    public ServiceType(Long id, String name, String serviceNameEntity,
+    public ServiceType(Long id, String type, String name, String serviceNameEntity,
                        String serviceNameEntityId,
                        String dateEntity,
                        String dateEntityId, String units, String serviceLogic, Long updatedAt) {
         this.id = id;
+        this.type = type;
         this.name = name;
         this.serviceNameEntity = serviceNameEntity;
         this.serviceNameEntityId = serviceNameEntityId;
@@ -43,6 +45,13 @@ public class ServiceType {
         this.id = id;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getName() {
         return name;
@@ -107,4 +116,5 @@ public class ServiceType {
     public void setUpdatedAt(Long updatedAt) {
         this.updatedAt = updatedAt;
     }
+
 }

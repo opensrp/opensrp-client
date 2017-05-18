@@ -17,7 +17,8 @@
       {
         "id": "1",
         "name": "Deworming 1",
-        "dose": "500"
+        "dose": "500",
+        "expiry_days": ""
       },
       {
         "id": "2",

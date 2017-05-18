@@ -39,6 +39,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.domain.AlertStatus;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.domain.Alert;
+import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.db.VaccineRepo.Vaccine;
@@ -374,12 +375,63 @@ public class VaccinatorUtils {
         return schedule;
     }
 
+    public static List<Map<String, Object>> generateScheduleList(List<ServiceType> serviceTypes, /*DateTime milestoneDate,*/ Map<String, Date> received, List<Alert> alerts) {
+        List<Map<String, Object>> schedule = new ArrayList();
+        for (ServiceType s : serviceTypes) {
+            Map<String, Object> m = new HashMap<>();
+            Date recDate = received.get(s.getName().toLowerCase());
+            if (recDate != null) {
+                m = createServiceMap("done", null, new DateTime(recDate), s);
+            } /*else if (milestoneDate != null && v.expiryDays() > 0 && milestoneDate.plusDays(v.expiryDays()).isBefore(DateTime.now())) {
+                m = createServiceMap("expired", null, milestoneDate.plusDays(v.expiryDays()), v);
+            } */ else if (alerts.size() > 0) {
+                for (Alert a : alerts) {
+                    if (a.scheduleName().replaceAll(" ", "").equalsIgnoreCase(s.getName())
+                            || a.visitCode().replaceAll(" ", "").equalsIgnoreCase(s.getName())) {
+                        m = createServiceMap("due", a, new DateTime(a.startDate()), s);
+                    }
+                }
+            }
+
+            if (m.isEmpty()) {
+                m = createServiceMap("due", null, null, s);
+               /* if (v.prerequisite() != null) {
+                    Date prereq = received.get(v.prerequisite().display().toLowerCase());
+                    if (prereq != null) {
+                        DateTime prereqDateTime = new DateTime(prereq);
+                        prereqDateTime = prereqDateTime.plusDays(v.prerequisiteGapDays());
+                        m = createServiceMap("due", null, prereqDateTime, v);
+                    } else {
+                        m = createServiceMap("due", null, null, v);
+                    }
+                } else if (milestoneDate != null) {
+                    m = createServiceMap("due", null, milestoneDate.plusDays(v.milestoneGapDays()), v);
+                } else {
+                    m = createServiceMap("na", null, null, v);
+                } */
+            }
+
+            schedule.add(m);
+        }
+        return schedule;
+    }
+
     private static Map<String, Object> createVaccineMap(String status, Alert a, DateTime date, Vaccine v) {
         Map<String, Object> m = new HashMap<>();
         m.put("status", status);
         m.put("alert", a);
         m.put("date", date);
         m.put("vaccine", v);
+
+        return m;
+    }
+
+    private static Map<String, Object> createServiceMap(String status, Alert a, DateTime date, ServiceType s) {
+        Map<String, Object> m = new HashMap<>();
+        m.put("status", status);
+        m.put("alert", a);
+        m.put("date", date);
+        m.put("service", s);
 
         return m;
     }
@@ -425,6 +477,59 @@ public class VaccinatorUtils {
                     }
                 } else if (v.get("alert") != null && m.get("alert") != null) {
                     if (m.get("vaccine") != null && vaccineList.contains((Vaccine) m.get("vaccine"))) {
+                        Alert vAlert = (Alert) v.get("alert");
+                        Alert mAlert = (Alert) m.get("alert");
+                        if (!vAlert.status().equals(AlertStatus.urgent)) {
+                            if (vAlert.status().equals(AlertStatus.upcoming)) {
+                                if (mAlert.status().equals(AlertStatus.normal) || mAlert.status().equals(AlertStatus.urgent)) {
+                                    v = m;
+                                }
+                            } else if (vAlert.status().equals(AlertStatus.normal)) {
+                                if (mAlert.status().equals(AlertStatus.urgent)) {
+                                    v = m;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return v;
+    }
+
+    public static Map<String, Object> nextServiceDue(List<Map<String, Object>> schedule, Date lastVisit) {
+        Map<String, Object> v = null;
+        for (Map<String, Object> m : schedule) {
+            if (m != null && m.get("status") != null && m.get("service").toString().equalsIgnoreCase("due")) {
+
+                if (v == null) {
+                    v = m;
+                } else if (m.get("date") != null && v.get("date") != null
+                        && ((DateTime) m.get("date")).isBefore((DateTime) v.get("date"))
+                        && (lastVisit == null
+                        || lastVisit.before(((DateTime) m.get("date")).toDate()))) {
+                    v = m;
+                }
+            }
+        }
+        return v;
+    }
+
+    public static Map<String, Object> nextServiceDue(List<Map<String, Object>> schedule, List<ServiceType> serviceTypeList) {
+        Map<String, Object> v = null;
+        for (Map<String, Object> m : schedule) {
+            if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
+
+                if (v == null) {
+                    if (m.get("service") != null && serviceTypeList.contains((ServiceType) m.get("service"))) {
+                        v = m;
+                    }
+                } else if (v.get("alert") == null && m.get("alert") != null) {
+                    if (m.get("service") != null && serviceTypeList.contains((ServiceType) m.get("service"))) {
+                        v = m;
+                    }
+                } else if (v.get("alert") != null && m.get("alert") != null) {
+                    if (m.get("service") != null && serviceTypeList.contains((ServiceType) m.get("service"))) {
                         Alert vAlert = (Alert) v.get("alert");
                         Alert mAlert = (Alert) m.get("alert");
                         if (!vAlert.status().equals(AlertStatus.urgent)) {
