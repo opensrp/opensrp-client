@@ -358,7 +358,9 @@ public class VaccinateActionUtils {
         return s;
     }
 
-    public static void populateDefaultAlerts(AlertService alertService, List<Vaccine> vaccineList, List<Alert> alertList, String entityId, DateTime birthDateTime, VaccineRepo.Vaccine[] vList) {
+    public static void populateDefaultAlerts(AlertService alertService, List<Vaccine> vaccineList,
+                                             List<Alert> alertList, String entityId,
+                                             DateTime birthDateTime, VaccineRepo.Vaccine[] vList) {
 
         if (vList == null || vList.length == 0) {
             return;
@@ -377,7 +379,6 @@ public class VaccinateActionUtils {
             alertService.create(alert);
             alertService.updateFtsSearch(alert, true);
         }
-
     }
 
     public static boolean hasAlert(List<Alert> alerts, VaccineRepo.Vaccine vaccine) {
