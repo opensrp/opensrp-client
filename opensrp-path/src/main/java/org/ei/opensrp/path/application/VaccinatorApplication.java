@@ -6,12 +6,14 @@ import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.content.FileProvider;
 import android.util.Pair;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonFtsObject;
 import org.ei.opensrp.path.BuildConfig;
+import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.LoginActivity;
 import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.receiver.PathSyncBroadcastReceiver;
@@ -23,6 +25,7 @@ import org.ei.opensrp.path.repository.WeightRepository;
 import org.ei.opensrp.repository.Repository;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
 import org.ei.opensrp.view.activity.DrishtiApplication;
+import org.ei.opensrp.view.receiver.TimeChangedBroadcastReceiver;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +41,9 @@ import static org.ei.opensrp.util.Log.logInfo;
 /**
  * Created by koros on 2/3/16.
  */
-public class VaccinatorApplication extends DrishtiApplication {
+public class VaccinatorApplication extends DrishtiApplication
+        implements TimeChangedBroadcastReceiver.OnTimeChangedListener {
+
     private Locale locale = null;
     private Context context;
     private static CommonFtsObject commonFtsObject;
@@ -62,6 +67,8 @@ public class VaccinatorApplication extends DrishtiApplication {
         context.updateApplicationContext(getApplicationContext());
         context.updateCommonFtsObject(createCommonFtsObject());
         SyncStatusBroadcastReceiver.init(this);
+        TimeChangedBroadcastReceiver.init(this);
+        TimeChangedBroadcastReceiver.getInstance().addOnTimeChangedListener(this);
 
         applyUserLanguagePreference();
         cleanUpSyncState();
@@ -77,6 +84,9 @@ public class VaccinatorApplication extends DrishtiApplication {
 
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         getApplicationContext().startActivity(intent);
         context.userService().logoutSession();
     }
@@ -92,6 +102,7 @@ public class VaccinatorApplication extends DrishtiApplication {
         logInfo("Application is terminating. Stopping Bidan Sync scheduler and resetting isSyncInProgress setting.");
         cleanUpSyncState();
         SyncStatusBroadcastReceiver.destroy(this);
+        TimeChangedBroadcastReceiver.destroy(this);
         super.onTerminate();
     }
 
@@ -236,4 +247,19 @@ public class VaccinatorApplication extends DrishtiApplication {
     public void setLastModified(boolean lastModified) {
         this.lastModified = lastModified;
     }
+
+    @Override
+    public void onTimeChanged() {
+        Toast.makeText(this, R.string.device_time_changed, Toast.LENGTH_LONG).show();
+        context.userService().forceRemoteLogin();
+        logoutCurrentUser();
+    }
+
+    @Override
+    public void onTimeZoneChanged() {
+        Toast.makeText(this, R.string.device_timezone_changed, Toast.LENGTH_LONG).show();
+        context.userService().forceRemoteLogin();
+        logoutCurrentUser();
+    }
+
 }

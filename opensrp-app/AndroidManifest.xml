@@ -134,6 +134,12 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
+        <receiver android:name=".view.receiver.TimeChangedBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_SET"></action>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"></action>
+            </intent-filter>
+        </receiver>
         <service android:name=".service.intentservices.ReplicationIntentService"/>
     </application>
 </manifest>

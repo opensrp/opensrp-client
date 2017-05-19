@@ -45,6 +45,7 @@ android {
             buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '1'
             buildConfigField "int", "VACCINE_SYNC_TIME", '12'
             buildConfigField "int", "DATABASE_VERSION", '3'
+            buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "300000l"
         }
 
         debug {
@@ -56,6 +57,7 @@ android {
             buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'
             buildConfigField "int", "VACCINE_SYNC_TIME", '0'
             buildConfigField "int", "DATABASE_VERSION", '3'
+            buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "300000l"
         }
     }
     packagingOptions {
