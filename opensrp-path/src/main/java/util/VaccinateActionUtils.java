@@ -325,6 +325,30 @@ public class VaccinateActionUtils {
         return "";
     }
 
+    public static String previousStateKey(String category, Vaccine v) {
+        if (v == null || category == null) {
+            return null;
+        }
+        ArrayList<VaccineRepo.Vaccine> vaccines = VaccineRepo.getVaccines(category);
+
+        VaccineRepo.Vaccine vaccine = null;
+        for (VaccineRepo.Vaccine vrp : vaccines) {
+            if (vrp.display().toLowerCase().equalsIgnoreCase(v.getName().toLowerCase())) {
+                vaccine = vrp;
+            }
+        }
+
+        if (vaccine == null) {
+            return null;
+        } else {
+            String stateKey =  stateKey(vaccine);
+            if(stateKey.equals( "at birth")){
+                stateKey = "Birth";
+            }
+            return stateKey;
+        }
+    }
+
     public static String[] allAlertNames(String category) {
         if (category == null) {
             return null;

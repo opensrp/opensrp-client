@@ -935,7 +935,7 @@ public class ChildImmunizationActivity extends BaseActivity
         protected void onPostExecute(Triple<Weight, List<Vaccine>, List<Alert>> triple) {
             hideProgressDialog();
             updateRecordWeightView(triple.getLeft());
-            updateServiceViews(triple.getMiddle(), triple.getRight());
+            // updateServiceViews(triple.getMiddle(), triple.getRight()); //TODO show recurring services
             updateVaccinationViews(triple.getMiddle(), triple.getRight());
             performRegisterActions(registerClickables);
         }

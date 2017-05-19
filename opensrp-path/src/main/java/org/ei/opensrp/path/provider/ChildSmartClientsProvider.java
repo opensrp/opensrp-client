@@ -157,9 +157,13 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
             recordWeight.setClickable(true);
         }
 
-        Button recordVaccination = (Button) convertView.findViewById(R.id.record_vaccination);
+        View recordVaccination =  convertView.findViewById(R.id.record_vaccination);
         recordVaccination.setTag(client);
         recordVaccination.setOnClickListener(onClickListener);
+
+        TextView recordVaccinationText = (TextView) convertView.findViewById(R.id.record_vaccination_text);
+        ImageView recordVaccinationCheck = (ImageView) convertView.findViewById(R.id.record_vaccination_check);
+        recordVaccinationCheck.setVisibility(View.GONE);
 
         convertView.setLayoutParams(clientViewLayoutParams);
 
@@ -174,7 +178,6 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
 
         State state = State.FULLY_IMMUNIZED;
         String stateKey = null;
-
 
         Map<String, Object> nv = null;
         if (vaccines.isEmpty()) {
@@ -221,9 +224,6 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
             state = State.WAITING;
         }
 
-        recordVaccination.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-        recordVaccination.setCompoundDrawablePadding(0);
-        recordVaccination.setPadding(0, 0, 0, 0);
 
         // Update active/inactive/lostToFollowup status
         String lostToFollowUp = getValue(pc.getColumnmaps(), "lost_to_follow_up", false);
@@ -236,78 +236,96 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
             state = State.INACTIVE;
         }
 
-        float drawablePadding = context.getResources().getDimension(R.dimen.register_drawable_padding);
-        int paddingInt = Float.valueOf(drawablePadding).intValue();
-
         if (state.equals(State.FULLY_IMMUNIZED)) {
-            recordVaccination.setText("Fully\nimmunized");
-            recordVaccination.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+            recordVaccinationText.setText("Fully\nimmunized");
+            recordVaccinationText.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+
+            recordVaccinationCheck.setImageResource(R.drawable.ic_action_check);
+            recordVaccinationCheck.setVisibility(View.VISIBLE);
+
             recordVaccination.setBackgroundColor(context.getResources().getColor(R.color.white));
-            recordVaccination.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_check, 0, 0, 0);
             recordVaccination.setEnabled(false);
+
         } else if (state.equals(State.INACTIVE)) {
-            recordVaccination.setText("Inactive");
-            recordVaccination.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+            recordVaccinationText.setText("Inactive");
+            recordVaccinationText.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+            
+            recordVaccinationCheck.setImageResource(R.drawable.ic_icon_status_inactive);
+            recordVaccinationCheck.setVisibility(View.VISIBLE);
+
             recordVaccination.setBackgroundColor(context.getResources().getColor(R.color.white));
-            recordVaccination.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_status_inactive, 0, 0, 0);
-            recordVaccination.setCompoundDrawablePadding(paddingInt * -1);
-            recordVaccination.setPadding(paddingInt, 0, 0, 0);
             recordVaccination.setEnabled(false);
 
             recordWeight.setVisibility(View.INVISIBLE);
         } else if (state.equals(State.LOST_TO_FOLLOW_UP)) {
-            recordVaccination.setText("Lost to\nFollow-Up");
-            recordVaccination.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+            recordVaccinationText.setText("Lost to\nFollow-Up");
+            recordVaccinationText.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+
+            recordVaccinationCheck.setImageResource(R.drawable.ic_icon_status_losttofollowup);
+            recordVaccinationCheck.setVisibility(View.VISIBLE);
+
             recordVaccination.setBackgroundColor(context.getResources().getColor(R.color.white));
-            recordVaccination.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_status_losttofollowup, 0, 0, 0);
             recordVaccination.setEnabled(false);
 
             recordWeight.setVisibility(View.INVISIBLE);
         } else if (state.equals(State.WAITING)) {
-            recordVaccination.setText("Waiting");
-            recordVaccination.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+            recordVaccinationText.setText("Waiting");
+            recordVaccinationText.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+
             recordVaccination.setBackgroundColor(context.getResources().getColor(R.color.white));
             recordVaccination.setEnabled(false);
         } else if (state.equals(State.EXPIRED)) {
-            recordVaccination.setText("Expired");
-            recordVaccination.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+            recordVaccinationText.setText("Expired");
+            recordVaccinationText.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+
             recordVaccination.setBackgroundColor(context.getResources().getColor(R.color.white));
             recordVaccination.setEnabled(false);
         } else if (state.equals(State.UPCOMING)) {
-            recordVaccination.setText("Due\n" + stateKey);
-            recordVaccination.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+            recordVaccinationText.setText("Due\n" + stateKey);
+            recordVaccinationText.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+
             recordVaccination.setBackgroundColor(context.getResources().getColor(R.color.white));
             recordVaccination.setEnabled(false);
         } else if (state.equals(State.UPCOMING_NEXT_7_DAYS)) {
-            recordVaccination.setText("Record\n" + stateKey);
-            recordVaccination.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+            recordVaccinationText.setText("Record\n" + stateKey);
+            recordVaccinationText.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+
             recordVaccination.setBackground(context.getResources().getDrawable(R.drawable.due_vaccine_light_blue_bg));
             recordVaccination.setEnabled(true);
         } else if (state.equals(State.DUE)) {
-            recordVaccination.setText("Record\n" + stateKey);
-            recordVaccination.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+            recordVaccinationText.setText("Record\n" + stateKey);
+            recordVaccinationText.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+
             recordVaccination.setBackground(context.getResources().getDrawable(R.drawable.due_vaccine_blue_bg));
             recordVaccination.setEnabled(true);
         } else if (state.equals(State.OVERDUE)) {
-            recordVaccination.setText("Record\n" + stateKey);
-            recordVaccination.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+            recordVaccinationText.setText("Record\n" + stateKey);
+            recordVaccinationText.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+
             recordVaccination.setBackground(context.getResources().getDrawable(R.drawable.due_vaccine_red_bg));
             recordVaccination.setEnabled(true);
         } else if (state.equals(State.NO_ALERT)) {
             if (StringUtils.isNotBlank(stateKey) && (StringUtils.containsIgnoreCase(stateKey, "week") || StringUtils.containsIgnoreCase(stateKey, "month")) && !vaccines.isEmpty()) {
-                recordVaccination.setText(stateKey);
-                recordVaccination.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_check, 0, 0, 0);
-                recordVaccination.setCompoundDrawablePadding(paddingInt * -1);
-                recordVaccination.setPadding(paddingInt, 0, 0, 0);
+                Vaccine vaccine = vaccines.isEmpty() ? null : vaccines.get(vaccines.size() - 1);
+                String previousStateKey = VaccinateActionUtils.previousStateKey("child", vaccine);
+                if (previousStateKey != null) {
+                    recordVaccinationText.setText(previousStateKey);
+                } else {
+                    recordVaccinationText.setText(stateKey);
+                }
+                recordVaccinationCheck.setImageResource(R.drawable.ic_action_check);
+                recordVaccinationCheck.setVisibility(View.VISIBLE);
             } else {
-                recordVaccination.setText("Due\n" + stateKey);
+                recordVaccinationText.setText("Due\n" + stateKey);
             }
-            recordVaccination.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+            recordVaccinationText.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+
             recordVaccination.setBackgroundColor(context.getResources().getColor(R.color.white));
             recordVaccination.setEnabled(false);
         } else {
-            recordVaccination.setText("");
-            recordVaccination.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+            recordVaccinationText.setText("");
+            recordVaccinationText.setTextColor(context.getResources().getColor(R.color.client_list_grey));
+
             recordVaccination.setBackgroundColor(context.getResources().getColor(R.color.white));
             recordVaccination.setEnabled(false);
         }
