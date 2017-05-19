@@ -51,7 +51,7 @@ public class AdvancedSearchClientsProvider extends ChildSmartClientsProvider {
             if (commonRepository != null) {
                 CommonPersonObject commonPersonObject = commonRepository.findByBaseEntityId(pc.entityId());
 
-                Button recordVaccination = (Button) convertView.findViewById(R.id.record_vaccination);
+                View recordVaccination = convertView.findViewById(R.id.record_vaccination);
                 recordVaccination.setVisibility(View.VISIBLE);
 
                 View moveToCatchment = convertView.findViewById(R.id.move_to_catchment);
