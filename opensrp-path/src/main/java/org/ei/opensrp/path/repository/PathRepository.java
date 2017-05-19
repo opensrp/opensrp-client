@@ -600,7 +600,7 @@ public class PathRepository extends Repository {
                 if (StringUtils.isBlank(jsonEventStr) || jsonEventStr.equals("{}")) { // Skip blank/empty json string
                     continue;
                 }
-
+                jsonEventStr=jsonEventStr.replaceAll("'","");
                 JSONObject jsonObectEvent = new JSONObject(jsonEventStr);
                 events.add(jsonObectEvent);
                 if (jsonObectEvent.has(event_column.baseEntityId.name())) {
