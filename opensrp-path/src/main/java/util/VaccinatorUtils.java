@@ -386,8 +386,8 @@ public class VaccinatorUtils {
                 m = createServiceMap("expired", null, milestoneDate.plusDays(v.expiryDays()), v);
             } */ else if (alerts.size() > 0) {
                 for (Alert a : alerts) {
-                    if (a.scheduleName().replaceAll(" ", "").equalsIgnoreCase(s.getName())
-                            || a.visitCode().replaceAll(" ", "").equalsIgnoreCase(s.getName())) {
+                    if (a.scheduleName().equalsIgnoreCase(s.getName())
+                            || a.visitCode().equalsIgnoreCase(s.getName())){
                         m = createServiceMap("due", a, new DateTime(a.startDate()), s);
                     }
                 }

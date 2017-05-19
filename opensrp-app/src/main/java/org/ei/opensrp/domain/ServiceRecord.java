@@ -131,14 +131,11 @@ public class ServiceRecord {
         this.serviceType = serviceType;
     }
 
-    public ServiceType getServiceType() {
-        return serviceType;
-    }
-
-    public String getName(){
-        if(serviceType == null){
+    public String getName() {
+        if (serviceType == null) {
             return null;
         }
         return serviceType.getName();
     }
+
 }

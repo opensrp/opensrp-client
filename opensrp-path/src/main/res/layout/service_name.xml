@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <org.ei.opensrp.view.customControls.CustomFontTextView
+        android:id="@+id/service"
+        style="@style/CustomFontTextViewStyle.ClientList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="service"
+        android:textColor="@color/text_black"
+        android:textSize="30sp" />
+
+    <org.ei.opensrp.view.customControls.CustomFontTextView
+        android:id="@+id/units"
+        style="@style/CustomFontTextViewStyle.ClientList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:text="units"
+        android:textColor="@color/text_black"
+        android:textSize="26sp"
+        android:visibility="gone" />
+</LinearLayout>

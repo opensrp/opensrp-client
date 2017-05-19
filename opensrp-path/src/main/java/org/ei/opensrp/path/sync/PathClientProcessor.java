@@ -378,7 +378,7 @@ public class PathClientProcessor extends ClientProcessor {
     public boolean unSync(List<JSONObject> events) {
         try {
 
-            if (events == null && events.isEmpty()) {
+            if (events == null || events.isEmpty()) {
                 return false;
             }
 

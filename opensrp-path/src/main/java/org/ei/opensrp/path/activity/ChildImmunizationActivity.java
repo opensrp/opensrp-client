@@ -37,8 +37,10 @@ import org.ei.opensrp.path.domain.ServiceWrapper;
 import org.ei.opensrp.path.domain.VaccineWrapper;
 import org.ei.opensrp.path.domain.WeightWrapper;
 import org.ei.opensrp.path.fragment.RecordWeightDialogFragment;
+import org.ei.opensrp.path.fragment.ServiceDialogFragment;
 import org.ei.opensrp.path.fragment.UndoVaccinationDialogFragment;
 import org.ei.opensrp.path.fragment.VaccinationDialogFragment;
+import org.ei.opensrp.path.listener.ServiceActionListener;
 import org.ei.opensrp.path.listener.VaccinationActionListener;
 import org.ei.opensrp.path.listener.WeightActionListener;
 import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
@@ -86,7 +88,7 @@ import static util.Utils.getValue;
  */
 
 public class ChildImmunizationActivity extends BaseActivity
-        implements LocationSwitcherToolbar.OnLocationChangeListener, WeightActionListener, VaccinationActionListener {
+        implements LocationSwitcherToolbar.OnLocationChangeListener, WeightActionListener, VaccinationActionListener, ServiceActionListener {
 
     private static final String TAG = "ChildImmunoActivity";
     private static final String VACCINES_FILE = "vaccines.json";
@@ -318,9 +320,7 @@ public class ChildImmunizationActivity extends BaseActivity
                 @Override
                 public void onClick(ServiceGroup serviceGroup, ServiceWrapper
                         serviceWrapper) {
-                    ArrayList<ServiceWrapper> serviceWrappers = new ArrayList<ServiceWrapper>();
-                    serviceWrappers.add(serviceWrapper);
-                    //addVaccinationDialogFragment(vaccineWrappers, vaccineGroup);
+                    addServiceDialogFragment(serviceWrapper, serviceGroup);
                 }
             });
             curGroup.setOnServiceUndoClickListener(new ServiceGroup.OnServiceUndoClickListener() {
@@ -639,6 +639,21 @@ public class ChildImmunizationActivity extends BaseActivity
 
         VaccinationDialogFragment vaccinationDialogFragment = VaccinationDialogFragment.newInstance(vaccineWrappers);
         vaccinationDialogFragment.show(ft, DIALOG_TAG);
+    }
+
+    public void addServiceDialogFragment(ServiceWrapper serviceWrapper, ServiceGroup serviceGroup) {
+
+        FragmentTransaction ft = this.getFragmentManager().beginTransaction();
+        Fragment prev = this.getFragmentManager().findFragmentByTag(DIALOG_TAG);
+        if (prev != null) {
+            ft.remove(prev);
+        }
+
+        ft.addToBackStack(null);
+        serviceGroup.setModalOpen(true);
+
+        ServiceDialogFragment serviceDialogFragment = ServiceDialogFragment.newInstance(serviceWrapper);
+        serviceDialogFragment.show(ft, DIALOG_TAG);
     }
 
     public void performRegisterActions(RegisterClickables registerClickables) {
@@ -1112,5 +1127,20 @@ public class ChildImmunizationActivity extends BaseActivity
             this.name = name;
             this.object = object;
         }
+    }
+
+    @Override
+    public void onGiveToday(ServiceWrapper tag, View view) {
+
+    }
+
+    @Override
+    public void onGiveEarlier(ServiceWrapper tag, View view) {
+
+    }
+
+    @Override
+    public void onUndoService(ServiceWrapper tag, View view) {
+
     }
 }

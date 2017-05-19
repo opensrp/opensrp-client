@@ -201,4 +201,6 @@
     <string name="change_status">Change status</string>
 
     <string name="recurring_services">Recurring Services</string>
+    <string name="given_today">%1$s given today</string>
+    <string name="given_earlier">%1$s given earlier</string>
 </resources>

@@ -11,8 +11,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.ei.opensrp.clientandeventmodel.DateUtil;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.domain.Alert;
+import org.ei.opensrp.domain.AlertStatus;
 import org.ei.opensrp.domain.ServiceRecord;
 import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.domain.Vaccine;
@@ -149,6 +151,18 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
         this.childDetails = childDetails;
         this.serviceTypeMap = serviceTypeMap;
         this.serviceRecordList = serviceRecordList;
+
+        //TODO remove dummy alerts
+        String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+        DateTime dateTime = new DateTime(dobString);
+        Date dob = dateTime.toDate();
+
+        Alert alert1 = new Alert(childDetails.getCaseId(), "Deworming 1", "Deworming 1", AlertStatus.normal, DateUtil.yyyyMMdd.format(dob), null);
+        Alert alert2 = new Alert(childDetails.getCaseId(), "Vit A IFC 2", "Vit A IFC 2", AlertStatus.normal, DateUtil.yyyyMMdd.format(dob), null);
+        Alert alert3 = new Alert(childDetails.getCaseId(), "ITN 1", "ITN 1", AlertStatus.normal, DateUtil.yyyyMMdd.format(dob), null);
+        alerts.add(alert1);
+        alerts.add(alert2);
+        alerts.add(alert3);
         this.alertList = alerts;
         updateViews();
     }
@@ -324,6 +338,8 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
             tag.setName(nextServiceType.getName());
             tag.setStatus(nv.get("status").toString());
             tag.setAlert((Alert) nv.get("alert"));
+            tag.setType(nextServiceType.getType());
+            tag.setUnits(nextServiceType.getUnits());
         }
     }
 
