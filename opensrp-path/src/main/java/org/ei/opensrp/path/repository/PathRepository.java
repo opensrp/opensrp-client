@@ -1077,7 +1077,7 @@ public class PathRepository extends Repository {
 
 
     // Definitions
-    private enum Table {
+    public enum Table {
         client(client_column.values()), event(event_column.values()),
         address(address_column.values()), obs(obs_column.values());
         private Column[] columns;
