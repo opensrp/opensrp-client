@@ -26,7 +26,7 @@ import java.util.List;
 
 public class StockRepository extends BaseRepository {
     private static final String TAG = StockRepository.class.getCanonicalName();
-    private static final String stock_SQL = "CREATE TABLE stock (_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+    private static final String stock_SQL = "CREATE TABLE Stocks (_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
             "vaccine_type_id VARCHAR NOT NULL," +
             "transaction_type VARCHAR NULL," +
             "providerid VARCHAR NOT NULL," +
@@ -35,7 +35,7 @@ public class StockRepository extends BaseRepository {
             "to_from VARCHAR NULL," +
             "sync_status VARCHAR," +
             "date_updated INTEGER NULL)";
-    public static final String stock_TABLE_NAME = "stock";
+    public static final String stock_TABLE_NAME = "Stocks";
     public static final String ID_COLUMN = "_id";
     public static final String VACCINE_TYPE_ID = "vaccine_type_id";
     public static final String TRANSACTION_TYPE = "transaction_type";

@@ -84,7 +84,7 @@ public class PathRepository extends Repository {
                 case 3:
                     upgradeToVersion3(db);
                     break;
-                case 4:
+                case 5:
                     upgradeToVersion4(db);
                     break;
                 default:
@@ -97,6 +97,7 @@ public class PathRepository extends Repository {
 
     private void upgradeToVersion4(SQLiteDatabase db) {
         try {
+//            db.execSQL("DROP TABLE IF EXISTS  ");
             StockRepository.createTable(db);
         } catch (Exception e) {
             Log.e(TAG, "upgradeToVersion4 " + e.getMessage());
