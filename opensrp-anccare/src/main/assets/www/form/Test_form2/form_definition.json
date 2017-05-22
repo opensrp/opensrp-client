@@ -1,0 +1,44 @@
+{
+  "form_data_definition_version" : "1",
+  "form" : {
+    "bind_type" : "pkanc",
+    "default_bind_path" : "/model/instance/Test_form2/",
+    "fields" : [ {
+      "name" : "id",
+      "shouldLoadValue" : true
+    }, {
+      "name" : "likes_pizza",
+      "bind" : "/model/instance/Test_form2/pizza/likes_pizza"
+    }, {
+      "name" : "favourite_toppings",
+      "bind" : "/model/instance/Test_form2/pizza/favourite_toppings"
+    }, {
+      "name" : "favourite_toppings_other",
+      "bind" : "/model/instance/Test_form2/pizza/favourite_toppings_other"
+    }, {
+      "name" : "favourite_cheese",
+      "bind" : "/model/instance/Test_form2/favourite_cheese"
+    }, {
+      "name" : "name",
+      "bind" : "/model/instance/Test_form2/name"
+    }, {
+      "name" : "geopoint",
+      "bind" : "/model/instance/Test_form2/geopoint"
+    }, {
+      "name" : "age",
+      "bind" : "/model/instance/Test_form2/age"
+    }, {
+      "name" : "amount",
+      "bind" : "/model/instance/Test_form2/amount"
+    }, {
+      "name" : "tip",
+      "bind" : "/model/instance/Test_form2/tip"
+    }, {
+      "name" : "display",
+      "bind" : "/model/instance/Test_form2/display"
+    }, {
+      "name" : "instanceID",
+      "bind" : "/model/instance/Test_form2/meta/instanceID"
+    } ]
+  }
+}

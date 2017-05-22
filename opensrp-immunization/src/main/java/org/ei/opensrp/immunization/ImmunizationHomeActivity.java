@@ -148,7 +148,7 @@ public class ImmunizationHomeActivity extends HomeActivity {
                     break;
 
                 case R.id.btn_woman_register:
-                    activity.startActivity(new Intent(activity, WomanSmartRegisterActivity.class));
+                    activity.startActivity(new Intent(activity,WomanSmartRegisterActivity.class));
                     break;
                 case R.id.btn_zm_register:
                     activity.startActivity(new Intent(activity, ZMSmartRegisterActivity.class));

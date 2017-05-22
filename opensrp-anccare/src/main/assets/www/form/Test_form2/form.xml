@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><form autocomplete="off" class="or clearfix" id="Test_form2" novalidate="novalidate">
+  <!--This form was created by transforming a OpenRosa-flavored (X)Form using an XSLT sheet created by Enketo LLC.-->
+  <section class="form-logo"> </section>
+  <h3 id="form-title">Test_form2</h3>        <section class="or-group " name="/Test_form2/pizza">
+    <h4>
+      <span class="question-label active" lang="">Pizza</span>
+    </h4>
+    <fieldset class="question ">
+      <fieldset>
+        <legend>
+          <span class="question-label active" lang="">Do you like pizza ?</span>                    </legend>
+        <div class="option-wrapper">
+          <label class="">
+            <input data-name="/Test_form2/pizza/likes_pizza" data-type-xml="select1" name="/Test_form2/pizza/likes_pizza" type="radio" value="yes"/>
+            <span class="option-label active" lang="">yes</span>
+          </label>
+          <label class="">
+            <input data-name="/Test_form2/pizza/likes_pizza" data-type-xml="select1" name="/Test_form2/pizza/likes_pizza" type="radio" value="no"/>
+            <span class="option-label active" lang="">No</span>
+          </label>
+        </div>
+      </fieldset>
+    </fieldset>
+    <label class="question or-appearance-minimal  or-branch pre-init ">
+      <span class="question-label active" lang="">What are your favourite pizza toppings ?</span>
+      <select data-relevant=" /Test_form2/pizza/likes_pizza ='yes'" data-type-xml="select" multiple="multiple" name="/Test_form2/pizza/favourite_toppings">
+        <option value="">...</option>
+        <option value="cheese">Cheese</option>
+        <option value="pepperoni">Pepperoni</option>
+        <option value="sausage">Sausage</option>
+        <option value="other">Other</option>
+      </select>
+      <span class="or-option-translations" style="display:none;">                </span>
+    </label>
+    <label class="question or-branch pre-init non-select ">
+      <span class="question-label active" lang="">Specify other.</span>
+      <input data-relevant="contains(../favourite_toppings, 'other')" data-type-xml="string" name="/Test_form2/pizza/favourite_toppings_other" type="text"/>
+    </label>            </section>
+  <!--end of group -->    <label class="question or-branch pre-init non-select ">
+    <span class="question-label active" lang="">What is your favourite type of cheese</span>
+    <input data-relevant="contains( /Test_form2/pizza/favourite_toppings , 'cheese')" data-type-xml="string" name="/Test_form2/favourite_cheese" type="text"/>
+  </label>    <label class="question non-select ">
+    <span class="question-label active" lang="">What is the name of this store ?</span>
+    <span class="or-hint active" lang="">Look on the signboard if the stores has a signboard</span>
+    <input data-type-xml="string" name="/Test_form2/name" type="text"/>
+  </label>    <label class="question non-select ">
+    <span class="question-label active" lang="">Collect the GPS coordinates of this store</span>
+    <input data-type-xml="geopoint" name="/Test_form2/geopoint" type="text"/>
+  </label>    <label class="question non-select ">
+    <span class="or-constraint-msg active" lang="">Age must be less than or equal to 150</span>
+    <span class="question-label active" lang="">How old are you ?</span>
+    <span class="required">*</span>
+    <input data-constraint=".&lt;=150" data-type-xml="int" name="/Test_form2/age" required="required" type="number"/>
+  </label>    <label class="question non-select ">
+    <span class="question-label active" lang="">What was the price of meal ?</span>
+    <input data-type-xml="decimal" name="/Test_form2/amount" step="any" type="number"/>
+  </label>    <label class="note non-select ">
+    <span class="question-label active" lang="">18% tip for your meal is: <span class="or-output" data-value=" /Test_form2/tip ">            </span>
+    </span>
+    <input data-type-xml="string" name="/Test_form2/display" readonly="readonly" type="text"/>
+  </label>  <fieldset id="or-calculated-items" style="display:none;">
+    <label class="calculation non-select ">
+      <input data-calculate=" /Test_form2/amount *0.18" data-type-xml="string" name="/Test_form2/tip" type="hidden"/>
+    </label>
+    <label class="calculation non-select ">
+      <input data-calculate="concat('uuid:', uuid())" data-type-xml="string" name="/Test_form2/meta/instanceID" type="hidden"/>
+    </label>
+    <label class="calculation non-select ">
+      <input data-calculate="'cef4da22d33046eca6380c8f7ae4fcf0'" data-type-xml="string" name="/Test_form2/formhub/uuid" type="hidden"/>
+    </label>
+  </fieldset>
+</form>

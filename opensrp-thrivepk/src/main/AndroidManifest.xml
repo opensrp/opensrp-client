@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.opensrp_thrivepk">
+
+    <application
+        android:name=".application.VaccinatorApplication"
+        android:allowBackup="true">
+
+        <activity android:name=".ThrivepkLoginActivity"
+            android:screenOrientation="landscape" android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ThrivepkHomeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppThemeNoTitle"></activity>
+
+        <activity
+            android:name=".report.VaccineReport"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <receiver android:name=".application.CESyncReceiver" />
+
+        <activity android:name=".ProviderProfileActivity"></activity>
+    </application>
+
+</manifest>

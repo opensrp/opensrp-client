@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="fill_parent"
+              android:layout_height="@dimen/list_item_height"
+    android:weightSum="23" android:background="#eeeeee" >
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:orientation="vertical"
+        android:layout_weight="4"
+        android:background="#ffffff"
+        android:layout_marginRight="1dp"
+        android:id="@+id/woman_profile_info_layout1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Woman ID of 4teen"
+            android:textStyle="bold"
+            style="@style/CustomFontTextViewStyle.ListView.Medium"
+            android:id="@+id/woman_id"
+            android:textColor="@color/button_material_dark"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CustomFontTextViewStyle.ListView.Medium"
+            android:text="Woman Name"
+            android:textStyle="bold"
+            android:id="@+id/woman_name"
+            android:textColor="@color/light_blue"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="99 years"
+            style="@style/CustomFontTextViewStyle.ListView.Normal"
+            android:id="@+id/woman_age"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:id="@+id/woman_profile_info_layout"
+        android:layout_weight="4"
+        android:background="#ffffff"
+        android:layout_marginRight="1dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Husband name long long"
+                style="@style/CustomFontTextViewStyle.ListView.Normal"
+                android:id="@+id/woman_husbandname"
+                android:textSize="17sp"
+                android:maxLines="2"
+                android:singleLine="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="father name long long"
+                style="@style/CustomFontTextViewStyle.ListView.Normal"
+                android:id="@+id/woman_fathername"
+                android:textSize="17sp"
+                android:singleLine="false"
+                android:maxLines="2" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+    android:layout_height="match_parent"
+    android:layout_width="0dp"
+    android:layout_weight="3"
+        android:background="#ffffff"
+        android:layout_marginRight="1dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EPI Number"
+        android:textStyle="bold"
+        style="@style/CustomFontTextViewStyle.ListView.Medium"
+        android:id="@+id/woman_epi_number"
+        android:textColor="@color/light_blue"
+        android:textSize="17sp" />
+</LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent" android:background="#ffffff"
+        android:layout_weight="3"
+        android:layout_marginRight="1dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EDD and GA"
+                android:id="@+id/woman_edd"
+                style="@style/CustomFontTextViewStyle.ListView.Normal"
+                android:textSize="17sp"
+                android:layout_gravity="top" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EDD and GA"
+                android:id="@+id/woman_ga"
+                style="@style/CustomFontTextViewStyle.ListView.Normal"
+                android:textSize="17sp"
+                android:layout_gravity="center_vertical" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="3"
+        android:background="#ffffff"
+        android:layout_marginRight="1dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contact Number"
+            style="@style/CustomFontTextViewStyle.ListView.Normal"
+            android:id="@+id/woman_contact_number"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="3"
+        android:background="#ffffff"
+        android:layout_marginRight="1dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/woman_last_vaccine_check"
+                android:src="@drawable/ic_yes_small"
+                android:layout_gravity="right"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Vaccine Name"
+                android:textStyle="bold"
+                android:id="@+id/woman_last_vaccine"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"/>
+
+        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last Vaccine Date"
+                android:id="@+id/woman_last_visit_date"
+                style="@style/CustomFontTextViewStyle.ListView.Normal"
+                android:textSize="17sp"/>
+
+    </LinearLayout>
+
+    <FrameLayout android:layout_width="0dp"
+        android:layout_height="fill_parent" android:layout_weight="3"
+        android:background="@color/transparent_blue"
+        android:id="@+id/woman_next_visit_holder">
+
+    <ImageView
+        android:layout_width="fill_parent" android:layout_height="fill_parent"
+        android:src="@drawable/syringe" android:scaleType="fitEnd"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="25dp"
+        android:alpha=".6"
+        android:id="@+id/next_vaccine_image" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TT X"
+                android:id="@+id/woman_next_visit_vaccine"
+                android:maxLines="2"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="22-00-2222"
+                android:id="@+id/woman_next_visit_date"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+            </LinearLayout>
+    </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

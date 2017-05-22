@@ -1,6 +1,7 @@
 package org.ei.opensrp.core.template;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;

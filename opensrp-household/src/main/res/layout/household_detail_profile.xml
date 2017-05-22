@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="2dp"
+        android:layout_margin="1dp">
+
+        <ImageView
+            android:layout_width="@dimen/client_profile_pic_width"
+            android:layout_height="80dp"
+            android:id="@+id/household_pic"
+            android:src="@drawable/household_house"
+            android:layout_margin="5dp"
+            android:scaleType="fitXY" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/household_detail_info_table2"
+            android:background="@drawable/listview_background_rounded">
+        </TableLayout>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/client_profile_pic_width"
+                android:layout_height="80dp"
+                android:id="@+id/household_profilepic"
+                android:src="@drawable/household_profile"
+                android:scaleType="fitXY" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="0dp"
+                android:layout_marginTop="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="99 members"
+                    style="@style/CustomFontTextViewStyle.ListView.Normal"
+                    android:id="@+id/hh_members_count"
+                    android:textSize="14dp"
+                    android:padding="0dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="9 unlisted"
+                    style="@style/CustomFontTextViewStyle.ListView.Normal"
+                    android:id="@+id/hh_unregistered_count"
+                    android:textSize="14dp"
+                    android:padding="0dp"
+                    android:textColor="@android:color/holo_red_dark" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="99 el.women"
+                    style="@style/CustomFontTextViewStyle.ListView.Normal"
+                    android:id="@+id/hh_women_count"
+                    android:textSize="14dp"
+                    android:padding="0dp"
+                    android:textColor="@color/pink" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="99 child(ren)"
+                    style="@style/CustomFontTextViewStyle.ListView.Normal"
+                    android:id="@+id/hh_children_count"
+                    android:textSize="14dp"
+                    android:padding="0dp"
+                    android:textColor="@android:color/holo_orange_dark" />
+
+            </LinearLayout>
+
+            <!--<Button
+                android:id="@+id/hhh_other_register_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Immunize"
+                android:textSize="15sp"
+                android:background="#ffffff"
+                android:textStyle="bold" />-->
+
+        </LinearLayout>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/household_detail_info_table1"
+            android:background="@drawable/listview_background_rounded">
+        </TableLayout>
+    </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/dim_foreground_disabled_material_dark">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            style="@style/CustomFontTextViewStyle.ListView.Medium"
+            android:text="Other Members"
+            android:layout_margin="5dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            style="@style/CustomFontTextViewStyle.ListView.Medium"
+            android:id="@+id/other_members"
+            android:text="##"
+            android:layout_margin="5dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_black"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="11">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/individualList">
+        </ListView>
+    </LinearLayout>
+</LinearLayout>

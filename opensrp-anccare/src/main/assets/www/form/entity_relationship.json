@@ -1,0 +1,18 @@
+[
+  {
+    "parent": "pkwoman",
+    "child": "pkchild",
+    "field": "child",
+    "kind": "one_to_many",
+    "from": "pkwoman.id",
+    "to": "pkchild.relationalid"
+  },
+  {
+    "parent": "pkhousehold",
+    "child": "pkindividual",
+    "field": "individual",
+    "kind": "one_to_many",
+    "from": "pkhousehold.id",
+    "to": "pkindividual.relationalid"
+  }
+]

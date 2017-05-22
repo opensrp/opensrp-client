@@ -110,7 +110,6 @@ public class ChildSmartClientsProvider implements RegisterClientsProvider <Commo
         String lastVaccine = convertDateFormat(nonEmptyValue(pc.getColumnmaps(), false, false, vaccineList), true);
 
         fillValue((TextView) convertView.findViewById(R.id.child_last_visit_date), lastVaccine);
-
         List<Alert> alertlist_for_client = alertService.findByEntityIdAndAlertNames(pc.entityId(),
                 "BCG", "OPV 0", "Penta 1", "OPV 1","PCV 1", "Penta 2", "OPV 2", "PCV 2",
                 "Penta 3", "OPV 3", "PCV 3", "IPV", "Measles 1", "Measles2",

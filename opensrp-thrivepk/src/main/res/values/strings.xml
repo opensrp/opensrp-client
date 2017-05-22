@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">ThrivePK</string>
+    <string name="home_field_monitor_label">Stock</string>
+    <string name="home_women_label">Woman</string>
+
+     <string name="sql_woman_vaccine_report">
+        SELECT 0 i, (CASE pregnant WHEN \'yes\' THEN \'yes\' ELSE \'no\' END) preg,
+SUM(CASE WHEN tt1 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt1,
+SUM(CASE WHEN tt2 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt2,
+SUM(CASE WHEN tt3 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt3,
+SUM(CASE WHEN tt4 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt4,
+SUM(CASE WHEN tt5 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt5
+FROM pkwoman GROUP BY preg
+UNION
+SELECT 1, \'total\' ,
+SUM(CASE WHEN tt1 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt1,
+SUM(CASE WHEN tt2 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt2,
+SUM(CASE WHEN tt3 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt3,
+SUM(CASE WHEN tt4 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt4,
+SUM(CASE WHEN tt5 BETWEEN :datefrom AND :dateto THEN 1 ELSE 0 END) tt5
+FROM pkwoman
+    </string>
+    <string name="sql_child_vaccine_report">
+        SELECT 0 i,  \'bcg\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.bcg)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.bcg BETWEEN :datefrom AND :dateto  UNION
+SELECT 4 i,  \'opv0\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.opv0)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.opv0 BETWEEN :datefrom AND :dateto  UNION
+SELECT 4 i,  \'opv1\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.opv1)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.opv1 BETWEEN :datefrom AND :dateto  UNION
+SELECT 4 i,  \'opv2\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.opv2)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.opv2 BETWEEN :datefrom AND :dateto  UNION
+SELECT 4 i,  \'opv3\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.opv3)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.opv3 BETWEEN :datefrom AND :dateto  UNION
+SELECT 2 i,  \'penta1\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.penta1)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.penta1 BETWEEN :datefrom AND :dateto  UNION
+SELECT 2 i,  \'penta2\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.penta2)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.penta2 BETWEEN :datefrom AND :dateto  UNION
+SELECT 2 i,  \'penta3\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.penta3)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.penta3 BETWEEN :datefrom AND :dateto  UNION
+SELECT 6 i,  \'pcv1\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.pcv1)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.pcv1 BETWEEN :datefrom AND :dateto  UNION
+SELECT 6 i,  \'pcv2\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.pcv2)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.pcv2 BETWEEN :datefrom AND :dateto  UNION
+SELECT 6 i,  \'pcv3\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.pcv3)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.pcv3 BETWEEN :datefrom AND :dateto  UNION
+SELECT 4 i,  \'ipv\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.ipv)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.ipv BETWEEN :datefrom AND :dateto  UNION
+SELECT 8 i,  \'measles1\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.measles1)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.measles1 BETWEEN :datefrom AND :dateto  UNION
+SELECT 8 i,  \'measles2\' vaccine, SUM(CASE WHEN ag.name=\'0-11\' THEN 1 ELSE 0 END) \'lt1\', SUM(CASE WHEN ag.name=\'12-23\' THEN 1 ELSE 0 END) \'b12\', SUM(CASE WHEN ag.name=\'2+\' THEN 1 ELSE 0 END) \'gt2\', COUNT(1) total FROM pkchild c JOIN age ag ON julianday(c.measles2)-julianday(c.dob) BETWEEN ag.start AND ag.end WHERE c.measles2 BETWEEN :datefrom AND :dateto
+    </string>
+    <string name="sql_age_table">
+        SELECT *  FROM (
+	SELECT 0 start, 365 end, \'0-11\' name UNION
+	SELECT 366 start, 730 end, \'12-23\' name UNION
+	SELECT 731 start, 1830 end, \'2+\' name) e
+    </string>
+</resources>

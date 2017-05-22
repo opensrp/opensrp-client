@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/list_item_height" android:background="#eeeeee"
+    android:weightSum="24">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:id="@+id/child_profile_info_layout"
+        android:layout_weight="8"
+        android:background="#ffffff"
+        android:layout_marginRight="1dp">
+
+        <ImageView
+            android:layout_width="@dimen/client_profile_pic_width"
+            android:layout_height="80dp"
+            android:id="@+id/anc_profilepic"
+            android:src="@drawable/pk_woman_avtar"
+            android:layout_margin="2dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Patient ID"
+                style="@style/CustomFontTextViewStyle.ListView.Normal"
+                android:id="@+id/patient_id"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomFontTextViewStyle.ListView.Normal"
+                android:text="Patient's Name"
+                android:id="@+id/patient_name"
+                android:textSize="17sp"
+                android:maxLines="2"
+                android:singleLine="false"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Husband's Name"
+                style="@style/CustomFontTextViewStyle.ListView.Normal"
+                android:id="@+id/patient_husbandname"
+                android:textSize="17sp"
+                android:maxLines="2"
+                android:singleLine="false" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:background="#ffffff"
+        android:layout_marginRight="1dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DD-MM-YYYY"
+            style="@style/CustomFontTextViewStyle.ListView.Normal"
+            android:id="@+id/anc_birthdate"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="## Years"
+            style="@style/CustomFontTextViewStyle.ListView.Normal"
+            android:id="@+id/anc_age"
+            android:textSize="17sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:background="#ffffff"
+        android:layout_marginRight="1dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="#"
+            style="@style/CustomFontTextViewStyle.ListView.Medium"
+            android:id="@+id/anc_visit_number"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:background="#ffffff"
+        android:layout_marginRight="1dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DD-MM-YYYY"
+            style="@style/CustomFontTextViewStyle.ListView.Normal"
+            android:id="@+id/anc_edd"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="## Weaks"
+            style="@style/CustomFontTextViewStyle.ListView.Normal"
+            android:id="@+id/anc_ga"
+            android:textSize="17sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:background="#ffffff"
+        android:layout_marginRight="1dp"
+        android:id="@+id/open_test_form1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Level of Risk"
+            style="@style/CustomFontTextViewStyle.ListView.Medium"
+            android:id="@+id/anc_pregnancy_risk"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+</LinearLayout>

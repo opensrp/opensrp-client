@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">ANC</string>
+    <string name="home_anc_label">ANC</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="content_authority_ce">com.example.opensrp_anc.ce</string>
+    <string name="content_authority_register">com.example.opensrp_anc.register</string>
+
+
+    <string name="anc_profile">WOMAN PROFILE</string>
+    <string name="birthdate_age">DATE OF BIRTH(AGE)</string>
+    <string name="anc_visits">ANC VISITS</string>
+    <string name="edd_ga">EDD AND GA</string>
+    <string name="pregnancy_risk">PREGNANCY RISK</string>
+    <string name="anc_register_title">ANC Register</string>
+    <string name="anc_alphabetical_sort">Alphabetical (Name)</string>
+
+    <string name="search_hint">Search Register</string>
+    <string name="str_provider_profile">Profile</string>
+
+    <string name="id_sort">Program ID </string>
+
+    <string name="woman_alphabetical_sort">Alphabetical (Name)</string>
+    <string name="anc_search">Search</string>
+
+    <string name="contactNumber">Contact</string>
+    <string name="home_household_label">Household</string>
+</resources>

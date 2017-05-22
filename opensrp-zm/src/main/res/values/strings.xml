@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">opensrp-zm</string>
+
+    <string name="zm_register_title">ZM Register</string>
+    <string name="zm_profile">DEMOGRAPHIC INFORMATION</string>
+    <string name="zm_contact_number">CONTACT</string>
+    <string name="zm_address">ADDRESS</string>
+    <string name="zm_last_events">LAST EVENTS</string>
+    <string name="zm_obs_list">DETAILS</string>
+    <string name="zm_attributes">ATTRIBUTES</string>
+    <string name="zm_action">REGISTERS</string>
+    <string name="zm_alphabetical_sort">Alphabetical (Name)</string>
+
+
+    <string name="woman_alphabetical_sort">Alphabetical (Name)</string>
+</resources>

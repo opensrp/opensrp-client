@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">opensrp-household</string>
+    <string name="search_hint">Search</string>
+    <string name="str_provider_profile">Profile</string>
+    <string name="home_household_label">Household</string>
+
+
+    <string name="household_search_hint">Search Household Register</string>
+    <string name="household_profile">HOUSEHOLD HEAD PROFILE</string>
+    <string name="household_members"># MEMBERS</string>
+    <string name="household_address">ADDRESS</string>
+    <string name="household_last_visit">LAST VISIT</string>
+    <string name="household_due_date">NEXT VISIT</string>
+    <string name="household_add_member">ADD MEMBER</string>
+    <string name="household_contactNumber">CONTACT</string>
+
+    <string name="household_title">Household</string>
+    <string name="household_register_title">Household Register</string>
+    <string name="person_id">Household ID</string>
+    <string name="id">ID:</string>
+    <string name="household_head">Household Head</string>
+    <string name="name">Name:</string>
+    <string name="register">Register</string>
+    <string name="household_member_dob">DoB (Age)</string>
+    <string name="gender">Gender</string>
+    <string name="contactNumber">Contact</string>
+    <string name="household_profile_members">Number of Members</string>
+    <string name="household_water">Source of Drinking Water</string>
+    <string name="household_latrine">Latrine System</string>
+    <string name="household_relationship">Relationship:</string>
+    <string name="household_alphabetical_sort">Alphabetical (Head Name)</string>
+</resources>

@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name">opensrp-stock</string>
+
+    <string name="stock_register_title">Stock Register</string>
+    <string name="stock_register_monthly_view">Monthly</string>
+    <string name="stock_register_daily_view">Daily</string>
+
+    <string name="str_field_search_hint">Enter Year (YYYY)</string>
+    <string name="month">MONTH</string>
+    <string name="month_target">TARGET</string>
+    <string name="month_received">RECEIVED</string>
+    <string name="month_used">USED</string>
+    <string name="month_wasted">WASTED</string>
+    <string name="month_inhand">IN HAND</string>
+    <string name="month_starting">STARTING BALANCE</string>
+    <string name="month_current">ENDING BALANCE</string>
+
+    <string name="sort_dob_age">Birth date / Age</string>
+    <string name="sort_program_id">Program / QR ID</string>
+    <string name="sort_name">Alphabetical Name</string>
+    <string name="sort_num_members">Number of Members</string>
+    <string name="sort_num_unregistered_members">Unregistered Members</string>
+
+    <string name="search_hint">Search Register</string>
+    <string name="id_sort">Program ID </string>
+
+    <string name="woman_alphabetical_sort">Alphabetical (Name)</string>
+
+
+
+
+
+    <string name="sql_daily_report">
+         SELECT SUBSTR(t.date,1,7) || \'-\' || dts.dom AS dom,
+       (select count(id) c from pkwoman where date(tt1) = SUBSTR(t.date,1,7) || \'-\' || dts.dom) tt1,
+       (select count(id) c from pkwoman where date(tt2) = SUBSTR(t.date,1,7) || \'-\' || dts.dom) tt2,
+       (select count(id) c from pkwoman where date(tt3) = SUBSTR(t.date,1,7) || \'-\' || dts.dom) tt3,
+       (select count(id) c from pkwoman where date(tt4) = SUBSTR(t.date,1,7) || \'-\' || dts.dom) tt4,
+       (select count(id) c from pkwoman where date(tt5) = SUBSTR(t.date,1,7) || \'-\' || dts.dom) tt5,
+       (select count(id) c from pkchild where date(bcg) = SUBSTR(t.date,1,7) || \'-\' || dts.dom) bcg,
+       (select count(id) c from pkchild where date(opv0) = SUBSTR(t.date,1,7) || \'-\' || dts.dom) opv0,
+       (select count(id) c from pkchild where date(opv1) = SUBSTR(t.date,1,7) || \'-\' || dts.dom) opv1,
+       (select count(id) c from pkchild where date(opv2) = SUBSTR(t.date,1,7) || \'-\' || dts.dom) opv2,
+       (select count(id) c from pkchild where date(opv3) = SUBSTR(t.date,1,7) || \'-\' || dts.dom) opv3,
+       (select count(id) c from pkchild where date(ipv) = SUBSTR(t.date,1,7) || \'-\' || dts.dom) ipv,
+       (select count(id) c from pkchild where date(pcv1) = SUBSTR(t.date,1,7) || \'-\' || dts.dom) pcv1,
+       (select count(id) c from pkchild where date(pcv2) = SUBSTR(t.date,1,7) || \'-\' || dts.dom) pcv2,
+       (select count(id) c from pkchild where date(pcv3) = SUBSTR(t.date,1,7) || \'-\' || dts.dom) pcv3,
+       (select count(id) c from pkchild where date(measles1) = SUBSTR(t.date,1,7) || \'-\' || dts.dom) measles1,
+       (select count(id) c from pkchild where date(measles2) = SUBSTR(t.date,1,7) || \'-\' || dts.dom) measles2,
+       (select count(id) c from pkchild where date(penta1) = SUBSTR(t.date,1,7) || \'-\' || dts.dom) penta1,
+       (select count(id) c from pkchild where date(penta2) = SUBSTR(t.date,1,7) || \'-\' || dts.dom) penta2,
+       (select count(id) c from pkchild where date(penta3) = SUBSTR(t.date,1,7) || \'-\' || dts.dom) penta3, t.*
+    FROM stock t
+    JOIN (SELECT \'01\' dom UNION SELECT \'02\' UNION SELECT \'03\' UNION SELECT \'04\'
+ UNION SELECT \'05\' UNION SELECT \'06\' UNION SELECT \'07\' UNION SELECT \'08\'
+ UNION SELECT \'09\' UNION SELECT \'10\' UNION SELECT \'11\' UNION SELECT \'12\'
+ UNION SELECT \'13\' UNION SELECT \'14\' UNION SELECT \'15\' UNION SELECT \'16\'
+ UNION SELECT \'17\' UNION SELECT \'18\' UNION SELECT \'19\' UNION SELECT \'20\'
+ UNION SELECT \'21\' UNION SELECT \'22\' UNION SELECT \'23\' UNION SELECT \'24\'
+ UNION SELECT \'25\' UNION SELECT \'26\' UNION SELECT \'27\' UNION SELECT \'28\'
+ UNION SELECT \'29\' UNION SELECT \'30\' UNION SELECT \'31\') dts ON dts.dom &lt;= strftime(\'%d\', date(t.date,\'start of month\',\'+1 month\',\'-1 day\'))
+ WHERE t.report=\'monthly\' AND t.date LIKE :reportingDate
+    </string>
+
+</resources>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                app:srcCompat="@drawable/listview_background_rounded"
+                android:id="@+id/profile_pic"
+                android:scaleType="fitXY"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+
+            <TextView
+                android:text="Afia Rehman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/name"
+                android:textStyle="normal|bold"
+                android:textSize="20sp"
+                android:textColor="@color/text_black"
+                android:layout_marginLeft="10dp" />
+
+            <TextView
+                android:text="22-22-2222 (xx years)"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/age"
+                android:textColor="@color/text_black"
+                android:layout_marginLeft="20dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:text="W/O- Abdur-rehman Khan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/guardian_name"
+        android:textSize="16sp"
+        android:textColor="@color/text_black"
+        android:layout_marginLeft="50dp" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:id="@+id/obs_table">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </TableLayout>
+</LinearLayout>

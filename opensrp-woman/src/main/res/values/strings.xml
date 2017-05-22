@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">opensrp-woman</string>
+
+    <string name="woman_entries"></string>
+    <string name="woman_register_title">Woman Register</string>
+    <string name="str_woman_search_hint">Search Woman Register</string>
+    <string name="woman_profile">WOMAN DEMOGRAPHIC INFORMATION</string>
+    <string name="woman_title">Woman</string>
+    <string name="woman_contact_number">CONTACT</string>
+    <string name="woman_edd">EDD and GA</string>
+    <string name="woman_last_vaccine">LAST VACCINE</string>
+    <string name="woman_next_vaacine">NEXT VACCINE DUE</string>
+    <string name="woman_alphabetical_sort">Alphabetical (Name)</string>
+    <string name="woman_details_title">Woman Profile</string>
+
+    <string name="id_sort">Program ID </string>
+    <string name="epi_number">EPI CARD</string>
+</resources>

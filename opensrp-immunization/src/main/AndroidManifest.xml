@@ -65,7 +65,7 @@
 
         <activity android:name=".ProviderProfileActivity"></activity>
 
-        <provider
+      <!--  <provider
             android:name="org.ei.opensrp.core.db.repository.RegisterContentProvider"
             android:authorities="org.ei.opensrp.provider.registers"
             android:readPermission="android.permission.permRead"
@@ -78,7 +78,7 @@
             android:readPermission="android.permission.permRead"
             android:enabled="true"
             android:exported="true" android:syncable="true">
-        </provider>
+        </provider>-->
 
     </application>
 

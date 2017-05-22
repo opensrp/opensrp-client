@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">opensrp-child</string>
+
+    <string name="child_entries">Child</string>
+    <string name="child_profile">CHILD PROFILE</string>
+    <string name="child_DOB">Date Of Birth</string>
+    <string name="child_reminder">REMINDER</string>
+    <string name="child_last_vaccine">LAST VACCINE(S)</string>
+    <string name="child_next_vaacine">NEXT VACCINE(S) DUE</string>
+    <string name="child_register_title">Child Register</string>
+    <string name="child_title">Child</string>
+    <string name="child_alphabetical_sort">Alphabetical (Child Name)</string>
+    <string name="child_id_sort">Program Id </string>
+    <string name="child_search_hint">Search Child</string>
+    <string name="child_details_title"> Child Details</string>
+    <string name="child_contact_number">CONTACT</string>
+
+    <string name="register_search_hint">Search</string>
+    <string name="vaccination_summary"> Vaccination Summary</string>
+    <string name="woman_alphabetical_sort">Alphabetical (Name)</string>
+    <string name="birthdate_age">DOB (AGE)</string>
+    <string name="epi_number">EPI CARD</string>
+
+</resources>

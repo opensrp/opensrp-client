@@ -5,6 +5,20 @@
     <application android:allowBackup="true" android:label="@string/app_name"
         android:supportsRtl="true">
 
+        <provider
+            android:name="org.ei.opensrp.core.db.repository.RegisterContentProvider"
+            android:authorities="org.ei.opensrp.provider.registers"
+            android:readPermission="android.permission.permRead"
+            android:enabled="true"
+            android:exported="true" android:syncable="true">
+        </provider>
+        <provider
+            android:name="org.ei.opensrp.core.db.repository.CEContentProvider"
+            android:authorities="org.ei.opensrp.provider.cedb"
+            android:readPermission="android.permission.permRead"
+            android:enabled="true"
+            android:exported="true" android:syncable="true">
+        </provider>
     </application>
 
 </manifest>

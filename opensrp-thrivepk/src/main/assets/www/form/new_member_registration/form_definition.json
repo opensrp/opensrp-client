@@ -1,0 +1,191 @@
+{
+  "form_data_definition_version" : "2",
+  "form" : {
+    "bind_type" : "pkindividual",
+    "default_bind_path" : "/model/instance/new_member_registration_form/",
+    "fields" : [ {
+      "name" : "id",
+      "shouldLoadValue" : true
+    }, {
+      "name": "relationalid",
+      "shouldLoadValue": true
+    }, {
+      "name" : "provider_uc",
+      "bind" : "/model/instance/new_member_registration_form/provider_uc"
+    }, {
+      "name" : "provider_town",
+      "bind" : "/model/instance/new_member_registration_form/provider_town"
+    }, {
+      "name" : "provider_city",
+      "bind" : "/model/instance/new_member_registration_form/provider_city"
+    }, {
+      "name" : "provider_province",
+      "bind" : "/model/instance/new_member_registration_form/provider_province"
+    }, {
+      "name" : "provider_id",
+      "bind" : "/model/instance/new_member_registration_form/provider_id"
+    }, {
+      "name" : "provider_location_id",
+      "bind" : "/model/instance/new_member_registration_form/provider_location_id"
+    }, {
+      "name" : "provider_location_name",
+      "bind" : "/model/instance/new_member_registration_form/provider_location_name"
+    }, {
+      "name" : "existing_household_id",
+      "bind" : "/model/instance/new_member_registration_form/existing_household_id"
+    }, {
+      "name" : "existing_full_name_hhh",
+      "bind" : "/model/instance/new_member_registration_form/existing_full_name_hhh"
+    }, {
+      "name" : "existing_full_address",
+      "bind" : "/model/instance/new_member_registration_form/existing_full_address"
+    }, {
+      "name" : "existing_program_client_id",
+      "bind" : "/model/instance/new_member_registration_form/existing_program_client_id"
+    }, {
+      "name" : "existing_num_members",
+      "bind" : "/model/instance/new_member_registration_form/existing_num_members"
+    }, {
+      "name" : "existing_num_household_members",
+      "bind" : "/model/instance/new_member_registration_form/existing_num_household_members"
+    }, {
+      "name" : "provider_location_note",
+      "bind" : "/model/instance/new_member_registration_form/provider_location_note"
+    }, {
+      "name" : "province",
+      "bind" : "/model/instance/new_member_registration_form/province"
+    }, {
+      "name" : "city_village",
+      "bind" : "/model/instance/new_member_registration_form/city_village"
+    }, {
+      "name" : "town",
+      "bind" : "/model/instance/new_member_registration_form/town"
+    }, {
+      "name" : "union_council",
+      "bind" : "/model/instance/new_member_registration_form/union_council"
+    }, {
+      "name" : "address1",
+      "bind" : "/model/instance/new_member_registration_form/address1"
+    }, {
+      "name" : "start",
+      "bind" : "/model/instance/new_member_registration_form/start"
+    }, {
+      "name" : "end",
+      "bind" : "/model/instance/new_member_registration_form/end"
+    }, {
+      "name" : "today",
+      "bind" : "/model/instance/new_member_registration_form/today"
+    }, {
+      "name" : "deviceid",
+      "bind" : "/model/instance/new_member_registration_form/deviceid"
+    }, {
+      "name" : "subscriberid",
+      "bind" : "/model/instance/new_member_registration_form/subscriberid"
+    }, {
+      "name" : "simserial",
+      "bind" : "/model/instance/new_member_registration_form/simserial"
+    }, {
+      "name" : "phonenumber",
+      "bind" : "/model/instance/new_member_registration_form/phonenumber"
+    }, {
+      "name" : "num_household_members",
+      "bind" : "/model/instance/new_member_registration_form/num_household_members"
+    }, {
+      "name" : "client_reg_date",
+      "bind" : "/model/instance/new_member_registration_form/client_reg_date"
+    }, {
+      "name" : "household_id",
+      "bind" : "/model/instance/new_member_registration_form/household_id"
+    }, {
+      "name" : "household_role",
+      "bind" : "/model/instance/new_member_registration_form/household_role"
+    }, {
+      "name" : "household_id_note",
+      "bind" : "/model/instance/new_member_registration_form/household_id_note"
+    }, {
+      "name" : "name_hhh",
+      "bind" : "/model/instance/new_member_registration_form/name_hhh"
+    }, {
+      "name" : "address",
+      "bind" : "/model/instance/new_member_registration_form/address"
+    }, {
+      "name" : "program_client_id",
+      "bind" : "/model/instance/new_member_registration_form/individual/program_client_id"
+    }, {
+      "name" : "program_client_id_note",
+      "bind" : "/model/instance/new_member_registration_form/individual/program_client_id_note"
+    }, {
+      "name" : "first_name",
+      "bind" : "/model/instance/new_member_registration_form/individual/first_name"
+    }, {
+      "name" : "gender",
+      "bind" : "/model/instance/new_member_registration_form/individual/gender"
+    }, {
+      "name" : "birth_date_known",
+      "bind" : "/model/instance/new_member_registration_form/individual/birth_date_known"
+    }, {
+      "name" : "birth_date",
+      "bind" : "/model/instance/new_member_registration_form/individual/birth_date"
+    }, {
+      "name" : "age",
+      "bind" : "/model/instance/new_member_registration_form/individual/age"
+    }, {
+      "name" : "age_unit",
+      "bind" : "/model/instance/new_member_registration_form/individual/age_unit"
+    }, {
+      "name" : "calc_age",
+      "bind" : "/model/instance/new_member_registration_form/individual/calc_age"
+    }, {
+      "name" : "calc_dob",
+      "bind" : "/model/instance/new_member_registration_form/individual/calc_dob"
+    }, {
+      "name" : "dob",
+      "bind" : "/model/instance/new_member_registration_form/individual/dob"
+    }, {
+      "name" : "dob_estimated",
+      "bind" : "/model/instance/new_member_registration_form/individual/dob_estimated"
+    }, {
+      "name" : "birth_date_note",
+      "bind" : "/model/instance/new_member_registration_form/individual/birth_date_note"
+    }, {
+      "name" : "household_member_id",
+      "bind" : "/model/instance/new_member_registration_form/individual/household_member_id"
+    }, {
+      "name" : "household_member_id_note",
+      "bind" : "/model/instance/new_member_registration_form/individual/household_member_id_note"
+    }, {
+      "name" : "contact_phone_number",
+      "bind" : "/model/instance/new_member_registration_form/individual/contact_phone_number"
+    }, {
+      "name" : "ethnicity",
+      "bind" : "/model/instance/new_member_registration_form/individual/ethnicity"
+    }, {
+      "name" : "ethnicity_other",
+      "bind" : "/model/instance/new_member_registration_form/individual/ethnicity_other"
+    }, {
+      "name" : "relationship",
+      "bind" : "/model/instance/new_member_registration_form/relationship"
+    }, {
+      "name" : "relationship_other",
+      "bind" : "/model/instance/new_member_registration_form/relationship_other"
+    }, {
+      "name" : "is_child",
+      "bind" : "/model/instance/new_member_registration_form/is_child"
+    }, {
+      "name" : "note_child",
+      "bind" : "/model/instance/new_member_registration_form/note_child"
+    }, {
+      "name" : "is_rep_woman",
+      "bind" : "/model/instance/new_member_registration_form/is_rep_woman"
+    }, {
+      "name" : "note_rep_women",
+      "bind" : "/model/instance/new_member_registration_form/note_rep_women"
+    }, {
+      "name" : "comments",
+      "bind" : "/model/instance/new_member_registration_form/comments"
+    }, {
+      "name" : "instanceID",
+      "bind" : "/model/instance/new_member_registration_form/meta/instanceID"
+    } ]
+  }
+}
