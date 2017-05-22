@@ -1,7 +1,6 @@
 package org.ei.opensrp.domain;
 
 import java.util.Date;
-import java.util.HashMap;
 
 /**
  * Created by keyman on 3/1/17.
@@ -19,8 +18,8 @@ public class ServiceRecord {
     String formSubmissionId;
     Long updatedAt;
 
-    ServiceType serviceType;
-
+    String type;
+    String name;
 
     public ServiceRecord() {
     }
@@ -127,15 +126,19 @@ public class ServiceRecord {
         this.formSubmissionId = formSubmissionId;
     }
 
-    public void setServiceType(ServiceType serviceType) {
-        this.serviceType = serviceType;
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getName() {
-        if (serviceType == null) {
-            return null;
-        }
-        return serviceType.getName();
+        return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 }

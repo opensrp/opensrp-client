@@ -39,6 +39,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.domain.AlertStatus;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.domain.Alert;
+import org.ei.opensrp.domain.ServiceRecord;
 import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.db.VaccineRepo;
@@ -46,6 +47,7 @@ import org.ei.opensrp.path.db.VaccineRepo.Vaccine;
 import org.ei.opensrp.path.domain.VaccineWrapper;
 import org.ei.opensrp.path.fragment.UndoVaccinationDialogFragment;
 import org.ei.opensrp.path.fragment.VaccinationDialogFragment;
+import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
 import org.ei.opensrp.util.IntegerUtil;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
@@ -387,7 +389,7 @@ public class VaccinatorUtils {
             } */ else if (alerts.size() > 0) {
                 for (Alert a : alerts) {
                     if (a.scheduleName().equalsIgnoreCase(s.getName())
-                            || a.visitCode().equalsIgnoreCase(s.getName())){
+                            || a.visitCode().equalsIgnoreCase(s.getName())) {
                         m = createServiceMap("due", a, new DateTime(a.startDate()), s);
                     }
                 }
@@ -500,7 +502,7 @@ public class VaccinatorUtils {
     public static Map<String, Object> nextServiceDue(List<Map<String, Object>> schedule, Date lastVisit) {
         Map<String, Object> v = null;
         for (Map<String, Object> m : schedule) {
-            if (m != null && m.get("status") != null && m.get("service").toString().equalsIgnoreCase("due")) {
+            if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
 
                 if (v == null) {
                     v = m;
@@ -544,6 +546,26 @@ public class VaccinatorUtils {
                             }
                         }
                     }
+                }
+            }
+        }
+        return v;
+    }
+
+    public static Map<String, Object> nextServiceDue(List<Map<String, Object>> schedule, ServiceRecord lastServiceRecord) {
+        if (lastServiceRecord == null || StringUtils.isBlank(lastServiceRecord.getType()) || StringUtils.isBlank(lastServiceRecord.getName())) {
+            return null;
+        }
+
+        if (!lastServiceRecord.getSyncStatus().equalsIgnoreCase(RecurringServiceRecordRepository.TYPE_Unsynced)) {
+            return null;
+        }
+        Map<String, Object> v = null;
+        for (Map<String, Object> m : schedule) {
+            if (m != null && m.get("service") != null) {
+                ServiceType mServiceType = (ServiceType) m.get("service");
+                if (mServiceType.getName().equalsIgnoreCase(lastServiceRecord.getName()) && mServiceType.getType().equalsIgnoreCase(lastServiceRecord.getType())) {
+                    v = m;
                 }
             }
         }

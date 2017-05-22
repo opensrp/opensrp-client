@@ -98,7 +98,7 @@ public class ServiceCardAdapter extends BaseAdapter {
                 String childName = getName(firstName, lastName);
                 serviceWrapper.setPatientName(childName.trim());
 
-                serviceGroup.updateWrapper(type, serviceWrapper);
+                serviceGroup.updateWrapperStatus(type, serviceWrapper);
                 serviceGroup.updateWrapper(serviceWrapper);
                 serviceCard.setServiceWrapper(serviceWrapper);
 
@@ -121,8 +121,8 @@ public class ServiceCardAdapter extends BaseAdapter {
                 }
             } else {// Update just the vaccines specified
                 for (ServiceWrapper currWrapper : servicesToUpdate) {
-                    if (serviceCards.containsKey(currWrapper.getName())) {
-                        serviceCards.get(currWrapper.getName()).updateState();
+                    if (serviceCards.containsKey(currWrapper.getType())) {
+                        serviceCards.get(currWrapper.getType()).updateState();
                     }
                 }
             }

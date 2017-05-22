@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Triple;
 import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
@@ -38,6 +37,7 @@ import org.ei.opensrp.path.domain.VaccineWrapper;
 import org.ei.opensrp.path.domain.WeightWrapper;
 import org.ei.opensrp.path.fragment.RecordWeightDialogFragment;
 import org.ei.opensrp.path.fragment.ServiceDialogFragment;
+import org.ei.opensrp.path.fragment.UndoServiceDialogFragment;
 import org.ei.opensrp.path.fragment.UndoVaccinationDialogFragment;
 import org.ei.opensrp.path.fragment.VaccinationDialogFragment;
 import org.ei.opensrp.path.listener.ServiceActionListener;
@@ -326,7 +326,7 @@ public class ChildImmunizationActivity extends BaseActivity
             curGroup.setOnServiceUndoClickListener(new ServiceGroup.OnServiceUndoClickListener() {
                 @Override
                 public void onUndoClick(ServiceGroup serviceGroup, ServiceWrapper serviceWrapper) {
-                    //addVaccineUndoDialogFragment(serviceGroup, serviceWrapper);
+                   addServiceUndoDialogFragment(serviceGroup, serviceWrapper);
                 }
             });
             serviceGroupCanvasLL.addView(curGroup);
@@ -398,6 +398,20 @@ public class ChildImmunizationActivity extends BaseActivity
 
         UndoVaccinationDialogFragment undoVaccinationDialogFragment = UndoVaccinationDialogFragment.newInstance(vaccineWrapper);
         undoVaccinationDialogFragment.show(ft, DIALOG_TAG);
+    }
+
+    private void addServiceUndoDialogFragment(ServiceGroup serviceGroup, ServiceWrapper serviceWrapper) {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag(DIALOG_TAG);
+        if (prev != null) {
+            ft.remove(prev);
+        }
+
+        ft.addToBackStack(null);
+        serviceGroup.setModalOpen(true);
+
+        UndoServiceDialogFragment undoServiceDialogFragment = UndoServiceDialogFragment.newInstance(serviceWrapper);
+        undoServiceDialogFragment.show(ft, DIALOG_TAG);
     }
 
     private void updateRecordWeightView(Weight weight) {
@@ -1031,14 +1045,6 @@ public class ChildImmunizationActivity extends BaseActivity
 
             if (recurringServiceRecordRepository != null) {
                 serviceRecords = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());
-                if (!serviceRecords.isEmpty() && recurringServiceTypeRepository != null) {
-                    for (ServiceRecord serviceRecord : serviceRecords) {
-                        ServiceType serviceType = recurringServiceTypeRepository.find(serviceRecord.getRecurringServiceId());
-                        if (serviceType != null) {
-                            serviceRecord.setServiceType(serviceType);
-                        }
-                    }
-                }
             }
 
             if (recurringServiceTypeRepository != null) {
@@ -1129,18 +1135,184 @@ public class ChildImmunizationActivity extends BaseActivity
         }
     }
 
+    // Recurring Service
     @Override
-    public void onGiveToday(ServiceWrapper tag, View view) {
-
+    public void onGiveToday(ServiceWrapper tag, View v) {
+        View view = getLastOpenedServiceView();
+        saveService(tag, view);
     }
 
     @Override
-    public void onGiveEarlier(ServiceWrapper tag, View view) {
-
+    public void onGiveEarlier(ServiceWrapper tag, View v) {
+        View view = getLastOpenedServiceView();
+        saveService(tag, view);
     }
 
     @Override
-    public void onUndoService(ServiceWrapper tag, View view) {
+    public void onUndoService(ServiceWrapper tag, View v) {
+        if (tag != null) {
+
+            if (tag.getDbKey() != null) {
+                RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
+                Long dbKey = tag.getDbKey();
+                recurringServiceRecordRepository.deleteServiceRecord(dbKey);
+
+                tag.setUpdatedVaccineDate(null, false);
+                tag.setDbKey(null);
+
+                View view = getLastOpenedServiceView();
+
+                List<ServiceRecord> serviceRecordList = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());
+
+                ArrayList<ServiceWrapper> wrappers = new ArrayList<>();
+                wrappers.add(tag);
+                updateServiceGroupViews(view, wrappers, serviceRecordList, true);
+            }
+        }
+    }
+
+    private class SaveServiceTask extends AsyncTask<ServiceWrapper, Void, Pair<ArrayList<ServiceWrapper>, List<ServiceRecord>>> {
+
+        private View view;
+        private RecurringServiceTypeRepository recurringServiceTypeRepository;
+        private RecurringServiceRecordRepository recurringServiceRecordRepository;
+
+        public void setView(View view) {
+            this.view = view;
+        }
+
+        public void setRecurringServiceTypeRepository(RecurringServiceTypeRepository recurringServiceTypeRepository) {
+            this.recurringServiceTypeRepository = recurringServiceTypeRepository;
+        }
+
+        public void setRecurringServiceRecordRepository(RecurringServiceRecordRepository recurringServiceRecordRepository) {
+            this.recurringServiceRecordRepository = recurringServiceRecordRepository;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            showProgressDialog();
+        }
+
+        @Override
+        protected void onPostExecute(Pair<ArrayList<ServiceWrapper>, List<ServiceRecord>> pair) {
+            hideProgressDialog();
+            updateServiceGroupViews(view, pair.first, pair.second);
+        }
+
+        @Override
+        protected Pair<ArrayList<ServiceWrapper>, List<ServiceRecord>> doInBackground(ServiceWrapper... params) {
+
+            ArrayList<ServiceWrapper> list = new ArrayList<>();
+            if (recurringServiceRecordRepository != null) {
+                for (ServiceWrapper tag : params) {
+                    saveService(recurringServiceRecordRepository, tag);
+                    list.add(tag);
+                }
+
+            }
+
+            List<ServiceRecord> serviceRecordList = new ArrayList<>();
+            if (recurringServiceRecordRepository != null) {
+                serviceRecordList = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());
+            }
+
+            Pair<ArrayList<ServiceWrapper>, List<ServiceRecord>> pair = new Pair<>(list, serviceRecordList);
+            return pair;
+        }
 
     }
+
+    private void saveService(RecurringServiceRecordRepository recurringServiceRecordRepository, ServiceWrapper tag) {
+        if (tag.getUpdatedVaccineDate() == null) {
+            return;
+        }
+
+
+        ServiceRecord serviceRecord = new ServiceRecord();
+        if (tag.getDbKey() != null) {
+            serviceRecord = recurringServiceRecordRepository.find(tag.getDbKey());
+        }
+        serviceRecord.setBaseEntityId(childDetails.entityId());
+        serviceRecord.setRecurringServiceId(tag.getTypeId());
+        serviceRecord.setDate(tag.getUpdatedVaccineDate().toDate());
+        serviceRecord.setAnmId(getOpenSRPContext().allSharedPreferences().fetchRegisteredANM());
+        serviceRecord.setValue(tag.getValue());
+        try {
+            serviceRecord.setLocationId(JsonFormUtils.getOpenMrsLocationId(getOpenSRPContext(),
+                    toolbar.getCurrentLocation()));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        recurringServiceRecordRepository.add(serviceRecord);
+        tag.setDbKey(serviceRecord.getId());
+        setLastModified(true);
+    }
+
+    private void updateServiceGroupViews(View view, final ArrayList<ServiceWrapper> wrappers, List<ServiceRecord> serviceRecordList) {
+        updateServiceGroupViews(view, wrappers, serviceRecordList, false);
+    }
+
+    private void updateServiceGroupViews(View view, final ArrayList<ServiceWrapper> wrappers, final List<ServiceRecord> serviceRecordList, final boolean undo) {
+        if (view == null || !(view instanceof ServiceGroup)) {
+            return;
+        }
+        final ServiceGroup serviceGroup = (ServiceGroup) view;
+        serviceGroup.setModalOpen(false);
+
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            if (undo) {
+                serviceGroup.setServiceRecordList(serviceRecordList);
+                serviceGroup.updateWrapperStatus(wrappers);
+            }
+            serviceGroup.updateViews(wrappers);
+
+        } else {
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (undo) {
+                        serviceGroup.setServiceRecordList(serviceRecordList);
+                        serviceGroup.updateWrapperStatus(wrappers);
+                    }
+                    serviceGroup.updateViews(wrappers);
+                }
+            });
+        }
+    }
+
+    private ServiceGroup getLastOpenedServiceView() {
+        if (serviceGroups == null) {
+            return null;
+        }
+
+        for (ServiceGroup serviceGroup : serviceGroups) {
+            if (serviceGroup.isModalOpen()) {
+                return serviceGroup;
+            }
+        }
+
+        return null;
+    }
+
+    private void saveService(ServiceWrapper tag, final View view) {
+        if (tag == null) {
+            return;
+        }
+
+        RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
+        RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
+
+
+        ServiceWrapper[] arrayTags = {tag};
+        SaveServiceTask backgroundTask = new SaveServiceTask();
+        backgroundTask.setRecurringServiceTypeRepository(recurringServiceTypeRepository);
+        backgroundTask.setRecurringServiceRecordRepository(recurringServiceRecordRepository);
+        backgroundTask.setView(view);
+        Utils.startAsyncTask(backgroundTask, arrayTags);
+    }
+
 }

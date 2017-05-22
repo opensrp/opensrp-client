@@ -84,7 +84,6 @@ public class RecurringServiceRecordRepository extends BaseRepository {
             String idSelection = ID_COLUMN + " = ?";
             database.update(TABLE_NAME, createValuesFor(serviceRecord), idSelection, new String[]{serviceRecord.getId().toString()});
         }
-        updateFtsSearch(serviceRecord);
     }
 
     public List<ServiceRecord> findUnSyncedBeforeTime(int hours) {
@@ -108,10 +107,12 @@ public class RecurringServiceRecordRepository extends BaseRepository {
         return serviceRecords;
     }
 
-
     public List<ServiceRecord> findByEntityId(String entityId) {
         SQLiteDatabase database = getPathRepository().getReadableDatabase();
-        Cursor cursor = database.query(TABLE_NAME, TABLE_COLUMNS, BASE_ENTITY_ID + " = ? ORDER BY " + UPDATED_AT_COLUMN, new String[]{entityId}, null, null, null, null);
+        String sql = " SELECT " + TABLE_NAME + ".*, " + RecurringServiceTypeRepository.TABLE_NAME + ".name, " + RecurringServiceTypeRepository.TABLE_NAME + ".type FROM " + TABLE_NAME + " LEFT JOIN " + RecurringServiceTypeRepository.TABLE_NAME +
+                " ON " + TABLE_NAME + "." + RECURRING_SERVICE_ID + " = " + RecurringServiceTypeRepository.TABLE_NAME + "." + RecurringServiceTypeRepository.ID_COLUMN +
+                " WHERE " + TABLE_NAME + "." + BASE_ENTITY_ID + " = ? ORDER BY " + TABLE_NAME + "." + UPDATED_AT_COLUMN;
+        Cursor cursor = database.rawQuery(sql, new String[]{entityId});
         return readAllServiceRecords(cursor);
     }
 
@@ -138,8 +139,6 @@ public class RecurringServiceRecordRepository extends BaseRepository {
         ServiceRecord serviceRecord = find(caseId);
         if (serviceRecord != null) {
             getPathRepository().getWritableDatabase().delete(TABLE_NAME, ID_COLUMN + "= ?", new String[]{caseId.toString()});
-
-            updateFtsSearch(serviceRecord.getBaseEntityId(), serviceRecord.getRecurringServiceId());
         }
     }
 
@@ -156,19 +155,26 @@ public class RecurringServiceRecordRepository extends BaseRepository {
 
             if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
-                    serviceRecords.add(
-                            new ServiceRecord(cursor.getLong(cursor.getColumnIndex(ID_COLUMN)),
-                                    cursor.getString(cursor.getColumnIndex(BASE_ENTITY_ID)),
-                                    cursor.getLong(cursor.getColumnIndex(RECURRING_SERVICE_ID)),
-                                    cursor.getString(cursor.getColumnIndex(VALUE)),
-                                    new Date(cursor.getLong(cursor.getColumnIndex(DATE))),
-                                    cursor.getString(cursor.getColumnIndex(ANMID)),
-                                    cursor.getString(cursor.getColumnIndex(LOCATIONID)),
-                                    cursor.getString(cursor.getColumnIndex(SYNC_STATUS)),
-                                    cursor.getString(cursor.getColumnIndex(EVENT_ID)),
-                                    cursor.getString(cursor.getColumnIndex(FORMSUBMISSION_ID)),
-                                    cursor.getLong(cursor.getColumnIndex(UPDATED_AT_COLUMN)))
-                    );
+                    ServiceRecord serviceRecord = new ServiceRecord(cursor.getLong(cursor.getColumnIndex(ID_COLUMN)),
+                            cursor.getString(cursor.getColumnIndex(BASE_ENTITY_ID)),
+                            cursor.getLong(cursor.getColumnIndex(RECURRING_SERVICE_ID)),
+                            cursor.getString(cursor.getColumnIndex(VALUE)),
+                            new Date(cursor.getLong(cursor.getColumnIndex(DATE))),
+                            cursor.getString(cursor.getColumnIndex(ANMID)),
+                            cursor.getString(cursor.getColumnIndex(LOCATIONID)),
+                            cursor.getString(cursor.getColumnIndex(SYNC_STATUS)),
+                            cursor.getString(cursor.getColumnIndex(EVENT_ID)),
+                            cursor.getString(cursor.getColumnIndex(FORMSUBMISSION_ID)),
+                            cursor.getLong(cursor.getColumnIndex(UPDATED_AT_COLUMN)));
+
+                    if (cursor.getColumnIndex(RecurringServiceTypeRepository.TYPE) > -1) {
+                        serviceRecord.setType(cursor.getString(cursor.getColumnIndex(RecurringServiceTypeRepository.TYPE)));
+                    }
+
+                    if (cursor.getColumnIndex(RecurringServiceTypeRepository.NAME) > -1) {
+                        serviceRecord.setName(cursor.getString(cursor.getColumnIndex(RecurringServiceTypeRepository.NAME)));
+                    }
+                    serviceRecords.add(serviceRecord);
 
                     cursor.moveToNext();
                 }
@@ -196,47 +202,6 @@ public class RecurringServiceRecordRepository extends BaseRepository {
         values.put(FORMSUBMISSION_ID, serviceRecord.getFormSubmissionId() != null ? serviceRecord.getFormSubmissionId() : null);
         values.put(UPDATED_AT_COLUMN, serviceRecord.getUpdatedAt() != null ? serviceRecord.getUpdatedAt() : null);
         return values;
-    }
-
-    //-----------------------
-    // FTS methods
-    public void updateFtsSearch(ServiceRecord serviceRecord) {
-        try {
-            if (commonFtsObject != null && alertService() != null) {
-                String entityId = serviceRecord.getBaseEntityId();
-
-                //TODO whether to update fts
-                /*
-                String scheduleName = commonFtsObject.getAlertScheduleName(vaccineName);
-
-                String bindType = commonFtsObject.getAlertBindType(scheduleName);
-
-                if (StringUtils.isNotBlank(bindType) && StringUtils.isNotBlank(scheduleName) && StringUtils.isNotBlank(entityId)) {
-                    String field = addHyphen(scheduleName);
-                    // update vaccine status
-                    alertService().updateFtsSearchInACR(bindType, entityId, field, AlertStatus.complete.value());
-                } */
-            }
-        } catch (Exception e) {
-            Log.e(TAG, Log.getStackTraceString(e));
-        }
-
-    }
-
-    public void updateFtsSearch(String entityId, Long recurringServiceId) {
-        try {
-            if (commonFtsObject != null && alertService() != null) {
-
-                //TODO whether to update fts
-                /* String scheduleName = commonFtsObject.getAlertScheduleName(vaccineName);
-                if (StringUtils.isNotBlank(entityId) && StringUtils.isNotBlank(scheduleName)) {
-                    Alert alert = alertService().findByEntityIdAndScheduleName(entityId, scheduleName);
-                    alertService().updateFtsSearch(alert, true);
-                } */
-            }
-        } catch (Exception e) {
-            Log.e(TAG, Log.getStackTraceString(e));
-        }
     }
 
     public AlertService alertService() {

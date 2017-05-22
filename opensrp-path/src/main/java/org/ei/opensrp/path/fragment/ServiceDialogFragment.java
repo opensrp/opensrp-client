@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vijay.jsonwizard.utils.DatePickerUtils;
 
@@ -26,6 +27,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.domain.ServiceWrapper;
 import org.ei.opensrp.path.listener.ServiceActionListener;
+import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
+import org.ei.opensrp.path.service.intent.RecurringIntentService;
 import org.ei.opensrp.util.OpenSRPImageLoader;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.joda.time.DateTime;
@@ -127,6 +130,121 @@ public class ServiceDialogFragment extends DialogFragment {
 
         if (tag.getType().equalsIgnoreCase("ITN")) {
             itnActions.setVisibility(View.VISIBLE);
+
+            final View step1 = itnActions.findViewById(R.id.step_1);
+            final View step2 = itnActions.findViewById(R.id.step_2);
+            final View step3 = itnActions.findViewById(R.id.step_3);
+
+            step1.setVisibility(View.VISIBLE);
+
+            step2.setVisibility(View.GONE);
+            step3.setVisibility(View.GONE);
+
+            // step 1
+            Button yes1 = (Button) step1.findViewById(R.id.yes_1);
+            yes1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    step2.setVisibility(View.VISIBLE);
+
+                    step1.setVisibility(View.GONE);
+                    step3.setVisibility(View.GONE);
+                }
+            });
+
+
+            Button no1 = (Button) step1.findViewById(R.id.no_1);
+            no1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    step3.setVisibility(View.VISIBLE);
+
+                    step1.setVisibility(View.GONE);
+                    step2.setVisibility(View.GONE);
+                }
+            });
+
+            Button cancel1 = (Button) step1.findViewById(R.id.cancel_1);
+            cancel1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+
+            // step 2
+            final DatePicker itnDatePicker = (DatePicker) step2.findViewById(R.id.itn_date_picker);
+            Button recordItn = (Button) step2.findViewById(R.id.record_itn);
+            recordItn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+
+                    int day = itnDatePicker.getDayOfMonth();
+                    int month = itnDatePicker.getMonth();
+                    int year = itnDatePicker.getYear();
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(year, month, day);
+                    DateTime dateTime = new DateTime(calendar.getTime());
+
+                    tag.setUpdatedVaccineDate(dateTime, false);
+                    tag.setValue(RecurringIntentService.ITN_PROVIDED);
+                    listener.onGiveEarlier(tag, v);
+                }
+            });
+
+
+            Button goBack2 = (Button) step2.findViewById(R.id.go_back_2);
+            goBack2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    step1.setVisibility(View.VISIBLE);
+
+                    step2.setVisibility(View.GONE);
+                    step3.setVisibility(View.GONE);
+                }
+            });
+
+            // step 3
+            Button yes3 = (Button) step3.findViewById(R.id.yes_3);
+            yes3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+
+                    Calendar calendar = Calendar.getInstance();
+                    DateTime dateTime = new DateTime(calendar.getTime());
+
+                    tag.setUpdatedVaccineDate(dateTime, true);
+                    tag.setValue(RecurringIntentService.CHILD_HAS_NET);
+                    listener.onGiveToday(tag, v);
+                }
+            });
+
+            Button no_3 = (Button) step3.findViewById(R.id.no_3);
+            no_3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    step1.setVisibility(View.VISIBLE);
+
+                    step2.setVisibility(View.GONE);
+                    step3.setVisibility(View.GONE);
+                }
+            });
+
+            Button goBack3 = (Button) step3.findViewById(R.id.go_back_3);
+            goBack3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    step1.setVisibility(View.VISIBLE);
+
+                    step2.setVisibility(View.GONE);
+                    step3.setVisibility(View.GONE);
+                }
+            });
+
+
         } else {
             defaultActions.setVisibility(View.VISIBLE);
 

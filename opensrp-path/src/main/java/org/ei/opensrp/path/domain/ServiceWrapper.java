@@ -17,15 +17,12 @@ public class ServiceWrapper implements Serializable {
     private String defaultName;
     private String gender;
     private String status;
-    private Vaccine vaccine;
     private DateTime vaccineDate;
     private Alert alert;
     private String previousVaccineId;
     private DateTime dob;
 
     private String color;
-    private String formattedVaccineDate;
-    private String existingAge;
 
     private String patientName;
     private String patientNumber;
@@ -37,6 +34,8 @@ public class ServiceWrapper implements Serializable {
 
     private String units;
     private String type;
+    private Long typeId;
+    private String value;
 
     public String getId() {
         return id;
@@ -60,14 +59,6 @@ public class ServiceWrapper implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public void setVaccine(Vaccine vaccine) {
-        this.vaccine = vaccine;
-    }
-
-    public Vaccine getVaccine() {
-        return vaccine;
     }
 
     public DateTime getVaccineDate() {
@@ -108,22 +99,6 @@ public class ServiceWrapper implements Serializable {
 
     public void setColor(String color) {
         this.color = color;
-    }
-
-    public String getFormattedVaccineDate() {
-        return formattedVaccineDate;
-    }
-
-    public void setFormattedVaccineDate(String formattedVaccineDate) {
-        this.formattedVaccineDate = formattedVaccineDate;
-    }
-
-    public String getExistingAge() {
-        return existingAge;
-    }
-
-    public void setExistingAge(String existingAge) {
-        this.existingAge = existingAge;
     }
 
     public String getPatientName() {
@@ -217,5 +192,21 @@ public class ServiceWrapper implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Long getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Long typeId) {
+        this.typeId = typeId;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }

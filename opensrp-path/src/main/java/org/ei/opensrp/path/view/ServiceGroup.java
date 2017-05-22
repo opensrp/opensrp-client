@@ -22,6 +22,7 @@ import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.adapter.ServiceCardAdapter;
 import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.domain.ServiceWrapper;
+import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.joda.time.DateTime;
 import org.json.JSONException;
@@ -248,6 +249,11 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
             }
         }
 
+
+        if (serviceCardAdapter != null) {
+            serviceCardAdapter.update(servicesToUpdate);
+        }
+
     }
 
 
@@ -304,7 +310,7 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
         this.modalOpen = modalOpen;
     }
 
-    public void updateWrapper(String type, ServiceWrapper tag) {
+    public void updateWrapperStatus(String type, ServiceWrapper tag) {
 
         List<ServiceType> serviceTypes = getServiceTypeMap().get(type);
 
@@ -321,6 +327,17 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
         Map<String, Object> nv = null;
         if (serviceRecordList.isEmpty()) {
             nv = nextServiceDue(sch, serviceTypes);
+        } else {
+            ServiceRecord lastServiceRecord = null;
+            for (ServiceRecord serviceRecord : serviceRecordList) {
+                if (serviceRecord.getSyncStatus().equalsIgnoreCase(RecurringServiceRecordRepository.TYPE_Unsynced)) {
+                    lastServiceRecord = serviceRecord;
+                }
+            }
+
+            if (lastServiceRecord != null) {
+                nv = nextServiceDue(sch, lastServiceRecord);
+            }
         }
 
         if (nv == null) {
@@ -340,6 +357,17 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
             tag.setAlert((Alert) nv.get("alert"));
             tag.setType(nextServiceType.getType());
             tag.setUnits(nextServiceType.getUnits());
+            tag.setTypeId(nextServiceType.getId());
+        }
+    }
+
+    public void updateWrapperStatus(ArrayList<ServiceWrapper> tags) {
+        if (tags == null) {
+            return;
+        }
+
+        for (ServiceWrapper tag : tags) {
+            updateWrapperStatus(tag.getType(), tag);
         }
     }
 
