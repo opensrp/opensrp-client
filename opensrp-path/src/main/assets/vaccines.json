@@ -17,6 +17,12 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 0
+        },
+        "schedule": {
+          "trigger": {
+            "type": "dob",
+            "due_days": 0
+          }
         }
       },
       {
@@ -32,6 +38,12 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 1
+        },
+        "schedule": {
+          "trigger": {
+            "type": "dob",
+            "due_days": 0
+          }
         }
       }
     ]
@@ -54,6 +66,12 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 1
+        },
+        "schedule": {
+          "trigger": {
+            "type": "dob",
+            "due_days": 42
+          }
         }
       },
       {
@@ -69,6 +87,12 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 1
+        },
+        "schedule": {
+          "trigger": {
+            "type": "dob",
+            "due_days": 42
+          }
         }
       },
       {
@@ -84,6 +108,12 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 1
+        },
+        "schedule": {
+          "trigger": {
+            "type": "dob",
+            "due_days": 42
+          }
         }
       },
       {
@@ -99,6 +129,12 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 1
+        },
+        "schedule": {
+          "trigger": {
+            "type": "dob",
+            "due_days": 42
+          }
         }
       }
     ]
@@ -121,6 +157,13 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 2
+        },
+        "schedule": {
+          "trigger": {
+            "type": "prerequisite",
+            "prerequisite": "OPV 1",
+            "due_days": 28
+          }
         }
       },
       {
@@ -136,6 +179,13 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 2
+        },
+        "schedule": {
+          "trigger": {
+            "type": "prerequisite",
+            "prerequisite": "Penta 1",
+            "due_days": 28
+          }
         }
       },
       {
@@ -151,6 +201,13 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 2
+        },
+        "schedule": {
+          "trigger": {
+            "type": "prerequisite",
+            "prerequisite": "PCV 1",
+            "due_days": 28
+          }
         }
       },
       {
@@ -166,6 +223,13 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 2
+        },
+        "schedule": {
+          "trigger": {
+            "type": "prerequisite",
+            "prerequisite": "Rota 1",
+            "due_days": 28
+          }
         }
       }
     ]
@@ -188,6 +252,13 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 3
+        },
+        "schedule": {
+          "trigger": {
+            "type": "prerequisite",
+            "prerequisite": "OPV 2",
+            "due_days": 28
+          }
         }
       },
       {
@@ -203,6 +274,13 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 3
+        },
+        "schedule": {
+          "trigger": {
+            "type": "prerequisite",
+            "prerequisite": "Penta 2",
+            "due_days": 28
+          }
         }
       },
       {
@@ -218,6 +296,13 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 3
+        },
+        "schedule": {
+          "trigger": {
+            "type": "prerequisite",
+            "prerequisite": "PCV 2",
+            "due_days": 28
+          }
         }
       }
     ]
@@ -230,7 +315,7 @@
       {
         "name": "Measles 1 / MR 1",
         "type": "Measles / MR",
-        "vaccine_separator":" / ",
+        "vaccine_separator": " / ",
         "openmrs_date": {
           "parent_entity": "36AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/162586AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "entity": "concept",
@@ -241,6 +326,32 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 1
+        },
+        "schedule": {
+          "Measles 1": {
+            "trigger": {
+              "type": "dob",
+              "due_days": 274
+            },
+            "conditions": [
+              {
+                "type": "not_given",
+                "vaccine":"MR 1"
+              }
+            ]
+          },
+          "MR 1": {
+            "trigger": {
+              "type": "dob",
+              "due_days": 274
+            },
+            "conditions": [
+              {
+                "type": "not_given",
+                "vaccine":"Measles 1"
+              }
+            ]
+          }
         }
       },
       {
@@ -256,6 +367,24 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 4
+        },
+        "schedule": {
+          "trigger": {
+            "type": "dob",
+            "due_days": 274
+          },
+          "conditions": [
+            {
+              "type": "not_given",
+              "vaccine": "OPV 0"
+            },
+            {
+              "type": "given",
+              "vaccine": "OPV 3",
+              "comparison": "at_least",
+              "due_days": -28
+            }
+          ]
         }
       }
     ]
@@ -268,7 +397,7 @@
       {
         "name": "Measles 2 / MR 2",
         "type": "Measles / MR",
-        "vaccine_separator":" / ",
+        "vaccine_separator": " / ",
         "openmrs_date": {
           "parent_entity": "36AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/162586AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "entity": "concept",
@@ -279,6 +408,34 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 2
+        },
+        "schedule": {
+          "Measles 2": {
+            "trigger": {
+              "type": "prerequisite",
+              "prerequisite": "Measles 1",
+              "due_days": 274
+            },
+            "conditions": [
+              {
+                "type": "not_given",
+                "vaccine":"MR 2"
+              }
+            ]
+          },
+          "MR 2": {
+            "trigger": {
+              "type": "prerequisite",
+              "prerequisite": "MR 1",
+              "due_days": 274
+            },
+            "conditions": [
+              {
+                "type": "not_given",
+                "vaccine":"Measles 2"
+              }
+            ]
+          }
         }
       }
     ]

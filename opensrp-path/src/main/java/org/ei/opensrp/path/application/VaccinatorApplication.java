@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.util.Pair;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import org.ei.opensrp.path.BuildConfig;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.LoginActivity;
 import org.ei.opensrp.path.db.VaccineRepo;
+import org.ei.opensrp.path.domain.VaccineSchedule;
 import org.ei.opensrp.path.receiver.PathSyncBroadcastReceiver;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.repository.PathRepository;
@@ -26,6 +28,7 @@ import org.ei.opensrp.repository.Repository;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.ei.opensrp.view.receiver.TimeChangedBroadcastReceiver;
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +38,7 @@ import java.util.Map;
 
 import io.fabric.sdk.android.Fabric;
 import util.VaccinateActionUtils;
+import util.VaccinatorUtils;
 
 import static org.ei.opensrp.util.Log.logInfo;
 
@@ -44,6 +48,7 @@ import static org.ei.opensrp.util.Log.logInfo;
 public class VaccinatorApplication extends DrishtiApplication
         implements TimeChangedBroadcastReceiver.OnTimeChangedListener {
 
+    private static final String TAG = "VaccinatorApplication";
     private Locale locale = null;
     private Context context;
     private static CommonFtsObject commonFtsObject;
@@ -72,6 +77,7 @@ public class VaccinatorApplication extends DrishtiApplication
 
         applyUserLanguagePreference();
         cleanUpSyncState();
+        initOfflineSchedules();
         setCrashlyticsUser(context);
     }
 
@@ -226,6 +232,10 @@ public class VaccinatorApplication extends DrishtiApplication
         return weightRepository;
     }
 
+    public Context context() {
+        return context;
+    }
+
     public VaccineRepository vaccineRepository() {
         if (vaccineRepository == null) {
             vaccineRepository = new VaccineRepository((PathRepository) getRepository(), createCommonFtsObject(), context.alertService());
@@ -260,6 +270,15 @@ public class VaccinatorApplication extends DrishtiApplication
         Toast.makeText(this, R.string.device_timezone_changed, Toast.LENGTH_LONG).show();
         context.userService().forceRemoteLogin();
         logoutCurrentUser();
+    }
+
+    private void initOfflineSchedules() {
+        try {
+            JSONArray childVaccines = new JSONArray(VaccinatorUtils.getSupportedVaccines(this));
+            VaccineSchedule.init(childVaccines, "child");
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
     }
 
 }

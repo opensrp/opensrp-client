@@ -18,6 +18,7 @@ import org.ei.opensrp.path.db.Client;
 import org.ei.opensrp.path.db.Column;
 import org.ei.opensrp.path.db.ColumnAttribute;
 import org.ei.opensrp.path.db.Event;
+import org.ei.opensrp.repository.AlertRepository;
 import org.ei.opensrp.repository.Repository;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
@@ -83,6 +84,9 @@ public class PathRepository extends Repository {
                     break;
                 case 3:
                     upgradeToVersion3(db);
+                    break;
+                case 4:
+                    upgradeToVersion4(db);
                     break;
                 default:
 
@@ -1369,6 +1373,15 @@ public class PathRepository extends Repository {
             db.execSQL(WeightRepository.FORMSUBMISSION_INDEX);
         } catch (Exception e) {
             Log.e(TAG, "upgradeToVersion3 " + e.getMessage());
+        }
+    }
+
+    private void upgradeToVersion4(SQLiteDatabase db) {
+        try {
+            db.execSQL("ALTER TABLE " + AlertRepository.ALERTS_TABLE_NAME + " ADD COLUMN offline INTEGER NOT NULL DEFAULT 0");
+            db.execSQL(AlertRepository.OFFLINE_INDEX);
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
         }
     }
 }

@@ -341,8 +341,6 @@ public class VaccinatorUtils {
             Date recDate = received.get(v.display().toLowerCase());
             if (recDate != null) {
                 m = createVaccineMap("done", null, new DateTime(recDate), v);
-            } else if (milestoneDate != null && v.expiryDays() > 0 && milestoneDate.plusDays(v.expiryDays()).isBefore(DateTime.now())) {
-                m = createVaccineMap("expired", null, milestoneDate.plusDays(v.expiryDays()), v);
             } else if (alerts.size() > 0) {
                 for (Alert a : alerts) {
                     if (a.scheduleName().replaceAll(" ", "").equalsIgnoreCase(v.name())

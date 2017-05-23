@@ -1,6 +1,9 @@
 package org.ei.opensrp.path.domain;
 
 import org.ei.opensrp.path.db.VaccineRepo;
+import org.ei.opensrp.domain.Vaccine;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -18,6 +21,21 @@ public class VaccineTrigger {
 
     private final Type type;
     private final VaccineRepo.Vaccine prerequisite;
+
+    public static VaccineTrigger init(String vaccineCategory, JSONObject scheduleData) throws JSONException {
+        JSONObject trigger = scheduleData.getJSONObject("trigger");
+        if (trigger.getString("type").equalsIgnoreCase(Type.DOB.name())) {
+            return new VaccineTrigger();
+        } else if (trigger.getString("type").equalsIgnoreCase(Type.PREREQUISITE.name())) {
+            VaccineRepo.Vaccine prerequisite = VaccineRepo.getVaccine(trigger.getString("prerequisite"),
+                    vaccineCategory);
+            if (prerequisite != null) {
+                return new VaccineTrigger(prerequisite);
+            }
+        }
+
+        return null;
+    }
 
     public VaccineTrigger() {
         this.type = Type.DOB;
@@ -44,9 +62,27 @@ public class VaccineTrigger {
                 return dobCalendar.getTime();
             }
         } else if (type.equals(Type.PREREQUISITE)) {
-            // TODO: Check if prerequisite was given
+            // Check if prerequisite is in the list of issued vaccines
+            Vaccine issuedPrerequisite = null;
+            for (Vaccine curVaccine : issuedVaccines) {
+                if (curVaccine.getName().equalsIgnoreCase(prerequisite.display())) {
+                    issuedPrerequisite = curVaccine;
+                    break;
+                }
+            }
 
-            // TODO: Check if the date given is in the past
+            if (issuedPrerequisite != null) {
+                // Check if the date given is in the past
+                Calendar issuedDate = Calendar.getInstance();
+                issuedDate.setTime(issuedPrerequisite.getDate());
+                VaccineSchedule.standardiseCalendarDate(issuedDate);
+
+                Calendar today = Calendar.getInstance();
+                VaccineSchedule.standardiseCalendarDate(today);
+                if (issuedDate.getTimeInMillis() <= today.getTimeInMillis()) {
+                    return issuedDate.getTime();
+                }
+            }
         }
 
         return null;
