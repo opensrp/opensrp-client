@@ -160,10 +160,10 @@ public class UserService {
     }
 
     public static TimeZone getServerTimeZone(String userInfo) {
-        // TODO: extract the timezone from the user info
         if (userInfo != null) {
             try {
-                TimeZone timeZone = TimeZone.getTimeZone("Africa/Nairobi");
+                JSONObject userInfoData = new JSONObject(userInfo);
+                TimeZone timeZone = TimeZone.getTimeZone(userInfoData.getJSONObject("time").getString("timeZone"));
                 return timeZone;
             } catch (Exception e) {
                 Log.e(TAG, Log.getStackTraceString(e));
@@ -174,10 +174,10 @@ public class UserService {
     }
 
     private static Date getServerTime(String userInfo) {
-        //TODO: extract time from the user info
         if (userInfo != null) {
             try {
-                return Calendar.getInstance().getTime();
+                JSONObject userInfoData = new JSONObject(userInfo);
+                return DATE_FORMAT.parse(userInfoData.getJSONObject("time").getString("time"));
             } catch (Exception e) {
                 Log.e(TAG, Log.getStackTraceString(e));
             }
