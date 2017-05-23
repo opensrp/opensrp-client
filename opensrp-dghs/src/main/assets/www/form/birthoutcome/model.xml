@@ -22,7 +22,7 @@
       <existing_gps />
       <existing_doo />
       <current_woman_id />
-      <Child_Registration >
+      <Child_Registration template="" >
         <mother_relational_id />
         <Member_COUNTRY openmrs_entity="person_address" openmrs_entity_id="country" />
         <Member_DIVISION openmrs_entity="person_address" openmrs_entity_id="stateProvince" />

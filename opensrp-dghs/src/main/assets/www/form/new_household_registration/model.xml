@@ -1,155 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <model>
   <instance>
-    <HHMemberReg encounter_type="HH And Member Registration" id="HHMemberReg" version="201612260951">
+    <HHMemberReg  encounter_type="HH And Member Registration" id="HHMemberReg" version="201704240621">
       <formhub>
-        <uuid/>
+        <uuid />
       </formhub>
-      <existing_location openmrs_entity="encounter" openmrs_entity_id="location_id"/>
-      <existing_Country/>
-      <existing_Division/>
-      <existing_District/>
-      <existing_Upazilla/>
-      <existing_Paurasava/>
-      <existing_Union/>
-      <existing_HIE_facilities/>
-      <start/>
-      <end/>
-      <today/>
-      <deviceid/>
-      <subscriberid/>
-      <simserial/>
-      <phonenumber/>
-      <WARD openmrs_entity="person_address" openmrs_entity_id="address2"/>
-      <BLOCK/>
-      <COUNTRY openmrs_entity="person_address" openmrs_entity_id="country"/>
-      <DIVISION openmrs_entity="person_address" openmrs_entity_id="stateProvince"/>
-      <DISTRICT openmrs_entity="person_address" openmrs_entity_id="countyDistrict"/>
-      <UPAZILLA openmrs_entity="person_address" openmrs_entity_id="address5"/>
-      <PAURASAVA openmrs_entity="person_address" openmrs_entity_id="address4"/>
-      <UNION openmrs_entity="person_address" openmrs_entity_id="address3"/>
-      <ADDRESS_LINE openmrs_entity="person_address" openmrs_entity_id="address1"/>
-      <HIE_FACILITIES openmrs_entity="person_address" openmrs_entity_id="address6"/>
-      <GPS openmrs_entity="person_address" openmrs_entity_id="geopoint"/>
-      <Date_Of_Reg/>
-      <HHID openmrs_entity="person_attribute" openmrs_entity_id="householdCode"/>
-      <HoH_Reg_No/>
-      <HoH_Fname openmrs_entity="person" openmrs_entity_id="first_name"/>
-      <HoH_Lname openmrs_entity="person" openmrs_entity_id="last_name"/>
+      <existing_location openmrs_entity="encounter" openmrs_entity_id="location_id" />
+      <existing_Country />
+      <existing_Division />
+      <existing_District />
+      <existing_Upazilla />
+      <existing_Paurasava />
+      <existing_Union />
+      <existing_HIE_facilities />
+      <Form_Name />
+      <start />
+      <end />
+      <today />
+      <deviceid />
+      <subscriberid />
+      <simserial />
+      <phonenumber />
+      <WARD openmrs_entity="person_address" openmrs_entity_id="address2" />
+      <BLOCK />
+      <COUNTRY openmrs_entity="person_address" openmrs_entity_id="country" />
+      <DIVISION openmrs_entity="person_address" openmrs_entity_id="stateProvince" />
+      <DISTRICT openmrs_entity="person_address" openmrs_entity_id="countyDistrict" />
+      <UPAZILLA openmrs_entity="person_address" openmrs_entity_id="address5" />
+      <PAURASAVA openmrs_entity="person_address" openmrs_entity_id="address4" />
+      <UNION openmrs_entity="person_address" openmrs_entity_id="address3" />
+      <ADDRESS_LINE openmrs_entity="person_address" openmrs_entity_id="address1" />
+      <HIE_FACILITIES openmrs_entity="person_address" openmrs_entity_id="address6" />
+      <GPS openmrs_entity="person_address" openmrs_entity_id="geopoint" />
+      <Date_Of_Reg />
+      <HHID openmrs_entity="person_attribute" openmrs_entity_id="householdCode" />
+      <HoH_Reg_No />
+      <HoH_Fname openmrs_entity="person" openmrs_entity_id="first_name" />
+      <HoH_Lname openmrs_entity="person" openmrs_entity_id="last_name" />
       <HoH_birth_date_known>yes</HoH_birth_date_known>
-      <HoH_birth_date/>
-      <HoH_age/>
-      <calc_HoH_age/>
-      <calc_HoH_dob/>
-      <calc_HoH_dob_confirm openmrs_entity="person" openmrs_entity_id="birthdate"/>
-      <calc_dob_estimated/>
-      <calc_HoH_age_confirm/>
-      <birth_date_note/>
-      <note_age/>
-      <HoH_Gender openmrs_entity="person" openmrs_entity_id="gender"/>
-      <HoH_Unique_ID/>
-      <HoH_NID openmrs_entity="person_attribute" openmrs_entity_id="nationalId"/>
-      <HoH_BRID openmrs_entity="person_attribute" openmrs_entity_id="birthRegistrationId"/>
-      <HoH_Mobile_No openmrs_entity="person_attribute" openmrs_entity_id="phoneNumber"/>
-      <HoH_Education openmrs_entity="person_attribute" openmrs_entity_id="education"/>
-      <HoH_Occupation openmrs_entity="person_attribute" openmrs_entity_id="occupation"/>
-      <HH_Member_No/>
+      <HoH_birth_date />
+      <HoH_age />
+      <calc_HoH_age />
+      <calc_HoH_dob />
+      <calc_HoH_dob_confirm openmrs_entity="person" openmrs_entity_id="birthdate" />
+      <calc_dob_estimated />
+      <calc_HoH_age_confirm />
+      <birth_date_note />
+      <note_age />
+      <HoH_Gender openmrs_entity="person" openmrs_entity_id="gender" />
+      <HoH_Unique_ID />
+      <HoH_NID openmrs_entity="person_attribute" openmrs_entity_id="nationalId" />
+      <HoH_BRID openmrs_entity="person_attribute" openmrs_entity_id="birthRegistrationId" />
+      <HoH_Mobile_No openmrs_entity="person_attribute" openmrs_entity_id="phoneNumber" />
+      <HoH_Education openmrs_entity="person_attribute" openmrs_entity_id="education" />
+      <HoH_Occupation openmrs_entity="person_attribute" openmrs_entity_id="occupation" />
+      <HH_Member_No />
       <HH_Member template="" openmrs_entity="person" openmrs_entity_id="New Member Registration">
-        <Member_COUNTRY openmrs_entity="person_address" openmrs_entity_id="country"/>
-        <Member_DIVISION openmrs_entity="person_address" openmrs_entity_id="stateProvince"/>
-        <Member_DISTRICT openmrs_entity="person_address" openmrs_entity_id="countyDistrict"/>
-        <Member_UPAZILLA openmrs_entity="person_address" openmrs_entity_id="address5"/>
-        <Member_Paurasava openmrs_entity="person_address" openmrs_entity_id="address4"/>
-        <Member_UNION openmrs_entity="person_address" openmrs_entity_id="address3"/>
-        <Member_WARD openmrs_entity="person_address" openmrs_entity_id="address2"/>
-        <Member_BLOCK/>
-        <Member_Address_line openmrs_entity="person_address" openmrs_entity_id="address1"/>
-        <Member_HIE_facilities openmrs_entity="person_address" openmrs_entity_id="address6"/>
-        <Member_Reg_Date/>
-        <Member_GPS openmrs_entity="person_address" openmrs_entity_id="geopoint"/>
-        <HH_Address/>
-        <Member_type/>
-        <Reg_No/>
-        <Member_Fname openmrs_entity="person" openmrs_entity_id="first_name"/>
-        <Member_LName openmrs_entity="person" openmrs_entity_id="last_name"/>
-        <Member_Unique_ID/>
-        <Member_NID openmrs_entity="person_attribute" openmrs_entity_id="nationalId"/>
-        <Member_BRID openmrs_entity="person_attribute" openmrs_entity_id="birthRegistrationId"/>
+        <Member_COUNTRY openmrs_entity="person_address" openmrs_entity_id="country" />
+        <Member_DIVISION openmrs_entity="person_address" openmrs_entity_id="stateProvince" />
+        <Member_DISTRICT openmrs_entity="person_address" openmrs_entity_id="countyDistrict" />
+        <Member_UPAZILLA openmrs_entity="person_address" openmrs_entity_id="address5" />
+        <Member_Paurasava openmrs_entity="person_address" openmrs_entity_id="address4" />
+        <Member_UNION openmrs_entity="person_address" openmrs_entity_id="address3" />
+        <Member_WARD openmrs_entity="person_address" openmrs_entity_id="address2" />
+        <Member_BLOCK />
+        <Member_Address_line openmrs_entity="person_address" openmrs_entity_id="address1" />
+        <Member_HIE_facilities openmrs_entity="person_address" openmrs_entity_id="address6" />
+        <Member_Reg_Date />
+        <Member_GPS openmrs_entity="person_address" openmrs_entity_id="geopoint" />
+        <HH_Address />
+        <Member_type />
+        <Reg_No />
+        <Member_Fname openmrs_entity="person" openmrs_entity_id="first_name" />
+        <Member_LName openmrs_entity="person" openmrs_entity_id="last_name" />
+        <Member_Unique_ID />
+        <Member_NID openmrs_entity="person_attribute" openmrs_entity_id="nationalId" />
+        <Member_BRID openmrs_entity="person_attribute" openmrs_entity_id="birthRegistrationId" />
         <member_birth_date_known>yes</member_birth_date_known>
-        <member_birth_date/>
-        <age/>
-        <calc_age/>
-        <calc_dob/>
-        <calc_dob_confirm openmrs_entity="person" openmrs_entity_id="birthdate"/>
-        <calc_dob_estimated/>
-        <calc_age_confirm/>
-        <birth_date_note/>
-        <note_age/>
-        <Gender openmrs_entity="person" openmrs_entity_id="gender"/>
-        <Father_name openmrs_entity="person_attribute" openmrs_entity_id="fatherName"/>
-        <epi_card_number/>
-        <contact_phone_number openmrs_entity="person_attribute" openmrs_entity_id="phoneNumber"/>
-        <Marital_status/>
-        <Husband_name openmrs_entity="person_attribute" openmrs_entity_id="spouseName"/>
-        <Couple_No/>
+        <member_birth_date />
+        <age />
+        <calc_age />
+        <calc_dob />
+        <calc_dob_confirm openmrs_entity="person" openmrs_entity_id="birthdate" />
+        <calc_dob_estimated />
+        <calc_age_confirm />
+        <birth_date_note />
+        <note_age />
+        <Gender openmrs_entity="person" openmrs_entity_id="gender" />
+        <Father_name openmrs_entity="person_attribute" openmrs_entity_id="fatherName" />
+        <epi_card_number />
+        <contact_phone_number openmrs_entity="person_attribute" openmrs_entity_id="phoneNumber" />
+        <Marital_status />
+        <Husband_name openmrs_entity="person_attribute" openmrs_entity_id="spouseName" />
+        <Couple_No />
         <WomanInfo>
-          <pregnant/>
-          <FP_USER/>
-          <FP_Methods openmrs_entity="concept" openmrs_entity_id="50b7f374-9406-49d1-bcfb-9bf613184030"/>
-          <edd_lmp/>
-          <edd/>
-          <lmp/>
-          <ultrasound_date/>
-          <ultrasound_weeks/>
-          <edd_calc_lmp/>
-          <edd_calc_ultrasound/>
-          <edd_calc_lmp_formatted/>
-          <edd_calc_ultrasound_formatted/>
-          <lmp_calc_edd/>
-          <lmp_calc_ultrasound/>
-          <lmp_calc_edd_formatted/>
-          <lmp_calc_ultrasound_formatted/>
-          <final_edd openmrs_entity="concept" openmrs_entity_id="8f983cb3-8223-45e3-bbe7-235df21b754d"/>
-          <final_lmp openmrs_entity="concept" openmrs_entity_id="a9557042-5d04-493f-aba0-c03b63a02243"/>
-          <ga_edd/>
-          <ga_lmp/>
-          <ga_ult/>
-          <final_edd_note/>
-          <final_lmp_note/>
-          <final_ga/>
-          <final_ga_note/>
+          <pregnant />
+          <FP_USER />
+          <FP_Methods openmrs_entity="concept" openmrs_entity_id="50b7f374-9406-49d1-bcfb-9bf613184030" />
+          <edd_lmp />
+          <edd />
+          <lmp />
+          <ultrasound_date />
+          <ultrasound_weeks />
+          <edd_calc_lmp />
+          <edd_calc_ultrasound />
+          <edd_calc_lmp_formatted />
+          <edd_calc_ultrasound_formatted />
+          <lmp_calc_edd />
+          <lmp_calc_ultrasound />
+          <lmp_calc_edd_formatted />
+          <lmp_calc_ultrasound_formatted />
+          <final_edd openmrs_entity="concept" openmrs_entity_id="8f983cb3-8223-45e3-bbe7-235df21b754d" />
+          <final_lmp openmrs_entity="concept" openmrs_entity_id="a9557042-5d04-493f-aba0-c03b63a02243" />
+          <ga_edd />
+          <ga_lmp />
+          <ga_ult />
+          <final_edd_note />
+          <final_lmp_note />
+          <final_ga />
+          <final_ga_note />
         </WomanInfo>
         <ChildInfo>
           <Child_birth_date_known>yes</Child_birth_date_known>
-          <Child_birth_date/>
-          <Child_age/>
-          <Child_calc_age/>
-          <Child_calc_dob/>
-          <Child_dob openmrs_entity="person" openmrs_entity_id="birthdate"/>
-          <Child_dob_estimated/>
-          <Child_age_days/>
-          <Child_birth_date_note/>
-          <Birth_Weigtht openmrs_entity="concept" openmrs_entity_id="73e4e317-09ca-4657-bf77-6c7648f3a386"/>
-          <Newborn_Care_Received openmrs_entity="concept" openmrs_entity_id="d1f9a25b-1080-4dc9-9655-863cfee578e6"/>
-          <Child_gender openmrs_entity="person" openmrs_entity_id="gender"/>
-          <Child_mother_name openmrs_entity="person_attribute" openmrs_entity_id="motherName"/>
-          <Child_father_name openmrs_entity="person_attribute" openmrs_entity_id="fatherName"/>
-          <Child_guardian_id/>
-          <Child_Mother_NID/>
-          <Child_Mother_BRID/>
-          <Child_Father_NID/>
-          <Child_Father_BRID/>
-          <Child_Other_Guardian_NID/>
-          <Child_Other_Guardian_BRID/>
-          <child_was_suffering_from_a_disease_at_birth/>
+          <Child_birth_date />
+          <Child_age />
+          <Child_calc_age />
+          <Child_calc_dob />
+          <Child_dob openmrs_entity="person" openmrs_entity_id="birthdate" />
+          <Child_dob_estimated />
+          <Child_age_days />
+          <Child_birth_date_note />
+          <Birth_Weigtht openmrs_entity="concept" openmrs_entity_id="73e4e317-09ca-4657-bf77-6c7648f3a386" />
+          <Newborn_Care_Received openmrs_entity="concept" openmrs_entity_id="d1f9a25b-1080-4dc9-9655-863cfee578e6" />
+          <Child_gender openmrs_entity="person" openmrs_entity_id="gender" />
+          <Child_mother_name openmrs_entity="person_attribute" openmrs_entity_id="motherName" />
+          <Child_father_name openmrs_entity="person_attribute" openmrs_entity_id="fatherName" />
+          <Child_guardian_id />
+          <Child_Mother_NID />
+          <Child_Mother_BRID />
+          <Child_Father_NID />
+          <Child_Father_BRID />
+          <Child_Other_Guardian_NID />
+          <Child_Other_Guardian_BRID />
+          <child_was_suffering_from_a_disease_at_birth />
         </ChildInfo>
-        <Is_woman/>
-        <Is_child/>
-        <Is_preg_outcome/>
-        <Is_Reg_Today/>
+        <Is_woman />
+        <Is_child />
+        <Is_preg_outcome />
+        <Is_Reg_Today />
       </HH_Member>
-      <HH_current_form_status/>
+      <HH_current_form_status />
       <meta>
-        <instanceID/>
+        <instanceID />
       </meta>
     </HHMemberReg>
   </instance>
