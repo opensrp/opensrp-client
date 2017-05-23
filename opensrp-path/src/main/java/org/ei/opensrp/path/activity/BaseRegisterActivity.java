@@ -1,6 +1,7 @@
 package org.ei.opensrp.path.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
@@ -184,10 +185,10 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
             startFormActivity("child_enrollment", null, null);
         } else if (id == R.id.nav_record_vaccination_out_catchment) {
             startFormActivity("out_of_catchment_service", null, null);
-        }/* else if (id == R.id.nav_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
+        } else if (id == R.id.stock) {
+            Intent intent = new Intent(this, StockActivity.class);
             startActivity(intent);
-        }*/ else if (id == R.id.nav_sync) {
+        } else if (id == R.id.nav_sync) {
             startSync();
         }
 

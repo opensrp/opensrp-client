@@ -93,6 +93,10 @@
             android:name=".activity.ChildImmunizationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoTitle.NoActionBar" />
+        <activity
+            android:name=".activity.StockActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoTitle.NoActionBar" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

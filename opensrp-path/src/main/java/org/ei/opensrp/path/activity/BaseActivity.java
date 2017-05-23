@@ -276,10 +276,11 @@ public abstract class BaseActivity extends AppCompatActivity
             startJsonForm("child_enrollment", null);
         } else if (id == R.id.nav_record_vaccination_out_catchment) {
             startJsonForm("out_of_catchment_service", null);
-        }/* else if (id == R.id.nav_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
+        } else if (id == R.id.stock) {
+            Log.v("why not here","stock should start");
+            Intent intent = new Intent(this, StockActivity.class);
             startActivity(intent);
-        }*/ else if (id == R.id.nav_sync) {
+        } else if (id == R.id.nav_sync) {
             startSync();
         }
 

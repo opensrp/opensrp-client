@@ -35,6 +35,9 @@ import org.ei.opensrp.domain.ResponseStatus;
 import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.domain.Vaccine_types;
+import org.ei.opensrp.path.repository.PathRepository;
+import org.ei.opensrp.path.repository.Vaccine_typesRepository;
 import org.ei.opensrp.path.service.intent.PullUniqueIdsIntentService;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
@@ -43,12 +46,17 @@ import org.ei.opensrp.view.BackgroundAction;
 import org.ei.opensrp.view.LockingBackgroundTask;
 import org.ei.opensrp.view.ProgressIndicator;
 import org.joda.time.DateTime;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import util.Utils;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS;
@@ -199,9 +207,13 @@ public class LoginActivity extends Activity {
         if (context.userService().isUserInValidGroup(userName, password)) {
             localLoginWith(userName, password);
         } else {
+
             login(findViewById(org.ei.opensrp.R.id.login_loginButton), false);
+            accessAssetsAndFillDataBaseForVaccineTypes();
         }
     }
+
+
 
     private void remoteLogin(final View view, final String userName, final String password) {
         tryRemoteLogin(userName, password, new Listener<LoginResponse>() {
@@ -431,6 +443,22 @@ public class LoginActivity extends Activity {
                 canvasRL.setMinimumHeight(windowHeight);
             }
         });
+    }
+    private void accessAssetsAndFillDataBaseForVaccineTypes() {
+        Vaccine_typesRepository VTR = new Vaccine_typesRepository((PathRepository)VaccinatorApplication.getInstance().getRepository(),VaccinatorApplication.createCommonFtsObject(),context.alertService());
+        if(!(VTR.getAllVaccineTypes().size()>0)) {
+            String vaccinetype = Utils.readAssetContents(context.applicationContext(), "vaccine_type.json");
+            try {
+                JSONArray vaccinetypeArray = new JSONArray(vaccinetype);
+                for (int i = 0; i < vaccinetypeArray.length(); i++) {
+                    JSONObject vaccinrtypeObject = vaccinetypeArray.getJSONObject(i);
+                    Vaccine_types vtObject = new Vaccine_types(null, vaccinrtypeObject.getInt("doses"), vaccinrtypeObject.getString("name"), vaccinrtypeObject.getString("openmrs_parent_entity_id"), vaccinrtypeObject.getString("openmrs_date_concept_id"), vaccinrtypeObject.getString("openmrs_dose_concept_id"));
+                    VTR.add(vtObject);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

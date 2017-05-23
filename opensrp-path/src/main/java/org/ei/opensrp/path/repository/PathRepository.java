@@ -18,6 +18,7 @@ import org.ei.opensrp.path.db.Client;
 import org.ei.opensrp.path.db.Column;
 import org.ei.opensrp.path.db.ColumnAttribute;
 import org.ei.opensrp.path.db.Event;
+import org.ei.opensrp.path.domain.Vaccine_names;
 import org.ei.opensrp.repository.Repository;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
@@ -87,6 +88,9 @@ public class PathRepository extends Repository {
                 case 5:
                     upgradeToVersion4(db);
                     break;
+                case 6:
+                    upgradeToVersion5(db);
+                    break;
                 default:
 
                     break;
@@ -99,8 +103,20 @@ public class PathRepository extends Repository {
         try {
 //            db.execSQL("DROP TABLE IF EXISTS  ");
             StockRepository.createTable(db);
+//            Vaccine_NamesRepository.createTable(db);
+//            Vaccine_typesRepository.createTable(db);
         } catch (Exception e) {
             Log.e(TAG, "upgradeToVersion4 " + e.getMessage());
+        }
+    }
+    private void upgradeToVersion5(SQLiteDatabase db) {
+        try {
+//            db.execSQL("DROP TABLE IF EXISTS  ");
+//            StockRepository.createTable(db);
+            Vaccine_NamesRepository.createTable(db);
+            Vaccine_typesRepository.createTable(db);
+        } catch (Exception e) {
+            Log.e(TAG, "upgradeToVersion5 " + e.getMessage());
         }
     }
 

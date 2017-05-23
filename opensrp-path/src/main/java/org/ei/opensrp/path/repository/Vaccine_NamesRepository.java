@@ -6,6 +6,7 @@ import android.database.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.ei.opensrp.commonregistry.CommonFtsObject;
+import org.ei.opensrp.path.domain.Vaccine_names;
 import org.ei.opensrp.path.domain.Vaccine_types;
 import org.ei.opensrp.service.AlertService;
 
@@ -13,17 +14,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Vaccine_NamesRepository extends BaseRepository {
-    private static final String TAG = Vaccine_NamesRepository.class.getCanonicalName();
-    private static final String VACCINE_Types_SQL = "CREATE TABLE vaccine_types (_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,doses INTEGER,name VARCHAR NOT NULL,openmrs_parent_entity_id VARCHAR NULL,openmrs_date_concept_id VARCHAR NULL,openmrs_dose_concept_id VARCHAR)";
-    public static final String VACCINE_Types_TABLE_NAME = "vaccine_types";
+    private static final String TAG = Vaccine_typesRepository.class.getCanonicalName();
+    private static final String VACCINE_Names_SQL = "CREATE TABLE Vaccines_names (_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,name VARCHAR NOT NULL,vaccine_type_id VARCHAR NULL,reference_vaccine_id VARCHAR NULL,due_days VARCHAR ,Client_type VARCHAR ,Dose_no VARCHAR)";
+    public static final String VACCINE_Names_TABLE_NAME = "Vaccines_names";
     public static final String ID_COLUMN = "_id";
-    public static final String DOSES = "doses";
     public static final String NAME = "name";
-    public static final String OPENMRS_PARENT_ENTITIY_ID = "openmrs_parent_entity_id";
-    public static final String OPENMRS_DATE_CONCEPT_ID = "openmrs_date_concept_id";
-    public static final String OPENMRS_DOSE_CONCEPT_ID = "openmrs_dose_concept_id";
+    public static final String VACCINE_TYPE_ID = "vaccine_type_id";
+    public static final String REFERENCE_VACCINE_ID = "reference_vaccine_id";
+    public static final String DUE_DAYS = "due_days";
+    public static final String CLIENT_TYPE = "Client_type";
+    public static final String DOSE_NO = "Dose_no";
 
-    public static final String[] VACCINE_Types_TABLE_COLUMNS = {ID_COLUMN, DOSES, NAME, OPENMRS_PARENT_ENTITIY_ID, OPENMRS_DATE_CONCEPT_ID, OPENMRS_DOSE_CONCEPT_ID};
+    public static final String[] VACCINE_Names_TABLE_COLUMNS = {ID_COLUMN,  NAME,VACCINE_TYPE_ID, REFERENCE_VACCINE_ID, DUE_DAYS, CLIENT_TYPE, DOSE_NO};
 
 
 
@@ -37,11 +39,11 @@ public class Vaccine_NamesRepository extends BaseRepository {
     }
 
     protected static void createTable(SQLiteDatabase database) {
-        database.execSQL(VACCINE_Types_SQL);
+        database.execSQL(VACCINE_Names_SQL);
     }
 
-    public void add(Vaccine_types vaccine_types) {
-        if (vaccine_types == null) {
+    public void add(Vaccine_names vaccine_names) {
+        if (vaccine_names == null) {
             return;
         }
 
@@ -49,13 +51,13 @@ public class Vaccine_NamesRepository extends BaseRepository {
 
 
         SQLiteDatabase database = getPathRepository().getWritableDatabase();
-        if (vaccine_types.getId() == null) {
-            vaccine_types.setId(database.insert(VACCINE_Types_TABLE_NAME, null, createValuesFor(vaccine_types)));
+        if (vaccine_names.getId() == null) {
+            vaccine_names.setId(database.insert(VACCINE_Names_TABLE_NAME, null, createValuesFor(vaccine_names)));
         } else {
             //mark the vaccine as unsynced for processing as an updated event
 
             String idSelection = ID_COLUMN + " = ?";
-            database.update(VACCINE_Types_TABLE_NAME, createValuesFor(vaccine_types), idSelection, new String[]{vaccine_types.getId().toString()});
+            database.update(VACCINE_Names_SQL, createValuesFor(vaccine_names), idSelection, new String[]{vaccine_names.getId().toString()});
         }
     }
 
@@ -85,8 +87,8 @@ public class Vaccine_NamesRepository extends BaseRepository {
 //        getPathRepository().getWritableDatabase().update(VACCINE_TABLE_NAME, values, ID_COLUMN + " = ?", new String[]{caseId.toString()});
 //    }
 
-    private List<Vaccine_types> readAllVaccines(Cursor cursor) {
-        List<Vaccine_types> vaccines = new ArrayList<Vaccine_types>();
+    private List<Vaccine_names> readAllVaccines(Cursor cursor) {
+        List<Vaccine_names> vaccines = new ArrayList<Vaccine_names>();
 
         try {
 
@@ -94,14 +96,15 @@ public class Vaccine_NamesRepository extends BaseRepository {
                 while (!cursor.isAfterLast()) {
 
                     vaccines.add(
-                            new Vaccine_types(cursor.getLong(cursor.getColumnIndex(ID_COLUMN)),
-                                    cursor.getInt(cursor.getColumnIndex(DOSES)),
+                            new Vaccine_names(cursor.getLong(cursor.getColumnIndex(ID_COLUMN)),
                                     cursor.getString(cursor.getColumnIndex(NAME)),
-                                    cursor.getString(cursor.getColumnIndex(OPENMRS_PARENT_ENTITIY_ID)),
-                                    cursor.getString(cursor.getColumnIndex(OPENMRS_DATE_CONCEPT_ID)),
-                                    cursor.getString(cursor.getColumnIndex(OPENMRS_DOSE_CONCEPT_ID))
-                                   )
-                            );
+                                    cursor.getString(cursor.getColumnIndex(VACCINE_TYPE_ID)),
+                                    cursor.getString(cursor.getColumnIndex(DUE_DAYS)),
+                                    cursor.getString(cursor.getColumnIndex(REFERENCE_VACCINE_ID)),
+                                    cursor.getString(cursor.getColumnIndex(CLIENT_TYPE)),
+                                    cursor.getString(cursor.getColumnIndex(DOSE_NO))
+                            )
+                    );
 
                     cursor.moveToNext();
                 }
@@ -115,15 +118,18 @@ public class Vaccine_NamesRepository extends BaseRepository {
     }
 
 
-    private ContentValues createValuesFor(Vaccine_types vaccine_types) {
+    private ContentValues createValuesFor(Vaccine_names vaccine_names) {
         ContentValues values = new ContentValues();
-        values.put(ID_COLUMN, vaccine_types.getId());
-        values.put(NAME, vaccine_types.getName());
-        values.put(DOSES, vaccine_types.getDoses());
-        values.put(OPENMRS_DATE_CONCEPT_ID,vaccine_types.getOpenmrs_date_concept_id());
-        values.put(OPENMRS_DOSE_CONCEPT_ID, vaccine_types.getOpenmrs_dose_concept_id());
-        values.put(OPENMRS_PARENT_ENTITIY_ID, vaccine_types.getOpenmrs_parent_entity_id());
-       return values;
+        values.put(ID_COLUMN, vaccine_names.getId());
+        values.put(NAME, vaccine_names.getName());
+        values.put(VACCINE_TYPE_ID, vaccine_names.getVaccine_type_id());
+        values.put(REFERENCE_VACCINE_ID, vaccine_names.getReference_vaccine_id());
+        values.put(DUE_DAYS, vaccine_names.getDue_days());
+        values.put(CLIENT_TYPE,vaccine_names.getClient_type());
+        values.put(DUE_DAYS, vaccine_names.getDue_days());
+        values.put(DOSE_NO, vaccine_names.getDose_no());
+        return values;
     }
+
 
 }
