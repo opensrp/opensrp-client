@@ -7,10 +7,7 @@ import android.util.Log;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ei.opensrp.Context;
-import org.ei.opensrp.commonregistry.CommonFtsObject;
 import org.ei.opensrp.domain.ServiceRecord;
-import org.ei.opensrp.service.AlertService;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,13 +39,9 @@ public class RecurringServiceRecordRepository extends BaseRepository {
 
     public static String TYPE_Unsynced = "Unsynced";
     public static String TYPE_Synced = "Synced";
-    private CommonFtsObject commonFtsObject;
-    private AlertService alertService;
 
-    public RecurringServiceRecordRepository(PathRepository pathRepository, CommonFtsObject commonFtsObject, AlertService alertService) {
+    public RecurringServiceRecordRepository(PathRepository pathRepository) {
         super(pathRepository);
-        this.commonFtsObject = commonFtsObject;
-        this.alertService = alertService;
     }
 
     protected static void createTable(SQLiteDatabase database) {
@@ -155,6 +148,8 @@ public class RecurringServiceRecordRepository extends BaseRepository {
 
             if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
+
+
                     ServiceRecord serviceRecord = new ServiceRecord(cursor.getLong(cursor.getColumnIndex(ID_COLUMN)),
                             cursor.getString(cursor.getColumnIndex(BASE_ENTITY_ID)),
                             cursor.getLong(cursor.getColumnIndex(RECURRING_SERVICE_ID)),
@@ -167,22 +162,34 @@ public class RecurringServiceRecordRepository extends BaseRepository {
                             cursor.getString(cursor.getColumnIndex(FORMSUBMISSION_ID)),
                             cursor.getLong(cursor.getColumnIndex(UPDATED_AT_COLUMN)));
 
+
                     if (cursor.getColumnIndex(RecurringServiceTypeRepository.TYPE) > -1) {
-                        serviceRecord.setType(cursor.getString(cursor.getColumnIndex(RecurringServiceTypeRepository.TYPE)));
+                        String type = cursor.getString(cursor.getColumnIndex(RecurringServiceTypeRepository.TYPE));
+                        if (type != null) {
+                            type = removeHyphen(type);
+                            serviceRecord.setType(type);
+                        }
                     }
 
-                    if (cursor.getColumnIndex(RecurringServiceTypeRepository.NAME) > -1) {
-                        serviceRecord.setName(cursor.getString(cursor.getColumnIndex(RecurringServiceTypeRepository.NAME)));
+                    if(cursor.getColumnIndex(RecurringServiceTypeRepository.NAME) > -1) {
+                        String name = cursor.getString(cursor.getColumnIndex(RecurringServiceTypeRepository.NAME));
+                        if (name != null) {
+                            name = removeHyphen(name);
+                            serviceRecord.setName(name);
+                        }
                     }
+
                     serviceRecords.add(serviceRecord);
 
                     cursor.moveToNext();
                 }
             }
         } catch (Exception e) {
-
+            Log.e(TAG, e.getMessage(), e);
         } finally {
-            cursor.close();
+            if(cursor != null) {
+                cursor.close();
+            }
         }
         return serviceRecords;
     }
@@ -202,21 +209,6 @@ public class RecurringServiceRecordRepository extends BaseRepository {
         values.put(FORMSUBMISSION_ID, serviceRecord.getFormSubmissionId() != null ? serviceRecord.getFormSubmissionId() : null);
         values.put(UPDATED_AT_COLUMN, serviceRecord.getUpdatedAt() != null ? serviceRecord.getUpdatedAt() : null);
         return values;
-    }
-
-    public AlertService alertService() {
-        if (alertService == null) {
-            alertService = Context.getInstance().alertService();
-        }
-        ;
-        return alertService;
-    }
-
-    public static String addHyphen(String s) {
-        if (StringUtils.isNotBlank(s)) {
-            return s.replace(" ", "_");
-        }
-        return s;
     }
 
     public static String removeHyphen(String s) {

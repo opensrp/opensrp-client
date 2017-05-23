@@ -244,7 +244,7 @@ public class VaccinatorApplication extends DrishtiApplication {
 
     public RecurringServiceRecordRepository recurringServiceRecordRepository() {
         if (recurringServiceRecordRepository == null) {
-            recurringServiceRecordRepository = new RecurringServiceRecordRepository((PathRepository) getRepository(), createCommonFtsObject(), context.alertService());
+            recurringServiceRecordRepository = new RecurringServiceRecordRepository((PathRepository) getRepository());
         }
         return recurringServiceRecordRepository;
     }

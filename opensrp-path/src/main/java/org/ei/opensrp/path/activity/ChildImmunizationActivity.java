@@ -19,10 +19,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
+import org.ei.opensrp.clientandeventmodel.DateUtil;
 import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.domain.Alert;
+import org.ei.opensrp.domain.AlertStatus;
 import org.ei.opensrp.domain.ServiceRecord;
 import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.domain.Vaccine;
@@ -54,6 +56,7 @@ import org.ei.opensrp.path.view.VaccineGroup;
 import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.util.OpenSRPImageLoader;
+import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
@@ -76,6 +79,7 @@ import java.util.concurrent.TimeUnit;
 import util.DateUtils;
 import util.ImageUtils;
 import util.JsonFormUtils;
+import util.RecurringServiceUtils;
 import util.Utils;
 import util.VaccinateActionUtils;
 import util.VaccinatorUtils;
@@ -308,14 +312,60 @@ public class ChildImmunizationActivity extends BaseActivity
         return selectedColor;
     }
 
-    private void updateServiceViews(Map<String, List<ServiceType>> serviceTypes, List<ServiceRecord> serviceRecordList, List<Alert> alerts) {
+    private void updateServiceViews(Map<String, List<ServiceType>> serviceTypeMap, List<ServiceRecord> serviceRecordList, List<Alert> alerts) {
 
+        //TODO remove dummy alerts
+        String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+        DateTime dateTime = new DateTime(dobString);
+        Date dob = dateTime.toDate();
+
+        //Alert alert1 = new Alert(childDetails.getCaseId(), "Deworming 1", "Deworming 1", AlertStatus.normal, DateUtil.yyyyMMdd.format(dob), null);
+        //Alert alert2 = new Alert(childDetails.getCaseId(), "Vit A IFC 2", "Vit A IFC 2", AlertStatus.normal, DateUtil.yyyyMMdd.format(dob), null);
+        //Alert alert3 = new Alert(childDetails.getCaseId(), "ITN 1", "ITN 1", AlertStatus.normal, DateUtil.yyyyMMdd.format(dob), null);
+        //alerts.add(alert1);
+        //alerts.add(alert2);
+        //alerts.add(alert3);
+
+        Map<String, List<ServiceType>> foundServiceTypeMap = new LinkedHashMap<>();
         if (serviceGroups == null) {
+            for (String type : serviceTypeMap.keySet()) {
+                if (foundServiceTypeMap.containsKey(type)) {
+                    continue;
+                }
+
+                for (ServiceRecord serviceRecord : serviceRecordList) {
+                    if (serviceRecord.getSyncStatus().equals(RecurringServiceTypeRepository.TYPE_Unsynced)) {
+                        if (serviceRecord.getType().equals(type)) {
+                            foundServiceTypeMap.put(type, serviceTypeMap.get(type));
+                            break;
+                        }
+                    }
+                }
+
+                if (foundServiceTypeMap.containsKey(type)) {
+                    continue;
+                }
+
+                for (Alert a : alerts) {
+                    if (StringUtils.containsIgnoreCase(a.scheduleName(), type)
+                            || StringUtils.containsIgnoreCase(a.visitCode(), type)) {
+                        foundServiceTypeMap.put(type, serviceTypeMap.get(type));
+                        break;
+                    }
+                }
+
+            }
+
+            if (foundServiceTypeMap.isEmpty()) {
+                return;
+            }
+
+
             serviceGroups = new ArrayList<>();
             LinearLayout serviceGroupCanvasLL = (LinearLayout) findViewById(R.id.service_group_canvas_ll);
 
             ServiceGroup curGroup = new ServiceGroup(this);
-            curGroup.setData(childDetails, serviceTypes, serviceRecordList, alerts);
+            curGroup.setData(childDetails, foundServiceTypeMap, serviceRecordList, alerts);
             curGroup.setOnServiceClickedListener(new ServiceGroup.OnServiceClickedListener() {
                 @Override
                 public void onClick(ServiceGroup serviceGroup, ServiceWrapper
@@ -326,7 +376,7 @@ public class ChildImmunizationActivity extends BaseActivity
             curGroup.setOnServiceUndoClickListener(new ServiceGroup.OnServiceUndoClickListener() {
                 @Override
                 public void onUndoClick(ServiceGroup serviceGroup, ServiceWrapper serviceWrapper) {
-                   addServiceUndoDialogFragment(serviceGroup, serviceWrapper);
+                    addServiceUndoDialogFragment(serviceGroup, serviceWrapper);
                 }
             });
             serviceGroupCanvasLL.addView(curGroup);
@@ -636,6 +686,7 @@ public class ChildImmunizationActivity extends BaseActivity
                 ArrayList<VaccineWrapper> wrappers = new ArrayList<>();
                 wrappers.add(tag);
                 updateVaccineGroupViews(view, wrappers, vaccineList, true);
+
             }
         }
     }
@@ -975,7 +1026,7 @@ public class ChildImmunizationActivity extends BaseActivity
             List<Vaccine> vaccineList = new ArrayList<>();
             Weight weight = null;
 
-            Map<String, List<ServiceType>> serviceTypeMap = new HashMap<>();
+            Map<String, List<ServiceType>> serviceTypeMap = new LinkedHashMap<>();
             List<ServiceRecord> serviceRecords = new ArrayList<>();
 
             List<Alert> alertList = new ArrayList<>();
@@ -1048,20 +1099,16 @@ public class ChildImmunizationActivity extends BaseActivity
             }
 
             if (recurringServiceTypeRepository != null) {
-                List<ServiceType> serviceTypes = recurringServiceTypeRepository.fetchAll();
-                if (serviceTypes != null) {
-                    for (ServiceType serviceType : serviceTypes) {
-                        List<ServiceType> subTypes = serviceTypeMap.get(serviceType.getType());
-                        if (subTypes == null) {
-                            subTypes = new ArrayList<>();
-                            serviceTypeMap.put(serviceType.getType(), subTypes);
-                        }
-                        subTypes.add(serviceType);
-                    }
+                List<String> types = recurringServiceTypeRepository.fetchTypes();
+                for (String type : types) {
+                    List<ServiceType> subTypes = recurringServiceTypeRepository.findByType(type);
+                    serviceTypeMap.put(type, subTypes);
                 }
             }
 
-            if (alertService != null) {
+            if (alertService != null)
+
+            {
                 alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
                         VaccinateActionUtils.allAlertNames("child"));
             }
@@ -1125,7 +1172,7 @@ public class ChildImmunizationActivity extends BaseActivity
         }
     }
 
-    public class NamedObject<T> {
+    private class NamedObject<T> {
         public final String name;
         public final T object;
 
@@ -1135,58 +1182,65 @@ public class ChildImmunizationActivity extends BaseActivity
         }
     }
 
-    // Recurring Service
+    //Recurring Service
     @Override
     public void onGiveToday(ServiceWrapper tag, View v) {
-        View view = getLastOpenedServiceView();
+        View view = RecurringServiceUtils.getLastOpenedServiceView(serviceGroups);
         saveService(tag, view);
     }
 
     @Override
     public void onGiveEarlier(ServiceWrapper tag, View v) {
-        View view = getLastOpenedServiceView();
+        View view = RecurringServiceUtils.getLastOpenedServiceView(serviceGroups);
         saveService(tag, view);
     }
 
     @Override
     public void onUndoService(ServiceWrapper tag, View v) {
-        if (tag != null) {
-
-            if (tag.getDbKey() != null) {
-                RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
-                Long dbKey = tag.getDbKey();
-                recurringServiceRecordRepository.deleteServiceRecord(dbKey);
-
-                tag.setUpdatedVaccineDate(null, false);
-                tag.setDbKey(null);
-
-                View view = getLastOpenedServiceView();
-
-                List<ServiceRecord> serviceRecordList = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());
-
-                ArrayList<ServiceWrapper> wrappers = new ArrayList<>();
-                wrappers.add(tag);
-                updateServiceGroupViews(view, wrappers, serviceRecordList, true);
-            }
-        }
+        View view = RecurringServiceUtils.getLastOpenedServiceView(serviceGroups);
+        RecurringServiceUtils.onUndoService(tag, view, childDetails.entityId());
     }
 
-    private class SaveServiceTask extends AsyncTask<ServiceWrapper, Void, Pair<ArrayList<ServiceWrapper>, List<ServiceRecord>>> {
+    public void saveService(ServiceWrapper tag, final View view) {
+        if (tag == null) {
+            return;
+        }
+
+        ServiceWrapper[] arrayTags = {tag};
+        SaveServiceTask backgroundTask = new SaveServiceTask();
+        String providerId = getOpenSRPContext().allSharedPreferences().fetchRegisteredANM();
+        String locationId = null;
+
+        try {
+            locationId = JsonFormUtils.getOpenMrsLocationId(getOpenSRPContext(),
+                    toolbar.getCurrentLocation());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        backgroundTask.setProviderId(providerId);
+        backgroundTask.setLocationId(locationId);
+        backgroundTask.setView(view);
+        Utils.startAsyncTask(backgroundTask, arrayTags);
+    }
+
+
+    public class SaveServiceTask extends AsyncTask<ServiceWrapper, Void, Pair<ArrayList<ServiceWrapper>, List<ServiceRecord>>> {
 
         private View view;
-        private RecurringServiceTypeRepository recurringServiceTypeRepository;
-        private RecurringServiceRecordRepository recurringServiceRecordRepository;
+        private String providerId;
+        private String locationId;
 
         public void setView(View view) {
             this.view = view;
         }
 
-        public void setRecurringServiceTypeRepository(RecurringServiceTypeRepository recurringServiceTypeRepository) {
-            this.recurringServiceTypeRepository = recurringServiceTypeRepository;
+        public void setProviderId(String providerId) {
+            this.providerId = providerId;
         }
 
-        public void setRecurringServiceRecordRepository(RecurringServiceRecordRepository recurringServiceRecordRepository) {
-            this.recurringServiceRecordRepository = recurringServiceRecordRepository;
+        public void setLocationId(String locationId) {
+            this.locationId = locationId;
         }
 
         @Override
@@ -1197,122 +1251,27 @@ public class ChildImmunizationActivity extends BaseActivity
         @Override
         protected void onPostExecute(Pair<ArrayList<ServiceWrapper>, List<ServiceRecord>> pair) {
             hideProgressDialog();
-            updateServiceGroupViews(view, pair.first, pair.second);
+            RecurringServiceUtils.updateServiceGroupViews(view, pair.first, pair.second);
         }
 
         @Override
         protected Pair<ArrayList<ServiceWrapper>, List<ServiceRecord>> doInBackground(ServiceWrapper... params) {
 
             ArrayList<ServiceWrapper> list = new ArrayList<>();
-            if (recurringServiceRecordRepository != null) {
-                for (ServiceWrapper tag : params) {
-                    saveService(recurringServiceRecordRepository, tag);
-                    list.add(tag);
-                }
 
+            for (ServiceWrapper tag : params) {
+                RecurringServiceUtils.saveService(tag, childDetails.entityId(), providerId, locationId);
+                setLastModified(true);
+                list.add(tag);
             }
 
-            List<ServiceRecord> serviceRecordList = new ArrayList<>();
-            if (recurringServiceRecordRepository != null) {
-                serviceRecordList = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());
-            }
+            RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
 
-            Pair<ArrayList<ServiceWrapper>, List<ServiceRecord>> pair = new Pair<>(list, serviceRecordList);
-            return pair;
+            List<ServiceRecord> serviceRecordList = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());
+
+            return new Pair<>(list, serviceRecordList);
+
         }
-
-    }
-
-    private void saveService(RecurringServiceRecordRepository recurringServiceRecordRepository, ServiceWrapper tag) {
-        if (tag.getUpdatedVaccineDate() == null) {
-            return;
-        }
-
-
-        ServiceRecord serviceRecord = new ServiceRecord();
-        if (tag.getDbKey() != null) {
-            serviceRecord = recurringServiceRecordRepository.find(tag.getDbKey());
-        }
-        serviceRecord.setBaseEntityId(childDetails.entityId());
-        serviceRecord.setRecurringServiceId(tag.getTypeId());
-        serviceRecord.setDate(tag.getUpdatedVaccineDate().toDate());
-        serviceRecord.setAnmId(getOpenSRPContext().allSharedPreferences().fetchRegisteredANM());
-        serviceRecord.setValue(tag.getValue());
-        try {
-            serviceRecord.setLocationId(JsonFormUtils.getOpenMrsLocationId(getOpenSRPContext(),
-                    toolbar.getCurrentLocation()));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        recurringServiceRecordRepository.add(serviceRecord);
-        tag.setDbKey(serviceRecord.getId());
-        setLastModified(true);
-    }
-
-    private void updateServiceGroupViews(View view, final ArrayList<ServiceWrapper> wrappers, List<ServiceRecord> serviceRecordList) {
-        updateServiceGroupViews(view, wrappers, serviceRecordList, false);
-    }
-
-    private void updateServiceGroupViews(View view, final ArrayList<ServiceWrapper> wrappers, final List<ServiceRecord> serviceRecordList, final boolean undo) {
-        if (view == null || !(view instanceof ServiceGroup)) {
-            return;
-        }
-        final ServiceGroup serviceGroup = (ServiceGroup) view;
-        serviceGroup.setModalOpen(false);
-
-        if (Looper.myLooper() == Looper.getMainLooper()) {
-            if (undo) {
-                serviceGroup.setServiceRecordList(serviceRecordList);
-                serviceGroup.updateWrapperStatus(wrappers);
-            }
-            serviceGroup.updateViews(wrappers);
-
-        } else {
-            Handler handler = new Handler(Looper.getMainLooper());
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (undo) {
-                        serviceGroup.setServiceRecordList(serviceRecordList);
-                        serviceGroup.updateWrapperStatus(wrappers);
-                    }
-                    serviceGroup.updateViews(wrappers);
-                }
-            });
-        }
-    }
-
-    private ServiceGroup getLastOpenedServiceView() {
-        if (serviceGroups == null) {
-            return null;
-        }
-
-        for (ServiceGroup serviceGroup : serviceGroups) {
-            if (serviceGroup.isModalOpen()) {
-                return serviceGroup;
-            }
-        }
-
-        return null;
-    }
-
-    private void saveService(ServiceWrapper tag, final View view) {
-        if (tag == null) {
-            return;
-        }
-
-        RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
-        RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
-
-
-        ServiceWrapper[] arrayTags = {tag};
-        SaveServiceTask backgroundTask = new SaveServiceTask();
-        backgroundTask.setRecurringServiceTypeRepository(recurringServiceTypeRepository);
-        backgroundTask.setRecurringServiceRecordRepository(recurringServiceRecordRepository);
-        backgroundTask.setView(view);
-        Utils.startAsyncTask(backgroundTask, arrayTags);
     }
 
 }

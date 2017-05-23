@@ -149,6 +149,7 @@ public class ServiceCard extends LinearLayout {
     }
 
     private void updateStateUi() {
+        setVisibility(VISIBLE);
         switch (state) {
             case NOT_DUE:
                 setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_white));
@@ -158,6 +159,7 @@ public class ServiceCard extends LinearLayout {
                 nameTV.setTextColor(context.getResources().getColor(R.color.silver));
                 nameTV.setText(getVaccineName());
                 setClickable(false);
+                setVisibility(GONE);
                 break;
             case DUE:
                 setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_blue));

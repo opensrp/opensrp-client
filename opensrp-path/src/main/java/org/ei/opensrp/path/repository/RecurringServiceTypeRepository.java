@@ -4,8 +4,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.util.Log;
 
-import com.cloudant.sync.sqlite.SQLDatabase;
-
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
@@ -80,12 +78,23 @@ public class RecurringServiceTypeRepository extends BaseRepository {
     }
 
     public List<ServiceType> findByType(String type) {
+        if (StringUtils.isBlank(type)) {
+            return new ArrayList<>();
+        }
+        type = addHyphen(type);
+
         SQLiteDatabase database = getPathRepository().getReadableDatabase();
         Cursor cursor = database.query(TABLE_NAME, TABLE_COLUMNS, TYPE + " = ? ORDER BY " + UPDATED_AT_COLUMN, new String[]{type}, null, null, null, null);
         return readAllServiceTypes(cursor);
     }
 
     public List<ServiceType> findByName(String name) {
+        if (StringUtils.isBlank(name)) {
+            return new ArrayList<>();
+        }
+        name = addHyphen(name);
+
+
         SQLiteDatabase database = getPathRepository().getReadableDatabase();
         Cursor cursor = database.query(TABLE_NAME, TABLE_COLUMNS, NAME + " = ? ORDER BY " + UPDATED_AT_COLUMN, new String[]{name}, null, null, null, null);
         return readAllServiceTypes(cursor);
@@ -130,6 +139,37 @@ public class RecurringServiceTypeRepository extends BaseRepository {
         return readAllServiceTypes(cursor);
     }
 
+    public List<String> fetchTypes() {
+        String sql = " SELECT " + TYPE + " FROM " + TABLE_NAME + " GROUP BY " + TYPE;
+        SQLiteDatabase database = getPathRepository().getReadableDatabase();
+        Cursor cursor = database.rawQuery(sql, null);
+
+        List<String> types = new ArrayList<String>();
+
+        try {
+
+            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    String type = cursor.getString(cursor.getColumnIndex(TYPE));
+                    if (type != null) {
+                        type = removeHyphen(type);
+                    }
+                    types.add(type);
+
+                    cursor.moveToNext();
+
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return types;
+    }
+
     private List<ServiceType> readAllServiceTypes(Cursor cursor) {
         List<ServiceType> serviceTypes = new ArrayList<ServiceType>();
 
@@ -165,9 +205,11 @@ public class RecurringServiceTypeRepository extends BaseRepository {
                 }
             }
         } catch (Exception e) {
-
+            Log.e(TAG, e.getMessage(), e);
         } finally {
-            cursor.close();
+            if (cursor != null) {
+                cursor.close();
+            }
         }
         return serviceTypes;
     }

@@ -11,16 +11,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.ei.opensrp.clientandeventmodel.DateUtil;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.domain.Alert;
-import org.ei.opensrp.domain.AlertStatus;
 import org.ei.opensrp.domain.ServiceRecord;
 import org.ei.opensrp.domain.ServiceType;
-import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.adapter.ServiceCardAdapter;
-import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.domain.ServiceWrapper;
 import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
 import org.ei.opensrp.path.repository.VaccineRepository;
@@ -29,7 +25,6 @@ import org.json.JSONException;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -42,7 +37,6 @@ import util.Utils;
 
 import static util.VaccinatorUtils.generateScheduleList;
 import static util.VaccinatorUtils.nextServiceDue;
-import static util.VaccinatorUtils.nextVaccineDue;
 import static util.VaccinatorUtils.receivedServices;
 
 /**
@@ -152,18 +146,6 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
         this.childDetails = childDetails;
         this.serviceTypeMap = serviceTypeMap;
         this.serviceRecordList = serviceRecordList;
-
-        //TODO remove dummy alerts
-        String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
-        DateTime dateTime = new DateTime(dobString);
-        Date dob = dateTime.toDate();
-
-        Alert alert1 = new Alert(childDetails.getCaseId(), "Deworming 1", "Deworming 1", AlertStatus.normal, DateUtil.yyyyMMdd.format(dob), null);
-        Alert alert2 = new Alert(childDetails.getCaseId(), "Vit A IFC 2", "Vit A IFC 2", AlertStatus.normal, DateUtil.yyyyMMdd.format(dob), null);
-        Alert alert3 = new Alert(childDetails.getCaseId(), "ITN 1", "ITN 1", AlertStatus.normal, DateUtil.yyyyMMdd.format(dob), null);
-        alerts.add(alert1);
-        alerts.add(alert2);
-        alerts.add(alert3);
         this.alertList = alerts;
         updateViews();
     }
