@@ -160,7 +160,7 @@ public class VaccinateActionUtils {
                     ft.addToBackStack(null);
                     ArrayList<VaccineWrapper> list = new ArrayList<VaccineWrapper>();
                     list.add(tag);
-                    VaccinationDialogFragment vaccinationDialogFragment = VaccinationDialogFragment.newInstance(list);
+                    VaccinationDialogFragment vaccinationDialogFragment = VaccinationDialogFragment.newInstance(null, list);
                     vaccinationDialogFragment.show(ft, VaccinationDialogFragment.DIALOG_TAG);
 
                 }
@@ -382,7 +382,9 @@ public class VaccinateActionUtils {
         return s;
     }
 
-    public static void populateDefaultAlerts(AlertService alertService, List<Vaccine> vaccineList, List<Alert> alertList, String entityId, DateTime birthDateTime, VaccineRepo.Vaccine[] vList) {
+    public static void populateDefaultAlerts(AlertService alertService, List<Vaccine> vaccineList,
+                                             List<Alert> alertList, String entityId,
+                                             DateTime birthDateTime, VaccineRepo.Vaccine[] vList) {
 
         if (vList == null || vList.length == 0) {
             return;
@@ -401,7 +403,6 @@ public class VaccinateActionUtils {
             alertService.create(alert);
             alertService.updateFtsSearch(alert, true);
         }
-
     }
 
     public static boolean hasAlert(List<Alert> alerts, VaccineRepo.Vaccine vaccine) {

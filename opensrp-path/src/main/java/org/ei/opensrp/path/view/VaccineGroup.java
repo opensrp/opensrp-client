@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -284,6 +285,13 @@ public class VaccineGroup extends LinearLayout implements View.OnClickListener,
         return new ArrayList<VaccineWrapper>();
     }
 
+    public ArrayList<VaccineWrapper> getAllVaccineWrappers() {
+        if (vaccineCardAdapter != null) {
+            return vaccineCardAdapter.getAllVaccineWrappers();
+        }
+        return new ArrayList<>();
+    }
+
     public boolean isModalOpen() {
         return modalOpen;
     }
@@ -305,9 +313,16 @@ public class VaccineGroup extends LinearLayout implements View.OnClickListener,
         for (Map<String, Object> m : sch) {
             VaccineRepo.Vaccine vaccine = (VaccineRepo.Vaccine) m.get("vaccine");
             if (tag.getName().toLowerCase().contains(vaccine.display().toLowerCase())) {
+                if(vaccine.equals(VaccineRepo.Vaccine.measles2)
+                        || vaccine.equals(VaccineRepo.Vaccine.mr2)
+                        || vaccine.equals(VaccineRepo.Vaccine.measles1)
+                        || vaccine.equals(VaccineRepo.Vaccine.mr1)){
+                    if(tag.getAlert() != null && tag.getStatus() != null){
+                        break;
+                    }
+                }
                 tag.setStatus(m.get("status").toString());
                 tag.setAlert((Alert) m.get("alert"));
-
             }
         }
     }

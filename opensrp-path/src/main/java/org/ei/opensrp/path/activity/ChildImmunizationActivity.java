@@ -32,6 +32,7 @@ import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.domain.Photo;
 import org.ei.opensrp.path.domain.RegisterClickables;
 import org.ei.opensrp.path.domain.ServiceWrapper;
+import org.ei.opensrp.path.domain.VaccineSchedule;
 import org.ei.opensrp.path.domain.VaccineWrapper;
 import org.ei.opensrp.path.domain.WeightWrapper;
 import org.ei.opensrp.path.fragment.RecordWeightDialogFragment;
@@ -52,6 +53,7 @@ import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.opensrp.api.constants.Gender;
 
 import java.io.IOException;
@@ -62,8 +64,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import util.DateUtils;
@@ -91,6 +95,20 @@ public class ChildImmunizationActivity extends BaseActivity
     private static final String DIALOG_TAG = "ChildImmunoActivity_DIALOG_TAG";
     private ArrayList<VaccineGroup> vaccineGroups;
     private ArrayList<ServiceGroup> serviceGroups;
+    private static final ArrayList<String> COMBINED_VACCINES;
+    private static final HashMap<String, String> COMBINED_VACCINES_MAP;
+    static {
+        COMBINED_VACCINES = new ArrayList<>();
+        COMBINED_VACCINES_MAP = new HashMap<>();
+        COMBINED_VACCINES.add("Measles 1");
+        COMBINED_VACCINES_MAP.put("Measles 1", "Measles 1 / MR 1");
+        COMBINED_VACCINES.add("MR 1");
+        COMBINED_VACCINES_MAP.put("MR 1", "Measles 1 / MR 1");
+        COMBINED_VACCINES.add("Measles 2");
+        COMBINED_VACCINES_MAP.put("Measles 2", "Measles 2 / MR 2");
+        COMBINED_VACCINES.add("MR 2");
+        COMBINED_VACCINES_MAP.put("MR 2", "Measles 2 / MR 2");
+    }
 
     // Views
     private LocationSwitcherToolbar toolbar;
@@ -342,37 +360,13 @@ public class ChildImmunizationActivity extends BaseActivity
 
         if (vaccineGroups == null) {
             vaccineGroups = new ArrayList<>();
-            LinearLayout vaccineGroupCanvasLL = (LinearLayout) findViewById(R.id.vaccine_group_canvas_ll);
             String supportedVaccinesString = VaccinatorUtils.getSupportedVaccines(this);
 
             try {
                 JSONArray supportedVaccines = new JSONArray(supportedVaccinesString);
 
                 for (int i = 0; i < supportedVaccines.length(); i++) {
-                    VaccineGroup curGroup = new VaccineGroup(this);
-                    curGroup.setData(supportedVaccines.getJSONObject(i), childDetails, vaccineList, alerts);
-                    curGroup.setOnRecordAllClickListener(new VaccineGroup.OnRecordAllClickListener() {
-                        @Override
-                        public void onClick(VaccineGroup vaccineGroup, ArrayList<VaccineWrapper> dueVaccines) {
-                            addVaccinationDialogFragment(dueVaccines, vaccineGroup);
-                        }
-                    });
-                    curGroup.setOnVaccineClickedListener(new VaccineGroup.OnVaccineClickedListener() {
-                        @Override
-                        public void onClick(VaccineGroup vaccineGroup, VaccineWrapper vaccine) {
-                            ArrayList<VaccineWrapper> vaccineWrappers = new ArrayList<VaccineWrapper>();
-                            vaccineWrappers.add(vaccine);
-                            addVaccinationDialogFragment(vaccineWrappers, vaccineGroup);
-                        }
-                    });
-                    curGroup.setOnVaccineUndoClickListener(new VaccineGroup.OnVaccineUndoClickListener() {
-                        @Override
-                        public void onUndoClick(VaccineGroup vaccineGroup, VaccineWrapper vaccine) {
-                            addVaccineUndoDialogFragment(vaccineGroup, vaccine);
-                        }
-                    });
-                    vaccineGroupCanvasLL.addView(curGroup);
-                    vaccineGroups.add(curGroup);
+                    addVaccineGroup(-1, supportedVaccines.getJSONObject(i), vaccineList, alerts);
                 }
             } catch (JSONException e) {
                 Log.e(TAG, Log.getStackTraceString(e));
@@ -387,6 +381,48 @@ public class ChildImmunizationActivity extends BaseActivity
                 }
             }
         }
+    }
+
+    private void addVaccineGroup(int canvasId, JSONObject vaccineGroupData, List<Vaccine> vaccineList, List<Alert> alerts) {
+        LinearLayout vaccineGroupCanvasLL = (LinearLayout) findViewById(R.id.vaccine_group_canvas_ll);
+        VaccineGroup curGroup = new VaccineGroup(this);
+        curGroup.setData(vaccineGroupData, childDetails, vaccineList, alerts);
+        curGroup.setOnRecordAllClickListener(new VaccineGroup.OnRecordAllClickListener() {
+            @Override
+            public void onClick(VaccineGroup vaccineGroup, ArrayList<VaccineWrapper> dueVaccines) {
+                addVaccinationDialogFragment(dueVaccines, vaccineGroup);
+            }
+        });
+        curGroup.setOnVaccineClickedListener(new VaccineGroup.OnVaccineClickedListener() {
+            @Override
+            public void onClick(VaccineGroup vaccineGroup, VaccineWrapper vaccine) {
+                ArrayList<VaccineWrapper> vaccineWrappers = new ArrayList<VaccineWrapper>();
+                vaccineWrappers.add(vaccine);
+                addVaccinationDialogFragment(vaccineWrappers, vaccineGroup);
+            }
+        });
+        curGroup.setOnVaccineUndoClickListener(new VaccineGroup.OnVaccineUndoClickListener() {
+            @Override
+            public void onUndoClick(VaccineGroup vaccineGroup, VaccineWrapper vaccine) {
+                addVaccineUndoDialogFragment(vaccineGroup, vaccine);
+            }
+        });
+
+        LinearLayout parent;
+        if (canvasId == -1) {
+            Random r = new Random();
+            canvasId = r.nextInt(4232 - 213) + 213;
+            parent = new LinearLayout(this);
+            parent.setId(canvasId);
+            vaccineGroupCanvasLL.addView(parent);
+        } else {
+            parent = (LinearLayout) findViewById(canvasId);
+            parent.removeAllViews();
+        }
+        parent.addView(curGroup);
+        curGroup.setTag(R.id.vaccine_group_vaccine_data, vaccineGroupData.toString());
+        curGroup.setTag(R.id.vaccine_group_parent_id, String.valueOf(canvasId));
+        vaccineGroups.add(curGroup);
     }
 
     private void addVaccineUndoDialogFragment(VaccineGroup vaccineGroup, VaccineWrapper vaccineWrapper) {
@@ -608,25 +644,7 @@ public class ChildImmunizationActivity extends BaseActivity
 
     @Override
     public void onUndoVaccination(VaccineWrapper tag, View v) {
-        if (tag != null) {
-
-            if (tag.getDbKey() != null) {
-                final VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
-                Long dbKey = tag.getDbKey();
-                vaccineRepository.deleteVaccine(dbKey);
-
-                tag.setUpdatedVaccineDate(null, false);
-                tag.setDbKey(null);
-
-                View view = getLastOpenedView();
-
-                List<Vaccine> vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
-
-                ArrayList<VaccineWrapper> wrappers = new ArrayList<>();
-                wrappers.add(tag);
-                updateVaccineGroupViews(view, wrappers, vaccineList, true);
-            }
-        }
+        Utils.startAsyncTask(new UndoVaccineTask(tag, v), null);
     }
 
     public void addVaccinationDialogFragment(ArrayList<VaccineWrapper> vaccineWrappers, VaccineGroup vaccineGroup) {
@@ -639,8 +657,14 @@ public class ChildImmunizationActivity extends BaseActivity
 
         ft.addToBackStack(null);
         vaccineGroup.setModalOpen(true);
+        String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+        Date dob = Calendar.getInstance().getTime();
+        if (!TextUtils.isEmpty(dobString)) {
+            DateTime dateTime = new DateTime(dobString);
+            dob = dateTime.toDate();
+        }
 
-        VaccinationDialogFragment vaccinationDialogFragment = VaccinationDialogFragment.newInstance(vaccineWrappers);
+        VaccinationDialogFragment vaccinationDialogFragment = VaccinationDialogFragment.newInstance(dob, vaccineWrappers);
         vaccinationDialogFragment.show(ft, DIALOG_TAG);
     }
 
@@ -816,6 +840,10 @@ public class ChildImmunizationActivity extends BaseActivity
 
         private View view;
         private VaccineRepository vaccineRepository;
+        private AlertService alertService;
+        private List<String> affectedVaccines;
+        private List<Vaccine> vaccineList;
+        private List<Alert> alertList;
 
         public void setView(View view) {
             this.view = view;
@@ -823,6 +851,8 @@ public class ChildImmunizationActivity extends BaseActivity
 
         public void setVaccineRepository(VaccineRepository vaccineRepository) {
             this.vaccineRepository = vaccineRepository;
+            alertService = getOpenSRPContext().alertService();
+            affectedVaccines = new ArrayList<>();
         }
 
         @Override
@@ -839,6 +869,8 @@ public class ChildImmunizationActivity extends BaseActivity
             if (weightWrapper == null || weightWrapper.getWeight() == null) {
                 showRecordWeightNotification();
             }
+
+            updateVaccineGroupsUsingAlerts(affectedVaccines, vaccineList, alertList);
         }
 
         @Override
@@ -852,8 +884,16 @@ public class ChildImmunizationActivity extends BaseActivity
                 }
             }
 
-            List<Vaccine> vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
             Pair<ArrayList<VaccineWrapper>, List<Vaccine>> pair = new Pair<>(list, vaccineList);
+            String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+            if (!TextUtils.isEmpty(dobString)) {
+                DateTime dateTime = new DateTime(dobString);
+                affectedVaccines = VaccineSchedule.updateOfflineAlerts(VaccinatorApplication.getInstance(), childDetails.entityId(), dateTime, "child");
+            }
+            vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
+            alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
+                    VaccinateActionUtils.allAlertNames("child"));
+
             return pair;
         }
     }
@@ -960,6 +1000,120 @@ public class ChildImmunizationActivity extends BaseActivity
 
             Triple<Weight, List<Vaccine>, List<Alert>> triple = Triple.of(weight, vaccineList, alertList);
             return triple;
+        }
+    }
+
+    private class UndoVaccineTask extends AsyncTask<Void, Void, Void> {
+
+        private VaccineWrapper tag;
+        private View v;
+        private final VaccineRepository vaccineRepository;
+        private final AlertService alertService;
+        private List<Vaccine> vaccineList;
+        private List<Alert> alertList;
+        private List<String> affectedVaccines;
+
+        public UndoVaccineTask(VaccineWrapper tag, View v) {
+            this.tag = tag;
+            this.v = v;
+            vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
+            alertService = getOpenSRPContext().alertService();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            if (tag != null) {
+
+                if (tag.getDbKey() != null) {
+                    Long dbKey = tag.getDbKey();
+                    vaccineRepository.deleteVaccine(dbKey);
+                    String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+                    if (!TextUtils.isEmpty(dobString)) {
+                        DateTime dateTime = new DateTime(dobString);
+                        affectedVaccines = VaccineSchedule.updateOfflineAlerts(VaccinatorApplication.getInstance(), childDetails.entityId(), dateTime, "child");
+                        vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
+                        alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
+                                VaccinateActionUtils.allAlertNames("child"));
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void params) {
+            super.onPostExecute(params);
+
+            // Refresh the vaccine group with the updated vaccine
+            tag.setUpdatedVaccineDate(null, false);
+            tag.setDbKey(null);
+
+            View view = getLastOpenedView();
+
+            ArrayList<VaccineWrapper> wrappers = new ArrayList<>();
+            wrappers.add(tag);
+            updateVaccineGroupViews(view, wrappers, vaccineList, true);
+            updateVaccineGroupsUsingAlerts(affectedVaccines, vaccineList, alertList);
+        }
+    }
+
+    private void updateVaccineGroupsUsingAlerts(List<String> affectedVaccines, List<Vaccine> vaccineList, List<Alert> alerts) {
+        if (affectedVaccines != null && vaccineList != null) {
+            // Update all other affected vaccine groups
+            HashMap<VaccineGroup, ArrayList<VaccineWrapper>> affectedGroups = new HashMap<>();
+            for (String curAffectedVaccineName : affectedVaccines) {
+                boolean viewFound = false;
+                // Check what group it is in
+                for (VaccineGroup curGroup : vaccineGroups) {
+                    ArrayList<VaccineWrapper> groupWrappers = curGroup.getAllVaccineWrappers();
+                    if (groupWrappers == null) groupWrappers = new ArrayList<>();
+                    for (VaccineWrapper curWrapper : groupWrappers) {
+                        String curWrapperName = curWrapper.getName();
+
+                        // Check if current wrapper is one of the combined vaccines
+                        if (COMBINED_VACCINES.contains(curWrapperName)) {
+                            // Check if any of the sister vaccines is currAffectedVaccineName
+                            String[] allSisters = COMBINED_VACCINES_MAP.get(curWrapperName).split(" / ");
+                            for (int i = 0; i < allSisters.length; i++) {
+                                if(allSisters[i].replace(" ", "").equalsIgnoreCase(curAffectedVaccineName.replace(" ", ""))) {
+                                    curWrapperName = allSisters[i];
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (curWrapperName.replace(" ", "").toLowerCase()
+                                .contains(curAffectedVaccineName.replace(" ", "").toLowerCase())) {
+                            if (!affectedGroups.containsKey(curGroup)) {
+                                affectedGroups.put(curGroup, new ArrayList<VaccineWrapper>());
+                            }
+
+                            affectedGroups.get(curGroup).add(curWrapper);
+                            viewFound = true;
+                        }
+
+                        if(viewFound) break;
+                    }
+
+                    if(viewFound) break;
+                }
+            }
+
+            for (VaccineGroup curGroup : affectedGroups.keySet()) {
+                try {
+                    vaccineGroups.remove(curGroup);
+                    addVaccineGroup(Integer.valueOf((String)curGroup.getTag(R.id.vaccine_group_parent_id)),
+                            new JSONObject((String) curGroup.getTag(R.id.vaccine_group_vaccine_data)),
+                            vaccineList, alerts);
+                } catch (Exception e) {
+                    Log.e(TAG, Log.getStackTraceString(e));
+                }
+            }
         }
     }
 
