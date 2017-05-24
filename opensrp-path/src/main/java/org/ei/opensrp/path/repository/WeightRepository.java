@@ -23,6 +23,7 @@ public class WeightRepository extends BaseRepository {
     public static final String EVENT_ID = "event_id";
     public static final String PROGRAM_CLIENT_ID = "program_client_id";// ID to be used to identify entity when base_entity_id is unavailable
     public static final String FORMSUBMISSION_ID = "formSubmissionId";
+    public static final String OUT_OF_AREA = "out_of_area";
 
     public static final String KG = "kg";
     public static final String DATE = "date";
@@ -30,7 +31,7 @@ public class WeightRepository extends BaseRepository {
     public static final String LOCATIONID = "location_id";
     public static final String SYNC_STATUS = "sync_status";
     public static final String UPDATED_AT_COLUMN = "updated_at";
-    public static final String[] WEIGHT_TABLE_COLUMNS = {ID_COLUMN, BASE_ENTITY_ID, PROGRAM_CLIENT_ID, KG, DATE, ANMID, LOCATIONID, SYNC_STATUS, UPDATED_AT_COLUMN,EVENT_ID,FORMSUBMISSION_ID};
+    public static final String[] WEIGHT_TABLE_COLUMNS = {ID_COLUMN, BASE_ENTITY_ID, PROGRAM_CLIENT_ID, KG, DATE, ANMID, LOCATIONID, SYNC_STATUS, UPDATED_AT_COLUMN,EVENT_ID,FORMSUBMISSION_ID,OUT_OF_AREA};
 
     private static final String BASE_ENTITY_ID_INDEX = "CREATE INDEX " + WEIGHT_TABLE_NAME + "_" + BASE_ENTITY_ID + "_index ON " + WEIGHT_TABLE_NAME + "(" + BASE_ENTITY_ID + " COLLATE NOCASE);";
     private static final String SYNC_STATUS_INDEX = "CREATE INDEX " + WEIGHT_TABLE_NAME + "_" + SYNC_STATUS + "_index ON " + WEIGHT_TABLE_NAME + "(" + SYNC_STATUS + " COLLATE NOCASE);";
@@ -39,6 +40,8 @@ public class WeightRepository extends BaseRepository {
     public static final String EVENT_ID_INDEX = "CREATE INDEX " + WEIGHT_TABLE_NAME + "_" + EVENT_ID + "_index ON " + WEIGHT_TABLE_NAME + "(" + EVENT_ID + " COLLATE NOCASE);";
     public static final String UPDATE_TABLE_ADD_FORMSUBMISSION_ID_COL = "ALTER TABLE "+ WEIGHT_TABLE_NAME +" ADD COLUMN "+FORMSUBMISSION_ID+" VARCHAR;";
     public static final String FORMSUBMISSION_INDEX = "CREATE INDEX " + WEIGHT_TABLE_NAME + "_" + FORMSUBMISSION_ID + "_index ON " + WEIGHT_TABLE_NAME + "(" + FORMSUBMISSION_ID + " COLLATE NOCASE);";
+    public static final String UPDATE_TABLE_ADD_OUT_OF_AREA_COL = "ALTER TABLE "+ WEIGHT_TABLE_NAME +" ADD COLUMN "+OUT_OF_AREA+" VARCHAR;";
+    public static final String UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX = "CREATE INDEX " + WEIGHT_TABLE_NAME + "_" + OUT_OF_AREA + "_index ON " + WEIGHT_TABLE_NAME + "(" + OUT_OF_AREA + " COLLATE NOCASE);";
 
 
 
@@ -176,7 +179,7 @@ public class WeightRepository extends BaseRepository {
                                     cursor.getString(cursor.getColumnIndex(ANMID)),
                                     cursor.getString(cursor.getColumnIndex(LOCATIONID)),
                                     cursor.getString(cursor.getColumnIndex(SYNC_STATUS)),
-                                    cursor.getLong(cursor.getColumnIndex(UPDATED_AT_COLUMN)),cursor.getString(cursor.getColumnIndex(EVENT_ID)),cursor.getString(cursor.getColumnIndex(FORMSUBMISSION_ID))
+                                    cursor.getLong(cursor.getColumnIndex(UPDATED_AT_COLUMN)),cursor.getString(cursor.getColumnIndex(EVENT_ID)),cursor.getString(cursor.getColumnIndex(FORMSUBMISSION_ID)),cursor.getInt(cursor.getColumnIndex(OUT_OF_AREA))
                             ));
 
                     cursor.moveToNext();
@@ -205,6 +208,7 @@ public class WeightRepository extends BaseRepository {
         values.put(UPDATED_AT_COLUMN, weight.getUpdatedAt() != null ? weight.getUpdatedAt() : null);
         values.put(EVENT_ID, weight.getEventId() != null ? weight.getEventId() : null);
         values.put(FORMSUBMISSION_ID, weight.getFormSubmissionId() != null ? weight.getFormSubmissionId() : null);
+        values.put(OUT_OF_AREA, weight.getOutOfCatchment() != null ? weight.getOutOfCatchment() : null);
         return values;
     }
 }

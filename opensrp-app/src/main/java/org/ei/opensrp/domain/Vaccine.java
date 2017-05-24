@@ -20,11 +20,13 @@ public class Vaccine {
     Long updatedAt;
     String eventId;
     String formSubmissionId;
+    Integer outOfCatchment;
+
 
     public Vaccine() {
     }
 
-    public Vaccine(Long id, String baseEntityId, String name, Integer calculation, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId) {
+    public Vaccine(Long id, String baseEntityId, String name, Integer calculation, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId,Integer outOfCatchment) {
         this.id = id;
         this.baseEntityId = baseEntityId;
         this.programClientId = null;
@@ -37,9 +39,10 @@ public class Vaccine {
         this.updatedAt = updatedAt;
         this.eventId=eventId;
         this.formSubmissionId=formSubmissionId;
+        this.outOfCatchment=outOfCatchment;
     }
 
-    public Vaccine(Long id, String baseEntityId, String programClientId, String name, Integer calculation, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId) {
+    public Vaccine(Long id, String baseEntityId, String programClientId, String name, Integer calculation, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId,Integer outOfCatchment) {
         this.id = id;
         this.baseEntityId = baseEntityId;
         this.programClientId = programClientId;
@@ -52,6 +55,7 @@ public class Vaccine {
         this.updatedAt = updatedAt;
         this.eventId=eventId;
         this.formSubmissionId=formSubmissionId;
+        this.outOfCatchment=outOfCatchment;
     }
 
     public Long getId() {
@@ -156,5 +160,12 @@ public class Vaccine {
 
     public void setFormSubmissionId(String formSubmissionId) {
         this.formSubmissionId = formSubmissionId;
+    }
+    public Integer getOutOfCatchment() {
+        return outOfCatchment;
+    }
+
+    public void setOutOfCatchment(Integer outOfCatchment) {
+        this.outOfCatchment = outOfCatchment;
     }
 }

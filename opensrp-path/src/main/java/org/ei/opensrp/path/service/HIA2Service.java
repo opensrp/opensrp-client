@@ -30,6 +30,10 @@ public class HIA2Service {
     private static String CHN1_021_DHIS_ID = "ZDSUD6VHnoh";
     private static String CHN1_025 = "CHN1-025";
     private static String CHN1_025_DHIS_ID = "YAY7yKAkSvq";
+    private static String CHN1_030 = "CHN1-030";
+    private static String CHN1_030_DHIS_ID = "WFxN7txijYV";
+    private static String CHN2_005 = "CHN2-005";
+    private static String CHN2_005_DHIS_ID = "adkGrSGNt3L";
 
     public static void generateIndicators(final SQLiteDatabase database, int month) {
 
@@ -91,15 +95,30 @@ public class HIA2Service {
 
     /**
      * Number of total children < 5 who attended a clinic this month 	"[CHN1-011] + [CHN1-021]
-     [Non-editable in the form]"
+     * [Non-editable in the form]"
+     *
      * @param db
      */
     private void getCHN1_025(SQLiteDatabase db) {
 
     }
 
+    /**
+     * Number of total children who attended clinic and are not part of clinic's catchment area
+     * COUNT Number of total children who attended clinic and are not part of clinic's catchment area (i.e., total number of out of catchment area form submissions that month)
+     *
+     * @param db
+     */
+    private void getCHN1_030(SQLiteDatabase db) {
+        String query = "select count(*) from ec_child child inner join event e on e.baseEntityId=child.base_entity_id where e.eventType='Out of Catchment Service' where " + eventDateEqualsCurrentMonthQuery();
+    }
+
     private String ageQuery() {
         return "CAST ((julianday('now') - julianday(strftime('%Y-%m-%d',child.dob)))/(365/12) AS INTEGER)as age";
+    }
+
+    private String eventDateEqualsCurrentMonthQuery() {
+        return "strftime('%Y-%m',e.eventDate) ='" + dfyymm.format(new Date()) + "'";
     }
 
 }

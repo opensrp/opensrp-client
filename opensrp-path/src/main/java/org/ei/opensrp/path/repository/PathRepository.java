@@ -84,6 +84,9 @@ public class PathRepository extends Repository {
                 case 3:
                     upgradeToVersion3(db);
                     break;
+                case 4:
+                    upgradeToVersion4(db);
+                    break;
                 default:
 
                     break;
@@ -1369,6 +1372,16 @@ public class PathRepository extends Repository {
             db.execSQL(WeightRepository.FORMSUBMISSION_INDEX);
         } catch (Exception e) {
             Log.e(TAG, "upgradeToVersion3 " + e.getMessage());
+        }
+    }
+    private void upgradeToVersion4(SQLiteDatabase db) {
+        try {
+            db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL);
+            db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX);
+            db.execSQL(WeightRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL);
+            db.execSQL(WeightRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX);
+        } catch (Exception e) {
+            Log.e(TAG, "upgradeToVersion4 " + e.getMessage());
         }
     }
 }

@@ -18,12 +18,13 @@ public class Weight {
     String anmId;
     String locationId;
     String syncStatus;
+    Integer outOfCatchment;
     Long updatedAt;
 
     public Weight() {
     }
 
-    public Weight(Long id, String baseEntityId, Float kg, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId) {
+    public Weight(Long id, String baseEntityId, Float kg, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId,Integer outOfCatchment) {
         this.id = id;
         this.baseEntityId = baseEntityId;
         this.programClientId = null;
@@ -35,9 +36,10 @@ public class Weight {
         this.updatedAt = updatedAt;
         this.eventId=eventId;
         this.formSubmissionId=formSubmissionId;
+        this.outOfCatchment=outOfCatchment;
     }
 
-    public Weight(Long id, String baseEntityId, String programClientId, Float kg, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId) {
+    public Weight(Long id, String baseEntityId, String programClientId, Float kg, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId,Integer outOfCatchment) {
         this.id = id;
         this.baseEntityId = baseEntityId;
         this.programClientId = programClientId;
@@ -49,6 +51,7 @@ public class Weight {
         this.updatedAt = updatedAt;
         this.eventId=eventId;
         this.formSubmissionId=formSubmissionId;
+        this.outOfCatchment=outOfCatchment;
     }
 
 
@@ -145,5 +148,11 @@ public class Weight {
     public void setFormSubmissionId(String formSubmissionId) {
         this.formSubmissionId = formSubmissionId;
     }
+    public Integer getOutOfCatchment() {
+        return outOfCatchment;
+    }
 
+    public void setOutOfCatchment(Integer outOfCatchment) {
+        this.outOfCatchment = outOfCatchment;
+    }
 }
