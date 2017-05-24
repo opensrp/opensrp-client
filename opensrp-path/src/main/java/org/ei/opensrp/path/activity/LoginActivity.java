@@ -209,7 +209,6 @@ public class LoginActivity extends Activity {
         } else {
 
             login(findViewById(org.ei.opensrp.R.id.login_loginButton), false);
-            accessAssetsAndFillDataBaseForVaccineTypes();
         }
     }
 
@@ -366,6 +365,8 @@ public class LoginActivity extends Activity {
         Intent intent = new Intent(this, ChildSmartRegisterActivity.class);
         intent.putExtra(BaseRegisterActivity.IS_REMOTE_LOGIN, remote);
         startActivity(intent);
+        accessAssetsAndFillDataBaseForVaccineTypes();
+
         finish();
     }
 

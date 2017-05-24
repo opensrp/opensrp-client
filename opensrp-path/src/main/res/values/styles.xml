@@ -2,8 +2,7 @@
 
     <!-- Base application theme. -->
 
-    <style name="PathAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-    </style>
+    <style name="PathAppTheme" parent="Theme.AppCompat.Light.DarkActionBar"></style>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
@@ -116,12 +115,15 @@
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/dark_grey</item>
     </style>
+
     <style name="AppThemeNoActionBarAndTitleWithEditButton" parent="AppThemeNoTitle.NoActionBar">
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
     </style>
+
     <style name="OverflowMenuButton" parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">
         <item name="android:src">@drawable/ic_icon_edit</item>
     </style>
+
     <style name="Material.Drawable.CheckBox.Dialog" parent="Material.Drawable.CheckBox">
         <item name="cbd_width">40dp</item>
         <item name="cbd_height">40dp</item>

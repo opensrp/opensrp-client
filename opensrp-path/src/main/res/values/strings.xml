@@ -15,6 +15,7 @@
     <string name="child_id_sort">Program Id </string>
     <string name="child_search_hint">Search Child</string>
     <string name="child_details_title"> Child Details</string>
+    <string name="stock_title"> Stock Control</string>
     <string name="vaccination_summary"> Vaccination Summary</string>
 
     <string name="search_hint">Search Register</string>
@@ -199,4 +200,5 @@
     <string name="mother_lookup_results">Matching records</string>
     <string name="dismiss">Cancel</string>
     <string name="change_status">Change status</string>
+    <string name="title_activity_stock_control">StockControlActivity</string>
 </resources>
