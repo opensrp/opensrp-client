@@ -101,7 +101,7 @@ public class UserService {
                 TimeZone serverTimeZone = TimeZone.getTimeZone(serverTimeZoneId);
                 TimeZone deviceTimeZone = TimeZone.getDefault();
                 if (serverTimeZone != null && deviceTimeZone != null
-                        && serverTimeZone.equals(deviceTimeZone)) {
+                        && serverTimeZone.getRawOffset() == deviceTimeZone.getRawOffset()) {
                     result = TimeStatus.OK;
                 } else {
                     result = TimeStatus.TIMEZONE_MISMATCH;
@@ -136,7 +136,7 @@ public class UserService {
 
         if (serverTimeZone != null && deviceTimeZone != null
                 && serverTime != null && deviceTime != null) {
-            if (serverTimeZone.equals(deviceTimeZone)) {
+            if (serverTimeZone.getRawOffset() == deviceTimeZone.getRawOffset()) {
                 long timeDiff = Math.abs(serverTime.getTime() - deviceTime.getTime());
                 if (timeDiff <= serverTimeThreshold) {
                     return TimeStatus.OK;
