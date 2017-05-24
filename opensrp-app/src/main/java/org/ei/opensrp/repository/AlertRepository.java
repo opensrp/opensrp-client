@@ -19,7 +19,7 @@ import static org.ei.opensrp.domain.AlertStatus.from;
 import static org.ei.opensrp.domain.AlertStatus.inProcess;
 
 public class AlertRepository extends DrishtiRepository {
-    private static final String ALERTS_SQL = "CREATE TABLE alerts (caseID VARCHAR, scheduleName VARCHAR, visitCode VARCHAR, status VARCHAR, startDate VARCHAR, expiryDate VARCHAR, completionDate VARCHAR, offline  INTEGER NOT NULL DEFAULT 0)";
+    private static final String ALERTS_SQL = "CREATE TABLE alerts (caseID VARCHAR, scheduleName VARCHAR, visitCode VARCHAR, status VARCHAR, startDate VARCHAR, expiryDate VARCHAR, completionDate VARCHAR)";
     public static final String ALERTS_TABLE_NAME = "alerts";
     public static final String ALERTS_CASEID_COLUMN = "caseID";
     public static final String ALERTS_SCHEDULE_NAME_COLUMN = "scheduleName";
@@ -45,6 +45,7 @@ public class AlertRepository extends DrishtiRepository {
     private static final String STATUS_NAME_INDEX = "CREATE INDEX " + ALERTS_TABLE_NAME + "_" + ALERTS_STATUS_COLUMN + "_index ON " + ALERTS_TABLE_NAME + "(" + ALERTS_STATUS_COLUMN + " COLLATE NOCASE);";
     private static final String VISIT_CODE_INDEX = "CREATE INDEX " + ALERTS_TABLE_NAME + "_" + ALERTS_VISIT_CODE_COLUMN + "_index ON " + ALERTS_TABLE_NAME + "(" + ALERTS_VISIT_CODE_COLUMN + " COLLATE NOCASE);";
     public static final String OFFLINE_INDEX = "CREATE INDEX " + ALERTS_TABLE_NAME + "_" + ALERTS_OFFLINE_COLUMN + "_index ON " + ALERTS_TABLE_NAME + "(" + ALERTS_OFFLINE_COLUMN + " COLLATE NOCASE);";
+    public static final String ALTER_ADD_OFFLINE_COLUMN = "ALTER TABLE " + ALERTS_TABLE_NAME + " ADD COLUMN "+ALERTS_OFFLINE_COLUMN+" INTEGER NOT NULL DEFAULT 0";
 
     @Override
     protected void onCreate(SQLiteDatabase database) {
@@ -53,7 +54,6 @@ public class AlertRepository extends DrishtiRepository {
         database.execSQL(SCHEDULE_NAME_INDEX);
         database.execSQL(STATUS_NAME_INDEX);
         database.execSQL(VISIT_CODE_INDEX);
-        database.execSQL(OFFLINE_INDEX);
     }
 
     public List<Alert> allAlerts() {

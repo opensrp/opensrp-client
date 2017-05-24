@@ -156,6 +156,7 @@ public class UserService {
     }
 
     private static Date getDeviceTime() {
+        Calendar.getInstance().getTime();
         return Calendar.getInstance().getTime();
     }
 

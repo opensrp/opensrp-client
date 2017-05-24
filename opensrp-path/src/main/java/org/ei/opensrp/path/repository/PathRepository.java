@@ -1378,7 +1378,7 @@ public class PathRepository extends Repository {
 
     private void upgradeToVersion4(SQLiteDatabase db) {
         try {
-            db.execSQL("ALTER TABLE " + AlertRepository.ALERTS_TABLE_NAME + " ADD COLUMN offline INTEGER NOT NULL DEFAULT 0");
+            db.execSQL(AlertRepository.ALTER_ADD_OFFLINE_COLUMN);
             db.execSQL(AlertRepository.OFFLINE_INDEX);
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
