@@ -34,6 +34,12 @@ public class HIA2Service {
     private static String CHN1_030_DHIS_ID = "WFxN7txijYV";
     private static String CHN2_005 = "CHN2-005";
     private static String CHN2_005_DHIS_ID = "adkGrSGNt3L";
+    private static String CHN2_010 = "CHN2-010";
+    private static String CHN2_010_DHIS_ID = "sSxqU6qPyXr";
+    private static String CHN2_015 = "CHN2-015";
+    private static String CHN2_015_DHIS_ID = "xIGHv5CY2fF";
+    private static String CHN2_020 = "CHN2-020";
+    private static String CHN2_020_DHIS_ID = "H5cadfqRh7I";
 
     public static void generateIndicators(final SQLiteDatabase database, int month) {
 
@@ -110,8 +116,53 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN1_030(SQLiteDatabase db) {
-        String query = "select count(*) from ec_child child inner join event e on e.baseEntityId=child.base_entity_id where e.eventType='Out of Catchment Service' where " + eventDateEqualsCurrentMonthQuery();
+        String query = "select count(*) from ec_child child inner join event e on e.baseEntityId=child.base_entity_id where e.eventType like '%Out of Area Service%' and " + eventDateEqualsCurrentMonthQuery();
     }
+
+    /**
+     * Number of total children weighed aged 0-23 months who attended  clinic this month
+     * using like for event since this total includes out of area service
+     *
+     * @param db
+     */
+    private void getCHN2_005(SQLiteDatabase db) {
+        String query = "select count(*) as count," + ageQuery() + " from ec_child child inner join event e on e.baseEntityId=child.base_entity_id " +
+                "where e.eventType='%Growth Monitoring%' and age <23 and " + eventDateEqualsCurrentMonthQuery();
+    }
+
+    /**
+     * Number of total children weighed aged 24-59 months who attended  clinic this month
+     *
+     * @param db
+     */
+    private void getCHN2_010(SQLiteDatabase db) {
+        String query = "select count(*) as count," + ageQuery() + " from ec_child child inner join event e on e.baseEntityId=child.base_entity_id " +
+                "where e.eventType like '%Growth Monitoring%' and age between 24 and 59 and " + eventDateEqualsCurrentMonthQuery();
+    }
+
+    /**
+     * Number of total children weighed aged < 5 years who attended  clinic this month	"[CHN2-005] + [CHN2-010]
+     [Non-editable in the form]"
+     * @param db
+     */
+    private void getCHN2_015(SQLiteDatabase db) {
+
+    }
+
+    /**
+     * Number of children age 0-23 months who where weighed for = 2 consecutive months who did not gain >100g of weight in those months
+     * COUNT number of children 0-23 months [Date_Birth] with [weight current visit - weight previous visits < 100g] who had = 2 consecutive weight encounters at this clinic
+     * @param db
+     */
+    private void getCHN2_020(SQLiteDatabase db) {
+
+        String query="select child.base_entity_id as beid,strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) as currentweightdate,(w.kg*1000) as currentweight," +
+                "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id and strftime('%Y-%m',datetime(pw.date/1000, 'unixepoch')) <strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and strftime('%Y-%m',date(datetime(w.date/1000, 'unixepoch'),'-1 months'))='2017-03' order by pw.date desc limit 1) as prevweight,\n" +
+                "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id and  strftime('%Y-%m',datetime(pw.date/1000, 'unixepoch')) <strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and strftime('%Y-%m',date(datetime(w.date/1000, 'unixepoch'),'-2 months'))='2017-02' order by pw.date desc limit 1 ) as last2monthsweight\n" +
+                "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id where currentweightdate='2017-04' group by beid";
+
+    }
+
 
     private String ageQuery() {
         return "CAST ((julianday('now') - julianday(strftime('%Y-%m-%d',child.dob)))/(365/12) AS INTEGER)as age";
