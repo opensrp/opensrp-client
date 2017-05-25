@@ -200,7 +200,7 @@ public class ElcoSmartClientsProvider implements SmartRegisterCLientsProviderFor
             }
         }
         if(pc.getDetails().get("FWPSRDATE")!=null ){
-            if(pc.getDetails().get("FWPSRPREGSTS")==null){
+            if(pc.getDetails().get("FWPSRPREGSTS")==null || pc.getDetails().get("FWPSRPREGSTS").equalsIgnoreCase("")){
                 try {
                     Date regdate = format.parse(pc.getDetails().get("FWPSRDATE"));
 
@@ -213,6 +213,7 @@ public class ElcoSmartClientsProvider implements SmartRegisterCLientsProviderFor
             }
         }
 
+        Log.d("lastdate1",lastdate.toString());
         //psrf_schedule_logic == 1 || FWPSRSTS ==2
             if(lastdate!= null){
                 GregorianCalendar calendar = new GregorianCalendar();
@@ -225,7 +226,7 @@ public class ElcoSmartClientsProvider implements SmartRegisterCLientsProviderFor
 //           psrfdue.append(format.format(lastdate));
 
             }
-
+        Log.d("lastdate2",lastdate.toString());
 //        psrfdue.setOnClickListener(onClickListener);
 
             //Alert colors/////////////////////////////////////////////
