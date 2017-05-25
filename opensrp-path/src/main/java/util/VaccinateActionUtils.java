@@ -20,6 +20,7 @@ import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonFtsObject;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.AlertStatus;
+import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.domain.form.FormSubmission;
 import org.ei.opensrp.path.R;
@@ -36,6 +37,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -341,8 +343,8 @@ public class VaccinateActionUtils {
         if (vaccine == null) {
             return null;
         } else {
-            String stateKey =  stateKey(vaccine);
-            if(stateKey.equals( "at birth")){
+            String stateKey = stateKey(vaccine);
+            if (stateKey.equals("at birth")) {
                 stateKey = "Birth";
             }
             return stateKey;
@@ -366,6 +368,24 @@ public class VaccinateActionUtils {
             return names.toArray(new String[names.size()]);
         }
         return null;
+    }
+
+    public static String[] allAlertNames(Collection<List<ServiceType>> typeList) {
+        if (typeList == null) {
+            return null;
+        }
+
+        List<String> names = new ArrayList<>();
+
+        for (List<ServiceType> serviceTypes : typeList) {
+            if (serviceTypes != null) {
+                for (ServiceType serviceType : serviceTypes) {
+                    names.add(serviceType.getName().replaceAll("\\s+", ""));
+                }
+            }
+        }
+
+        return names.toArray(new String[names.size()]);
     }
 
     public static String addHyphen(String s) {

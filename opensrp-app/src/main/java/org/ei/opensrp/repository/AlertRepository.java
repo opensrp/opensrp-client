@@ -152,6 +152,13 @@ public class AlertRepository extends DrishtiRepository {
         return values;
     }
 
+    public List<Alert> findByEntityId(String entityId) {
+        SQLiteDatabase database = masterRepository.getReadableDatabase();
+        Cursor cursor = database.rawQuery(format("SELECT * FROM %s WHERE %s = ? ORDER BY DATE(%s)",
+                ALERTS_TABLE_NAME, ALERTS_CASEID_COLUMN, ALERTS_STARTDATE_COLUMN),new String[]{entityId} );
+        return readAllAlerts(cursor);
+    }
+
     public List<Alert> findByEntityIdAndAlertNames(String entityId, String... names) {
         SQLiteDatabase database = masterRepository.getReadableDatabase();
         Cursor cursor = database.rawQuery(format("SELECT * FROM %s WHERE %s = ? AND %s IN (%s) ORDER BY DATE(%s)",

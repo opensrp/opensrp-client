@@ -1145,11 +1145,8 @@ public class ChildImmunizationActivity extends BaseActivity
                 }
             }
 
-            if (alertService != null)
-
-            {
-                alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
-                        VaccinateActionUtils.allAlertNames("child"));
+            if (alertService != null) {
+                alertList = alertService.findByEntityId(childDetails.entityId());
             }
 
             Map<String, NamedObject<?>> map = new HashMap<>();

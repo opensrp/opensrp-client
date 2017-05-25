@@ -54,6 +54,10 @@ public class AlertService {
         repository.deleteAllAlertsForEntity(action.caseID());
     }
 
+    public List<Alert> findByEntityId(String entityId) {
+        return repository.findByEntityId(entityId);
+    }
+
     public List<Alert> findByEntityIdAndAlertNames(String entityId, String... names) {
         return repository.findByEntityIdAndAlertNames(entityId, names);
     }

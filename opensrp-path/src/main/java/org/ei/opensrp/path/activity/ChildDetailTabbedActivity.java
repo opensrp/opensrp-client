@@ -52,10 +52,10 @@ import org.ei.opensrp.path.repository.WeightRepository;
 import org.ei.opensrp.path.sync.ECSyncUpdater;
 import org.ei.opensrp.path.sync.PathClientProcessor;
 import org.ei.opensrp.path.tabfragments.ChildRegistrationDataFragment;
-import org.ei.opensrp.path.tabfragments.child_under_five_fragment;
+import org.ei.opensrp.path.tabfragments.ChildUnderFiveFragment;
 import org.ei.opensrp.path.toolbar.ChildDetailsToolbar;
 import org.ei.opensrp.path.view.LocationPickerView;
-import org.ei.opensrp.path.viewComponents.ImmunizationRowGroup;
+import org.ei.opensrp.path.view.ImmunizationRowGroup;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.util.FormUtils;
@@ -111,7 +111,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     public static final String EXTRA_REGISTER_CLICKABLES = "register_clickables";
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
     private ChildRegistrationDataFragment childDataFragment;
-    private child_under_five_fragment child_under_five_Fragment;
+    private ChildUnderFiveFragment childUnderFiveFragment;
     private static final String DIALOG_TAG = "ChildDetailActivity_DIALOG_TAG";
 
     private File currentfile;
@@ -153,8 +153,8 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
 
         childDataFragment.setArguments(this.getIntent().getExtras());
 
-        child_under_five_Fragment = new child_under_five_fragment();
-        child_under_five_Fragment.setArguments(this.getIntent().getExtras());
+        childUnderFiveFragment = new ChildUnderFiveFragment();
+        childUnderFiveFragment.setArguments(this.getIntent().getExtras());
 
 
         detailtoolbar = (ChildDetailsToolbar) findViewById(R.id.child_detail_toolbar);
@@ -169,7 +169,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                 for (int i = 0; i < overflow.size(); i++) {
                     overflow.getItem(i).setVisible(true);
                 }
-                child_under_five_Fragment.loadview(false,false);
+                childUnderFiveFragment.loadview(false,false);
 
                 saveButton.setVisibility(View.INVISIBLE);
             }
@@ -197,7 +197,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                     for (int i = 0; i < overflow.size(); i++) {
                         overflow.getItem(i).setVisible(true);
                     }
-                    child_under_five_Fragment.loadview(false,false);
+                    childUnderFiveFragment.loadview(false,false);
                 }
             }
 
@@ -348,7 +348,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                 return true;
             case R.id.immunization_data:
                 viewPager.setCurrentItem(1);
-                child_under_five_Fragment.loadview(true,false);
+                childUnderFiveFragment.loadview(true,false);
                 saveButton.setVisibility(View.VISIBLE);
                 for (int i = 0; i < overflow.size(); i++) {
                     overflow.getItem(i).setVisible(false);
@@ -358,7 +358,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
             case R.id.weight_data:
 //                showWeightDialog();
                 viewPager.setCurrentItem(1);
-                child_under_five_Fragment.loadview(false,true);
+                childUnderFiveFragment.loadview(false,true);
                 saveButton.setVisibility(View.VISIBLE);
                 for (int i = 0; i < overflow.size(); i++) {
                     overflow.getItem(i).setVisible(false);
@@ -781,7 +781,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         adapter.addFragment(childDataFragment, "Registration Data");
-        adapter.addFragment(child_under_five_Fragment, "Under Five History");
+        adapter.addFragment(childUnderFiveFragment, "Under Five History");
         viewPager.setAdapter(adapter);
     }
 
@@ -923,11 +923,11 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
             weightRepository.add(weight);
 
             tag.setDbKey(weight.getId());
-            child_under_five_Fragment.loadview(false,true);
+            childUnderFiveFragment.loadview(false,true);
 //            updateRecordWeightView(tag);
 //            setLastModified(true);
         } else {
-            child_under_five_Fragment.loadview(false,false);
+            childUnderFiveFragment.loadview(false,false);
         }
     }
 
