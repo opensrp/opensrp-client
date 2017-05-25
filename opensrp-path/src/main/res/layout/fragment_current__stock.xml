@@ -1,0 +1,89 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.ei.opensrp.path.tabfragments.Current_Stock"
+    android:background="#ffffff">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp">
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomFontTextViewStyle.ClientList.Light"
+                android:text="M/MR Stock: "
+                android:id="@+id/name"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/abc_text_size_display_1_material" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomFontTextViewStyle.ClientList.Light"
+                android:text="14 vials"
+                android:id="@+id/vials"
+                android:textColor="@color/bluetext"
+                android:textSize="@dimen/abc_text_size_display_1_material" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/received_plus"
+                android:text="  Received"
+                android:id="@+id/received"
+                android:textColor="#767676"
+                android:textSize="20sp"
+                android:layout_weight="1" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:drawableLeft="@drawable/issued_minus"
+                android:text="  Issued"
+                android:id="@+id/issued"
+                android:textColor="#767676"
+                android:textSize="20sp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:drawableLeft="@drawable/loss_adj"
+                android:text="  Loss/Adj"
+                android:id="@+id/loss_adj"
+                android:textColor="#767676"
+                android:textSize="20sp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"></LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>
