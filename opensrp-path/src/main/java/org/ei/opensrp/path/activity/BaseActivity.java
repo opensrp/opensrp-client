@@ -1,19 +1,18 @@
 package org.ei.opensrp.path.activity;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -37,8 +36,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.path.R;
-import org.ei.opensrp.path.application.VaccinatorApplication;
-import org.ei.opensrp.path.repository.UniqueIdRepository;
+import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.sync.ECSyncUpdater;
 import org.ei.opensrp.path.sync.PathAfterFetchListener;
 import org.ei.opensrp.path.sync.PathUpdateActionsTask;
@@ -72,13 +70,13 @@ import util.JsonFormUtils;
  * Created by Jason Rogena - jrogena@ona.io on 16/02/2017.
  */
 public abstract class BaseActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, SyncStatusBroadcastReceiver.SyncStatusListener {
     private static final String TAG = "BaseActivity";
     private BaseToolbar toolbar;
     private Menu menu;
     private static final int REQUEST_CODE_GET_JSON = 3432;
     private PathAfterFetchListener pathAfterFetchListener;
-    private boolean isSyncing;
+    private Snackbar syncStatusSnackbar;
     private ProgressDialog progressDialog;
 
     @Override
@@ -96,27 +94,64 @@ public abstract class BaseActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        toggleIsSyncing();
 
-        pathAfterFetchListener = new PathAfterFetchListener() {
-            @Override
-            public void afterFetch(FetchStatus fetchStatus) {
-                isSyncing = false;
-                toggleIsSyncing();
-            }
-        };
+        pathAfterFetchListener = new PathAfterFetchListener();
 
         initializeProgressDialog();
     }
 
-    private void toggleIsSyncing() {
+    @Override
+    public void onSyncStart() {
+        refreshSyncStatusViews(null);
+    }
+
+    @Override
+    public void onSyncComplete(FetchStatus fetchStatus) {
+        refreshSyncStatusViews(fetchStatus);
+    }
+
+    private void registerSyncStatusBroadcastReceiver() {
+        SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(this);
+    }
+
+    private void unregisterSyncStatusBroadcastReceiver() {
+        SyncStatusBroadcastReceiver.getInstance().removeSyncStatusListener(this);
+    }
+
+    public BaseToolbar getBaseToolbar() {
+        return toolbar;
+    }
+
+    private void refreshSyncStatusViews(FetchStatus fetchStatus) {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null && navigationView.getMenu() != null) {
             MenuItem syncMenuItem = navigationView.getMenu().findItem(R.id.nav_sync);
             if (syncMenuItem != null) {
-                if (isSyncing) {
+                if (SyncStatusBroadcastReceiver.getInstance().isSyncing()) {
                     syncMenuItem.setTitle(R.string.syncing);
+                    ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
+                    if (syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
+                    syncStatusSnackbar = Snackbar.make(rootView, R.string.syncing,
+                            Snackbar.LENGTH_LONG);
+                    syncStatusSnackbar.show();
                 } else {
+                    if (fetchStatus != null) {
+                        if (syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
+                        ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
+                        if (fetchStatus.equals(FetchStatus.fetchedFailed)) {
+                            syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_failed, Snackbar.LENGTH_INDEFINITE);
+                            syncStatusSnackbar.setAction(R.string.retry, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startSync();
+                                }
+                            });
+                        } else if (fetchStatus.equals(FetchStatus.fetched)
+                                || fetchStatus.equals(FetchStatus.nothingFetched)) {
+                            syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_complete, Snackbar.LENGTH_LONG);
+                        }
+                        syncStatusSnackbar.show();
+                    }
                     String lastSync = getLastSyncTime();
 
                     if (!TextUtils.isEmpty(lastSync)) {
@@ -154,7 +189,14 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        registerSyncStatusBroadcastReceiver();
         initViews();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterSyncStatusBroadcastReceiver();
     }
 
     @Override
@@ -221,6 +263,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
         TextView nameTV = (TextView) navigationView.findViewById(R.id.name_tv);
         nameTV.setText(preferredName);
+        refreshSyncStatusViews(null);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -237,19 +280,21 @@ public abstract class BaseActivity extends AppCompatActivity
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         }*/ else if (id == R.id.nav_sync) {
-            isSyncing = true;
-            toggleIsSyncing();
-            PathUpdateActionsTask pathUpdateActionsTask = new PathUpdateActionsTask(
-                    this, getOpenSRPContext().actionService(),
-                    getOpenSRPContext().formSubmissionSyncService(),
-                    new SyncProgressIndicator(),
-                    getOpenSRPContext().allFormVersionSyncService());
-            pathUpdateActionsTask.updateFromServer(pathAfterFetchListener);
+            startSync();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(getDrawerLayoutId());
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void startSync() {
+        PathUpdateActionsTask pathUpdateActionsTask = new PathUpdateActionsTask(
+                this, getOpenSRPContext().actionService(),
+                getOpenSRPContext().formSubmissionSyncService(),
+                new SyncProgressIndicator(),
+                getOpenSRPContext().allFormVersionSyncService());
+        pathUpdateActionsTask.updateFromServer(pathAfterFetchListener);
     }
 
     /**
@@ -468,7 +513,6 @@ public abstract class BaseActivity extends AppCompatActivity
         @Override
         public void onDrawerOpened(View drawerView) {
             super.onDrawerOpened(drawerView);
-            toggleIsSyncing();
         }
 
         @Override

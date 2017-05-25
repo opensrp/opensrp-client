@@ -16,12 +16,12 @@
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/CustomFontTextViewStyle.NavBar"
-            android:text="Save"
+            style="@style/CustomFontTextViewStyle.NavBar.Black"
+            android:text="SAVE"
             android:id="@+id/save"
             android:textSize="@dimen/activity_title_size"
             android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="25dp" />
     </FrameLayout>
 
 </org.ei.opensrp.path.toolbar.ChildDetailsToolbar>

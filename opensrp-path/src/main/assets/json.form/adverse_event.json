@@ -47,7 +47,7 @@
     "encounter_location": ""
   },
   "step1": {
-    "title": "Record an adverse event",
+    "title": "Report an adverse event",
     "fields": [
       {
         "key": "Reaction_Vaccine",

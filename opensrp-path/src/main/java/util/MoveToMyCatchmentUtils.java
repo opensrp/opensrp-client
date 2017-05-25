@@ -1,6 +1,8 @@
 package util;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -11,29 +13,40 @@ import org.ei.opensrp.DristhiConfiguration;
 import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.domain.ResponseStatus;
 import org.ei.opensrp.event.Listener;
+import org.ei.opensrp.path.db.Event;
+import org.ei.opensrp.path.db.Obs;
 import org.ei.opensrp.path.fragment.AdvancedSearchFragment;
+import org.ei.opensrp.path.repository.BaseRepository;
 import org.ei.opensrp.path.sync.ECSyncUpdater;
+import org.ei.opensrp.path.sync.PathClientProcessor;
+import org.ei.opensrp.repository.AllSharedPreferences;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import static android.view.View.VISIBLE;
+import static android.view.View.generateViewId;
+import static android.view.View.getDefaultSize;
 
 /**
  * Created by keyman on 26/01/2017.
  */
 public class MoveToMyCatchmentUtils {
+    public static String MOVE_TO_CATCHMENT_EVENT = "Move To Catchment";
 
-    public static void moveToMyCatchment(final String entityId, final Listener<JSONObject> listener, final ProgressBar progressBar) {
+    public static void moveToMyCatchment(final List<String> ids, final Listener<JSONObject> listener, final ProgressBar progressBar) {
 
         Utils.startAsyncTask(new AsyncTask<Void, Void, JSONObject>() {
             @Override
             protected JSONObject doInBackground(Void... params) {
                 publishProgress();
-                Response<String> response = move(entityId);
+                Response<String> response = move(ids);
                 if (response.isFailure()) {
                     return null;
                 } else {
@@ -60,8 +73,8 @@ public class MoveToMyCatchmentUtils {
         }, null);
     }
 
-    public static Response<String> move(String baseEntityId) {
-        if (StringUtils.isBlank(baseEntityId)) {
+    public static Response<String> move(List<String> ids) {
+        if (ids == null || ids.isEmpty()) {
             return new Response<String>(ResponseStatus.failure, "entityId doesn't exist");
         }
 
@@ -69,7 +82,9 @@ public class MoveToMyCatchmentUtils {
         DristhiConfiguration configuration = context.configuration();
 
         String baseUrl = configuration.dristhiBaseURL();
-        String paramString = "?baseEntityId=" + urlEncode(baseEntityId.trim()) + "&serverVersion=0";
+        String idString = StringUtils.join(ids, ",");
+
+        String paramString = "?baseEntityId=" + urlEncode(idString.trim());
         String uri = baseUrl + ECSyncUpdater.SEARCH_URL + paramString;
 
         Response<String> response = context.getHttpAgent().fetch(uri);
@@ -82,5 +97,78 @@ public class MoveToMyCatchmentUtils {
         } catch (UnsupportedEncodingException e) {
             return value;
         }
+    }
+
+    public static boolean processMoveToCatchment(android.content.Context context, AllSharedPreferences allSharedPreferences, JSONObject jsonObject) {
+
+        try {
+            ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(context);
+            int eventsCount = jsonObject.has("no_of_events") ? jsonObject.getInt("no_of_events") : 0;
+            if (eventsCount == 0) {
+                return false;
+            }
+
+            JSONArray events = jsonObject.has("events") ? jsonObject.getJSONArray("events") : new JSONArray();
+            JSONArray clients = jsonObject.has("clients") ? jsonObject.getJSONArray("clients") : new JSONArray();
+
+            ecUpdater.batchSave(events, clients);
+
+            final String BIRTH_REGISTRATION_EVENT = "Birth Registration";
+            final String NEW_WOMAN_REGISTRATION_EVENT = "New Woman Registration";
+            final String HOME_FACILITY = "Home_Facility";
+
+            String toProviderId = allSharedPreferences.fetchRegisteredANM();
+
+            String toLocationId = allSharedPreferences
+                    .fetchDefaultLocalityId(toProviderId);
+
+            for (int i = 0; i < events.length(); i++) {
+                JSONObject jsonEvent = events.getJSONObject(i);
+                Event event = ecUpdater.convert(jsonEvent, Event.class);
+                if (event == null) {
+                    continue;
+                }
+
+                String fromLocationId = null;
+                if (event.getEventType().equals(BIRTH_REGISTRATION_EVENT)) {
+                    // Update home facility
+                    for (Obs obs : event.getObs()) {
+                        if (obs.getFormSubmissionField().equals(HOME_FACILITY)) {
+                            fromLocationId = obs.getValue().toString();
+                            List<Object> values = new ArrayList<>();
+                            values.add(toLocationId);
+                            obs.setValues(values);
+                        }
+                    }
+                }
+
+                if (event.getEventType().equals(BIRTH_REGISTRATION_EVENT) || event.getEventType().equals(NEW_WOMAN_REGISTRATION_EVENT)) {
+                    //Create move to catchment event;
+                    org.ei.opensrp.clientandeventmodel.Event moveToCatchmentEvent = JsonFormUtils.createMoveToCatchmentEvent(context, event, fromLocationId, toProviderId, toLocationId);
+                    JSONObject moveToCatchmentJsonEvent = ecUpdater.convertToJson(moveToCatchmentEvent);
+                    if (moveToCatchmentEvent != null) {
+                        ecUpdater.addEvent(moveToCatchmentEvent.getBaseEntityId(), moveToCatchmentJsonEvent);
+                    }
+                }
+
+                // Update providerId and Save unsynced event
+                event.setProviderId(toProviderId);
+                JSONObject updatedJsonEvent = ecUpdater.convertToJson(event);
+                jsonEvent = JsonFormUtils.merge(jsonEvent, updatedJsonEvent);
+
+                ecUpdater.addEvent(event.getBaseEntityId(), jsonEvent);
+            }
+
+            long lastSyncTimeStamp = allSharedPreferences.fetchLastUpdatedAtDate(0);
+            Date lastSyncDate = new Date(lastSyncTimeStamp);
+            PathClientProcessor.getInstance(context).processClient(ecUpdater.getEvents(lastSyncDate, BaseRepository.TYPE_Unsynced));
+            allSharedPreferences.saveLastUpdatedAtDate(lastSyncDate.getTime());
+
+            return true;
+        } catch (Exception e) {
+            Log.e(MoveToMyCatchmentUtils.class.getName(), "Exception", e);
+        }
+
+        return false;
     }
 }

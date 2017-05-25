@@ -1,15 +1,14 @@
 package com.vijay.jsonwizard.widgets;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.support.v4.util.TimeUtils;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,12 +17,12 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 import com.rey.material.util.ViewUtil;
 import com.vijay.jsonwizard.R;
+import com.vijay.jsonwizard.customviews.DatePickerDialog;
 import com.vijay.jsonwizard.customviews.GenericTextWatcher;
 import com.vijay.jsonwizard.fragments.JsonFormFragment;
 import com.vijay.jsonwizard.interfaces.CommonListener;
 import com.vijay.jsonwizard.interfaces.FormWidgetFactory;
 import com.vijay.jsonwizard.interfaces.JsonApi;
-import com.vijay.jsonwizard.utils.DatePickerUtils;
 import com.vijay.jsonwizard.validators.edittext.RequiredValidator;
 
 import org.json.JSONArray;
@@ -37,8 +36,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS;
 
 /**
  * @author Jason Rogena - jrogena@ona.io
@@ -133,37 +130,23 @@ public class DatePickerFactory implements FormWidgetFactory {
                     DATE_FORMAT_REGEX));
 
             Calendar date = getDate(editText.getText().toString());
-            final android.app.DatePickerDialog datePickerDialog = new android.app.DatePickerDialog(
-                    context,
-                    AlertDialog.THEME_HOLO_LIGHT,
-                    new android.app.DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                            Calendar calendarDate = Calendar.getInstance();
-                            calendarDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                            calendarDate.set(Calendar.MONTH, monthOfYear);
-                            calendarDate.set(Calendar.YEAR, year);
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
-                                    && calendarDate.getTimeInMillis() >= view.getMinDate()
-                                    && calendarDate.getTimeInMillis() <= view.getMaxDate()) {
-                                updateDateText(editText, duration,
-                                        DATE_FORMAT.format(calendarDate.getTime()));
-                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                                updateDateText(editText, duration, "");
-                            }
-                        }
-                    },
-                    date.get(Calendar.YEAR),
-                    date.get(Calendar.MONTH),
-                    date.get(Calendar.DAY_OF_MONTH));
+            final DatePickerDialog datePickerDialog = new DatePickerDialog(context);
 
-            datePickerDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            datePickerDialog.setOnDateSetListener(new android.app.DatePickerDialog.OnDateSetListener() {
                 @Override
-                public void onShow(DialogInterface dialog) {
-                    InputMethodManager inputManager = (InputMethodManager) context
-                            .getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputManager.hideSoftInputFromWindow(((Activity) context).getCurrentFocus().getWindowToken(),
-                            HIDE_NOT_ALWAYS);
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    Calendar calendarDate = Calendar.getInstance();
+                    calendarDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    calendarDate.set(Calendar.MONTH, monthOfYear);
+                    calendarDate.set(Calendar.YEAR, year);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+                            && calendarDate.getTimeInMillis() >= view.getMinDate()
+                            && calendarDate.getTimeInMillis() <= view.getMaxDate()) {
+                        updateDateText(editText, duration,
+                                DATE_FORMAT.format(calendarDate.getTime()));
+                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                        updateDateText(editText, duration, "");
+                    }
                 }
             });
 
@@ -173,7 +156,7 @@ public class DatePickerFactory implements FormWidgetFactory {
                 minDate.set(Calendar.MINUTE, 0);
                 minDate.set(Calendar.SECOND, 0);
                 minDate.set(Calendar.MILLISECOND, 0);
-                datePickerDialog.getDatePicker().setMinDate(minDate.getTimeInMillis());
+                datePickerDialog.setMinDate(minDate.getTimeInMillis());
             }
 
             if (jsonObject.has("max_date") && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -182,20 +165,20 @@ public class DatePickerFactory implements FormWidgetFactory {
                 maxDate.set(Calendar.MINUTE, 59);
                 maxDate.set(Calendar.SECOND, 59);
                 maxDate.set(Calendar.MILLISECOND, 999);
-                datePickerDialog.getDatePicker().setMaxDate(maxDate.getTimeInMillis());
+                datePickerDialog.setMaxDate(maxDate.getTimeInMillis());
             }
 
             if (jsonObject.has("expanded") && jsonObject.getBoolean("expanded") == true
                     && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                datePickerDialog.getDatePicker().setCalendarViewShown(true);
+                datePickerDialog.setCalendarViewShown(true);
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                datePickerDialog.getDatePicker().setCalendarViewShown(false);
+                datePickerDialog.setCalendarViewShown(false);
             }
 
             editText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showDatePickerDialog(context, datePickerDialog, editText);
+                    showDatePickerDialog((Activity) context, datePickerDialog, editText);
                 }
             });
 
@@ -212,7 +195,7 @@ public class DatePickerFactory implements FormWidgetFactory {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     if (hasFocus) {
-                        showDatePickerDialog(context, datePickerDialog, editText);
+                        showDatePickerDialog((Activity) context, datePickerDialog, editText);
                     }
                 }
             });
@@ -335,18 +318,20 @@ public class DatePickerFactory implements FormWidgetFactory {
         return null;
     }
 
-    private static void showDatePickerDialog(Context context,
-                                             android.app.DatePickerDialog datePickerDialog,
+    private static void showDatePickerDialog(Activity context,
+                                             DatePickerDialog datePickerDialog,
                                              MaterialEditText editText) {
+        FragmentTransaction ft = context.getFragmentManager().beginTransaction();
+        Fragment prev = context.getFragmentManager().findFragmentByTag(TAG);
+        if (prev != null) {
+            ft.remove(prev);
+        }
+
+        ft.addToBackStack(null);
+
+        datePickerDialog.show(ft, TAG);
         Calendar date = getDate(editText.getText().toString());
-        datePickerDialog.updateDate(date.get(Calendar.YEAR),
-                date.get(Calendar.MONTH),
-                date.get(Calendar.DAY_OF_MONTH));
-
-        datePickerDialog.setTitle("");
-        datePickerDialog.show();
-
-        DatePickerUtils.themeDatePicker(datePickerDialog, new char[]{'d', 'm', 'y'});
+        datePickerDialog.setDate(date.getTime());
     }
 
     /**

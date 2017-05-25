@@ -9,28 +9,29 @@ import android.util.Log;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.clientandeventmodel.DateUtil;
-import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.domain.Weight;
 import org.ei.opensrp.path.application.VaccinatorApplication;
-import org.ei.opensrp.path.db.VaccineRepo;
+import org.ei.opensrp.path.domain.VaccineSchedule;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.repository.WeightRepository;
 import org.ei.opensrp.path.service.intent.VaccineIntentService;
 import org.ei.opensrp.path.service.intent.WeightIntentService;
 import org.ei.opensrp.repository.AllSharedPreferences;
-import org.ei.opensrp.service.AlertService;
+import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.sync.ClientProcessor;
 import org.ei.opensrp.sync.CloudantDataHandler;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import util.VaccinateActionUtils;
+import util.MoveToMyCatchmentUtils;
 
 public class PathClientProcessor extends ClientProcessor {
 
@@ -63,6 +64,7 @@ public class PathClientProcessor extends ClientProcessor {
         //this seems to be easy for now cloudant json to events model is crazy
         List<JSONObject> events = handler.getUpdatedEventsAndAlerts(lastSyncDate);
         if (!events.isEmpty()) {
+            List<JSONObject> unsyncEvents = new ArrayList<>();
             for (JSONObject event : events) {
                 String type = event.has("eventType") ? event.getString("eventType") : null;
                 if (type == null) {
@@ -83,6 +85,8 @@ public class PathClientProcessor extends ClientProcessor {
                     }
 
                     processWeight(event, clientWeightClassificationJson);
+                } else if (type.equals(MoveToMyCatchmentUtils.MOVE_TO_CATCHMENT_EVENT)) {
+                    unsyncEvents.add(event);
                 } else {
                     JSONObject clientClassificationJson = new JSONObject(clientClassificationStr);
                     if (isNullOrEmptyJSONObject(clientClassificationJson)) {
@@ -92,11 +96,17 @@ public class PathClientProcessor extends ClientProcessor {
                     processEvent(event, clientClassificationJson);
                 }
             }
+
+            // Unsync events that are should not be in this device
+            if (!unsyncEvents.isEmpty()) {
+                unSync(unsyncEvents);
+            }
         }
 
         allSharedPreferences.saveLastSyncDate(lastSyncDate.getTime());
     }
 
+    @Override
     public synchronized void processClient(List<JSONObject> events) throws Exception {
 
         String clientClassificationStr = getFileContents("ec_client_classification.json");
@@ -104,6 +114,7 @@ public class PathClientProcessor extends ClientProcessor {
         String clientWeightStr = getFileContents("ec_client_weight.json");
 
         if (!events.isEmpty()) {
+            List<JSONObject> unsyncEvents = new ArrayList<>();
             for (JSONObject event : events) {
 
                 String eventType = event.has("eventType") ? event.getString("eventType") : null;
@@ -125,6 +136,8 @@ public class PathClientProcessor extends ClientProcessor {
                     }
 
                     processWeight(event, clientWeightClassificationJson);
+                } else if (eventType.equals(MoveToMyCatchmentUtils.MOVE_TO_CATCHMENT_EVENT)) {
+                    unsyncEvents.add(event);
                 } else {
                     JSONObject clientClassificationJson = new JSONObject(clientClassificationStr);
                     if (isNullOrEmptyJSONObject(clientClassificationJson)) {
@@ -135,6 +148,11 @@ public class PathClientProcessor extends ClientProcessor {
                         processEvent(event, event.getJSONObject("client"), clientClassificationJson);
                     }
                 }
+            }
+
+            // Unsync events that are should not be in this device
+            if (!unsyncEvents.isEmpty()) {
+                unSync(unsyncEvents);
             }
         }
 
@@ -200,6 +218,15 @@ public class PathClientProcessor extends ClientProcessor {
             // save the values to db
             if (contentValues != null && contentValues.size() > 0) {
                 Date date = DateUtil.getDateFromString(contentValues.getAsString(WeightRepository.DATE));
+                if (date == null) {
+                    try {
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+                        date = dateFormat.parse(contentValues.getAsString(WeightRepository.DATE));
+                    } catch (Exception e) {
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+                        date = dateFormat.parse(contentValues.getAsString(WeightRepository.DATE));
+                    }
+                }
 
                 WeightRepository weightRepository = VaccinatorApplication.getInstance().weightRepository();
                 Weight weightObj = new Weight();
@@ -282,7 +309,10 @@ public class PathClientProcessor extends ClientProcessor {
                                 if (StringUtils.isNotBlank(valueField) && jsonDocObject.has(valueField)) {
                                     columnValue = jsonDocObject.getString(valueField);
                                 } else {
-                                    columnValue = getValues(jsonDocObject.get(responseKey)).get(0);
+                                    List<String> values = getValues(jsonDocObject.get(responseKey));
+                                    if (!values.isEmpty()) {
+                                        columnValue = values.get(0);
+                                    }
                                 }
                             }
                         }
@@ -327,18 +357,71 @@ public class PathClientProcessor extends ClientProcessor {
                 return;
             }
 
-            VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
-            AlertService alertService = org.ei.opensrp.Context.getInstance().alertService();
-
             DateTime birthDateTime = new DateTime(dob);
-            List<Vaccine> vaccines = vaccineRepository.findByEntityId(entityId);
-
-            List<Alert> alertList = alertService.findByEntityIdAndAlertNames(entityId,
-                    VaccinateActionUtils.allAlertNames("child"));
-
-            VaccineRepo.Vaccine[] vArray = {VaccineRepo.Vaccine.opv0, VaccineRepo.Vaccine.bcg};
-            VaccinateActionUtils.populateDefaultAlerts(alertService, vaccines, alertList, entityId, birthDateTime, vArray);
+            VaccineSchedule.updateOfflineAlerts(VaccinatorApplication.getInstance(), entityId, birthDateTime, "child");
         }
+    }
+
+    public boolean unSync(List<JSONObject> events) {
+        try {
+
+            if (events == null && events.isEmpty()) {
+                return false;
+            }
+
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
+            String registeredAnm = allSharedPreferences.fetchRegisteredANM();
+
+            String clientClassificationStr = getFileContents("ec_client_fields.json");
+            JSONObject clientClassificationJson = new JSONObject(clientClassificationStr);
+            JSONArray bindObjects = clientClassificationJson.getJSONArray("bindobjects");
+
+            DetailsRepository detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
+            ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(getContext());
+
+            for (JSONObject event : events) {
+                unSync(ecUpdater, detailsRepository, bindObjects, event, registeredAnm);
+            }
+
+            return true;
+
+        } catch (Exception e) {
+            Log.e(TAG, e.toString(), e);
+        }
+
+        return false;
+    }
+
+    private boolean unSync(ECSyncUpdater ecUpdater, DetailsRepository detailsRepository, JSONArray bindObjects, JSONObject event, String registeredAnm) {
+        try {
+            String baseEntityId = event.getString(baseEntityIdJSONKey);
+            String providerId = event.getString(providerIdJSONKey);
+
+            if (providerId.equals(registeredAnm)) {
+                boolean eventDeleted = ecUpdater.deleteEventsByBaseEntityId(baseEntityId);
+                boolean clientDeleted = ecUpdater.deleteClient(baseEntityId);
+                Log.d(getClass().getName(), "EVENT_DELETED: " + eventDeleted);
+                Log.d(getClass().getName(), "ClIENT_DELETED: " + clientDeleted);
+
+                boolean detailsDeleted = detailsRepository.deleteDetails(baseEntityId);
+                Log.d(getClass().getName(), "DETAILS_DELETED: " + detailsDeleted);
+
+                for (int i = 0; i < bindObjects.length(); i++) {
+
+                    JSONObject bindObject = bindObjects.getJSONObject(i);
+                    String tableName = bindObject.getString("name");
+
+                    boolean caseDeleted = deleteCase(tableName, baseEntityId);
+                    Log.d(getClass().getName(), "CASE_DELETED: " + caseDeleted);
+                }
+
+                return true;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.toString(), e);
+        }
+        return false;
     }
 
     private Integer parseInt(String string) {

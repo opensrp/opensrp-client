@@ -18,6 +18,7 @@ import org.ei.opensrp.path.db.Client;
 import org.ei.opensrp.path.db.Column;
 import org.ei.opensrp.path.db.ColumnAttribute;
 import org.ei.opensrp.path.db.Event;
+import org.ei.opensrp.repository.AlertRepository;
 import org.ei.opensrp.repository.Repository;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
@@ -41,6 +42,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import util.JsonFormUtils;
+import util.MoveToMyCatchmentUtils;
 import util.PathConstants;
 
 public class PathRepository extends Repository {
@@ -82,6 +84,9 @@ public class PathRepository extends Repository {
                     break;
                 case 3:
                     upgradeToVersion3(db);
+                    break;
+                case 4:
+                    upgradeToVersion4(db);
                     break;
                 default:
 
@@ -192,7 +197,7 @@ public class PathRepository extends Repository {
                 columns += "`" + c.name() + "`,";
                 values += formatValue(fm.get(c), c.column()) + ",";
 
-                cv.put(c.name(), formatValue(fm.get(c), c.column())); //These Fields should be your String values of actual column names
+                cv.put(c.name(), formatValueRemoveSingleQuote(fm.get(c), c.column())); //These Fields should be your String values of actual column names
 
             }
             String beid = fm.get(client_column.baseEntityId).toString();
@@ -351,7 +356,7 @@ public class PathRepository extends Repository {
         return lastServerVersion;
     }
 
-    private <T> T convert(JSONObject jo, Class<T> t) {
+    public <T> T convert(JSONObject jo, Class<T> t) {
         if (jo == null) {
             return null;
         }
@@ -360,6 +365,19 @@ public class PathRepository extends Repository {
         } catch (Exception e) {
             Log.e(getClass().getName(), "", e);
             Log.e(getClass().getName(), "Unable to convert: " + jo.toString());
+            return null;
+        }
+    }
+
+    public JSONObject convertToJson(Object object) {
+        if (object == null) {
+            return null;
+        }
+        try {
+            return new JSONObject(JsonFormUtils.gson.toJson(object));
+        } catch (Exception e) {
+            Log.e(getClass().getName(), "", e);
+            Log.e(getClass().getName(), "Unable to convert to json : " + object.toString());
             return null;
         }
     }
@@ -586,7 +604,7 @@ public class PathRepository extends Repository {
                 if (StringUtils.isBlank(jsonEventStr) || jsonEventStr.equals("{}")) { // Skip blank/empty json string
                     continue;
                 }
-
+                jsonEventStr=jsonEventStr.replaceAll("'","");
                 JSONObject jsonObectEvent = new JSONObject(jsonEventStr);
                 events.add(jsonObectEvent);
                 if (jsonObectEvent.has(event_column.baseEntityId.name())) {
@@ -743,6 +761,33 @@ public class PathRepository extends Repository {
         }
         return null;
     }
+    public JSONObject getEventsByFormSubmissionId(String formSubmissionId) {
+        List<JSONObject> list = new ArrayList<JSONObject>();
+        if (StringUtils.isBlank(formSubmissionId)) {
+            return null;
+        }
+
+        Cursor cursor = null;
+        try {
+            cursor = getWritableDatabase().rawQuery("SELECT json FROM " + Table.event.name() +
+                    " WHERE " + event_column.formSubmissionId.name() + "='" + formSubmissionId + "' ", null);
+            while (cursor.moveToNext()) {
+                String jsonEventStr = cursor.getString(0);
+
+                jsonEventStr = jsonEventStr.replaceAll("'", "");
+
+                JSONObject ev = new JSONObject(jsonEventStr);
+                return ev;
+
+            }
+        } catch (Exception e) {
+            Log.e(getClass().getName(), "Exception", e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
 
     public JSONObject getClientByBaseEntityId(String baseEntityId) {
         Cursor cursor = null;
@@ -830,16 +875,16 @@ public class PathRepository extends Repository {
             //update existing event if eventid present
             if (jsonObject.has(event_column.formSubmissionId.name()) && jsonObject.getString(event_column.formSubmissionId.name()) != null) {
                 //sanity check
-                if(checkIfExistsByFormSubmissionId(Table.event,jsonObject.getString(event_column.formSubmissionId.name()))){
+                if (checkIfExistsByFormSubmissionId(Table.event, jsonObject.getString(event_column.formSubmissionId.name()))) {
                     int id = getWritableDatabase().update(Table.event.name(), values, event_column.formSubmissionId.name() + "=?", new String[]{jsonObject.getString(event_column.formSubmissionId.name())});
-                }else{
+                } else {
                     //that odd case
                     values.put(event_column.formSubmissionId.name(), jsonObject.getString(event_column.formSubmissionId.name()));
 
                     getWritableDatabase().insert(Table.event.name(), null, values);
 
                 }
-            }else {
+            } else {
 // a case here would be if an event comes from openmrs
                 getWritableDatabase().insert(Table.event.name(), null, values);
             }
@@ -986,6 +1031,15 @@ public class PathRepository extends Repository {
             return v.toString();
         }
         return null;
+    }
+
+    private String formatValueRemoveSingleQuote(Object v, ColumnAttribute c) {
+        String formatValue = formatValue(v, c);
+        if (formatValue != null) {
+            formatValue = formatValue.replace("'", "");
+        }
+
+        return formatValue;
     }
 
     private String getSQLDate(DateTime date) {
@@ -1193,6 +1247,31 @@ public class PathRepository extends Repository {
         return UUID.randomUUID().toString();
     }
 
+    public boolean deleteClient(String baseEntityId) {
+        try {
+            int rowsAffected = getWritableDatabase().delete(Table.client.name(), client_column.baseEntityId.name() + " = ?", new String[]{baseEntityId});
+            if (rowsAffected > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            Log.e(getClass().getName(), "Exception", e);
+        }
+        return false;
+    }
+
+    public boolean deleteEventsByBaseEntityId(String baseEntityId) {
+
+        try {
+            int rowsAffected = getWritableDatabase().delete(Table.event.name(), event_column.baseEntityId.name() + " = ? AND " + event_column.eventType.name() + " != ?", new String[]{baseEntityId, MoveToMyCatchmentUtils.MOVE_TO_CATCHMENT_EVENT});
+            if (rowsAffected > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            Log.e(getClass().getName(), "Exception", e);
+        }
+        return false;
+    }
+
     /**
      * Version 2 added some columns to the ec_child table
      *
@@ -1294,6 +1373,15 @@ public class PathRepository extends Repository {
             db.execSQL(WeightRepository.FORMSUBMISSION_INDEX);
         } catch (Exception e) {
             Log.e(TAG, "upgradeToVersion3 " + e.getMessage());
+        }
+    }
+
+    private void upgradeToVersion4(SQLiteDatabase db) {
+        try {
+            db.execSQL(AlertRepository.ALTER_ADD_OFFLINE_COLUMN);
+            db.execSQL(AlertRepository.OFFLINE_INDEX);
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
         }
     }
 }

@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/sibling_profile_pic_width"
+    android:layout_height="@dimen/sibling_profile_pic_height"
+    android:layout_gravity="top|left"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/profile_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/child_transgender_inflant" />
+
+    <TextView
+        android:id="@+id/initials"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00818181"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="28dp"
+        android:textStyle="bold" />
+</RelativeLayout>

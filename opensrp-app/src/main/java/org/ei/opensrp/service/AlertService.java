@@ -58,6 +58,10 @@ public class AlertService {
         return repository.findByEntityIdAndAlertNames(entityId, names);
     }
 
+    public List<Alert> findByEntityIdAndOffline(String entityId, boolean offline) {
+        return repository.findByEntityIdAndOffline(entityId, offline);
+    }
+
     public Alert findByEntityIdAndScheduleName(String entityId, String scheduleName) {
         return repository.findByEntityIdAndScheduleName(entityId, scheduleName);
     }
@@ -70,6 +74,10 @@ public class AlertService {
     public void changeAlertStatusToComplete(String entityId, String alertName) {
         repository.changeAlertStatusToComplete(entityId, alertName);
         updateFtsSearchAfterStatusChange(entityId, alertName);
+    }
+
+    public void deleteOfflineAlerts(String entityId) {
+        repository.deleteOfflineAlertsForEntity(entityId);
     }
 
     // FTS methods

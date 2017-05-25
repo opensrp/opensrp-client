@@ -5,6 +5,7 @@
     <color name="silver">#A9A9A9</color>
     <color name="light_grey">#CCCCCC</color>
     <color name="dark_grey">#999999</color>
+    <color name="transparent_dark_grey">#EE999999</color>
     <color name="inactive_grey">#B5B5B5</color>
 
     <!-- Gender identity colors -->

@@ -5,6 +5,8 @@ import android.util.Log;
 
 import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.db.Client;
+import org.ei.opensrp.path.db.Event;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.service.HTTPAgent;
 import org.joda.time.DateTime;
@@ -180,5 +182,19 @@ public class ECSyncUpdater {
         return db.batchInsertEvents(events, getLastSyncTimeStamp());
     }
 
+    public <T> T convert(JSONObject jo, Class<T> t) {
+        return db.convert(jo, t);
+    }
 
+    public JSONObject convertToJson(Object object) {
+        return db.convertToJson(object);
+    }
+
+    public boolean deleteClient(String baseEntityId) {
+        return db.deleteClient(baseEntityId);
+    }
+
+    public boolean deleteEventsByBaseEntityId(String baseEntityId) {
+        return db.deleteEventsByBaseEntityId(baseEntityId);
+    }
 }

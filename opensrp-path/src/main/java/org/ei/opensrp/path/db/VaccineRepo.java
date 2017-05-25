@@ -5,25 +5,31 @@ import java.util.ArrayList;
 public class VaccineRepo {
     public enum Vaccine {
         bcg("BCG", null, 366, 0, 0, "child"),
-        bcg2("BCG 2", null, 366, 0, 28, "child"),
-        penta1("PENTA 1", null, 1768, 42, 0, "child"),
-        penta2("PENTA 2", penta1, 1799, 70, 28, "child"),
-        penta3("PENTA 3", penta2, 1830, 98, 28, "child"),
         opv0("OPV 0", null, 13, 0, 0, "child"),
+
         opv1("OPV 1", null, 1768, 42, 0, "child"),
-        opv2("OPV 2", opv1, 1799, 70, 28, "child"),
-        opv3("OPV 3", opv2, 1830, 98, 28, "child"),
-        opv4("OPV 4", null, 1830, 274, 28, "child"),
-        ipv("IPV", opv3, 1830, 274, 28, "child"),
+        penta1("PENTA 1", null, 1768, 42, 0, "child"),
         pcv1("PCV 1", null, 1768, 42, 0, "child"),
-        pcv2("PCV 2", pcv1, 1799, 70, 28, "child"),
-        pcv3("PCV 3", pcv2, 1830, 98, 28, "child"),
         rota1("ROTA 1", null, 213, 42, 0, "child"),
+
+        opv2("OPV 2", opv1, 1799, 70, 28, "child"),
+        penta2("PENTA 2", penta1, 1799, 70, 28, "child"),
+        pcv2("PCV 2", pcv1, 1799, 70, 28, "child"),
         rota2("ROTA 2", rota1, 244, 70, 28, "child"),
+
+        opv3("OPV 3", opv2, 1830, 98, 28, "child"),
+        penta3("PENTA 3", penta2, 1830, 98, 28, "child"),
+        pcv3("PCV 3", pcv2, 1830, 98, 28, "child"),
+
         measles1("MEASLES 1", null, -1, 274, 0, "child"),
-        measles2("MEASLES 2", measles1, -1, 548, 28, "child"),
         mr1("MR 1", null, -1, 274, 0, "child"),
-        mr2("MR 2", mr1, -1, 548, 28, "child"),
+        opv4("OPV 4", null, 1830, 274, 28, "child"),
+
+        measles2("MEASLES 2", measles1, -1, 548, 274, "child"),
+        mr2("MR 2", mr1, -1, 548, 274, "child"),
+
+        bcg2("BCG 2", null, 366, 0, 84, "child"),
+        ipv("IPV", opv3, 1830, 274, 28, "child"),
 
         tt1("TT 1", null, 0, 0, 0, "woman"),
         tt2("TT 2", tt1, 366, 0, 28, "woman"),
@@ -82,6 +88,17 @@ public class VaccineRepo {
             }
         }
         return vl;
+    }
+
+    public static Vaccine getVaccine(String name, String category) {
+        for (Vaccine curVaccine : Vaccine.values()) {
+            if (curVaccine.display.equalsIgnoreCase(name)
+                    && curVaccine.category.equalsIgnoreCase(category)) {
+                return curVaccine;
+            }
+        }
+
+        return null;
     }
 
     public static ArrayList<Vaccine> nextVaccines(String vaccine) {

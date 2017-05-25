@@ -13,7 +13,14 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.github.ybq.android.spinkit.style.ChasingDots;
+import com.github.ybq.android.spinkit.style.Circle;
+import com.github.ybq.android.spinkit.style.DoubleBounce;
+import com.github.ybq.android.spinkit.style.RotatingCircle;
+import com.github.ybq.android.spinkit.style.WanderingCubes;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
@@ -23,6 +30,7 @@ import org.ei.opensrp.cursoradapter.CursorCommonObjectSort;
 import org.ei.opensrp.cursoradapter.CursorSortOption;
 import org.ei.opensrp.cursoradapter.SmartRegisterPaginatedCursorAdapter;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
+import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.ChildImmunizationActivity;
 import org.ei.opensrp.path.activity.ChildSmartRegisterActivity;
@@ -34,6 +42,7 @@ import org.ei.opensrp.path.option.BasicSearchOption;
 import org.ei.opensrp.path.option.DateSort;
 import org.ei.opensrp.path.option.StatusSort;
 import org.ei.opensrp.path.provider.ChildSmartClientsProvider;
+import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.servicemode.VaccinationServiceModeOption;
 import org.ei.opensrp.path.view.LocationPickerView;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
@@ -51,7 +60,7 @@ import util.VaccinateActionUtils;
 
 import static android.view.View.INVISIBLE;
 
-public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment {
+public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implements SyncStatusBroadcastReceiver.SyncStatusListener {
     private final ClientActionHandler clientActionHandler = new ClientActionHandler();
     private LocationPickerView clinicSelection;
     private static final long NO_RESULT_SHOW_DIALOG_DELAY = 1000l;
@@ -61,6 +70,8 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment {
     private View filterSection;
     private ImageView backButton;
     private TextView nameInitials;
+    private LinearLayout btnBackToHome;
+    private ProgressBar syncProgressBar;
     private int dueOverdueCount = 0;
 
     @Override
@@ -166,6 +177,14 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment {
         if (filterMode()) {
             toggleFilterSelection();
         }
+        SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(this);
+        refreshSyncStatusViews();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        SyncStatusBroadcastReceiver.getInstance().removeSyncStatusListener(this);
     }
 
     @Override
@@ -215,6 +234,10 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment {
 
         backButton = (ImageView) view.findViewById(R.id.back_button);
         nameInitials = (TextView) view.findViewById(R.id.name_inits);
+        btnBackToHome = (LinearLayout) view.findViewById(R.id.btn_back_to_home);
+        syncProgressBar = (ProgressBar) view.findViewById(R.id.sync_progress_bar);
+        Circle circle = new Circle();
+        syncProgressBar.setIndeterminateDrawable(circle);
 
         AllSharedPreferences allSharedPreferences = Context.getInstance().allSharedPreferences();
         String preferredName = allSharedPreferences.getANMPreferredName(allSharedPreferences.fetchRegisteredANM());
@@ -231,7 +254,6 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment {
 
         View globalSearchButton = mView.findViewById(R.id.global_search);
         globalSearchButton.setOnClickListener(clientActionHandler);
-
     }
 
     @Override
@@ -315,6 +337,26 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment {
 
         updateSearchView();
         refresh();
+    }
+
+    private void refreshSyncStatusViews() {
+        if (SyncStatusBroadcastReceiver.getInstance().isSyncing()) {
+            syncProgressBar.setVisibility(View.VISIBLE);
+            btnBackToHome.setVisibility(View.GONE);
+        } else {
+            syncProgressBar.setVisibility(View.GONE);
+            btnBackToHome.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onSyncStart() {
+        refreshSyncStatusViews();
+    }
+
+    @Override
+    public void onSyncComplete(FetchStatus fetchStatus) {
+        refreshSyncStatusViews();
     }
 
     private class ClientActionHandler implements View.OnClickListener {

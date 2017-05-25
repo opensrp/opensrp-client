@@ -179,7 +179,7 @@ public class ChildRegistrationDataFragment extends Fragment {
             layout.addView(wd.createTableRow(inflater, container, "Landmark", Utils.getValue(detailsMap, "address1", true)));
             layout.addView(wd.createTableRow(inflater, container, "CHW name", Utils.getValue(detailsMap, "CHW_Name", true)));
             layout.addView(wd.createTableRow(inflater, container, "CHW phone number", Utils.getValue(detailsMap, "CHW_Phone_Number", true)));
-            layout.addView(wd.createTableRow(inflater, container, "HIV exposure", Utils.getValue(detailsMap, "PMTCT_Status", true)));
+            layout.addView(wd.createTableRow(inflater, container, "HIV exposure", Utils.getValue(childDetails.getColumnmaps(), "pmtct_status", true)));
         }
     }
 }

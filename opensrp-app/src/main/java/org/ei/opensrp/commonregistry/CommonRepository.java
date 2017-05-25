@@ -180,6 +180,22 @@ public class CommonRepository extends DrishtiRepository {
         return commons.get(0);
     }
 
+    public CommonPersonObject findByBaseEntityId(String baseEntityId) {
+        try {
+            SQLiteDatabase database = masterRepository.getReadableDatabase();
+            Cursor cursor = database.query(TABLE_NAME, common_TABLE_COLUMNS, BASE_ENTITY_ID_COLUMN + " = ?", new String[]{baseEntityId},
+                    null, null, null, null);
+            List<CommonPersonObject> commons = readAllcommon(cursor);
+            if (commons.isEmpty()) {
+                return null;
+            }
+            return commons.get(0);
+        }catch (Exception e){
+            Log.e(TAG, e.toString(), e);
+        }
+        return null;
+    }
+
     public CommonPersonObject findHHByGOBHHID(String caseId) {
         SQLiteDatabase database = masterRepository.getReadableDatabase();
         Cursor cursor = database.query(TABLE_NAME, common_TABLE_COLUMNS, "FWGOBHHID" + " = ?", new String[]{caseId},
@@ -442,6 +458,24 @@ public class CommonRepository extends DrishtiRepository {
              Log.e(TAG, e.toString(), e);
         }
     }
+
+    /**
+     * Deletes a case with the given baseEntityId
+     * @param baseEntityId
+     */
+    public boolean deleteCase(String baseEntityId, String tableName) {
+        try {
+            SQLiteDatabase db = masterRepository.getWritableDatabase();
+            int afftectedRows = db.delete(tableName, BASE_ENTITY_ID_COLUMN + " = ?", new String[]{baseEntityId});
+            if(afftectedRows > 0){
+                return true;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.toString(), e);
+        }
+        return false;
+    }
+
     public  ArrayList<HashMap<String, String>> rawQuery(String sql){
         ArrayList<HashMap<String, String>> maplist = new ArrayList<HashMap<String, String>>();
         Cursor cursor = null;
@@ -645,6 +679,25 @@ public class CommonRepository extends DrishtiRepository {
             database.endTransaction();
             return false;
         }
+    }
+
+    public boolean deleteSearchRecord(String caseId){
+        SQLiteDatabase database = masterRepository.getWritableDatabase();
+
+        database.beginTransaction();
+        String ftsSearchTable = CommonFtsObject.searchTableName(TABLE_NAME);
+        try {
+
+            int afftectedRows = database.delete(ftsSearchTable, CommonFtsObject.idColumn + " = ?", new String[]{caseId});
+            if(afftectedRows > 0) {
+                return true;
+            }
+        }catch (Exception e){
+            Log.e("", "Update Search Error", e);
+            database.endTransaction();
+        }
+
+        return false;
     }
 
     public List<String> findSearchIds(String query) {

@@ -24,8 +24,10 @@ import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.VaccineWrapper;
 import org.ei.opensrp.path.fragment.VaccinationEditDialogFragment;
 import org.ei.opensrp.path.repository.BaseRepository;
+import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.repository.WeightRepository;
+import org.ei.opensrp.path.sync.ECSyncUpdater;
 import org.ei.opensrp.path.viewComponents.ImmunizationRowGroup;
 import org.ei.opensrp.path.viewComponents.WidgetFactory;
 import org.ei.opensrp.repository.DetailsRepository;
@@ -147,6 +149,7 @@ public class child_under_five_fragment extends Fragment  {
 
         WeightRepository wp = VaccinatorApplication.getInstance().weightRepository();
         List<Weight> weightlist = wp.findLast5(childDetails.entityId());
+        ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(getActivity());
 
 
         for (int i = 0; i < weightlist.size(); i++) {
@@ -169,7 +172,31 @@ public class child_under_five_fragment extends Fragment  {
             }
             if(!formattedAge.equalsIgnoreCase("0d")) {
                 weightmap.put(formattedAge, weightlist.get(i).getKg() + " kg");
-                weighteditmode.add(editmode);
+
+                ////////////////////////check 3 months///////////////////////////////
+                boolean less_than_three_months_event_created = false;
+                Weight weight = weightlist.get(i);
+                org.ei.opensrp.path.db.Event event = null;
+                PathRepository db = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+                if(weight.getEventId()!=null){
+                    event = ecUpdater.convert(db.getEventsByEventId(weight.getEventId()), org.ei.opensrp.path.db.Event.class);
+                }else if (weight.getFormSubmissionId() != null){
+                    event = ecUpdater.convert(db.getEventsByFormSubmissionId(weight.getFormSubmissionId()), org.ei.opensrp.path.db.Event.class);
+                }
+                if(event!=null) {
+                    Date weight_create_date = event.getDateCreated().toDate();
+                    if (!ChildDetailTabbedActivity.check_if_date_three_months_older(weight_create_date)) {
+                        less_than_three_months_event_created = true;
+                    }
+                }else{
+                    less_than_three_months_event_created = true;
+                }
+                ///////////////////////////////////////////////////////////////////////
+                if(less_than_three_months_event_created) {
+                    weighteditmode.add(editmode);
+                }else{
+                    weighteditmode.add(false);
+                }
 
                 final int finalI = i;
                 View.OnClickListener onclicklistener = new View.OnClickListener() {

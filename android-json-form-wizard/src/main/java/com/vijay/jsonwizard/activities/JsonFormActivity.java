@@ -295,7 +295,7 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
 
     @Override
     public void onBackPressed() {
-        AlertDialog dialog = new AlertDialog.Builder(this)
+        AlertDialog dialog = new AlertDialog.Builder(this, R.style.AppThemeAlertDialog)
                 .setTitle(R.string.confirm_form_close)
                 .setMessage(R.string.confirm_form_close_explanation)
                 .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {

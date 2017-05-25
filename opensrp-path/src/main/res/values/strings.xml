@@ -116,7 +116,7 @@
     <string name="female_sex_id">her</string>
     <string name="male_sex_id">his</string>
     <string name="label_zeir">ZEIR</string>
-    <string name="label_immunization_records">IMMUNISATION RECORD</string>
+    <string name="label_immunization_records">IMMUNISATION &amp; SERVICES</string>
 
     <string name="str_search_hint">Search name or ID</string>
 
@@ -142,6 +142,9 @@
     <string name="report_deceased">Report deceased</string>
     <string name="report_adverse_event">Report adverse event</string>
     <string name="syncing">Syncing...</string>
+    <string name="sync_failed">Sync failed</string>
+    <string name="retry">Retry</string>
+    <string name="sync_complete">Sync complete</string>
     <string name="sync_">Sync%1$s</string>
     <string name="last_sync">(last %1$s)</string>
     <string name="now">now</string>
@@ -162,7 +165,8 @@
 
     <!-- advanced search -->
     <string name="advanced_search">Advanced Search</string>
-    <string name="out_and_inside">Outside and Inside\nMy Catchment Area\n(Requires Internet Connection)</string>
+    <string name="out_and_inside">Outside and Inside\nMy Catchment Area</string>
+    <string name="requires_internet_connection">(Requires internet connection)</string>
     <string name="my_catchment_area">My Catchment Area Only</string>
     <string name="search_limits">Search limits</string>
     <string name="client_status">Client Status</string>
@@ -181,7 +185,7 @@
     <string name="mother_guardian_nrc_hint">Mother or guardian NRC number</string>
     <string name="mother_guardian_phone_number">Mother/Guardian Phone Number</string>
     <string name="mother_guardian_phone_number_hint">Mother or guardian phone number</string>
-    <string name="date_birth_range">Date of Birth Range</string>
+    <string name="date_birth_range">Date of birth range</string>
     <string name="start_date_hint">Select start date</string>
     <string name="end_date_hint">Select end date</string>
     <string name="record_weight_notification">"Don't forget to record child's weight"</string>
@@ -195,4 +199,6 @@
     <string name="mother_lookup_results">Matching records</string>
     <string name="dismiss">Cancel</string>
     <string name="change_status">Change status</string>
+    <string name="device_timezone_changed">"The device's timezone changed. Please login again"</string>
+    <string name="device_time_changed">"The device's time has changed. Please login again"</string>
 </resources>

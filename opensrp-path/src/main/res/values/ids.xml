@@ -4,4 +4,6 @@
     <item name="client_details_tag" type="id" />
     <item name="vaccine_stock_used_tag" type="id" />
     <item name="vaccine_stock_wasted_tag" type="id" />
+    <item name="vaccine_group_parent_id" type="id" />
+    <item name="vaccine_group_vaccine_data" type="id" />
 </resources>

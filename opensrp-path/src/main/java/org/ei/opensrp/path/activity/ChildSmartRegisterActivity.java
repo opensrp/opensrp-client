@@ -1,6 +1,5 @@
 package org.ei.opensrp.path.activity;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 
@@ -239,19 +239,20 @@ public class ChildSmartRegisterActivity extends BaseRegisterActivity {
             return;
         }
         if (currentPage != 0) {
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(this, R.style.PathAlertDialog)
                     .setMessage(org.ei.opensrp.path.R.string.form_back_confirm_dialog_message)
                     .setTitle(org.ei.opensrp.path.R.string.form_back_confirm_dialog_title)
                     .setCancelable(false)
-                    .setPositiveButton(org.ei.opensrp.path.R.string.yes_button_label,
+                    .setPositiveButton(org.ei.opensrp.path.R.string.no_button_label,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+
+                                }
+                            })
+                    .setNegativeButton(org.ei.opensrp.path.R.string.yes_button_label,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     switchToBaseFragment(null);
-                                }
-                            })
-                    .setNegativeButton(org.ei.opensrp.path.R.string.no_button_label,
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
                                 }
                             })
                     .show();
@@ -304,7 +305,7 @@ public class ChildSmartRegisterActivity extends BaseRegisterActivity {
         }
     };
 
-    private void refreshList(final FetchStatus fetchStatus) {
+    public void refreshList(final FetchStatus fetchStatus) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             BaseSmartRegisterFragment registerFragment = (BaseSmartRegisterFragment) findFragmentByPosition(0);
             if (registerFragment != null && fetchStatus.equals(FetchStatus.fetched)) {
