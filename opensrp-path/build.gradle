@@ -26,8 +26,8 @@ android {
         applicationId "org.ei.opensrp.path"
         minSdkVersion 18
         targetSdkVersion 21
-        versionCode 2
-        versionName "1.1.2"
+        versionCode 3
+        versionName "1.1.3"
         multiDexEnabled true
         dexOptions {
             javaMaxHeapSize "4g"
@@ -45,7 +45,7 @@ android {
             buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '1'
             buildConfigField "int", "VACCINE_SYNC_TIME", '12'
             buildConfigField "int", "DATABASE_VERSION", '4'
-            buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "300000l"
+            buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
         }
 
         debug {
@@ -57,7 +57,7 @@ android {
             buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'
             buildConfigField "int", "VACCINE_SYNC_TIME", '0'
             buildConfigField "int", "DATABASE_VERSION", '4'
-            buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "300000l"
+            buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
         }
     }
     packagingOptions {
