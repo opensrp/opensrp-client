@@ -18,6 +18,7 @@ import org.ei.opensrp.path.db.Client;
 import org.ei.opensrp.path.db.Column;
 import org.ei.opensrp.path.db.ColumnAttribute;
 import org.ei.opensrp.path.db.Event;
+import org.ei.opensrp.repository.AlertRepository;
 import org.ei.opensrp.repository.Repository;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
@@ -89,6 +90,9 @@ public class PathRepository extends Repository {
                     break;
                 case 4:
                     upgradeToVersion4(db);
+                    break;
+                case 5:
+                    upgradeToVersion5(db);
                     break;
                 default:
 
@@ -606,7 +610,7 @@ public class PathRepository extends Repository {
                 if (StringUtils.isBlank(jsonEventStr) || jsonEventStr.equals("{}")) { // Skip blank/empty json string
                     continue;
                 }
-
+                jsonEventStr=jsonEventStr.replaceAll("'","");
                 JSONObject jsonObectEvent = new JSONObject(jsonEventStr);
                 events.add(jsonObectEvent);
                 if (jsonObectEvent.has(event_column.baseEntityId.name())) {
@@ -746,6 +750,33 @@ public class PathRepository extends Repository {
         try {
             cursor = getWritableDatabase().rawQuery("SELECT json FROM " + Table.event.name() +
                     " WHERE " + event_column.eventId.name() + "='" + eventId + "' ", null);
+            while (cursor.moveToNext()) {
+                String jsonEventStr = cursor.getString(0);
+
+                jsonEventStr = jsonEventStr.replaceAll("'", "");
+
+                JSONObject ev = new JSONObject(jsonEventStr);
+                return ev;
+
+            }
+        } catch (Exception e) {
+            Log.e(getClass().getName(), "Exception", e);
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
+    public JSONObject getEventsByFormSubmissionId(String formSubmissionId) {
+        List<JSONObject> list = new ArrayList<JSONObject>();
+        if (StringUtils.isBlank(formSubmissionId)) {
+            return null;
+        }
+
+        Cursor cursor = null;
+        try {
+            cursor = getWritableDatabase().rawQuery("SELECT json FROM " + Table.event.name() +
+                    " WHERE " + event_column.formSubmissionId.name() + "='" + formSubmissionId + "' ", null);
             while (cursor.moveToNext()) {
                 String jsonEventStr = cursor.getString(0);
 
@@ -1332,7 +1363,7 @@ public class PathRepository extends Repository {
             Log.d(TAG, "Rename query is\n---------------------------\n" + renameQuery);
             database.execSQL(renameQuery);
         } catch (Exception e) {
-            Log.e(TAG, "upgradeToVersion2 " + e.getMessage());
+            Log.e(TAG, "upgradeToVersion2 " + Log.getStackTraceString(e));
         }
     }
 
@@ -1347,11 +1378,20 @@ public class PathRepository extends Repository {
             db.execSQL(WeightRepository.UPDATE_TABLE_ADD_FORMSUBMISSION_ID_COL);
             db.execSQL(WeightRepository.FORMSUBMISSION_INDEX);
         } catch (Exception e) {
-            Log.e(TAG, "upgradeToVersion3 " + e.getMessage());
+            Log.e(TAG, "upgradeToVersion3 " + Log.getStackTraceString(e));
         }
     }
 
     private void upgradeToVersion4(SQLiteDatabase db) {
+        try {
+            db.execSQL(AlertRepository.ALTER_ADD_OFFLINE_COLUMN);
+            db.execSQL(AlertRepository.OFFLINE_INDEX);
+        } catch (Exception e) {
+            Log.e(TAG, "upgradeToVersion4" + Log.getStackTraceString(e));
+        }
+    }
+
+    private void upgradeToVersion5(SQLiteDatabase db) {
         try {
             RecurringServiceTypeRepository.createTable(db);
             RecurringServiceRecordRepository.createTable(db);
@@ -1359,8 +1399,7 @@ public class PathRepository extends Repository {
             RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
             DatabaseUtils.populateRecurringServices(context, db, recurringServiceTypeRepository);
         } catch (Exception e) {
-            Log.e(TAG, "upgradeToVersion4 " + e.getMessage());
-            e.printStackTrace();
+            Log.e(TAG, "upgradeToVersion5 " + Log.getStackTraceString(e));
         }
     }
 }

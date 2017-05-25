@@ -214,7 +214,7 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
                     ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
                     if (syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
                     syncStatusSnackbar = Snackbar.make(rootView, R.string.syncing,
-                            Snackbar.LENGTH_INDEFINITE);
+                            Snackbar.LENGTH_LONG);
                     syncStatusSnackbar.show();
                     syncMenuItem.setTitle(R.string.syncing);
                 } else {

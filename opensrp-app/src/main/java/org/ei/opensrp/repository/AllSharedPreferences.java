@@ -11,9 +11,11 @@ import static org.ei.opensrp.AllConstants.DEFAULT_LOCALITY_ID_PREFIX;
 import static org.ei.opensrp.AllConstants.DRISHTI_BASE_URL;
 import static org.ei.opensrp.AllConstants.ENCRYPTED_GROUP_ID_PREFIX;
 import static org.ei.opensrp.AllConstants.ENCRYPTED_PASSWORD_PREFIX;
+import static org.ei.opensrp.AllConstants.FORCE_REMOTE_LOGIN;
 import static org.ei.opensrp.AllConstants.IS_SYNC_IN_PROGRESS_PREFERENCE_KEY;
 import static org.ei.opensrp.AllConstants.LANGUAGE_PREFERENCE_KEY;
 import static org.ei.opensrp.AllConstants.PIONEER_USER;
+import static org.ei.opensrp.AllConstants.SERVER_TIMEZONE;
 import static org.ei.opensrp.util.Log.logError;
 import static org.ei.opensrp.util.Log.logInfo;
 
@@ -35,6 +37,22 @@ public class AllSharedPreferences {
 
     public String fetchRegisteredANM() {
         return preferences.getString(ANM_IDENTIFIER_PREFERENCE_KEY, "").trim();
+    }
+
+    public boolean fetchForceRemoteLogin() {
+        return preferences.getBoolean(FORCE_REMOTE_LOGIN, true);
+    }
+
+    public void saveForceRemoteLogin(boolean forceRemoteLogin) {
+        preferences.edit().putBoolean(FORCE_REMOTE_LOGIN, forceRemoteLogin).commit();
+    }
+
+    public String fetchServerTimeZone() {
+        return preferences.getString(SERVER_TIMEZONE, null);
+    }
+
+    public void saveServerTimeZone(String serverTimeZone) {
+        preferences.edit().putString(SERVER_TIMEZONE, serverTimeZone).commit();
     }
 
     public String fetchEncryptedPassword(String username) {

@@ -15,6 +15,7 @@ public class Alert implements Serializable {
     private String startDate;
     private String expiryDate;
     private String completionDate;
+    private boolean offline;
 
     public Alert(String caseID, String scheduleName, String visitCode, AlertStatus status, String startDate, String expiryDate) {
         this.caseID = caseID;
@@ -23,6 +24,17 @@ public class Alert implements Serializable {
         this.startDate = startDate;
         this.expiryDate = expiryDate;
         this.scheduleName = scheduleName;
+        this.offline = false;
+    }
+
+    public Alert(String caseID, String scheduleName, String visitCode, AlertStatus status, String startDate, String expiryDate, boolean offline) {
+        this.caseID = caseID;
+        this.visitCode = visitCode;
+        this.status = status;
+        this.startDate = startDate;
+        this.expiryDate = expiryDate;
+        this.scheduleName = scheduleName;
+        this.offline = offline;
     }
 
     public Alert withCompletionDate(String completionDate) {
@@ -60,6 +72,10 @@ public class Alert implements Serializable {
 
     public boolean isComplete() {
         return AlertStatus.complete.equals(status);
+    }
+
+    public boolean offline() {
+        return offline;
     }
 
     @Override

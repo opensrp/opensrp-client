@@ -213,4 +213,6 @@
     <string name="undo_service">Undo Service?</string>
     <string name="yes_undo_service">Yes, undo service</string>
 
+    <string name="device_timezone_changed">"The device's timezone changed. Please login again"</string>
+    <string name="device_time_changed">"The device's time has changed. Please login again"</string>
 </resources>

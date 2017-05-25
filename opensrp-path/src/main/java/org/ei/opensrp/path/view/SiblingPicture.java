@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -45,38 +46,22 @@ import util.Utils;
  * Created by Jason Rogena - jrogena@ona.io on 09/05/2017.
  */
 
-public class SiblingPicture extends LinearLayout {
-    private Context context;
+public class SiblingPicture extends RecyclerView.ViewHolder {
+    private final View itemView;
+    private final Context context;
     private ImageView profilePhoto;
     private TextView initials;
 
-    public SiblingPicture(Context context) {
-        super(context);
-        init(context);
+    public SiblingPicture(View itemView) {
+        super(itemView);
+        this.itemView = itemView;
+        this.context = itemView.getContext();
+        init();
     }
 
-    public SiblingPicture(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
-    }
-
-    public SiblingPicture(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public SiblingPicture(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(context);
-    }
-
-    private void init(Context context) {
-        this.context = context;
-        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        layoutInflater.inflate(R.layout.view_sibling_picture, this, true);
-        profilePhoto = (ImageView) findViewById(R.id.profile_photo);
-        initials = (TextView) findViewById(R.id.initials);
+    private void init() {
+        profilePhoto = (ImageView) itemView.findViewById(R.id.profile_photo);
+        initials = (TextView) itemView.findViewById(R.id.initials);
     }
 
     public void setChildBaseEntityId(BaseActivity baseActivity, String baseEntityId) {
@@ -156,24 +141,39 @@ public class SiblingPicture extends LinearLayout {
     private void updatePicture(final BaseActivity baseActivity, String baseEntityId,
                                final CommonPersonObjectClient childDetails) {
         Gender gender = Gender.UNKNOWN;
+        int genderColor = R.color.gender_neutral_green;
+        int genderLightColor = R.color.gender_neutral_light_green;
         String genderString = Utils.getValue(childDetails.getColumnmaps(), "gender", false);
         if (genderString != null && genderString.toLowerCase().equals("female")) {
             gender = Gender.FEMALE;
+            genderColor = R.color.female_pink;
+            genderLightColor = R.color.female_light_pink;
         } else if (genderString != null && genderString.toLowerCase().equals("male")) {
             gender = Gender.MALE;
+            genderColor = R.color.male_blue;
+            genderLightColor = R.color.male_light_blue;
         }
 
-        profilePhoto.setTag(org.ei.opensrp.R.id.entity_id, baseEntityId);
-        DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(baseEntityId,
-                OpenSRPImageLoader.getStaticImageListener(profilePhoto,
-                        ImageUtils.profileImageResourceByGender(gender),
-                        ImageUtils.profileImageResourceByGender(gender)));
+        if (Utils.getValue(childDetails.getColumnmaps(), "has_profile_image", false).equals("true")) {
+            profilePhoto.setVisibility(View.VISIBLE);
+            initials.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+            initials.setTextColor(context.getResources().getColor(android.R.color.black));
+            profilePhoto.setTag(org.ei.opensrp.R.id.entity_id, baseEntityId);
+            DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(baseEntityId,
+                    OpenSRPImageLoader.getStaticImageListener(profilePhoto,
+                            ImageUtils.profileImageResourceByGender(gender),
+                            ImageUtils.profileImageResourceByGender(gender)));
+        } else {
+            profilePhoto.setVisibility(View.GONE);
+            initials.setBackgroundColor(context.getResources().getColor(genderLightColor));
+            initials.setTextColor(context.getResources().getColor(genderColor));
+        }
 
         final String firstName = Utils.getValue(childDetails.getColumnmaps(), "first_name", true);
         final String lastName = Utils.getValue(childDetails.getColumnmaps(), "last_name", true);
 
         if (Utils.getValue(childDetails.getColumnmaps(), "has_profile_image", false).equals("false")) {
-            initials.setVisibility(VISIBLE);
+            initials.setVisibility(View.VISIBLE);
             String initialsString = "";
             if (!TextUtils.isEmpty(firstName)) {
                 initialsString = firstName.substring(0, 1);
@@ -185,10 +185,10 @@ public class SiblingPicture extends LinearLayout {
 
             initials.setText(initialsString.toUpperCase());
         } else {
-            initials.setVisibility(GONE);
+            initials.setVisibility(View.GONE);
         }
 
-        this.setOnLongClickListener(new OnLongClickListener() {
+        itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 Toast.makeText(context, firstName + " " + lastName, Toast.LENGTH_LONG).show();
@@ -196,7 +196,7 @@ public class SiblingPicture extends LinearLayout {
             }
         });
 
-        this.setOnClickListener(new OnClickListener() {
+        itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(baseActivity, ChildDetailTabbedActivity.class);
