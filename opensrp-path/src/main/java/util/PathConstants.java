@@ -23,4 +23,5 @@ public class PathConstants extends AllConstants {
     public static final int OPENMRS_UNIQUE_ID_SOURCE = BuildConfig.OPENMRS_UNIQUE_ID_SOURCE;
     public static final int VACCINE_SYNC_TIME = BuildConfig.VACCINE_SYNC_TIME;
     public static final long MAX_SERVER_TIME_DIFFERENCE = BuildConfig.MAX_SERVER_TIME_DIFFERENCE;
+    public static final boolean TIME_CHECK = BuildConfig.TIME_CHECK;
 }
