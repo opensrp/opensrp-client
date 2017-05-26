@@ -382,24 +382,24 @@ public class VaccinationEditDialogFragment extends DialogFragment {
     }
 
     private Date getMinVaccineDate(String vaccineName) {
-        VaccineSchedule curSchedule = VaccineSchedule.getVaccineSchedule("child",
+        VaccineSchedule curVaccineSchedule = VaccineSchedule.getVaccineSchedule("child",
                 vaccineName);
         Date minDate = null;
 
-        if (curSchedule != null) {
-            minDate = curSchedule.getDueDate(issuedVaccines, dateOfBirth);
+        if (curVaccineSchedule != null) {
+            minDate = curVaccineSchedule.getDueDate(issuedVaccines, dateOfBirth);
         }
 
         return minDate;
     }
 
     private Date getMaxVaccineDate(String vaccineName) {
-        VaccineSchedule curSchedule = VaccineSchedule.getVaccineSchedule("child",
+        VaccineSchedule curVaccineSchedule = VaccineSchedule.getVaccineSchedule("child",
                 vaccineName);
         Date maxDate = null;
 
-        if (curSchedule != null) {
-            maxDate = curSchedule.getExpiryDate(issuedVaccines, dateOfBirth);
+        if (curVaccineSchedule != null) {
+            maxDate = curVaccineSchedule.getExpiryDate(issuedVaccines, dateOfBirth);
         }
 
         return maxDate;

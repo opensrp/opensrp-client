@@ -277,13 +277,6 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
 
     }
 
-    public ArrayList<ServiceWrapper> getDueServices() {
-        if (serviceCardAdapter != null) {
-            return serviceCardAdapter.getDueServices();
-        }
-        return new ArrayList<ServiceWrapper>();
-    }
-
     public boolean isModalOpen() {
         return modalOpen;
     }
@@ -303,7 +296,7 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
         Map<String, Date> receivedServices = receivedServices(serviceRecordList);
 
         String dobString = Utils.getValue(getChildDetails().getColumnmaps(), "dob", false);
-        List<Map<String, Object>> sch = generateScheduleList(serviceTypes, receivedServices, alertList);
+        List<Map<String, Object>> sch = generateScheduleList(serviceTypes, new DateTime(dobString), receivedServices, alertList);
 
 
         Map<String, Object> nv = null;

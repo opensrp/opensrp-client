@@ -57,7 +57,6 @@ import org.ei.opensrp.path.view.VaccineGroup;
 import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.util.OpenSRPImageLoader;
-import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
@@ -337,12 +336,12 @@ public class ChildImmunizationActivity extends BaseActivity
         DateTime dateTime = new DateTime(dobString);
         Date dob = dateTime.toDate();
 
-        //Alert alert1 = new Alert(childDetails.getCaseId(), "Deworming 1", "Deworming 1", AlertStatus.normal, DateUtil.yyyyMMdd.format(dob), null);
-        //Alert alert2 = new Alert(childDetails.getCaseId(), "Vit A IFC 2", "Vit A IFC 2", AlertStatus.normal, DateUtil.yyyyMMdd.format(dob), null);
-        //Alert alert3 = new Alert(childDetails.getCaseId(), "ITN 1", "ITN 1", AlertStatus.normal, DateUtil.yyyyMMdd.format(dob), null);
-        //alerts.add(alert1);
-        //alerts.add(alert2);
-        //alerts.add(alert3);
+        Alert alert1 = new Alert(childDetails.getCaseId(), "Deworming 1", "Deworming 1", AlertStatus.normal, DateUtil.yyyyMMdd.format(dob), null);
+        Alert alert2 = new Alert(childDetails.getCaseId(), "Vit A IFC 2", "Vit A IFC 2", AlertStatus.normal, DateUtil.yyyyMMdd.format(dob), null);
+        Alert alert3 = new Alert(childDetails.getCaseId(), "ITN 1", "ITN 1", AlertStatus.normal, DateUtil.yyyyMMdd.format(dob), null);
+        alerts.add(alert1);
+        alerts.add(alert2);
+        alerts.add(alert3);
 
         Map<String, List<ServiceType>> foundServiceTypeMap = new LinkedHashMap<>();
         if (serviceGroups == null) {

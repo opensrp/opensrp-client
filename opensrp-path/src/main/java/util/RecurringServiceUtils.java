@@ -9,6 +9,7 @@ import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.ServiceWrapper;
 import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
 import org.ei.opensrp.path.view.ServiceGroup;
+import org.ei.opensrp.path.view.ServiceRowGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,32 +45,63 @@ public class RecurringServiceUtils {
     }
 
     public static void updateServiceGroupViews(View view, final ArrayList<ServiceWrapper> wrappers, final List<ServiceRecord> serviceRecordList, final boolean undo) {
-        if (view == null || !(view instanceof ServiceGroup)) {
+        if (view == null || wrappers == null || wrappers.isEmpty()) {
             return;
         }
-        final ServiceGroup serviceGroup = (ServiceGroup) view;
-        serviceGroup.setModalOpen(false);
 
-        if (Looper.myLooper() == Looper.getMainLooper()) {
-            if (undo) {
-                serviceGroup.setServiceRecordList(serviceRecordList);
-                serviceGroup.updateWrapperStatus(wrappers);
-            }
-            serviceGroup.updateViews(wrappers);
+        if (view instanceof ServiceGroup) {
+            final ServiceGroup serviceGroup = (ServiceGroup) view;
+            serviceGroup.setModalOpen(false);
 
-        } else {
-            Handler handler = new Handler(Looper.getMainLooper());
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (undo) {
-                        serviceGroup.setServiceRecordList(serviceRecordList);
-                        serviceGroup.updateWrapperStatus(wrappers);
-                    }
-                    serviceGroup.updateViews(wrappers);
+            if (Looper.myLooper() == Looper.getMainLooper()) {
+                if (undo) {
+                    serviceGroup.setServiceRecordList(serviceRecordList);
+                    serviceGroup.updateWrapperStatus(wrappers);
                 }
-            });
+                serviceGroup.updateViews(wrappers);
+
+            } else {
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (undo) {
+                            serviceGroup.setServiceRecordList(serviceRecordList);
+                            serviceGroup.updateWrapperStatus(wrappers);
+                        }
+                        serviceGroup.updateViews(wrappers);
+                    }
+                });
+            }
+        } else if (view instanceof ServiceRowGroup) {
+            final ServiceRowGroup serviceRowGroup = (ServiceRowGroup) view;
+            serviceRowGroup.setModalOpen(false);
+
+            if (Looper.myLooper() == Looper.getMainLooper()) {
+                if (undo) {
+                    serviceRowGroup.setServiceRecordList(serviceRecordList);
+                    serviceRowGroup.updateWrapperStatus(wrappers.get(0));
+                }
+                serviceRowGroup.updateViews(wrappers);
+
+            } else {
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (undo) {
+                            serviceRowGroup.setServiceRecordList(serviceRecordList);
+                            serviceRowGroup.updateWrapperStatus(wrappers.get(0));
+                        }
+                        serviceRowGroup.updateViews(wrappers);
+                    }
+                });
+            }
         }
+    }
+
+    private static void updateGroup() {
+
     }
 
     public static ServiceGroup getLastOpenedServiceView(List<ServiceGroup> serviceGroups) {
@@ -96,13 +128,17 @@ public class RecurringServiceUtils {
         ServiceRecord serviceRecord = new ServiceRecord();
         if (tag.getDbKey() != null) {
             serviceRecord = recurringServiceRecordRepository.find(tag.getDbKey());
+            serviceRecord.setDate(tag.getUpdatedVaccineDate().toDate());
+        } else {
+            serviceRecord.setDate(tag.getUpdatedVaccineDate().toDate());
+
+            serviceRecord.setBaseEntityId(baseEntityId);
+            serviceRecord.setRecurringServiceId(tag.getTypeId());
+            serviceRecord.setDate(tag.getUpdatedVaccineDate().toDate());
+            serviceRecord.setAnmId(providerId);
+            serviceRecord.setValue(tag.getValue());
+            serviceRecord.setLocationId(locationId);
         }
-        serviceRecord.setBaseEntityId(baseEntityId);
-        serviceRecord.setRecurringServiceId(tag.getTypeId());
-        serviceRecord.setDate(tag.getUpdatedVaccineDate().toDate());
-        serviceRecord.setAnmId(providerId);
-        serviceRecord.setValue(tag.getValue());
-        serviceRecord.setLocationId(locationId);
 
         recurringServiceRecordRepository.add(serviceRecord);
         tag.setDbKey(serviceRecord.getId());

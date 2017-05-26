@@ -40,8 +40,7 @@ import static util.VaccinatorUtils.receivedServices;
  * Created by keyman on 15/05/2017.
  */
 
-public class ServiceRowGroup extends LinearLayout implements View.OnClickListener,
-        ServiceCard.OnServiceStateChangeListener {
+public class ServiceRowGroup extends LinearLayout implements View.OnClickListener {
     private static final String TAG = "ServiceRowGroup";
     private Context context;
     private TextView nameTV;
@@ -181,7 +180,7 @@ public class ServiceRowGroup extends LinearLayout implements View.OnClickListene
                 this.state = State.CURRENT;
             }
             updateStatusViews();
-            updateServiceCards(servicesToUpdate);
+            updateServiceRowCards(servicesToUpdate);
         }
     }
 
@@ -212,7 +211,7 @@ public class ServiceRowGroup extends LinearLayout implements View.OnClickListene
 
     }
 
-    private void updateServiceCards(ArrayList<ServiceWrapper> servicesToUpdate) {
+    private void updateServiceRowCards(ArrayList<ServiceWrapper> servicesToUpdate) {
         if (serviceRowAdapter == null) {
             try {
                 serviceRowAdapter = new ServiceRowAdapter(context, this, editmode);
@@ -232,26 +231,22 @@ public class ServiceRowGroup extends LinearLayout implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        if (v instanceof ServiceCard) {
+        if (v instanceof ServiceRowCard) {
             if (onServiceClickedListener != null) {
-                onServiceClickedListener.onClick(this, ((ServiceCard) v).getServiceWrapper());
+                onServiceClickedListener.onClick(this, ((ServiceRowCard) v).getServiceWrapper());
             }
         } else if (v.getId() == R.id.undo_b) {
-            if (v.getParent().getParent() instanceof ServiceCard) {
-                ServiceCard serviceCard = (ServiceCard) v.getParent().getParent();
-                onUndoClick(serviceCard);
+            if (v.getParent().getParent() instanceof ServiceRowCard) {
+                ServiceRowCard serviceRowCard = (ServiceRowCard) v.getParent().getParent();
+                onUndoClick(serviceRowCard);
             }
         }
     }
 
-    @Override
-    public void onStateChanged(ServiceCard.State newState) {
-        updateViews();
-    }
 
-    public void onUndoClick(ServiceCard serviceCard) {
+    public void onUndoClick(ServiceRowCard serviceRowCard) {
         if (this.onServiceUndoClickListener != null) {
-            this.onServiceUndoClickListener.onUndoClick(this, serviceCard.getServiceWrapper());
+            this.onServiceUndoClickListener.onUndoClick(this, serviceRowCard.getServiceWrapper());
         }
     }
 
@@ -266,13 +261,6 @@ public class ServiceRowGroup extends LinearLayout implements View.OnClickListene
     public static interface OnServiceUndoClickListener {
         void onUndoClick(ServiceRowGroup serviceRowGroup, ServiceWrapper serviceWrapper);
 
-    }
-
-    public ArrayList<ServiceWrapper> getDueServices() {
-        if (serviceRowAdapter != null) {
-            return serviceRowAdapter.getDueServices();
-        }
-        return new ArrayList<ServiceWrapper>();
     }
 
     public boolean isModalOpen() {
@@ -294,7 +282,7 @@ public class ServiceRowGroup extends LinearLayout implements View.OnClickListene
         Map<String, Date> receivedServices = receivedServices(serviceRecordList);
 
         String dobString = Utils.getValue(getChildDetails().getColumnmaps(), "dob", false);
-        List<Map<String, Object>> sch = generateScheduleList(serviceTypes, receivedServices, alertList);
+        List<Map<String, Object>> sch = generateScheduleList(serviceTypes, new DateTime(dobString), receivedServices, alertList);
 
 
         for (Map<String, Object> m : sch) {

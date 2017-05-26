@@ -187,7 +187,7 @@ public class ServiceRowCard extends LinearLayout {
                 nameTV.setVisibility(VISIBLE);
                 nameTV.setTextColor(context.getResources().getColor(R.color.silver));
                 nameTV.setText(getVaccineName());
-                StatusTV.setText(DATE_FORMAT.format(getDateDue()));
+                StatusTV.setText(getDateDue() == null ? "" : DATE_FORMAT.format(getDateDue()));
                 setClickable(false);
                 break;
             case DUE:
@@ -196,7 +196,7 @@ public class ServiceRowCard extends LinearLayout {
                 undoB.setVisibility(INVISIBLE);
                 nameTV.setVisibility(VISIBLE);
                 nameTV.setText(getVaccineName());
-                StatusTV.setText(DATE_FORMAT.format(getDateDue()));
+                StatusTV.setText(getDateDue() == null ? "" : DATE_FORMAT.format(getDateDue()));
                 setClickable(false);
                 break;
             case DONE_CAN_BE_UNDONE:
@@ -231,7 +231,7 @@ public class ServiceRowCard extends LinearLayout {
                 undoB.setVisibility(INVISIBLE);
                 nameTV.setVisibility(VISIBLE);
                 nameTV.setText(getVaccineName());
-                StatusTV.setText(DATE_FORMAT.format(getDateDue()));
+                StatusTV.setText(getDateDue() == null ? "" : DATE_FORMAT.format(getDateDue()));
                 setClickable(false);
                 break;
             case EXPIRED:
@@ -258,7 +258,7 @@ public class ServiceRowCard extends LinearLayout {
             DateTime vaccineDate = serviceWrapper.getVaccineDate();
             if (vaccineDate != null) return vaccineDate.toDate();
         }
-        return new Date();
+        return null;
     }
 
     private Date getDateDone() {

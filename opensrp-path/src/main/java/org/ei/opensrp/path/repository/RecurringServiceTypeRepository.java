@@ -15,7 +15,7 @@ import java.util.List;
 
 public class RecurringServiceTypeRepository extends BaseRepository {
     private static final String TAG = RecurringServiceTypeRepository.class.getCanonicalName();
-    private static final String CREATE_TABLE_SQL = "CREATE TABLE recurring_service_types (_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,type VARCHAR NOT NULL, name VARCHAR NOT NULL,service_name_entity VARCHAR,service_name_entity_id VARCHAR, date_entity VARCHAR, date_entity_id VARCHAR, units VARCHAR,service_logic VARCHAR NULL, updated_at INTEGER NULL, UNIQUE(type, name) ON CONFLICT IGNORE)";
+    private static final String CREATE_TABLE_SQL = "CREATE TABLE recurring_service_types (_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,type VARCHAR NOT NULL, name VARCHAR NOT NULL,service_name_entity VARCHAR,service_name_entity_id VARCHAR, date_entity VARCHAR, date_entity_id VARCHAR, units VARCHAR,service_logic VARCHAR NULL,prerequisite VARCHAR NULL,pre_offset VARCHAR NULL,expiry_offset VARCHAR NULL, milestone_offset VARCHAR NULL, updated_at INTEGER NULL, UNIQUE(type, name) ON CONFLICT IGNORE)";
     public static final String TABLE_NAME = "recurring_service_types";
     public static final String ID_COLUMN = "_id";
     public static final String TYPE = "type";
@@ -26,8 +26,13 @@ public class RecurringServiceTypeRepository extends BaseRepository {
     public static final String DATE_ENTITY_ID = "date_entity_id";
     public static final String UNITS = "units";
     public static final String SERVICE_LOGIC = "service_logic";
+    public static final String PREREQUISITE = "prerequisite";
+    public static final String PRE_OFFSET = "pre_offset";
+    public static final String EXPIRY_OFFSET = "expiry_offset";
+    public static final String MILESTONE_OFFSET = "milestone_offset";
+
     public static final String UPDATED_AT_COLUMN = "updated_at";
-    public static final String[] TABLE_COLUMNS = {ID_COLUMN, TYPE, NAME, SERVICE_NAME_ENTITY, SERVICE_NAME_ENTITY_ID, DATE_ENTITY, DATE_ENTITY_ID, UNITS, SERVICE_LOGIC, UPDATED_AT_COLUMN};
+    public static final String[] TABLE_COLUMNS = {ID_COLUMN, TYPE, NAME, SERVICE_NAME_ENTITY, SERVICE_NAME_ENTITY_ID, DATE_ENTITY, DATE_ENTITY_ID, UNITS, SERVICE_LOGIC, PREREQUISITE, PRE_OFFSET, EXPIRY_OFFSET, MILESTONE_OFFSET, UPDATED_AT_COLUMN};
 
     private static final String TYPE_INDEX = "CREATE INDEX " + TABLE_NAME + "_" + TYPE + "_index ON " + TABLE_NAME + "(" + TYPE + " COLLATE NOCASE);";
     private static final String NAME_INDEX = "CREATE INDEX " + TABLE_NAME + "_" + NAME + "_index ON " + TABLE_NAME + "(" + NAME + " COLLATE NOCASE);";
@@ -198,6 +203,10 @@ public class RecurringServiceTypeRepository extends BaseRepository {
                                     cursor.getString(cursor.getColumnIndex(DATE_ENTITY_ID)),
                                     cursor.getString(cursor.getColumnIndex(UNITS)),
                                     cursor.getString(cursor.getColumnIndex(SERVICE_LOGIC)),
+                                    cursor.getString(cursor.getColumnIndex(PREREQUISITE)),
+                                    cursor.getString(cursor.getColumnIndex(PRE_OFFSET)),
+                                    cursor.getString(cursor.getColumnIndex(EXPIRY_OFFSET)),
+                                    cursor.getString(cursor.getColumnIndex(MILESTONE_OFFSET)),
                                     cursor.getLong(cursor.getColumnIndex(UPDATED_AT_COLUMN))
                             ));
 
@@ -226,6 +235,10 @@ public class RecurringServiceTypeRepository extends BaseRepository {
         values.put(DATE_ENTITY_ID, serviceType.getDateEntityId());
         values.put(UNITS, serviceType.getUnits());
         values.put(SERVICE_LOGIC, serviceType.getServiceLogic());
+        values.put(PREREQUISITE, serviceType.getPrerequisite());
+        values.put(PRE_OFFSET, serviceType.getPreOffset());
+        values.put(EXPIRY_OFFSET, serviceType.getExpiryOffset());
+        values.put(MILESTONE_OFFSET, serviceType.getMilestoneOffset());
         values.put(UPDATED_AT_COLUMN, serviceType.getUpdatedAt() != null ? serviceType.getUpdatedAt() : null);
         return values;
     }

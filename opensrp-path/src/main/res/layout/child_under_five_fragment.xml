@@ -22,6 +22,17 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <include layout="@layout/tablerows_ptcmt" />
+
+                <include layout="@layout/weightwidget" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white" />
+
                 <LinearLayout
                     android:id="@+id/immunizations"
                     android:layout_width="match_parent"

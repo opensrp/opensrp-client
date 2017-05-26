@@ -15,16 +15,17 @@ public class ServiceType {
     String dateEntityId;
     String units;
     String serviceLogic;
+    String prerequisite;
+    String preOffset;
+    String expiryOffset;
+    String milestoneOffset;
     Long updatedAt;
 
 
     public ServiceType() {
     }
 
-    public ServiceType(Long id, String type, String name, String serviceNameEntity,
-                       String serviceNameEntityId,
-                       String dateEntity,
-                       String dateEntityId, String units, String serviceLogic, Long updatedAt) {
+    public ServiceType(Long id, String type, String name, String serviceNameEntity, String serviceNameEntityId, String dateEntity, String dateEntityId, String units, String serviceLogic, String prerequisite, String preOffset, String expiryOffset, String milestoneOffset, Long updatedAt) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -34,6 +35,10 @@ public class ServiceType {
         this.dateEntityId = dateEntityId;
         this.units = units;
         this.serviceLogic = serviceLogic;
+        this.prerequisite = prerequisite;
+        this.preOffset = preOffset;
+        this.expiryOffset = expiryOffset;
+        this.milestoneOffset = milestoneOffset;
         this.updatedAt = updatedAt;
     }
 
@@ -107,6 +112,38 @@ public class ServiceType {
 
     public void setServiceLogic(String serviceLogic) {
         this.serviceLogic = serviceLogic;
+    }
+
+    public String getPrerequisite() {
+        return prerequisite;
+    }
+
+    public void setPrerequisite(String prerequisite) {
+        this.prerequisite = prerequisite;
+    }
+
+    public String getPreOffset() {
+        return preOffset;
+    }
+
+    public void setPreOffset(String preOffset) {
+        this.preOffset = preOffset;
+    }
+
+    public String getExpiryOffset() {
+        return expiryOffset;
+    }
+
+    public void setExpiryOffset(String expiryOffset) {
+        this.expiryOffset = expiryOffset;
+    }
+
+    public String getMilestoneOffset() {
+        return milestoneOffset;
+    }
+
+    public void setMilestoneOffset(String milestoneOffset) {
+        this.milestoneOffset = milestoneOffset;
     }
 
     public Long getUpdatedAt() {

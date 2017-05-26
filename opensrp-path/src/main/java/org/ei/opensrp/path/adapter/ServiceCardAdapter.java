@@ -129,18 +129,4 @@ public class ServiceCardAdapter extends BaseAdapter {
         }
     }
 
-    public ArrayList<ServiceWrapper> getDueServices() {
-        ArrayList<ServiceWrapper> dueVaccines = new ArrayList<>();
-        if (serviceCards != null) {
-            for (ServiceCard curCard : serviceCards.values()) {
-                if (curCard != null && (curCard.getState().equals(VaccineCard.State.DUE)
-                        || curCard.getState().equals(VaccineCard.State.OVERDUE))) {
-                    dueVaccines.add(curCard.getServiceWrapper());
-                }
-            }
-        }
-
-        return dueVaccines;
-    }
-
 }

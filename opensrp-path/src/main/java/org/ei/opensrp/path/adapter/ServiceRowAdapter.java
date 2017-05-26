@@ -11,17 +11,15 @@ import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.path.domain.Photo;
 import org.ei.opensrp.path.domain.ServiceWrapper;
 import org.ei.opensrp.path.view.ServiceRowCard;
-import org.ei.opensrp.path.view.ServiceGroup;
 import org.ei.opensrp.path.view.ServiceRowGroup;
 import org.ei.opensrp.path.view.VaccineCard;
 import org.joda.time.DateTime;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import util.ImageUtils;
@@ -36,7 +34,7 @@ import static util.Utils.getValue;
 public class ServiceRowAdapter extends BaseAdapter {
     private static final String TAG = "ServiceRowAdapter";
     private final Context context;
-    private HashMap<ServiceType, ServiceRowCard> serviceRowCards;
+    private HashMap<String, ServiceRowCard> serviceRowCards;
     private final ServiceRowGroup serviceRowGroup;
     public boolean editmode;
 
@@ -44,7 +42,7 @@ public class ServiceRowAdapter extends BaseAdapter {
         this.context = context;
         this.editmode = editmode;
         this.serviceRowGroup = serviceRowGroup;
-        serviceRowCards = new HashMap<>();
+        serviceRowCards = new LinkedHashMap<>();
     }
 
     @Override
@@ -70,7 +68,7 @@ public class ServiceRowAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         try {
             ServiceType serviceType = serviceRowGroup.getServiceTypes().get(position);
-            if (!serviceRowCards.containsKey(serviceType)) {
+            if (!serviceRowCards.containsKey(serviceType.getName())) {
                 ServiceRowCard serviceRowCard = new ServiceRowCard(context, editmode);
                 serviceRowCard.setOnClickListener(serviceRowGroup);
                 serviceRowCard.getUndoB().setOnClickListener(serviceRowGroup);
@@ -104,10 +102,10 @@ public class ServiceRowAdapter extends BaseAdapter {
                 serviceRowGroup.updateWrapper(serviceWrapper);
                 serviceRowCard.setServiceWrapper(serviceWrapper);
 
-                serviceRowCards.put(serviceType, serviceRowCard);
+                serviceRowCards.put(serviceType.getName(), serviceRowCard);
             }
 
-            return serviceRowCards.get(serviceType);
+            return serviceRowCards.get(serviceType.getName());
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
         }
@@ -123,26 +121,12 @@ public class ServiceRowAdapter extends BaseAdapter {
                 }
             } else {// Update just the vaccines specified
                 for (ServiceWrapper currWrapper : servicesToUpdate) {
-                    if (serviceRowCards.containsKey(currWrapper.getType())) {
-                        serviceRowCards.get(currWrapper.getType()).updateState();
+                    if (serviceRowCards.containsKey(currWrapper.getName())) {
+                        serviceRowCards.get(currWrapper.getName()).updateState();
                     }
                 }
             }
         }
-    }
-
-    public ArrayList<ServiceWrapper> getDueServices() {
-        ArrayList<ServiceWrapper> dueVaccines = new ArrayList<>();
-        if (serviceRowCards != null) {
-            for (ServiceRowCard curCard : serviceRowCards.values()) {
-                if (curCard != null && (curCard.getState().equals(VaccineCard.State.DUE)
-                        || curCard.getState().equals(VaccineCard.State.OVERDUE))) {
-                    dueVaccines.add(curCard.getServiceWrapper());
-                }
-            }
-        }
-
-        return dueVaccines;
     }
 
 }

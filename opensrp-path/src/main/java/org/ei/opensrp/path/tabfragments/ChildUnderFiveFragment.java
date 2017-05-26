@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import org.ei.opensrp.Context;
@@ -24,6 +25,7 @@ import org.ei.opensrp.path.activity.ChildDetailTabbedActivity;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.ServiceWrapper;
 import org.ei.opensrp.path.domain.VaccineWrapper;
+import org.ei.opensrp.path.fragment.ServiceEditDialogFragment;
 import org.ei.opensrp.path.fragment.VaccinationEditDialogFragment;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
@@ -106,16 +108,8 @@ public class ChildUnderFiveFragment extends Fragment {
 
     public void loadview(boolean editmode, boolean editweightmode) {
         if (fragmentContainer != null) {
-            fragmentContainer.addView(createPTCMTVIEW("PMTCT: ", Utils.getValue(childDetails.getColumnmaps(), "pmtct_status", true)), 0);
-
+            createPTCMTVIEW(fragmentContainer, "PMTCT: ", Utils.getValue(childDetails.getColumnmaps(), "pmtct_status", true));
             createWeightLayout(fragmentContainer, editweightmode);
-            View view = new View(getActivity());
-            int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, Context.getInstance().applicationContext().getResources().getDisplayMetrics());
-
-            LinearLayout.LayoutParams barlayout = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
-            barlayout.setMargins(0, 10, 0, 10);
-            view.setBackgroundColor(getResources().getColor(R.color.white));
-            fragmentContainer.addView(view, 2, barlayout);
 
             updateVaccinationViews(fragmentContainer, editmode);
             updateServiceViews(fragmentContainer, editmode);
@@ -198,29 +192,25 @@ public class ChildUnderFiveFragment extends Fragment {
 
         WidgetFactory wd = new WidgetFactory();
         if (weightmap.size() > 0) {
-            fragmentContainer.addView(wd.createWeightWidget(inflater, container, weightmap, listeners, weighteditmode), 1);
+            wd.createWeightWidget(inflater, fragmentContainer, weightmap, listeners, weighteditmode);
         }
     }
 
-    private View createPTCMTVIEW(String labelString, String valueString) {
-        View rows = inflater.inflate(R.layout.tablerows_ptcmt, container, false);
-        TextView label = (TextView) rows.findViewById(R.id.label);
-        TextView value = (TextView) rows.findViewById(R.id.value);
+    private void createPTCMTVIEW(LinearLayout fragmentContainer, String labelString, String valueString) {
+        TableRow tableRow = (TableRow) fragmentContainer.findViewById(R.id.tablerowcontainer);
+        TextView label = (TextView) tableRow.findViewById(R.id.label);
+        TextView value = (TextView) tableRow.findViewById(R.id.value);
 
         label.setText(labelString);
         value.setText(valueString);
-        return rows;
     }
 
     private void updateVaccinationViews(LinearLayout fragmentContainer, boolean editmode) {
-        if (vaccineGroups != null) {
-            vaccineGroups.clear();
-        }
-
         vaccineGroups = new ArrayList<>();
         VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
         List<Vaccine> vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
         LinearLayout vaccineGroupCanvasLL = (LinearLayout) fragmentContainer.findViewById(R.id.immunizations);
+        vaccineGroupCanvasLL.removeAllViews();
 
         CustomFontTextView title = new CustomFontTextView(getActivity());
         title.setAllCaps(true);
@@ -259,10 +249,6 @@ public class ChildUnderFiveFragment extends Fragment {
     }
 
     private void updateServiceViews(LinearLayout fragmentContainer, boolean editmode) {
-        if (serviceRowGroups != null) {
-            serviceRowGroups.clear();
-        }
-
         serviceRowGroups = new ArrayList<>();
 
         List<ServiceRecord> serviceRecords = new ArrayList<>();
@@ -284,6 +270,7 @@ public class ChildUnderFiveFragment extends Fragment {
         }
 
         LinearLayout serviceGroupCanvasLL = (LinearLayout) fragmentContainer.findViewById(R.id.services);
+        serviceGroupCanvasLL.removeAllViews();
 
         CustomFontTextView title = new CustomFontTextView(getActivity());
         title.setAllCaps(true);
@@ -306,7 +293,6 @@ public class ChildUnderFiveFragment extends Fragment {
                     @Override
                     public void onUndoClick(ServiceRowGroup serviceRowGroup, ServiceWrapper service) {
                         addServiceDialogFragment(service, serviceRowGroup);
-
                     }
                 });
 
@@ -366,8 +352,8 @@ public class ChildUnderFiveFragment extends Fragment {
             ft.remove(prev);
         }
         ft.addToBackStack(null);
-        // VaccinationEditDialogFragment vaccinationDialogFragment = VaccinationEditDialogFragment.newInstance(getActivity(), vaccineWrappers, vaccineGroup);
-        // vaccinationDialogFragment.show(ft, DIALOG_TAG);
+        ServiceEditDialogFragment serviceEditDialogFragment = ServiceEditDialogFragment.newInstance(getActivity(), serviceWrapper, serviceRowGroup);
+        serviceEditDialogFragment.show(ft, DIALOG_TAG);
     }
 
     public void setAlertService(AlertService alertService) {

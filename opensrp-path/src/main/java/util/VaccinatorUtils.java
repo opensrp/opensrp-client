@@ -44,6 +44,8 @@ import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.db.VaccineRepo.Vaccine;
+import org.ei.opensrp.path.domain.ServiceSchedule;
+import org.ei.opensrp.path.domain.ServiceTrigger;
 import org.ei.opensrp.path.domain.VaccineWrapper;
 import org.ei.opensrp.path.fragment.UndoVaccinationDialogFragment;
 import org.ei.opensrp.path.fragment.VaccinationDialogFragment;
@@ -375,16 +377,16 @@ public class VaccinatorUtils {
         return schedule;
     }
 
-    public static List<Map<String, Object>> generateScheduleList(List<ServiceType> serviceTypes, /*DateTime milestoneDate,*/ Map<String, Date> received, List<Alert> alerts) {
+    public static List<Map<String, Object>> generateScheduleList(List<ServiceType> serviceTypes, DateTime milestoneDate, Map<String, Date> received, List<Alert> alerts) {
         List<Map<String, Object>> schedule = new ArrayList();
         for (ServiceType s : serviceTypes) {
             Map<String, Object> m = new HashMap<>();
             Date recDate = received.get(s.getName().toLowerCase());
             if (recDate != null) {
                 m = createServiceMap("done", null, new DateTime(recDate), s);
-            } /*else if (milestoneDate != null && v.expiryDays() > 0 && milestoneDate.plusDays(v.expiryDays()).isBefore(DateTime.now())) {
-                m = createServiceMap("expired", null, milestoneDate.plusDays(v.expiryDays()), v);
-            } */ else if (alerts.size() > 0) {
+            } else if (milestoneDate != null && StringUtils.isNotBlank(s.getExpiryOffset()) && ServiceSchedule.addOffsetToDateTime(milestoneDate, s.getExpiryOffset()).isBefore(DateTime.now())) {
+                m = createServiceMap("expired", null, ServiceSchedule.addOffsetToDateTime(milestoneDate, s.getExpiryOffset()), s);
+            } else if (alerts.size() > 0) {
                 for (Alert a : alerts) {
                     if (a.scheduleName().equalsIgnoreCase(s.getName())
                             || a.visitCode().equalsIgnoreCase(s.getName())) {
@@ -395,8 +397,26 @@ public class VaccinatorUtils {
 
             if (m.isEmpty()) {
                 m = createServiceMap("due", null, null, s);
-               /* if (v.prerequisite() != null) {
-                    Date prereq = received.get(v.prerequisite().display().toLowerCase());
+                /*if (StringUtils.isNotBlank(s.getPrerequisite())) {
+                    Date prereq = null;
+                    String prerequisite = s.getPrerequisite();
+                    if (!prerequisite.equalsIgnoreCase(ServiceTrigger.Reference.DOB.name())) {
+                        String[] preArray = prerequisite.split("|");
+                        if (preArray.length >= 2) {
+                            if (preArray[0].equalsIgnoreCase(ServiceTrigger.Reference.PREREQUISITE.name())) {
+                                String preService = preArray[1];
+                                prereq = received.get(preService);
+                            } else if (preArray[0].equalsIgnoreCase(ServiceTrigger.Reference.MULTIPLE.name())) {
+                                String condition = preArray[1];
+                                if (condition.equalsIgnoreCase("or") && preArray.length == 3) {
+                                    String arrayString = preArray[2];
+
+
+                                }
+
+                            }
+                        }
+                    }
                     if (prereq != null) {
                         DateTime prereqDateTime = new DateTime(prereq);
                         prereqDateTime = prereqDateTime.plusDays(v.prerequisiteGapDays());
@@ -407,8 +427,8 @@ public class VaccinatorUtils {
                 } else if (milestoneDate != null) {
                     m = createServiceMap("due", null, milestoneDate.plusDays(v.milestoneGapDays()), v);
                 } else {
-                    m = createServiceMap("na", null, null, v);
-                } */
+                    m = createServiceMap("na", null, null, s);
+                }*/
             }
 
             schedule.add(m);
