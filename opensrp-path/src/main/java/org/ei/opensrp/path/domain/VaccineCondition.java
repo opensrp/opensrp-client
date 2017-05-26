@@ -28,7 +28,7 @@ public abstract class VaccineCondition {
                     vaccineCategory);
 
             if (comparison != null && vaccine != null) {
-                return new GivenCondition(vaccine, conditionData.getInt("due_days"), comparison);
+                return new GivenCondition(vaccine, conditionData.getString("value"), comparison);
             }
         } else if (conditionData.getString("type").equals(TYPE_NOT_GIVEN)) {
             VaccineRepo.Vaccine vaccine = VaccineRepo.getVaccine(conditionData.getString("vaccine"),
@@ -91,11 +91,11 @@ public abstract class VaccineCondition {
         }
 
         private final Comparison comparison;
-        private final int dueDays;
+        private final String value;
 
-        public GivenCondition(VaccineRepo.Vaccine vaccine, int dueDays, Comparison comparison) {
+        public GivenCondition(VaccineRepo.Vaccine vaccine, String value, Comparison comparison) {
             super(vaccine);
-            this.dueDays = dueDays;
+            this.value = value;
             this.comparison = comparison;
         }
 
@@ -115,7 +115,7 @@ public abstract class VaccineCondition {
             if (comparisonVaccine != null) {
                 Calendar comparisonDate = Calendar.getInstance();
                 VaccineSchedule.standardiseCalendarDate(comparisonDate);
-                comparisonDate.add(Calendar.DATE, dueDays);
+                comparisonDate = VaccineSchedule.addOffsetToCalendar(comparisonDate, value);
 
                 Calendar vaccinationDate = Calendar.getInstance();
                 vaccinationDate.setTime(comparisonVaccine.getDate());

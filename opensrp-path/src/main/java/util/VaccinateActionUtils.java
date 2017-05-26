@@ -162,7 +162,7 @@ public class VaccinateActionUtils {
                     ft.addToBackStack(null);
                     ArrayList<VaccineWrapper> list = new ArrayList<VaccineWrapper>();
                     list.add(tag);
-                    VaccinationDialogFragment vaccinationDialogFragment = VaccinationDialogFragment.newInstance(null, list);
+                    VaccinationDialogFragment vaccinationDialogFragment = VaccinationDialogFragment.newInstance(null, null, list);
                     vaccinationDialogFragment.show(ft, VaccinationDialogFragment.DIALOG_TAG);
 
                 }

@@ -312,7 +312,7 @@
     <string name="string_global">Global</string>
     <string name="str_provider_profile">Profile</string>
     <string name="device_time_ok">This device\'s time is correct</string>
-    <string name="timezone_mismatch">Please change this device\'s timezone to \'%1$s\' before logging in</string>
+    <string name="timezone_mismatch">Please change timezone to \'%1$s\' in the device settings before logging in</string>
     <string name="time_mismatch">This device\'s time seems to be wrong. Please correct it before continuing</string>
     <string name="time_error">Couldn\'t determine if this device\'s time is correct</string>
 </resources>

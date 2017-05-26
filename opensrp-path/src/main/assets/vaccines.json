@@ -19,9 +19,13 @@
           "calculation": 0
         },
         "schedule": {
-          "trigger": {
-            "type": "dob",
-            "due_days": 0
+          "due": {
+            "reference": "dob",
+            "offset": "+0d"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+13d"
           }
         }
       },
@@ -40,9 +44,13 @@
           "calculation": 1
         },
         "schedule": {
-          "trigger": {
-            "type": "dob",
-            "due_days": 0
+          "due": {
+            "reference": "dob",
+            "offset": "+0d"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+1y"
           }
         }
       }
@@ -68,9 +76,13 @@
           "calculation": 1
         },
         "schedule": {
-          "trigger": {
-            "type": "dob",
-            "due_days": 42
+          "due": {
+            "reference": "dob",
+            "offset": "+42d"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+4y,10m"
           }
         }
       },
@@ -89,9 +101,13 @@
           "calculation": 1
         },
         "schedule": {
-          "trigger": {
-            "type": "dob",
-            "due_days": 42
+          "due": {
+            "reference": "dob",
+            "offset": "+42d"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+4y,10m"
           }
         }
       },
@@ -110,9 +126,13 @@
           "calculation": 1
         },
         "schedule": {
-          "trigger": {
-            "type": "dob",
-            "due_days": 42
+          "due": {
+            "reference": "dob",
+            "offset": "+42d"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+4y,10m"
           }
         }
       },
@@ -131,9 +151,13 @@
           "calculation": 1
         },
         "schedule": {
-          "trigger": {
-            "type": "dob",
-            "due_days": 42
+          "due": {
+            "reference": "dob",
+            "offset": "+42d"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+7m"
           }
         }
       }
@@ -159,10 +183,14 @@
           "calculation": 2
         },
         "schedule": {
-          "trigger": {
-            "type": "prerequisite",
+          "due": {
+            "reference": "prerequisite",
             "prerequisite": "OPV 1",
-            "due_days": 28
+            "offset": "+28d"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+4y,11m"
           }
         }
       },
@@ -181,10 +209,14 @@
           "calculation": 2
         },
         "schedule": {
-          "trigger": {
-            "type": "prerequisite",
+          "due": {
+            "reference": "prerequisite",
             "prerequisite": "Penta 1",
-            "due_days": 28
+            "offset": "+28d"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+4y,11m"
           }
         }
       },
@@ -203,10 +235,14 @@
           "calculation": 2
         },
         "schedule": {
-          "trigger": {
-            "type": "prerequisite",
+          "due": {
+            "reference": "prerequisite",
             "prerequisite": "PCV 1",
-            "due_days": 28
+            "offset": "+28d"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+4y,11m"
           }
         }
       },
@@ -225,10 +261,14 @@
           "calculation": 2
         },
         "schedule": {
-          "trigger": {
-            "type": "prerequisite",
+          "due": {
+            "reference": "prerequisite",
             "prerequisite": "Rota 1",
-            "due_days": 28
+            "offset": "+28d"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+8m"
           }
         }
       }
@@ -254,10 +294,14 @@
           "calculation": 3
         },
         "schedule": {
-          "trigger": {
-            "type": "prerequisite",
+          "due": {
+            "reference": "prerequisite",
             "prerequisite": "OPV 2",
-            "due_days": 28
+            "offset": "+28d"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
           }
         }
       },
@@ -276,10 +320,14 @@
           "calculation": 3
         },
         "schedule": {
-          "trigger": {
-            "type": "prerequisite",
+          "due": {
+            "reference": "prerequisite",
             "prerequisite": "Penta 2",
-            "due_days": 28
+            "offset": "+28d"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
           }
         }
       },
@@ -298,10 +346,14 @@
           "calculation": 3
         },
         "schedule": {
-          "trigger": {
-            "type": "prerequisite",
+          "due": {
+            "reference": "prerequisite",
             "prerequisite": "PCV 2",
-            "due_days": 28
+            "offset": "+28d"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
           }
         }
       }
@@ -329,26 +381,26 @@
         },
         "schedule": {
           "Measles 1": {
-            "trigger": {
-              "type": "dob",
-              "due_days": 274
+            "due": {
+              "reference": "dob",
+              "offset": "+9m"
             },
             "conditions": [
               {
                 "type": "not_given",
-                "vaccine":"MR 1"
+                "vaccine": "MR 1"
               }
             ]
           },
           "MR 1": {
-            "trigger": {
-              "type": "dob",
-              "due_days": 274
+            "due": {
+              "reference": "dob",
+              "offset": "+9m"
             },
             "conditions": [
               {
                 "type": "not_given",
-                "vaccine":"Measles 1"
+                "vaccine": "Measles 1"
               }
             ]
           }
@@ -369,9 +421,13 @@
           "calculation": 4
         },
         "schedule": {
-          "trigger": {
-            "type": "dob",
-            "due_days": 274
+          "due": {
+            "reference": "dob",
+            "offset": "+9m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
           },
           "conditions": [
             {
@@ -382,7 +438,7 @@
               "type": "given",
               "vaccine": "OPV 3",
               "comparison": "at_least",
-              "due_days": -28
+              "value": "-28d"
             }
           ]
         }
@@ -411,28 +467,28 @@
         },
         "schedule": {
           "Measles 2": {
-            "trigger": {
-              "type": "prerequisite",
+            "due": {
+              "reference": "prerequisite",
               "prerequisite": "Measles 1",
-              "due_days": 274
+              "offset": "+9m"
             },
             "conditions": [
               {
                 "type": "not_given",
-                "vaccine":"MR 2"
+                "vaccine": "MR 2"
               }
             ]
           },
           "MR 2": {
-            "trigger": {
-              "type": "prerequisite",
+            "due": {
+              "reference": "prerequisite",
               "prerequisite": "MR 1",
-              "due_days": 274
+              "offset": "+9m"
             },
             "conditions": [
               {
                 "type": "not_given",
-                "vaccine":"Measles 2"
+                "vaccine": "Measles 2"
               }
             ]
           }

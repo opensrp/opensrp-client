@@ -725,7 +725,11 @@ public class ChildImmunizationActivity extends BaseActivity
             dob = dateTime.toDate();
         }
 
-        VaccinationDialogFragment vaccinationDialogFragment = VaccinationDialogFragment.newInstance(dob, vaccineWrappers);
+        List<Vaccine> vaccineList = VaccinatorApplication.getInstance().vaccineRepository()
+                .findByEntityId(childDetails.entityId());
+        if (vaccineList == null) vaccineList = new ArrayList<>();
+
+        VaccinationDialogFragment vaccinationDialogFragment = VaccinationDialogFragment.newInstance(dob, vaccineList, vaccineWrappers);
         vaccinationDialogFragment.show(ft, DIALOG_TAG);
     }
 

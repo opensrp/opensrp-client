@@ -14,54 +14,60 @@ import java.util.List;
  */
 
 public class VaccineTrigger {
-    private enum Type {
+    private enum Reference {
         DOB,
         PREREQUISITE
     }
 
-    private final Type type;
+    private final Reference reference;
+    private final String offset;
     private final VaccineRepo.Vaccine prerequisite;
 
-    public static VaccineTrigger init(String vaccineCategory, JSONObject scheduleData) throws JSONException {
-        JSONObject trigger = scheduleData.getJSONObject("trigger");
-        if (trigger.getString("type").equalsIgnoreCase(Type.DOB.name())) {
-            return new VaccineTrigger();
-        } else if (trigger.getString("type").equalsIgnoreCase(Type.PREREQUISITE.name())) {
-            VaccineRepo.Vaccine prerequisite = VaccineRepo.getVaccine(trigger.getString("prerequisite"),
-                    vaccineCategory);
-            if (prerequisite != null) {
-                return new VaccineTrigger(prerequisite);
+    public static VaccineTrigger init(String vaccineCategory, JSONObject data) throws JSONException {
+        if (data != null) {
+            if (data.getString("reference").equalsIgnoreCase(Reference.DOB.name())) {
+                return new VaccineTrigger(data.getString("offset"));
+            } else if (data.getString("reference").equalsIgnoreCase(Reference.PREREQUISITE.name())) {
+                VaccineRepo.Vaccine prerequisite = VaccineRepo.getVaccine(data.getString("prerequisite"),
+                        vaccineCategory);
+                if (prerequisite != null) {
+                    return new VaccineTrigger(data.getString("offset"), prerequisite);
+                }
             }
         }
 
         return null;
     }
 
-    public VaccineTrigger() {
-        this.type = Type.DOB;
+    public VaccineTrigger(String offset) {
+        this.reference = Reference.DOB;
+        this.offset = offset;
         this.prerequisite = null;
     }
 
-    public VaccineTrigger(VaccineRepo.Vaccine prerequisite) {
-        this.type = Type.PREREQUISITE;
+    public VaccineTrigger(String offset, VaccineRepo.Vaccine prerequisite) {
+        this.reference = Reference.PREREQUISITE;
+        this.offset = offset;
         this.prerequisite = prerequisite;
     }
 
     /**
      * Get the date the trigger will fire
      *
-     * @return {@link Date} if able to get trigger date, or {@code null} if an error occurs
+     * @return {@link Date} if able to get trigger date, or {@code null} if prerequisite hasn't been
+     *          administered yet
      */
     public Date getFireDate(final List<Vaccine> issuedVaccines, final Date dob) {
-        if (type.equals(Type.DOB)) {
+        if (reference.equals(Reference.DOB)) {
             if (dob != null) {
                 Calendar dobCalendar = Calendar.getInstance();
                 dobCalendar.setTime(dob);
                 VaccineSchedule.standardiseCalendarDate(dobCalendar);
 
+                dobCalendar = VaccineSchedule.addOffsetToCalendar(dobCalendar, offset);
                 return dobCalendar.getTime();
             }
-        } else if (type.equals(Type.PREREQUISITE)) {
+        } else if (reference.equals(Reference.PREREQUISITE)) {
             // Check if prerequisite is in the list of issued vaccines
             Vaccine issuedPrerequisite = null;
             for (Vaccine curVaccine : issuedVaccines) {
@@ -77,11 +83,8 @@ public class VaccineTrigger {
                 issuedDate.setTime(issuedPrerequisite.getDate());
                 VaccineSchedule.standardiseCalendarDate(issuedDate);
 
-                Calendar today = Calendar.getInstance();
-                VaccineSchedule.standardiseCalendarDate(today);
-                if (issuedDate.getTimeInMillis() <= today.getTimeInMillis()) {
-                    return issuedDate.getTime();
-                }
+                issuedDate = VaccineSchedule.addOffsetToCalendar(issuedDate, offset);
+                return issuedDate.getTime();
             }
         }
 

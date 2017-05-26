@@ -1,10 +1,8 @@
 package org.ei.opensrp.path.domain;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import org.ei.opensrp.clientandeventmodel.DateUtil;
-import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.AlertStatus;
 import org.ei.opensrp.path.application.VaccinatorApplication;
@@ -20,9 +18,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import util.Utils;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Jason Rogena - jrogena@ona.io on 19/05/2017.
@@ -30,9 +27,9 @@ import util.Utils;
 
 public class VaccineSchedule {
 
-    private final VaccineTrigger trigger;
+    private final VaccineTrigger dueTrigger;
+    private final VaccineTrigger expiryTrigger;
     private final VaccineRepo.Vaccine vaccine;
-    private final int dueDays;
     private final ArrayList<VaccineCondition> conditions;
 
     private static HashMap<String, HashMap<String, VaccineSchedule>> vaccineSchedules;
@@ -54,7 +51,7 @@ public class VaccineSchedule {
                     VaccineSchedule vaccineSchedule = getVaccineSchedule(vaccineName,
                             vaccineCategory, curVaccine.getJSONObject("schedule"));
                     if (vaccineSchedule != null) {
-                        vaccineSchedules.get(vaccineCategory).put(vaccineName, vaccineSchedule);
+                        vaccineSchedules.get(vaccineCategory).put(vaccineName.toUpperCase(), vaccineSchedule);
                     }
                 } else {
                     String[] splitNames = curVaccine.getString("name")
@@ -65,7 +62,7 @@ public class VaccineSchedule {
                                 vaccineCategory,
                                 curVaccine.getJSONObject("schedule").getJSONObject(vaccineName));
                         if (vaccineSchedule != null) {
-                            vaccineSchedules.get(vaccineCategory).put(vaccineName, vaccineSchedule);
+                            vaccineSchedules.get(vaccineCategory).put(vaccineName.toUpperCase(), vaccineSchedule);
                         }
                     }
                 }
@@ -80,11 +77,10 @@ public class VaccineSchedule {
      * @param baseEntityId
      * @param dob
      * @param vaccineCategory
-     *
-     * @return  The list of updated {@link Alert}s
+     * @return The list of updated {@link Alert}s
      */
     public static List<String> updateOfflineAlerts(VaccinatorApplication application, String baseEntityId,
-                                           DateTime dob, String vaccineCategory) {
+                                                   DateTime dob, String vaccineCategory) {
         List<Alert> newAlerts = new ArrayList<>();
         List<Alert> oldAlerts = new ArrayList<>();
         if (vaccineSchedules.containsKey(vaccineCategory)) {
@@ -135,24 +131,24 @@ public class VaccineSchedule {
         List<String> oldVaccineNames = new ArrayList<>();
         HashMap<String, Alert> oldAlertsMap = new HashMap<>();
         for (Alert curAlert : oldAlerts) {
-            if(!oldVaccineNames.contains(curAlert.scheduleName())) {
+            if (!oldVaccineNames.contains(curAlert.scheduleName())) {
                 oldVaccineNames.add(curAlert.scheduleName());
                 oldAlertsMap.put(curAlert.scheduleName(), curAlert);
             }
 
-            if(!allVaccineNames.contains(curAlert.scheduleName()))
+            if (!allVaccineNames.contains(curAlert.scheduleName()))
                 allVaccineNames.add(curAlert.scheduleName());
         }
 
         List<String> newVaccineNames = new ArrayList<>();
         HashMap<String, Alert> newAlertsMap = new HashMap<>();
         for (Alert curAlert : newAlerts) {
-            if(!newVaccineNames.contains(curAlert.scheduleName())) {
+            if (!newVaccineNames.contains(curAlert.scheduleName())) {
                 newVaccineNames.add(curAlert.scheduleName());
                 newAlertsMap.put(curAlert.scheduleName(), curAlert);
             }
 
-            if(!allVaccineNames.contains(curAlert.scheduleName()))
+            if (!allVaccineNames.contains(curAlert.scheduleName()))
                 allVaccineNames.add(curAlert.scheduleName());
         }
 
@@ -178,10 +174,20 @@ public class VaccineSchedule {
         return notInNew;
     }
 
+    public static VaccineSchedule getVaccineSchedule(String vaccineCategory, String vaccineName) {
+        if (vaccineSchedules.containsKey(vaccineCategory)) {
+            if (vaccineSchedules.get(vaccineCategory).containsKey(vaccineName.toUpperCase())) {
+                return vaccineSchedules.get(vaccineCategory).get(vaccineName.toUpperCase());
+            }
+        }
+
+        return null;
+    }
+
     private static VaccineSchedule getVaccineSchedule(String vaccineName, String vaccineCategory, JSONObject schedule)
             throws JSONException {
-        int dueDays = schedule.getJSONObject("trigger").getInt("due_days");
-        VaccineTrigger trigger = VaccineTrigger.init(vaccineCategory, schedule);
+        VaccineTrigger dueTrigger = VaccineTrigger.init(vaccineCategory, schedule.getJSONObject("due"));
+        VaccineTrigger expiryTrigger = VaccineTrigger.init(vaccineCategory, schedule.optJSONObject("expiry"));
         VaccineRepo.Vaccine vaccine = VaccineRepo.getVaccine(vaccineName, vaccineCategory);
         if (vaccine != null) {
             ArrayList<VaccineCondition> conditions = new ArrayList<>();
@@ -196,23 +202,23 @@ public class VaccineSchedule {
                 }
             }
 
-            return new VaccineSchedule(trigger, vaccine, dueDays, conditions);
+            return new VaccineSchedule(dueTrigger, expiryTrigger, vaccine, conditions);
         }
 
         return null;
     }
 
-    public VaccineSchedule(VaccineTrigger trigger, VaccineRepo.Vaccine vaccine, int dueDays,
+    public VaccineSchedule(VaccineTrigger dueTrigger, VaccineTrigger expiryTrigger, VaccineRepo.Vaccine vaccine,
                            ArrayList<VaccineCondition> conditions) {
-        this.trigger = trigger;
+        this.dueTrigger = dueTrigger;
+        this.expiryTrigger = expiryTrigger;
         this.vaccine = vaccine;
-        this.dueDays = dueDays;
         this.conditions = conditions;
     }
 
     /**
      * Returns the offline alert for a vaccine, if one exists. Currently, the only alert status
-     * returned is {@link AlertStatus.normal}
+     * returned is {@code AlertStatus.normal}
      *
      * @return An {@link Alert} object if one exists, or {@code NULL} if non exists
      */
@@ -229,7 +235,7 @@ public class VaccineSchedule {
 
         // Use the trigger date as a reference, since that is what is mostly used
         AlertStatus alertStatus = calculateAlertStatus(
-                trigger.getFireDate(issuedVaccines, dateOfBirth));
+                dueTrigger.getFireDate(issuedVaccines, dateOfBirth));
 
         if (alertStatus != null) {
             Alert offlineAlert = new Alert(baseEntityId, vaccine.display(), vaccine.name(),
@@ -243,7 +249,7 @@ public class VaccineSchedule {
 
     /**
      * Calculates the alert status based on the reference date provided. Currently, the only alert
-     * status returned is {@link AlertStatus.normal}
+     * status returned is {@code AlertStatus.normal}
      *
      * @param referenceDate The reference date to use to
      * @return {@link AlertStatus} if able to calculate or {@code NULL} if unable
@@ -252,7 +258,6 @@ public class VaccineSchedule {
         if (referenceDate != null) {
             Calendar refCalendarDate = Calendar.getInstance();
             refCalendarDate.setTime(referenceDate);
-            refCalendarDate.add(Calendar.DATE, dueDays);
             standardiseCalendarDate(refCalendarDate);
 
             Calendar today = Calendar.getInstance();
@@ -266,10 +271,81 @@ public class VaccineSchedule {
         return null;
     }
 
+    public Date getDueDate(List<Vaccine> issuedVaccines, Date dob) {
+        return dueTrigger.getFireDate(issuedVaccines, dob);
+    }
+
+    public Date getExpiryDate(List<Vaccine> issuedVaccines, Date dob) {
+        if (expiryTrigger != null) {
+            return expiryTrigger.getFireDate(issuedVaccines, dob);
+        }
+
+        return null;
+    }
+
     public static void standardiseCalendarDate(Calendar calendarDate) {
         calendarDate.set(Calendar.HOUR_OF_DAY, 0);
         calendarDate.set(Calendar.MINUTE, 0);
         calendarDate.set(Calendar.SECOND, 0);
         calendarDate.set(Calendar.MILLISECOND, 0);
+    }
+
+    /**
+     * This method adds an offset to the provided calendar.
+     * Offsets can look like:
+     * "+5y,3m,2d" : Plus 5 years, 3 months, and 2 days
+     * "-2d" : Minus 2 days
+     * <p>
+     * Accepted time units for the offset are:
+     * d : Days
+     * m : Months
+     * y : Years
+     * <p>
+     * Accepted operators for the offset are:
+     * - : Minus
+     * + : Plus
+     *
+     * @param calendar The calendar to add the offset
+     * @param offset   The offset in the format above to add to the calendar
+     * @return
+     */
+    public static Calendar addOffsetToCalendar(Calendar calendar, String offset) {
+        if (calendar != null && offset != null) {
+            offset = offset.replace(" ", "").toLowerCase();
+            Pattern p1 = Pattern.compile("([-+]{1})(.*)");
+            Matcher m1 = p1.matcher(offset);
+            if (m1.find()) {
+                String comparitorString = m1.group(1);
+                String valueString = m1.group(2);
+
+                int comparitor = 1;
+                if (comparitorString.equals("-")) {
+                    comparitor = -1;
+                }
+
+                String[] values = valueString.split(",");
+                for (int i = 0; i < values.length; i++) {
+                    Pattern p2 = Pattern.compile("(\\d+)([dwmy]{1})");
+                    Matcher m2 = p2.matcher(values[i]);
+
+                    if(m2.find()) {
+                        int curValue = comparitor * Integer.parseInt(m2.group(1));
+                        String fieldString = m2.group(2);
+                        int field = Calendar.DATE;
+                        if(fieldString.equals("d")) {
+                            field = Calendar.DATE;
+                        } else if (fieldString.equals("m")) {
+                            field = Calendar.MONTH;
+                        } else if (fieldString.equals("y")) {
+                            field = Calendar.YEAR;
+                        }
+
+                        calendar.add(field, curValue);
+                    }
+                }
+            }
+        }
+
+        return calendar;
     }
 }
