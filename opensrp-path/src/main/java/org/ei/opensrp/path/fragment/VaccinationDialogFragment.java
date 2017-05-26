@@ -242,7 +242,8 @@ public class VaccinationDialogFragment extends DialogFragment {
                         tagsToUpdate.add(tag);
                     } else {
                         Toast.makeText(VaccinationDialogFragment.this.getActivity(),
-                                "Cannot record "+tag.getName(), Toast.LENGTH_LONG).show();
+                                String.format(getString(R.string.cannot_record_vaccine), tag.getName()),
+                                Toast.LENGTH_LONG).show();
                     }
                 } else {
                     List<String> selectedCheckboxes = findSelectedCheckBoxes(vaccinationNameLayout);
@@ -254,7 +255,8 @@ public class VaccinationDialogFragment extends DialogFragment {
                                 tagsToUpdate.add(tag);
                             } else {
                                 Toast.makeText(VaccinationDialogFragment.this.getActivity(),
-                                        "Cannot record "+tag.getName(), Toast.LENGTH_LONG).show();
+                                        String.format(getString(R.string.cannot_record_vaccine),
+                                                tag.getName()), Toast.LENGTH_LONG).show();
                             }
                         }
                     }
@@ -419,7 +421,7 @@ public class VaccinationDialogFragment extends DialogFragment {
         if (minDate == null) {
             minDate = Calendar.getInstance();
             minDate.setTime(dueDate);
-        } else if (dueDate.getTime() < minDate.getTimeInMillis()) {
+        } else if (dueDate.getTime() > minDate.getTimeInMillis()) {
             minDate.setTime(dueDate);
         }
 
@@ -436,7 +438,7 @@ public class VaccinationDialogFragment extends DialogFragment {
         if (maxDate == null) {
             maxDate = Calendar.getInstance();
             maxDate.setTime(expiryDate);
-        } else if (expiryDate.getTime() > maxDate.getTimeInMillis()) {
+        } else if (expiryDate.getTime() < maxDate.getTimeInMillis()) {
             maxDate.setTime(expiryDate);
         }
 

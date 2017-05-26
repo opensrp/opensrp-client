@@ -3,6 +3,7 @@ package org.ei.opensrp.path.tabfragments;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -46,6 +47,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -341,7 +343,19 @@ public class ChildUnderFiveFragment extends Fragment {
             ft.remove(prev);
         }
         ft.addToBackStack(null);
-        VaccinationEditDialogFragment vaccinationDialogFragment = VaccinationEditDialogFragment.newInstance(getActivity(), vaccineWrappers, vaccineGroup);
+
+        String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+        Date dob = Calendar.getInstance().getTime();
+        if (!TextUtils.isEmpty(dobString)) {
+            DateTime dateTime = new DateTime(dobString);
+            dob = dateTime.toDate();
+        }
+
+        List<Vaccine> vaccineList = VaccinatorApplication.getInstance().vaccineRepository()
+                .findByEntityId(childDetails.entityId());
+        if (vaccineList == null) vaccineList = new ArrayList<>();
+
+        VaccinationEditDialogFragment vaccinationDialogFragment = VaccinationEditDialogFragment.newInstance(getActivity(), dob, vaccineList, vaccineWrappers, vaccineGroup);
         vaccinationDialogFragment.show(ft, DIALOG_TAG);
     }
 

@@ -38,6 +38,7 @@ import org.ei.opensrp.domain.Weight;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Photo;
+import org.ei.opensrp.path.domain.VaccineSchedule;
 import org.ei.opensrp.path.domain.VaccineWrapper;
 import org.ei.opensrp.path.domain.WeightWrapper;
 import org.ei.opensrp.path.fragment.EditWeightDialogFragment;
@@ -872,6 +873,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     public void onVaccinateToday(ArrayList<VaccineWrapper> tags, View view) {
         if (tags != null && !tags.isEmpty()) {
             saveVaccine(tags, view);
+            Utils.startAsyncTask(new UpdateOfflineAlertsTask(), null);
         }
     }
 
@@ -879,6 +881,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     public void onVaccinateEarlier(ArrayList<VaccineWrapper> tags, View view) {
         if (tags != null && !tags.isEmpty()) {
             saveVaccine(tags, view);
+            Utils.startAsyncTask(new UpdateOfflineAlertsTask(), null);
         }
     }
 
@@ -900,6 +903,8 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                 ArrayList<VaccineWrapper> wrappers = new ArrayList<>();
                 wrappers.add(tag);
                 updateVaccineGroupViews(view, wrappers, vaccineList, true);
+
+                Utils.startAsyncTask(new UpdateOfflineAlertsTask(), null);
             }
         }
     }
@@ -1343,5 +1348,19 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         cal.add(Calendar.DATE, -90);
         Date dateBefore90Days = cal.getTime();
         return date.before(dateBefore90Days);
+    }
+
+    private class UpdateOfflineAlertsTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+            if (!TextUtils.isEmpty(dobString)) {
+                DateTime dateTime = new DateTime(dobString);
+                VaccineSchedule.updateOfflineAlerts(VaccinatorApplication.getInstance(),
+                        childDetails.entityId(), dateTime, "child");
+            }
+            return null;
+        }
     }
 }

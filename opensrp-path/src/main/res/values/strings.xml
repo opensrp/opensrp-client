@@ -212,10 +212,12 @@
     <string name="go_back">Go back</string>
     <string name="undo_service">Undo Service?</string>
     <string name="yes_undo_service">Yes, undo service</string>
+    <string name="cannot_record_vaccine">Cannot record %1$s</string>
 
     <string name="device_timezone_changed">"The device's timezone changed. Please login again"</string>
     <string name="device_time_changed">"The device's time has changed. Please login again"</string>
 
     <string name="immunizations">IMMUNIZATIONS</string>
     <string name="recurring">RECURRING SERVICES</string>
+
 </resources>
