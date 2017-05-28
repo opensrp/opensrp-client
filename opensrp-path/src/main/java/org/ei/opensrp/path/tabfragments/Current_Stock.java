@@ -1,13 +1,25 @@
 package org.ei.opensrp.path.tabfragments;
 
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import org.ei.opensrp.Context;
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.activity.PathJsonFormActivity;
+import org.ei.opensrp.repository.AllSharedPreferences;
+import org.ei.opensrp.util.FormUtils;
+import org.json.JSONObject;
+
+import util.JsonFormUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,6 +29,7 @@ import org.ei.opensrp.path.R;
 public class Current_Stock extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final int REQUEST_CODE_GET_JSON = 3432;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -60,7 +73,43 @@ public class Current_Stock extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_current__stock, container, false);
+        View view = inflater.inflate(R.layout.fragment_current__stock, container, false);
+        Button received = (Button)view.findViewById(R.id.received);
+        received.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = Context.getInstance();
+                Intent intent = new Intent(getActivity().getApplicationContext(), PathJsonFormActivity.class);
+                try {
+                    JSONObject form = FormUtils.getInstance(getActivity().getApplicationContext()).getFormJson("stock_received_form");
+                    String formmetadata = form.toString();
+                    intent.putExtra("json", formmetadata);
+                    startActivityForResult(intent, REQUEST_CODE_GET_JSON);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
+        return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        {
+            if (resultCode == getActivity().RESULT_OK) {
+
+                try {
+                    String jsonString = data.getStringExtra("json");
+                    Log.d("JSONResult", jsonString);
+
+
+                } catch (Exception e) {
+                    Log.e("error", e.getMessage());
+                }
+            }
+        }
+    }
 }
