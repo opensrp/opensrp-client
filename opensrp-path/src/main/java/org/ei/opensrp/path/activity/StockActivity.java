@@ -3,6 +3,9 @@ package org.ei.opensrp.path.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,15 +46,30 @@ public class StockActivity extends BaseActivity {
                 finish();
             }
         });
+        DrawerLayout drawer = (DrawerLayout) findViewById(getDrawerLayoutId());
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
         int toolbarResource = R.drawable.vertical_separator_male;
         toolbar.updateSeparatorView(toolbarResource);
         toolbar.init(this);
         setSupportActionBar(toolbar);
         toolbar.setTitle("Stock Control");
-
+        
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView nameInitials = (TextView)findViewById(R.id.name_inits);
+        nameInitials.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
+                if (!drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.openDrawer(GravityCompat.START);
+                }
+            }
+        });
+       ;
 
         AllSharedPreferences allSharedPreferences = org.ei.opensrp.Context.getInstance().allSharedPreferences();
         String preferredName = allSharedPreferences.getANMPreferredName(allSharedPreferences.fetchRegisteredANM());
@@ -111,7 +129,7 @@ public class StockActivity extends BaseActivity {
 
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            LayoutInflater inflater = (LayoutInflater) context
+            final LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             View gridView;
@@ -134,7 +152,7 @@ public class StockActivity extends BaseActivity {
                 // set image based on selected text
 
 
-                Vaccine_types vaccine_type = vaccine_types[position];
+                final Vaccine_types vaccine_type = vaccine_types[position];
 
                 name.setText(vaccine_type.getName());
 
@@ -146,6 +164,7 @@ public class StockActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(StockActivity.this, StockControlActivity.class);
+                        intent.putExtra("vaccine_type",vaccine_type);
                         startActivity(intent);
                     }
                 });

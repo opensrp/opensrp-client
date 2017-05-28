@@ -47,7 +47,7 @@
     "encounter_location":""
   },
   "step1": {
-    "title": "Stock Received",
+    "title": "[vaccine] Stock Received",
     "fields": [
       {
         "key": "Date_Stock_Received",
@@ -69,7 +69,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "openmrs_data_type": "select one",
-        "type": "spinner",
+        "type": "radio",
         "hint": "Received from *",
         "values": [
           "DHO",
@@ -95,7 +95,7 @@
         "relevance": {
           "step1:Received_Stock_From": {
             "type": "string",
-            "ex": "equalTo(., \"[\"Other\"]\")"
+            "ex": "equalTo(., \"Other\")"
           }
         }
       },

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="org.ei.opensrp.path.activity.StockControlActivity">
+    tools:context=".activity.StockControlActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -15,20 +15,40 @@
         android:background= "@color/transparent"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
+        <org.ei.opensrp.path.toolbar.LocationSwitcherToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="#494949"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay">
+            <TextView
+                android:id="@+id/name_inits"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:layout_margin="1dp"
+                android:background="@drawable/name_inits_bg"
+                android:gravity="center"
+                android:text="RW"
+                android:textAllCaps="true"
+                android:textColor="@color/actionbar"
+                android:textSize="25sp"
+                android:layout_gravity="center_vertical" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:id="@+id/title"
+                style="@style/CustomFontTextViewStyle.NavBar.Black"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:text="Stock Control"
+                />
 
-        </android.support.v7.widget.Toolbar>
+        </org.ei.opensrp.path.toolbar.LocationSwitcherToolbar>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             app:tabMode="fixed"
             app:tabSelectedTextColor="#404040"
             app:tabIndicatorColor="#389CC8"

@@ -1,9 +1,11 @@
 package org.ei.opensrp.path.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by muhammad.ahmed@ihsinformatics.com on 19-Nov-15.
  */
-public class Vaccine_types {
+public class Vaccine_types implements Serializable {
 
     private Long id;
     private int doses;

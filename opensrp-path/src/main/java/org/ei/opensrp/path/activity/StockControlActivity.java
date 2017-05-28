@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.domain.Vaccine_types;
 import org.ei.opensrp.path.tabfragments.Current_Stock;
 
 public class StockControlActivity extends AppCompatActivity {
@@ -39,16 +40,20 @@ public class StockControlActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     private TabLayout tabLayout;
-
+    public Vaccine_types vaccine_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_control);
-
+        vaccine_type = (Vaccine_types) getIntent().getSerializableExtra("vaccine_type");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
+        toolbar.setTitle("");
+        setTitle("");
+
+
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.

@@ -10,15 +10,16 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginBottom="20dp">
 
             <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:layout_width="wrap_content"
@@ -43,40 +44,49 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
 
             <Button
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/received_plus"
+                android:layout_height="match_parent"
+                android:drawableLeft="@drawable/stock_plus"
                 android:text="  Received"
                 android:id="@+id/received"
                 android:textColor="#767676"
-                android:textSize="20sp"
-                android:layout_weight="1" />
+                android:background="@drawable/login_button"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp" />
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:drawableLeft="@drawable/issued_minus"
+                android:drawableLeft="@drawable/stock_minus"
                 android:text="  Issued"
                 android:id="@+id/issued"
                 android:textColor="#767676"
-                android:textSize="20sp"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1" />
+                android:textSize="16sp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/login_button"
+                android:paddingEnd="20dp"
+                android:paddingStart="20dp" />
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:drawableLeft="@drawable/loss_adj"
+                android:drawableLeft="@drawable/stock_list"
                 android:text="  Loss/Adj"
                 android:id="@+id/loss_adj"
                 android:textColor="#767676"
-                android:textSize="20sp"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1" />
+                android:textSize="16sp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/login_button"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp" />
         </LinearLayout>
 
         <LinearLayout
