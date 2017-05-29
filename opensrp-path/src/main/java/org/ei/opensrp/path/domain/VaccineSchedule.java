@@ -86,7 +86,7 @@ public class VaccineSchedule {
      * @param baseEntityId
      * @param dob
      * @param vaccineCategory
-     * @return The list of updated {@link Alert}s
+     * @return The list of updated vaccines
      */
     public static List<String> updateOfflineAlerts(VaccinatorApplication application, String baseEntityId,
                                                    DateTime dob, String vaccineCategory) {
@@ -247,8 +247,13 @@ public class VaccineSchedule {
                 dueTrigger.getFireDate(issuedVaccines, dateOfBirth));
 
         if (alertStatus != null) {
-            Alert offlineAlert = new Alert(baseEntityId, vaccine.display(), vaccine.name(),
-                    alertStatus, DateUtil.yyyyMMdd.format(dateOfBirth), null, true);
+            Alert offlineAlert = new Alert(baseEntityId,
+                    vaccine.display(),
+                    vaccine.name(),
+                    alertStatus,
+                    DateUtil.yyyyMMdd.format(dueTrigger.getFireDate(issuedVaccines, dateOfBirth)),
+                    expiryTrigger != null ? DateUtil.yyyyMMdd.format(expiryTrigger.getFireDate(issuedVaccines, dateOfBirth)) : null,
+                    true);
 
             return offlineAlert;
         }
