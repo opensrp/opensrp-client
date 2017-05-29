@@ -1,6 +1,7 @@
 package org.ei.opensrp.path.domain;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.ei.opensrp.clientandeventmodel.DateUtil;
 import org.ei.opensrp.domain.Alert;
@@ -90,97 +91,102 @@ public class VaccineSchedule {
      */
     public static List<String> updateOfflineAlerts(VaccinatorApplication application, String baseEntityId,
                                                    DateTime dob, String vaccineCategory) {
-        List<Alert> newAlerts = new ArrayList<>();
-        List<Alert> oldAlerts = new ArrayList<>();
-        if (vaccineSchedules.containsKey(vaccineCategory)) {
-            // Get all the administered vaccines for the child
-            List<Vaccine> issuedVaccines = application.vaccineRepository().findByEntityId(baseEntityId);
-            if (issuedVaccines == null) {
-                issuedVaccines = new ArrayList<>();
-            }
+        try {
+            List<Alert> newAlerts = new ArrayList<>();
+            List<Alert> oldAlerts = new ArrayList<>();
+            if (vaccineSchedules.containsKey(vaccineCategory)) {
+                // Get all the administered vaccines for the child
+                List<Vaccine> issuedVaccines = application.vaccineRepository().findByEntityId(baseEntityId);
+                if (issuedVaccines == null) {
+                    issuedVaccines = new ArrayList<>();
+                }
 
-            oldAlerts = application.context().alertService().findByEntityIdAndOffline(baseEntityId, true);
-            application.context().alertService().deleteOfflineAlerts(baseEntityId);
+                oldAlerts = application.context().alertService().findByEntityIdAndOffline(baseEntityId, true);
+                application.context().alertService().deleteOfflineAlerts(baseEntityId);
 
-            // Get existing alerts
-            List<String> alertNames = new ArrayList<>();
-            for (String curVaccineName : vaccineSchedules.get(vaccineCategory).keySet()) {
-                alertNames.add(curVaccineName.toLowerCase().replace(" ", ""));
-            }
+                // Get existing alerts
+                List<String> alertNames = new ArrayList<>();
+                for (String curVaccineName : vaccineSchedules.get(vaccineCategory).keySet()) {
+                    alertNames.add(curVaccineName.toLowerCase().replace(" ", ""));
+                }
 
-            List<Alert> existingAlerts = application.context().alertService()
-                    .findByEntityIdAndAlertNames(baseEntityId,
-                            alertNames.toArray(new String[0]));
+                List<Alert> existingAlerts = application.context().alertService()
+                        .findByEntityIdAndAlertNames(baseEntityId,
+                                alertNames.toArray(new String[0]));
 
-            for (VaccineSchedule curSchedule : vaccineSchedules.get(vaccineCategory).values()) {
-                Alert curAlert = curSchedule.getOfflineAlert(baseEntityId, dob.toDate(), issuedVaccines);
+                for (VaccineSchedule curSchedule : vaccineSchedules.get(vaccineCategory).values()) {
+                    Alert curAlert = curSchedule.getOfflineAlert(baseEntityId, dob.toDate(), issuedVaccines);
 
-                if (curAlert != null) {
-                    // Check if the current alert already exists for the entityId
-                    boolean exists = false;
-                    for (Alert curExistingAlert : existingAlerts) {
-                        if (curExistingAlert.scheduleName().equalsIgnoreCase(curAlert.scheduleName())
-                                && curExistingAlert.caseId().equalsIgnoreCase(curAlert.caseId())) {
-                            exists = true;
-                            break;
+                    if (curAlert != null) {
+                        // Check if the current alert already exists for the entityId
+                        boolean exists = false;
+                        for (Alert curExistingAlert : existingAlerts) {
+                            if (curExistingAlert.scheduleName().equalsIgnoreCase(curAlert.scheduleName())
+                                    && curExistingAlert.caseId().equalsIgnoreCase(curAlert.caseId())) {
+                                exists = true;
+                                break;
+                            }
                         }
-                    }
 
-                    if (!exists) {
-                        // Insert alert into table
-                        newAlerts.add(curAlert);
-                        application.context().alertService().create(curAlert);
-                        application.context().alertService().updateFtsSearch(curAlert, true);
+                        if (!exists) {
+                            // Insert alert into table
+                            newAlerts.add(curAlert);
+                            application.context().alertService().create(curAlert);
+                            application.context().alertService().updateFtsSearch(curAlert, true);
+                        }
                     }
                 }
             }
-        }
 
-        List<String> allVaccineNames = new ArrayList<>();
-        List<String> oldVaccineNames = new ArrayList<>();
-        HashMap<String, Alert> oldAlertsMap = new HashMap<>();
-        for (Alert curAlert : oldAlerts) {
-            if (!oldVaccineNames.contains(curAlert.scheduleName())) {
-                oldVaccineNames.add(curAlert.scheduleName());
-                oldAlertsMap.put(curAlert.scheduleName(), curAlert);
+            List<String> allVaccineNames = new ArrayList<>();
+            List<String> oldVaccineNames = new ArrayList<>();
+            HashMap<String, Alert> oldAlertsMap = new HashMap<>();
+            for (Alert curAlert : oldAlerts) {
+                if (!oldVaccineNames.contains(curAlert.scheduleName())) {
+                    oldVaccineNames.add(curAlert.scheduleName());
+                    oldAlertsMap.put(curAlert.scheduleName(), curAlert);
+                }
+
+                if (!allVaccineNames.contains(curAlert.scheduleName()))
+                    allVaccineNames.add(curAlert.scheduleName());
             }
 
-            if (!allVaccineNames.contains(curAlert.scheduleName()))
-                allVaccineNames.add(curAlert.scheduleName());
-        }
+            List<String> newVaccineNames = new ArrayList<>();
+            HashMap<String, Alert> newAlertsMap = new HashMap<>();
+            for (Alert curAlert : newAlerts) {
+                if (!newVaccineNames.contains(curAlert.scheduleName())) {
+                    newVaccineNames.add(curAlert.scheduleName());
+                    newAlertsMap.put(curAlert.scheduleName(), curAlert);
+                }
 
-        List<String> newVaccineNames = new ArrayList<>();
-        HashMap<String, Alert> newAlertsMap = new HashMap<>();
-        for (Alert curAlert : newAlerts) {
-            if (!newVaccineNames.contains(curAlert.scheduleName())) {
-                newVaccineNames.add(curAlert.scheduleName());
-                newAlertsMap.put(curAlert.scheduleName(), curAlert);
+                if (!allVaccineNames.contains(curAlert.scheduleName()))
+                    allVaccineNames.add(curAlert.scheduleName());
             }
 
-            if (!allVaccineNames.contains(curAlert.scheduleName()))
-                allVaccineNames.add(curAlert.scheduleName());
-        }
+            // Get list of vaccines that are not in both
+            List<String> notInOld = new ArrayList<>(newVaccineNames);
+            notInOld.removeAll(oldVaccineNames);
+            List<String> notInNew = new ArrayList<>(oldVaccineNames);
+            notInNew.removeAll(newVaccineNames);
+            notInNew.addAll(notInOld);
 
-        // Get list of vaccines that are not in both
-        List<String> notInOld = new ArrayList<>(newVaccineNames);
-        notInOld.removeAll(oldVaccineNames);
-        List<String> notInNew = new ArrayList<>(oldVaccineNames);
-        notInNew.removeAll(newVaccineNames);
-        notInNew.addAll(notInOld);
+            allVaccineNames.removeAll(notInNew);
 
-        allVaccineNames.removeAll(notInNew);
+            // For the alerts in both, check if similar
+            for (String curVaccineName : allVaccineNames) {
+                Alert oldAlert = oldAlertsMap.get(curVaccineName);
+                Alert newAlert = newAlertsMap.get(curVaccineName);
 
-        // For the alerts in both, check if similar
-        for (String curVaccineName : allVaccineNames) {
-            Alert oldAlert = oldAlertsMap.get(curVaccineName);
-            Alert newAlert = newAlertsMap.get(curVaccineName);
-
-            if (!oldAlert.equals(newAlert)) {
-                notInNew.add(oldAlert.scheduleName());
+                if (!oldAlert.equals(newAlert)) {
+                    notInNew.add(oldAlert.scheduleName());
+                }
             }
-        }
 
-        return notInNew;
+            return notInNew;
+        }catch (Exception e){
+            Log.e(VaccineSchedule.class.getName(), e.toString(), e);
+            return new ArrayList<>();
+        }
     }
 
     public static VaccineSchedule getVaccineSchedule(String vaccineCategory, String vaccineName) {

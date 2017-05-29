@@ -19,12 +19,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ei.opensrp.clientandeventmodel.DateUtil;
 import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.domain.Alert;
-import org.ei.opensrp.domain.AlertStatus;
 import org.ei.opensrp.domain.ServiceRecord;
 import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.domain.Vaccine;

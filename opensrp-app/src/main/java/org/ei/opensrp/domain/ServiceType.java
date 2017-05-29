@@ -1,7 +1,5 @@
 package org.ei.opensrp.domain;
 
-import java.util.Date;
-
 /**
  * Created by keyman on 3/1/17.
  */

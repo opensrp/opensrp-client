@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +13,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import org.ei.opensrp.Context;
-import org.ei.opensrp.clientandeventmodel.DateUtil;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.domain.Alert;
-import org.ei.opensrp.domain.AlertStatus;
 import org.ei.opensrp.domain.ServiceRecord;
 import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.domain.Vaccine;

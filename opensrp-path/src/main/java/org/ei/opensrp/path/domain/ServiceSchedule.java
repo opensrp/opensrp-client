@@ -1,8 +1,12 @@
 package org.ei.opensrp.path.domain;
 
+import android.util.Log;
+
 import org.ei.opensrp.clientandeventmodel.DateUtil;
-import org.ei.opensrp.domain.*;
-import org.ei.opensrp.domain.Vaccine;
+import org.ei.opensrp.domain.Alert;
+import org.ei.opensrp.domain.AlertStatus;
+import org.ei.opensrp.domain.ServiceRecord;
+import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
 import org.ei.opensrp.path.repository.RecurringServiceTypeRepository;
@@ -12,10 +16,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,47 +48,51 @@ public class ServiceSchedule {
     }
 
     public static void updateOfflineAlerts(String baseEntityId, DateTime dob) {
-        RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
-        RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
-        AlertService alertService = VaccinatorApplication.getInstance().context().alertService();
+        try {
+            RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
+            RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
+            AlertService alertService = VaccinatorApplication.getInstance().context().alertService();
 
-        List<ServiceType> serviceTypes = recurringServiceTypeRepository.fetchAll();
-        String[] alertArray = VaccinateActionUtils.allAlertNames(serviceTypes);
+            List<ServiceType> serviceTypes = recurringServiceTypeRepository.fetchAll();
+            String[] alertArray = VaccinateActionUtils.allAlertNames(serviceTypes);
 
-        List<Alert> newAlerts = new ArrayList<>();
-        List<Alert> oldAlerts = new ArrayList<>();
+            List<Alert> newAlerts = new ArrayList<>();
+            List<Alert> oldAlerts = new ArrayList<>();
 
-        // Get all the administered services
-        List<ServiceRecord> issuedServices = recurringServiceRecordRepository.findByEntityId(baseEntityId);
-        if (issuedServices == null) {
-            issuedServices = new ArrayList<>();
-        }
+            // Get all the administered services
+            List<ServiceRecord> issuedServices = recurringServiceRecordRepository.findByEntityId(baseEntityId);
+            if (issuedServices == null) {
+                issuedServices = new ArrayList<>();
+            }
 
-        oldAlerts = alertService.findByEntityIdAndOffline(baseEntityId, true);
-        alertService.deleteOfflineAlerts(baseEntityId, alertArray);
+            oldAlerts = alertService.findByEntityIdAndOffline(baseEntityId, true);
+            alertService.deleteOfflineAlerts(baseEntityId, alertArray);
 
-        List<Alert> existingAlerts = alertService.findByEntityIdAndAlertNames(baseEntityId, alertArray);
+            List<Alert> existingAlerts = alertService.findByEntityIdAndAlertNames(baseEntityId, alertArray);
 
-        for (ServiceType serviceType : serviceTypes) {
-            Alert curAlert = getOfflineAlert(serviceType, issuedServices, baseEntityId, dob);
+            for (ServiceType serviceType : serviceTypes) {
+                Alert curAlert = getOfflineAlert(serviceType, issuedServices, baseEntityId, dob);
 
-            if (curAlert != null) {
-                // Check if the current alert already exists for the entityId
-                boolean exists = false;
-                for (Alert curExistingAlert : existingAlerts) {
-                    if (curExistingAlert.scheduleName().equalsIgnoreCase(curAlert.scheduleName())
-                            && curExistingAlert.caseId().equalsIgnoreCase(curAlert.caseId())) {
-                        exists = true;
-                        break;
+                if (curAlert != null) {
+                    // Check if the current alert already exists for the entityId
+                    boolean exists = false;
+                    for (Alert curExistingAlert : existingAlerts) {
+                        if (curExistingAlert.scheduleName().equalsIgnoreCase(curAlert.scheduleName())
+                                && curExistingAlert.caseId().equalsIgnoreCase(curAlert.caseId())) {
+                            exists = true;
+                            break;
+                        }
+                    }
+
+                    if (!exists) {
+                        // Insert alert into table
+                        newAlerts.add(curAlert);
+                        alertService.create(curAlert);
                     }
                 }
-
-                if (!exists) {
-                    // Insert alert into table
-                    newAlerts.add(curAlert);
-                    alertService.create(curAlert);
-                }
             }
+        } catch (Exception e) {
+            Log.e(ServiceSchedule.class.getName(), e.toString(), e);
         }
 
     }
@@ -94,19 +100,24 @@ public class ServiceSchedule {
 
     public static Alert getOfflineAlert(final ServiceType serviceType, final List<ServiceRecord> issuedServices, final String baseEntityId, final DateTime dateOfBirth) {
 
-        DateTime dueDateTime = VaccinatorUtils.getServiceDueDate(serviceType, dateOfBirth, issuedServices);
-        DateTime expiryDateTime = VaccinatorUtils.getServiceExpiryDate(serviceType, dateOfBirth);
+        try {
+            DateTime dueDateTime = VaccinatorUtils.getServiceDueDate(serviceType, dateOfBirth, issuedServices);
+            DateTime expiryDateTime = VaccinatorUtils.getServiceExpiryDate(serviceType, dateOfBirth);
 
-        // Use the trigger date as a reference, since that is what is mostly used
-        AlertStatus alertStatus = calculateAlertStatus(dueDateTime);
+            // Use the trigger date as a reference, since that is what is mostly used
+            AlertStatus alertStatus = calculateAlertStatus(dueDateTime);
 
-        if (alertStatus != null) {
-            Date startDate = dueDateTime == null ? dateOfBirth.toDate() : dueDateTime.toDate();
-            Date expiryDate = expiryDateTime == null ? null : expiryDateTime.toDate();
-            return new Alert(baseEntityId, serviceType.getName(), serviceType.getName().toLowerCase().replace(" ", ""),
-                    alertStatus, startDate == null ? null : DateUtil.yyyyMMdd.format(startDate), expiryDate == null ? null : DateUtil.yyyyMMdd.format(expiryDate), true);
+            if (alertStatus != null) {
+                Date startDate = dueDateTime == null ? dateOfBirth.toDate() : dueDateTime.toDate();
+                Date expiryDate = expiryDateTime == null ? null : expiryDateTime.toDate();
+                return new Alert(baseEntityId, serviceType.getName(), serviceType.getName().toLowerCase().replace(" ", ""),
+                        alertStatus, startDate == null ? null : DateUtil.yyyyMMdd.format(startDate), expiryDate == null ? null : DateUtil.yyyyMMdd.format(expiryDate), true);
+            }
+            return null;
+        } catch (Exception e) {
+            Log.e(ServiceSchedule.class.getName(), e.toString(), e);
+            return null;
         }
-        return null;
     }
 
     private static AlertStatus calculateAlertStatus(DateTime referenceDate) {
@@ -152,41 +163,46 @@ public class ServiceSchedule {
     }
 
     public static DateTime addOffsetToDateTime(DateTime dateTime, String offset) {
-        DateTime afterOffset = dateTime;
-        if (dateTime != null && offset != null) {
-            offset = offset.replace(" ", "").toLowerCase();
-            Pattern p1 = Pattern.compile("([-+]{1})(.*)");
-            Matcher m1 = p1.matcher(offset);
-            if (m1.find()) {
-                String comparitorString = m1.group(1);
-                String valueString = m1.group(2);
+        try {
+            DateTime afterOffset = dateTime;
+            if (dateTime != null && offset != null) {
+                offset = offset.replace(" ", "").toLowerCase();
+                Pattern p1 = Pattern.compile("([-+]{1})(.*)");
+                Matcher m1 = p1.matcher(offset);
+                if (m1.find()) {
+                    String comparitorString = m1.group(1);
+                    String valueString = m1.group(2);
 
-                int comparitor = 1;
-                if (comparitorString.equals("-")) {
-                    comparitor = -1;
-                }
+                    int comparitor = 1;
+                    if (comparitorString.equals("-")) {
+                        comparitor = -1;
+                    }
 
-                String[] values = valueString.split(",");
-                for (int i = 0; i < values.length; i++) {
-                    Pattern p2 = Pattern.compile("(\\d+)([dwmy]{1})");
-                    Matcher m2 = p2.matcher(values[i]);
+                    String[] values = valueString.split(",");
+                    for (int i = 0; i < values.length; i++) {
+                        Pattern p2 = Pattern.compile("(\\d+)([dwmy]{1})");
+                        Matcher m2 = p2.matcher(values[i]);
 
-                    if (m2.find()) {
-                        int curValue = comparitor * Integer.parseInt(m2.group(1));
-                        String fieldString = m2.group(2);
-                        if (fieldString.equals("d")) {
-                            afterOffset = afterOffset.plusDays(curValue);
-                        } else if (fieldString.equals("m")) {
-                            afterOffset = afterOffset.plusMonths(curValue);
-                        } else if (fieldString.equals("y")) {
-                            afterOffset = afterOffset.plusYears(curValue);
+                        if (m2.find()) {
+                            int curValue = comparitor * Integer.parseInt(m2.group(1));
+                            String fieldString = m2.group(2);
+                            if (fieldString.equals("d")) {
+                                afterOffset = afterOffset.plusDays(curValue);
+                            } else if (fieldString.equals("m")) {
+                                afterOffset = afterOffset.plusMonths(curValue);
+                            } else if (fieldString.equals("y")) {
+                                afterOffset = afterOffset.plusYears(curValue);
+                            }
                         }
                     }
                 }
             }
-        }
 
-        return afterOffset;
+            return afterOffset;
+        } catch (Exception e) {
+            Log.e(ServiceSchedule.class.getName(), e.toString(), e);
+            return dateTime;
+        }
     }
 }
 
