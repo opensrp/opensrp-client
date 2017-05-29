@@ -375,8 +375,12 @@ public abstract class BaseActivity extends AppCompatActivity
                 positiveButtonOnClick, negativeButtonText, negativeButtonOnClick, tag);
 
         // Add the notification as the last element in the notification list
-        if (notifications.contains(notification)) {
-            notifications.remove(notification);
+        String notificationMessage = notification.message;
+        if (notificationMessage == null) notificationMessage = "";
+        for (Notification curNotification : notifications) {
+            if (notificationMessage.equals(curNotification.message)) {
+                notifications.remove(curNotification);
+            }
         }
         notifications.add(notification);
 
@@ -448,27 +452,25 @@ public abstract class BaseActivity extends AppCompatActivity
 
         final LinearLayout notificationLL = (LinearLayout) findViewById(R.id.notification);
 
-        //if (notificationLL.getVisibility() == View.GONE) {
-            Animation slideDownAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_down);
-            slideDownAnimation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    notificationLL.setVisibility(View.VISIBLE);
-                }
+        Animation slideDownAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_down);
+        slideDownAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                notificationLL.setVisibility(View.VISIBLE);
+            }
 
-                @Override
-                public void onAnimationEnd(Animation animation) {
+            @Override
+            public void onAnimationEnd(Animation animation) {
 
-                }
+            }
 
-                @Override
-                public void onAnimationRepeat(Animation animation) {
+            @Override
+            public void onAnimationRepeat(Animation animation) {
 
-                }
-            });
-            notificationLL.clearAnimation();
-            notificationLL.startAnimation(slideDownAnimation);
-        //}
+            }
+        });
+        notificationLL.clearAnimation();
+        notificationLL.startAnimation(slideDownAnimation);
     }
 
     protected void hideNotification() {
