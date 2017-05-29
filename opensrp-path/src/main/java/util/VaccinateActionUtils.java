@@ -466,6 +466,19 @@ public class VaccinateActionUtils {
         return false;
     }
 
+    public static Vaccine getVaccine(List<Vaccine> vaccineList, VaccineRepo.Vaccine v) {
+        if (vaccineList == null || vaccineList.isEmpty() || v == null) {
+            return null;
+        }
+
+        for (Vaccine vaccine : vaccineList) {
+            if (vaccine.getName().equalsIgnoreCase(v.display().toLowerCase())) {
+                return vaccine;
+            }
+        }
+        return null;
+    }
+
     public static Alert createDefaultAlert(VaccineRepo.Vaccine vaccine, String entityId, DateTime birthDateTime) {
 
 

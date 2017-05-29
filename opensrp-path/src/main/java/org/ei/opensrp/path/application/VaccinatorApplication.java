@@ -295,7 +295,8 @@ public class VaccinatorApplication extends DrishtiApplication
     private void initOfflineSchedules() {
         try {
             JSONArray childVaccines = new JSONArray(VaccinatorUtils.getSupportedVaccines(this));
-            VaccineSchedule.init(childVaccines, "child");
+            JSONArray specialVaccines = new JSONArray(VaccinatorUtils.getSpecialVaccines(this));
+            VaccineSchedule.init(childVaccines, specialVaccines, "child");
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
         }

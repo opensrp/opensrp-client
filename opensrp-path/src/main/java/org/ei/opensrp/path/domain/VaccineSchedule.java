@@ -34,7 +34,7 @@ public class VaccineSchedule {
 
     private static HashMap<String, HashMap<String, VaccineSchedule>> vaccineSchedules;
 
-    public static void init(JSONArray vaccines, String vaccineCategory) throws JSONException {
+    public static void init(JSONArray vaccines, JSONArray specialVaccines, String vaccineCategory) throws JSONException {
         if (vaccineSchedules == null) {
             vaccineSchedules = new HashMap<>();
         }
@@ -45,26 +45,35 @@ public class VaccineSchedule {
             JSONArray curVaccines = curGroup.getJSONArray("vaccines");
             for (int vaccineIndex = 0; vaccineIndex < curVaccines.length(); vaccineIndex++) {
                 JSONObject curVaccine = curVaccines.getJSONObject(vaccineIndex);
+                initVaccine(vaccineCategory, curVaccine);
+            }
+        }
 
-                if (TextUtils.isEmpty(curVaccine.optString("vaccine_separator"))) {
-                    String vaccineName = curVaccine.getString("name");
-                    VaccineSchedule vaccineSchedule = getVaccineSchedule(vaccineName,
-                            vaccineCategory, curVaccine.getJSONObject("schedule"));
-                    if (vaccineSchedule != null) {
-                        vaccineSchedules.get(vaccineCategory).put(vaccineName.toUpperCase(), vaccineSchedule);
-                    }
-                } else {
-                    String[] splitNames = curVaccine.getString("name")
-                            .split(curVaccine.getString("vaccine_separator"));
-                    for (int nameIndex = 0; nameIndex < splitNames.length; nameIndex++) {
-                        String vaccineName = splitNames[nameIndex];
-                        VaccineSchedule vaccineSchedule = getVaccineSchedule(vaccineName,
-                                vaccineCategory,
-                                curVaccine.getJSONObject("schedule").getJSONObject(vaccineName));
-                        if (vaccineSchedule != null) {
-                            vaccineSchedules.get(vaccineCategory).put(vaccineName.toUpperCase(), vaccineSchedule);
-                        }
-                    }
+        if (specialVaccines != null) {
+            for (int vaccineIndex = 0; vaccineIndex < specialVaccines.length(); vaccineIndex++) {
+                initVaccine(vaccineCategory, specialVaccines.getJSONObject(vaccineIndex));
+            }
+        }
+    }
+
+    private static void initVaccine(String vaccineCategory, JSONObject curVaccine) throws JSONException {
+        if (TextUtils.isEmpty(curVaccine.optString("vaccine_separator"))) {
+            String vaccineName = curVaccine.getString("name");
+            VaccineSchedule vaccineSchedule = getVaccineSchedule(vaccineName,
+                    vaccineCategory, curVaccine.getJSONObject("schedule"));
+            if (vaccineSchedule != null) {
+                vaccineSchedules.get(vaccineCategory).put(vaccineName.toUpperCase(), vaccineSchedule);
+            }
+        } else {
+            String[] splitNames = curVaccine.getString("name")
+                    .split(curVaccine.getString("vaccine_separator"));
+            for (int nameIndex = 0; nameIndex < splitNames.length; nameIndex++) {
+                String vaccineName = splitNames[nameIndex];
+                VaccineSchedule vaccineSchedule = getVaccineSchedule(vaccineName,
+                        vaccineCategory,
+                        curVaccine.getJSONObject("schedule").getJSONObject(vaccineName));
+                if (vaccineSchedule != null) {
+                    vaccineSchedules.get(vaccineCategory).put(vaccineName.toUpperCase(), vaccineSchedule);
                 }
             }
         }
@@ -315,12 +324,12 @@ public class VaccineSchedule {
             Pattern p1 = Pattern.compile("([-+]{1})(.*)");
             Matcher m1 = p1.matcher(offset);
             if (m1.find()) {
-                String comparitorString = m1.group(1);
+                String operatorString = m1.group(1);
                 String valueString = m1.group(2);
 
-                int comparitor = 1;
-                if (comparitorString.equals("-")) {
-                    comparitor = -1;
+                int operator = 1;
+                if (operatorString.equals("-")) {
+                    operator = -1;
                 }
 
                 String[] values = valueString.split(",");
@@ -328,11 +337,11 @@ public class VaccineSchedule {
                     Pattern p2 = Pattern.compile("(\\d+)([dwmy]{1})");
                     Matcher m2 = p2.matcher(values[i]);
 
-                    if(m2.find()) {
-                        int curValue = comparitor * Integer.parseInt(m2.group(1));
+                    if (m2.find()) {
+                        int curValue = operator * Integer.parseInt(m2.group(1));
                         String fieldString = m2.group(2);
                         int field = Calendar.DATE;
-                        if(fieldString.equals("d")) {
+                        if (fieldString.equals("d")) {
                             field = Calendar.DATE;
                         } else if (fieldString.equals("m")) {
                             field = Calendar.MONTH;

@@ -607,6 +607,11 @@ public class VaccinatorUtils {
         return supportedVaccinesString;
     }
 
+    public static String getSpecialVaccines(Context context) {
+        String specialVaccinesString = Utils.readAssetContents(context, "special_vaccines.json");
+        return specialVaccinesString;
+    }
+
     /**
      * Returns a JSON String containing a list of supported services
      *

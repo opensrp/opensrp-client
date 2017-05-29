@@ -419,8 +419,27 @@ public class ChildImmunizationActivity extends BaseActivity
             }
         }
 
+        showVaccineNotifications(vaccineList, alerts);
+    }
+
+    private void showVaccineNotifications(List<Vaccine> vaccineList, List<Alert> alerts) {
         if (!VaccinateActionUtils.hasVaccine(vaccineList, VaccineRepo.Vaccine.bcg2)) {
-            if (VaccinateActionUtils.hasAlert(alerts, VaccineRepo.Vaccine.bcg2)) {
+            Vaccine bcg = VaccinateActionUtils.getVaccine(vaccineList, VaccineRepo.Vaccine.bcg);
+
+            boolean bcgOfferedInPast = true;
+            if (bcg != null) {
+                Calendar bcgDate = Calendar.getInstance();
+                bcgDate.setTime(bcg.getDate());
+
+                Calendar today = Calendar.getInstance();
+                if(bcgDate.get(Calendar.YEAR) == today.get(Calendar.YEAR)
+                        && bcgDate.get(Calendar.MONTH) == today.get(Calendar.MONTH)
+                        && bcgDate.get(Calendar.DATE) == today.get(Calendar.DATE)) {
+                    bcgOfferedInPast = false;
+                }
+            }
+
+            if (VaccinateActionUtils.hasAlert(alerts, VaccineRepo.Vaccine.bcg2) && bcgOfferedInPast) {
                 Alert alert = VaccinateActionUtils.getAlert(alerts, VaccineRepo.Vaccine.bcg2);
                 if (!alert.isComplete()) {
                     showCheckBcgScarNotification(alert);
@@ -950,6 +969,7 @@ public class ChildImmunizationActivity extends BaseActivity
             }
 
             updateVaccineGroupsUsingAlerts(affectedVaccines, vaccineList, alertList);
+            showVaccineNotifications(vaccineList, alertList);
         }
 
         @Override
@@ -1229,6 +1249,7 @@ public class ChildImmunizationActivity extends BaseActivity
             wrappers.add(tag);
             updateVaccineGroupViews(view, wrappers, vaccineList, true);
             updateVaccineGroupsUsingAlerts(affectedVaccines, vaccineList, alertList);
+            showVaccineNotifications(vaccineList, alertList);
         }
     }
 
