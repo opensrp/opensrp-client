@@ -56,7 +56,7 @@ public class StockActivity extends BaseActivity {
         toolbar.init(this);
         setSupportActionBar(toolbar);
         toolbar.setTitle("Stock Control");
-        
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView nameInitials = (TextView)findViewById(R.id.name_inits);

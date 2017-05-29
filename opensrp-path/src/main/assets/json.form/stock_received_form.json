@@ -71,9 +71,15 @@
         "openmrs_data_type": "select one",
         "type": "radio",
         "hint": "Received from *",
-        "values": [
-          "DHO",
-          "Other"
+        "options":[
+          {
+            "key":"DHO",
+            "text":"DHO"
+          },
+          {
+            "key":"Other",
+            "text":"Other"
+          }
         ],
         "v_required": {
           "value": true,

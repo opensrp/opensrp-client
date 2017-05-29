@@ -1,31 +1,52 @@
 package org.ei.opensrp.path.tabfragments;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.clientandeventmodel.DateUtil;
+import org.ei.opensrp.commonregistry.CommonRepository;
+import org.ei.opensrp.cursoradapter.CursorSortOption;
+import org.ei.opensrp.cursoradapter.SmartRegisterPaginatedCursorAdapter;
+import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.PathJsonFormActivity;
 import org.ei.opensrp.path.activity.StockControlActivity;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Stock;
+import org.ei.opensrp.path.fragment.CursorAdapterFragment;
+import org.ei.opensrp.path.provider.ChildSmartClientsProvider;
+import org.ei.opensrp.path.provider.StockRowSmartClientsProvider;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.StockRepository;
 import org.ei.opensrp.path.repository.Vaccine_typesRepository;
+import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.util.FormUtils;
+import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
+import org.ei.opensrp.view.dialog.AllClientsFilter;
+import org.ei.opensrp.view.dialog.DialogOption;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,15 +54,22 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import util.JsonFormUtils;
+
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+import static java.text.MessageFormat.format;
+import static java.util.Arrays.asList;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link Current_Stock#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Current_Stock extends Fragment {
+public class Current_Stock extends Fragment implements
+        LoaderManager.LoaderCallbacks<Cursor>{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final int REQUEST_CODE_GET_JSON = 3432;
@@ -52,6 +80,57 @@ public class Current_Stock extends Fragment {
     public static final String STEP1 = "step1";
     public static final String FIELDS = "fields";
     public static final SimpleDateFormat dd_MM_yyyy = new SimpleDateFormat("dd-MM-yyyy");
+
+    ///////////////////////////////////////block for list///////////////////
+    public static final String DIALOG_TAG = "dialog";
+    private boolean refreshList;
+    public static final List<? extends DialogOption> DEFAULT_FILTER_OPTIONS = asList(new AllClientsFilter());
+    public ListView clientsView;
+    public ProgressBar clientsProgressView;
+    public static int totalcount = 0;
+    public static int currentlimit = 20;
+    public static int currentoffset = 0;
+    public String mainSelect;
+    public String filters = "";
+    public String mainCondition = "";
+    public String Sortqueries;
+    private String currentquery;
+    public String tablename;
+    public String countSelect;
+    public String joinTable="";
+
+    protected static final int LOADER_ID = 0;
+    private static final String INIT_LOADER = "init";
+
+
+    public String getTablename() {
+        return tablename;
+    }
+
+    public void setTablename(String tablename) {
+        this.tablename = tablename;
+    }
+
+
+    public SmartRegisterPaginatedCursorAdapter getClientsCursorAdapter() {
+        return clientAdapter;
+    }
+
+    public void setClientsAdapter(SmartRegisterPaginatedCursorAdapter clientsAdapter) {
+        this.clientAdapter = clientsAdapter;
+    }
+
+    public SmartRegisterPaginatedCursorAdapter clientAdapter;
+
+
+    public View mView;
+
+
+
+    private final PaginationViewHandler paginationViewHandler = new PaginationViewHandler();
+
+    ///////////////////////////////////////////////////////////////////////
+
 
 
     // TODO: Rename and change types of parameters
@@ -95,6 +174,12 @@ public class Current_Stock extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_current__stock, container, false);
+
+        clientsProgressView = (ProgressBar) view.findViewById(R.id.client_list_progress);
+        clientsView = (ListView) view.findViewById(R.id.list);
+        paginationViewHandler.addPagination(clientsView);
+
+
         Button received = (Button)view.findViewById(R.id.received);
         TextView vaccine_name = (TextView)view.findViewById(R.id.name);
         vaccine_name.setText(((StockControlActivity)getActivity()).vaccine_type.getName() + " Stock: ");
@@ -102,22 +187,70 @@ public class Current_Stock extends Fragment {
         received.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = Context.getInstance();
-                Intent intent = new Intent(getActivity().getApplicationContext(), PathJsonFormActivity.class);
-                try {
-                    JSONObject form = FormUtils.getInstance(getActivity().getApplicationContext()).getFormJson("stock_received_form");
-                    String vaccine_name = ((StockControlActivity)getActivity()).vaccine_type.getName();
-                    String formmetadata = form.toString().replace("[vaccine]",vaccine_name);
-                    intent.putExtra("json", formmetadata);
-                    startActivityForResult(intent, REQUEST_CODE_GET_JSON);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
+                launchReceivedForm();
             }
         });
+        onInitialization();
         return view;
+    }
+
+    private void onInitialization() {
+        String tableName = "Stocks";
+//        String parentTableName = "ec_mother";
+        StockRepository str = new StockRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(),VaccinatorApplication.createCommonFtsObject(),context().alertService());
+
+
+        StockRowSmartClientsProvider hhscp = new StockRowSmartClientsProvider(getActivity(),
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                }, context().alertService(),str );
+        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, hhscp, Context.getInstance().commonrepository(tableName));
+        clientsView.setAdapter(clientAdapter);
+        clientAdapter.notifyDataSetChanged();
+        setTablename(tableName);
+        SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
+        countqueryBUilder.SelectInitiateMainTableCounts(tableName);
+        countSelect = countqueryBUilder.mainCondition("");
+        mainCondition = "";
+        CountExecute();
+        SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
+        queryBUilder.SelectInitiateMainTable(tableName, new String[]{
+                tableName + "._id",
+                tableName + ".vaccine_type",
+                tableName + ".transaction_type",
+                tableName + ".provider_id",
+                tableName + ".value",
+                tableName + ".date_created",
+                tableName + ".to_from",
+                tableName + ".date_updated"
+        });
+//        queryBUilder.customJoin("LEFT JOIN " + parentTableName + " ON  " + tableName + ".relational_id =  " + parentTableName + ".id");
+        mainSelect = queryBUilder.mainCondition("");
+        Sortqueries = "";
+
+        currentlimit = 20;
+        currentoffset = 0;
+
+        filterandSortInInitializeQueries();
+
+        refresh();
+    }
+
+    private void launchReceivedForm() {
+        Context context = Context.getInstance();
+        Intent intent = new Intent(getActivity().getApplicationContext(), PathJsonFormActivity.class);
+        try {
+            JSONObject form = FormUtils.getInstance(getActivity().getApplicationContext()).getFormJson("stock_received_form");
+            String vaccine_name = ((StockControlActivity)getActivity()).vaccine_type.getName();
+            String formmetadata = form.toString().replace("[vaccine]",vaccine_name);
+            intent.putExtra("json", formmetadata);
+            startActivityForResult(intent, REQUEST_CODE_GET_JSON);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -129,7 +262,7 @@ public class Current_Stock extends Fragment {
                 try {
                     String jsonString = data.getStringExtra("json");
                     Log.d("JSONResult", jsonString);
-                    processStock(jsonString);
+                    processStockReceived(jsonString);
 
                 } catch (Exception e) {
                     Log.e("error", e.getMessage());
@@ -138,20 +271,20 @@ public class Current_Stock extends Fragment {
         }
     }
 
-    private void processStock(String jsonString) {
+    private void processStockReceived(String jsonString) {
         JSONObject jsonForm = null;
         try {
             Context context = Context.getInstance();
             jsonForm = new JSONObject(jsonString);
-            JSONArray fields = fields(jsonForm);
-            String Date_Stock_Received = getFieldValue(fields, "Date_Stock_Received");
-            String Received_Stock_From = getFieldValue(fields, "Received_Stock_From");
+            JSONArray fields = JsonFormUtils.fields(jsonForm);
+            String Date_Stock_Received = JsonFormUtils.getFieldValue(fields, "Date_Stock_Received");
+            String Received_Stock_From = JsonFormUtils.getFieldValue(fields, "Received_Stock_From");
             if(Received_Stock_From.equalsIgnoreCase("DHO")){
-                Received_Stock_From = getFieldValue(fields, "Received_Stock_From");
+                Received_Stock_From = JsonFormUtils.getFieldValue(fields, "Received_Stock_From");
             }else{
-                Received_Stock_From = getFieldValue(fields, "Received_Stock_From_Other");
+                Received_Stock_From = JsonFormUtils.getFieldValue(fields, "Received_Stock_From_Other");
             }
-            String vials_received = getFieldValue(fields, "Vials_Received");
+            String vials_received = JsonFormUtils.getFieldValue(fields, "Vials_Received");
 
             StockRepository str = new StockRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(),VaccinatorApplication.createCommonFtsObject(),context.alertService());
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -159,7 +292,7 @@ public class Current_Stock extends Fragment {
 
             Date encounterDate = new Date();
             if (StringUtils.isNotBlank(Date_Stock_Received)) {
-                Date dateTime = formatDate(Date_Stock_Received, false);
+                Date dateTime = JsonFormUtils.formatDate(Date_Stock_Received, false);
                 if (dateTime != null) {
                     encounterDate = dateTime;
                 }
@@ -176,77 +309,283 @@ public class Current_Stock extends Fragment {
 
 
     }
-    public static Date formatDate(String dateString, boolean startOfToday) {
-        try {
+    private TextView pageInfoView;
+    private Button nextPageView;
+    private Button previousPageView;
 
-            if (StringUtils.isBlank(dateString)) {
+    private class PaginationViewHandler implements View.OnClickListener {
+
+
+
+        private void addPagination(ListView clientsView) {
+            ViewGroup footerView = getPaginationView();
+            nextPageView = (Button) footerView.findViewById(R.id.btn_next_page);
+            previousPageView = (Button) footerView.findViewById(R.id.btn_previous_page);
+            pageInfoView = (TextView) footerView.findViewById(R.id.txt_page_info);
+
+            nextPageView.setOnClickListener(this);
+            previousPageView.setOnClickListener(this);
+
+            footerView.setLayoutParams(new AbsListView.LayoutParams(
+                    AbsListView.LayoutParams.MATCH_PARENT,
+                    (int) getResources().getDimension(R.dimen.pagination_bar_height)));
+
+            clientsView.addFooterView(footerView);
+            refresh();
+        }
+
+        private ViewGroup getPaginationView() {
+
+            return (ViewGroup) getActivity().getLayoutInflater().inflate(R.layout.smart_register_pagination, null);
+        }
+
+        public void refreshListView(){
+            setRefreshList(true);
+            setRefreshList(false);
+        }
+
+
+
+
+
+
+        @Override
+        public void onClick(View view) {
+            int i = view.getId();
+            if (i == R.id.btn_next_page) {
+                gotoNextPage();
+
+            } else if (i == R.id.btn_previous_page) {
+                goBackToPreviousPage();
+
+            }
+        }
+
+    }
+    private int getCurrentPageCount() {
+        if(currentoffset != 0) {
+            if((currentoffset/currentlimit) != 0) {
+                return  ((currentoffset / currentlimit)+1);
+            }else {
+                return 1;
+            }
+        }else{
+            return 1;
+        }
+    }
+    private int getTotalcount(){
+        if(totalcount%currentlimit == 0){
+            return (totalcount/currentlimit);
+        }else {
+            return ((totalcount / currentlimit)+1);
+        }
+    }
+    public void refresh() {
+        pageInfoView.setText(
+                format(getResources().getString(R.string.str_page_info),
+                        (getCurrentPageCount()),
+                        getTotalcount()));
+        nextPageView.setVisibility(hasNextPage() ? VISIBLE : INVISIBLE);
+        previousPageView.setVisibility(hasPreviousPage() ? VISIBLE : INVISIBLE);
+    }
+
+    private boolean hasNextPage() {
+
+        return ((totalcount>(currentoffset+currentlimit)));
+    }
+
+    private boolean hasPreviousPage() {
+        return currentoffset!=0;
+    }
+
+    public void gotoNextPage() {
+        if(!(currentoffset+currentlimit>totalcount)){
+            currentoffset = currentoffset+currentlimit;
+            filterandSortExecute();
+        }
+    }
+
+    public void goBackToPreviousPage() {
+        if(currentoffset>0){
+            currentoffset = currentoffset-currentlimit;
+            filterandSortExecute();
+        }
+    }
+
+    public void filterandSortInInitializeQueries(){
+        if(isPausedOrRefreshList()){
+            this.showProgressView();
+            this.filterandSortExecute();
+        } else {
+            this.initialFilterandSortExecute();
+        }
+    }
+
+
+    public void initialFilterandSortExecute() {
+        Loader<Cursor> loader = getLoaderManager().getLoader(LOADER_ID);
+        showProgressView();
+        if(loader != null) {
+            filterandSortExecute();
+        }else {
+            getLoaderManager().initLoader(LOADER_ID, null, this);
+        }
+    }
+
+    public void filterandSortExecute() {
+        refresh();
+
+        getLoaderManager().restartLoader(LOADER_ID, null, this);
+    }
+
+    public void showProgressView(){
+        if(clientsProgressView.getVisibility() == INVISIBLE) {
+            clientsProgressView.setVisibility(View.VISIBLE);
+        }
+
+        if(clientsView.getVisibility() == VISIBLE) {
+            clientsView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void hideProgressView(){
+        if(clientsProgressView.getVisibility() == VISIBLE) {
+            clientsProgressView.setVisibility(INVISIBLE);
+        }
+        if(clientsView.getVisibility() == INVISIBLE) {
+            clientsView.setVisibility(VISIBLE);
+        }
+    }
+
+    private String filterandSortQuery(){
+        SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);
+
+        String query = "";
+        try{
+            if(isValidFilterForFts(commonRepository())){
+                String sql = sqb.searchQueryFts(tablename, joinTable, mainCondition, filters, Sortqueries, currentlimit, currentoffset);
+                List<String> ids = commonRepository().findSearchIds(sql);
+                query = sqb.toStringFts(ids, tablename + "." + CommonRepository.ID_COLUMN, Sortqueries);
+                query = sqb.Endquery(query);
+            } else {
+                sqb.addCondition(filters);
+                query = sqb.orderbyCondition(Sortqueries);
+                query = sqb.Endquery(sqb.addlimitandOffset(query,currentlimit,currentoffset));
+
+            }
+        }catch (Exception e){
+            Log.e(getClass().getName(), e.toString(), e);
+        }
+
+        return query;
+    }
+
+    public void CountExecute(){
+        Cursor c = null;
+
+        try {
+            SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(countSelect);
+            String query = "";
+            if (isValidFilterForFts(commonRepository())) {
+                String sql = sqb.countQueryFts(tablename, joinTable, mainCondition, filters);
+                List<String> ids = commonRepository().findSearchIds(sql);
+                query = sqb.toStringFts(ids, tablename + "." + CommonRepository.ID_COLUMN);
+                query = sqb.Endquery(query);
+            } else {
+                sqb.addCondition(filters);
+                query = sqb.orderbyCondition(Sortqueries);
+                query = sqb.Endquery(query);
+            }
+
+            Log.i(getClass().getName(), query);
+            c = commonRepository().RawCustomQueryForAdapter(query);
+            c.moveToFirst();
+            totalcount = c.getInt(0);
+            Log.v("total count here", "" + totalcount);
+            currentlimit = 20;
+            currentoffset = 0;
+
+        }catch (Exception e){
+            Log.e(getClass().getName(), e.toString(), e);
+        } finally {
+            if(c != null) {
+                c.close();
+            }
+        }
+    }
+
+    protected boolean isValidFilterForFts(CommonRepository commonRepository){
+        return false;
+//        return commonRepository.isFts() && filters != null
+//                && !StringUtils.containsIgnoreCase(filters, "like")
+//                && !StringUtils.startsWithIgnoreCase(filters.trim(), "and ");
+    }
+
+
+
+
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, final Bundle args) {
+        switch (id) {
+            case LOADER_ID:
+                // Returns a new CursorLoader
+                return new CursorLoader(getActivity()){
+                    @Override
+                    public Cursor loadInBackground() {
+                        String query = filterandSortQuery();
+                        Cursor cursor = commonRepository().RawCustomQueryForAdapter(query);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                hideProgressView();
+                            };
+                        });
+
+                        return cursor;
+                    }
+                };
+            default:
+                // An invalid id was passed in
                 return null;
-            }
-
-            if (dateString.matches("\\d{2}-\\d{2}-\\d{4}")) {
-                return dd_MM_yyyy.parse(dateString);
-            } else if (dateString.matches("\\d{4}-\\d{2}-\\d{2}")) {
-                return DateUtil.parseDate(dateString);
-            }
-
-        } catch (ParseException e) {
-            Log.e("parse date error", "", e);
         }
 
-        return null;
-    }
-    private static JSONArray fields(JSONObject jsonForm) {
-        try {
-
-            JSONObject step1 = jsonForm.has(STEP1) ? jsonForm.getJSONObject(STEP1) : null;
-            if (step1 == null) {
-                return null;
-            }
-
-            return step1.has(FIELDS) ? step1.getJSONArray(FIELDS) : null;
-
-        } catch (JSONException e) {
-            Log.e("JSonExp in currentstock", "", e);
-        }
-        return null;
-    }
-    private static String getString(JSONObject jsonObject, String field) {
-        if (jsonObject == null) {
-            return null;
-        }
-
-        try {
-            return jsonObject.has(field) ? jsonObject.getString(field) : null;
-        } catch (JSONException e) {
-            return null;
-
-        }
     }
 
-    private static String getFieldValue(JSONArray jsonArray, String key) {
-        if (jsonArray == null || jsonArray.length() == 0) {
-            return null;
-        }
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = getJSONObject(jsonArray, i);
-            String keyVal = getString(jsonObject, KEY);
-            if (keyVal != null && keyVal.equals(key)) {
-                return getString(jsonObject, VALUE);
-            }
-        }
-        return null;
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        clientAdapter.swapCursor(cursor);
     }
-    private static JSONObject getJSONObject(JSONArray jsonArray, int index) {
-        if (jsonArray == null || jsonArray.length() == 0) {
-            return null;
-        }
 
-        try {
-            return jsonArray.getJSONObject(index);
-        } catch (JSONException e) {
-            return null;
 
-        }
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        clientAdapter.swapCursor(null);
     }
+
+    public CommonRepository commonRepository(){
+        return context().commonrepository(tablename);
+    }
+
+    public boolean isPausedOrRefreshList(){
+        return isPaused() || isRefreshList();
+    }
+    public boolean isRefreshList() {
+        return refreshList;
+    }
+    protected Context context() {
+        return Context.getInstance().updateApplicationContext(this.getActivity().getApplicationContext());
+    }
+    public void setRefreshList(boolean refreshList) {
+        this.refreshList = refreshList;
+    }
+    public boolean isPaused() {
+        return isPaused;
+    }
+    private boolean isPaused;
+
+
+
+
+
 }
