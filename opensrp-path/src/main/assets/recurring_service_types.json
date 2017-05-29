@@ -1,165 +1,5 @@
 [
   {
-    "type": "Deworming",
-    "service_logic": "",
-    "units": "mg",
-    "openmrs_service_name": {
-      "parent_entity": "",
-      "entity": "concept",
-      "entity_id": "159922AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    },
-    "openmrs_date": {
-      "parent_entity": "",
-      "entity": "encounter",
-      "entity_id": "encounter_date"
-    },
-    "services": [
-      {
-        "id": "1",
-        "name": "Deworming 1",
-        "dose": "500",
-        "schedule": {
-          "due": {
-            "reference": "dob",
-            "offset": "+12m"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+5y"
-          }
-        }
-      },
-      {
-        "id": "2",
-        "name": "Deworming 2",
-        "dose": "500",
-        "schedule": {
-          "due": {
-            "reference": "prerequisite",
-            "prerequisite": "Deworming 1",
-            "offset": "+6m"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+5y"
-          }
-        }
-      },
-      {
-        "id": "3",
-        "name": "Deworming 3",
-        "dose": "500",
-        "schedule": {
-          "due": {
-            "reference": "prerequisite",
-            "prerequisite": "Deworming 2",
-            "offset": "+6m"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+5y"
-          }
-        }
-      },
-      {
-        "id": "4",
-        "name": "Deworming 4",
-        "dose": "500",
-        "schedule": {
-          "due": {
-            "reference": "prerequisite",
-            "prerequisite": "Deworming 3",
-            "offset": "+6m"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+5y"
-          }
-        }
-      },
-      {
-        "id": "5",
-        "name": "Deworming 5",
-        "dose": "500",
-        "schedule": {
-          "due": {
-            "reference": "prerequisite",
-            "prerequisite": "Deworming 4",
-            "offset": "+6m"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+5y"
-          }
-        }
-      },
-      {
-        "id": "6",
-        "name": "Deworming 6",
-        "dose": "500",
-        "schedule": {
-          "due": {
-            "reference": "prerequisite",
-            "prerequisite": "Deworming 5",
-            "offset": "+6m"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+5y"
-          }
-        }
-      },
-      {
-        "id": "7",
-        "name": "Deworming 7",
-        "dose": "500",
-        "schedule": {
-          "due": {
-            "reference": "prerequisite",
-            "prerequisite": "Deworming 6",
-            "offset": "+6m"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+5y"
-          }
-        }
-      },
-      {
-        "id": "8",
-        "name": "Deworming 8",
-        "dose": "500",
-        "schedule": {
-          "due": {
-            "reference": "prerequisite",
-            "prerequisite": "Deworming 7",
-            "offset": "+6m"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+5y"
-          }
-        }
-      },
-      {
-        "id": "9",
-        "name": "Deworming 9",
-        "dose": "500",
-        "schedule": {
-          "due": {
-            "reference": "prerequisite",
-            "prerequisite": "Deworming 8",
-            "offset": "+6m"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+5y"
-          }
-        }
-      }
-    ]
-  },
-  {
     "type": "Vit A",
     "service_logic": "",
     "units": "UI",
@@ -347,6 +187,166 @@
           "due": {
             "reference": "prerequisite",
             "prerequisite": "Vit A 9",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "Deworming",
+    "service_logic": "",
+    "units": "mg",
+    "openmrs_service_name": {
+      "parent_entity": "",
+      "entity": "concept",
+      "entity_id": "159922AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "openmrs_date": {
+      "parent_entity": "",
+      "entity": "encounter",
+      "entity_id": "encounter_date"
+    },
+    "services": [
+      {
+        "id": "1",
+        "name": "Deworming 1",
+        "dose": "500",
+        "schedule": {
+          "due": {
+            "reference": "dob",
+            "offset": "+12m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "2",
+        "name": "Deworming 2",
+        "dose": "500",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Deworming 1",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "3",
+        "name": "Deworming 3",
+        "dose": "500",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Deworming 2",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "4",
+        "name": "Deworming 4",
+        "dose": "500",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Deworming 3",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "5",
+        "name": "Deworming 5",
+        "dose": "500",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Deworming 4",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "6",
+        "name": "Deworming 6",
+        "dose": "500",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Deworming 5",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "7",
+        "name": "Deworming 7",
+        "dose": "500",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Deworming 6",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "8",
+        "name": "Deworming 8",
+        "dose": "500",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Deworming 7",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "9",
+        "name": "Deworming 9",
+        "dose": "500",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Deworming 8",
             "offset": "+6m"
           },
           "expiry": {

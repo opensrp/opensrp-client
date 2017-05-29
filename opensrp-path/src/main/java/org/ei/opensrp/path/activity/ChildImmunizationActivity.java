@@ -19,12 +19,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ei.opensrp.clientandeventmodel.DateUtil;
 import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.domain.Alert;
-import org.ei.opensrp.domain.AlertStatus;
 import org.ei.opensrp.domain.ServiceRecord;
 import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.domain.Vaccine;
@@ -336,18 +334,6 @@ public class ChildImmunizationActivity extends BaseActivity
     }
 
     private void updateServiceViews(Map<String, List<ServiceType>> serviceTypeMap, List<ServiceRecord> serviceRecordList, List<Alert> alerts) {
-
-        //TODO remove dummy alerts
-        String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
-        DateTime dateTime = new DateTime(dobString);
-        Date dob = dateTime.toDate();
-
-        Alert alert1 = new Alert(childDetails.getCaseId(), "Deworming 1", "Deworming 1", AlertStatus.normal, DateUtil.yyyyMMdd.format(dob), null);
-        Alert alert2 = new Alert(childDetails.getCaseId(), "Vit A IFC 2", "Vit A IFC 2", AlertStatus.normal, DateUtil.yyyyMMdd.format(dob), null);
-        Alert alert3 = new Alert(childDetails.getCaseId(), "ITN 1", "ITN 1", AlertStatus.normal, DateUtil.yyyyMMdd.format(dob), null);
-        alerts.add(alert1);
-        alerts.add(alert2);
-        alerts.add(alert3);
 
         Map<String, List<ServiceType>> foundServiceTypeMap = new LinkedHashMap<>();
         if (serviceGroups == null) {

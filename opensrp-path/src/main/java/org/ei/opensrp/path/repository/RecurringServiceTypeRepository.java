@@ -140,12 +140,12 @@ public class RecurringServiceTypeRepository extends BaseRepository {
 
     public List<ServiceType> fetchAll() {
         SQLiteDatabase database = getPathRepository().getReadableDatabase();
-        Cursor cursor = database.query(TABLE_NAME, TABLE_COLUMNS, null, null, null, null, null);
+        Cursor cursor = database.query(TABLE_NAME, TABLE_COLUMNS, null, null, null, null, UPDATED_AT_COLUMN);
         return readAllServiceTypes(cursor);
     }
 
     public List<String> fetchTypes() {
-        String sql = " SELECT " + TYPE + " FROM " + TABLE_NAME + " GROUP BY " + TYPE;
+        String sql = " SELECT " + TYPE + " FROM " + TABLE_NAME + " GROUP BY " + TYPE + " ORDER BY " + UPDATED_AT_COLUMN;
         SQLiteDatabase database = getPathRepository().getReadableDatabase();
         Cursor cursor = database.rawQuery(sql, null);
 

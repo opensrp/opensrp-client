@@ -36,9 +36,9 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ei.opensrp.domain.AlertStatus;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.domain.Alert;
+import org.ei.opensrp.domain.AlertStatus;
 import org.ei.opensrp.domain.ServiceRecord;
 import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.path.R;
@@ -61,6 +61,7 @@ import org.opensrp.api.util.LocationTree;
 import org.opensrp.api.util.TreeNode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -299,144 +300,195 @@ public class VaccinatorUtils {
     }
 
     public static List<Map<String, Object>> generateSchedule(String category, DateTime milestoneDate, Map<String, String> received, List<Alert> alerts) {
-        ArrayList<Vaccine> vl = VaccineRepo.getVaccines(category);
         List<Map<String, Object>> schedule = new ArrayList();
-        for (Vaccine v : vl) {
-            Map<String, Object> m = new HashMap<>();
-            DateTime recDate = getReceivedDate(received, v);
-            if (recDate != null) {
-                m = createVaccineMap("done", null, recDate, v);
-            } else if (milestoneDate != null && v.expiryDays() > 0 && milestoneDate.plusDays(v.expiryDays()).isBefore(DateTime.now())) {
-                m = createVaccineMap("expired", null, milestoneDate.plusDays(v.expiryDays()), v);
-            } else if (alerts.size() > 0) {
-                for (Alert a : alerts) {
-                    if (a.scheduleName().replaceAll(" ", "").equalsIgnoreCase(v.name())
-                            || a.visitCode().replaceAll(" ", "").equalsIgnoreCase(v.name())) {
-                        m = createVaccineMap("due", a, new DateTime(a.startDate()), v);
+        try {
+            ArrayList<Vaccine> vl = VaccineRepo.getVaccines(category);
+            for (Vaccine v : vl) {
+                Map<String, Object> m = new HashMap<>();
+                DateTime recDate = getReceivedDate(received, v);
+                if (recDate != null) {
+                    m = createVaccineMap("done", null, recDate, v);
+                } else if (milestoneDate != null && v.expiryDays() > 0 && milestoneDate.plusDays(v.expiryDays()).isBefore(DateTime.now())) {
+                    m = createVaccineMap("expired", null, milestoneDate.plusDays(v.expiryDays()), v);
+                } else if (alerts.size() > 0) {
+                    for (Alert a : alerts) {
+                        if (a.scheduleName().replaceAll(" ", "").equalsIgnoreCase(v.name())
+                                || a.visitCode().replaceAll(" ", "").equalsIgnoreCase(v.name())) {
+                            m = createVaccineMap("due", a, new DateTime(a.startDate()), v);
+                        }
                     }
                 }
-            }
 
-            if (m.isEmpty()) {
-                if (v.prerequisite() != null) {
-                    DateTime prereq = getReceivedDate(received, v.prerequisite());
-                    if (prereq != null) {
-                        prereq = prereq.plusDays(v.prerequisiteGapDays());
-                        m = createVaccineMap("due", null, prereq, v);
+                if (m.isEmpty()) {
+                    if (v.prerequisite() != null) {
+                        DateTime prereq = getReceivedDate(received, v.prerequisite());
+                        if (prereq != null) {
+                            prereq = prereq.plusDays(v.prerequisiteGapDays());
+                            m = createVaccineMap("due", null, prereq, v);
+                        } else {
+                            m = createVaccineMap("due", null, null, v);
+                        }
+                    } else if (milestoneDate != null) {
+                        m = createVaccineMap("due", null, milestoneDate.plusDays(v.milestoneGapDays()), v);
                     } else {
-                        m = createVaccineMap("due", null, null, v);
+                        m = createVaccineMap("na", null, null, v);
                     }
-                } else if (milestoneDate != null) {
-                    m = createVaccineMap("due", null, milestoneDate.plusDays(v.milestoneGapDays()), v);
-                } else {
-                    m = createVaccineMap("na", null, null, v);
                 }
-            }
 
-            schedule.add(m);
+                schedule.add(m);
+            }
+        } catch (Exception e) {
+            Log.e(VaccinatorUtils.class.getName(), e.toString(), e);
         }
         return schedule;
     }
 
     public static List<Map<String, Object>> generateScheduleList(String category, DateTime milestoneDate, Map<String, Date> received, List<Alert> alerts) {
-        ArrayList<Vaccine> vl = VaccineRepo.getVaccines(category);
         List<Map<String, Object>> schedule = new ArrayList();
-        for (Vaccine v : vl) {
-            Map<String, Object> m = new HashMap<>();
-            Date recDate = received.get(v.display().toLowerCase());
-            if (recDate != null) {
-                m = createVaccineMap("done", null, new DateTime(recDate), v);
-            } else if (alerts.size() > 0) {
-                for (Alert a : alerts) {
-                    if (a.scheduleName().replaceAll(" ", "").equalsIgnoreCase(v.name())
-                            || a.visitCode().replaceAll(" ", "").equalsIgnoreCase(v.name())) {
-                        m = createVaccineMap("due", a, new DateTime(a.startDate()), v);
+        try {
+            ArrayList<Vaccine> vl = VaccineRepo.getVaccines(category);
+            for (Vaccine v : vl) {
+                Map<String, Object> m = new HashMap<>();
+                Date recDate = received.get(v.display().toLowerCase());
+                if (recDate != null) {
+                    m = createVaccineMap("done", null, new DateTime(recDate), v);
+                } else if (alerts.size() > 0) {
+                    for (Alert a : alerts) {
+                        if (a.scheduleName().replaceAll(" ", "").equalsIgnoreCase(v.name())
+                                || a.visitCode().replaceAll(" ", "").equalsIgnoreCase(v.name())) {
+                            m = createVaccineMap("due", a, new DateTime(a.startDate()), v);
+                        }
                     }
                 }
-            }
 
-            if (m.isEmpty()) {
-                if (v.prerequisite() != null) {
-                    Date prereq = received.get(v.prerequisite().display().toLowerCase());
-                    if (prereq != null) {
-                        DateTime prereqDateTime = new DateTime(prereq);
-                        prereqDateTime = prereqDateTime.plusDays(v.prerequisiteGapDays());
-                        m = createVaccineMap("due", null, prereqDateTime, v);
+                if (m.isEmpty()) {
+                    if (v.prerequisite() != null) {
+                        Date prereq = received.get(v.prerequisite().display().toLowerCase());
+                        if (prereq != null) {
+                            DateTime prereqDateTime = new DateTime(prereq);
+                            prereqDateTime = prereqDateTime.plusDays(v.prerequisiteGapDays());
+                            m = createVaccineMap("due", null, prereqDateTime, v);
+                        } else {
+                            m = createVaccineMap("due", null, null, v);
+                        }
+                    } else if (milestoneDate != null) {
+                        m = createVaccineMap("due", null, milestoneDate.plusDays(v.milestoneGapDays()), v);
                     } else {
-                        m = createVaccineMap("due", null, null, v);
+                        m = createVaccineMap("na", null, null, v);
                     }
-                } else if (milestoneDate != null) {
-                    m = createVaccineMap("due", null, milestoneDate.plusDays(v.milestoneGapDays()), v);
-                } else {
-                    m = createVaccineMap("na", null, null, v);
                 }
-            }
 
-            schedule.add(m);
+                schedule.add(m);
+            }
+        } catch (Exception e) {
+            Log.e(VaccinatorUtils.class.getName(), e.toString(), e);
         }
         return schedule;
     }
 
     public static List<Map<String, Object>> generateScheduleList(List<ServiceType> serviceTypes, DateTime milestoneDate, Map<String, Date> received, List<Alert> alerts) {
         List<Map<String, Object>> schedule = new ArrayList();
-        for (ServiceType s : serviceTypes) {
-            Map<String, Object> m = new HashMap<>();
-            Date recDate = received.get(s.getName().toLowerCase());
-            if (recDate != null) {
-                m = createServiceMap("done", null, new DateTime(recDate), s);
-            } else if (milestoneDate != null && StringUtils.isNotBlank(s.getExpiryOffset()) && ServiceSchedule.addOffsetToDateTime(milestoneDate, s.getExpiryOffset()).isBefore(DateTime.now())) {
+        try {
+            for (ServiceType s : serviceTypes) {
+                Map<String, Object> m = new HashMap<>();
+                Date recDate = received.get(s.getName().toLowerCase());
+                if (recDate != null) {
+                    m = createServiceMap("done", null, new DateTime(recDate), s);
+                } /*else if (milestoneDate != null && StringUtils.isNotBlank(s.getExpiryOffset()) && ServiceSchedule.addOffsetToDateTime(milestoneDate, s.getExpiryOffset()).isBefore(DateTime.now())) {
                 m = createServiceMap("expired", null, ServiceSchedule.addOffsetToDateTime(milestoneDate, s.getExpiryOffset()), s);
-            } else if (alerts.size() > 0) {
-                for (Alert a : alerts) {
-                    if (a.scheduleName().equalsIgnoreCase(s.getName())
-                            || a.visitCode().equalsIgnoreCase(s.getName())) {
-                        m = createServiceMap("due", a, new DateTime(a.startDate()), s);
-                    }
-                }
-            }
-
-            if (m.isEmpty()) {
-                m = createServiceMap("due", null, null, s);
-                /*if (StringUtils.isNotBlank(s.getPrerequisite())) {
-                    Date prereq = null;
-                    String prerequisite = s.getPrerequisite();
-                    if (!prerequisite.equalsIgnoreCase(ServiceTrigger.Reference.DOB.name())) {
-                        String[] preArray = prerequisite.split("|");
-                        if (preArray.length >= 2) {
-                            if (preArray[0].equalsIgnoreCase(ServiceTrigger.Reference.PREREQUISITE.name())) {
-                                String preService = preArray[1];
-                                prereq = received.get(preService);
-                            } else if (preArray[0].equalsIgnoreCase(ServiceTrigger.Reference.MULTIPLE.name())) {
-                                String condition = preArray[1];
-                                if (condition.equalsIgnoreCase("or") && preArray.length == 3) {
-                                    String arrayString = preArray[2];
-
-
-                                }
-
-                            }
+            }*/ else if (alerts.size() > 0) {
+                    for (Alert a : alerts) {
+                        if (a.scheduleName().equalsIgnoreCase(s.getName())
+                                || a.visitCode().equalsIgnoreCase(s.getName())) {
+                            m = createServiceMap("due", a, new DateTime(a.startDate()), s);
                         }
                     }
-                    if (prereq != null) {
-                        DateTime prereqDateTime = new DateTime(prereq);
-                        prereqDateTime = prereqDateTime.plusDays(v.prerequisiteGapDays());
-                        m = createServiceMap("due", null, prereqDateTime, v);
-                    } else {
-                        m = createServiceMap("due", null, null, v);
-                    }
-                } else if (milestoneDate != null) {
-                    m = createServiceMap("due", null, milestoneDate.plusDays(v.milestoneGapDays()), v);
-                } else {
-                    m = createServiceMap("na", null, null, s);
-                }*/
+                }
+
+                if (m.isEmpty()) {
+                    DateTime dueDateTime = getServiceDueDate(s, milestoneDate, received);
+                    m = createServiceMap("due", null, dueDateTime, s);
+                }
+
+                schedule.add(m);
             }
 
-            schedule.add(m);
+        } catch (Exception e) {
+            Log.e(VaccinatorUtils.class.getName(), e.toString(), e);
         }
         return schedule;
     }
 
-    private static Map<String, Object> createVaccineMap(String status, Alert a, DateTime date, Vaccine v) {
+    public static DateTime getServiceDueDate(ServiceType serviceType, DateTime milestoneDate, List<ServiceRecord> serviceRecordList) {
+        return getServiceDueDate(serviceType, milestoneDate, receivedServices(serviceRecordList));
+    }
+
+    public static DateTime getServiceDueDate(ServiceType serviceType, DateTime milestoneDate, Map<String, Date> received) {
+        try {
+            if (serviceType == null || milestoneDate == null || received == null) {
+                return null;
+            }
+            boolean hasPrerequisite = false;
+            Date prereq = null;
+            if (StringUtils.isNotBlank(serviceType.getPrerequisite())) {
+                String prerequisite = serviceType.getPrerequisite();
+                if (!prerequisite.equalsIgnoreCase(ServiceTrigger.Reference.DOB.name())) {
+                    String[] preArray = prerequisite.split("\\|");
+                    if (preArray.length >= 2) {
+                        if (preArray[0].equalsIgnoreCase(ServiceTrigger.Reference.PREREQUISITE.name())) {
+                            String preService = preArray[1];
+                            prereq = received.get(preService);
+                            if (prereq != null) {
+                                hasPrerequisite = true;
+                            }
+                        } else if (preArray[0].equalsIgnoreCase(ServiceTrigger.Reference.MULTIPLE.name())) {
+                            String condition = preArray[1];
+                            if (condition.equalsIgnoreCase("or") && preArray.length == 3) {
+                                String arrayString = preArray[2];
+                                String[] preqs = convertToArray(arrayString);
+                                if (preqs != null) {
+                                    for (String preService : preqs) {
+                                        if (preService.equalsIgnoreCase(ServiceTrigger.Reference.DOB.name())) {
+                                            continue;
+                                        }
+                                        prereq = received.get(preService);
+                                        if (prereq != null) {
+                                            hasPrerequisite = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (hasPrerequisite && StringUtils.isNotBlank(serviceType.getPreOffset())) {
+                DateTime prereqDateTime = new DateTime(prereq);
+                return ServiceSchedule.addOffsetToDateTime(prereqDateTime, serviceType.getPreOffset());
+            } else if (StringUtils.isNotBlank(serviceType.getMilestoneOffset())) {
+                String[] milestones = convertToArray(serviceType.getMilestoneOffset());
+                if (milestones != null) {
+                    List<String> milestoneList = Arrays.asList(milestones);
+                    return ServiceSchedule.addOffsetToDateTime(milestoneDate, milestoneList);
+                }
+            }
+        } catch (Exception e) {
+            Log.e(VaccinatorUtils.class.getName(), e.toString(), e);
+        }
+        return null;
+    }
+
+    public static DateTime getServiceExpiryDate(ServiceType serviceType, DateTime milestoneDate) {
+        if (serviceType == null || milestoneDate == null) {
+            return null;
+        }
+        return ServiceSchedule.addOffsetToDateTime(milestoneDate, serviceType.getExpiryOffset());
+    }
+
+    private static Map<String, Object> createVaccineMap(String status, Alert a, DateTime
+            date, Vaccine v) {
         Map<String, Object> m = new HashMap<>();
         m.put("status", status);
         m.put("alert", a);
@@ -446,7 +498,8 @@ public class VaccinatorUtils {
         return m;
     }
 
-    private static Map<String, Object> createServiceMap(String status, Alert a, DateTime date, ServiceType s) {
+    private static Map<String, Object> createServiceMap(String status, Alert a, DateTime
+            date, ServiceType s) {
         Map<String, Object> m = new HashMap<>();
         m.put("status", status);
         m.put("alert", a);
@@ -456,121 +509,142 @@ public class VaccinatorUtils {
         return m;
     }
 
-    public static Map<String, Object> nextVaccineDue(List<Map<String, Object>> schedule, Date lastVisit) {
+    public static Map<String, Object> nextVaccineDue
+            (List<Map<String, Object>> schedule, Date lastVisit) {
         Map<String, Object> v = null;
-        for (Map<String, Object> m : schedule) {
-            if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
-                if (m.get("vaccine") != null && (((Vaccine) m.get("vaccine")).equals(Vaccine.bcg2) || ((Vaccine) m.get("vaccine")).equals(Vaccine.ipv))) {
-                    // bcg2 is a special alert and should not be considered as the next vaccine
-                    continue;
-                }
+        try {
+            for (Map<String, Object> m : schedule) {
+                if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
+                    if (m.get("vaccine") != null && (((Vaccine) m.get("vaccine")).equals(Vaccine.bcg2) || ((Vaccine) m.get("vaccine")).equals(Vaccine.ipv))) {
+                        // bcg2 is a special alert and should not be considered as the next vaccine
+                        continue;
+                    }
 
-                if (v == null) {
-                    v = m;
-                } else if (m.get("date") != null && v.get("date") != null
-                        && ((DateTime) m.get("date")).isBefore((DateTime) v.get("date"))
-                        && (lastVisit == null
-                        || lastVisit.before(((DateTime) m.get("date")).toDate()))) {
-                    v = m;
+                    if (v == null) {
+                        v = m;
+                    } else if (m.get("date") != null && v.get("date") != null
+                            && ((DateTime) m.get("date")).isBefore((DateTime) v.get("date"))
+                            && (lastVisit == null
+                            || lastVisit.before(((DateTime) m.get("date")).toDate()))) {
+                        v = m;
+                    }
                 }
             }
+        } catch (Exception e) {
+            Log.e(VaccinatorUtils.class.getName(), e.toString(), e);
         }
         return v;
     }
 
-    public static Map<String, Object> nextVaccineDue(List<Map<String, Object>> schedule, List<Vaccine> vaccineList) {
+    public static Map<String, Object> nextVaccineDue
+            (List<Map<String, Object>> schedule, List<Vaccine> vaccineList) {
         Map<String, Object> v = null;
-        for (Map<String, Object> m : schedule) {
-            if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
-                if (m.get("vaccine") != null && (((Vaccine) m.get("vaccine")).equals(Vaccine.bcg2) || ((Vaccine) m.get("vaccine")).equals(Vaccine.ipv))) {
-                    // bcg2 is a special alert and should not be considered as the next vaccine
-                    continue;
-                }
+        try {
+            for (Map<String, Object> m : schedule) {
+                if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
+                    if (m.get("vaccine") != null && (((Vaccine) m.get("vaccine")).equals(Vaccine.bcg2) || ((Vaccine) m.get("vaccine")).equals(Vaccine.ipv))) {
+                        // bcg2 is a special alert and should not be considered as the next vaccine
+                        continue;
+                    }
 
-                if (v == null) {
-                    if (m.get("vaccine") != null && vaccineList.contains((Vaccine) m.get("vaccine"))) {
-                        v = m;
-                    }
-                } else if (v.get("alert") == null && m.get("alert") != null) {
-                    if (m.get("vaccine") != null && vaccineList.contains((Vaccine) m.get("vaccine"))) {
-                        v = m;
-                    }
-                } else if (v.get("alert") != null && m.get("alert") != null) {
-                    if (m.get("vaccine") != null && vaccineList.contains((Vaccine) m.get("vaccine"))) {
-                        Alert vAlert = (Alert) v.get("alert");
-                        Alert mAlert = (Alert) m.get("alert");
-                        if (!vAlert.status().equals(AlertStatus.urgent)) {
-                            if (vAlert.status().equals(AlertStatus.upcoming)) {
-                                if (mAlert.status().equals(AlertStatus.normal) || mAlert.status().equals(AlertStatus.urgent)) {
-                                    v = m;
-                                }
-                            } else if (vAlert.status().equals(AlertStatus.normal)) {
-                                if (mAlert.status().equals(AlertStatus.urgent)) {
-                                    v = m;
+                    if (v == null) {
+                        if (m.get("vaccine") != null && vaccineList.contains((Vaccine) m.get("vaccine"))) {
+                            v = m;
+                        }
+                    } else if (v.get("alert") == null && m.get("alert") != null) {
+                        if (m.get("vaccine") != null && vaccineList.contains((Vaccine) m.get("vaccine"))) {
+                            v = m;
+                        }
+                    } else if (v.get("alert") != null && m.get("alert") != null) {
+                        if (m.get("vaccine") != null && vaccineList.contains((Vaccine) m.get("vaccine"))) {
+                            Alert vAlert = (Alert) v.get("alert");
+                            Alert mAlert = (Alert) m.get("alert");
+                            if (!vAlert.status().equals(AlertStatus.urgent)) {
+                                if (vAlert.status().equals(AlertStatus.upcoming)) {
+                                    if (mAlert.status().equals(AlertStatus.normal) || mAlert.status().equals(AlertStatus.urgent)) {
+                                        v = m;
+                                    }
+                                } else if (vAlert.status().equals(AlertStatus.normal)) {
+                                    if (mAlert.status().equals(AlertStatus.urgent)) {
+                                        v = m;
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
+        } catch (Exception e) {
+            Log.e(VaccinatorUtils.class.getName(), e.toString(), e);
         }
         return v;
     }
 
-    public static Map<String, Object> nextServiceDue(List<Map<String, Object>> schedule, Date lastVisit) {
+    public static Map<String, Object> nextServiceDue
+            (List<Map<String, Object>> schedule, Date lastVisit) {
         Map<String, Object> v = null;
-        for (Map<String, Object> m : schedule) {
-            if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
+        try {
+            for (Map<String, Object> m : schedule) {
+                if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
 
-                if (v == null) {
-                    v = m;
-                } else if (m.get("date") != null && v.get("date") != null
-                        && ((DateTime) m.get("date")).isBefore((DateTime) v.get("date"))
-                        && (lastVisit == null
-                        || lastVisit.before(((DateTime) m.get("date")).toDate()))) {
-                    v = m;
+                    if (v == null) {
+                        v = m;
+                    } else if (m.get("date") != null && v.get("date") != null
+                            && ((DateTime) m.get("date")).isBefore((DateTime) v.get("date"))
+                            && (lastVisit == null
+                            || lastVisit.before(((DateTime) m.get("date")).toDate()))) {
+                        v = m;
+                    }
                 }
             }
+        } catch (Exception e) {
+            Log.e(VaccinatorUtils.class.getName(), e.toString(), e);
         }
         return v;
     }
 
-    public static Map<String, Object> nextServiceDue(List<Map<String, Object>> schedule, List<ServiceType> serviceTypeList) {
+    public static Map<String, Object> nextServiceDue
+            (List<Map<String, Object>> schedule, List<ServiceType> serviceTypeList) {
         Map<String, Object> v = null;
-        for (Map<String, Object> m : schedule) {
-            if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
+        try {
+            for (Map<String, Object> m : schedule) {
+                if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
 
-                if (v == null) {
-                    if (m.get("service") != null && serviceTypeList.contains((ServiceType) m.get("service"))) {
-                        v = m;
-                    }
-                } else if (v.get("alert") == null && m.get("alert") != null) {
-                    if (m.get("service") != null && serviceTypeList.contains((ServiceType) m.get("service"))) {
-                        v = m;
-                    }
-                } else if (v.get("alert") != null && m.get("alert") != null) {
-                    if (m.get("service") != null && serviceTypeList.contains((ServiceType) m.get("service"))) {
-                        Alert vAlert = (Alert) v.get("alert");
-                        Alert mAlert = (Alert) m.get("alert");
-                        if (!vAlert.status().equals(AlertStatus.urgent)) {
-                            if (vAlert.status().equals(AlertStatus.upcoming)) {
-                                if (mAlert.status().equals(AlertStatus.normal) || mAlert.status().equals(AlertStatus.urgent)) {
-                                    v = m;
-                                }
-                            } else if (vAlert.status().equals(AlertStatus.normal)) {
-                                if (mAlert.status().equals(AlertStatus.urgent)) {
-                                    v = m;
+                    if (v == null) {
+                        if (m.get("service") != null && serviceTypeList.contains((ServiceType) m.get("service"))) {
+                            v = m;
+                        }
+                    } else if (v.get("alert") == null && m.get("alert") != null) {
+                        if (m.get("service") != null && serviceTypeList.contains((ServiceType) m.get("service"))) {
+                            v = m;
+                        }
+                    } else if (v.get("alert") != null && m.get("alert") != null) {
+                        if (m.get("service") != null && serviceTypeList.contains((ServiceType) m.get("service"))) {
+                            Alert vAlert = (Alert) v.get("alert");
+                            Alert mAlert = (Alert) m.get("alert");
+                            if (!vAlert.status().equals(AlertStatus.urgent)) {
+                                if (vAlert.status().equals(AlertStatus.upcoming)) {
+                                    if (mAlert.status().equals(AlertStatus.normal) || mAlert.status().equals(AlertStatus.urgent)) {
+                                        v = m;
+                                    }
+                                } else if (vAlert.status().equals(AlertStatus.normal)) {
+                                    if (mAlert.status().equals(AlertStatus.urgent)) {
+                                        v = m;
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
+        } catch (Exception e) {
+            Log.e(VaccinatorUtils.class.getName(), e.toString(), e);
         }
         return v;
     }
 
-    public static Map<String, Object> nextServiceDue(List<Map<String, Object>> schedule, ServiceRecord lastServiceRecord) {
+    public static Map<String, Object> nextServiceDue
+            (List<Map<String, Object>> schedule, ServiceRecord lastServiceRecord) {
         if (lastServiceRecord == null || StringUtils.isBlank(lastServiceRecord.getType()) || StringUtils.isBlank(lastServiceRecord.getName())) {
             return null;
         }
@@ -694,5 +768,40 @@ public class VaccinatorUtils {
         }
 
         return readableName;
+    }
+
+    /**
+     * Converts string [a,b,c] to string array
+     *
+     * @param s
+     * @return
+     */
+    private static String[] convertToArray(String s) {
+        try {
+
+            if (StringUtils.isBlank(s)) {
+                return null;
+            }
+
+            if (s.contains("[")) {
+                s = s.replace("[", "");
+            }
+
+            if (s.contains("]")) {
+                s = s.replace("]", "");
+            }
+
+            if (StringUtils.isBlank(s)) {
+                return null;
+            } else if (s.contains(",")) {
+                return StringUtils.stripAll(s.split(","));
+            } else if (StringUtils.isNotBlank(s)) {
+                return new String[]{s};
+            }
+
+        } catch (Exception e) {
+            Log.e(VaccinatorUtils.class.getName(), e.toString(), e);
+        }
+        return null;
     }
 }

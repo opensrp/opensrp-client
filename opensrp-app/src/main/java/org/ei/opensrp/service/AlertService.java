@@ -84,6 +84,10 @@ public class AlertService {
         repository.deleteOfflineAlertsForEntity(entityId);
     }
 
+    public void deleteOfflineAlerts(String entityId, String... names) {
+        repository.deleteOfflineAlertsForEntity(entityId, names);
+    }
+
     // FTS methods
     public void updateFtsSearchAfterStatusChange(String entityId, String alertName) {
         try {
@@ -96,8 +100,8 @@ public class AlertService {
                     }
                 }
             }
-        }catch (Exception e){
-           Log.logError(android.util.Log.getStackTraceString(e));
+        } catch (Exception e) {
+            Log.logError(android.util.Log.getStackTraceString(e));
         }
 
     }
@@ -123,7 +127,7 @@ public class AlertService {
                 }
 
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.logError(android.util.Log.getStackTraceString(e));
         }
     }
