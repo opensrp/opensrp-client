@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.clientandeventmodel.DateUtil;
 import org.ei.opensrp.commonregistry.AllCommonsRepository;
@@ -36,6 +37,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -379,12 +381,27 @@ public class VaccinateActionUtils {
 
         for (List<ServiceType> serviceTypes : typeList) {
             if (serviceTypes != null) {
-                for (ServiceType serviceType : serviceTypes) {
-                    names.add(serviceType.getName().replaceAll("\\s+", ""));
+                String[] array = allAlertNames(serviceTypes);
+                if (array != null) {
+                    names.addAll(Arrays.asList(array));
                 }
             }
         }
 
+        return names.toArray(new String[names.size()]);
+    }
+
+    public static String[] allAlertNames(List<ServiceType> list) {
+        if (list == null) {
+            return null;
+        }
+
+        List<String> names = new ArrayList<>();
+
+        for (ServiceType serviceType : list) {
+            names.add(serviceType.getName().toLowerCase().replaceAll("\\s+", ""));
+            names.add(serviceType.getName());
+        }
         return names.toArray(new String[names.size()]);
     }
 

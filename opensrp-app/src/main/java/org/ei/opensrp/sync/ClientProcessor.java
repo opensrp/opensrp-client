@@ -512,7 +512,7 @@ public class ClientProcessor {
             }
             return true;
         } catch (Exception e) {
-            Log.e(TAG, e.toString(), e);
+            Log.e(TAG, e.toString(), e);e.printStackTrace();
             return null;
         }
 

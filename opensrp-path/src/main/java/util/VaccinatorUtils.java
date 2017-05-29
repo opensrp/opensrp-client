@@ -51,6 +51,7 @@ import org.ei.opensrp.path.fragment.UndoVaccinationDialogFragment;
 import org.ei.opensrp.path.fragment.VaccinationDialogFragment;
 import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
 import org.ei.opensrp.util.IntegerUtil;
+import org.ei.opensrp.util.StringUtil;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,7 +61,9 @@ import org.opensrp.api.util.EntityUtils;
 import org.opensrp.api.util.LocationTree;
 import org.opensrp.api.util.TreeNode;
 
+import java.sql.Ref;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -73,6 +76,7 @@ import static util.Utils.convertDateFormat;
 import static util.Utils.getColorValue;
 import static util.Utils.getPreference;
 import static util.Utils.getValue;
+import static util.VaccinatorUtils.receivedServices;
 
 /**
  * Class containing some static utility methods.
@@ -384,9 +388,9 @@ public class VaccinatorUtils {
             Date recDate = received.get(s.getName().toLowerCase());
             if (recDate != null) {
                 m = createServiceMap("done", null, new DateTime(recDate), s);
-            } else if (milestoneDate != null && StringUtils.isNotBlank(s.getExpiryOffset()) && ServiceSchedule.addOffsetToDateTime(milestoneDate, s.getExpiryOffset()).isBefore(DateTime.now())) {
+            } /*else if (milestoneDate != null && StringUtils.isNotBlank(s.getExpiryOffset()) && ServiceSchedule.addOffsetToDateTime(milestoneDate, s.getExpiryOffset()).isBefore(DateTime.now())) {
                 m = createServiceMap("expired", null, ServiceSchedule.addOffsetToDateTime(milestoneDate, s.getExpiryOffset()), s);
-            } else if (alerts.size() > 0) {
+            }*/ else if (alerts.size() > 0) {
                 for (Alert a : alerts) {
                     if (a.scheduleName().equalsIgnoreCase(s.getName())
                             || a.visitCode().equalsIgnoreCase(s.getName())) {
@@ -396,47 +400,82 @@ public class VaccinatorUtils {
             }
 
             if (m.isEmpty()) {
-                m = createServiceMap("due", null, null, s);
-                /*if (StringUtils.isNotBlank(s.getPrerequisite())) {
-                    Date prereq = null;
-                    String prerequisite = s.getPrerequisite();
-                    if (!prerequisite.equalsIgnoreCase(ServiceTrigger.Reference.DOB.name())) {
-                        String[] preArray = prerequisite.split("|");
-                        if (preArray.length >= 2) {
-                            if (preArray[0].equalsIgnoreCase(ServiceTrigger.Reference.PREREQUISITE.name())) {
-                                String preService = preArray[1];
-                                prereq = received.get(preService);
-                            } else if (preArray[0].equalsIgnoreCase(ServiceTrigger.Reference.MULTIPLE.name())) {
-                                String condition = preArray[1];
-                                if (condition.equalsIgnoreCase("or") && preArray.length == 3) {
-                                    String arrayString = preArray[2];
-
-
-                                }
-
-                            }
-                        }
-                    }
-                    if (prereq != null) {
-                        DateTime prereqDateTime = new DateTime(prereq);
-                        prereqDateTime = prereqDateTime.plusDays(v.prerequisiteGapDays());
-                        m = createServiceMap("due", null, prereqDateTime, v);
-                    } else {
-                        m = createServiceMap("due", null, null, v);
-                    }
-                } else if (milestoneDate != null) {
-                    m = createServiceMap("due", null, milestoneDate.plusDays(v.milestoneGapDays()), v);
-                } else {
-                    m = createServiceMap("na", null, null, s);
-                }*/
+                DateTime dueDateTime = getServiceDueDate(s, milestoneDate, received);
+                m = createServiceMap("due", null, dueDateTime, s);
             }
 
             schedule.add(m);
         }
+
         return schedule;
     }
 
-    private static Map<String, Object> createVaccineMap(String status, Alert a, DateTime date, Vaccine v) {
+    public static DateTime getServiceDueDate(ServiceType serviceType, DateTime milestoneDate, List<ServiceRecord> serviceRecordList) {
+        return getServiceDueDate(serviceType, milestoneDate, receivedServices(serviceRecordList));
+    }
+
+    public static DateTime getServiceDueDate(ServiceType serviceType, DateTime milestoneDate, Map<String, Date> received) {
+        if (serviceType == null || milestoneDate == null || received == null) {
+            return null;
+        }
+        boolean hasPrerequisite = false;
+        Date prereq = null;
+        if (StringUtils.isNotBlank(serviceType.getPrerequisite())) {
+            String prerequisite = serviceType.getPrerequisite();
+            if (!prerequisite.equalsIgnoreCase(ServiceTrigger.Reference.DOB.name())) {
+                String[] preArray = prerequisite.split("\\|");
+                if (preArray.length >= 2) {
+                    if (preArray[0].equalsIgnoreCase(ServiceTrigger.Reference.PREREQUISITE.name())) {
+                        String preService = preArray[1];
+                        prereq = received.get(preService);
+                        if (prereq != null) {
+                            hasPrerequisite = true;
+                        }
+                    } else if (preArray[0].equalsIgnoreCase(ServiceTrigger.Reference.MULTIPLE.name())) {
+                        String condition = preArray[1];
+                        if (condition.equalsIgnoreCase("or") && preArray.length == 3) {
+                            String arrayString = preArray[2];
+                            String[] preqs = convertToArray(arrayString);
+                            if (preqs != null) {
+                                for (String preService : preqs) {
+                                    if (preService.equalsIgnoreCase(ServiceTrigger.Reference.DOB.name())) {
+                                        continue;
+                                    }
+                                    prereq = received.get(preService);
+                                    if (prereq != null) {
+                                        hasPrerequisite = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (hasPrerequisite && StringUtils.isNotBlank(serviceType.getPreOffset())) {
+            DateTime prereqDateTime = new DateTime(prereq);
+            return ServiceSchedule.addOffsetToDateTime(prereqDateTime, serviceType.getPreOffset());
+        } else if (StringUtils.isNotBlank(serviceType.getMilestoneOffset())) {
+            String[] milestones = convertToArray(serviceType.getMilestoneOffset());
+            if (milestones != null) {
+                List<String> milestoneList = Arrays.asList(milestones);
+                return ServiceSchedule.addOffsetToDateTime(milestoneDate, milestoneList);
+            }
+        }
+        return null;
+    }
+
+    public static DateTime getServiceExpiryDate(ServiceType serviceType, DateTime milestoneDate) {
+        if (serviceType == null || milestoneDate == null) {
+            return null;
+        }
+        return ServiceSchedule.addOffsetToDateTime(milestoneDate, serviceType.getExpiryOffset());
+    }
+
+    private static Map<String, Object> createVaccineMap(String status, Alert a, DateTime
+            date, Vaccine v) {
         Map<String, Object> m = new HashMap<>();
         m.put("status", status);
         m.put("alert", a);
@@ -446,7 +485,8 @@ public class VaccinatorUtils {
         return m;
     }
 
-    private static Map<String, Object> createServiceMap(String status, Alert a, DateTime date, ServiceType s) {
+    private static Map<String, Object> createServiceMap(String status, Alert a, DateTime
+            date, ServiceType s) {
         Map<String, Object> m = new HashMap<>();
         m.put("status", status);
         m.put("alert", a);
@@ -456,7 +496,8 @@ public class VaccinatorUtils {
         return m;
     }
 
-    public static Map<String, Object> nextVaccineDue(List<Map<String, Object>> schedule, Date lastVisit) {
+    public static Map<String, Object> nextVaccineDue
+            (List<Map<String, Object>> schedule, Date lastVisit) {
         Map<String, Object> v = null;
         for (Map<String, Object> m : schedule) {
             if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
@@ -478,7 +519,8 @@ public class VaccinatorUtils {
         return v;
     }
 
-    public static Map<String, Object> nextVaccineDue(List<Map<String, Object>> schedule, List<Vaccine> vaccineList) {
+    public static Map<String, Object> nextVaccineDue
+            (List<Map<String, Object>> schedule, List<Vaccine> vaccineList) {
         Map<String, Object> v = null;
         for (Map<String, Object> m : schedule) {
             if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
@@ -517,7 +559,8 @@ public class VaccinatorUtils {
         return v;
     }
 
-    public static Map<String, Object> nextServiceDue(List<Map<String, Object>> schedule, Date lastVisit) {
+    public static Map<String, Object> nextServiceDue
+            (List<Map<String, Object>> schedule, Date lastVisit) {
         Map<String, Object> v = null;
         for (Map<String, Object> m : schedule) {
             if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
@@ -535,7 +578,8 @@ public class VaccinatorUtils {
         return v;
     }
 
-    public static Map<String, Object> nextServiceDue(List<Map<String, Object>> schedule, List<ServiceType> serviceTypeList) {
+    public static Map<String, Object> nextServiceDue
+            (List<Map<String, Object>> schedule, List<ServiceType> serviceTypeList) {
         Map<String, Object> v = null;
         for (Map<String, Object> m : schedule) {
             if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
@@ -570,7 +614,8 @@ public class VaccinatorUtils {
         return v;
     }
 
-    public static Map<String, Object> nextServiceDue(List<Map<String, Object>> schedule, ServiceRecord lastServiceRecord) {
+    public static Map<String, Object> nextServiceDue
+            (List<Map<String, Object>> schedule, ServiceRecord lastServiceRecord) {
         if (lastServiceRecord == null || StringUtils.isBlank(lastServiceRecord.getType()) || StringUtils.isBlank(lastServiceRecord.getName())) {
             return null;
         }
@@ -694,5 +739,35 @@ public class VaccinatorUtils {
         }
 
         return readableName;
+    }
+
+    /**
+     * Converts string [a,b,c] to string array
+     *
+     * @param s
+     * @return
+     */
+    private static String[] convertToArray(String s) {
+        if (StringUtils.isBlank(s)) {
+            return null;
+        }
+
+        if (s.contains("[")) {
+            s = s.replace("[", "");
+        }
+
+        if (s.contains("]")) {
+            s = s.replace("]", "");
+        }
+
+        if (StringUtils.isBlank(s)) {
+            return null;
+        } else if (s.contains(",")) {
+            return StringUtils.stripAll(s.split(","));
+        } else if (StringUtils.isNotBlank(s)) {
+            return new String[]{s};
+        }
+        return null;
+
     }
 }

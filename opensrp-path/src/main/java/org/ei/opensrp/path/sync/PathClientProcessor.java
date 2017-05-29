@@ -12,6 +12,7 @@ import org.ei.opensrp.clientandeventmodel.DateUtil;
 import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.domain.Weight;
 import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.domain.ServiceSchedule;
 import org.ei.opensrp.path.domain.VaccineSchedule;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.repository.WeightRepository;
@@ -359,6 +360,7 @@ public class PathClientProcessor extends ClientProcessor {
 
             DateTime birthDateTime = new DateTime(dob);
             VaccineSchedule.updateOfflineAlerts(VaccinatorApplication.getInstance(), entityId, birthDateTime, "child");
+            ServiceSchedule.updateOfflineAlerts(entityId, birthDateTime);
         }
     }
 

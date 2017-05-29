@@ -1,13 +1,27 @@
 package org.ei.opensrp.path.domain;
 
+import org.ei.opensrp.clientandeventmodel.DateUtil;
+import org.ei.opensrp.domain.*;
+import org.ei.opensrp.domain.Vaccine;
+import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
+import org.ei.opensrp.path.repository.RecurringServiceTypeRepository;
+import org.ei.opensrp.service.AlertService;
 import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import util.VaccinateActionUtils;
+import util.VaccinatorUtils;
 
 /**
  * Created by Keyman on 26/05/2017.
@@ -31,6 +45,94 @@ public class ServiceSchedule {
         this.expiryTrigger = expiryTrigger;
     }
 
+    public static void updateOfflineAlerts(String baseEntityId, DateTime dob) {
+        RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
+        RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
+        AlertService alertService = VaccinatorApplication.getInstance().context().alertService();
+
+        List<ServiceType> serviceTypes = recurringServiceTypeRepository.fetchAll();
+        String[] alertArray = VaccinateActionUtils.allAlertNames(serviceTypes);
+
+        List<Alert> newAlerts = new ArrayList<>();
+        List<Alert> oldAlerts = new ArrayList<>();
+
+        // Get all the administered services
+        List<ServiceRecord> issuedServices = recurringServiceRecordRepository.findByEntityId(baseEntityId);
+        if (issuedServices == null) {
+            issuedServices = new ArrayList<>();
+        }
+
+        oldAlerts = alertService.findByEntityIdAndOffline(baseEntityId, true);
+        alertService.deleteOfflineAlerts(baseEntityId, alertArray);
+
+        List<Alert> existingAlerts = alertService.findByEntityIdAndAlertNames(baseEntityId, alertArray);
+
+        for (ServiceType serviceType : serviceTypes) {
+            Alert curAlert = getOfflineAlert(serviceType, issuedServices, baseEntityId, dob);
+
+            if (curAlert != null) {
+                // Check if the current alert already exists for the entityId
+                boolean exists = false;
+                for (Alert curExistingAlert : existingAlerts) {
+                    if (curExistingAlert.scheduleName().equalsIgnoreCase(curAlert.scheduleName())
+                            && curExistingAlert.caseId().equalsIgnoreCase(curAlert.caseId())) {
+                        exists = true;
+                        break;
+                    }
+                }
+
+                if (!exists) {
+                    // Insert alert into table
+                    newAlerts.add(curAlert);
+                    alertService.create(curAlert);
+                }
+            }
+        }
+
+    }
+
+
+    public static Alert getOfflineAlert(final ServiceType serviceType, final List<ServiceRecord> issuedServices, final String baseEntityId, final DateTime dateOfBirth) {
+
+        DateTime dueDateTime = VaccinatorUtils.getServiceDueDate(serviceType, dateOfBirth, issuedServices);
+        DateTime expiryDateTime = VaccinatorUtils.getServiceExpiryDate(serviceType, dateOfBirth);
+
+        // Use the trigger date as a reference, since that is what is mostly used
+        AlertStatus alertStatus = calculateAlertStatus(dueDateTime);
+
+        if (alertStatus != null) {
+            Date startDate = dueDateTime == null ? dateOfBirth.toDate() : dueDateTime.toDate();
+            Date expiryDate = expiryDateTime == null ? null : expiryDateTime.toDate();
+            return new Alert(baseEntityId, serviceType.getName(), serviceType.getName().toLowerCase().replace(" ", ""),
+                    alertStatus, startDate == null ? null : DateUtil.yyyyMMdd.format(startDate), expiryDate == null ? null : DateUtil.yyyyMMdd.format(expiryDate), true);
+        }
+        return null;
+    }
+
+    private static AlertStatus calculateAlertStatus(DateTime referenceDate) {
+        if (referenceDate != null) {
+            Calendar refCalendarDate = Calendar.getInstance();
+            refCalendarDate.setTime(referenceDate.toDate());
+            standardiseCalendarDate(refCalendarDate);
+
+            Calendar today = Calendar.getInstance();
+            standardiseCalendarDate(today);
+
+            if (refCalendarDate.getTimeInMillis() <= today.getTimeInMillis()) {// Due
+                return AlertStatus.normal;
+            }
+        }
+
+        return null;
+    }
+
+    public static void standardiseCalendarDate(Calendar calendarDate) {
+        calendarDate.set(Calendar.HOUR_OF_DAY, 0);
+        calendarDate.set(Calendar.MINUTE, 0);
+        calendarDate.set(Calendar.SECOND, 0);
+        calendarDate.set(Calendar.MILLISECOND, 0);
+    }
+
     public ServiceTrigger getDueTrigger() {
         return dueTrigger;
     }
@@ -40,16 +142,17 @@ public class ServiceSchedule {
     }
 
     public static DateTime addOffsetToDateTime(DateTime dateTime, List<String> offsets) {
-
+        DateTime afterOffset = dateTime;
         if (dateTime != null && offsets != null && !offsets.isEmpty()) {
             for (String offset : offsets) {
-                dateTime = addOffsetToDateTime(dateTime, offset);
+                afterOffset = addOffsetToDateTime(afterOffset, offset);
             }
         }
-        return dateTime;
+        return afterOffset;
     }
 
     public static DateTime addOffsetToDateTime(DateTime dateTime, String offset) {
+        DateTime afterOffset = dateTime;
         if (dateTime != null && offset != null) {
             offset = offset.replace(" ", "").toLowerCase();
             Pattern p1 = Pattern.compile("([-+]{1})(.*)");
@@ -72,18 +175,18 @@ public class ServiceSchedule {
                         int curValue = comparitor * Integer.parseInt(m2.group(1));
                         String fieldString = m2.group(2);
                         if (fieldString.equals("d")) {
-                            dateTime.plusDays(curValue);
+                            afterOffset = afterOffset.plusDays(curValue);
                         } else if (fieldString.equals("m")) {
-                            dateTime.plusMonths(curValue);
+                            afterOffset = afterOffset.plusMonths(curValue);
                         } else if (fieldString.equals("y")) {
-                            dateTime.plusYears(curValue);
+                            afterOffset = afterOffset.plusYears(curValue);
                         }
                     }
                 }
             }
         }
 
-        return dateTime;
+        return afterOffset;
     }
 }
 
