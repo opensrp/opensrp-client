@@ -107,6 +107,9 @@ public class ChildImmunizationActivity extends BaseActivity
     private ArrayList<ServiceGroup> serviceGroups;
     private static final ArrayList<String> COMBINED_VACCINES;
     private static final HashMap<String, String> COMBINED_VACCINES_MAP;
+    private boolean bcgScarNotificationShown;
+    private boolean weightNotificationShown;
+
     static {
         COMBINED_VACCINES = new ArrayList<>();
         COMBINED_VACCINES_MAP = new HashMap<>();
@@ -162,6 +165,9 @@ public class ChildImmunizationActivity extends BaseActivity
                 registerClickables = (RegisterClickables) serializable;
             }
         }
+
+        bcgScarNotificationShown = false;
+        weightNotificationShown = false;
 
         toolbar.init(this);
         setLastModified(false);
@@ -432,7 +438,7 @@ public class ChildImmunizationActivity extends BaseActivity
                 bcgDate.setTime(bcg.getDate());
 
                 Calendar today = Calendar.getInstance();
-                if(bcgDate.get(Calendar.YEAR) == today.get(Calendar.YEAR)
+                if (bcgDate.get(Calendar.YEAR) == today.get(Calendar.YEAR)
                         && bcgDate.get(Calendar.MONTH) == today.get(Calendar.MONTH)
                         && bcgDate.get(Calendar.DATE) == today.get(Calendar.DATE)) {
                     bcgOfferedInPast = false;
@@ -886,36 +892,42 @@ public class ChildImmunizationActivity extends BaseActivity
     }
 
     private void showRecordWeightNotification() {
-        showNotification(R.string.record_weight_notification, R.drawable.ic_weight_notification,
-                R.string.record_weight,
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        View recordWeight = findViewById(R.id.record_weight);
-                        showWeightDialog(recordWeight);
-                        hideNotification();
-                    }
-                }, R.string.cancel, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        hideNotification();
-                    }
-                }, null);
+        if (!weightNotificationShown) {
+            weightNotificationShown = true;
+            showNotification(R.string.record_weight_notification, R.drawable.ic_weight_notification,
+                    R.string.record_weight,
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            View recordWeight = findViewById(R.id.record_weight);
+                            showWeightDialog(recordWeight);
+                            hideNotification();
+                        }
+                    }, R.string.cancel, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            hideNotification();
+                        }
+                    }, null);
+        }
     }
 
     private void showCheckBcgScarNotification(Alert alert) {
-        showNotification(R.string.check_child_bcg_scar, R.drawable.ic_check_bcg_scar,
-                R.string.ok_button_label, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        hideNotification();
-                        Alert alert = (Alert) v.getTag();
-                        if (alert != null) {
-                            new MarkAlertAsDoneTask(getOpenSRPContext().alertService())
-                                    .execute(alert);
+        if (!bcgScarNotificationShown) {
+            bcgScarNotificationShown = true;
+            showNotification(R.string.check_child_bcg_scar, R.drawable.ic_check_bcg_scar,
+                    R.string.ok_button_label, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            hideNotification();
+                            Alert alert = (Alert) v.getTag();
+                            if (alert != null) {
+                                new MarkAlertAsDoneTask(getOpenSRPContext().alertService())
+                                        .execute(alert);
+                            }
                         }
-                    }
-                }, 0, null, alert);
+                    }, 0, null, alert);
+        }
     }
 
     private class MarkAlertAsDoneTask extends AsyncTask<Alert, Void, Void> {
@@ -1271,7 +1283,7 @@ public class ChildImmunizationActivity extends BaseActivity
                             // Check if any of the sister vaccines is currAffectedVaccineName
                             String[] allSisters = COMBINED_VACCINES_MAP.get(curWrapperName).split(" / ");
                             for (int i = 0; i < allSisters.length; i++) {
-                                if(allSisters[i].replace(" ", "").equalsIgnoreCase(curAffectedVaccineName.replace(" ", ""))) {
+                                if (allSisters[i].replace(" ", "").equalsIgnoreCase(curAffectedVaccineName.replace(" ", ""))) {
                                     curWrapperName = allSisters[i];
                                     break;
                                 }
@@ -1288,17 +1300,17 @@ public class ChildImmunizationActivity extends BaseActivity
                             viewFound = true;
                         }
 
-                        if(viewFound) break;
+                        if (viewFound) break;
                     }
 
-                    if(viewFound) break;
+                    if (viewFound) break;
                 }
             }
 
             for (VaccineGroup curGroup : affectedGroups.keySet()) {
                 try {
                     vaccineGroups.remove(curGroup);
-                    addVaccineGroup(Integer.valueOf((String)curGroup.getTag(R.id.vaccine_group_parent_id)),
+                    addVaccineGroup(Integer.valueOf((String) curGroup.getTag(R.id.vaccine_group_parent_id)),
                             new JSONObject((String) curGroup.getTag(R.id.vaccine_group_vaccine_data)),
                             vaccineList, alerts);
                 } catch (Exception e) {
