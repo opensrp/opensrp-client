@@ -95,6 +95,11 @@ public class VaccineSchedule {
             List<Alert> newAlerts = new ArrayList<>();
             List<Alert> oldAlerts = new ArrayList<>();
             if (vaccineSchedules.containsKey(vaccineCategory)) {
+                List<String> alertNames = new ArrayList<>();
+                for (String curVaccineName : vaccineSchedules.get(vaccineCategory).keySet()) {
+                    alertNames.add(curVaccineName.toLowerCase().replace(" ", ""));
+                }
+
                 // Get all the administered vaccines for the child
                 List<Vaccine> issuedVaccines = application.vaccineRepository().findByEntityId(baseEntityId);
                 if (issuedVaccines == null) {
@@ -102,14 +107,9 @@ public class VaccineSchedule {
                 }
 
                 oldAlerts = application.context().alertService().findByEntityIdAndOffline(baseEntityId, true);
-                application.context().alertService().deleteOfflineAlerts(baseEntityId);
+                application.context().alertService().deleteOfflineAlerts(baseEntityId, alertNames.toArray(new String[0]));
 
                 // Get existing alerts
-                List<String> alertNames = new ArrayList<>();
-                for (String curVaccineName : vaccineSchedules.get(vaccineCategory).keySet()) {
-                    alertNames.add(curVaccineName.toLowerCase().replace(" ", ""));
-                }
-
                 List<Alert> existingAlerts = application.context().alertService()
                         .findByEntityIdAndAlertNames(baseEntityId,
                                 alertNames.toArray(new String[0]));
