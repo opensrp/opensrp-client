@@ -61,10 +61,38 @@ public class HIA2Service {
     private static String CHN2_060 = "CHN2-060";
     private static String CHN2_060_DHIS_ID = "ke26q8KPQPM";
     private static String CHN2_061 = "CHN2-061";
-    private static String CCHN2_061_DHIS_ID = "unknown";
+    private static String CHN2_061_DHIS_ID = "unknown";
+    private static String CHN2_065 = "CHN2-065";
+    private static String CHN2_065_DHIS_ID = "DSbbltBORY3";
+    private static String CHN2_070 = "CHN2-070";
+    private static String CHN2_070_DHIS_ID = "JfY9vBHsyzF";
+    private static String CHN2_075 = "CHN2-075";
+    private static String CHN2_075_DHIS_ID = "B8nBT4kGhtB";
+    private static String CHN2_080 = "CHN2-080";
+    private static String CHN2_080_DHIS_ID = "G4vWZAJ0uz7";
+    private static String CHN3_005 = "CHN3-005";
+    private static String CHN3_005_DHIS_ID = "ZTeQmMrVmNR";
+    private static String CHN3_005_O = "CHN3-005-O";
+    private static String CHN3_005_O_DHIS_ID = "unknown";
+    private static String CHN3_010 = "CHN3-010";
+    private static String CHN3_010_DHIS_ID = "rwNWKJC4dIO";
+    private static String CHN3_010_O = "CHN3-010-O";
+    private static String CHN3_010_O_DHIS_ID = "unknown";
+    private static String CHN3_015 = "CHN3-015";
+    private static String CHN3_015_DHIS_ID = "J3Kd9wHj7mR";
+    private static String CHN3_015_O = "CHN3-015-O";
+    private static String CHN3_015_O_DHIS_ID = "unknown";
+    private static String CHN3_020 = "CHN3-020";
+    private static String CHN3_020_DHIS_ID = "Jbxssr389B6";
+    private static String CHN3_020_O = "CHN3-020-O";
+    private static String CHN3_020_O_DHIS_ID = "unknown";
+    private static String CHN3_025 = "CHN3-025";
+    private static String CHN3_025_DHIS_ID = "dqsYPg0F8DJ";
+    private static String CHN3_025_O = "CHN3-025-O";
+    private static String CHN3_025_O_DHIS_ID = "unknown";
 
 
-//FIXME to uniquely identify out of areas change group by child.base_entity_id to group by zeir_id
+    //FIXME to uniquely identify out of areas change group by child.base_entity_id to group by zeir_id
     public static void generateIndicators(final SQLiteDatabase database, int month) {
 
     }
@@ -224,7 +252,7 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN2_035(SQLiteDatabase db) {
-        String query="select"+ageQuery() +
+        String query = "select" + ageQuery() +
                 "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
                 "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score between -2 and -3 group by child.base_entity_id;";
 
@@ -236,7 +264,7 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN2_040(SQLiteDatabase db) {
-        String query="select"+ageQuery() +
+        String query = "select" + ageQuery() +
                 "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
                 "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score between -2 and -3 group by child.base_entity_id;";
 
@@ -259,7 +287,7 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN2_045(SQLiteDatabase db) {
-        String query="select"+ageQuery() +
+        String query = "select" + ageQuery() +
                 "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
                 "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score< -3 group by child.base_entity_id;";
     }
@@ -270,7 +298,7 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN2_050(SQLiteDatabase db) {
-        String query="select"+ageQuery() +
+        String query = "select" + ageQuery() +
                 "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
                 "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score < -3 group by child.base_entity_id;";
     }
@@ -292,7 +320,7 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN2_055(SQLiteDatabase db) {
-        String query="select"+ageQuery() +
+        String query = "select" + ageQuery() +
                 "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
                 "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score>2 group by child.base_entity_id;";
 
@@ -301,10 +329,11 @@ public class HIA2Service {
 
     /**
      * Number of total children age 24-59 months whose weight is above 2Z scores
+     *
      * @param db
      */
     private void getCHN2_060(SQLiteDatabase db) {
-        String query="select"+ageQuery() +
+        String query = "select" + ageQuery() +
                 "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
                 "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score >2 group by child.base_entity_id;";
 
@@ -313,12 +342,164 @@ public class HIA2Service {
 
     /**
      * Number of total children age < 5 years whose weight is above 2Z scores
+     *
      * @param db
      */
     private void getCHN2_061(SQLiteDatabase db) {
 
     }
 
+    /**
+     * Number of children age 6-11 months who received vitamin A at this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN2_065(SQLiteDatabase db) {
+        String query = "select " + ageQuery() + " from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
+                "where rst.type='vit_a' and strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(rsr.date/1000, 'unixepoch')) and age between 6 and 11";
+
+    }
+
+    /**
+     * Vitamin A supplement to infant and children 12-59 months
+     *
+     * @param db
+     */
+    private void getCHN2_070(SQLiteDatabase db) {
+        String query = "select " + ageQuery() + " from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
+                "where rst.type='vit_a' and strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(rsr.date/1000, 'unixepoch')) and age between 12 and 59";
+
+    }
+
+    /**
+     * Number of children age 12-59 months who received a deworming dose at this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN2_075(SQLiteDatabase db) {
+        String query = "select " + ageQuery() + " from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
+                "where rst.type='deworming' and strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(rsr.date/1000, 'unixepoch')) and age between 12 and 59";
+
+    }
+
+    /**
+     * Number of children who received insecticide treated nets at this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN2_080(SQLiteDatabase db) {
+        String query = "select * from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
+                "where rst.type='itn' and strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(rsr.date/1000, 'unixepoch'))";
+
+    }
+
+    /**
+     * Number of children < one year who received BCG dose at this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_005(SQLiteDatabase db) {
+        getVaccineCount("bcg", "<12", false);
+
+    }
+
+    /**
+     * Number of children < one year who received BCG dose at outreach conducted by this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_005_O(SQLiteDatabase db) {
+        getVaccineCount("bcg", "<12", true);
+
+    }
+
+    /**
+     * Number of children < one year who received OPV0 dose at this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_010(SQLiteDatabase db) {
+        getVaccineCount("opv_0", "<12", false);
+
+    }
+
+    /**
+     * Number of children < one year who received OPV0 dose at outreach conducted by this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_010_O(SQLiteDatabase db) {
+        getVaccineCount("opv_0", "<12", true);
+
+    }
+
+    /**
+     * Number of children < one year who received OPV1 dose at this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_015(SQLiteDatabase db) {
+        getVaccineCount("opv_1", "<12", false);
+
+    }
+
+    /**
+     * Number of children < one year who received OPV1 dose at outreach conducted by this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_015_O(SQLiteDatabase db) {
+        getVaccineCount("opv_1", "<12", true);
+    }
+
+    /**
+     * Number of children < one year who received OPV2 dose at this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_020(SQLiteDatabase db) {
+        getVaccineCount("opv_2", "<12", false);
+    }
+
+    /**
+     * Number of children < one year who received OPV2 dose at outreach conducted by this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_020_O(SQLiteDatabase db) {
+        getVaccineCount("opv_2", "<12", true);
+    }
+
+    /**
+     * Number of children < one year who received OPV3 dose at this facility in this month 
+     *
+     * @param db
+     */
+    private void getCHN3_025(SQLiteDatabase db) {
+        getVaccineCount("opv_3", "<12", true);
+    }
+
+    /**
+     * Number of children < one year who received OPV3 dose at outreach conducted by this facility in this month
+     * @param db
+     */
+    private void getCHN3_025_O(SQLiteDatabase db) {
+        getVaccineCount("opv_3", "<12", false);
+    }
+
+    /**
+     * @param vaccine
+     * @param age       in months specified as e.g <12 or >12 or between 12 and 59
+     * @param outOfArea
+     * @return
+     */
+    private int getVaccineCount(String vaccine, String age, boolean outOfArea) {
+        String query = "select " + ageQuery() + " from vaccines v left join ec_child child on child.base_entity_id=v.base_entity_id " +
+                "where age " + age + " and  strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(v.date/1000, 'unixepoch')) and v.out_of_area=" + (outOfArea ? 1 : 0) + " and lower(v.name)='" + vaccine.toLowerCase() + "'";
+
+        return 0;
+
+    }
 
     private String ageQuery() {
         return "CAST ((julianday('now') - julianday(strftime('%Y-%m-%d',child.dob)))/(365/12) AS INTEGER)as age";
