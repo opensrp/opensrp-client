@@ -10,14 +10,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.ei.drishti.dto.AlertStatus;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonFtsObject;
+import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.Vaccine;
+import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Stock;
+import org.ei.opensrp.path.domain.Vaccine_types;
 import org.ei.opensrp.service.AlertService;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -123,6 +127,20 @@ public class StockRepository extends BaseRepository {
         return stocks;
     }
 
+    public Stock readAllStockforCursorAdapter(Cursor cursor) {
+
+
+         return new Stock(cursor.getLong(cursor.getColumnIndex(ID_COLUMN)),
+                cursor.getString(cursor.getColumnIndex(TRANSACTION_TYPE)),
+                cursor.getString(cursor.getColumnIndex(PROVIDER_ID)),
+                cursor.getInt(cursor.getColumnIndex(VALUE)),
+                new Date(cursor.getLong(cursor.getColumnIndex(DATE_CREATED))),
+                cursor.getString(cursor.getColumnIndex(TO_FROM)),
+                cursor.getString(cursor.getColumnIndex(SYNC_STATUS)),
+                cursor.getLong(cursor.getColumnIndex(DATE_UPDATED)),
+                cursor.getString(cursor.getColumnIndex(VACCINE_TYPE_ID)));
+    }
+
 
 //    public List<Vaccine> findByEntityId(String entityId) {
 //        SQLiteDatabase database = getPathRepository().getReadableDatabase();
@@ -196,5 +214,43 @@ public class StockRepository extends BaseRepository {
         return stocks;
     }
 
+
+    public int getBalanceBefore(Stock stock) {
+        SQLiteDatabase database = getPathRepository().getReadableDatabase();
+//        Cursor c = getPathRepository().getReadableDatabase().query(stock_TABLE_NAME, stock_TABLE_COLUMNS, DATE_UPDATED + " < ?", new String[]{""+updatedAt.longValue()}, null, null, null, null);
+
+        Cursor c =database.rawQuery("Select sum(value) from Stocks Where date_updated <" +stock.getUpdatedAt()+ " and "+VACCINE_TYPE_ID+ " = "+stock.getVaccine_type_id(),null);
+        if(c.getCount() == 0) {
+            return 0;
+        }else{
+            c.moveToFirst();
+            if(c.getString(0) != null) {
+                return Integer.parseInt(c.getString(0));
+            }else{
+                return 0;
+            }
+        }
+    }
+    public int getBalanceFromNameAndDate(String Name,Long updatedat) {
+        SQLiteDatabase database = getPathRepository().getReadableDatabase();
+//        Cursor c = getPathRepository().getReadableDatabase().query(stock_TABLE_NAME, stock_TABLE_COLUMNS, DATE_UPDATED + " < ?", new String[]{""+updatedAt.longValue()}, null, null, null, null);
+        Vaccine_typesRepository vtr = new Vaccine_typesRepository(getPathRepository(), VaccinatorApplication.createCommonFtsObject(),Context.getInstance().alertService());
+        ArrayList<Vaccine_types> allvaccinetypes = (ArrayList)vtr.findIDByName(Name);
+        String id_for_vaccine = "";
+        if(allvaccinetypes.size()>0){
+            id_for_vaccine = ""+allvaccinetypes.get(0).getId();
+        }
+        Cursor c =database.rawQuery("Select sum(value) from Stocks Where date_created <=" +updatedat+ " and "+ VACCINE_TYPE_ID + " = "+id_for_vaccine,null);
+        if(c.getCount() == 0) {
+            return 0;
+        }else{
+            c.moveToFirst();
+            if(c.getString(0) != null) {
+                return Integer.parseInt(c.getString(0));
+            }else{
+                return 0;
+            }
+        }
+    }
 
 }

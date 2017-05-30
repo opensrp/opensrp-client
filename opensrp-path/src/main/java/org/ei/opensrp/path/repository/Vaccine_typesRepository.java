@@ -71,11 +71,11 @@ public class Vaccine_typesRepository extends BaseRepository {
 
 
 
-//    public List<Vaccine> findByEntityId(String entityId) {
-//        SQLiteDatabase database = getPathRepository().getReadableDatabase();
-//        Cursor cursor = database.query(VACCINE_TABLE_NAME, VACCINE_TABLE_COLUMNS, BASE_ENTITY_ID + " = ? ORDER BY " + UPDATED_AT_COLUMN, new String[]{entityId}, null, null, null, null);
-//        return readAllVaccines(cursor);
-//    }
+    public List<Vaccine_types> findIDByName(String Name) {
+        SQLiteDatabase database = getPathRepository().getReadableDatabase();
+        Cursor cursor = database.query(VACCINE_Types_TABLE_NAME, VACCINE_Types_TABLE_COLUMNS, this.NAME + " = ? ", new String[]{Name}, null, null, null, null);
+        return readAllVaccines(cursor);
+    }
     public List<Vaccine_types> getAllVaccineTypes() {
         SQLiteDatabase database = getPathRepository().getReadableDatabase();
         Cursor cursor = database.query(VACCINE_Types_TABLE_NAME, VACCINE_Types_TABLE_COLUMNS,null,null, null, null, null, null);

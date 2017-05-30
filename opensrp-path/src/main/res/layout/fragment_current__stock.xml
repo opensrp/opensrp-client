@@ -139,14 +139,6 @@
                     android:layout_marginRight="@dimen/list_view_margin_left_and_right"
                     android:background="@drawable/listview_background_rounded">
 
-                    <ListView
-                        android:id="@+id/list"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:divider="@color/smart_register_client_divider_color"
-                        android:dividerHeight="@dimen/smart_register_client_divider_height"
-                        android:visibility="invisible"/>
-
                     <ProgressBar
                         android:id="@+id/client_list_progress"
                         android:layout_width="wrap_content"
@@ -154,6 +146,15 @@
                         android:layout_gravity="center"
                         android:visibility="visible"
                         style="@android:style/Widget.Holo.Light.ProgressBar.Large.Inverse" />
+
+                    <ListView
+                        android:id="@+id/list"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:divider="@color/smart_register_client_divider_color"
+                        android:dividerHeight="@dimen/smart_register_client_divider_height"
+                        android:visibility="invisible"
+                        android:layout_gravity="center_horizontal|top" />
 
                 </FrameLayout>
             </FrameLayout>

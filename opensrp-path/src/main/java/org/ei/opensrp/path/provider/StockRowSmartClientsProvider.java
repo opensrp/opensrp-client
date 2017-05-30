@@ -18,7 +18,9 @@ import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.domain.Weight;
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.adapter.StockProviderForCursorAdapter;
 import org.ei.opensrp.path.db.VaccineRepo;
+import org.ei.opensrp.path.domain.Stock;
 import org.ei.opensrp.path.repository.StockRepository;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.repository.WeightRepository;
@@ -42,6 +44,7 @@ import java.util.concurrent.TimeUnit;
 
 import util.DateUtils;
 import util.ImageUtils;
+import util.JsonFormUtils;
 import util.VaccinateActionUtils;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
@@ -55,7 +58,7 @@ import static util.VaccinatorUtils.receivedVaccines;
 /**
  * Created by Raihan  on 29-05-17.
  */
-public class StockRowSmartClientsProvider implements SmartRegisterCLientsProviderForCursorAdapter {
+public class StockRowSmartClientsProvider implements StockProviderForCursorAdapter {
     private final LayoutInflater inflater;
     private final Context context;
     private final View.OnClickListener onClickListener;
@@ -75,10 +78,36 @@ public class StockRowSmartClientsProvider implements SmartRegisterCLientsProvide
     }
 
     @Override
-    public void getView(SmartRegisterClient client, View convertView) {
-        CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
+    public void getView(Stock stock, View convertView) {
+
         TextView date = (TextView)convertView.findViewById(R.id.date);
-        date.setText(pc.getColumnmaps().get("date_created"));
+        TextView to_from = (TextView)convertView.findViewById(R.id.to_from);
+        TextView received = (TextView)convertView.findViewById(R.id.received);
+        TextView issued = (TextView)convertView.findViewById(R.id.issued);
+        TextView loss_adj = (TextView)convertView.findViewById(R.id.loss_adj);
+        TextView balance = (TextView)convertView.findViewById(R.id.balance);
+
+
+        if(stock.getTransaction_type().equalsIgnoreCase(Stock.received)){
+            received.setText(""+stock.getValue());
+            issued.setText("");
+            loss_adj.setText("");
+        }
+        if(stock.getTransaction_type().equalsIgnoreCase(Stock.issued)){
+            received.setText("");
+            issued.setText(""+stock.getValue());
+            loss_adj.setText("");
+        }
+        if(stock.getTransaction_type().equalsIgnoreCase(Stock.loss_adjustment)){
+            received.setText("");
+            issued.setText("");
+            loss_adj.setText(""+stock.getValue());
+        }
+
+        date.setText(JsonFormUtils.dd_MM_yyyy.format(stock.getDate_created()).toString());
+        to_from.setText(stock.getTo_from());
+
+        balance.setText(""+(stock.getValue()+stockRepository.getBalanceBefore(stock)));
 
 
 

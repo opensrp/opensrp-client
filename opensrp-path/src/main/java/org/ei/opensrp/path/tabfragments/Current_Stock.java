@@ -33,6 +33,7 @@ import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.PathJsonFormActivity;
 import org.ei.opensrp.path.activity.StockControlActivity;
+import org.ei.opensrp.path.adapter.StockPaginatedCursorAdapter;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Stock;
 import org.ei.opensrp.path.fragment.CursorAdapterFragment;
@@ -101,6 +102,7 @@ public class Current_Stock extends Fragment implements
 
     protected static final int LOADER_ID = 0;
     private static final String INIT_LOADER = "init";
+    private StockRepository stockRepository;
 
 
     public String getTablename() {
@@ -112,15 +114,15 @@ public class Current_Stock extends Fragment implements
     }
 
 
-    public SmartRegisterPaginatedCursorAdapter getClientsCursorAdapter() {
+    public StockPaginatedCursorAdapter getClientsCursorAdapter() {
         return clientAdapter;
     }
 
-    public void setClientsAdapter(SmartRegisterPaginatedCursorAdapter clientsAdapter) {
+    public void setClientsAdapter(StockPaginatedCursorAdapter clientsAdapter) {
         this.clientAdapter = clientsAdapter;
     }
 
-    public SmartRegisterPaginatedCursorAdapter clientAdapter;
+    public StockPaginatedCursorAdapter clientAdapter;
 
 
     public View mView;
@@ -179,6 +181,9 @@ public class Current_Stock extends Fragment implements
         clientsView = (ListView) view.findViewById(R.id.list);
         paginationViewHandler.addPagination(clientsView);
 
+        stockRepository = new StockRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(),VaccinatorApplication.createCommonFtsObject(),context().alertService());
+
+
 
         Button received = (Button)view.findViewById(R.id.received);
         TextView vaccine_name = (TextView)view.findViewById(R.id.name);
@@ -197,7 +202,6 @@ public class Current_Stock extends Fragment implements
     private void onInitialization() {
         String tableName = "Stocks";
 //        String parentTableName = "ec_mother";
-        StockRepository str = new StockRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(),VaccinatorApplication.createCommonFtsObject(),context().alertService());
 
 
         StockRowSmartClientsProvider hhscp = new StockRowSmartClientsProvider(getActivity(),
@@ -206,8 +210,8 @@ public class Current_Stock extends Fragment implements
                     public void onClick(View v) {
 
                     }
-                }, context().alertService(),str );
-        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, hhscp, Context.getInstance().commonrepository(tableName));
+                }, context().alertService(),stockRepository );
+        clientAdapter = new StockPaginatedCursorAdapter(getActivity(), null, hhscp, stockRepository);
         clientsView.setAdapter(clientAdapter);
         clientAdapter.notifyDataSetChanged();
         setTablename(tableName);
@@ -217,16 +221,18 @@ public class Current_Stock extends Fragment implements
         mainCondition = "";
         CountExecute();
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
-        queryBUilder.SelectInitiateMainTable(tableName, new String[]{
-                tableName + "._id",
-                tableName + ".vaccine_type",
-                tableName + ".transaction_type",
-                tableName + ".provider_id",
-                tableName + ".value",
-                tableName + ".date_created",
-                tableName + ".to_from",
-                tableName + ".date_updated"
-        });
+        queryBUilder.setSelectquery("Select * FROM Stocks Where Stocks."+StockRepository.VACCINE_TYPE_ID+" = "+ ((StockControlActivity)getActivity()).vaccine_type.getId());
+        queryBUilder.orderbyCondition(stockRepository.DATE_UPDATED + " DESC");
+//        queryBUilder.SelectInitiateMainTable(tableName, new String[]{
+//                tableName + "._id",
+//                tableName + ".vaccine_type_id",
+//                tableName + ".transaction_type",
+//                tableName + ".providerid",
+//                tableName + ".value",
+//                tableName + ".date_created",
+//                tableName + ".to_from",
+//                tableName + ".date_updated"
+//        });
 //        queryBUilder.customJoin("LEFT JOIN " + parentTableName + " ON  " + tableName + ".relational_id =  " + parentTableName + ".id");
         mainSelect = queryBUilder.mainCondition("");
         Sortqueries = "";
@@ -251,6 +257,14 @@ public class Current_Stock extends Fragment implements
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        CountExecute();
+        filterandSortInInitializeQueries();
+        refresh();
     }
 
     @Override
@@ -300,7 +314,7 @@ public class Current_Stock extends Fragment implements
 
 
 
-            Stock stock = new Stock(null,"received",allSharedPreferences.fetchRegisteredANM(),Integer.parseInt(vials_received),encounterDate,Received_Stock_From,StockRepository.TYPE_Unsynced,System.currentTimeMillis(),""+((StockControlActivity)(getActivity())).vaccine_type.getId());
+            Stock stock = new Stock(null,Stock.received,allSharedPreferences.fetchRegisteredANM(),Integer.parseInt(vials_received),encounterDate,Received_Stock_From,StockRepository.TYPE_Unsynced,System.currentTimeMillis(),""+((StockControlActivity)(getActivity())).vaccine_type.getId());
             str.add(stock);
 
         } catch (JSONException e) {
@@ -498,7 +512,8 @@ public class Current_Stock extends Fragment implements
             }
 
             Log.i(getClass().getName(), query);
-            c = commonRepository().RawCustomQueryForAdapter(query);
+            c = VaccinatorApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query, null);
+//            c = commonRepository().RawCustomQueryForAdapter(query);
             c.moveToFirst();
             totalcount = c.getInt(0);
             Log.v("total count here", "" + totalcount);
@@ -534,7 +549,7 @@ public class Current_Stock extends Fragment implements
                     @Override
                     public Cursor loadInBackground() {
                         String query = filterandSortQuery();
-                        Cursor cursor = commonRepository().RawCustomQueryForAdapter(query);
+                        Cursor cursor = VaccinatorApplication.getInstance().getRepository().getReadableDatabase().rawQuery(query,null);
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -564,7 +579,7 @@ public class Current_Stock extends Fragment implements
     }
 
     public CommonRepository commonRepository(){
-        return context().commonrepository(tablename);
+        return new CommonRepository(VaccinatorApplication.createCommonFtsObject(),StockRepository.stock_TABLE_NAME,StockRepository.stock_TABLE_COLUMNS);
     }
 
     public boolean isPausedOrRefreshList(){

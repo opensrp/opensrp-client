@@ -70,7 +70,7 @@
         "openmrs_entity_id": "",
         "openmrs_data_type": "select one",
         "type": "radio",
-        "hint": "Received from *",
+        "label": "Received from *",
         "options":[
           {
             "key":"DHO",
@@ -81,6 +81,7 @@
             "text":"Other"
           }
         ],
+        "value": "DHO",
         "v_required": {
           "value": true,
           "err": "Please enter the place from where stock was received"
@@ -121,6 +122,15 @@
           "value": "true",
           "err": "Enter a valid vial number"
         }
+      },
+      {
+        "key":"Balance",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "openmrs_data_type": "text",
+        "type":"edit_text",
+        "hint":"Enter Your Name"
       }
     ]
   }
