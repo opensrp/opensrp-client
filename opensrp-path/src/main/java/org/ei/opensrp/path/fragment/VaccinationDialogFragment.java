@@ -388,27 +388,39 @@ public class VaccinationDialogFragment extends DialogFragment {
         VaccineSchedule.standardiseCalendarDate(minDate);
         VaccineSchedule.standardiseCalendarDate(maxDate);
 
-        if (today.getTimeInMillis() >= minDate.getTimeInMillis()
-                && today.getTimeInMillis() <= maxDate.getTimeInMillis()) {
-            vaccinateToday.setClickable(true);
-            vaccinateToday.setVisibility(View.VISIBLE);
+        if (maxDate.getTimeInMillis() >= minDate.getTimeInMillis()) {
+            vaccinateToday.setTextColor(getActivity().getResources().getColor(R.color.white));
+            vaccinateToday.setBackground(getActivity().getResources().getDrawable(R.drawable.vaccination_today_bg));
+            vaccinateEarlier.setBackground(getActivity().getResources().getDrawable(R.drawable.vaccination_earlier_bg));
+            if (today.getTimeInMillis() >= minDate.getTimeInMillis()
+                    && today.getTimeInMillis() <= maxDate.getTimeInMillis()) {
+                vaccinateToday.setClickable(true);
+                vaccinateToday.setVisibility(View.VISIBLE);
 
-            vaccinateEarlier.setVisibility(View.VISIBLE);
-            earlierDatePicker.setVisibility(View.GONE);
-            set.setVisibility(View.GONE);
+                vaccinateEarlier.setVisibility(View.VISIBLE);
+                earlierDatePicker.setVisibility(View.GONE);
+                set.setVisibility(View.GONE);
+            } else {
+                vaccinateToday.setClickable(false);
+                vaccinateToday.setVisibility(View.GONE);
+
+                vaccinateEarlier.setVisibility(View.GONE);
+                earlierDatePicker.setVisibility(View.VISIBLE);
+                set.setVisibility(View.VISIBLE);
+
+                DatePickerUtils.themeDatePicker(earlierDatePicker, new char[]{'d', 'm', 'y'});
+            }
+
+            earlierDatePicker.setMinDate(minDate.getTimeInMillis());
+            earlierDatePicker.setMaxDate(maxDate.getTimeInMillis());
         } else {
             vaccinateToday.setClickable(false);
-            vaccinateToday.setVisibility(View.GONE);
-
-            vaccinateEarlier.setVisibility(View.GONE);
-            earlierDatePicker.setVisibility(View.VISIBLE);
-            set.setVisibility(View.VISIBLE);
-
-            DatePickerUtils.themeDatePicker(earlierDatePicker, new char[]{'d', 'm', 'y'});
+            vaccinateToday.setTextColor(getActivity().getResources().getColor(R.color.client_list_grey));
+            vaccinateToday.setBackground(getActivity().getResources().getDrawable(R.drawable.vaccination_today_bg_disabled));
+            vaccinateEarlier.setClickable(false);
+            vaccinateEarlier.setBackground(getActivity().getResources().getDrawable(R.drawable.vaccination_earlier_bg_disabled));
+            Toast.makeText(getActivity(), R.string.problem_applying_vaccine_constraints, Toast.LENGTH_LONG).show();
         }
-
-        earlierDatePicker.setMinDate(minDate.getTimeInMillis());
-        earlierDatePicker.setMaxDate(maxDate.getTimeInMillis());
     }
 
     private Calendar updateMinVaccineDate(Calendar minDate, String vaccineName) {

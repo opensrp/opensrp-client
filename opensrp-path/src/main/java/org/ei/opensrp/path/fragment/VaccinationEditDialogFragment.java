@@ -276,7 +276,7 @@ public class VaccinationEditDialogFragment extends DialogFragment {
             });
         }
 
-        updateDateRanges(earlierDatePicker);
+        updateDateRanges(earlierDatePicker, set);
 
 
         return dialogView;
@@ -321,7 +321,7 @@ public class VaccinationEditDialogFragment extends DialogFragment {
      *
      * @param datePicker Date picker for selecting a previous date for a vaccine
      */
-    private void updateDateRanges(DatePicker datePicker) {
+    private void updateDateRanges(DatePicker datePicker, Button set) {
         Calendar today = Calendar.getInstance();
         VaccineSchedule.standardiseCalendarDate(today);
         Calendar minDate = null;
@@ -343,8 +343,14 @@ public class VaccinationEditDialogFragment extends DialogFragment {
         VaccineSchedule.standardiseCalendarDate(minDate);
         VaccineSchedule.standardiseCalendarDate(maxDate);
 
-        datePicker.setMinDate(minDate.getTimeInMillis());
-        datePicker.setMaxDate(maxDate.getTimeInMillis());
+        if (maxDate.getTimeInMillis() >= minDate.getTimeInMillis()) {
+            set.setVisibility(View.INVISIBLE);
+            datePicker.setMinDate(minDate.getTimeInMillis());
+            datePicker.setMaxDate(maxDate.getTimeInMillis());
+        } else {
+            set.setVisibility(View.INVISIBLE);
+            Toast.makeText(getActivity(), R.string.problem_applying_vaccine_constraints, Toast.LENGTH_LONG).show();
+        }
     }
 
     private Calendar updateMinVaccineDate(Calendar minDate, String vaccineName) {
