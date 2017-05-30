@@ -359,7 +359,7 @@ public class PathClientProcessor extends ClientProcessor {
             }
 
             DateTime birthDateTime = new DateTime(dob);
-            VaccineSchedule.updateOfflineAlerts(VaccinatorApplication.getInstance(), entityId, birthDateTime, "child");
+            VaccineSchedule.updateOfflineAlerts(entityId, birthDateTime, "child");
             ServiceSchedule.updateOfflineAlerts(entityId, birthDateTime);
         }
     }

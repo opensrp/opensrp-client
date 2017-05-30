@@ -21,7 +21,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,17 +30,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Triple;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.clientandeventmodel.Event;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
+import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.ServiceRecord;
+import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.domain.Weight;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Photo;
-import org.ei.opensrp.path.domain.VaccineSchedule;
+import org.ei.opensrp.path.domain.ServiceSchedule;
 import org.ei.opensrp.path.domain.ServiceWrapper;
+import org.ei.opensrp.path.domain.VaccineSchedule;
 import org.ei.opensrp.path.domain.VaccineWrapper;
 import org.ei.opensrp.path.domain.WeightWrapper;
 import org.ei.opensrp.path.fragment.EditWeightDialogFragment;
@@ -53,6 +56,7 @@ import org.ei.opensrp.path.listener.WeightActionListener;
 import org.ei.opensrp.path.repository.BaseRepository;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
+import org.ei.opensrp.path.repository.RecurringServiceTypeRepository;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.repository.WeightRepository;
 import org.ei.opensrp.path.sync.ECSyncUpdater;
@@ -60,10 +64,11 @@ import org.ei.opensrp.path.sync.PathClientProcessor;
 import org.ei.opensrp.path.tabfragments.ChildRegistrationDataFragment;
 import org.ei.opensrp.path.tabfragments.ChildUnderFiveFragment;
 import org.ei.opensrp.path.toolbar.ChildDetailsToolbar;
-import org.ei.opensrp.path.view.LocationPickerView;
 import org.ei.opensrp.path.view.ImmunizationRowGroup;
+import org.ei.opensrp.path.view.LocationPickerView;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.repository.DetailsRepository;
+import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.util.FormUtils;
 import org.ei.opensrp.util.OpenSRPImageLoader;
 import org.ei.opensrp.view.activity.DrishtiApplication;
@@ -92,6 +97,7 @@ import util.ImageUtils;
 import util.JsonFormUtils;
 import util.RecurringServiceUtils;
 import util.Utils;
+import util.VaccinateActionUtils;
 import util.VaccinatorUtils;
 
 import static util.Utils.getName;
@@ -1359,20 +1365,6 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         return date.before(dateBefore90Days);
     }
 
-    private class UpdateOfflineAlertsTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
-            if (!TextUtils.isEmpty(dobString)) {
-                DateTime dateTime = new DateTime(dobString);
-                VaccineSchedule.updateOfflineAlerts(VaccinatorApplication.getInstance(),
-                        childDetails.entityId(), dateTime, "child");
-            }
-            return null;
-        }
-    }
-
     //Recurring Service
     @Override
     public void onGiveToday(ServiceWrapper tag, View view) {
@@ -1390,7 +1382,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
 
     @Override
     public void onUndoService(ServiceWrapper tag, View view) {
-        RecurringServiceUtils.onUndoService(tag, view, childDetails.entityId());
+        Utils.startAsyncTask(new UndoServiceTask(tag, view), null);
     }
 
     public void saveService(ServiceWrapper tag, final View view) {
@@ -1406,7 +1398,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     }
 
 
-    public class SaveServiceTask extends AsyncTask<ServiceWrapper, Void, Pair<ArrayList<ServiceWrapper>, List<ServiceRecord>>> {
+    public class SaveServiceTask extends AsyncTask<ServiceWrapper, Void, Triple<ArrayList<ServiceWrapper>, List<ServiceRecord>, List<Alert>>> {
 
         private View view;
 
@@ -1420,13 +1412,13 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         }
 
         @Override
-        protected void onPostExecute(Pair<ArrayList<ServiceWrapper>, List<ServiceRecord>> pair) {
+        protected void onPostExecute(Triple<ArrayList<ServiceWrapper>, List<ServiceRecord>, List<Alert>> triple) {
             hideProgressDialog();
-            RecurringServiceUtils.updateServiceGroupViews(view, pair.first, pair.second);
+            RecurringServiceUtils.updateServiceGroupViews(view, triple.getLeft(), triple.getMiddle(), triple.getRight());
         }
 
         @Override
-        protected Pair<ArrayList<ServiceWrapper>, List<ServiceRecord>> doInBackground(ServiceWrapper... params) {
+        protected Triple<ArrayList<ServiceWrapper>, List<ServiceRecord>, List<Alert>> doInBackground(ServiceWrapper... params) {
 
             ArrayList<ServiceWrapper> list = new ArrayList<>();
 
@@ -1439,8 +1431,84 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
 
             List<ServiceRecord> serviceRecordList = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());
 
-            return new Pair<>(list, serviceRecordList);
+            ServiceSchedule.updateOfflineAlerts(childDetails.entityId(), Utils.dobToDateTime(childDetails));
 
+            RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
+            List<ServiceType> serviceTypes = recurringServiceTypeRepository.fetchAll();
+            String[] alertArray = VaccinateActionUtils.allAlertNames(serviceTypes);
+
+            AlertService alertService = getOpenSRPContext().alertService();
+            List<Alert> alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(), alertArray);
+
+            return Triple.of(list, serviceRecordList, alertList);
+
+        }
+    }
+
+    private class UndoServiceTask extends AsyncTask<Void, Void, Void> {
+
+        private View view;
+        private ServiceWrapper tag;
+        private List<ServiceRecord> serviceRecordList;
+        private ArrayList<ServiceWrapper> wrappers;
+        private List<Alert> alertList;
+
+        public UndoServiceTask(ServiceWrapper tag, View view) {
+            this.tag = tag;
+            this.view = view;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            if (tag != null) {
+
+                if (tag.getDbKey() != null) {
+                    RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
+                    Long dbKey = tag.getDbKey();
+                    recurringServiceRecordRepository.deleteServiceRecord(dbKey);
+
+                    serviceRecordList = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());
+
+                    wrappers = new ArrayList<>();
+                    wrappers.add(tag);
+
+                    ServiceSchedule.updateOfflineAlerts(childDetails.entityId(), Utils.dobToDateTime(childDetails));
+
+                    RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
+                    List<ServiceType> serviceTypes = recurringServiceTypeRepository.fetchAll();
+                    String[] alertArray = VaccinateActionUtils.allAlertNames(serviceTypes);
+
+                    AlertService alertService = getOpenSRPContext().alertService();
+                    alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(), alertArray);
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void params) {
+            super.onPostExecute(params);
+
+            tag.setUpdatedVaccineDate(null, false);
+            tag.setDbKey(null);
+
+            RecurringServiceUtils.updateServiceGroupViews(view, wrappers, serviceRecordList, alertList, true);
+        }
+    }
+
+    private class UpdateOfflineAlertsTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            DateTime birthDateTime = Utils.dobToDateTime(childDetails);
+            if (birthDateTime != null) {
+                VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), birthDateTime, "child");
+            }
+            return null;
         }
     }
 

@@ -391,7 +391,7 @@ public class VaccinatorUtils {
         try {
             for (ServiceType s : serviceTypes) {
                 Map<String, Object> m = new HashMap<>();
-                Date recDate = received.get(s.getName().toLowerCase());
+                Date recDate = received.get(s.getName());
                 if (recDate != null) {
                     m = createServiceMap("done", null, new DateTime(recDate), s);
                 } /*else if (milestoneDate != null && StringUtils.isNotBlank(s.getExpiryOffset()) && ServiceSchedule.addOffsetToDateTime(milestoneDate, s.getExpiryOffset()).isBefore(DateTime.now())) {

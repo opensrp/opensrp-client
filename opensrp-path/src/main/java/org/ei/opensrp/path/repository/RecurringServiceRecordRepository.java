@@ -16,20 +16,21 @@ import java.util.List;
 
 public class RecurringServiceRecordRepository extends BaseRepository {
     private static final String TAG = RecurringServiceRecordRepository.class.getCanonicalName();
-    private static final String CREATE_TABLE_SQL = "CREATE TABLE recurring_service_records (_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,base_entity_id VARCHAR NOT NULL,recurring_service_id INTERGER NOT NULL,value VARCHAR, date DATETIME NOT NULL,anmid VARCHAR NULL,location_id VARCHAR NULL,sync_status VARCHAR, event_id VARCHAR, formSubmissionId VARCHAR, updated_at INTEGER NULL, UNIQUE(base_entity_id, recurring_service_id) ON CONFLICT IGNORE)";
+    private static final String CREATE_TABLE_SQL = "CREATE TABLE recurring_service_records (_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,base_entity_id VARCHAR NOT NULL,program_client_id VARCHAR NULL,recurring_service_id INTERGER NOT NULL,value VARCHAR, date DATETIME NOT NULL,anmid VARCHAR NULL,location_id VARCHAR NULL,sync_status VARCHAR, event_id VARCHAR, formSubmissionId VARCHAR, updated_at INTEGER NULL, UNIQUE(base_entity_id, recurring_service_id) ON CONFLICT IGNORE)";
     public static final String TABLE_NAME = "recurring_service_records";
     public static final String ID_COLUMN = "_id";
     public static final String BASE_ENTITY_ID = "base_entity_id";
     public static final String VALUE = "value";
     public static final String EVENT_ID = "event_id";
     public static final String FORMSUBMISSION_ID = "formSubmissionId";
+    public static final String PROGRAM_CLIENT_ID = "program_client_id";
     public static final String RECURRING_SERVICE_ID = "recurring_service_id";
     public static final String DATE = "date";
     public static final String ANMID = "anmid";
     public static final String LOCATIONID = "location_id";
     public static final String SYNC_STATUS = "sync_status";
     public static final String UPDATED_AT_COLUMN = "updated_at";
-    public static final String[] TABLE_COLUMNS = {ID_COLUMN, BASE_ENTITY_ID, RECURRING_SERVICE_ID, VALUE, DATE, ANMID, LOCATIONID, SYNC_STATUS, EVENT_ID, FORMSUBMISSION_ID, UPDATED_AT_COLUMN};
+    public static final String[] TABLE_COLUMNS = {ID_COLUMN, BASE_ENTITY_ID, PROGRAM_CLIENT_ID, RECURRING_SERVICE_ID, VALUE, DATE, ANMID, LOCATIONID, SYNC_STATUS, EVENT_ID, FORMSUBMISSION_ID, UPDATED_AT_COLUMN};
 
     private static final String BASE_ENTITY_ID_INDEX = "CREATE INDEX " + TABLE_NAME + "_" + BASE_ENTITY_ID + "_index ON " + TABLE_NAME + "(" + BASE_ENTITY_ID + " COLLATE NOCASE);";
     public static final String RECURRING_SERVICE_ID_INDEX = "CREATE INDEX " + TABLE_NAME + "_" + RECURRING_SERVICE_ID + "_index ON " + TABLE_NAME + "(" + RECURRING_SERVICE_ID + ");";
@@ -152,6 +153,7 @@ public class RecurringServiceRecordRepository extends BaseRepository {
 
                     ServiceRecord serviceRecord = new ServiceRecord(cursor.getLong(cursor.getColumnIndex(ID_COLUMN)),
                             cursor.getString(cursor.getColumnIndex(BASE_ENTITY_ID)),
+                            cursor.getString(cursor.getColumnIndex(PROGRAM_CLIENT_ID)),
                             cursor.getLong(cursor.getColumnIndex(RECURRING_SERVICE_ID)),
                             cursor.getString(cursor.getColumnIndex(VALUE)),
                             new Date(cursor.getLong(cursor.getColumnIndex(DATE))),
@@ -199,6 +201,7 @@ public class RecurringServiceRecordRepository extends BaseRepository {
         ContentValues values = new ContentValues();
         values.put(ID_COLUMN, serviceRecord.getId());
         values.put(BASE_ENTITY_ID, serviceRecord.getBaseEntityId());
+        values.put(PROGRAM_CLIENT_ID, serviceRecord.getProgramClientId());
         values.put(RECURRING_SERVICE_ID, serviceRecord.getRecurringServiceId());
         values.put(VALUE, serviceRecord.getValue());
         values.put(DATE, serviceRecord.getDate() != null ? serviceRecord.getDate().getTime() : null);

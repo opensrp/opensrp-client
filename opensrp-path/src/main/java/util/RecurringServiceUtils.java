@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 
+import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.ServiceRecord;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.ServiceWrapper;
@@ -19,32 +20,12 @@ import java.util.List;
  */
 public class RecurringServiceUtils {
 
-    public static void onUndoService(ServiceWrapper tag, View view, String baseEntityId) {
-        if (tag != null) {
 
-            if (tag.getDbKey() != null) {
-                RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
-                Long dbKey = tag.getDbKey();
-                recurringServiceRecordRepository.deleteServiceRecord(dbKey);
-
-                tag.setUpdatedVaccineDate(null, false);
-                tag.setDbKey(null);
-
-                List<ServiceRecord> serviceRecordList = recurringServiceRecordRepository.findByEntityId(baseEntityId);
-
-                ArrayList<ServiceWrapper> wrappers = new ArrayList<>();
-                wrappers.add(tag);
-                updateServiceGroupViews(view, wrappers, serviceRecordList, true);
-            }
-        }
+    public static void updateServiceGroupViews(View view, final ArrayList<ServiceWrapper> wrappers, List<ServiceRecord> serviceRecordList, List<Alert> alertList) {
+        updateServiceGroupViews(view, wrappers, serviceRecordList, alertList, false);
     }
 
-
-    public static void updateServiceGroupViews(View view, final ArrayList<ServiceWrapper> wrappers, List<ServiceRecord> serviceRecordList) {
-        updateServiceGroupViews(view, wrappers, serviceRecordList, false);
-    }
-
-    public static void updateServiceGroupViews(View view, final ArrayList<ServiceWrapper> wrappers, final List<ServiceRecord> serviceRecordList, final boolean undo) {
+    public static void updateServiceGroupViews(View view, final ArrayList<ServiceWrapper> wrappers, final List<ServiceRecord> serviceRecordList, final List<Alert> alertList, final boolean undo) {
         if (view == null || wrappers == null || wrappers.isEmpty()) {
             return;
         }
@@ -56,9 +37,10 @@ public class RecurringServiceUtils {
             if (Looper.myLooper() == Looper.getMainLooper()) {
                 if (undo) {
                     serviceGroup.setServiceRecordList(serviceRecordList);
-                    serviceGroup.updateWrapperStatus(wrappers);
+                    serviceGroup.setAlertList(alertList);
+                    serviceGroup.updateAllWrapperStatus();
                 }
-                serviceGroup.updateViews(wrappers);
+                serviceGroup.updateViews();
 
             } else {
                 Handler handler = new Handler(Looper.getMainLooper());
@@ -67,9 +49,10 @@ public class RecurringServiceUtils {
                     public void run() {
                         if (undo) {
                             serviceGroup.setServiceRecordList(serviceRecordList);
-                            serviceGroup.updateWrapperStatus(wrappers);
+                            serviceGroup.setAlertList(alertList);
+                            serviceGroup.updateAllWrapperStatus();
                         }
-                        serviceGroup.updateViews(wrappers);
+                        serviceGroup.updateViews();
                     }
                 });
             }

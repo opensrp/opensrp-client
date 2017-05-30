@@ -28,6 +28,7 @@ import android.os.Build.VERSION_CODES;
 import android.text.Html;
 import android.text.InputType;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -530,5 +531,15 @@ public class Utils {
             asyncTask.execute(params);
         }
     }
+
+    public static DateTime dobToDateTime(CommonPersonObjectClient childDetails) {
+        DateTime birthDateTime = null;
+        String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+        if (!TextUtils.isEmpty(dobString)) {
+            birthDateTime = new DateTime(dobString);
+        }
+        return birthDateTime;
+    }
+
 
 }

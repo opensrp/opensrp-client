@@ -26,6 +26,7 @@ import java.util.List;
 import util.ImageUtils;
 import util.Utils;
 
+import static util.Utils.fillValue;
 import static util.Utils.getName;
 import static util.Utils.getValue;
 
@@ -103,6 +104,8 @@ public class ServiceCardAdapter extends BaseAdapter {
                 serviceCard.setServiceWrapper(serviceWrapper);
 
                 serviceCards.put(type, serviceCard);
+
+                visibilityCheck();
             }
 
             return serviceCards.get(type);
@@ -113,20 +116,58 @@ public class ServiceCardAdapter extends BaseAdapter {
         return null;
     }
 
-    public void update(ArrayList<ServiceWrapper> servicesToUpdate) {
+    public void updateAll() {
         if (serviceCards != null) {
-            if (servicesToUpdate == null) {// Update all vaccines
-                for (ServiceCard curCard : serviceCards.values()) {
-                    if (curCard != null) curCard.updateState();
-                }
-            } else {// Update just the vaccines specified
-                for (ServiceWrapper currWrapper : servicesToUpdate) {
-                    if (serviceCards.containsKey(currWrapper.getType())) {
-                        serviceCards.get(currWrapper.getType()).updateState();
+            // Update all vaccines
+            for (ServiceCard curCard : serviceCards.values()) {
+                if (curCard != null) curCard.updateState();
+            }
+        }
+
+        visibilityCheck();
+    }
+
+
+    public void visibilityCheck() {
+        // if all cards have been updated
+        if (getCount() == serviceCards.size()) {
+            if (atLeastOneVisibleCard()) {
+                serviceGroup.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        serviceGroup.setVisibility(View.VISIBLE);
                     }
+                });
+            } else {
+                serviceGroup.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        serviceGroup.setVisibility(View.GONE);
+                    }
+                });
+            }
+        }
+    }
+
+    public boolean atLeastOneVisibleCard() {
+        if (serviceCards != null) {
+            for (ServiceCard serviceCard : serviceCards.values()) {
+                if (serviceCard.getVisibility() == View.VISIBLE) {
+                    return true;
                 }
             }
         }
+        return false;
+    }
+
+    public List<ServiceWrapper> allWrappers() {
+        List<ServiceWrapper> serviceWrappers = new ArrayList<>();
+        if (serviceCards != null) {
+            for (ServiceCard serviceCard : serviceCards.values()) {
+                serviceWrappers.add(serviceCard.getServiceWrapper());
+            }
+        }
+        return allWrappers();
     }
 
 }
