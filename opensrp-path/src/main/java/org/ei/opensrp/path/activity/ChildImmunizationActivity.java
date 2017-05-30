@@ -1139,6 +1139,12 @@ public class ChildImmunizationActivity extends BaseActivity
 
         @Override
         protected Map<String, NamedObject<?>> doInBackground(Void... voids) {
+            String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+            if (!TextUtils.isEmpty(dobString)) {
+                DateTime dateTime = new DateTime(dobString);
+                VaccineSchedule.updateOfflineAlerts(VaccinatorApplication.getInstance(), childDetails.entityId(), dateTime, "child");
+            }
+
             List<Vaccine> vaccineList = new ArrayList<>();
             Weight weight = null;
 
