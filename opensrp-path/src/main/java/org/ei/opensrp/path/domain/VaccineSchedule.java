@@ -28,8 +28,8 @@ import java.util.regex.Pattern;
 
 public class VaccineSchedule {
 
-    private final VaccineTrigger dueTrigger;
-    private final VaccineTrigger expiryTrigger;
+    private final ArrayList<VaccineTrigger> dueTriggers;
+    private final ArrayList<VaccineTrigger> expiryTriggers;
     private final VaccineRepo.Vaccine vaccine;
     private final ArrayList<VaccineCondition> conditions;
 
@@ -106,7 +106,7 @@ public class VaccineSchedule {
                     issuedVaccines = new ArrayList<>();
                 }
 
-                oldAlerts = application.context().alertService().findByEntityIdAndOffline(baseEntityId, true);
+                oldAlerts = application.context().alertService().findByEntityIdAndOffline(baseEntityId, alertNames.toArray(new String[0]));
                 application.context().alertService().deleteOfflineAlerts(baseEntityId, alertNames.toArray(new String[0]));
 
                 // Get existing alerts
@@ -183,7 +183,7 @@ public class VaccineSchedule {
             }
 
             return notInNew;
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e(VaccineSchedule.class.getName(), e.toString(), e);
             return new ArrayList<>();
         }
@@ -201,8 +201,26 @@ public class VaccineSchedule {
 
     private static VaccineSchedule getVaccineSchedule(String vaccineName, String vaccineCategory, JSONObject schedule)
             throws JSONException {
-        VaccineTrigger dueTrigger = VaccineTrigger.init(vaccineCategory, schedule.getJSONObject("due"));
-        VaccineTrigger expiryTrigger = VaccineTrigger.init(vaccineCategory, schedule.optJSONObject("expiry"));
+        ArrayList<VaccineTrigger> dueTriggers = new ArrayList<>();
+        JSONArray due = schedule.getJSONArray("due");
+        for (int i = 0; i < due.length(); i++) {
+            VaccineTrigger curTrigger = VaccineTrigger.init(vaccineCategory, due.getJSONObject(i));
+            if (curTrigger != null) {
+                dueTriggers.add(curTrigger);
+            }
+        }
+
+        ArrayList<VaccineTrigger> expiryTriggers = new ArrayList<>();
+        if (schedule.has("expiry")) {
+            JSONArray expiry = schedule.getJSONArray("expiry");
+            for (int i = 0; i < expiry.length(); i++) {
+                VaccineTrigger curTrigger = VaccineTrigger.init(vaccineCategory, expiry.getJSONObject(i));
+                if (curTrigger != null) {
+                    expiryTriggers.add(curTrigger);
+                }
+            }
+        }
+
         VaccineRepo.Vaccine vaccine = VaccineRepo.getVaccine(vaccineName, vaccineCategory);
         if (vaccine != null) {
             ArrayList<VaccineCondition> conditions = new ArrayList<>();
@@ -217,16 +235,18 @@ public class VaccineSchedule {
                 }
             }
 
-            return new VaccineSchedule(dueTrigger, expiryTrigger, vaccine, conditions);
+            return new VaccineSchedule(dueTriggers, expiryTriggers, vaccine, conditions);
         }
 
         return null;
     }
 
-    public VaccineSchedule(VaccineTrigger dueTrigger, VaccineTrigger expiryTrigger, VaccineRepo.Vaccine vaccine,
+    public VaccineSchedule(ArrayList<VaccineTrigger> dueTriggers,
+                           ArrayList<VaccineTrigger> expiryTriggers,
+                           VaccineRepo.Vaccine vaccine,
                            ArrayList<VaccineCondition> conditions) {
-        this.dueTrigger = dueTrigger;
-        this.expiryTrigger = expiryTrigger;
+        this.dueTriggers = dueTriggers;
+        this.expiryTriggers = expiryTriggers;
         this.vaccine = vaccine;
         this.conditions = conditions;
     }
@@ -250,15 +270,17 @@ public class VaccineSchedule {
 
         // Use the trigger date as a reference, since that is what is mostly used
         AlertStatus alertStatus = calculateAlertStatus(
-                dueTrigger.getFireDate(issuedVaccines, dateOfBirth));
+                getDueDate(issuedVaccines, dateOfBirth));
 
         if (alertStatus != null) {
+            Date dueDate = getDueDate(issuedVaccines, dateOfBirth);
+            Date expiryDate = getExpiryDate(issuedVaccines, dateOfBirth);
             Alert offlineAlert = new Alert(baseEntityId,
                     vaccine.display(),
                     vaccine.name(),
                     alertStatus,
-                    DateUtil.yyyyMMdd.format(dueTrigger.getFireDate(issuedVaccines, dateOfBirth)),
-                    expiryTrigger != null ? DateUtil.yyyyMMdd.format(expiryTrigger.getFireDate(issuedVaccines, dateOfBirth)) : null,
+                    dueDate == null ? null : DateUtil.yyyyMMdd.format(dueDate),
+                    expiryDate == null ? null : DateUtil.yyyyMMdd.format(expiryDate),
                     true);
 
             return offlineAlert;
@@ -292,15 +314,35 @@ public class VaccineSchedule {
     }
 
     public Date getDueDate(List<Vaccine> issuedVaccines, Date dob) {
-        return dueTrigger.getFireDate(issuedVaccines, dob);
+        Date dueDate = null;
+        for (VaccineTrigger curTrigger : dueTriggers) {
+            if (dueDate == null) {
+                dueDate = curTrigger.getFireDate(issuedVaccines, dob);
+            } else {
+                Date curDate = curTrigger.getFireDate(issuedVaccines, dob);
+                if (curDate != null && curDate.getTime() < dueDate.getTime()) {
+                    dueDate = curDate;
+                }
+            }
+        }
+
+        return dueDate;
     }
 
     public Date getExpiryDate(List<Vaccine> issuedVaccines, Date dob) {
-        if (expiryTrigger != null) {
-            return expiryTrigger.getFireDate(issuedVaccines, dob);
+        Date expiryDate = null;
+        for (VaccineTrigger curTrigger : expiryTriggers) {
+            if (expiryDate == null) {
+                expiryDate = curTrigger.getFireDate(issuedVaccines, dob);
+            } else {
+                Date curDate = curTrigger.getFireDate(issuedVaccines, dob);
+                if (curDate != null && curDate.getTime() < expiryDate.getTime()) {
+                    expiryDate = curDate;
+                }
+            }
         }
 
-        return null;
+        return expiryDate;
     }
 
     public static void standardiseCalendarDate(Calendar calendarDate) {

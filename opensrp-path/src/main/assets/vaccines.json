@@ -19,14 +19,18 @@
           "calculation": 0
         },
         "schedule": {
-          "due": {
-            "reference": "dob",
-            "offset": "+0d"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+13d"
-          }
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+0d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+13d"
+            }
+          ]
         }
       },
       {
@@ -44,14 +48,18 @@
           "calculation": 1
         },
         "schedule": {
-          "due": {
-            "reference": "dob",
-            "offset": "+0d"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+1y"
-          }
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+0d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+1y"
+            }
+          ]
         }
       }
     ]
@@ -76,14 +84,18 @@
           "calculation": 1
         },
         "schedule": {
-          "due": {
-            "reference": "dob",
-            "offset": "+42d"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+4y,10m"
-          }
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+42d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+4y,10m"
+            }
+          ]
         }
       },
       {
@@ -101,14 +113,18 @@
           "calculation": 1
         },
         "schedule": {
-          "due": {
-            "reference": "dob",
-            "offset": "+42d"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+4y,10m"
-          }
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+42d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+4y,10m"
+            }
+          ]
         }
       },
       {
@@ -126,14 +142,18 @@
           "calculation": 1
         },
         "schedule": {
-          "due": {
-            "reference": "dob",
-            "offset": "+42d"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+4y,10m"
-          }
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+42d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+4y,10m"
+            }
+          ]
         }
       },
       {
@@ -151,14 +171,18 @@
           "calculation": 1
         },
         "schedule": {
-          "due": {
-            "reference": "dob",
-            "offset": "+42d"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+7m"
-          }
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+42d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+7m"
+            }
+          ]
         }
       }
     ]
@@ -183,15 +207,19 @@
           "calculation": 2
         },
         "schedule": {
-          "due": {
-            "reference": "prerequisite",
-            "prerequisite": "OPV 1",
-            "offset": "+28d"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+4y,11m"
-          }
+          "due": [
+            {
+              "reference": "prerequisite",
+              "prerequisite": "OPV 1",
+              "offset": "+28d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+4y,11m"
+            }
+          ]
         }
       },
       {
@@ -209,15 +237,19 @@
           "calculation": 2
         },
         "schedule": {
-          "due": {
-            "reference": "prerequisite",
-            "prerequisite": "Penta 1",
-            "offset": "+28d"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+4y,11m"
-          }
+          "due": [
+            {
+              "reference": "prerequisite",
+              "prerequisite": "Penta 1",
+              "offset": "+28d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+4y,11m"
+            }
+          ]
         }
       },
       {
@@ -235,15 +267,19 @@
           "calculation": 2
         },
         "schedule": {
-          "due": {
-            "reference": "prerequisite",
-            "prerequisite": "PCV 1",
-            "offset": "+28d"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+4y,11m"
-          }
+          "due": [
+            {
+              "reference": "prerequisite",
+              "prerequisite": "PCV 1",
+              "offset": "+28d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+4y,11m"
+            }
+          ]
         }
       },
       {
@@ -261,15 +297,19 @@
           "calculation": 2
         },
         "schedule": {
-          "due": {
-            "reference": "prerequisite",
-            "prerequisite": "Rota 1",
-            "offset": "+28d"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+8m"
-          }
+          "due": [
+            {
+              "reference": "prerequisite",
+              "prerequisite": "Rota 1",
+              "offset": "+28d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+8m"
+            }
+          ]
         }
       }
     ]
@@ -294,15 +334,19 @@
           "calculation": 3
         },
         "schedule": {
-          "due": {
-            "reference": "prerequisite",
-            "prerequisite": "OPV 2",
-            "offset": "+28d"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+5y"
-          }
+          "due": [
+            {
+              "reference": "prerequisite",
+              "prerequisite": "OPV 2",
+              "offset": "+28d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+5y"
+            }
+          ]
         }
       },
       {
@@ -320,15 +364,19 @@
           "calculation": 3
         },
         "schedule": {
-          "due": {
-            "reference": "prerequisite",
-            "prerequisite": "Penta 2",
-            "offset": "+28d"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+5y"
-          }
+          "due": [
+            {
+              "reference": "prerequisite",
+              "prerequisite": "Penta 2",
+              "offset": "+28d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+5y"
+            }
+          ]
         }
       },
       {
@@ -346,15 +394,19 @@
           "calculation": 3
         },
         "schedule": {
-          "due": {
-            "reference": "prerequisite",
-            "prerequisite": "PCV 2",
-            "offset": "+28d"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+5y"
-          }
+          "due": [
+            {
+              "reference": "prerequisite",
+              "prerequisite": "PCV 2",
+              "offset": "+28d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+5y"
+            }
+          ]
         }
       }
     ]
@@ -381,10 +433,12 @@
         },
         "schedule": {
           "Measles 1": {
-            "due": {
-              "reference": "dob",
-              "offset": "+9m"
-            },
+            "due": [
+              {
+                "reference": "dob",
+                "offset": "+9m"
+              }
+            ],
             "conditions": [
               {
                 "type": "not_given",
@@ -393,10 +447,12 @@
             ]
           },
           "MR 1": {
-            "due": {
-              "reference": "dob",
-              "offset": "+9m"
-            },
+            "due": [
+              {
+                "reference": "dob",
+                "offset": "+9m"
+              }
+            ],
             "conditions": [
               {
                 "type": "not_given",
@@ -421,14 +477,18 @@
           "calculation": 4
         },
         "schedule": {
-          "due": {
-            "reference": "dob",
-            "offset": "+9m"
-          },
-          "expiry": {
-            "reference": "dob",
-            "offset": "+5y"
-          },
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+9m"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+5y"
+            }
+          ],
           "conditions": [
             {
               "type": "not_given",
@@ -467,11 +527,18 @@
         },
         "schedule": {
           "Measles 2": {
-            "due": {
-              "reference": "prerequisite",
-              "prerequisite": "Measles 1",
-              "offset": "+9m"
-            },
+            "due": [
+              {
+                "reference": "prerequisite",
+                "prerequisite": "Measles 1",
+                "offset": "+9m"
+              },
+              {
+                "reference": "prerequisite",
+                "prerequisite": "MR 1",
+                "offset": "+9m"
+              }
+            ],
             "conditions": [
               {
                 "type": "not_given",
@@ -480,11 +547,18 @@
             ]
           },
           "MR 2": {
-            "due": {
-              "reference": "prerequisite",
-              "prerequisite": "MR 1",
-              "offset": "+9m"
-            },
+            "due": [
+              {
+                "reference": "prerequisite",
+                "prerequisite": "MR 1",
+                "offset": "+9m"
+              },
+              {
+                "reference": "prerequisite",
+                "prerequisite": "Measles 1",
+                "offset": "+9m"
+              }
+            ],
             "conditions": [
               {
                 "type": "not_given",

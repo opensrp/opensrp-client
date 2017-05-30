@@ -62,8 +62,8 @@ public class AlertService {
         return repository.findByEntityIdAndAlertNames(entityId, names);
     }
 
-    public List<Alert> findByEntityIdAndOffline(String entityId, boolean offline) {
-        return repository.findByEntityIdAndOffline(entityId, offline);
+    public List<Alert> findByEntityIdAndOffline(String entityId, String... names) {
+        return repository.findOfflineByEntityIdAndName(entityId, names);
     }
 
     public Alert findByEntityIdAndScheduleName(String entityId, String scheduleName) {

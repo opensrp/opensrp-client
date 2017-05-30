@@ -175,14 +175,12 @@ public class AlertRepository extends DrishtiRepository {
         return readAllAlerts(cursor);
     }
 
-    public List<Alert> findByEntityIdAndOffline(String entityId, boolean offline) {
-        int offlineValue = 0;
-        if (offline) offlineValue = 1;
-
+    public List<Alert> findOfflineByEntityIdAndName(String entityId, String... names) {
         SQLiteDatabase database = masterRepository.getReadableDatabase();
-        Cursor cursor = database.rawQuery(format("SELECT * FROM %s WHERE %s = ? AND %s = ? ORDER BY DATE(%s)",
-                        ALERTS_TABLE_NAME, ALERTS_CASEID_COLUMN, ALERTS_OFFLINE_COLUMN, ALERTS_STARTDATE_COLUMN),
-                new String[]{entityId, String.valueOf(offlineValue)});
+        Cursor cursor = database.rawQuery(format("SELECT * FROM %s WHERE %s = ? AND %s = 1 AND %s IN (%s) ORDER BY DATE(%s)",
+                ALERTS_TABLE_NAME, ALERTS_CASEID_COLUMN, ALERTS_OFFLINE_COLUMN,
+                ALERTS_VISIT_CODE_COLUMN, insertPlaceholdersForInClause(names.length), ALERTS_STARTDATE_COLUMN),
+                addAll(new String[]{entityId}, names));
         return readAllAlerts(cursor);
     }
 

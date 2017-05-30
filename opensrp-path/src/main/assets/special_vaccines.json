@@ -14,15 +14,19 @@
       "calculation": 2
     },
     "schedule": {
-      "due": {
-        "reference": "prerequisite",
-        "prerequisite": "BCG",
-        "offset": "+0d"
-      },
-      "expiry": {
-        "reference": "dob",
-        "offset": "+1y"
-      }
+      "due": [
+        {
+          "reference": "prerequisite",
+          "prerequisite": "BCG",
+          "offset": "+0d"
+        }
+      ],
+      "expiry": [
+        {
+          "reference": "dob",
+          "offset": "+1y"
+        }
+      ]
     }
   }
 ]

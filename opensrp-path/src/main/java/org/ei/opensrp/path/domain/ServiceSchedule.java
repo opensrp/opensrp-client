@@ -65,7 +65,6 @@ public class ServiceSchedule {
                 issuedServices = new ArrayList<>();
             }
 
-            oldAlerts = alertService.findByEntityIdAndOffline(baseEntityId, true);
             alertService.deleteOfflineAlerts(baseEntityId, alertArray);
 
             List<Alert> existingAlerts = alertService.findByEntityIdAndAlertNames(baseEntityId, alertArray);
