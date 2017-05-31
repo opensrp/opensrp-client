@@ -90,6 +90,60 @@ public class HIA2Service {
     private static String CHN3_025_DHIS_ID = "dqsYPg0F8DJ";
     private static String CHN3_025_O = "CHN3-025-O";
     private static String CHN3_025_O_DHIS_ID = "unknown";
+    private static String CHN3_027 = "CHN3-027";
+    private static String CHN3_027_DHIS_ID = "unknown";
+    private static String CHN3_027_O = "CHN3-027-O";
+    private static String CHN3_027_O_DHIS_ID = "unknown";
+    private static String CHN3_030 = "CHN3-030";
+    private static String CHN3_030_DHIS_ID = "poPXN7Wn3RL";
+    private static String CHN3_030_O = "CHN3-030-O";
+    private static String CHN3_030_O_DHIS_ID = "unknown";
+    private static String CHN3_035 = "CHN3-035";
+    private static String CHN3_035_DHIS_ID = "N7VEEjo8AdV";
+    private static String CHN3_035_O = "CHN3-035-O";
+    private static String CHN3_035_O_DHIS_ID = "unknown";
+    private static String CHN3_040 = "CHN3-040";
+    private static String CHN3_040_DHIS_ID = "R2JLWtup2XR";
+    private static String CHN3_040_O = "CHN3-040-O";
+    private static String CHN3_040_O_DHIS_ID = "unknown";
+    private static String CHN3_045 = "CHN3-045";
+    private static String CHN3_045_DHIS_ID = "ujEvTSZ0Wvn";
+    private static String CHN3_045_O = "CHN3-045-O";
+    private static String CHN3_045_O_DHIS_ID = "unknown";
+    private static String CHN3_050 = "CHN3-050";
+    private static String CHN3_050_DHIS_ID = "dPpDhpO7GpB";
+    private static String CHN3_050_O = "CHN3-050-O";
+    private static String CHN3_050_O_DHIS_ID = "unknown";
+    private static String CHN3_055 = "CHN3-055";
+    private static String CHN3_055_DHIS_ID = "AU3Zp03Atnf";
+    private static String CHN3_055_O = "CHN3-055-O";
+    private static String CHN3_055_O_DHIS_ID = "unknown";
+    private static String CHN3_060 = "CHN3-060";
+    private static String CHN3_060_DHIS_ID = "K5XarM6QLxq";
+    private static String CHN3_060_O = "CHN3-060-O";
+    private static String CHN3_060_O_DHIS_ID = "unknown";
+    private static String CHN3_065 = "CHN3-065";
+    private static String CHN3_065_DHIS_ID = "ziezVvnYWj0";
+    private static String CHN3_065_O = "CHN3-065-O";
+    private static String CHN3_065_O_DHIS_ID = "unknown";
+    private static String CHN3_070 = "CHN3-070";
+    private static String CHN3_070_DHIS_ID = "dpKLNY9JjRR";
+    private static String CHN3_070_O = "CHN3-070-O";
+    private static String CHN3_070_O_DHIS_ID = "unknown";
+    private static String CHN3_075 = "CHN3-075";
+    private static String CHN3_075_DHIS_ID = "zIM9ehVMkNW";
+    private static String CHN3_075_O = "CHN3-075-O";
+    private static String CHN3_075_O_DHIS_ID = "unknown";
+    private static String CHN3_80 = "CHN3-80";
+    private static String CHN3_80_DHIS_ID = "dzllAar6RrI";
+    private static String CHN3_80_O = "CHN3-80-O";
+    private static String CHN3_80_O_DHIS_ID = "unknown";
+    private static String CHN3_085 = "CHN3-085";
+    private static String CHN3_085_DHIS_ID = "sqfX5MniMIH";
+    private static String CHN3_085_O = "CHN3-085-O";
+    private static String CHN3_085_O_DHIS_ID = "unknown";
+    private static String CHN3_090 = "CHN3-090";
+    private static String CHN3_090_DHIS_ID = "FGJcw1TCM9D";
 
 
     //FIXME to uniquely identify out of areas change group by child.base_entity_id to group by zeir_id
@@ -471,7 +525,7 @@ public class HIA2Service {
     }
 
     /**
-     * Number of children < one year who received OPV3 dose at this facility in this month 
+     * Number of children < one year who received OPV3 dose at this facility in this month
      *
      * @param db
      */
@@ -481,10 +535,254 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received OPV3 dose at outreach conducted by this facility in this month
+     *
      * @param db
      */
     private void getCHN3_025_O(SQLiteDatabase db) {
         getVaccineCount("opv_3", "<12", false);
+    }
+
+    /**
+     * Number of children < one year who received IPV dose at this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_027(SQLiteDatabase db) {
+        getVaccineCount("ipv", "<12", false);
+    }
+
+    /**
+     * Number of children < one year who received IPV dose at outreach conducted by this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_027_O(SQLiteDatabase db) {
+        getVaccineCount("ipv", "<12", true);
+    }
+
+    /**
+     * Number of children < one year who received OPV4 dose at this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_030(SQLiteDatabase db) {
+        getVaccineCount("opv_4", "<12", false);
+    }
+
+    /**
+     * Number of children < one year who received OPV4 dose at outreach conducted by this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_030_O(SQLiteDatabase db) {
+        getVaccineCount("opv_4", "<12", true);
+    }
+
+    /**
+     * Number of children < one year who received DPT-Hib+HepB 1 dose at this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_035(SQLiteDatabase db) {
+        getVaccineCount("penta_1", "<12", false);
+    }
+
+    /**
+     * Number of children < one year who received DPT-Hib+HepB 1 dose at outreach conducted by this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_035_O(SQLiteDatabase db) {
+        getVaccineCount("penta_1", "<12", true);
+    }
+
+    /**
+     * Number of children < one year who received DPT-Hib+HepB 2 dose at this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_040(SQLiteDatabase db) {
+        getVaccineCount("penta_2", "<12", false);
+    }
+
+    /**
+     * Number of children < one year who received DPT-Hib+HepB 2 dose at outreach conducted by this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_040_O(SQLiteDatabase db) {
+        getVaccineCount("penta_2", "<12", true);
+    }
+
+    /**
+     * Number of children < one year who received DPT-Hib+HepB 3 dose at this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_045(SQLiteDatabase db) {
+        getVaccineCount("penta_3", "<12", false);
+    }
+
+    /**
+     * Number of children < one year who received DPT-Hib+HepB 3 dose at outreach conducted by this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_045_O(SQLiteDatabase db) {
+        getVaccineCount("penta_3", "<12", true);
+    }
+
+    /**
+     * Number of children < one year who received PCV 1 dose at this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_050(SQLiteDatabase db) {
+        getVaccineCount("pcv_1", "<12", false);
+    }
+
+    /**
+     * Number of children < one year who received PCV 1 dose at outreach conducted by this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_050_O(SQLiteDatabase db) {
+        getVaccineCount("pcv_1", "<12", true);
+    }
+
+    /**
+     * Number of children < one year who received PCV 2 dose at this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_055(SQLiteDatabase db) {
+        getVaccineCount("pcv_2", "<12", false);
+    }
+
+    /**
+     * Number of children < one year who received PCV 2 dose at outreach conducted by this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_055_O(SQLiteDatabase db) {
+        getVaccineCount("pcv_2", "<12", true);
+    }
+
+    /**
+     * Number of children < one year who received PCV 3 dose at this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_060(SQLiteDatabase db) {
+        getVaccineCount("pcv_3", "<12", false);
+    }
+
+    /**
+     * Number of children < one year who received PCV 3 dose at outreach conducted by this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_060_O(SQLiteDatabase db) {
+        getVaccineCount("pcv_3", "<12", true);
+    }
+
+    /**
+     * Number of children < one year who received RV 1  dose at this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_065(SQLiteDatabase db) {
+        getVaccineCount("rota_1", "<12", false);
+    }
+
+    /**
+     * Number of children < one year who received RV 1 dose at outreach conducted by this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_065_O(SQLiteDatabase db) {
+        getVaccineCount("rota_1", "<12", true);
+    }
+
+    /**
+     * Number of children < one year who received RV 2  dose at this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_070(SQLiteDatabase db) {
+        getVaccineCount("rota_2", "<12", false);
+    }
+
+    /**
+     * Number of children < one year who received RV 2 dose at outreach conducted by this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_070_O(SQLiteDatabase db) {
+        getVaccineCount("rota_2", "<12", true);
+    }
+
+    /**
+     * Number of children < one year who received Measles/ MR 1 dose at this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_075(SQLiteDatabase db) {
+        getVaccineCount("measles_1", "<12", false);
+    }
+
+    /**
+     * Number of children < one year who received Measles/ MR dose at outreach conducted by this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_075_O(SQLiteDatabase db) {
+        getVaccineCount("measles_1", "<12", true);
+    }
+
+    /**
+     * Number of children < one year who have received the complete BCG, OPV series, DPT-Hib+Hep1 series, PCV series , RV series and measles/MR 1 within 10 days of each antigen being due at this facility
+     *
+     * @param db FIXME
+     */
+    private void getCHN3_80(SQLiteDatabase db) {
+
+    }
+
+    /**
+     * Number of children < one year who have received the complete BCG, OPV series, DPT-Hib+Hep1 series, PCV series , RV series and measles/MR 1 within 10 days of each antigen being due at outreach conducyed by this facility
+     *
+     * @param db FIXME
+     */
+    private void getCHN3_80_O(SQLiteDatabase db) {
+
+    }
+
+    /**
+     * Number of children at 18 months  who received Measles/ MR 2 dose at this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_085(SQLiteDatabase db) {
+        getVaccineCount("measles_1", "18", false);
+    }
+
+    /**
+     * Number of children  at 18 months who received Measles/ MR 2 dose at outreach conducted by this facility in this month
+     *
+     * @param db
+     */
+    private void getCHN3_085_O(SQLiteDatabase db) {
+        getVaccineCount("measles_1", "18", true);
+    }
+
+    /**
+     * Number of days during the month that vaccine storage fridge was not functioning
+     * FIXME
+     * @param db
+     */
+    private void getCHN3_090(SQLiteDatabase db) {
+
     }
 
     /**
@@ -494,8 +792,9 @@ public class HIA2Service {
      * @return
      */
     private int getVaccineCount(String vaccine, String age, boolean outOfArea) {
+        String vaccineCondition = vaccine.contains("measles") ? "(lower(v.name)='" + vaccine.toLowerCase() + "' or lower(v.name)='mr_1')" : "lower(v.name)='" + vaccine.toLowerCase() + "'";
         String query = "select " + ageQuery() + " from vaccines v left join ec_child child on child.base_entity_id=v.base_entity_id " +
-                "where age " + age + " and  strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(v.date/1000, 'unixepoch')) and v.out_of_area=" + (outOfArea ? 1 : 0) + " and lower(v.name)='" + vaccine.toLowerCase() + "'";
+                "where age " + age + " and  strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(v.date/1000, 'unixepoch')) and v.out_of_area=" + (outOfArea ? 1 : 0) + " and " + vaccineCondition;
 
         return 0;
 
