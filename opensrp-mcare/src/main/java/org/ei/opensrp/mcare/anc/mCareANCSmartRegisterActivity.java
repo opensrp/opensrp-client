@@ -295,6 +295,7 @@ public class mCareANCSmartRegisterActivity extends SecuredNativeSmartRegisterAct
     public void saveFormSubmission(String formSubmission, String id, String formName, JSONObject fieldOverrides){
         // save the form
         Log.e("-----saveformSubmission",formSubmission.toString());
+        Log.e("----------------",Context.getInstance().allSharedPreferences().fetchRegisteredANM());
         try{
             FormUtils formUtils = FormUtils.getInstance(getApplicationContext());
             FormSubmission submission = formUtils.generateFormSubmisionFromXMLString(id, formSubmission, formName, fieldOverrides);

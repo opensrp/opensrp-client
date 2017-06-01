@@ -32,10 +32,9 @@ public class nbnfhandler implements FormSubmissionHandler {
                 Context.getInstance().alertService().changeAlertStatusToComplete(entityID, "BirthNotificationFollowUp");
             }
         }
-//        submission.getForm().getFieldValue()
         Map<String, String> overrideValue = new HashMap<String, String>();
-        if(submission.getFieldValue("FWBNFSTS").equalsIgnoreCase("0") && submission.getFieldValue("user_type").equalsIgnoreCase("")){
-            /*CommonPersonObject motherObject = Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByCaseID(entityID);
+        if(submission.getFieldValue("FWBNFSTS").equalsIgnoreCase("0") && submission.getFieldValue("user_type").equalsIgnoreCase("FD")){
+            CommonPersonObject motherObject = Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByCaseID(entityID);
             AllCommonsRepository motherRepo = Context.getInstance().allCommonsRepositoryobjects("mcaremother");
             overrideValue.put("FWWOMVALID","0");
             motherRepo.mergeDetails(entityID,overrideValue);
@@ -45,8 +44,35 @@ public class nbnfhandler implements FormSubmissionHandler {
             CommonPersonObject elcoObject = Context.getInstance().allCommonsRepositoryobjects("elco").findByCaseID(motherObject.getRelationalId());
             AllCommonsRepository elcoRepo = Context.getInstance().allCommonsRepositoryobjects("elco");
             overrideValue.put("FWPSRPREGSTS","0");
-            elcoRepo.mergeDetails(motherObject.getRelationalId(),overrideValue);*/
+            elcoRepo.mergeDetails(motherObject.getRelationalId(),overrideValue);
 
+        }
+        overrideValue.clear();
+        if(submission.getFieldValue("FWBNFSTS").equalsIgnoreCase("3") && submission.getFieldValue("user_type").equalsIgnoreCase("FWA")){
+            CommonPersonObject motherObject = Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByCaseID(entityID);
+            AllCommonsRepository childRepo = Context.getInstance().allCommonsRepositoryobjects("mcarechild");
+            overrideValue.put("FWA_CHILD","1");
+            Log.e("-----------------","-------------------------------------------------------");
+            Log.e("-----------------","-------------------------------------------------------");
+            Log.e("-----------------","-------------------------------------------------------");
+            Log.e("-----------------","-------------------------------------------------------");
+            Log.e("-----------------","-------------------------------------------------------");
+            Log.e("-----------------","-------------------------------------------------------");
+            Log.e("-----------------","-------------------------------------------------------");
+            Log.e("-----------------","-------------------------------------------------------");
+            Log.e("-----------------","-------------------------------------------------------");
+            Log.e("-----------------","-------------------------------------------------------");
+            Log.e("-----------------","-------------------------------------------------------");
+            Log.e("-----------------","-------------------------------------------------------");
+            Log.e("-----------------","-------------------------------------------------------");
+            Log.e("-----------------","-------------------------------------------------------");
+            Log.e("-----------------","-------------------------------------------------------");
+            Log.e("-----------------","-------------------------------------------------------");
+            Log.e("-----------------","-------------------------------------------------------");
+            Log.e("-----------------","-------------------------------------------------------");
+            Log.e("-----------------","-------------------------------------------------------");
+            Log.e("-----------------","-------------------------------------------------------");
+            childRepo.mergeDetails(motherObject.getRelationalId(),overrideValue);
         }
     }
 }
