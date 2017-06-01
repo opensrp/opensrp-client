@@ -186,6 +186,7 @@ public class Current_Stock extends Fragment implements
 
 
         Button received = (Button)view.findViewById(R.id.received);
+        Button issued = (Button)view.findViewById(R.id.issued);
         TextView vaccine_name = (TextView)view.findViewById(R.id.name);
         vaccine_name.setText(((StockControlActivity)getActivity()).vaccine_type.getName() + " Stock: ");
 
@@ -195,9 +196,17 @@ public class Current_Stock extends Fragment implements
                 launchReceivedForm();
             }
         });
+        issued.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchIssuedForm();
+            }
+        });
         onInitialization();
         return view;
     }
+
+
 
     private void onInitialization() {
         String tableName = "Stocks";
@@ -222,7 +231,7 @@ public class Current_Stock extends Fragment implements
         CountExecute();
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
         queryBUilder.setSelectquery("Select * FROM Stocks Where Stocks."+StockRepository.VACCINE_TYPE_ID+" = "+ ((StockControlActivity)getActivity()).vaccine_type.getId());
-        queryBUilder.orderbyCondition(stockRepository.DATE_UPDATED + " DESC");
+        queryBUilder.orderbyCondition(stockRepository.DATE_CREATED + " DESC, "+stockRepository.DATE_UPDATED + " DESC");
 //        queryBUilder.SelectInitiateMainTable(tableName, new String[]{
 //                tableName + "._id",
 //                tableName + ".vaccine_type_id",
@@ -258,6 +267,19 @@ public class Current_Stock extends Fragment implements
             e.printStackTrace();
         }
     }
+    private void launchIssuedForm() {
+        Context context = Context.getInstance();
+        Intent intent = new Intent(getActivity().getApplicationContext(), PathJsonFormActivity.class);
+        try {
+            JSONObject form = FormUtils.getInstance(getActivity().getApplicationContext()).getFormJson("stock_issued_form");
+            String vaccine_name = ((StockControlActivity)getActivity()).vaccine_type.getName();
+            String formmetadata = form.toString().replace("[vaccine]",vaccine_name);
+            intent.putExtra("json", formmetadata);
+            startActivityForResult(intent, REQUEST_CODE_GET_JSON);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void onResume() {
@@ -276,7 +298,15 @@ public class Current_Stock extends Fragment implements
                 try {
                     String jsonString = data.getStringExtra("json");
                     Log.d("JSONResult", jsonString);
-                    processStockReceived(jsonString);
+                    JSONObject jsonForm = new JSONObject(jsonString);
+                    JSONObject step = jsonForm.getJSONObject("step1");
+                    String FormTitle = step.getString("title");
+                    if(FormTitle.contains("Stock Issued")){
+                        processStockIssued(jsonString);
+                    }
+                    if(FormTitle.contains("Stock Received")) {
+                        processStockReceived(jsonString);
+                    }
 
                 } catch (Exception e) {
                     Log.e("error", e.getMessage());
@@ -311,17 +341,45 @@ public class Current_Stock extends Fragment implements
                     encounterDate = dateTime;
                 }
             }
-
-
-
             Stock stock = new Stock(null,Stock.received,allSharedPreferences.fetchRegisteredANM(),Integer.parseInt(vials_received),encounterDate,Received_Stock_From,StockRepository.TYPE_Unsynced,System.currentTimeMillis(),""+((StockControlActivity)(getActivity())).vaccine_type.getId());
             str.add(stock);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    private void processStockIssued(String jsonString) {
+        JSONObject jsonForm = null;
+        try {
+            Context context = Context.getInstance();
+            jsonForm = new JSONObject(jsonString);
+            JSONArray fields = JsonFormUtils.fields(jsonForm);
+            String Date_Stock_Received = JsonFormUtils.getFieldValue(fields, "Date_Stock_Issued");
+            String Received_Stock_From = JsonFormUtils.getFieldValue(fields, "Issued_Stock_To");
+            if(Received_Stock_From.equalsIgnoreCase("Other")){
+                Received_Stock_From = JsonFormUtils.getFieldValue(fields, "Issued_Stock_TO_Other");
+            }else{
+                Received_Stock_From = JsonFormUtils.getFieldValue(fields, "Issued_Stock_To");
+            }
+            String vials_received = JsonFormUtils.getFieldValue(fields, "Vials_Issued");
 
+            StockRepository str = new StockRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(),VaccinatorApplication.createCommonFtsObject(),context.alertService());
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
 
+            Date encounterDate = new Date();
+            if (StringUtils.isNotBlank(Date_Stock_Received)) {
+                Date dateTime = JsonFormUtils.formatDate(Date_Stock_Received, false);
+                if (dateTime != null) {
+                    encounterDate = dateTime;
+                }
+            }
+            Stock stock = new Stock(null,Stock.issued,allSharedPreferences.fetchRegisteredANM(),-1*Integer.parseInt(vials_received),encounterDate,Received_Stock_From,StockRepository.TYPE_Unsynced,System.currentTimeMillis(),""+((StockControlActivity)(getActivity())).vaccine_type.getId());
+            str.add(stock);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
     private TextView pageInfoView;
     private Button nextPageView;
@@ -399,6 +457,8 @@ public class Current_Stock extends Fragment implements
                 format(getResources().getString(R.string.str_page_info),
                         (getCurrentPageCount()),
                         getTotalcount()));
+        paginationViewHandler.getPaginationView().setVisibility(hasNextPage() ? VISIBLE : INVISIBLE);
+        pageInfoView.setVisibility(hasNextPage() ? VISIBLE : INVISIBLE);
         nextPageView.setVisibility(hasNextPage() ? VISIBLE : INVISIBLE);
         previousPageView.setVisibility(hasPreviousPage() ? VISIBLE : INVISIBLE);
     }

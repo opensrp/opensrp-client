@@ -17,6 +17,7 @@ import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Stock;
 import org.ei.opensrp.path.domain.Vaccine_types;
 import org.ei.opensrp.service.AlertService;
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -218,8 +219,7 @@ public class StockRepository extends BaseRepository {
     public int getBalanceBefore(Stock stock) {
         SQLiteDatabase database = getPathRepository().getReadableDatabase();
 //        Cursor c = getPathRepository().getReadableDatabase().query(stock_TABLE_NAME, stock_TABLE_COLUMNS, DATE_UPDATED + " < ?", new String[]{""+updatedAt.longValue()}, null, null, null, null);
-
-        Cursor c =database.rawQuery("Select sum(value) from Stocks Where date_updated <" +stock.getUpdatedAt()+ " and "+VACCINE_TYPE_ID+ " = "+stock.getVaccine_type_id(),null);
+        Cursor c =database.rawQuery("Select sum(value) from Stocks Where date_updated <" +stock.getUpdatedAt()+ " and date_created <=" +new DateTime(stock.getDate_created()).toDate().getTime()+ " and "+VACCINE_TYPE_ID+ " = "+stock.getVaccine_type_id(),null);
         if(c.getCount() == 0) {
             return 0;
         }else{
@@ -230,6 +230,38 @@ public class StockRepository extends BaseRepository {
                 return 0;
             }
         }
+    }
+
+    public int getBalanceBeforeCheck(Stock stock) {
+        int sum = 0;
+        SQLiteDatabase database = getPathRepository().getReadableDatabase();
+
+        Cursor c =database.rawQuery("Select sum(value) from Stocks Where date_created =" +new DateTime(stock.getDate_created()).toDate().getTime()+ " and "+VACCINE_TYPE_ID+ " = "+stock.getVaccine_type_id(),null);
+
+//        Cursor c = getPathRepository().getReadableDatabase().query(stock_TABLE_NAME, stock_TABLE_COLUMNS, DATE_UPDATED + " < ?", new String[]{""+updatedAt.longValue()}, null, null, null, null);
+//      c =database.rawQuery("Select sum(value) from Stocks Where date_updated <" +stock.getUpdatedAt()+ " and date_created <=" +new DateTime(stock.getDate_created()).toDate().getTime()+ " and "+VACCINE_TYPE_ID+ " = "+stock.getVaccine_type_id(),null);
+        if(c.getCount() == 0) {
+            sum = 0;
+        }else{
+            c.moveToFirst();
+            if(c.getString(0) != null) {
+                sum = Integer.parseInt(c.getString(0));
+            }else{
+                sum = 0;
+            }
+        }
+//        c =database.rawQuery("Select sum(value) from Stocks Where date_updated <" +stock.getUpdatedAt()+ " and date_created =" +new DateTime(stock.getDate_created()).toDate().getTime()+ " and "+VACCINE_TYPE_ID+ " = "+stock.getVaccine_type_id(),null);
+//        if(c.getCount() == 0) {
+//            sum = sum + 0;
+//        }else{
+//            c.moveToFirst();
+//            if(c.getString(0) != null) {
+//                sum = sum +Integer.parseInt(c.getString(0));
+//            }else{
+//                sum = sum +0;
+//            }
+//        }
+        return sum;
     }
     public int getBalanceFromNameAndDate(String Name,Long updatedat) {
         SQLiteDatabase database = getPathRepository().getReadableDatabase();
