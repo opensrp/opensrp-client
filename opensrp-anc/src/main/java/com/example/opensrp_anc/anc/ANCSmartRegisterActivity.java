@@ -1,8 +1,7 @@
 package com.example.opensrp_anc.anc;
 
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import org.ei.opensrp.core.template.DetailFragment;
@@ -60,8 +59,6 @@ public class ANCSmartRegisterActivity extends RegisterActivity {
     @Override
     protected String[] buildFormNameList() {
         List<String> formNames = new ArrayList<String>();
-       // formNames.add("Test_form1");
-       // formNames.add("Test_form2");
         formNames.add("anc_visit_form");
 
         return formNames.toArray(new String[formNames.size()]);
@@ -69,7 +66,6 @@ public class ANCSmartRegisterActivity extends RegisterActivity {
 
     @Override
     public String postFormSubmissionRecordFilterField() {
-
         return "existing_program_client_id";
     }
 

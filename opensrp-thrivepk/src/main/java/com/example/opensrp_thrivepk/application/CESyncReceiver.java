@@ -204,7 +204,7 @@ public class CESyncReceiver extends BroadcastReceiver {
 
         Response resp = httpAgent.fetch(url);
         if(resp.isFailure()){
-            throw new RuntimeException(serviceUrl+" not returned data");
+           throw new RuntimeException(serviceUrl+" not returned data");
         }
 
         JSONArray jarr = new JSONArray((String)resp.payload());

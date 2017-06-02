@@ -15,6 +15,8 @@
     <string name="pregnancy_risk">PREGNANCY RISK</string>
     <string name="anc_register_title">ANC Register</string>
     <string name="anc_alphabetical_sort">Alphabetical (Name)</string>
+    <string name="contact">CONTACT</string>
+    <string name="comments">COMMENTS</string>
 
     <string name="search_hint">Search Register</string>
     <string name="str_provider_profile">Profile</string>

@@ -190,6 +190,15 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
         integ.initiateScan(new ScanType("CHILD", entityId, data));
     }
 
+    public void startAncEnrollmentForm(final String entityId, final HashMap<String, String> overrides){
+        overrides.putAll(VaccinatorUtils.providerDetails());
+        Log.v(getClass().getName(), "Enrolling anc with id "+entityId);
+        startForm("anc_visit_form",entityId, overrides);
+
+      //  integ.addExtra(Barcode.SCAN_MODE, Barcode.QR_MODE);
+      //  integ.initiateScan(new ScanType("GROUP", "", null));
+    }
+
     @Override
     protected void onResumption() {
         ImageView filterView = (ImageView) mView.findViewById(org.ei.opensrp.core.R.id.filter_selection);
@@ -258,12 +267,6 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
         startForm("child_enrollment", entityId, overrides);
     }
 
-    public void startAncEnrollmentForm(final String entityId, final HashMap<String, String> overrides){
-        overrides.putAll(VaccinatorUtils.providerDetails());
-        Log.v(getClass().getName(), "Enrolling anc with id "+entityId);
-        startForm("anc_visit_form",entityId, overrides);
-    }
-
     private void onQRCodeSucessfullyScanned(String qrCode, String entityType, String linkId, CommonPersonObject data) {
         String hhId = findHouseholdOrPersonWithId(qrCode);
         if(hhId != null){
@@ -282,6 +285,11 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
             Toast.makeText(getActivity(), "Found a Woman already registered for given ID with no Household information. Search in Woman register", Toast.LENGTH_LONG).show();
             return;
         }
+       /* CommonPersonObject anc = vaccinatorTables(qrCode, "pkanc");
+        if(anc != null){
+            Toast.makeText(getActivity(), "Found a Woman already registered for given ID. Search in Anc register", Toast.LENGTH_LONG).show();
+            return;
+        }*/
 
         //todo search in clientDB
 

@@ -2,7 +2,6 @@ package org.ei.opensrp.core.template;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,21 +12,19 @@ import android.widget.TextView;
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.core.R;
+import org.ei.opensrp.core.db.handler.RegisterCountLoaderHandler;
+import org.ei.opensrp.core.utils.Utils;
 import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.service.PendingFormSubmissionService;
 import org.ei.opensrp.sync.SyncAfterFetchListener;
 import org.ei.opensrp.sync.SyncProgressIndicator;
 import org.ei.opensrp.sync.UpdateActionsTask;
-import org.ei.opensrp.core.utils.Utils;
-import org.ei.opensrp.view.LockingBackgroundTask;
 import org.ei.opensrp.view.activity.SecuredActivity;
 import org.json.JSONException;
-import org.ei.opensrp.core.db.handler.RegisterCountLoaderHandler;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.lang.String.valueOf;
 import static org.ei.opensrp.event.Event.FORM_SUBMITTED;
 import static org.ei.opensrp.event.Event.SYNC_COMPLETED;
 import static org.ei.opensrp.event.Event.SYNC_STARTED;
@@ -183,7 +180,6 @@ public abstract class HomeActivity extends SecuredActivity {
             return super.onOptionsItemSelected(item);
         }
     }
-
     public void updateFromServer() {
         UpdateActionsTask updateActionsTask = new UpdateActionsTask(
                 this, context.actionService(), context.formSubmissionSyncService(),

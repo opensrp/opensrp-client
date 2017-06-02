@@ -1,22 +1,16 @@
 package com.example.opensrp_anc.anc;
 
 import android.content.pm.ActivityInfo;
-import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.example.opensrp_anc.R;
 
-import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.core.template.DetailFragment;
 import org.ei.opensrp.core.utils.Utils;
-import org.ei.opensrp.util.StringUtil;
-
-import java.util.List;
 
 import static org.ei.opensrp.core.utils.Utils.addRow;
 import static org.ei.opensrp.core.utils.Utils.getValue;
-import static org.ei.opensrp.core.utils.Utils.setProfiePic;
 
 /**
  * Created by Owais on 3/31/2017.
@@ -88,16 +82,10 @@ public class ANCDetailFragment extends DetailFragment {
         addRow(getActivity(), dt4, "TT 5", getValue(client.getColumnmaps(), "e_tt5", true), Utils.Size.MEDIUM);
 
 
-        TableLayout dt5 = (TableLayout) currentView.findViewById(R.id.anc_detail_info_table5);
-        dt5.removeAllViews();
+       /* TableLayout dt5 = (TableLayout) currentView.findViewById(R.id.anc_detail_info_table5);
+        dt5.removeAllViews();*/
 
         ((TextView)  currentView.findViewById(R.id.anc_comments)).setText(getValue(client.getColumnmaps(), "comments", true));
-
-        /*String comments=getValue(client.getColumnmaps(), "comments", true);
-        if(StringUtils.isNotBlank(comments)){
-            ((TextView)  currentView.findViewById(R.id.anc_comments)).setText(comments);
-        }*/
-
     }
 
     @Override

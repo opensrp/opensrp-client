@@ -18,6 +18,9 @@
         {"name":"existing_birth_date"},
         {"name":"existing_age"},
         {"name":"existing_program_client_id"},
+        {"name":"first_name"},
+        {"name":"last_name"},
+        {"name":"father_name"},
         {"name":"existing_household_id"},
         {"name":"existing_first_name_hhh"},
         {"name":"existing_relationship_hhh"},
@@ -90,6 +93,12 @@
         {"name":"final_lmp_note"},
         {"name":"final_ga"},
         {"name":"final_ga_note"},
+        {"name":"anc_visit"},
+        {"name":"anc_visit1_date"},
+        {"name":"anc_visit2_date"},
+        {"name":"anc_visit3_date"},
+        {"name":"anc_visit4_date"},
+        {"name":"anc_other_visit_date"},
         {"name":"comments"}]
     },
     {
