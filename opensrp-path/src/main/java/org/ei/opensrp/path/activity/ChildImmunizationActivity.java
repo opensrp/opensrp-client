@@ -1448,9 +1448,10 @@ public class ChildImmunizationActivity extends BaseActivity
                 RecurringServiceUtils.saveService(tag, childDetails.entityId(), providerId, locationId);
                 setLastModified(true);
                 list.add(tag);
-            }
 
-            ServiceSchedule.updateOfflineAlerts(childDetails.entityId(), Utils.dobToDateTime(childDetails));
+
+                ServiceSchedule.updateOfflineAlerts(tag.getType(), childDetails.entityId(), Utils.dobToDateTime(childDetails));
+            }
 
             RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
             List<ServiceRecord> serviceRecordList = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());
@@ -1499,7 +1500,7 @@ public class ChildImmunizationActivity extends BaseActivity
                     wrappers = new ArrayList<>();
                     wrappers.add(tag);
 
-                    ServiceSchedule.updateOfflineAlerts(childDetails.entityId(), Utils.dobToDateTime(childDetails));
+                    ServiceSchedule.updateOfflineAlerts(tag.getType(), childDetails.entityId(), Utils.dobToDateTime(childDetails));
 
                     RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
                     List<ServiceType> serviceTypes = recurringServiceTypeRepository.fetchAll();

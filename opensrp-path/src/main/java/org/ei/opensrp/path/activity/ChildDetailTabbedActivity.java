@@ -1425,13 +1425,12 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
             for (ServiceWrapper tag : params) {
                 RecurringServiceUtils.saveService(tag, childDetails.entityId(), null, null);
                 list.add(tag);
+
+                ServiceSchedule.updateOfflineAlerts(tag.getType(), childDetails.entityId(), Utils.dobToDateTime(childDetails));
             }
 
             RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
-
             List<ServiceRecord> serviceRecordList = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());
-
-            ServiceSchedule.updateOfflineAlerts(childDetails.entityId(), Utils.dobToDateTime(childDetails));
 
             RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
             List<ServiceType> serviceTypes = recurringServiceTypeRepository.fetchAll();
@@ -1477,7 +1476,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                     wrappers = new ArrayList<>();
                     wrappers.add(tag);
 
-                    ServiceSchedule.updateOfflineAlerts(childDetails.entityId(), Utils.dobToDateTime(childDetails));
+                    ServiceSchedule.updateOfflineAlerts(tag.getType(), childDetails.entityId(), Utils.dobToDateTime(childDetails));
 
                     RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
                     List<ServiceType> serviceTypes = recurringServiceTypeRepository.fetchAll();

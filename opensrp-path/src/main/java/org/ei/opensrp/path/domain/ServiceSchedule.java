@@ -18,9 +18,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,6 +48,14 @@ public class ServiceSchedule {
     }
 
     public static void updateOfflineAlerts(String baseEntityId, DateTime dob) {
+        RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
+        List<String> types = recurringServiceTypeRepository.fetchTypes();
+        for (String type : types) {
+            updateOfflineAlerts(type, baseEntityId, dob);
+        }
+    }
+
+    public static void updateOfflineAlerts(String type, String baseEntityId, DateTime dob) {
         try {
             if (baseEntityId == null || dob == null) {
                 return;
@@ -59,54 +65,52 @@ public class ServiceSchedule {
             RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
             AlertService alertService = VaccinatorApplication.getInstance().context().alertService();
 
-            Map<String, List<ServiceType>> serviceTypeMap = new LinkedHashMap<>();
-            List<String> types = recurringServiceTypeRepository.fetchTypes();
-            for (String type : types) {
-                List<ServiceType> subTypes = recurringServiceTypeRepository.findByType(type);
-                serviceTypeMap.put(type, subTypes);
-            }
+            List<ServiceType> serviceTypes = recurringServiceTypeRepository.findByType(type);
 
-            String[] alertArray = VaccinateActionUtils.allAlertNames(serviceTypeMap.values());
+            String[] alertArray = VaccinateActionUtils.allAlertNames(serviceTypes);
 
             List<Alert> newAlerts = new ArrayList<>();
 
             // Get all the administered services
             List<ServiceRecord> issuedServices = recurringServiceRecordRepository.findByEntityId(baseEntityId);
-            if (issuedServices == null) {
-                issuedServices = new ArrayList<>();
-            }
-
             alertService.deleteOfflineAlerts(baseEntityId, alertArray);
 
             List<Alert> existingAlerts = alertService.findByEntityIdAndAlertNames(baseEntityId, alertArray);
 
+            for (ServiceType serviceType : serviceTypes) {
+                Alert curAlert = getOfflineAlert(serviceType, issuedServices, baseEntityId, dob);
 
-            for (Map.Entry<String, List<ServiceType>> entry : serviceTypeMap.entrySet()) {
-                List<ServiceType> serviceTypes = entry.getValue();
-                for (ServiceType serviceType : serviceTypes) {
-                    Alert curAlert = getOfflineAlert(serviceType, issuedServices, baseEntityId, dob);
+                if (curAlert == null) {
+                    break;
+                } else {
+                    // Check if the current alert already exists for the entityId
+                    boolean exists = false;
+                    for (Alert curExistingAlert : existingAlerts) {
+                        if (curExistingAlert.scheduleName().equalsIgnoreCase(curAlert.scheduleName())
+                                && curExistingAlert.caseId().equalsIgnoreCase(curAlert.caseId())) {
+                            exists = true;
+                            break;
+                        }
+                    }
 
-                    if (curAlert == null) {
-                        break;
-                    } else {
-                        // Check if the current alert already exists for the entityId
-                        boolean exists = false;
-                        for (Alert curExistingAlert : existingAlerts) {
-                            if (curExistingAlert.scheduleName().equalsIgnoreCase(curAlert.scheduleName())
-                                    && curExistingAlert.caseId().equalsIgnoreCase(curAlert.caseId())) {
+                    // Check if service is already given
+                    if (!exists) {
+                        for (ServiceRecord serviceRecord : issuedServices) {
+                            if (curAlert.scheduleName().equalsIgnoreCase(serviceRecord.getName()) || curAlert.visitCode().equalsIgnoreCase(serviceRecord.getName())) {
                                 exists = true;
                                 break;
                             }
                         }
+                    }
 
-                        if (!exists) {
-                            // Insert alert into table
-                            newAlerts.add(curAlert);
-                            alertService.create(curAlert);
-                        }
+                    if (!exists) {
+                        // Insert alert into table
+                        newAlerts.add(curAlert);
+                        alertService.create(curAlert);
                     }
                 }
             }
+
         } catch (Exception e) {
             Log.e(ServiceSchedule.class.getName(), e.toString(), e);
         }
