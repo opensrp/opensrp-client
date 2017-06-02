@@ -3,7 +3,6 @@ package org.ei.opensrp.path.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -21,11 +20,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vijay.jsonwizard.utils.DatePickerUtils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.ei.opensrp.domain.ServiceRecord;
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.domain.ServiceSchedule;
 import org.ei.opensrp.path.domain.ServiceWrapper;
 import org.ei.opensrp.path.listener.ServiceActionListener;
 import org.ei.opensrp.util.OpenSRPImageLoader;
@@ -33,27 +35,30 @@ import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.joda.time.DateTime;
 
 import java.util.Calendar;
+import java.util.List;
 
 import util.ImageUtils;
+import util.VaccinatorUtils;
 
 @SuppressLint("ValidFragment")
 public class ServiceEditDialogFragment extends DialogFragment {
-    private final Context context;
     private final ServiceWrapper tag;
     private final View viewGroup;
     private ServiceActionListener listener;
     public static final String DIALOG_TAG = "ServiceEditDialogFragment";
 
-    private ServiceEditDialogFragment(Context context, ServiceWrapper tag, View viewGroup) {
-        this.context = context;
+    private List<ServiceRecord> issuedServices;
+
+    private ServiceEditDialogFragment(List<ServiceRecord> issuedServices, ServiceWrapper tag, View viewGroup) {
+        this.issuedServices = issuedServices;
         this.tag = tag;
         this.viewGroup = viewGroup;
     }
 
     public static ServiceEditDialogFragment newInstance(
-            Context context,
+            List<ServiceRecord> issuedServices,
             ServiceWrapper tag, View viewGroup) {
-        return new ServiceEditDialogFragment(context, tag, viewGroup);
+        return new ServiceEditDialogFragment(issuedServices, tag, viewGroup);
     }
 
     @Override
@@ -165,21 +170,17 @@ public class ServiceEditDialogFragment extends DialogFragment {
 
         );
 
+        updateDateRanges(earlierDatePicker, set);
+
         Button cancel = (Button) dialogView.findViewById(R.id.cancel);
         cancel.setOnClickListener(new Button.OnClickListener() {
-                                      @Override
-                                      public void onClick(View view) {
-                                          dismiss();
-                                      }
-                                  }
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
 
-        );
-
-        for (
-                int i = 0;
-                i < vaccinationNameLayout.getChildCount(); i++)
-
-        {
+        for (int i = 0; i < vaccinationNameLayout.getChildCount(); i++) {
             View chilView = vaccinationNameLayout.getChildAt(i);
             chilView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -192,6 +193,72 @@ public class ServiceEditDialogFragment extends DialogFragment {
 
 
         return dialogView;
+    }
+
+    /**
+     * This method updates the allowed date ranges in the views
+     *
+     * @param datePicker Date picker for selecting a previous date for a vaccine
+     */
+    private void updateDateRanges(DatePicker datePicker, Button set) {
+        if (tag == null || tag.getDob() == null || tag.getServiceType() == null || issuedServices == null) {
+            return;
+        }
+
+        DateTime minDate = null;
+        DateTime maxDate = null;
+
+        minDate = ServiceSchedule.standardiseDateTime(updateMinVaccineDate(minDate));
+        maxDate = ServiceSchedule.standardiseDateTime(updateMaxVaccineDate(maxDate));
+
+        if (maxDate.getMillis() >= minDate.getMillis()) {
+            set.setVisibility(View.INVISIBLE);
+            datePicker.setMinDate(minDate.getMillis());
+            datePicker.setMaxDate(maxDate.getMillis());
+        } else {
+            set.setVisibility(View.INVISIBLE);
+            Toast.makeText(getActivity(), R.string.problem_applying_vaccine_constraints, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private DateTime updateMinVaccineDate(DateTime minDate) {
+        DateTime dueDate = getMinVaccineDate();
+        if (dueDate == null
+                || dueDate.getMillis() < tag.getDob().getMillis()) {
+            dueDate = tag.getDob();
+        }
+
+        if (minDate == null) {
+            minDate = dueDate;
+        } else if (dueDate.getMillis() > minDate.getMillis()) {
+            minDate = dueDate;
+        }
+
+        return minDate;
+    }
+
+    private DateTime updateMaxVaccineDate(DateTime maxDate) {
+        DateTime expiryDate = getMaxVaccineDate();
+        if (expiryDate == null
+                || expiryDate.getMillis() > DateTime.now().getMillis()) {
+            expiryDate = DateTime.now();
+        }
+
+        if (maxDate == null) {
+            maxDate = expiryDate;
+        } else if (expiryDate.getMillis() < maxDate.getMillis()) {
+            maxDate = expiryDate;
+        }
+
+        return maxDate;
+    }
+
+    private DateTime getMinVaccineDate() {
+        return VaccinatorUtils.getServiceDueDate(tag.getServiceType(), tag.getDob(), issuedServices);
+    }
+
+    private DateTime getMaxVaccineDate() {
+        return VaccinatorUtils.getServiceExpiryDate(tag.getServiceType(), tag.getDob());
     }
 
     @Override

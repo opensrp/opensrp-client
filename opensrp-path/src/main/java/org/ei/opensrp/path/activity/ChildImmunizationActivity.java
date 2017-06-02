@@ -756,7 +756,10 @@ public class ChildImmunizationActivity extends BaseActivity
         ft.addToBackStack(null);
         serviceGroup.setModalOpen(true);
 
-        ServiceDialogFragment serviceDialogFragment = ServiceDialogFragment.newInstance(serviceWrapper);
+        List<ServiceRecord> serviceRecordList = VaccinatorApplication.getInstance().recurringServiceRecordRepository()
+                .findByEntityId(childDetails.entityId());
+
+        ServiceDialogFragment serviceDialogFragment = ServiceDialogFragment.newInstance(serviceRecordList, serviceWrapper);
         serviceDialogFragment.show(ft, DIALOG_TAG);
     }
 

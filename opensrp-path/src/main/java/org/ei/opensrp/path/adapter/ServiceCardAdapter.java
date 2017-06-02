@@ -77,7 +77,6 @@ public class ServiceCardAdapter extends BaseAdapter {
                 ServiceWrapper serviceWrapper = new ServiceWrapper();
                 serviceWrapper.setId(serviceGroup.getChildDetails().entityId());
                 serviceWrapper.setGender(serviceGroup.getChildDetails().getDetails().get("gender"));
-                serviceWrapper.setName(type);
                 serviceWrapper.setDefaultName(type);
 
                 String dobString = Utils.getValue(serviceGroup.getChildDetails().getColumnmaps(), "dob", false);

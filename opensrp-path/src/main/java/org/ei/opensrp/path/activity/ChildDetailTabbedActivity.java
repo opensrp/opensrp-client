@@ -264,38 +264,31 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         overflow = menu;
         VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
         List<Vaccine> vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
-        boolean all_synced = true;
-//        for(int i = 0;i < vaccineList.size();i++){
-//           if(vaccineList.get(i).getSyncStatus().equalsIgnoreCase(VaccineRepository.TYPE_Unsynced)){
-//               all_synced = false;
-//           }
-//        }
+
         ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(ChildDetailTabbedActivity.this);
 
         boolean show_vaccine_list = false;
         for (int i = 0; i < vaccineList.size(); i++) {
             Vaccine vaccine = vaccineList.get(i);
-            PathRepository db = (PathRepository) VaccinatorApplication.getInstance().getRepository();
-            org.ei.opensrp.path.db.Event event = null;
-            if (vaccine.getEventId() != null) {
-                event = ecUpdater.convert(db.getEventsByEventId(vaccine.getEventId()), org.ei.opensrp.path.db.Event.class);
-            } else if (vaccine.getFormSubmissionId() != null) {
-                event = ecUpdater.convert(db.getEventsByFormSubmissionId(vaccine.getFormSubmissionId()), org.ei.opensrp.path.db.Event.class);
-            }
-            if (event != null) {
-                Date vaccine_create_date = event.getDateCreated().toDate();
-                if (!check_if_date_three_months_older(vaccine_create_date)) {
-                    show_vaccine_list = true;
-                }
-            } else {
+            boolean check = showVaccineListCheck(vaccine.getEventId(), vaccine.getFormSubmissionId());
+            if (check) {
                 show_vaccine_list = true;
+                break;
             }
-
         }
-//        if(vaccineList.size() ==0 ){
-//            overflow.getItem(3).setEnabled(false);
-//
-//        }
+
+        if (!show_vaccine_list) {
+            RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
+            List<ServiceRecord> serviceRecordList = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());
+            for (ServiceRecord serviceRecord : serviceRecordList) {
+                boolean check = showVaccineListCheck(serviceRecord.getEventId(), serviceRecord.getFormSubmissionId());
+                if (check) {
+                    show_vaccine_list = true;
+                    break;
+                }
+            }
+        }
+
         if (!show_vaccine_list) {
             overflow.getItem(3).setEnabled(false);
         }
@@ -1509,6 +1502,28 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
             }
             return null;
         }
+    }
+
+    private boolean showVaccineListCheck(String eventId, String formSubmissionId) {
+        ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(ChildDetailTabbedActivity.this);
+
+        PathRepository db = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+        org.ei.opensrp.path.db.Event event = null;
+        if (eventId != null) {
+            event = ecUpdater.convert(db.getEventsByEventId(eventId), org.ei.opensrp.path.db.Event.class);
+        } else if (formSubmissionId != null) {
+            event = ecUpdater.convert(db.getEventsByFormSubmissionId(formSubmissionId), org.ei.opensrp.path.db.Event.class);
+        }
+        if (event != null) {
+            Date vaccine_create_date = event.getDateCreated().toDate();
+            if (!check_if_date_three_months_older(vaccine_create_date)) {
+                return true;
+            }
+        } else {
+            return true;
+        }
+
+        return false;
     }
 
 }

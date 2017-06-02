@@ -164,6 +164,13 @@ public class ServiceSchedule {
         calendarDate.set(Calendar.MILLISECOND, 0);
     }
 
+    public static DateTime standardiseDateTime(DateTime dateTime) {
+        if (dateTime != null) {
+            return dateTime.withTime(0, 0, 0, 0);
+        }
+        return null;
+    }
+
     public ServiceTrigger getDueTrigger() {
         return dueTrigger;
     }
