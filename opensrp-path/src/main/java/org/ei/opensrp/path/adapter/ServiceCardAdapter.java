@@ -166,7 +166,7 @@ public class ServiceCardAdapter extends BaseAdapter {
                 serviceWrappers.add(serviceCard.getServiceWrapper());
             }
         }
-        return allWrappers();
+        return serviceWrappers;
     }
 
 }
