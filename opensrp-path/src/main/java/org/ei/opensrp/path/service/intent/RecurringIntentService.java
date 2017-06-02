@@ -11,6 +11,7 @@ import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
 import org.ei.opensrp.path.repository.RecurringServiceTypeRepository;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -33,6 +34,12 @@ public class RecurringIntentService extends IntentService {
     private RecurringServiceTypeRepository recurringServiceTypeRepository;
     private RecurringServiceRecordRepository recurringServiceRecordRepository;
 
+    final String YES = "yes";
+    final String NO = "no";
+    final String VALUES = "values";
+    final String OPENMRS_CHOICES_IDS = "openmrs_choice_ids";
+
+
     public RecurringIntentService() {
         super("RecurringService");
     }
@@ -41,8 +48,6 @@ public class RecurringIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
 
         final String SELECT_DATA_TYPE = "coded";
-        final String YES = "yes";
-        final String NO = "no";
 
         final String CALC_ID = "1639AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
         final String CALCULATION_DATA_TYPE = "numeric";
@@ -96,6 +101,7 @@ public class RecurringIntentService extends IntentService {
                             itnHasNet = true;
                         }
                     }
+                    addYesNoChoices(jsonObject);
                     jsonArray.put(jsonObject);
 
                     jsonObject = new JSONObject();
@@ -123,6 +129,7 @@ public class RecurringIntentService extends IntentService {
                         jsonObject.put(JsonFormUtils.OPENMRS_ENTITY_ID, "");
                         jsonObject.put(JsonFormUtils.OPENMRS_DATA_TYPE, SELECT_DATA_TYPE);
                         jsonObject.put(JsonFormUtils.VALUE, YES);
+                        addYesNoChoices(jsonObject);
                         jsonArray.put(jsonObject);
                     }
 
@@ -140,5 +147,24 @@ public class RecurringIntentService extends IntentService {
         recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
         recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void addYesNoChoices(JSONObject jsonObject) {
+        try {
+            JSONArray valuesArray = new JSONArray();
+            valuesArray.put(YES);
+            valuesArray.put(NO);
+
+            jsonObject.put(VALUES, valuesArray);
+
+            JSONObject choices = new JSONObject();
+            choices.put(YES, "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            choices.put(NO, "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
+            jsonObject.put(OPENMRS_CHOICES_IDS, choices);
+
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
     }
 }
