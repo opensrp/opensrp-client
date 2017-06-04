@@ -1,75 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model>
-  <instance>
-    <BirthOutcome encounter_type="Birth Outcome" id="BirthOutcome" version="201702160714">
-      <formhub>
-        <uuid />
-      </formhub>
-      <today />
-      <start />
-      <end />
-      <existing_location />
-      <existing_COUNTRY />
-      <existing_DIVISION />
-      <existing_DISTRICT />
-      <existing_UPAZILLA />
-      <existing_Paurasava />
-      <existing_UNION />
-      <existing_WARD />
-      <existing_BLOCK />
-      <existing_Address_line />
-      <existing_HIE_facilities />
-      <existing_gps />
-      <existing_doo />
-      <current_woman_id />
-      <Child_Registration >
-        <mother_relational_id />
-        <Member_COUNTRY openmrs_entity="person_address" openmrs_entity_id="country" />
-        <Member_DIVISION openmrs_entity="person_address" openmrs_entity_id="stateProvince" />
-        <Member_DISTRICT openmrs_entity="person_address" openmrs_entity_id="countyDistrict" />
-        <Member_UPAZILLA openmrs_entity="person_address" openmrs_entity_id="address5" />
-        <Member_Paurasava openmrs_entity="person_address" openmrs_entity_id="address4" />
-        <Member_UNION openmrs_entity="person_address" openmrs_entity_id="address3" />
-        <Member_WARD openmrs_entity="person_address" openmrs_entity_id="address2" />
-        <Member_BLOCK openmrs_entity="person_address" openmrs_entity_id="address2" />
-        <Member_Address_line openmrs_entity="person_address" openmrs_entity_id="address1" />
-        <Member_HIE_facilities openmrs_entity="person_address" openmrs_entity_id="address6" />
-        <Interview_date />
-        <HH_Address />
-        <Reg_No />
-        <Member_Unique_ID />
-        <Member_BRID openmrs_entity="person_attribute" openmrs_entity_id="birthRegistrationId" />
-        <Child_dob openmrs_entity="person" openmrs_entity_id="birthdate" />
-        <Child_age_days />
-        <Child_birth_date_note />
-        <Birth_Weigtht openmrs_entity="concept" openmrs_entity_id="73e4e317-09ca-4657-bf77-6c7648f3a386" />
-        <Newborn_Care_Received openmrs_entity="concept" openmrs_entity_id="d1f9a25b-1080-4dc9-9655-863cfee578e6" />
-        <Child_gender openmrs_entity="person" openmrs_entity_id="gender" />
-        <Child_vital_status />
-        <Child_name_check />
-        <Child_name openmrs_entity="person" openmrs_entity_id="first_name" />
-        <Child_last_name openmrs_entity="person" openmrs_entity_id="last_name" />
-        <Child_name_calc />
-        <Child_mother_name openmrs_entity="person_attribute" openmrs_entity_id="motherName" />
-        <Child_father_name openmrs_entity="person_attribute" openmrs_entity_id="fatherName" />
-        <Child_guardian_id />
-        <Child_Mother_NID />
-        <Child_Mother_BRID />
-        <Child_Father_NID />
-        <Child_Father_BRID />
-        <Child_Other_Guardian_NID />
-        <Child_Other_Guardian_BRID />
-        <epi_card_number />
-        <child_was_suffering_from_a_disease_at_birth />
-        <contact_phone_number openmrs_entity="person_attribute" openmrs_entity_id="phoneNumber" />
-        <add_child />
-        <Is_Reg_Today />
-        <Is_child />
-      </Child_Registration>
-      <outcome_current_formStatus />
-      <meta>
-        <instanceID />
-      </meta>
-    </BirthOutcome>
-  </instance>
+    <instance>
+        <BirthOutcome encounter_type="Birth Outcome" id="BirthOutcome" version="201706040602">
+            <formhub>
+                <uuid />
+            </formhub>
+            <today />
+            <start />
+            <end />
+            <existing_location />
+            <existing_COUNTRY />
+            <existing_DIVISION />
+            <existing_DISTRICT />
+            <existing_UPAZILLA />
+            <existing_Paurasava />
+            <existing_UNION />
+            <existing_WARD />
+            <existing_BLOCK />
+            <existing_Address_line />
+            <existing_HIE_facilities />
+            <existing_gps />
+            <existing_doo />
+            <current_woman_id />
+            <Child_Registration template="" openmrs_entity="person" openmrs_entity_id="Birth Outcome">
+                <mother_relational_id />
+                <Member_COUNTRY openmrs_entity="person_address" openmrs_entity_id="country" />
+                <Member_DIVISION openmrs_entity="person_address" openmrs_entity_id="stateProvince" />
+                <Member_DISTRICT openmrs_entity="person_address" openmrs_entity_id="countyDistrict" />
+                <Member_UPAZILLA openmrs_entity="person_address" openmrs_entity_id="address5" />
+                <Member_Paurasava openmrs_entity="person_address" openmrs_entity_id="address4" />
+                <Member_UNION openmrs_entity="person_address" openmrs_entity_id="address3" />
+                <Member_WARD openmrs_entity="person_address" openmrs_entity_id="address2" />
+                <Member_BLOCK openmrs_entity="person_address" openmrs_entity_id="address2" />
+                <Member_Address_line openmrs_entity="person_address" openmrs_entity_id="address1" />
+                <Member_HIE_facilities openmrs_entity="person_address" openmrs_entity_id="address6" />
+                <Interview_date />
+                <HH_Address />
+                <Reg_No />
+                <Member_Unique_ID />
+                <Member_BRID openmrs_entity="person_attribute" openmrs_entity_id="birthRegistrationId" />
+                <Child_dob openmrs_entity="person" openmrs_entity_id="birthdate" />
+                <child_age_days />
+                <Child_birth_date_note />
+                <Birth_Weigtht openmrs_entity="concept" openmrs_entity_id="73e4e317-09ca-4657-bf77-6c7648f3a386" />
+                <Newborn_Care_Received openmrs_entity="concept" openmrs_entity_id="d1f9a25b-1080-4dc9-9655-863cfee578e6" />
+                <Child_gender openmrs_entity="person" openmrs_entity_id="gender" />
+                <Child_vital_status />
+                <Child_name_check />
+                <Child_name openmrs_entity="person" openmrs_entity_id="first_name" />
+                <Child_last_name openmrs_entity="person" openmrs_entity_id="last_name" />
+                <Child_name_calc />
+                <Child_mother_name openmrs_entity="person_attribute" openmrs_entity_id="motherName" />
+                <Child_father_name openmrs_entity="person_attribute" openmrs_entity_id="fatherName" />
+                <Child_guardian_id />
+                <Child_Mother_NID />
+                <Child_Mother_BRID />
+                <Child_Father_NID />
+                <Child_Father_BRID />
+                <Child_Other_Guardian_NID />
+                <Child_Other_Guardian_BRID />
+                <epi_card_number />
+                <child_was_suffering_from_a_disease_at_birth />
+                <contact_phone_number openmrs_entity="person_attribute" openmrs_entity_id="phoneNumber" />
+                <add_child />
+                <Is_Reg_Today />
+                <Is_child />
+            </Child_Registration>
+            <outcome_current_formStatus />
+            <meta>
+                <instanceID />
+            </meta>
+        </BirthOutcome>
+    </instance>
 </model>

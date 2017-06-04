@@ -180,8 +180,8 @@
             "bind": "/model/instance/BirthOutcome/Child_Registration/Child_dob"
           },
           {
-            "name": "Child_age_days",
-            "bind": "/model/instance/BirthOutcome/Child_Registration/Child_age_days"
+            "name": "child_age_days",
+            "bind": "/model/instance/BirthOutcome/Child_Registration/child_age_days"
           },
           {
             "name": "Child_birth_date_note",

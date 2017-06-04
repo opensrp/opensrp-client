@@ -36,6 +36,7 @@ import org.ei.opensrp.dghs.hh_member.HHWardCommonObjectFilterOption;
 import org.ei.opensrp.dghs.hh_member.HouseHoldDetailActivity;
 import org.ei.opensrp.dghs.hh_member.HouseholdCensusDueDateSort;
 import org.ei.opensrp.domain.form.FieldOverrides;
+import org.ei.opensrp.logger.Logger;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
@@ -248,6 +249,7 @@ public class HH_child_member_SmartRegisterFragment extends SecuredNativeSmartReg
                     CommonPersonObjectClient pc = (CommonPersonObjectClient) view.getTag();
                     JSONObject overridejsonobject = new JSONObject();
                     try {
+                        Logger.largeLog("--------------",pc.toString());
                         overridejsonobject.put("existing_Is_Reg_Today",((pc.getDetails().get("Is_Reg_Today")!=null?pc.getDetails().get("Is_Reg_Today"):"")));
 
                         overridejsonobject.put("e_bcg",((pc.getDetails().get("final_bcg")!=null?pc.getDetails().get("final_bcg"):"")));

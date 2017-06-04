@@ -8,6 +8,7 @@ import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonRepository;
 import org.ei.opensrp.domain.form.FormSubmission;
+import org.ei.opensrp.logger.Logger;
 import org.ei.opensrp.service.formSubmissionHandler.FormSubmissionHandler;
 
 import java.util.ArrayList;
@@ -25,6 +26,9 @@ public class child_followup_handler implements FormSubmissionHandler {
 
     @Override
     public void handle(FormSubmission submission) {
+
+        Logger.largeLog("-------------",submission.toString());
+
         String entityID = submission.entityId();
         AllCommonsRepository memberrep = Context.getInstance().allCommonsRepositoryobjects("members");
         Map<String, String> ElcoDetails = new HashMap<String, String>();
