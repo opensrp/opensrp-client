@@ -104,7 +104,7 @@ public class StockRowSmartClientsProvider implements StockProviderForCursorAdapt
             loss_adj.setText(""+stock.getValue());
         }
 
-        date.setText(JsonFormUtils.dd_MM_yyyy.format(stock.getDate_created()).toString());
+        date.setText(JsonFormUtils.dd_MM_yyyy.format(new Date(stock.getDate_created())));
         to_from.setText(stock.getTo_from());
 
         balance.setText(""+(stock.getValue()+stockRepository.getBalanceBeforeCheck(stock)));

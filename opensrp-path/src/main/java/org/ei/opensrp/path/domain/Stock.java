@@ -13,7 +13,7 @@ public class Stock {
     private String transaction_type ;
     private String providerid ;
     private int value;
-    private Date  date_created;
+    private Long  date_created;
     private String to_from;
     private String sync_status ;
     private Long date_updated ;
@@ -22,7 +22,7 @@ public class Stock {
     public static String received = "received";
     public static String loss_adjustment = "loss_adjustment";
 
-    public Stock(Long id, String transaction_type, String providerid, int value, Date date_created, String to_from, String sync_status, Long date_updated, String vaccine_type_id) {
+    public Stock(Long id, String transaction_type, String providerid, int value, Long date_created, String to_from, String sync_status, Long date_updated, String vaccine_type_id) {
         this.id = id;
         this.transaction_type = transaction_type;
         this.providerid = providerid;
@@ -66,11 +66,11 @@ public class Stock {
         this.value = value;
     }
 
-    public Date  getDate_created() {
+    public Long  getDate_created() {
         return date_created;
     }
 
-    public void setDate_created(Date date_created) {
+    public void setDate_created(Long date_created) {
         this.date_created = date_created;
     }
 

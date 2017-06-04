@@ -341,7 +341,7 @@ public class Current_Stock extends Fragment implements
                     encounterDate = dateTime;
                 }
             }
-            Stock stock = new Stock(null,Stock.received,allSharedPreferences.fetchRegisteredANM(),Integer.parseInt(vials_received),encounterDate,Received_Stock_From,StockRepository.TYPE_Unsynced,System.currentTimeMillis(),""+((StockControlActivity)(getActivity())).vaccine_type.getId());
+            Stock stock = new Stock(null,Stock.received,allSharedPreferences.fetchRegisteredANM(),Integer.parseInt(vials_received),encounterDate.getTime(),Received_Stock_From,StockRepository.TYPE_Unsynced,System.currentTimeMillis(),""+((StockControlActivity)(getActivity())).vaccine_type.getId());
             str.add(stock);
 
         } catch (JSONException e) {
@@ -374,7 +374,7 @@ public class Current_Stock extends Fragment implements
                     encounterDate = dateTime;
                 }
             }
-            Stock stock = new Stock(null,Stock.issued,allSharedPreferences.fetchRegisteredANM(),-1*Integer.parseInt(vials_received),encounterDate,Received_Stock_From,StockRepository.TYPE_Unsynced,System.currentTimeMillis(),""+((StockControlActivity)(getActivity())).vaccine_type.getId());
+            Stock stock = new Stock(null,Stock.issued,allSharedPreferences.fetchRegisteredANM(),-1*Integer.parseInt(vials_received),encounterDate.getTime(),Received_Stock_From,StockRepository.TYPE_Unsynced,System.currentTimeMillis(),""+((StockControlActivity)(getActivity())).vaccine_type.getId());
             str.add(stock);
 
         } catch (JSONException e) {

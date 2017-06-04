@@ -100,7 +100,7 @@ public class StockRepository extends BaseRepository {
         values.put(TRANSACTION_TYPE, stock.getTransaction_type());
         values.put(PROVIDER_ID, stock.getProviderid());
         values.put(VALUE, stock.getValue());
-        values.put(DATE_CREATED, stock.getDate_created() != null ? stock.getDate_created().getTime() : null);
+        values.put(DATE_CREATED, stock.getDate_created() != null ? stock.getDate_created() : null);
         values.put(TO_FROM, stock.getTo_from());
         values.put(SYNC_STATUS, stock.getSyncStatus());
         values.put(DATE_UPDATED, stock.getUpdatedAt() != null ? stock.getUpdatedAt() : null);
@@ -135,7 +135,7 @@ public class StockRepository extends BaseRepository {
                 cursor.getString(cursor.getColumnIndex(TRANSACTION_TYPE)),
                 cursor.getString(cursor.getColumnIndex(PROVIDER_ID)),
                 cursor.getInt(cursor.getColumnIndex(VALUE)),
-                new Date(cursor.getLong(cursor.getColumnIndex(DATE_CREATED))),
+                cursor.getLong(cursor.getColumnIndex(DATE_CREATED)),
                 cursor.getString(cursor.getColumnIndex(TO_FROM)),
                 cursor.getString(cursor.getColumnIndex(SYNC_STATUS)),
                 cursor.getLong(cursor.getColumnIndex(DATE_UPDATED)),
@@ -197,7 +197,7 @@ public class StockRepository extends BaseRepository {
                                     cursor.getString(cursor.getColumnIndex(TRANSACTION_TYPE)),
                                     cursor.getString(cursor.getColumnIndex(PROVIDER_ID)),
                                     cursor.getInt(cursor.getColumnIndex(VALUE)),
-                                    new Date(cursor.getLong(cursor.getColumnIndex(DATE_CREATED))),
+                                    cursor.getLong(cursor.getColumnIndex(DATE_CREATED)),
                                     cursor.getString(cursor.getColumnIndex(TO_FROM)),
                                     cursor.getString(cursor.getColumnIndex(SYNC_STATUS)),
                                     cursor.getLong(cursor.getColumnIndex(DATE_UPDATED)),
@@ -236,7 +236,7 @@ public class StockRepository extends BaseRepository {
         int sum = 0;
         SQLiteDatabase database = getPathRepository().getReadableDatabase();
 
-        Cursor c =database.rawQuery("Select sum(value) from Stocks Where date_created =" +new DateTime(stock.getDate_created()).toDate().getTime()+ " and "+VACCINE_TYPE_ID+ " = "+stock.getVaccine_type_id(),null);
+        Cursor c =database.rawQuery("Select sum(value) from Stocks Where date_created = " +stock.getDate_created()+ " and date_updated <" +stock.getUpdatedAt()+" and "+VACCINE_TYPE_ID+ " = "+stock.getVaccine_type_id(),null);
 
 //        Cursor c = getPathRepository().getReadableDatabase().query(stock_TABLE_NAME, stock_TABLE_COLUMNS, DATE_UPDATED + " < ?", new String[]{""+updatedAt.longValue()}, null, null, null, null);
 //      c =database.rawQuery("Select sum(value) from Stocks Where date_updated <" +stock.getUpdatedAt()+ " and date_created <=" +new DateTime(stock.getDate_created()).toDate().getTime()+ " and "+VACCINE_TYPE_ID+ " = "+stock.getVaccine_type_id(),null);
@@ -250,17 +250,17 @@ public class StockRepository extends BaseRepository {
                 sum = 0;
             }
         }
-//        c =database.rawQuery("Select sum(value) from Stocks Where date_updated <" +stock.getUpdatedAt()+ " and date_created =" +new DateTime(stock.getDate_created()).toDate().getTime()+ " and "+VACCINE_TYPE_ID+ " = "+stock.getVaccine_type_id(),null);
-//        if(c.getCount() == 0) {
-//            sum = sum + 0;
-//        }else{
-//            c.moveToFirst();
-//            if(c.getString(0) != null) {
-//                sum = sum +Integer.parseInt(c.getString(0));
-//            }else{
-//                sum = sum +0;
-//            }
-//        }
+        c =database.rawQuery("Select sum(value) from Stocks Where date_created <" + stock.getDate_created()+ " and "+VACCINE_TYPE_ID+ " = "+stock.getVaccine_type_id(),null);
+        if(c.getCount() == 0) {
+            sum = sum + 0;
+        }else{
+            c.moveToFirst();
+            if(c.getString(0) != null) {
+                sum = sum +Integer.parseInt(c.getString(0));
+            }else{
+                sum = sum +0;
+            }
+        }
         return sum;
     }
     public int getBalanceFromNameAndDate(String Name,Long updatedat) {

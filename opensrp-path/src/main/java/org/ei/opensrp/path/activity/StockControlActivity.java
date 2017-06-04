@@ -22,6 +22,7 @@ import android.widget.TextView;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.domain.Vaccine_types;
 import org.ei.opensrp.path.tabfragments.Current_Stock;
+import org.ei.opensrp.path.tabfragments.Planning_Stock_fragment;
 
 public class StockControlActivity extends AppCompatActivity {
 
@@ -148,7 +149,13 @@ public class StockControlActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return Current_Stock.newInstance("","");
+            switch (position) {
+                case 0:
+                    return Current_Stock.newInstance("","");
+                case 1:
+                    return Planning_Stock_fragment.newInstance("","");
+            }
+            return null;
         }
 
         @Override
