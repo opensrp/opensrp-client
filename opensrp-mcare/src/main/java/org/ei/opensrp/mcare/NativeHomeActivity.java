@@ -219,7 +219,7 @@ public class NativeHomeActivity extends SecuredActivity {
                 pnccountcursor.moveToFirst();
                 pnccount= pnccountcursor.getInt(0);
                 pnccountcursor.close();
-                Cursor childcountcursor = context().commonrepository("mcarechild").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("mcarechild"," mcarechild.FWBNFGEN is not NUll "));
+                Cursor childcountcursor = context().commonrepository("mcarechild").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("mcarechild"," mcarechild.FWBNFGEN is not NUll AND details NOT LIKE '%\"user_type\":\"FWA\"%' "));
                 childcountcursor.moveToFirst();
                 childcount= childcountcursor.getInt(0);
                 childcountcursor.close();

@@ -326,12 +326,12 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
 
         setTablename("mcarechild");
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder(childMainCountWithJoins());
-        countSelect = countqueryBUilder.mainCondition(" mcarechild.FWBNFGEN is not null ");
-        mainCondition = " FWBNFGEN is not null ";
+        countSelect = countqueryBUilder.mainCondition(" mcarechild.FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' ");
+        mainCondition = " FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' ";
         super.CountExecute();
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder(childMainSelectWithJoins());
-        mainSelect = queryBUilder.mainCondition(" mcarechild.FWBNFGEN is not null ");
+        mainSelect = queryBUilder.mainCondition(" mcarechild.FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' ");
         Sortqueries = sortBySortValue();
 
         currentlimit = 20;
@@ -392,7 +392,7 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
     public void onFilterSelection(FilterOption filter) {
         appliedVillageFilterView.setText(filter.name());
         filters = ((CursorFilterOption)filter).filter();
-        mainCondition = " FWBNFGEN is not null ";
+        mainCondition = " FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' ";
 
         if(StringUtils.isNotBlank(filters) && filters.contains(" and mcaremother.details like ")){
             String searchString = filters.replace(" and mcaremother.details like ", "");

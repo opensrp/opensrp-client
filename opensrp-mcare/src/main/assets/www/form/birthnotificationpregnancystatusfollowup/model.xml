@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <model>
     <instance>
-        <BirthNotificationFollowUp encounter_type="Birth Notification Followup form" id="BirthNotificationFollowUp" version="201705240637">
+        <BirthNotificationFollowUp encounter_type="Birth Notification Followup form" id="BirthNotificationPregnancyStatusFollowUp" version="201706040714">
             <formhub>
                 <uuid />
             </formhub>
@@ -35,6 +36,8 @@
                     <FWBNFCHILDNAME openmrs_entity="concept" openmrs_entity_id="1586AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
                     <FWBNFDOB />
                     <add_child />
+                    <user_type openmrs_entity="concept" openmrs_entity_id="163229AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">FWA</user_type>
+                    <external_user_ID openmrs_entity="concept" openmrs_entity_id="163161AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
                 </FWBNCHLDVITSTS>
             </outcome_occured>
             <Is_PNC />

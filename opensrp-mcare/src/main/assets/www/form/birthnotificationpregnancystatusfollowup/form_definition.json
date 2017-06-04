@@ -120,7 +120,7 @@
         "name": "FWBNFLB",
         "bind": "/model/instance/BirthNotificationFollowUp/outcome_occured/FWBNFLB"
       },
-       {
+      {
         "name": "FWBNFSMSRSN",
         "bind": "/model/instance/BirthNotificationFollowUp/outcome_occured/FWBNFSMSRSN"
       }
@@ -159,6 +159,10 @@
           {
             "name": "FWBNFDOB",
             "bind": "/model/instance/BirthNotificationFollowUp/outcome_occured/FWBNCHLDVITSTS/FWBNFDOB"
+          },
+          {
+            "name": "user_type",
+            "bind": "/model/instance/BirthNotificationFollowUp/outcome_occured/FWBNCHLDVITSTS/user_type"
           }
         ]
       }
