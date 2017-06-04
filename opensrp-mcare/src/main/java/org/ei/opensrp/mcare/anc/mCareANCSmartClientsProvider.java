@@ -563,11 +563,6 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
         if(alerttextstatus.getAlertstatus().equalsIgnoreCase("not synced")){
             customFontTextView.setText("Not Synced");
             customFontTextView.setTextColor(context.getResources().getColor(R.color.text_black));
-            ////////////////////////////////////////////////////////////////
-            customFontTextView.setOnClickListener(onClickListener);
-            customFontTextView.setTag(R.id.clientobject, pc);
-            customFontTextView.setTag(R.id.textforAncRegister,"not synced");
-            ///////////////////////////////////////////////////////////////////////////////////////
             customFontTextView.setBackgroundColor(context.getResources().getColor(org.ei.opensrp.R.color.status_bar_text_almost_white));
 //
         }
