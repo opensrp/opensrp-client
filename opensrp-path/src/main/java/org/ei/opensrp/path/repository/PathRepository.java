@@ -1380,6 +1380,7 @@ public class PathRepository extends Repository {
             db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX);
             db.execSQL(WeightRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL);
             db.execSQL(WeightRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX);
+            HIA2Repository.createTable(db);
         } catch (Exception e) {
             Log.e(TAG, "upgradeToVersion4 " + e.getMessage());
         }

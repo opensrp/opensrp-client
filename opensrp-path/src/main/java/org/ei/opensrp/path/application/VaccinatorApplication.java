@@ -16,6 +16,7 @@ import org.ei.opensrp.path.activity.LoginActivity;
 import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.receiver.PathSyncBroadcastReceiver;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
+import org.ei.opensrp.path.repository.HIA2Repository;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.UniqueIdRepository;
 import org.ei.opensrp.path.repository.VaccineRepository;
@@ -44,6 +45,7 @@ public class VaccinatorApplication extends DrishtiApplication {
     private static CommonFtsObject commonFtsObject;
     private WeightRepository weightRepository;
     private UniqueIdRepository uniqueIdRepository;
+    private HIA2Repository hia2Repository;
     private VaccineRepository vaccineRepository;
     private boolean lastModified;
 
@@ -123,7 +125,7 @@ public class VaccinatorApplication extends DrishtiApplication {
         return null;
     }
 
-    private static String[] getFtsSortFields(String tableName){
+    private static String[] getFtsSortFields(String tableName) {
 
 
         if (tableName.equals("ec_child")) {
@@ -137,7 +139,7 @@ public class VaccinatorApplication extends DrishtiApplication {
             names.add("lost_to_follow_up");
 
             for (VaccineRepo.Vaccine vaccine : vaccines) {
-                names.add( "alerts." + VaccinateActionUtils.addHyphen(vaccine.display()));
+                names.add("alerts." + VaccinateActionUtils.addHyphen(vaccine.display()));
             }
 
             return names.toArray(new String[names.size()]);
@@ -227,6 +229,13 @@ public class VaccinatorApplication extends DrishtiApplication {
             uniqueIdRepository = new UniqueIdRepository((PathRepository) getRepository());
         }
         return uniqueIdRepository;
+    }
+
+    public HIA2Repository hia2Repository() {
+        if (hia2Repository == null) {
+            hia2Repository = new HIA2Repository((PathRepository) getRepository());
+        }
+        return hia2Repository;
     }
 
     public boolean isLastModified() {
