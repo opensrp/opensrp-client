@@ -2,14 +2,39 @@ package org.ei.opensrp.path.tabfragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.GraphViewXML;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
+import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.activity.StockControlActivity;
+import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.repository.PathRepository;
+import org.ei.opensrp.path.repository.StockRepository;
+import org.ei.opensrp.util.StringUtil;
+import org.joda.time.DateTime;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import util.DateUtils;
+import util.Utils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,7 +91,110 @@ public class Planning_Stock_fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_planning__stock_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_planning__stock_fragment, container, false);
+
+        createActiveChildrenStatsView(view);
+        createGraphDataAndView(view);
+
+
+
+        return view;
+    }
+
+    private LineGraphSeries<DataPoint> createGraphDataAndView(View view) {
+        DateTime now = new DateTime(System.currentTimeMillis());
+        DateTime threemonthEarlierIterator = now.minusMonths(3);
+        ArrayList<DataPoint> datapointsforgraphs = new ArrayList<DataPoint>();
+        while(threemonthEarlierIterator.isBefore(now)){
+            PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+            net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
+
+            Cursor c = db.rawQuery("Select sum(value) from Stocks where " + StockRepository.DATE_CREATED + " <= " + threemonthEarlierIterator.toDate().getTime()+" and "+StockRepository.VACCINE_TYPE_ID + " = "+ ((StockControlActivity)getActivity()).vaccine_type.getId(), null);
+            String stockvalue = "0";
+            if(c.getCount()>0) {
+                c.moveToFirst();
+                if(c.getString(0)!=null && !StringUtils.isBlank(c.getString(0)))
+                stockvalue = c.getString(0);
+                c.close();
+            }
+            datapointsforgraphs.add(new DataPoint(threemonthEarlierIterator.toDate(),Double.parseDouble(stockvalue)));
+            threemonthEarlierIterator = threemonthEarlierIterator.plusDays(1);
+
+        }
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(
+                datapointsforgraphs.toArray(new DataPoint[datapointsforgraphs.size()])
+        );
+        GraphViewXML graph = (GraphViewXML)view.findViewById(R.id.graph);
+        StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
+        String [] montharry;
+        int arraymonthslabelsize = 0;
+        if(now.minusMonths(1).monthOfYear() != now.monthOfYear()){
+            arraymonthslabelsize = 4;
+//            montharry = new String [arraymonthslabelsize];
+            montharry = new String[]{now.minusMonths(3).monthOfYear().getAsShortText()+" "+now.year().getAsShortText(),
+                    now.minusMonths(2).monthOfYear().getAsShortText()+" "+now.year().getAsShortText(),
+                    now.minusMonths(1).monthOfYear().getAsShortText()+" "+now.year().getAsShortText(),
+                    now.minusMonths(0).monthOfYear().getAsShortText()+" "+now.year().getAsShortText()
+            };
+        }else{
+            arraymonthslabelsize = 3;
+            montharry = new String[]{now.minusMonths(3).monthOfYear().getAsShortText()+" "+now.year().getAsShortText(),
+                    now.minusMonths(2).monthOfYear().getAsShortText()+" "+now.year().getAsShortText(),
+                    now.minusMonths(1).monthOfYear().getAsShortText()+" "+now.year().getAsShortText()
+            };
+        }
+
+
+
+        staticLabelsFormatter.setHorizontalLabels(montharry);
+        graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+        graph.addSeries(series);
+        graph.getViewport().setMinX(now.minusMonths(3).toDate().getTime());
+        graph.getViewport().setMaxX(now.toDate().getTime());
+        graph.getViewport().setXAxisBoundsManual(true);
+
+        graph.getGridLabelRenderer().setHumanRounding(false);
+
+        return series;
+
+    }
+
+    private void createActiveChildrenStatsView(View view) {
+
+        TextView zerotoelevenlastmonth = (TextView)view.findViewById(R.id.zerotoelevenlastmonth);
+        TextView zerotoeleventhismonth = (TextView)view.findViewById(R.id.zerotoeleventhismonth);
+        TextView twelvetofiftyninethismonth = (TextView)view.findViewById(R.id.twelvetofiftyninethismonth);
+        TextView twelvetofiftyninelastmont = (TextView)view.findViewById(R.id.twelvetofiftyninelastmont);
+        TextView twelvetofiftyninedifference = (TextView)view.findViewById(R.id.twelvetofiftyninedifference);
+        TextView zerotoelevendifference = (TextView)view.findViewById(R.id.zerotoelevendifference);
+        TextView last_month_total = (TextView)view.findViewById(R.id.last_month_total);
+        TextView this_month_total = (TextView)view.findViewById(R.id.this_month_total);
+        TextView difference_total = (TextView)view.findViewById(R.id.difference_total);
+
+
+        activeChildrenStats activeChildrenStats = getActivechildrenStat();
+
+
+        zerotoelevenlastmonth.setText(""+activeChildrenStats.getChildrenLastMonthZeroToEleven());
+        zerotoeleventhismonth.setText(""+activeChildrenStats.getChildrenThisMonthZeroToEleven());
+        twelvetofiftyninelastmont.setText(""+activeChildrenStats.getChildrenLastMonthtwelveTofiftyNine());
+        twelvetofiftyninethismonth.setText(""+activeChildrenStats.getChildrenThisMonthtwelveTofiftyNine());
+
+        this_month_total.setText(""+(activeChildrenStats.getChildrenThisMonthtwelveTofiftyNine()+activeChildrenStats.getChildrenThisMonthZeroToEleven()));
+        last_month_total.setText(""+(activeChildrenStats.getChildrenLastMonthtwelveTofiftyNine()+activeChildrenStats.getChildrenLastMonthZeroToEleven()));
+
+        Long difference0to11 = activeChildrenStats.getChildrenLastMonthZeroToEleven() - activeChildrenStats.getChildrenThisMonthZeroToEleven();
+        if(difference0to11<0){
+            difference0to11 = -1* difference0to11;
+        }
+        Long difference12to59 = activeChildrenStats.getChildrenLastMonthtwelveTofiftyNine() - activeChildrenStats.getChildrenThisMonthtwelveTofiftyNine();
+        if(difference12to59<0){
+            difference12to59 = -1*difference12to59;
+        }
+        twelvetofiftyninedifference.setText(""+difference12to59);
+        zerotoelevendifference.setText(""+difference0to11);
+        difference_total.setText(""+(difference0to11+difference12to59));
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -106,5 +234,103 @@ public class Planning_Stock_fragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    public activeChildrenStats getActivechildrenStat(){
+        activeChildrenStats activeChildrenStats = new activeChildrenStats();
+        PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+        net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
+        Cursor c = db.rawQuery("Select dob,client_reg_date from ec_child where inactive != 'true' and lost_to_follow_up != 'true' ",null);
+        c.moveToFirst();
+        boolean thismonth = false;
+
+        while(!c.isAfterLast()){
+            thismonth = false;
+            String dobString = c.getString(0);
+            String createdString = c.getString(1);
+            if (!TextUtils.isEmpty(dobString)) {
+                DateTime dateTime = new DateTime(dobString);
+                Date dob = dateTime.toDate();
+                DateTime dateTime2 = new DateTime(createdString);
+                Date createddate = dateTime.toDate();
+                DateTime now = new DateTime(System.currentTimeMillis());
+                if(now.getMonthOfYear() == dateTime2.getMonthOfYear() && now.getYear() == dateTime2.getYear()){
+                    thismonth = true;
+                }
+
+
+                long timeDiff = Calendar.getInstance().getTimeInMillis() - dob.getTime();
+                long createdtimeDiff = Calendar.getInstance().getTimeInMillis() - createddate.getTime();
+
+                if (timeDiff >= 0) {
+                    long days = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
+                    int months = (int) Math.floor((float) timeDiff /
+                            TimeUnit.MILLISECONDS.convert(30, TimeUnit.DAYS));
+                    int weeks = (int) Math.floor((float) (timeDiff - TimeUnit.MILLISECONDS.convert(
+                            months * 30, TimeUnit.DAYS)) /
+                            TimeUnit.MILLISECONDS.convert(7, TimeUnit.DAYS));
+
+                    if (weeks >= 4) {
+                        weeks = 0;
+                        months++;
+                    }
+                    if(months<12){
+                        if(thismonth){
+                            activeChildrenStats.setChildrenThisMonthZeroToEleven(activeChildrenStats.getChildrenThisMonthZeroToEleven()+1);
+                        }else{
+                            activeChildrenStats.setChildrenLastMonthZeroToEleven(activeChildrenStats.getChildrenLastMonthZeroToEleven()+1);
+                        }
+                    }else if(months>11 && months < 60){
+                        if(thismonth){
+                            activeChildrenStats.setChildrenThisMonthtwelveTofiftyNine(activeChildrenStats.getChildrenThisMonthtwelveTofiftyNine()+1);
+                        }else{
+                            activeChildrenStats.setChildrenLastMonthtwelveTofiftyNine(activeChildrenStats.getChildrenLastMonthtwelveTofiftyNine()+1);
+                        }
+                    }
+                }
+//                if (createdtimeDiff >= 0) {
+//                    long daysSinceCreated = TimeUnit.DAYS.convert(createdtimeDiff, TimeUnit.MILLISECONDS);
+//                }
+            }
+            c.moveToNext();
+        }
+        return activeChildrenStats;
+    }
+    class activeChildrenStats{
+        Long childrenLastMonthZeroToEleven = 0l;
+        Long childrenLastMonthtwelveTofiftyNine = 0l;
+        Long childrenThisMonthZeroToEleven = 0l;
+        Long childrenThisMonthtwelveTofiftyNine = 0l;
+
+        public Long getChildrenLastMonthZeroToEleven() {
+            return childrenLastMonthZeroToEleven;
+        }
+
+        public void setChildrenLastMonthZeroToEleven(Long childrenLastMonthZeroToEleven) {
+            this.childrenLastMonthZeroToEleven = childrenLastMonthZeroToEleven;
+        }
+
+        public Long getChildrenLastMonthtwelveTofiftyNine() {
+            return childrenLastMonthtwelveTofiftyNine;
+        }
+
+        public void setChildrenLastMonthtwelveTofiftyNine(Long childrenLastMonthtwelveTofiftyNine) {
+            this.childrenLastMonthtwelveTofiftyNine = childrenLastMonthtwelveTofiftyNine;
+        }
+
+        public Long getChildrenThisMonthZeroToEleven() {
+            return childrenThisMonthZeroToEleven;
+        }
+
+        public void setChildrenThisMonthZeroToEleven(Long childrenThisMonthZeroToEleven) {
+            this.childrenThisMonthZeroToEleven = childrenThisMonthZeroToEleven;
+        }
+
+        public Long getChildrenThisMonthtwelveTofiftyNine() {
+            return childrenThisMonthtwelveTofiftyNine;
+        }
+
+        public void setChildrenThisMonthtwelveTofiftyNine(Long childrenThisMonthtwelveTofiftyNine) {
+            this.childrenThisMonthtwelveTofiftyNine = childrenThisMonthtwelveTofiftyNine;
+        }
     }
 }
