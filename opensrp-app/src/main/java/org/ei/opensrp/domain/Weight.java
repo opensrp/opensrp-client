@@ -19,6 +19,7 @@ public class Weight {
     String locationId;
     String syncStatus;
     Long updatedAt;
+    Double zScore;
 
     public Weight() {
     }
@@ -37,7 +38,7 @@ public class Weight {
         this.formSubmissionId=formSubmissionId;
     }
 
-    public Weight(Long id, String baseEntityId, String programClientId, Float kg, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId) {
+    public Weight(Long id, String baseEntityId, String programClientId, Float kg, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId, Double zScore) {
         this.id = id;
         this.baseEntityId = baseEntityId;
         this.programClientId = programClientId;
@@ -49,6 +50,7 @@ public class Weight {
         this.updatedAt = updatedAt;
         this.eventId=eventId;
         this.formSubmissionId=formSubmissionId;
+        this.zScore = zScore;
     }
 
 
@@ -146,4 +148,11 @@ public class Weight {
         this.formSubmissionId = formSubmissionId;
     }
 
+    public Double getZScore() {
+        return zScore;
+    }
+
+    public void setZScore(Double zScore) {
+        this.zScore = zScore;
+    }
 }

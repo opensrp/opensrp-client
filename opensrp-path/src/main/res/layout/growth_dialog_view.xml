@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:background="@android:color/white"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_shape">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/child_profile_info_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/child_profilepic"
+                    android:layout_width="@dimen/client_profile_pic_dialog_width"
+                    android:layout_height="@dimen/client_profile_pic_dialog_height"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/child_boy_infant" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:id="@+id/child_name"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text="Child Name"
+                        android:textColor="@color/black"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:id="@+id/child_zeir_id"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="EIR"
+                            android:textColor="@color/client_list_grey"
+                            android:textSize="22sp" />
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:id="@+id/child_age"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="Age"
+                            android:textColor="@color/client_list_grey"
+                            android:textSize="22sp" />
+                    </LinearLayout>
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:id="@+id/pmtct_status"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="pmtct_status"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="22sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/client_list_header_dark_grey" />
+
+            <!-- Growth Chart section -->
+
+            <lecho.lib.hellocharts.view.LineChartView
+                android:id="@+id/growth_chart"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_margin="10dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/client_list_header_dark_grey" />
+
+            <!-- Weight table section -->
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/client_list_header_dark_grey" />
+
+            <!-- Done button section -->
+
+        </LinearLayout>
+    </FrameLayout>
+</FrameLayout>

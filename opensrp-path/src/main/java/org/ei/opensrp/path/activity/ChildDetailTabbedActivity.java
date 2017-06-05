@@ -931,7 +931,26 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                 weight.setLocationId(location_name);
             }
 
-            weightRepository.add(weight);
+            Gender gender = Gender.UNKNOWN;
+            String genderString = Utils.getValue(childDetails, "gender", false);
+            if (genderString != null && genderString.toLowerCase().equals("female")) {
+                gender = Gender.FEMALE;
+            } else if (genderString != null && genderString.toLowerCase().equals("male")) {
+                gender = Gender.MALE;
+            }
+
+            Date dob = null;
+            String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+            if (!TextUtils.isEmpty(dobString)) {
+                DateTime dateTime = new DateTime(dobString);
+                dob = dateTime.toDate();
+            }
+
+            if (dob != null && gender != Gender.UNKNOWN) {
+                weightRepository.add(dob, gender, weight);
+            } else {
+                weightRepository.add(weight);
+            }
 
             tag.setDbKey(weight.getId());
             childUnderFiveFragment.loadview(false, true);

@@ -26,6 +26,7 @@ import org.ei.opensrp.path.repository.RecurringServiceTypeRepository;
 import org.ei.opensrp.path.repository.UniqueIdRepository;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.repository.WeightRepository;
+import org.ei.opensrp.path.repository.ZScoreRepository;
 import org.ei.opensrp.repository.Repository;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
 import org.ei.opensrp.view.activity.DrishtiApplication;
@@ -57,6 +58,7 @@ public class VaccinatorApplication extends DrishtiApplication
     private WeightRepository weightRepository;
     private UniqueIdRepository uniqueIdRepository;
     private VaccineRepository vaccineRepository;
+    private ZScoreRepository zScoreRepository;
     private RecurringServiceRecordRepository recurringServiceRecordRepository;
     private RecurringServiceTypeRepository recurringServiceTypeRepository;
     private boolean lastModified;
@@ -247,6 +249,14 @@ public class VaccinatorApplication extends DrishtiApplication
             vaccineRepository = new VaccineRepository((PathRepository) getRepository(), createCommonFtsObject(), context.alertService());
         }
         return vaccineRepository;
+    }
+
+    public ZScoreRepository zScoreRepository() {
+        if (zScoreRepository == null) {
+            zScoreRepository = new ZScoreRepository((PathRepository) getRepository());
+        }
+
+        return zScoreRepository;
     }
 
     public UniqueIdRepository uniqueIdRepository() {

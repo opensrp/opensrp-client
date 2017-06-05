@@ -38,6 +38,7 @@ import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.service.intent.PullUniqueIdsIntentService;
+import org.ei.opensrp.path.service.intent.ZScoreRefreshIntentService;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
 import org.ei.opensrp.util.Log;
@@ -367,6 +368,7 @@ public class LoginActivity extends Activity {
     private void localLoginWith(String userName, String password) {
         context.userService().localLogin(userName, password);
         goToHome(false);
+        startZScoreIntentService();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -377,9 +379,15 @@ public class LoginActivity extends Activity {
         }).start();
     }
 
+    private void startZScoreIntentService() {
+        Intent intent = new Intent(this, ZScoreRefreshIntentService.class);
+        startService(intent);
+    }
+
     private void remoteLoginWith(String userName, String password, String userInfo) {
         context.userService().remoteLogin(userName, password, userInfo);
         goToHome(true);
+        startZScoreIntentService();
         DrishtiSyncScheduler.startOnlyIfConnectedToNetwork(getApplicationContext());
     }
 

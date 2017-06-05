@@ -24,4 +24,6 @@ public class PathConstants extends AllConstants {
     public static final int VACCINE_SYNC_TIME = BuildConfig.VACCINE_SYNC_TIME;
     public static final long MAX_SERVER_TIME_DIFFERENCE = BuildConfig.MAX_SERVER_TIME_DIFFERENCE;
     public static final boolean TIME_CHECK = BuildConfig.TIME_CHECK;
+    public static final String ZSCORE_MALE_URL = "http://www.who.int/childgrowth/standards/wfa_boys_0_5_zscores.txt";
+    public static final String ZSCORE_FEMALE_URL = "http://www.who.int/childgrowth/standards/wfa_girls_0_5_zscores.txt";
 }

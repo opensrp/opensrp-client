@@ -220,5 +220,7 @@
 
     <string name="immunizations">IMMUNIZATIONS</string>
     <string name="recurring">RECURRING SERVICES</string>
+    <string name="months">Months</string>
+    <string name="kg">Kg</string>
 
 </resources>

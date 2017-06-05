@@ -94,8 +94,9 @@ public class PathRepository extends Repository {
                 case 5:
                     upgradeToVersion5(db);
                     break;
+                case 6:
+                    upgradeToVersion6(db);
                 default:
-
                     break;
             }
             upgradeTo++;
@@ -1400,6 +1401,15 @@ public class PathRepository extends Repository {
             DatabaseUtils.populateRecurringServices(context, db, recurringServiceTypeRepository);
         } catch (Exception e) {
             Log.e(TAG, "upgradeToVersion5 " + Log.getStackTraceString(e));
+        }
+    }
+
+    private void upgradeToVersion6(SQLiteDatabase db) {
+        try {
+            ZScoreRepository.createTable(db);
+            db.execSQL(WeightRepository.ALTER_ADD_Z_SCORE_COLUMN);
+        } catch (Exception e) {
+            Log.e(TAG, "upgradeToVersion6" + Log.getStackTraceString(e));
         }
     }
 }

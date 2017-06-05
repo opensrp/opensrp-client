@@ -14,9 +14,12 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.commonregistry.AllCommonsRepository;
@@ -36,6 +39,7 @@ import org.ei.opensrp.path.domain.ServiceWrapper;
 import org.ei.opensrp.path.domain.VaccineSchedule;
 import org.ei.opensrp.path.domain.VaccineWrapper;
 import org.ei.opensrp.path.domain.WeightWrapper;
+import org.ei.opensrp.path.fragment.GrowthDialogFragment;
 import org.ei.opensrp.path.fragment.RecordWeightDialogFragment;
 import org.ei.opensrp.path.fragment.ServiceDialogFragment;
 import org.ei.opensrp.path.fragment.UndoServiceDialogFragment;
@@ -510,7 +514,7 @@ public class ChildImmunizationActivity extends BaseActivity
         undoServiceDialogFragment.show(ft, DIALOG_TAG);
     }
 
-    private void updateRecordWeightView(Weight weight) {
+    private void updateWeightViews(Weight lastUnsyncedWeight) {
 
         String childName = constructChildName();
         String gender = getValue(childDetails.getColumnmaps(), "gender", true);
@@ -538,16 +542,33 @@ public class ChildImmunizationActivity extends BaseActivity
         weightWrapper.setPhoto(photo);
         weightWrapper.setPmtctStatus(getValue(childDetails.getColumnmaps(), "pmtct_status", false));
 
-        if (weight != null) {
-            weightWrapper.setWeight(weight.getKg());
-            weightWrapper.setDbKey(weight.getId());
-            weightWrapper.setUpdatedWeightDate(new DateTime(weight.getDate()), false);
+        if (lastUnsyncedWeight != null) {
+            weightWrapper.setWeight(lastUnsyncedWeight.getKg());
+            weightWrapper.setDbKey(lastUnsyncedWeight.getId());
+            weightWrapper.setUpdatedWeightDate(new DateTime(lastUnsyncedWeight.getDate()), false);
         }
 
-        updateRecordWeightView(weightWrapper);
+        updateRecordWeightViews(weightWrapper);
+
+        ImageButton growthChartButton = (ImageButton) findViewById(R.id.growth_chart_button);
+        growthChartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction ft = ChildImmunizationActivity.this.getFragmentManager().beginTransaction();
+                Fragment prev = ChildImmunizationActivity.this.getFragmentManager().findFragmentByTag(DIALOG_TAG);
+                if (prev != null) {
+                    ft.remove(prev);
+                }
+                ft.addToBackStack(null);
+                WeightRepository weightRepository = VaccinatorApplication.getInstance().weightRepository();
+                List<Weight> allWeights = weightRepository.findByEntityId(childDetails.entityId());
+                GrowthDialogFragment growthDialogFragment = GrowthDialogFragment.newInstance(childDetails, allWeights);
+                growthDialogFragment.show(ft, DIALOG_TAG);
+            }
+        });
     }
 
-    private void updateRecordWeightView(WeightWrapper weightWrapper) {
+    private void updateRecordWeightViews(WeightWrapper weightWrapper) {
         View recordWeight = findViewById(R.id.record_weight);
         recordWeight.setClickable(true);
         recordWeight.setOnClickListener(new View.OnClickListener() {
@@ -689,10 +710,29 @@ public class ChildImmunizationActivity extends BaseActivity
                 e.printStackTrace();
             }
 
-            weightRepository.add(weight);
+            Gender gender = Gender.UNKNOWN;
+            String genderString = Utils.getValue(childDetails, "gender", false);
+            if (genderString != null && genderString.toLowerCase().equals("female")) {
+                gender = Gender.FEMALE;
+            } else if (genderString != null && genderString.toLowerCase().equals("male")) {
+                gender = Gender.MALE;
+            }
+
+            Date dob = null;
+            String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+            if (!TextUtils.isEmpty(dobString)) {
+                DateTime dateTime = new DateTime(dobString);
+                dob = dateTime.toDate();
+            }
+
+            if (dob != null && gender != Gender.UNKNOWN) {
+                weightRepository.add(dob, gender, weight);
+            } else {
+                weightRepository.add(weight);
+            }
 
             tag.setDbKey(weight.getId());
-            updateRecordWeightView(tag);
+            updateRecordWeightViews(tag);
             setLastModified(true);
         }
     }
@@ -1131,7 +1171,7 @@ public class ChildImmunizationActivity extends BaseActivity
 
             }
 
-            updateRecordWeightView(weight);
+            updateWeightViews(weight);
             updateServiceViews(serviceTypeMap, serviceRecords, alertList);
             updateVaccinationViews(vaccineList, alertList);
             performRegisterActions(registerClickables);
