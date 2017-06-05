@@ -1,22 +1,27 @@
 package org.ei.opensrp.path.service;
 
+import android.database.Cursor;
+
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.ei.opensrp.path.repository.PathRepository;
+import org.ei.opensrp.util.Log;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
  * Created by coder on 5/19/17.
  */
 public class HIA2Service {
+    private String TAG = HIA2Service.class.getCanonicalName();
     DateFormat dfyymm = new SimpleDateFormat("yyyy-MM");
 
     private static String EC_CHILD_TABLE = "ec_child";
-    private static String CHN1_005_NAME = "CHN1-005";
+    private static String CHN1_005 = "CHN1-005";
     private static String CHN1_005_DHIS_ID = "n0uHub5ubqH";
     private static String CHN1_010 = "CHN1-010";
     private static String CHN1_010_DHIS_ID = "IWwblgpMxiS";
@@ -144,11 +149,12 @@ public class HIA2Service {
     private static String CHN3_085_O_DHIS_ID = "unknown";
     private static String CHN3_090 = "CHN3-090";
     private static String CHN3_090_DHIS_ID = "FGJcw1TCM9D";
-
+    private Map<String, Map<String, Object>> hia2Report = new HashMap<>();
+    private SQLiteDatabase database;
 
     //FIXME to uniquely identify out of areas change group by child.base_entity_id to group by zeir_id
-    public static void generateIndicators(final SQLiteDatabase database, int month) {
-
+    public void generateIndicators(final SQLiteDatabase _database) {
+        database = _database;
     }
 
     /**
@@ -157,17 +163,58 @@ public class HIA2Service {
      * @param database
      */
     private void getCHN1_005(SQLiteDatabase database, String gender) {
-        String query = "select count(*) from " + EC_CHILD_TABLE + " child inner join " + PathRepository.Table.event.name() + " e on e." + PathRepository.event_column.baseEntityId.name() + "= child.id" +
-                " where strftime('%Y-%m',e." + PathRepository.event_column.eventDate.name() + ")='" + dfyymm.format(new Date()) + "' and date(child.dob,'+12 months')<'now()' and child.gender=" + (gender.isEmpty() ? "Male" : gender);
-        // lable,dhisatt,value
 
+        try {
+            int count = clinicAttendance("Male");
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN1_005_DHIS_ID, count);
+            hia2Report.put(CHN1_005, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, e.getMessage());
+
+        }
+
+
+    }
+
+    private int clinicAttendance(String gender) {
+        Cursor cursor = null;
+        int count = 0;
+        try {
+            String query = "select count(*) as count," + ageQuery() + " from ec_child child inner join " + PathRepository.Table.event.name() + " e on e." + PathRepository.event_column.baseEntityId.name() + "= child.id" +
+                    " where age <12 and  strftime('%Y-%m',date('now'))=strftime('%Y-%m',e.eventDate) and child.gender=" + (gender.isEmpty() ? "Male" : gender);
+            cursor = database.rawQuery(query, null);
+            if (null != cursor) {
+                if (cursor.getCount() > 0) {
+                    cursor.moveToFirst();
+                    count = cursor.getInt(0);
+                }
+                cursor.close();
+            }
+        } catch (Exception e) {
+            Log.logError(TAG, e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return count;
     }
 
     /**
      * Number of female children aged < 12 months who attended a clinic this month.
      */
     private void getCHN1_010(SQLiteDatabase db) {
-        getCHN1_005(db, "Female");
+        try {
+            int count = clinicAttendance("Female");
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN1_010_DHIS_ID, count);
+            hia2Report.put(CHN1_010, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, e.getMessage());
+
+        }
+
     }
 
     /**
@@ -176,6 +223,13 @@ public class HIA2Service {
      */
     private void getCHN1_011() {
 
+        Map<String, Object> maleCountMap = hia2Report.get(CHN1_005);
+        Map<String, Object> femaleCountMap = hia2Report.get(CHN1_010);
+        int totalCount = (Integer) maleCountMap.get(CHN1_005_DHIS_ID) + (Integer) femaleCountMap.get(CHN1_010_DHIS_ID);
+        Map<String, Object> indicatorMap = new HashMap<>();
+        indicatorMap.put(CHN1_011_DHIS_ID, totalCount);
+        hia2Report.put(CHN1_011, indicatorMap);
+
     }
 
     /**
@@ -183,7 +237,7 @@ public class HIA2Service {
      */
     private void getCHN1_015(SQLiteDatabase db, String gender) {
         gender = gender == null || gender.isEmpty() ? "Male" : gender;
-        String query = "select count(*) as count," + ageQuery() + " from ec_child child inner join event e on e.baseEntityId=child.base_entity_id where  child.gender='" + gender + "' and strftime('%Y-%m',e.eventDate) ='" + dfyymm.format(new Date()) + "' and age between 12 and 59";
+        String query = "select count(*) as count," + ageQuery() + " from ec_child child inner join event e on e.baseEntityId=child.base_entity_id where  child.gender='" + gender + "' and strftime('%Y-%m',e.eventDate)=strftime('%Y-%m',date('now'))  and age between 12 and 59";
 
     }
 
@@ -223,7 +277,15 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN1_030(SQLiteDatabase db) {
-        String query = "select count(*) from ec_child child inner join event e on e.baseEntityId=child.base_entity_id where e.eventType like '%Out of Area Service%' and " + eventDateEqualsCurrentMonthQuery();
+        try {
+            String query = "select count(*) as count from ec_child child inner join event e on e.baseEntityId=child.base_entity_id where e.eventType like '%Out of Area Service%' and " + eventDateEqualsCurrentMonthQuery();
+            int count = executeQueryAndReturnCount(query);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN1_030_DHIS_ID, count);
+            hia2Report.put(CHN1_030, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN1_030 " + e.getMessage());
+        }
     }
 
     /**
@@ -233,8 +295,16 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN2_005(SQLiteDatabase db) {
-        String query = "select count(*) as count," + ageQuery() + " from ec_child child inner join event e on e.baseEntityId=child.base_entity_id " +
-                "where e.eventType='%Growth Monitoring%' and age <23 and " + eventDateEqualsCurrentMonthQuery();
+        try {
+            String query = "select count(*) as count," + ageQuery() + " from ec_child child inner join event e on e.baseEntityId=child.base_entity_id " +
+                    "where e.eventType='%Growth Monitoring%' and age <23 and " + eventDateEqualsCurrentMonthQuery();
+            int count = executeQueryAndReturnCount(query);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN2_005_DHIS_ID, count);
+            hia2Report.put(CHN2_005, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN1_030 " + e.getMessage());
+        }
     }
 
     /**
@@ -243,8 +313,16 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN2_010(SQLiteDatabase db) {
-        String query = "select count(*) as count," + ageQuery() + " from ec_child child inner join event e on e.baseEntityId=child.base_entity_id " +
-                "where e.eventType like '%Growth Monitoring%' and age between 24 and 59 and " + eventDateEqualsCurrentMonthQuery();
+        try {
+            String query = "select count(*) as count," + ageQuery() + " from ec_child child inner join event e on e.baseEntityId=child.base_entity_id " +
+                    "where e.eventType like '%Growth Monitoring%' and age between 24 and 59 and " + eventDateEqualsCurrentMonthQuery();
+            int count = executeQueryAndReturnCount(query);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN2_010_DHIS_ID, count);
+            hia2Report.put(CHN2_010, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN2_010 " + e.getMessage());
+        }
     }
 
     /**
@@ -254,38 +332,64 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN2_015(SQLiteDatabase db) {
+        try {
+            Map<String, Object> maleCountMap = hia2Report.get(CHN2_005);
+            Map<String, Object> femaleCountMap = hia2Report.get(CHN2_010);
+            int totalCount = (Integer) maleCountMap.get(CHN2_005_DHIS_ID) + (Integer) femaleCountMap.get(CHN2_010_DHIS_ID);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN2_015_DHIS_ID, totalCount);
+            hia2Report.put(CHN2_015, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN2_010 " + e.getMessage());
 
+        }
     }
 
     /**
      * Number of children age 0-23 months who where weighed for = 2 consecutive months who did not gain >100g of weight in those months
      * COUNT number of children 0-23 months [Date_Birth] with [weight current visit - weight previous visits < 100g] who had = 2 consecutive weight encounters at this clinic
+     * FIXME
      *
      * @param db
      */
+
     private void getCHN2_020(SQLiteDatabase db) {
 
-        String query = "select child.base_entity_id as beid,strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) as currentweightdate,(w.kg*1000) as currentweight," +
-                "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m',date('now'),'-1 months')  limit 1) as prevweight," +
-                "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m',date('now'),'-2 months')  limit 1 ) as last2monthsweight," +
-                ageQuery() +
-                "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id where strftime('%Y-%m',date('now'))=currentweightdate and age <23 and (currentweight-prevweight>0 and prevweight-last2monthsweight>0) group by beid";
+        try {
+            String query = "select count(*) as count, child.base_entity_id as beid,strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) as currentweightdate,(w.kg*1000) as currentweight," +
+                    "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m',date('now'),'-1 months')  limit 1) as prevweight," +
+                    "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m',date('now'),'-2 months')  limit 1 ) as last2monthsweight," +
+                    ageQuery() +
+                    "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id where strftime('%Y-%m',date('now'))=currentweightdate and age <23 and (currentweight-prevweight>0 and prevweight-last2monthsweight>0) group by beid";
+            int count = executeQueryAndReturnCount(query);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN2_020_DHIS_ID, count);
+            hia2Report.put(CHN2_020, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN2_020 " + e.getMessage());
+        }
 
     }
 
     /**
      * Number of children 24-59 months who where weighed for = 2 consecutive months who did not gain >100g of weight in those months
      * COUNT number of children 24-59 months [Date_Birth]  with [weight current visit - weight previous visits < 100g] who had = 2 consecutive weight encounters at this clinic
-     *
-     * @param db
+     * FIXME
      */
-    private void getCHN2_025(SQLiteDatabase db) {
-
-        String query = "select child.base_entity_id as beid,strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) as currentweightdate,(w.kg*1000) as currentweight," +
-                "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m',date('now'),'-1 months')  limit 1) as prevweight," +
-                "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m',date('now'),'-2 months')  limit 1 ) as last2monthsweight," +
-                ageQuery() +
-                "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id where strftime('%Y-%m',date('now'))=currentweightdate and age between 24 and 59 and (currentweight-prevweight>0 and prevweight-last2monthsweight>0) group by beid";
+    private void getCHN2_025() {
+        try {
+            String query = "select count(*) as count, child.base_entity_id as beid,strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) as currentweightdate,(w.kg*1000) as currentweight," +
+                    "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m',date('now'),'-1 months')  limit 1) as prevweight," +
+                    "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m',date('now'),'-2 months')  limit 1 ) as last2monthsweight," +
+                    ageQuery() +
+                    "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id where strftime('%Y-%m',date('now'))=currentweightdate and age between 24 and 59 and (currentweight-prevweight>0 and prevweight-last2monthsweight>0) group by beid";
+            int count = executeQueryAndReturnCount(query);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN2_025_DHIS_ID, count);
+            hia2Report.put(CHN2_025, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN2_020 " + e.getMessage());
+        }
 
     }
 
@@ -297,30 +401,53 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN2_030(SQLiteDatabase db) {
+        try {
+            Map<String, Object> maleCountMap = hia2Report.get(CHN2_020);
+            Map<String, Object> femaleCountMap = hia2Report.get(CHN2_025);
+            int totalCount = (Integer) maleCountMap.get(CHN2_020_DHIS_ID) + (Integer) femaleCountMap.get(CHN2_025_DHIS_ID);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN2_030_DHIS_ID, totalCount);
+            hia2Report.put(CHN2_030, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN2_010 " + e.getMessage());
+
+        }
 
     }
 
     /**
      * Number of total children age 0-23 months whose weight is between -2Z and -3Z scores
-     *
-     * @param db
      */
-    private void getCHN2_035(SQLiteDatabase db) {
-        String query = "select" + ageQuery() +
-                "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score between -2 and -3 group by child.base_entity_id;";
+    private void getCHN2_035() {
+        try {
+            String query = "select count(*) as count," + ageQuery() +
+                    "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
+                    "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score between -2 and -3 group by child.base_entity_id;";
+            int count = executeQueryAndReturnCount(query);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN2_035_DHIS_ID, count);
+            hia2Report.put(CHN2_035, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN2_035 " + e.getMessage());
+        }
 
     }
 
     /**
      * Number of total children age 24-59 months whose weight is between -2Z and -3Z scores
-     *
-     * @param db
      */
-    private void getCHN2_040(SQLiteDatabase db) {
-        String query = "select" + ageQuery() +
-                "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score between -2 and -3 group by child.base_entity_id;";
+    private void getCHN2_040() {
+        try {
+            String query = "select count(*) as count," + ageQuery() +
+                    "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
+                    "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score between -2 and -3 group by child.base_entity_id;";
+            int count = executeQueryAndReturnCount(query);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN2_040_DHIS_ID, count);
+            hia2Report.put(CHN2_040, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN2_040 " + e.getMessage());
+        }
 
     }
 
@@ -328,10 +455,19 @@ public class HIA2Service {
      * Number of total children age < 5 years whose weight is between -2Z and -3Z scores
      * "[CHN2-035] + [CHN2-040]
      * [Non-editable in the form]"
-     *
-     * @param db
      */
-    private void getCHN2_041(SQLiteDatabase db) {
+    private void getCHN2_041() {
+        try {
+            Map<String, Object> maleCountMap = hia2Report.get(CHN2_035);
+            Map<String, Object> femaleCountMap = hia2Report.get(CHN2_040);
+            int totalCount = (Integer) maleCountMap.get(CHN2_035_DHIS_ID) + (Integer) femaleCountMap.get(CHN2_040_DHIS_ID);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN2_041_DHIS_ID, totalCount);
+            hia2Report.put(CHN2_041, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN2_041 " + e.getMessage());
+
+        }
 
     }
 
@@ -341,9 +477,17 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN2_045(SQLiteDatabase db) {
-        String query = "select" + ageQuery() +
-                "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score< -3 group by child.base_entity_id;";
+        try {
+            String query = "select count(*) as count," + ageQuery() +
+                    "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
+                    "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score< -3 group by child.base_entity_id;";
+            int count = executeQueryAndReturnCount(query);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN2_045_DHIS_ID, count);
+            hia2Report.put(CHN2_045, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN2_045 " + e.getMessage());
+        }
     }
 
     /**
@@ -352,55 +496,93 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN2_050(SQLiteDatabase db) {
-        String query = "select" + ageQuery() +
-                "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score < -3 group by child.base_entity_id;";
+        try {
+            String query = "select count(*) as count," + ageQuery() +
+                    "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
+                    "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score < -3 group by child.base_entity_id;";
+            int count = executeQueryAndReturnCount(query);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN2_050_DHIS_ID, count);
+            hia2Report.put(CHN2_050, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN2_050 " + e.getMessage());
+        }
     }
 
     /**
      * Number of total children age < 5 years whose weight below -3Z scores
      * [CHN2-045] + [CHN2-050]
      * [Non-editable in the form]
-     *
-     * @param db
      */
-    private void getCHN2_051(SQLiteDatabase db) {
+    private void getCHN2_051() {
+        try {
+            Map<String, Object> maleCountMap = hia2Report.get(CHN2_045);
+            Map<String, Object> femaleCountMap = hia2Report.get(CHN2_050);
+            int totalCount = (Integer) maleCountMap.get(CHN2_045_DHIS_ID) + (Integer) femaleCountMap.get(CHN2_050_DHIS_ID);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN2_051_DHIS_ID, totalCount);
+            hia2Report.put(CHN2_051, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN2_051 " + e.getMessage());
 
+        }
     }
 
     /**
      * Number of total children age 0-23 months whose weight is above 2Z scores
-     *
-     * @param db
      */
-    private void getCHN2_055(SQLiteDatabase db) {
-        String query = "select" + ageQuery() +
-                "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score>2 group by child.base_entity_id;";
-
+    private void getCHN2_055() {
+        try {
+            String query = "select count(*) as count," + ageQuery() +
+                    "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
+                    "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score>2 group by child.base_entity_id;";
+            int count = executeQueryAndReturnCount(query);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN2_055_DHIS_ID, count);
+            hia2Report.put(CHN2_055, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN2_055 " + e.getMessage());
+        }
 
     }
 
     /**
      * Number of total children age 24-59 months whose weight is above 2Z scores
-     *
-     * @param db
      */
-    private void getCHN2_060(SQLiteDatabase db) {
-        String query = "select" + ageQuery() +
-                "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score >2 group by child.base_entity_id;";
+    private void getCHN2_060() {
+        try {
+            String query = "select count(*) as count," + ageQuery() +
+                    "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
+                    "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score >2 group by child.base_entity_id;";
 
+            int count = executeQueryAndReturnCount(query);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN2_060_DHIS_ID, count);
+            hia2Report.put(CHN2_060, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN2_060 " + e.getMessage());
+        }
 
     }
 
     /**
      * Number of total children age < 5 years whose weight is above 2Z scores
+     * [CHN-055] + [CHN-060]
      *
      * @param db
      */
     private void getCHN2_061(SQLiteDatabase db) {
+        try {
+            Map<String, Object> maleCountMap = hia2Report.get(CHN2_045);
+            Map<String, Object> femaleCountMap = hia2Report.get(CHN2_050);
+            int totalCount = (Integer) maleCountMap.get(CHN2_045_DHIS_ID) + (Integer) femaleCountMap.get(CHN2_050_DHIS_ID);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN2_051_DHIS_ID, totalCount);
+            hia2Report.put(CHN2_051, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN2_051 " + e.getMessage());
 
+        }
     }
 
     /**
@@ -409,8 +591,17 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN2_065(SQLiteDatabase db) {
-        String query = "select " + ageQuery() + " from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
-                "where rst.type='vit_a' and strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(rsr.date/1000, 'unixepoch')) and age between 6 and 11";
+        try {
+            String query = "select count(*) as count, " + ageQuery() + " from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
+                    "where rst.type='vit_a' and strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(rsr.date/1000, 'unixepoch')) and age between 6 and 11";
+
+            int count = executeQueryAndReturnCount(query);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN2_065_DHIS_ID, count);
+            hia2Report.put(CHN2_065, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN2_065 " + e.getMessage());
+        }
 
     }
 
@@ -420,9 +611,16 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN2_070(SQLiteDatabase db) {
-        String query = "select " + ageQuery() + " from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
-                "where rst.type='vit_a' and strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(rsr.date/1000, 'unixepoch')) and age between 12 and 59";
-
+        try {
+            String query = "select count(*) as count," + ageQuery() + " from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
+                    "where rst.type='vit_a' and strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(rsr.date/1000, 'unixepoch')) and age between 12 and 59";
+            int count = executeQueryAndReturnCount(query);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN2_070_DHIS_ID, count);
+            hia2Report.put(CHN2_070, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN2_070 " + e.getMessage());
+        }
     }
 
     /**
@@ -431,8 +629,17 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN2_075(SQLiteDatabase db) {
-        String query = "select " + ageQuery() + " from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
-                "where rst.type='deworming' and strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(rsr.date/1000, 'unixepoch')) and age between 12 and 59";
+        try {
+            String query = "select count(*) as count," + ageQuery() + " from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
+                    "where rst.type='deworming' and strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(rsr.date/1000, 'unixepoch')) and age between 12 and 59";
+
+            int count = executeQueryAndReturnCount(query);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN2_075_DHIS_ID, count);
+            hia2Report.put(CHN2_075, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN2_075 " + e.getMessage());
+        }
 
     }
 
@@ -442,8 +649,17 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN2_080(SQLiteDatabase db) {
-        String query = "select * from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
-                "where rst.type='itn' and strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(rsr.date/1000, 'unixepoch'))";
+        try {
+            String query = "select count(*) as count from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
+                    "where rst.type='itn' and strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(rsr.date/1000, 'unixepoch'))";
+
+            int count = executeQueryAndReturnCount(query);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN2_080_DHIS_ID, count);
+            hia2Report.put(CHN2_080, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN2_080 " + e.getMessage());
+        }
 
     }
 
@@ -453,7 +669,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_005(SQLiteDatabase db) {
-        getVaccineCount("bcg", "<12", false);
+        try {
+            int count = getVaccineCount("bcg", "<12", false);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_005_DHIS_ID, count);
+            hia2Report.put(CHN3_005, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_005 " + e.getMessage());
+        }
 
     }
 
@@ -463,8 +686,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_005_O(SQLiteDatabase db) {
-        getVaccineCount("bcg", "<12", true);
-
+        try {
+            int count = getVaccineCount("bcg", "<12", true);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_005_O_DHIS_ID, count);
+            hia2Report.put(CHN3_005_O, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_005_O " + e.getMessage());
+        }
     }
 
     /**
@@ -473,27 +702,44 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_010(SQLiteDatabase db) {
-        getVaccineCount("opv_0", "<12", false);
+        try {
+            int count = getVaccineCount("opv_0", "<12", false);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_010_DHIS_ID, count);
+            hia2Report.put(CHN3_010, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_010 " + e.getMessage());
+        }
 
     }
 
     /**
      * Number of children < one year who received OPV0 dose at outreach conducted by this facility in this month
-     *
-     * @param db
      */
-    private void getCHN3_010_O(SQLiteDatabase db) {
-        getVaccineCount("opv_0", "<12", true);
+    private void getCHN3_010_O() {
+        try {
+            int count = getVaccineCount("opv_0", "<12", true);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_010_O_DHIS_ID, count);
+            hia2Report.put(CHN3_010_O, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_010 " + e.getMessage());
+        }
 
     }
 
     /**
      * Number of children < one year who received OPV1 dose at this facility in this month
-     *
-     * @param db
      */
-    private void getCHN3_015(SQLiteDatabase db) {
-        getVaccineCount("opv_1", "<12", false);
+    private void getCHN3_015() {
+        try {
+            int count = getVaccineCount("opv_1", "<12", false);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_015_DHIS_ID, count);
+            hia2Report.put(CHN3_015, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_015 " + e.getMessage());
+        }
 
     }
 
@@ -503,7 +749,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_015_O(SQLiteDatabase db) {
-        getVaccineCount("opv_1", "<12", true);
+        try {
+            int count = getVaccineCount("opv_1", "<12", true);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_015_O_DHIS_ID, count);
+            hia2Report.put(CHN3_015_O, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_015_O " + e.getMessage());
+        }
     }
 
     /**
@@ -512,7 +765,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_020(SQLiteDatabase db) {
-        getVaccineCount("opv_2", "<12", false);
+        try {
+            int count = getVaccineCount("opv_2", "<12", false);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_020_DHIS_ID, count);
+            hia2Report.put(CHN3_020, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_020 " + e.getMessage());
+        }
     }
 
     /**
@@ -521,34 +781,56 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_020_O(SQLiteDatabase db) {
-        getVaccineCount("opv_2", "<12", true);
+        try {
+            int count = getVaccineCount("opv_2", "<12", true);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_020_O_DHIS_ID, count);
+            hia2Report.put(CHN3_020_O, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_020_O " + e.getMessage());
+        }
     }
 
     /**
      * Number of children < one year who received OPV3 dose at this facility in this month
-     *
-     * @param db
      */
-    private void getCHN3_025(SQLiteDatabase db) {
-        getVaccineCount("opv_3", "<12", true);
+    private void getCHN3_025() {
+        try {
+            int count = getVaccineCount("opv_3", "<12", true);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_025_DHIS_ID, count);
+            hia2Report.put(CHN3_025, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_025 " + e.getMessage());
+        }
     }
 
     /**
      * Number of children < one year who received OPV3 dose at outreach conducted by this facility in this month
-     *
-     * @param db
      */
-    private void getCHN3_025_O(SQLiteDatabase db) {
-        getVaccineCount("opv_3", "<12", false);
+    private void getCHN3_025_O() {
+        try {
+            int count = getVaccineCount("opv_3", "<12", false);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_025_O_DHIS_ID, count);
+            hia2Report.put(CHN3_025_O, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_025 " + e.getMessage());
+        }
     }
 
     /**
      * Number of children < one year who received IPV dose at this facility in this month
-     *
-     * @param db
      */
-    private void getCHN3_027(SQLiteDatabase db) {
-        getVaccineCount("ipv", "<12", false);
+    private void getCHN3_027() {
+        try {
+            int count = getVaccineCount("ipv", "<12", false);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_027_DHIS_ID, count);
+            hia2Report.put(CHN3_027, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_027 " + e.getMessage());
+        }
     }
 
     /**
@@ -557,7 +839,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_027_O(SQLiteDatabase db) {
-        getVaccineCount("ipv", "<12", true);
+        try {
+            int count = getVaccineCount("ipv", "<12", true);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_027_O_DHIS_ID, count);
+            hia2Report.put(CHN3_027_O, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_027_O " + e.getMessage());
+        }
     }
 
     /**
@@ -566,7 +855,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_030(SQLiteDatabase db) {
-        getVaccineCount("opv_4", "<12", false);
+        try {
+            int count = getVaccineCount("opv_4", "<12", false);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_030_DHIS_ID, count);
+            hia2Report.put(CHN3_030, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_030 " + e.getMessage());
+        }
     }
 
     /**
@@ -575,7 +871,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_030_O(SQLiteDatabase db) {
-        getVaccineCount("opv_4", "<12", true);
+        try {
+            int count = getVaccineCount("opv_4", "<12", true);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_030_O_DHIS_ID, count);
+            hia2Report.put(CHN3_030_O, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_030_O " + e.getMessage());
+        }
     }
 
     /**
@@ -584,7 +887,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_035(SQLiteDatabase db) {
-        getVaccineCount("penta_1", "<12", false);
+        try {
+            int count = getVaccineCount("penta_1", "<12", false);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_035_DHIS_ID, count);
+            hia2Report.put(CHN3_035, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_035 " + e.getMessage());
+        }
     }
 
     /**
@@ -593,7 +903,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_035_O(SQLiteDatabase db) {
-        getVaccineCount("penta_1", "<12", true);
+        try {
+            int count = getVaccineCount("penta_1", "<12", true);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_035_O_DHIS_ID, count);
+            hia2Report.put(CHN3_035_O, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_035 " + e.getMessage());
+        }
     }
 
     /**
@@ -602,7 +919,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_040(SQLiteDatabase db) {
-        getVaccineCount("penta_2", "<12", false);
+        try {
+            int count = getVaccineCount("penta_2", "<12", false);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_040_DHIS_ID, count);
+            hia2Report.put(CHN3_040, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_040 " + e.getMessage());
+        }
     }
 
     /**
@@ -611,7 +935,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_040_O(SQLiteDatabase db) {
-        getVaccineCount("penta_2", "<12", true);
+        try {
+            int count = getVaccineCount("penta_2", "<12", true);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_040_O_DHIS_ID, count);
+            hia2Report.put(CHN3_040_O, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_040_O " + e.getMessage());
+        }
     }
 
     /**
@@ -620,7 +951,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_045(SQLiteDatabase db) {
-        getVaccineCount("penta_3", "<12", false);
+        try {
+            int count = getVaccineCount("penta_3", "<12", false);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_045_DHIS_ID, count);
+            hia2Report.put(CHN3_045, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_045 " + e.getMessage());
+        }
     }
 
     /**
@@ -629,7 +967,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_045_O(SQLiteDatabase db) {
-        getVaccineCount("penta_3", "<12", true);
+        try {
+            int count = getVaccineCount("penta_3", "<12", true);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_045_O_DHIS_ID, count);
+            hia2Report.put(CHN3_045_O, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_045_O " + e.getMessage());
+        }
     }
 
     /**
@@ -638,7 +983,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_050(SQLiteDatabase db) {
-        getVaccineCount("pcv_1", "<12", false);
+        try {
+            int count = getVaccineCount("pcv_1", "<12", false);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_050_DHIS_ID, count);
+            hia2Report.put(CHN3_050, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_050 " + e.getMessage());
+        }
     }
 
     /**
@@ -647,7 +999,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_050_O(SQLiteDatabase db) {
-        getVaccineCount("pcv_1", "<12", true);
+        try {
+            int count = getVaccineCount("pcv_1", "<12", true);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_050_O_DHIS_ID, count);
+            hia2Report.put(CHN3_050_O, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_050_O " + e.getMessage());
+        }
     }
 
     /**
@@ -656,7 +1015,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_055(SQLiteDatabase db) {
-        getVaccineCount("pcv_2", "<12", false);
+        try {
+            int count = getVaccineCount("pcv_2", "<12", false);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_055_DHIS_ID, count);
+            hia2Report.put(CHN3_055, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_055 " + e.getMessage());
+        }
     }
 
     /**
@@ -665,7 +1031,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_055_O(SQLiteDatabase db) {
-        getVaccineCount("pcv_2", "<12", true);
+        try {
+            int count = getVaccineCount("pcv_2", "<12", true);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_055_O_DHIS_ID, count);
+            hia2Report.put(CHN3_055_O, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_055_O " + e.getMessage());
+        }
     }
 
     /**
@@ -674,7 +1047,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_060(SQLiteDatabase db) {
-        getVaccineCount("pcv_3", "<12", false);
+        try {
+            int count = getVaccineCount("pcv_3", "<12", false);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_060_DHIS_ID, count);
+            hia2Report.put(CHN3_060, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_060 " + e.getMessage());
+        }
     }
 
     /**
@@ -683,7 +1063,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_060_O(SQLiteDatabase db) {
-        getVaccineCount("pcv_3", "<12", true);
+        try {
+            int count = getVaccineCount("pcv_3", "<12", true);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_060_O_DHIS_ID, count);
+            hia2Report.put(CHN3_060_O, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_060_O " + e.getMessage());
+        }
     }
 
     /**
@@ -692,7 +1079,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_065(SQLiteDatabase db) {
-        getVaccineCount("rota_1", "<12", false);
+        try {
+            int count = getVaccineCount("rota_1", "<12", false);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_065_DHIS_ID, count);
+            hia2Report.put(CHN3_065, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_065 " + e.getMessage());
+        }
     }
 
     /**
@@ -701,7 +1095,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_065_O(SQLiteDatabase db) {
-        getVaccineCount("rota_1", "<12", true);
+        try {
+            int count = getVaccineCount("rota_1", "<12", true);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_065_O_DHIS_ID, count);
+            hia2Report.put(CHN3_065_O, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_065_O " + e.getMessage());
+        }
     }
 
     /**
@@ -710,7 +1111,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_070(SQLiteDatabase db) {
-        getVaccineCount("rota_2", "<12", false);
+        try {
+            int count = getVaccineCount("rota_2", "<12", false);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_070_DHIS_ID, count);
+            hia2Report.put(CHN3_070, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_070 " + e.getMessage());
+        }
     }
 
     /**
@@ -719,7 +1127,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_070_O(SQLiteDatabase db) {
-        getVaccineCount("rota_2", "<12", true);
+        try {
+            int count = getVaccineCount("rota_2", "<12", true);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_070_O_DHIS_ID, count);
+            hia2Report.put(CHN3_070_O, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_070_O " + e.getMessage());
+        }
     }
 
     /**
@@ -728,7 +1143,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_075(SQLiteDatabase db) {
-        getVaccineCount("measles_1", "<12", false);
+        try {
+            int count = getVaccineCount("measles_1", "<12", false);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_075_DHIS_ID, count);
+            hia2Report.put(CHN3_075, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_075 " + e.getMessage());
+        }
     }
 
     /**
@@ -737,7 +1159,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_075_O(SQLiteDatabase db) {
-        getVaccineCount("measles_1", "<12", true);
+        try {
+            int count = getVaccineCount("measles_1", "<12", true);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_075_O_DHIS_ID, count);
+            hia2Report.put(CHN3_075_O, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_075_O " + e.getMessage());
+        }
     }
 
     /**
@@ -764,7 +1193,14 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_085(SQLiteDatabase db) {
-        getVaccineCount("measles_1", "18", false);
+        try {
+            int count = getVaccineCount("measles_1", "18", false);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_085_DHIS_ID, count);
+            hia2Report.put(CHN3_085, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_085 " + e.getMessage());
+        }
     }
 
     /**
@@ -773,12 +1209,20 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN3_085_O(SQLiteDatabase db) {
-        getVaccineCount("measles_1", "18", true);
+        try {
+            int count = getVaccineCount("measles_1", "18", true);
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN3_085_O_DHIS_ID, count);
+            hia2Report.put(CHN3_085_O, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_085_O " + e.getMessage());
+        }
     }
 
     /**
      * Number of days during the month that vaccine storage fridge was not functioning
      * FIXME
+     *
      * @param db
      */
     private void getCHN3_090(SQLiteDatabase db) {
@@ -792,11 +1236,17 @@ public class HIA2Service {
      * @return
      */
     private int getVaccineCount(String vaccine, String age, boolean outOfArea) {
-        String vaccineCondition = vaccine.contains("measles") ? "(lower(v.name)='" + vaccine.toLowerCase() + "' or lower(v.name)='mr_1')" : "lower(v.name)='" + vaccine.toLowerCase() + "'";
-        String query = "select " + ageQuery() + " from vaccines v left join ec_child child on child.base_entity_id=v.base_entity_id " +
-                "where age " + age + " and  strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(v.date/1000, 'unixepoch')) and v.out_of_area=" + (outOfArea ? 1 : 0) + " and " + vaccineCondition;
+        int count = 0;
+        try {
+            String vaccineCondition = vaccine.contains("measles") ? "(lower(v.name)='" + vaccine.toLowerCase() + "' or lower(v.name)='mr_1')" : "lower(v.name)='" + vaccine.toLowerCase() + "'";
+            String query = "select count(*) as count, " + ageQuery() + " from vaccines v left join ec_child child on child.base_entity_id=v.base_entity_id " +
+                    "where age " + age + " and  strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(v.date/1000, 'unixepoch')) and v.out_of_area=" + (outOfArea ? 1 : 0) + " and " + vaccineCondition;
+            count = executeQueryAndReturnCount(query);
+        } catch (Exception e) {
+            Log.logError(TAG, vaccine.toUpperCase() + e.getMessage());
+        }
 
-        return 0;
+        return count;
 
     }
 
@@ -805,7 +1255,28 @@ public class HIA2Service {
     }
 
     private String eventDateEqualsCurrentMonthQuery() {
-        return "strftime('%Y-%m',e.eventDate) ='" + dfyymm.format(new Date()) + "'";
+        return "strftime('%Y-%m',e.eventDate) = strftime('%Y-%m',date('now'))";
     }
 
+    private int executeQueryAndReturnCount(String query) {
+        Cursor cursor = null;
+        int count = 0;
+        try {
+            cursor = database.rawQuery(query, null);
+            if (null != cursor) {
+                if (cursor.getCount() > 0) {
+                    cursor.moveToFirst();
+                    count = cursor.getInt(0);
+                }
+                cursor.close();
+            }
+        } catch (Exception e) {
+            Log.logError(TAG, e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return count;
+    }
 }
