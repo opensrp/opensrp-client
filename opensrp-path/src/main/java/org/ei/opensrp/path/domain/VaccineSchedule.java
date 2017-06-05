@@ -9,6 +9,8 @@ import org.ei.opensrp.domain.AlertStatus;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.domain.Vaccine;
+import org.ei.opensrp.path.repository.VaccineRepository;
+import org.ei.opensrp.service.AlertService;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,9 +91,12 @@ public class VaccineSchedule {
      * @param vaccineCategory
      * @return The list of updated vaccines
      */
-    public static List<String> updateOfflineAlerts(VaccinatorApplication application, String baseEntityId,
+    public static List<String> updateOfflineAlerts(String baseEntityId,
                                                    DateTime dob, String vaccineCategory) {
         try {
+            VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
+            AlertService alertService = VaccinatorApplication.getInstance().context().alertService();
+
             List<Alert> newAlerts = new ArrayList<>();
             List<Alert> oldAlerts = new ArrayList<>();
             if (vaccineSchedules.containsKey(vaccineCategory)) {
@@ -101,16 +106,16 @@ public class VaccineSchedule {
                 }
 
                 // Get all the administered vaccines for the child
-                List<Vaccine> issuedVaccines = application.vaccineRepository().findByEntityId(baseEntityId);
+                List<Vaccine> issuedVaccines = vaccineRepository.findByEntityId(baseEntityId);
                 if (issuedVaccines == null) {
                     issuedVaccines = new ArrayList<>();
                 }
 
-                oldAlerts = application.context().alertService().findByEntityIdAndOffline(baseEntityId, alertNames.toArray(new String[0]));
-                application.context().alertService().deleteOfflineAlerts(baseEntityId, alertNames.toArray(new String[0]));
+                oldAlerts = alertService.findByEntityIdAndOffline(baseEntityId, alertNames.toArray(new String[0]));
+                alertService.deleteOfflineAlerts(baseEntityId, alertNames.toArray(new String[0]));
 
                 // Get existing alerts
-                List<Alert> existingAlerts = application.context().alertService()
+                List<Alert> existingAlerts = alertService
                         .findByEntityIdAndAlertNames(baseEntityId,
                                 alertNames.toArray(new String[0]));
 
@@ -131,8 +136,8 @@ public class VaccineSchedule {
                         if (!exists) {
                             // Insert alert into table
                             newAlerts.add(curAlert);
-                            application.context().alertService().create(curAlert);
-                            application.context().alertService().updateFtsSearch(curAlert, true);
+                            alertService.create(curAlert);
+                            alertService.updateFtsSearch(curAlert, true);
                         }
                     }
                 }
@@ -357,12 +362,12 @@ public class VaccineSchedule {
      * Offsets can look like:
      * "+5y,3m,2d" : Plus 5 years, 3 months, and 2 days
      * "-2d" : Minus 2 days
-     * <p>
+     * <p/>
      * Accepted time units for the offset are:
      * d : Days
      * m : Months
      * y : Years
-     * <p>
+     * <p/>
      * Accepted operators for the offset are:
      * - : Minus
      * + : Plus

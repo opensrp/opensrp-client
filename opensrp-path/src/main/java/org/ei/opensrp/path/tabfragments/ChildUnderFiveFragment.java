@@ -351,7 +351,11 @@ public class ChildUnderFiveFragment extends Fragment {
             ft.remove(prev);
         }
         ft.addToBackStack(null);
-        ServiceEditDialogFragment serviceEditDialogFragment = ServiceEditDialogFragment.newInstance(getActivity(), serviceWrapper, serviceRowGroup);
+
+        List<ServiceRecord> serviceRecordList = VaccinatorApplication.getInstance().recurringServiceRecordRepository()
+                .findByEntityId(childDetails.entityId());
+
+        ServiceEditDialogFragment serviceEditDialogFragment = ServiceEditDialogFragment.newInstance(serviceRecordList, serviceWrapper, serviceRowGroup);
         serviceEditDialogFragment.show(ft, DIALOG_TAG);
     }
 

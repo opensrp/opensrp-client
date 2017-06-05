@@ -48,23 +48,31 @@ public class ServiceSchedule {
     }
 
     public static void updateOfflineAlerts(String baseEntityId, DateTime dob) {
+        RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
+        List<String> types = recurringServiceTypeRepository.fetchTypes();
+        for (String type : types) {
+            updateOfflineAlerts(type, baseEntityId, dob);
+        }
+    }
+
+    public static void updateOfflineAlerts(String type, String baseEntityId, DateTime dob) {
         try {
+            if (baseEntityId == null || dob == null) {
+                return;
+            }
+
             RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
             RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
             AlertService alertService = VaccinatorApplication.getInstance().context().alertService();
 
-            List<ServiceType> serviceTypes = recurringServiceTypeRepository.fetchAll();
+            List<ServiceType> serviceTypes = recurringServiceTypeRepository.findByType(type);
+
             String[] alertArray = VaccinateActionUtils.allAlertNames(serviceTypes);
 
             List<Alert> newAlerts = new ArrayList<>();
-            List<Alert> oldAlerts = new ArrayList<>();
 
             // Get all the administered services
             List<ServiceRecord> issuedServices = recurringServiceRecordRepository.findByEntityId(baseEntityId);
-            if (issuedServices == null) {
-                issuedServices = new ArrayList<>();
-            }
-
             alertService.deleteOfflineAlerts(baseEntityId, alertArray);
 
             List<Alert> existingAlerts = alertService.findByEntityIdAndAlertNames(baseEntityId, alertArray);
@@ -72,7 +80,9 @@ public class ServiceSchedule {
             for (ServiceType serviceType : serviceTypes) {
                 Alert curAlert = getOfflineAlert(serviceType, issuedServices, baseEntityId, dob);
 
-                if (curAlert != null) {
+                if (curAlert == null) {
+                    break;
+                } else {
                     // Check if the current alert already exists for the entityId
                     boolean exists = false;
                     for (Alert curExistingAlert : existingAlerts) {
@@ -83,6 +93,16 @@ public class ServiceSchedule {
                         }
                     }
 
+                    // Check if service is already given
+                    if (!exists) {
+                        for (ServiceRecord serviceRecord : issuedServices) {
+                            if (curAlert.scheduleName().equalsIgnoreCase(serviceRecord.getName()) || curAlert.visitCode().equalsIgnoreCase(serviceRecord.getName())) {
+                                exists = true;
+                                break;
+                            }
+                        }
+                    }
+
                     if (!exists) {
                         // Insert alert into table
                         newAlerts.add(curAlert);
@@ -90,6 +110,7 @@ public class ServiceSchedule {
                     }
                 }
             }
+
         } catch (Exception e) {
             Log.e(ServiceSchedule.class.getName(), e.toString(), e);
         }
@@ -141,6 +162,13 @@ public class ServiceSchedule {
         calendarDate.set(Calendar.MINUTE, 0);
         calendarDate.set(Calendar.SECOND, 0);
         calendarDate.set(Calendar.MILLISECOND, 0);
+    }
+
+    public static DateTime standardiseDateTime(DateTime dateTime) {
+        if (dateTime != null) {
+            return dateTime.withTime(0, 0, 0, 0);
+        }
+        return null;
     }
 
     public ServiceTrigger getDueTrigger() {

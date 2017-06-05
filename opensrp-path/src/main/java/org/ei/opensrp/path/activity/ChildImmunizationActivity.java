@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Triple;
 import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
@@ -35,6 +36,7 @@ import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.domain.Photo;
 import org.ei.opensrp.path.domain.RegisterClickables;
+import org.ei.opensrp.path.domain.ServiceSchedule;
 import org.ei.opensrp.path.domain.ServiceWrapper;
 import org.ei.opensrp.path.domain.VaccineSchedule;
 import org.ei.opensrp.path.domain.VaccineWrapper;
@@ -794,7 +796,10 @@ public class ChildImmunizationActivity extends BaseActivity
         ft.addToBackStack(null);
         serviceGroup.setModalOpen(true);
 
-        ServiceDialogFragment serviceDialogFragment = ServiceDialogFragment.newInstance(serviceWrapper);
+        List<ServiceRecord> serviceRecordList = VaccinatorApplication.getInstance().recurringServiceRecordRepository()
+                .findByEntityId(childDetails.entityId());
+
+        ServiceDialogFragment serviceDialogFragment = ServiceDialogFragment.newInstance(serviceRecordList, serviceWrapper);
         serviceDialogFragment.show(ft, DIALOG_TAG);
     }
 
@@ -1025,7 +1030,7 @@ public class ChildImmunizationActivity extends BaseActivity
             String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
             if (!TextUtils.isEmpty(dobString)) {
                 DateTime dateTime = new DateTime(dobString);
-                affectedVaccines = VaccineSchedule.updateOfflineAlerts(VaccinatorApplication.getInstance(), childDetails.entityId(), dateTime, "child");
+                affectedVaccines = VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "child");
             }
             vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
             alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
@@ -1182,7 +1187,7 @@ public class ChildImmunizationActivity extends BaseActivity
             String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
             if (!TextUtils.isEmpty(dobString)) {
                 DateTime dateTime = new DateTime(dobString);
-                VaccineSchedule.updateOfflineAlerts(VaccinatorApplication.getInstance(), childDetails.entityId(), dateTime, "child");
+                VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "child");
             }
 
             List<Vaccine> vaccineList = new ArrayList<>();
@@ -1269,7 +1274,7 @@ public class ChildImmunizationActivity extends BaseActivity
                     String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
                     if (!TextUtils.isEmpty(dobString)) {
                         DateTime dateTime = new DateTime(dobString);
-                        affectedVaccines = VaccineSchedule.updateOfflineAlerts(VaccinatorApplication.getInstance(), childDetails.entityId(), dateTime, "child");
+                        affectedVaccines = VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "child");
                         vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
                         alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
                                 VaccinateActionUtils.allAlertNames("child"));
@@ -1405,20 +1410,23 @@ public class ChildImmunizationActivity extends BaseActivity
     //Recurring Service
     @Override
     public void onGiveToday(ServiceWrapper tag, View v) {
-        View view = RecurringServiceUtils.getLastOpenedServiceView(serviceGroups);
-        saveService(tag, view);
+        if (tag != null) {
+            View view = RecurringServiceUtils.getLastOpenedServiceView(serviceGroups);
+            saveService(tag, view);
+        }
     }
 
     @Override
     public void onGiveEarlier(ServiceWrapper tag, View v) {
-        View view = RecurringServiceUtils.getLastOpenedServiceView(serviceGroups);
-        saveService(tag, view);
+        if (tag != null) {
+            View view = RecurringServiceUtils.getLastOpenedServiceView(serviceGroups);
+            saveService(tag, view);
+        }
     }
 
     @Override
     public void onUndoService(ServiceWrapper tag, View v) {
-        View view = RecurringServiceUtils.getLastOpenedServiceView(serviceGroups);
-        RecurringServiceUtils.onUndoService(tag, view, childDetails.entityId());
+        Utils.startAsyncTask(new UndoServiceTask(tag), null);
     }
 
     public void saveService(ServiceWrapper tag, final View view) {
@@ -1445,7 +1453,7 @@ public class ChildImmunizationActivity extends BaseActivity
     }
 
 
-    public class SaveServiceTask extends AsyncTask<ServiceWrapper, Void, Pair<ArrayList<ServiceWrapper>, List<ServiceRecord>>> {
+    public class SaveServiceTask extends AsyncTask<ServiceWrapper, Void, Triple<ArrayList<ServiceWrapper>, List<ServiceRecord>, List<Alert>>> {
 
         private View view;
         private String providerId;
@@ -1469,13 +1477,13 @@ public class ChildImmunizationActivity extends BaseActivity
         }
 
         @Override
-        protected void onPostExecute(Pair<ArrayList<ServiceWrapper>, List<ServiceRecord>> pair) {
+        protected void onPostExecute(Triple<ArrayList<ServiceWrapper>, List<ServiceRecord>, List<Alert>> triple) {
             hideProgressDialog();
-            RecurringServiceUtils.updateServiceGroupViews(view, pair.first, pair.second);
+            RecurringServiceUtils.updateServiceGroupViews(view, triple.getLeft(), triple.getMiddle(), triple.getRight());
         }
 
         @Override
-        protected Pair<ArrayList<ServiceWrapper>, List<ServiceRecord>> doInBackground(ServiceWrapper... params) {
+        protected Triple<ArrayList<ServiceWrapper>, List<ServiceRecord>, List<Alert>> doInBackground(ServiceWrapper... params) {
 
             ArrayList<ServiceWrapper> list = new ArrayList<>();
 
@@ -1483,15 +1491,79 @@ public class ChildImmunizationActivity extends BaseActivity
                 RecurringServiceUtils.saveService(tag, childDetails.entityId(), providerId, locationId);
                 setLastModified(true);
                 list.add(tag);
+
+
+                ServiceSchedule.updateOfflineAlerts(tag.getType(), childDetails.entityId(), Utils.dobToDateTime(childDetails));
             }
 
             RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
-
             List<ServiceRecord> serviceRecordList = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());
 
-            return new Pair<>(list, serviceRecordList);
+            RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
+            List<ServiceType> serviceTypes = recurringServiceTypeRepository.fetchAll();
+            String[] alertArray = VaccinateActionUtils.allAlertNames(serviceTypes);
+
+            AlertService alertService = getOpenSRPContext().alertService();
+            List<Alert> alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(), alertArray);
+
+            return Triple.of(list, serviceRecordList, alertList);
 
         }
     }
 
+    private class UndoServiceTask extends AsyncTask<Void, Void, Void> {
+
+        private View view;
+        private ServiceWrapper tag;
+        private List<ServiceRecord> serviceRecordList;
+        private ArrayList<ServiceWrapper> wrappers;
+        private List<Alert> alertList;
+
+        public UndoServiceTask(ServiceWrapper tag) {
+            this.tag = tag;
+            this.view = RecurringServiceUtils.getLastOpenedServiceView(serviceGroups);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            if (tag != null) {
+
+                if (tag.getDbKey() != null) {
+                    RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
+                    Long dbKey = tag.getDbKey();
+                    recurringServiceRecordRepository.deleteServiceRecord(dbKey);
+
+                    serviceRecordList = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());
+
+                    wrappers = new ArrayList<>();
+                    wrappers.add(tag);
+
+                    ServiceSchedule.updateOfflineAlerts(tag.getType(), childDetails.entityId(), Utils.dobToDateTime(childDetails));
+
+                    RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
+                    List<ServiceType> serviceTypes = recurringServiceTypeRepository.fetchAll();
+                    String[] alertArray = VaccinateActionUtils.allAlertNames(serviceTypes);
+
+                    AlertService alertService = getOpenSRPContext().alertService();
+                    alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(), alertArray);
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void params) {
+            super.onPostExecute(params);
+
+            tag.setUpdatedVaccineDate(null, false);
+            tag.setDbKey(null);
+
+            RecurringServiceUtils.updateServiceGroupViews(view, wrappers, serviceRecordList, alertList, true);
+        }
+    }
 }

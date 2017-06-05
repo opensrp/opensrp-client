@@ -290,9 +290,7 @@ public class ServiceRowGroup extends LinearLayout implements View.OnClickListene
             if (tag.getName().toLowerCase().equalsIgnoreCase(serviceType.getName().toLowerCase())) {
                 tag.setStatus(m.get("status").toString());
                 tag.setAlert((Alert) m.get("alert"));
-                tag.setType(serviceType.getType());
-                tag.setUnits(serviceType.getUnits());
-                tag.setTypeId(serviceType.getId());
+                tag.setServiceType(serviceType);
                 tag.setVaccineDate((DateTime) m.get("date"));
             }
         }

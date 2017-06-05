@@ -96,7 +96,6 @@ public class UndoServiceDialogFragment extends DialogFragment {
             public void onClick(View view) {
                 dismiss();
 
-                tag.setName(tag.getDefaultName());
                 listener.onUndoService(tag, view);
             }
         });

@@ -1,7 +1,7 @@
 package org.ei.opensrp.path.domain;
 
 import org.ei.opensrp.domain.Alert;
-import org.ei.opensrp.path.db.VaccineRepo.Vaccine;
+import org.ei.opensrp.domain.ServiceType;
 import org.joda.time.DateTime;
 
 import java.io.Serializable;
@@ -13,7 +13,6 @@ public class ServiceWrapper implements Serializable {
     private String id;
     private Long dbKey;
     private Photo photo;
-    private String name;
     private String defaultName;
     private String gender;
     private String status;
@@ -32,9 +31,7 @@ public class ServiceWrapper implements Serializable {
     private boolean today;
     private boolean synced;
 
-    private String units;
-    private String type;
-    private Long typeId;
+    private ServiceType serviceType;
     private String value;
 
     public String getId() {
@@ -75,14 +72,6 @@ public class ServiceWrapper implements Serializable {
 
     public void setAlert(Alert alert) {
         this.alert = alert;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return this.name;
     }
 
     public String getPreviousVaccineId() {
@@ -178,28 +167,41 @@ public class ServiceWrapper implements Serializable {
         return dob;
     }
 
-    public String getUnits() {
-        return units;
+    public void setServiceType(ServiceType serviceType) {
+        this.serviceType = serviceType;
     }
 
-    public void setUnits(String units) {
-        this.units = units;
+    public ServiceType getServiceType() {
+        return serviceType;
+    }
+
+    public String getName() {
+        if (serviceType == null) {
+            return defaultName;
+        }
+        return serviceType.getName();
+    }
+
+    public String getUnits() {
+        if (serviceType == null) {
+            return null;
+        }
+        return serviceType.getUnits();
     }
 
     public String getType() {
-        return type;
+        if (serviceType == null) {
+            return null;
+        }
+        return serviceType.getType();
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public Long getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(Long typeId) {
-        this.typeId = typeId;
+        if (serviceType == null) {
+            return null;
+        }
+        return serviceType.getId();
     }
 
     public String getValue() {

@@ -16,6 +16,7 @@ import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.service.intent.PathReplicationIntentService;
 import org.ei.opensrp.path.service.intent.PullUniqueIdsIntentService;
+import org.ei.opensrp.path.service.intent.RecurringIntentService;
 import org.ei.opensrp.path.service.intent.VaccineIntentService;
 import org.ei.opensrp.path.service.intent.WeightIntentService;
 import org.ei.opensrp.repository.AllSharedPreferences;
@@ -91,6 +92,7 @@ public class PathUpdateActionsTask {
 
                 startVaccineIntentService(context);
                 startWeightIntentService(context);
+                startRecurringIntentService(context);
 
                 startReplicationIntentService(context);
 
@@ -237,6 +239,11 @@ public class PathUpdateActionsTask {
 
     private void startVaccineIntentService(Context context) {
         Intent intent = new Intent(context, VaccineIntentService.class);
+        context.startService(intent);
+    }
+
+    private void startRecurringIntentService(Context context) {
+        Intent intent = new Intent(context, RecurringIntentService.class);
         context.startService(intent);
     }
 

@@ -76,7 +76,6 @@ public class ServiceRowAdapter extends BaseAdapter {
                 ServiceWrapper serviceWrapper = new ServiceWrapper();
                 serviceWrapper.setId(serviceRowGroup.getChildDetails().entityId());
                 serviceWrapper.setGender(serviceRowGroup.getChildDetails().getDetails().get("gender"));
-                serviceWrapper.setName(serviceType.getName());
                 serviceWrapper.setDefaultName(serviceType.getName());
 
                 String dobString = Utils.getValue(serviceRowGroup.getChildDetails().getColumnmaps(), "dob", false);

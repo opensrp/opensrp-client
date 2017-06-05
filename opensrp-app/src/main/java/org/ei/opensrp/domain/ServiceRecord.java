@@ -1,13 +1,16 @@
 package org.ei.opensrp.domain;
 
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by keyman on 3/1/17.
  */
 public class ServiceRecord {
+    private static final String ZEIR_ID = "ZEIR_ID";
     Long id;
     String baseEntityId;
+    String programClientId;
     Long recurringServiceId;
     String value;
     Date date;
@@ -27,6 +30,21 @@ public class ServiceRecord {
     public ServiceRecord(Long id, String baseEntityId, Long recurringServiceId, String value, Date date, String anmId, String locationId, String syncStatus, String eventId, String formSubmissionId, Long updatedAt) {
         this.id = id;
         this.baseEntityId = baseEntityId;
+        this.recurringServiceId = recurringServiceId;
+        this.value = value;
+        this.date = date;
+        this.anmId = anmId;
+        this.locationId = locationId;
+        this.syncStatus = syncStatus;
+        this.eventId = eventId;
+        this.formSubmissionId = formSubmissionId;
+        this.updatedAt = updatedAt;
+    }
+
+    public ServiceRecord(Long id, String baseEntityId, String programClientId, Long recurringServiceId, String value, Date date, String anmId, String locationId, String syncStatus, String eventId, String formSubmissionId, Long updatedAt) {
+        this.id = id;
+        this.baseEntityId = baseEntityId;
+        this.programClientId = programClientId;
         this.recurringServiceId = recurringServiceId;
         this.value = value;
         this.date = date;
@@ -140,5 +158,19 @@ public class ServiceRecord {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getProgramClientId() {
+        return programClientId;
+    }
+
+    public void setProgramClientId(String programClientId) {
+        this.programClientId = programClientId;
+    }
+
+    public HashMap<String, String> getIdentifiers() {
+        HashMap<String, String> identifiers = new HashMap<>();
+        identifiers.put(ZEIR_ID, programClientId);
+        return identifiers;
     }
 }

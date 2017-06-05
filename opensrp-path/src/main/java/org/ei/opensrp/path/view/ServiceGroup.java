@@ -158,17 +158,6 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
      * This method will update all views, including service cards in this group
      */
     public void updateViews() {
-        updateViews(null);
-    }
-
-    /**
-     * This method will update service group views, and the service cards corresponding to the list
-     * of {@link ServiceWrapper}s specified
-     *
-     * @param servicesToUpdate List of services who's views we want updated, or NULL if we want to
-     *                         update all service views
-     */
-    public void updateViews(ArrayList<ServiceWrapper> servicesToUpdate) {
         this.state = State.IN_PAST;
         if (this.serviceTypeMap != null) {
             String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
@@ -190,7 +179,7 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
                 this.state = State.CURRENT;
             }
             updateStatusViews();
-            updateServiceCards(servicesToUpdate);
+            updateServiceCards();
         }
     }
 
@@ -221,7 +210,7 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
 
     }
 
-    private void updateServiceCards(ArrayList<ServiceWrapper> servicesToUpdate) {
+    private void updateServiceCards() {
         if (serviceCardAdapter == null) {
             try {
                 serviceCardAdapter = new ServiceCardAdapter(context, this);
@@ -229,11 +218,8 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
             } catch (JSONException e) {
                 Log.e(TAG, Log.getStackTraceString(e));
             }
-        }
-
-
-        if (serviceCardAdapter != null) {
-            serviceCardAdapter.update(servicesToUpdate);
+        } else {
+            serviceCardAdapter.updateAll();
         }
 
     }
@@ -327,16 +313,28 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
 
         if (nv != null) {
             ServiceType nextServiceType = (ServiceType) nv.get("service");
-            tag.setName(nextServiceType.getName());
             tag.setStatus(nv.get("status").toString());
             tag.setAlert((Alert) nv.get("alert"));
-            tag.setType(nextServiceType.getType());
-            tag.setUnits(nextServiceType.getUnits());
-            tag.setTypeId(nextServiceType.getId());
+            tag.setServiceType(nextServiceType);
         }
     }
 
     public void updateWrapperStatus(ArrayList<ServiceWrapper> tags) {
+        if (tags == null) {
+            return;
+        }
+
+        for (ServiceWrapper tag : tags) {
+            updateWrapperStatus(tag.getType(), tag);
+        }
+    }
+
+    public void updateAllWrapperStatus() {
+        if (serviceCardAdapter == null) {
+            return;
+        }
+
+        List<ServiceWrapper> tags = serviceCardAdapter.allWrappers();
         if (tags == null) {
             return;
         }

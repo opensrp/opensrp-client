@@ -24,6 +24,7 @@ import org.ei.opensrp.clientandeventmodel.Event;
 import org.ei.opensrp.clientandeventmodel.FormEntityConstants;
 import org.ei.opensrp.clientandeventmodel.Obs;
 import org.ei.opensrp.domain.ProfileImage;
+import org.ei.opensrp.domain.ServiceRecord;
 import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.domain.Weight;
 import org.ei.opensrp.path.R;
@@ -1807,6 +1808,49 @@ public class JsonFormUtils {
                 //check if an event already exists and update instead
                 if (vaccine.getEventId() != null) {
                     JSONObject existingEvent = db.getEventsByEventId(vaccine.getEventId());
+                    eventJson = merge(existingEvent, eventJson);
+                }
+
+                //merge if event exists
+                db.addEvent(event.getBaseEntityId(), eventJson);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.toString(), e);
+        }
+    }
+
+    public static void createServiceEvent(Context context, ServiceRecord serviceRecord, String eventType, String entityType, JSONArray fields) {
+        try {
+            PathRepository db = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+
+            Event event = (Event) new Event()
+                    .withBaseEntityId(serviceRecord.getBaseEntityId())
+                    .withIdentifiers(serviceRecord.getIdentifiers())
+                    .withEventDate(serviceRecord.getDate())
+                    .withEventType(eventType)
+                    .withLocationId(serviceRecord.getLocationId())
+                    .withProviderId(serviceRecord.getAnmId())
+                    .withEntityType(entityType)
+                    .withFormSubmissionId(serviceRecord.getFormSubmissionId() == null ? generateRandomUUIDString() : serviceRecord.getFormSubmissionId())
+                    .withDateCreated(new Date());
+
+            if (fields != null && fields.length() != 0)
+                for (int i = 0; i < fields.length(); i++) {
+                    JSONObject jsonObject = getJSONObject(fields, i);
+                    String value = getString(jsonObject, VALUE);
+                    if (StringUtils.isNotBlank(value)) {
+                        addObservation(event, jsonObject);
+                    }
+                }
+
+
+            if (event != null) {
+
+                JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(event));
+
+                //check if an event already exists and update instead
+                if (serviceRecord.getEventId() != null) {
+                    JSONObject existingEvent = db.getEventsByEventId(serviceRecord.getEventId());
                     eventJson = merge(existingEvent, eventJson);
                 }
 
