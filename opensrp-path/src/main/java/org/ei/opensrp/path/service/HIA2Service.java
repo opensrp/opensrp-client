@@ -165,7 +165,7 @@ public class HIA2Service {
     private void getCHN1_005(SQLiteDatabase database, String gender) {
 
         try {
-            int count = clinicAttendance("Male");
+            int count = clinicAttendance("Male", "<12");
             Map<String, Object> indicatorMap = new HashMap<>();
             indicatorMap.put(CHN1_005_DHIS_ID, count);
             hia2Report.put(CHN1_005, indicatorMap);
@@ -177,20 +177,18 @@ public class HIA2Service {
 
     }
 
-    private int clinicAttendance(String gender) {
+    /**
+     * @param gender
+     * @param age    in months, can be e.g =12 <12, between 12 and 50
+     * @return
+     */
+    private int clinicAttendance(String gender, String age) {
         Cursor cursor = null;
         int count = 0;
         try {
-            String query = "select count(*) as count," + ageQuery() + " from ec_child child inner join " + PathRepository.Table.event.name() + " e on e." + PathRepository.event_column.baseEntityId.name() + "= child.id" +
-                    " where age <12 and  strftime('%Y-%m',date('now'))=strftime('%Y-%m',e.eventDate) and child.gender=" + (gender.isEmpty() ? "Male" : gender);
-            cursor = database.rawQuery(query, null);
-            if (null != cursor) {
-                if (cursor.getCount() > 0) {
-                    cursor.moveToFirst();
-                    count = cursor.getInt(0);
-                }
-                cursor.close();
-            }
+            String query = "select count(*) as count," + ageQuery() + " from ec_child child inner join " + PathRepository.Table.event.name() + " e on e." + PathRepository.event_column.baseEntityId.name() + "= child.base_entity_id" +
+                    " where age " + age + " and  strftime('%Y-%m',date('now'))=strftime('%Y-%m',e.eventDate) and child.gender=" + (gender.isEmpty() ? "Male" : gender);
+            count = executeQueryAndReturnCount(query);
         } catch (Exception e) {
             Log.logError(TAG, e.getMessage());
         } finally {
@@ -206,7 +204,7 @@ public class HIA2Service {
      */
     private void getCHN1_010(SQLiteDatabase db) {
         try {
-            int count = clinicAttendance("Female");
+            int count = clinicAttendance("Female", "<12");
             Map<String, Object> indicatorMap = new HashMap<>();
             indicatorMap.put(CHN1_010_DHIS_ID, count);
             hia2Report.put(CHN1_010, indicatorMap);
@@ -235,9 +233,18 @@ public class HIA2Service {
     /**
      * Number of male children aged 12 to 59 months who attended a clinic this month
      */
-    private void getCHN1_015(SQLiteDatabase db, String gender) {
-        gender = gender == null || gender.isEmpty() ? "Male" : gender;
-        String query = "select count(*) as count," + ageQuery() + " from ec_child child inner join event e on e.baseEntityId=child.base_entity_id where  child.gender='" + gender + "' and strftime('%Y-%m',e.eventDate)=strftime('%Y-%m',date('now'))  and age between 12 and 59";
+    private void getCHN1_015() {
+//        gender = gender == null || gender.isEmpty() ? "Male" : gender;
+//        String query = "select count(*) as count," + ageQuery() + " from ec_child child inner join event e on e.baseEntityId=child.base_entity_id where  child.gender='" + gender + "' and strftime('%Y-%m',e.eventDate)=strftime('%Y-%m',date('now'))  and age between 12 and 59";
+        try {
+            int count = clinicAttendance("Male", "between 12 and 59");
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN1_015_DHIS_ID, count);
+            hia2Report.put(CHN1_015, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, e.getMessage());
+
+        }
 
     }
 
@@ -245,7 +252,15 @@ public class HIA2Service {
      * Number of female children aged 12 to 59 months who attended a clinic this month
      */
     private void getCHN1_020(SQLiteDatabase db) {
-        getCHN1_015(db, "Female");
+        try {
+            int count = clinicAttendance("Female", "between 12 and 59");
+            Map<String, Object> indicatorMap = new HashMap<>();
+            indicatorMap.put(CHN1_020_DHIS_ID, count);
+            hia2Report.put(CHN1_020, indicatorMap);
+        } catch (Exception e) {
+            Log.logError(TAG, e.getMessage());
+
+        }
     }
 
     /**
@@ -256,6 +271,12 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN1_021(SQLiteDatabase db) {
+        Map<String, Object> maleCountMap = hia2Report.get(CHN1_015);
+        Map<String, Object> femaleCountMap = hia2Report.get(CHN1_020);
+        int totalCount = (Integer) maleCountMap.get(CHN1_015_DHIS_ID) + (Integer) femaleCountMap.get(CHN1_020_DHIS_ID);
+        Map<String, Object> indicatorMap = new HashMap<>();
+        indicatorMap.put(CHN1_021_DHIS_ID, totalCount);
+        hia2Report.put(CHN1_021, indicatorMap);
 
     }
 
@@ -267,6 +288,12 @@ public class HIA2Service {
      * @param db
      */
     private void getCHN1_025(SQLiteDatabase db) {
+        Map<String, Object> maleCountMap = hia2Report.get(CHN1_011);
+        Map<String, Object> femaleCountMap = hia2Report.get(CHN1_021);
+        int totalCount = (Integer) maleCountMap.get(CHN1_011_DHIS_ID) + (Integer) femaleCountMap.get(CHN1_021_DHIS_ID);
+        Map<String, Object> indicatorMap = new HashMap<>();
+        indicatorMap.put(CHN1_025_DHIS_ID, totalCount);
+        hia2Report.put(CHN1_025, indicatorMap);
 
     }
 
@@ -568,19 +595,17 @@ public class HIA2Service {
     /**
      * Number of total children age < 5 years whose weight is above 2Z scores
      * [CHN-055] + [CHN-060]
-     *
-     * @param db
      */
-    private void getCHN2_061(SQLiteDatabase db) {
+    private void getCHN2_061() {
         try {
-            Map<String, Object> maleCountMap = hia2Report.get(CHN2_045);
-            Map<String, Object> femaleCountMap = hia2Report.get(CHN2_050);
-            int totalCount = (Integer) maleCountMap.get(CHN2_045_DHIS_ID) + (Integer) femaleCountMap.get(CHN2_050_DHIS_ID);
+            Map<String, Object> maleCountMap = hia2Report.get(CHN2_055);
+            Map<String, Object> femaleCountMap = hia2Report.get(CHN2_060);
+            int totalCount = (Integer) maleCountMap.get(CHN2_055_DHIS_ID) + (Integer) femaleCountMap.get(CHN2_060_DHIS_ID);
             Map<String, Object> indicatorMap = new HashMap<>();
-            indicatorMap.put(CHN2_051_DHIS_ID, totalCount);
-            hia2Report.put(CHN2_051, indicatorMap);
+            indicatorMap.put(CHN2_061_DHIS_ID, totalCount);
+            hia2Report.put(CHN2_061, indicatorMap);
         } catch (Exception e) {
-            Log.logError(TAG, "CHN2_051 " + e.getMessage());
+            Log.logError(TAG, "CHN2_061 " + e.getMessage());
 
         }
     }
