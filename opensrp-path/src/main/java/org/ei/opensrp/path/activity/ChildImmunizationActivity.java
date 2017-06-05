@@ -67,6 +67,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.opensrp.api.constants.Gender;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -564,6 +565,20 @@ public class ChildImmunizationActivity extends BaseActivity
                 ft.addToBackStack(null);
                 WeightRepository weightRepository = VaccinatorApplication.getInstance().weightRepository();
                 List<Weight> allWeights = weightRepository.findByEntityId(childDetails.entityId());
+                try {
+                    String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+                    if (!TextUtils.isEmpty(Utils.getValue(childDetails.getColumnmaps(), "Birth_Weight", false))
+                            && !TextUtils.isEmpty(dobString)) {
+                        DateTime dateTime = new DateTime(dobString);
+                        Double birthWeight = Double.valueOf(Utils.getValue(childDetails.getColumnmaps(), "Birth_Weight", false));
+
+                        Weight weight = new Weight(-1l, null, (float) birthWeight.doubleValue(), dateTime.toDate(), null, null, null, Calendar.getInstance().getTimeInMillis(), null, null);
+                        allWeights.add(weight);
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, Log.getStackTraceString(e));
+                }
+
                 GrowthDialogFragment growthDialogFragment = GrowthDialogFragment.newInstance(childDetails, allWeights);
                 growthDialogFragment.show(ft, DIALOG_TAG);
             }

@@ -222,5 +222,9 @@
     <string name="recurring">RECURRING SERVICES</string>
     <string name="months">Months</string>
     <string name="kg">Kg</string>
+    <string name="girls">Girls</string>
+    <string name="boys">Boys</string>
+    <string name="weight_for_age">Weight-for-age %1$s</string>
+    <string name="previous_weights">PREVIOUS WEIGHTS</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package org.ei.opensrp.path.domain;
 
+import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.opensrp.api.constants.Gender;
 
@@ -40,6 +41,22 @@ public class ZScore {
         this.sd1 = sd1;
         this.sd2 = sd2;
         this.sd3 = sd3;
+    }
+
+    public static int getZScoreColor(double zScore) {
+        zScore = Math.abs(zScore);
+        if (zScore < 2) {
+            return R.color.z_score_0;
+        } else if (zScore >= 2 && zScore < 3) {
+            return R.color.z_score_2;
+        } else {
+            return R.color.z_score_3;
+        }
+    }
+
+    public static double roundOff(double value) {
+        int scale = (int) Math.pow(10, 1);
+        return (double) Math.round(value * scale) / scale;
     }
 
     /**

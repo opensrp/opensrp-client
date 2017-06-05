@@ -116,4 +116,7 @@
     <dimen name="title_label_text_max_width">150dp</dimen>
     <dimen name="sibling_profile_pic_width">70dp</dimen>
     <dimen name="sibling_profile_pic_height">70dp</dimen>
+    <dimen name="weight_table_divider_height">1dp</dimen>
+    <dimen name="table_contents_text_size">22sp</dimen>
+    <dimen name="table_contents_text_height">33dp</dimen>
 </resources>
