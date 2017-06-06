@@ -1,5 +1,9 @@
 package org.ei.opensrp.path.activity;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.SystemClock;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -19,10 +23,14 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Vaccine_types;
+import org.ei.opensrp.path.repository.StockRepository;
 import org.ei.opensrp.path.tabfragments.Current_Stock;
 import org.ei.opensrp.path.tabfragments.Planning_Stock_fragment;
+import org.joda.time.DateTime;
 
 public class StockControlActivity extends AppCompatActivity {
 
@@ -98,6 +106,19 @@ public class StockControlActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public int getcurrentVialNumber() {
+        net.sqlcipher.database.SQLiteDatabase db = VaccinatorApplication.getInstance().getRepository().getReadableDatabase();
+        Cursor c = db.rawQuery("Select sum(value) from Stocks where " + StockRepository.DATE_CREATED + " <= " + new DateTime(System.currentTimeMillis()).toDate().getTime()+" and "+StockRepository.VACCINE_TYPE_ID + " = "+ vaccine_type.getId(), null);
+        String stockvalue = "0";
+        if(c.getCount()>0) {
+            c.moveToFirst();
+            if(c.getString(0)!=null && !StringUtils.isBlank(c.getString(0)))
+                stockvalue = c.getString(0);
+            c.close();
+        }
+        return Integer.parseInt(stockvalue);
     }
 
     /**

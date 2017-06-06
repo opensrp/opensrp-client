@@ -183,7 +183,7 @@ public class Current_Stock extends Fragment implements
 
         stockRepository = new StockRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(),VaccinatorApplication.createCommonFtsObject(),context().alertService());
 
-
+        getValueForStock(view);
 
         Button received = (Button)view.findViewById(R.id.received);
         Button issued = (Button)view.findViewById(R.id.issued);
@@ -205,7 +205,11 @@ public class Current_Stock extends Fragment implements
         onInitialization();
         return view;
     }
+    private void getValueForStock(View view) {
+        TextView stockvalue = (TextView)view.findViewById(R.id.vials);
+        stockvalue.setText(""+((StockControlActivity)getActivity()).getcurrentVialNumber()+ " vials");
 
+    }
 
 
     private void onInitialization() {

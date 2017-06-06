@@ -92,13 +92,45 @@ public class Planning_Stock_fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_planning__stock_fragment, container, false);
+        createTitle(view);
 
         createActiveChildrenStatsView(view);
         createGraphDataAndView(view);
+        createStockInfoForlastThreeMonths(view);
+        getValueForStock(view);
 
 
 
         return view;
+    }
+
+    private void getValueForStock(View view) {
+        TextView stockvalue = (TextView)view.findViewById(R.id.vials);
+        stockvalue.setText(""+((StockControlActivity)getActivity()).getcurrentVialNumber()+ " vials");
+
+    }
+
+    private void createTitle(View view) {
+        TextView titleview = (TextView)view.findViewById(R.id.name);
+        TextView graphtitletext = (TextView)view.findViewById(R.id.graph_label_text);
+        TextView current_stock_label = (TextView)view.findViewById(R.id.current_stock);
+        TextView avg_vacc_waste_rate_label = (TextView)view.findViewById(R.id.avg_vacc_waste_rate_label);
+        TextView due_vacc_description = (TextView)view.findViewById(R.id.due_vacc_description);
+        TextView lastthreemonthstocktitle = (TextView)view.findViewById(R.id.last_three_months_stock_title);
+
+
+        String vaccineName = ((StockControlActivity)getActivity()).vaccine_type.getName();
+
+        titleview.setText(vaccineName+ " Planning");
+        graphtitletext.setText("3 month "+vaccineName + " stock levels");
+        current_stock_label.setText("Current "+ vaccineName+ " stock:");
+        avg_vacc_waste_rate_label.setText("Average "+ vaccineName+ " waste rate:");
+        due_vacc_description.setText("Calculated from current active children that will be due for "+vaccineName+" next month");
+        lastthreemonthstocktitle.setText("3 month "+vaccineName+" stock used");
+    }
+
+    private void createStockInfoForlastThreeMonths(View view) {
+
     }
 
     private LineGraphSeries<DataPoint> createGraphDataAndView(View view) {
@@ -144,9 +176,6 @@ public class Planning_Stock_fragment extends Fragment {
                     now.minusMonths(1).monthOfYear().getAsShortText()+" "+now.year().getAsShortText()
             };
         }
-
-
-
         staticLabelsFormatter.setHorizontalLabels(montharry);
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
         graph.addSeries(series);
