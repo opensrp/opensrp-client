@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class HIA2Service {
     private String TAG = HIA2Service.class.getCanonicalName();
-    DateFormat dfyymm = new SimpleDateFormat("yyyy-MM");
+    public static DateFormat dfyymm = new SimpleDateFormat("yyyy-MM");
 
     private  String CHN1_005 = "CHN1-005";
     private  String CHN1_005_DHIS_ID = "n0uHub5ubqH";
@@ -152,6 +152,8 @@ public class HIA2Service {
     private SQLiteDatabase database;
 
     //FIXME to uniquely identify out of areas change group by child.base_entity_id to group by zeir_id
+    //FIXME add month as a variable to allow generation of previous months reports
+    //FIXME add last generated date to make this process incremental, should this date be per indicator? just in case an indicator was skipped due to exceptions
 
     /**
      * Generate indicators populating them to hia2report map by executing various db queries.

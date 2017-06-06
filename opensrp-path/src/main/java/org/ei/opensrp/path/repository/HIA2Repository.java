@@ -1,14 +1,25 @@
 package org.ei.opensrp.path.repository;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.util.Log;
+
 import net.sqlcipher.database.SQLiteDatabase;
+
+import org.ei.opensrp.Context;
+import org.ei.opensrp.path.service.HIA2Service;
+
+import java.util.Date;
+import java.util.Map;
 
 public class HIA2Repository extends BaseRepository {
     private static final String TAG = HIA2Repository.class.getCanonicalName();
-    private static final String HIA2_SQL = "CREATE TABLE hia2 (_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,provider_id VARCHAR NOT NULL,key VARCHAR NOT NULL,dhis_id VARCHAR NOT NULL, value VARCHAR NOT NULL,month VARCHAR NOT NULL,status VARCHAR,created_at DATETIME NULL,updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP)";
+    private static final String HIA2_SQL = "CREATE TABLE hia2 (_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,provider_id VARCHAR NOT NULL,indicator_code VARCHAR NOT NULL,dhis_id VARCHAR NOT NULL, value VARCHAR NOT NULL,month VARCHAR NOT NULL,status VARCHAR,created_at DATETIME NULL,updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP)";
     public static final String HIA2_TABLE_NAME = "hia2";
     public static final String ID_COLUMN = "_id";
     public static final String PROVIDER_ID = "provider_id";
-    public static final String KEY = "key";
+    public static final String INDICATOR_CODE = "indicator_code";
     public static final String VALUE = "value";// ID to be used to identify entity when base_entity_id is unavailable
     public static final String DHIS_ID = "dhis_id";
     public static final String MONTH = "month";
@@ -16,19 +27,18 @@ public class HIA2Repository extends BaseRepository {
     public static final String STATUS = "status";
     public static final String CREATED_AT_COLUMN = "created_at";
     public static final String UPDATED_AT_COLUMN = "updated_at";
-    public static final String[] WEIGHT_TABLE_COLUMNS = {ID_COLUMN, PROVIDER_ID, KEY, VALUE, DHIS_ID, STATUS,MONTH, CREATED_AT_COLUMN, UPDATED_AT_COLUMN};
+    public static final String[] WEIGHT_TABLE_COLUMNS = {ID_COLUMN, PROVIDER_ID, INDICATOR_CODE, VALUE, DHIS_ID, STATUS, MONTH, CREATED_AT_COLUMN, UPDATED_AT_COLUMN};
 
     private static final String PROVIDER_ID_INDEX = "CREATE INDEX " + HIA2_TABLE_NAME + "_" + PROVIDER_ID + "_index ON " + HIA2_TABLE_NAME + "(" + PROVIDER_ID + " COLLATE NOCASE);";
-    private static final String KEY_INDEX = "CREATE INDEX " + HIA2_TABLE_NAME + "_" + KEY + "_index ON " + HIA2_TABLE_NAME + "(" + KEY + " COLLATE NOCASE);";
+    private static final String KEY_INDEX = "CREATE INDEX " + HIA2_TABLE_NAME + "_" + INDICATOR_CODE + "_index ON " + HIA2_TABLE_NAME + "(" + INDICATOR_CODE + " COLLATE NOCASE);";
     private static final String VALUE_INDEX = "CREATE INDEX " + HIA2_TABLE_NAME + "_" + UPDATED_AT_COLUMN + "_index ON " + HIA2_TABLE_NAME + "(" + UPDATED_AT_COLUMN + ");";
     private static final String DHIS_ID_INDEX = "CREATE INDEX " + HIA2_TABLE_NAME + "_" + DHIS_ID + "_index ON " + HIA2_TABLE_NAME + "(" + DHIS_ID + ");";
     private static final String MONTH_INDEX = "CREATE INDEX " + HIA2_TABLE_NAME + "_" + MONTH + "_index ON " + HIA2_TABLE_NAME + "(" + MONTH + ");";
 
 
-
-
     public HIA2Repository(PathRepository pathRepository) {
         super(pathRepository);
+
     }
 
     protected static void createTable(SQLiteDatabase database) {
@@ -40,5 +50,58 @@ public class HIA2Repository extends BaseRepository {
         database.execSQL(MONTH_INDEX);
     }
 
+    public void save(Map<String, Map<String, Object>> hia2Report) {
+        SQLiteDatabase database = getPathRepository().getWritableDatabase();
+        try {
+            String userName = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
+            String month = HIA2Service.dfyymm.format(new Date());
+            database.beginTransaction();
+            for (String key : hia2Report.keySet()) {
+                Map<String, Object> indicatorMap = hia2Report.get(key);
+                if (!indicatorMap.isEmpty()) {
+                    String dhisId = (String) indicatorMap.keySet().toArray()[0];
+                    String indicatorValue = (String) indicatorMap.get(dhisId);
+                    Long id = checkIfExists(key, userName, month);
+
+                    ContentValues cv = new ContentValues();
+                    cv.put(HIA2Repository.INDICATOR_CODE, key);
+                    cv.put(HIA2Repository.DHIS_ID, dhisId);
+                    cv.put(HIA2Repository.VALUE, indicatorValue);
+                    cv.put(HIA2Repository.PROVIDER_ID, userName);
+                    cv.put(HIA2Repository.MONTH, month);
+                    if (id != null) {
+                        // cv.put(HIA2Repository.ID_COLUMN, id);
+                        database.update(HIA2_TABLE_NAME, cv, ID_COLUMN + " = ?", new String[]{id.toString()});
+
+                    } else {
+                        database.insert(HIA2_TABLE_NAME, null, cv);
+                    }
+                }
+            }
+            database.setTransactionSuccessful();
+        } catch (SQLException e) {
+            Log.e(TAG, e.getMessage(), e);
+        } finally {
+            database.endTransaction();
+        }
+    }
+
+
+    private Long checkIfExists(String indicatorCode, String providerId, String month) {
+        Cursor mCursor = null;
+        try {
+            String query = "SELECT " + ID_COLUMN + " FROM " + HIA2_TABLE_NAME + " WHERE " + INDICATOR_CODE + " = '" + indicatorCode + "' and " + PROVIDER_ID + "='" + providerId + "' and " + MONTH + "='" + month + "'";
+            mCursor = getPathRepository().getWritableDatabase().rawQuery(query, null);
+            if (mCursor != null && mCursor.moveToFirst()) {
+
+                return mCursor.getLong(0);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.toString(), e);
+        } finally {
+            if (mCursor != null) mCursor.close();
+        }
+        return null;
+    }
 
 }
