@@ -280,8 +280,8 @@ public class GrowthDialogFragment extends DialogFragment {
         Calendar minWeighingDate = getMinWeighingDate(dob);
         if (gender != Gender.UNKNOWN && dob != null && minWeighingDate != null) {
             LineChartView growthChart = (LineChartView) parent.findViewById(R.id.growth_chart);
-            int minAge = ZScore.getAgeInMonths(dob, minWeighingDate.getTime());
-            int maxAge = minAge + 12;
+            double minAge = ZScore.getAgeInMonths(dob, minWeighingDate.getTime());
+            double maxAge = minAge + 12;
             List<Line> lines = new ArrayList<>();
             for (int z = -3; z <= 3; z++) {
                 if (z != 1 && z != -1) {
@@ -298,7 +298,7 @@ public class GrowthDialogFragment extends DialogFragment {
             lines.add(getPersonWeightLine(gender, dob));
 
             List<AxisValue> bottomAxisValues = new ArrayList<>();
-            for (int i = minAge; i <= maxAge; i++) {
+            for (int i = (int) Math.round(Math.floor(minAge)); i <= (int) Math.round(Math.ceil(maxAge)); i++) {
                 AxisValue curValue = new AxisValue((float) i);
                 curValue.setLabel(String.valueOf(i));
                 bottomAxisValues.add(curValue);
@@ -334,8 +334,8 @@ public class GrowthDialogFragment extends DialogFragment {
         }
     }
 
-    private Line getTodayLine(Gender gender, Date dob, int minAge, int maxAge) {
-        int personsAgeInMonthsToday = ZScore.getAgeInMonths(dob, Calendar.getInstance().getTime());
+    private Line getTodayLine(Gender gender, Date dob, double minAge, double maxAge) {
+        double personsAgeInMonthsToday = ZScore.getAgeInMonths(dob, Calendar.getInstance().getTime());
         double maxY = getMaxY(dob, maxAge, gender);
         double minY = getMinY(dob, minAge, gender);
 
@@ -352,7 +352,7 @@ public class GrowthDialogFragment extends DialogFragment {
         return todayLine;
     }
 
-    private double getMaxY(Date dob, int maxAge, Gender gender) {
+    private double getMaxY(Date dob, double maxAge, Gender gender) {
         double maxY = ZScore.reverse(gender, maxAge, 3d);
         Calendar minWeighingDate = getMinWeighingDate(dob);
         Calendar maxWeighingDate = getMaxWeighingDate(dob);
@@ -368,7 +368,7 @@ public class GrowthDialogFragment extends DialogFragment {
         return maxY;
     }
 
-    private double getMinY(Date dob, int minAge, Gender gender) {
+    private double getMinY(Date dob, double minAge, Gender gender) {
         double minY = ZScore.reverse(gender, minAge, -3d);
         Calendar minWeighingDate = getMinWeighingDate(dob);
         Calendar maxWeighingDate = getMaxWeighingDate(dob);
@@ -439,12 +439,18 @@ public class GrowthDialogFragment extends DialogFragment {
             if (ZScore.getAgeInMonths(dob, minGraphTime.getTime()) > ZScore.MAX_REPRESENTED_AGE) {
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(dob);
-                cal.add(Calendar.MONTH, 60);
+                cal.add(Calendar.MONTH, (int) Math.round(ZScore.MAX_REPRESENTED_AGE));
                 minGraphTime = cal;
             }
 
             minGraphTime.add(Calendar.MONTH, -12);
             standardiseCalendarDate(minGraphTime);
+
+            if (minGraphTime.getTimeInMillis() < dobCalendar.getTimeInMillis()) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(dobCalendar.getTime());
+                minCalendar = cal;
+            }
 
             for (Weight curWeight : weights) {
                 if (curWeight.getDate() != null) {
@@ -477,7 +483,7 @@ public class GrowthDialogFragment extends DialogFragment {
         return maxGraphTime;
     }
 
-    private Line getZScoreLine(Gender gender, int startAgeInMonths, int endAgeInMonths, double z, int color) {
+    private Line getZScoreLine(Gender gender, double startAgeInMonths, double endAgeInMonths, double z, int color) {
         List<PointValue> values = new ArrayList<>();
         while (startAgeInMonths <= endAgeInMonths) {
             Double weight = ZScore.reverse(gender, startAgeInMonths, z);

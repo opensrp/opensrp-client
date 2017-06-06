@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 public class ZScore {
-    public static int MAX_REPRESENTED_AGE = 60;
+    public static double MAX_REPRESENTED_AGE = 60d;
     private final Gender gender;
     private final int month;
     private final double l;
@@ -89,7 +89,7 @@ public class ZScore {
 
     public static Double calculate(Gender gender, Date dateOfBirth, Date weighingDate, double weight) {
         if (dateOfBirth != null && gender != null && weighingDate != null) {
-            int ageInMonths = getAgeInMonths(dateOfBirth, weighingDate);
+            int ageInMonths = (int) Math.round(getAgeInMonths(dateOfBirth, weighingDate));
             List<ZScore> zScores = VaccinatorApplication.getInstance().zScoreRepository().findByGender(gender);
 
             ZScore zScoreToUse = null;
@@ -112,11 +112,12 @@ public class ZScore {
      * This method calculates the expected weight given
      *
      * @param gender
-     * @param ageInMonths
+     * @param ageInMonthsDouble
      * @param z
      * @return
      */
-    public static Double reverse(Gender gender, int ageInMonths, Double z) {
+    public static Double reverse(Gender gender, double ageInMonthsDouble, Double z) {
+        int ageInMonths = (int) Math.round(ageInMonthsDouble);
         List<ZScore> zScores = VaccinatorApplication.getInstance().zScoreRepository().findByGender(gender);
 
         ZScore zScoreToUse = null;
@@ -134,7 +135,7 @@ public class ZScore {
         return null;
     }
 
-    public static int getAgeInMonths(Date dateOfBirth, Date weighingDate) {
+    public static double getAgeInMonths(Date dateOfBirth, Date weighingDate) {
         Calendar dobCalendar = Calendar.getInstance();
         dobCalendar.setTime(dateOfBirth);
         standardiseCalendarDate(dobCalendar);
@@ -143,10 +144,9 @@ public class ZScore {
         weighingCalendar.setTime(weighingDate);
         standardiseCalendarDate(weighingCalendar);
 
-        int result = 0;
+        double result = 0;
         if (dobCalendar.getTimeInMillis() <= weighingCalendar.getTimeInMillis()) {
-            int yearDiff = weighingCalendar.get(Calendar.YEAR) - dobCalendar.get(Calendar.YEAR);
-            result = (yearDiff * 12) + (weighingCalendar.get(Calendar.MONTH) - dobCalendar.get(Calendar.MONTH));
+            result = ((double)(weighingCalendar.getTimeInMillis() - dobCalendar.getTimeInMillis())) / 2629746000l;
         }
 
         return result;
