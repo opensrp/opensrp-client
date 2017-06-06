@@ -557,30 +557,7 @@ public class ChildImmunizationActivity extends BaseActivity
         growthChartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction ft = ChildImmunizationActivity.this.getFragmentManager().beginTransaction();
-                Fragment prev = ChildImmunizationActivity.this.getFragmentManager().findFragmentByTag(DIALOG_TAG);
-                if (prev != null) {
-                    ft.remove(prev);
-                }
-                ft.addToBackStack(null);
-                WeightRepository weightRepository = VaccinatorApplication.getInstance().weightRepository();
-                List<Weight> allWeights = weightRepository.findByEntityId(childDetails.entityId());
-                try {
-                    String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
-                    if (!TextUtils.isEmpty(Utils.getValue(childDetails.getColumnmaps(), "Birth_Weight", false))
-                            && !TextUtils.isEmpty(dobString)) {
-                        DateTime dateTime = new DateTime(dobString);
-                        Double birthWeight = Double.valueOf(Utils.getValue(childDetails.getColumnmaps(), "Birth_Weight", false));
-
-                        Weight weight = new Weight(-1l, null, (float) birthWeight.doubleValue(), dateTime.toDate(), null, null, null, Calendar.getInstance().getTimeInMillis(), null, null);
-                        allWeights.add(weight);
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG, Log.getStackTraceString(e));
-                }
-
-                GrowthDialogFragment growthDialogFragment = GrowthDialogFragment.newInstance(childDetails, allWeights);
-                growthDialogFragment.show(ft, DIALOG_TAG);
+                Utils.startAsyncTask(new ShowGrowthChartTask(), null);
             }
         });
     }
@@ -1579,6 +1556,51 @@ public class ChildImmunizationActivity extends BaseActivity
             tag.setDbKey(null);
 
             RecurringServiceUtils.updateServiceGroupViews(view, wrappers, serviceRecordList, alertList, true);
+        }
+    }
+
+    private class ShowGrowthChartTask extends AsyncTask<Void, Void, List<Weight>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog();
+        }
+
+        @Override
+        protected List<Weight> doInBackground(Void... params) {
+            WeightRepository weightRepository = VaccinatorApplication.getInstance().weightRepository();
+            List<Weight> allWeights = weightRepository.findByEntityId(childDetails.entityId());
+            try {
+                String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+                if (!TextUtils.isEmpty(Utils.getValue(childDetails.getColumnmaps(), "Birth_Weight", false))
+                        && !TextUtils.isEmpty(dobString)) {
+                    DateTime dateTime = new DateTime(dobString);
+                    Double birthWeight = Double.valueOf(Utils.getValue(childDetails.getColumnmaps(), "Birth_Weight", false));
+
+                    Weight weight = new Weight(-1l, null, (float) birthWeight.doubleValue(), dateTime.toDate(), null, null, null, Calendar.getInstance().getTimeInMillis(), null, null);
+                    allWeights.add(weight);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, Log.getStackTraceString(e));
+            }
+
+            return allWeights;
+        }
+
+        @Override
+        protected void onPostExecute(List<Weight> allWeights) {
+            super.onPostExecute(allWeights);
+            hideProgressDialog();
+            FragmentTransaction ft = ChildImmunizationActivity.this.getFragmentManager().beginTransaction();
+            Fragment prev = ChildImmunizationActivity.this.getFragmentManager().findFragmentByTag(DIALOG_TAG);
+            if (prev != null) {
+                ft.remove(prev);
+            }
+            ft.addToBackStack(null);
+
+
+            GrowthDialogFragment growthDialogFragment = GrowthDialogFragment.newInstance(childDetails, allWeights);
+            growthDialogFragment.show(ft, DIALOG_TAG);
         }
     }
 }
