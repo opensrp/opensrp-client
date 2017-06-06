@@ -71,16 +71,19 @@ public class VaccineIntentService extends IntentService {
                     jsonObject.put(JsonFormUtils.VALUE, formattedDate);
                     jsonArray.put(jsonObject);
 
-                    if (vaccine.getCalculation() != null && vaccine.getCalculation().intValue() >= 0) {
-                        jsonObject = new JSONObject();
-                        jsonObject.put(JsonFormUtils.KEY, vaccineName + "_dose");
-                        jsonObject.put(JsonFormUtils.OPENMRS_ENTITY, concept);
-                        jsonObject.put(JsonFormUtils.OPENMRS_ENTITY_ID, calId);
-                        jsonObject.put(JsonFormUtils.OPENMRS_ENTITY_PARENT, getParentId(vaccine.getName()));
-                        jsonObject.put(JsonFormUtils.OPENMRS_DATA_TYPE, calculationDataType);
-                        jsonObject.put(JsonFormUtils.VALUE, vaccine.getCalculation());
-                        jsonArray.put(jsonObject);
+                    if (vaccine.getCalculation() == null || vaccine.getCalculation() < 0) {
+                        vaccine.setCalculation(1);
                     }
+
+                    jsonObject = new JSONObject();
+                    jsonObject.put(JsonFormUtils.KEY, vaccineName + "_dose");
+                    jsonObject.put(JsonFormUtils.OPENMRS_ENTITY, concept);
+                    jsonObject.put(JsonFormUtils.OPENMRS_ENTITY_ID, calId);
+                    jsonObject.put(JsonFormUtils.OPENMRS_ENTITY_PARENT, getParentId(vaccine.getName()));
+                    jsonObject.put(JsonFormUtils.OPENMRS_DATA_TYPE, calculationDataType);
+                    jsonObject.put(JsonFormUtils.VALUE, vaccine.getCalculation());
+                    jsonArray.put(jsonObject);
+
                     JsonFormUtils.createVaccineEvent(getApplicationContext(), vaccine, EVENT_TYPE, ENTITY_TYPE, jsonArray);
                   //log out of catchment service since this is required in some of the hia2 report indicators
                     if (vaccine.getBaseEntityId() == null || vaccine.getBaseEntityId().isEmpty()) {

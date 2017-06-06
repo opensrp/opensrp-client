@@ -5,25 +5,34 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.util.Pair;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonFtsObject;
 import org.ei.opensrp.path.BuildConfig;
+import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.LoginActivity;
 import org.ei.opensrp.path.db.VaccineRepo;
+import org.ei.opensrp.path.domain.VaccineSchedule;
 import org.ei.opensrp.path.receiver.PathSyncBroadcastReceiver;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.repository.HIA2Repository;
 import org.ei.opensrp.path.repository.PathRepository;
+import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
+import org.ei.opensrp.path.repository.RecurringServiceTypeRepository;
 import org.ei.opensrp.path.repository.UniqueIdRepository;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.repository.WeightRepository;
+import org.ei.opensrp.path.repository.ZScoreRepository;
 import org.ei.opensrp.repository.Repository;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
 import org.ei.opensrp.view.activity.DrishtiApplication;
+import org.ei.opensrp.view.receiver.TimeChangedBroadcastReceiver;
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,13 +42,17 @@ import java.util.Map;
 
 import io.fabric.sdk.android.Fabric;
 import util.VaccinateActionUtils;
+import util.VaccinatorUtils;
 
 import static org.ei.opensrp.util.Log.logInfo;
 
 /**
  * Created by koros on 2/3/16.
  */
-public class VaccinatorApplication extends DrishtiApplication {
+public class VaccinatorApplication extends DrishtiApplication
+        implements TimeChangedBroadcastReceiver.OnTimeChangedListener {
+
+    private static final String TAG = "VaccinatorApplication";
     private Locale locale = null;
     private Context context;
     private static CommonFtsObject commonFtsObject;
@@ -47,6 +60,9 @@ public class VaccinatorApplication extends DrishtiApplication {
     private UniqueIdRepository uniqueIdRepository;
     private HIA2Repository hia2Repository;
     private VaccineRepository vaccineRepository;
+    private ZScoreRepository zScoreRepository;
+    private RecurringServiceRecordRepository recurringServiceRecordRepository;
+    private RecurringServiceTypeRepository recurringServiceTypeRepository;
     private boolean lastModified;
 
     @Override
@@ -64,9 +80,12 @@ public class VaccinatorApplication extends DrishtiApplication {
         context.updateApplicationContext(getApplicationContext());
         context.updateCommonFtsObject(createCommonFtsObject());
         SyncStatusBroadcastReceiver.init(this);
+        TimeChangedBroadcastReceiver.init(this);
+        TimeChangedBroadcastReceiver.getInstance().addOnTimeChangedListener(this);
 
         applyUserLanguagePreference();
         cleanUpSyncState();
+        initOfflineSchedules();
         setCrashlyticsUser(context);
     }
 
@@ -79,6 +98,9 @@ public class VaccinatorApplication extends DrishtiApplication {
 
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         getApplicationContext().startActivity(intent);
         context.userService().logoutSession();
     }
@@ -94,6 +116,7 @@ public class VaccinatorApplication extends DrishtiApplication {
         logInfo("Application is terminating. Stopping Bidan Sync scheduler and resetting isSyncInProgress setting.");
         cleanUpSyncState();
         SyncStatusBroadcastReceiver.destroy(this);
+        TimeChangedBroadcastReceiver.destroy(this);
         super.onTerminate();
     }
 
@@ -205,6 +228,8 @@ public class VaccinatorApplication extends DrishtiApplication {
             weightRepository();
             vaccineRepository();
             uniqueIdRepository();
+            recurringServiceTypeRepository();
+            recurringServiceRecordRepository();
         }
         return repository;
     }
@@ -217,11 +242,23 @@ public class VaccinatorApplication extends DrishtiApplication {
         return weightRepository;
     }
 
+    public Context context() {
+        return context;
+    }
+
     public VaccineRepository vaccineRepository() {
         if (vaccineRepository == null) {
             vaccineRepository = new VaccineRepository((PathRepository) getRepository(), createCommonFtsObject(), context.alertService());
         }
         return vaccineRepository;
+    }
+
+    public ZScoreRepository zScoreRepository() {
+        if (zScoreRepository == null) {
+            zScoreRepository = new ZScoreRepository((PathRepository) getRepository());
+        }
+
+        return zScoreRepository;
     }
 
     public UniqueIdRepository uniqueIdRepository() {
@@ -237,6 +274,19 @@ public class VaccinatorApplication extends DrishtiApplication {
         }
         return hia2Repository;
     }
+    public RecurringServiceTypeRepository recurringServiceTypeRepository() {
+        if (recurringServiceTypeRepository == null) {
+            recurringServiceTypeRepository = new RecurringServiceTypeRepository((PathRepository) getRepository());
+        }
+        return recurringServiceTypeRepository;
+    }
+
+    public RecurringServiceRecordRepository recurringServiceRecordRepository() {
+        if (recurringServiceRecordRepository == null) {
+            recurringServiceRecordRepository = new RecurringServiceRecordRepository((PathRepository) getRepository());
+        }
+        return recurringServiceRecordRepository;
+    }
 
     public boolean isLastModified() {
         return lastModified;
@@ -245,4 +295,29 @@ public class VaccinatorApplication extends DrishtiApplication {
     public void setLastModified(boolean lastModified) {
         this.lastModified = lastModified;
     }
+
+    @Override
+    public void onTimeChanged() {
+        Toast.makeText(this, R.string.device_time_changed, Toast.LENGTH_LONG).show();
+        context.userService().forceRemoteLogin();
+        logoutCurrentUser();
+    }
+
+    @Override
+    public void onTimeZoneChanged() {
+        Toast.makeText(this, R.string.device_timezone_changed, Toast.LENGTH_LONG).show();
+        context.userService().forceRemoteLogin();
+        logoutCurrentUser();
+    }
+
+    private void initOfflineSchedules() {
+        try {
+            JSONArray childVaccines = new JSONArray(VaccinatorUtils.getSupportedVaccines(this));
+            JSONArray specialVaccines = new JSONArray(VaccinatorUtils.getSpecialVaccines(this));
+            VaccineSchedule.init(childVaccines, specialVaccines, "child");
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
+    }
+
 }

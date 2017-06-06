@@ -10,17 +10,22 @@ import android.util.Log;
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.clientandeventmodel.DateUtil;
 import org.ei.opensrp.domain.Alert;
+import org.ei.opensrp.domain.ServiceRecord;
+import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.domain.Weight;
 import org.ei.opensrp.path.application.VaccinatorApplication;
-import org.ei.opensrp.path.db.VaccineRepo;
+import org.ei.opensrp.path.domain.ServiceSchedule;
+import org.ei.opensrp.path.domain.VaccineSchedule;
+import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
+import org.ei.opensrp.path.repository.RecurringServiceTypeRepository;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.repository.WeightRepository;
+import org.ei.opensrp.path.service.intent.RecurringIntentService;
 import org.ei.opensrp.path.service.intent.VaccineIntentService;
 import org.ei.opensrp.path.service.intent.WeightIntentService;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.repository.DetailsRepository;
-import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.sync.ClientProcessor;
 import org.ei.opensrp.sync.CloudantDataHandler;
 import org.joda.time.DateTime;
@@ -34,7 +39,6 @@ import java.util.Date;
 import java.util.List;
 
 import util.MoveToMyCatchmentUtils;
-import util.VaccinateActionUtils;
 
 public class PathClientProcessor extends ClientProcessor {
 
@@ -63,6 +67,7 @@ public class PathClientProcessor extends ClientProcessor {
         String clientClassificationStr = getFileContents("ec_client_classification.json");
         String clientVaccineStr = getFileContents("ec_client_vaccine.json");
         String clientWeightStr = getFileContents("ec_client_weight.json");
+        String clientServiceStr = getFileContents("ec_client_service.json");
 
         //this seems to be easy for now cloudant json to events model is crazy
         List<JSONObject> events = handler.getUpdatedEventsAndAlerts(lastSyncDate);
@@ -88,6 +93,13 @@ public class PathClientProcessor extends ClientProcessor {
                     }
 
                     processWeight(event, clientWeightClassificationJson,type.equals(WeightIntentService.EVENT_TYPE_OUT_OF_CATCHMENT));
+                } else if (type.equals(RecurringIntentService.EVENT_TYPE)) {
+                    JSONObject clientServiceClassificationJson = new JSONObject(clientServiceStr);
+                    if (isNullOrEmptyJSONObject(clientServiceClassificationJson)) {
+                        continue;
+                    }
+                    //TODO uncomment
+                    //processService(event, clientServiceClassificationJson);
                 } else if (type.equals(MoveToMyCatchmentUtils.MOVE_TO_CATCHMENT_EVENT)) {
                     unsyncEvents.add(event);
                 } else {
@@ -115,6 +127,7 @@ public class PathClientProcessor extends ClientProcessor {
         String clientClassificationStr = getFileContents("ec_client_classification.json");
         String clientVaccineStr = getFileContents("ec_client_vaccine.json");
         String clientWeightStr = getFileContents("ec_client_weight.json");
+        String clientServiceStr = getFileContents("ec_client_service.json");
 
         if (!events.isEmpty()) {
             List<JSONObject> unsyncEvents = new ArrayList<>();
@@ -139,6 +152,13 @@ public class PathClientProcessor extends ClientProcessor {
                     }
 
                     processWeight(event, clientWeightClassificationJson,eventType.equals(WeightIntentService.EVENT_TYPE_OUT_OF_CATCHMENT));
+                } else if (eventType.equals(RecurringIntentService.EVENT_TYPE)) {
+                    JSONObject clientServiceClassificationJson = new JSONObject(clientServiceStr);
+                    if (isNullOrEmptyJSONObject(clientServiceClassificationJson)) {
+                        continue;
+                    }
+                    //TODO uncomment
+                    //processService(event, clientServiceClassificationJson);
                 } else if (eventType.equals(MoveToMyCatchmentUtils.MOVE_TO_CATCHMENT_EVENT)) {
                     unsyncEvents.add(event);
                 } else {
@@ -191,7 +211,7 @@ public class PathClientProcessor extends ClientProcessor {
                 vaccineObj.setAnmId(contentValues.getAsString(VaccineRepository.ANMID));
                 vaccineObj.setLocationId(contentValues.getAsString(VaccineRepository.LOCATIONID));
                 vaccineObj.setSyncStatus(VaccineRepository.TYPE_Synced);
-                vaccineObj.setFormSubmissionId(vaccine.has(WeightRepository.FORMSUBMISSION_ID) ? vaccine.getString(WeightRepository.FORMSUBMISSION_ID) : null);
+                vaccineObj.setFormSubmissionId(vaccine.has(VaccineRepository.FORMSUBMISSION_ID) ? vaccine.getString(VaccineRepository.FORMSUBMISSION_ID) : null);
                 vaccineObj.setEventId(vaccine.getString("id"));//FIXME hard coded id
                 vaccineObj.setOutOfCatchment(outOfCatchment?1:0);
 
@@ -256,6 +276,85 @@ public class PathClientProcessor extends ClientProcessor {
             return null;
         }
     }
+
+    public Boolean processService(JSONObject service, JSONObject clientVaccineClassificationJson) throws Exception {
+
+        try {
+
+            if (service == null || service.length() == 0) {
+                return false;
+            }
+
+            if (clientVaccineClassificationJson == null || clientVaccineClassificationJson.length() == 0) {
+                return false;
+            }
+
+            ContentValues contentValues = processCaseModel(service, clientVaccineClassificationJson);
+
+            // save the values to db
+            if (contentValues != null && contentValues.size() > 0) {
+
+                String name = contentValues.getAsString(RecurringServiceTypeRepository.NAME);
+                if (StringUtils.isNotBlank(name)) {
+                    name = name.replaceAll("_", " ").replace("dose", "").trim();
+                }
+
+                Date date = null;
+                String eventDateStr = contentValues.getAsString(RecurringServiceRecordRepository.DATE);
+                if (!StringUtils.isNotBlank(eventDateStr)) {
+                    date = (new DateTime(eventDateStr)).toDate();
+                }
+
+                String value = null;
+
+                if (StringUtils.containsIgnoreCase(name, "ITN")) {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String itnDateString = contentValues.getAsString("itn_date");
+                    if (StringUtils.isNotBlank(itnDateString)) {
+                        date = simpleDateFormat.parse(itnDateString);
+                    }
+
+
+                    value = RecurringIntentService.ITN_PROVIDED;
+                    if (contentValues.getAsString("itn_has_net") != null) {
+                        value = RecurringIntentService.CHILD_HAS_NET;
+                    }
+
+                }
+
+                RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
+                List<ServiceType> serviceTypeList = recurringServiceTypeRepository.findByName(name);
+                if (serviceTypeList == null || serviceTypeList.isEmpty()) {
+                    return false;
+                }
+
+                if (date == null) {
+                    return false;
+                }
+
+                RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
+                ServiceRecord serviceObj = new ServiceRecord();
+                serviceObj.setBaseEntityId(contentValues.getAsString(RecurringServiceRecordRepository.BASE_ENTITY_ID));
+                serviceObj.setName(name);
+                serviceObj.setDate(date);
+                serviceObj.setAnmId(contentValues.getAsString(RecurringServiceRecordRepository.ANMID));
+                serviceObj.setLocationId(contentValues.getAsString(RecurringServiceRecordRepository.LOCATIONID));
+                serviceObj.setSyncStatus(RecurringServiceRecordRepository.TYPE_Synced);
+                serviceObj.setFormSubmissionId(service.has(RecurringServiceRecordRepository.FORMSUBMISSION_ID) ? service.getString(RecurringServiceRecordRepository.FORMSUBMISSION_ID) : null);
+                serviceObj.setEventId(service.getString("id"));//FIXME hard coded id
+                serviceObj.setValue(value);
+                serviceObj.setRecurringServiceId(serviceTypeList.get(0).getId());
+
+                recurringServiceRecordRepository.add(serviceObj);
+            }
+            return true;
+
+        } catch (Exception e) {
+            Log.e(TAG, e.toString(), e);
+            return null;
+        }
+    }
+
 
     public ContentValues processCaseModel(JSONObject entity, JSONObject clientClassificationJson) {
         try {
@@ -363,24 +462,16 @@ public class PathClientProcessor extends ClientProcessor {
                 return;
             }
 
-            VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
-            AlertService alertService = org.ei.opensrp.Context.getInstance().alertService();
-
             DateTime birthDateTime = new DateTime(dob);
-            List<Vaccine> vaccines = vaccineRepository.findByEntityId(entityId);
-
-            List<Alert> alertList = alertService.findByEntityIdAndAlertNames(entityId,
-                    VaccinateActionUtils.allAlertNames("child"));
-
-            VaccineRepo.Vaccine[] vArray = {VaccineRepo.Vaccine.opv0, VaccineRepo.Vaccine.bcg};
-            VaccinateActionUtils.populateDefaultAlerts(alertService, vaccines, alertList, entityId, birthDateTime, vArray);
+            VaccineSchedule.updateOfflineAlerts(entityId, birthDateTime, "child");
+            ServiceSchedule.updateOfflineAlerts(entityId, birthDateTime);
         }
     }
 
     public boolean unSync(List<JSONObject> events) {
         try {
 
-            if (events == null && events.isEmpty()) {
+            if (events == null || events.isEmpty()) {
                 return false;
             }
 

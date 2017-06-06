@@ -93,6 +93,10 @@ public class PathJsonFormFragment extends JsonFormFragment {
     public void showMotherLookUp(final HashMap<CommonPersonObject, List<CommonPersonObject>> map) {
         if (!map.isEmpty()) {
             tapToView(map);
+        } else {
+            if(snackbar != null) {
+                snackbar.dismiss();
+            }
         }
     }
 
@@ -189,7 +193,7 @@ public class PathJsonFormFragment extends JsonFormFragment {
 
     private void tapToView(final HashMap<CommonPersonObject, List<CommonPersonObject>> map) {
         snackbar = Snackbar
-                .make(getMainView(), map.size() + " mother/guardian match.", Snackbar.LENGTH_INDEFINITE);
+                .make(getMainView(), map.size() + " mother/guardian match(es).", Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction("Tap to view", new View.OnClickListener() {
             @Override
             public void onClick(View v) {

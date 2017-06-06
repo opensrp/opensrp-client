@@ -1,7 +1,7 @@
 package org.ei.opensrp.path.domain;
 
 import org.ei.opensrp.domain.Alert;
-import org.ei.opensrp.path.db.VaccineRepo.Vaccine;
+import org.ei.opensrp.domain.ServiceType;
 import org.joda.time.DateTime;
 
 import java.io.Serializable;
@@ -13,19 +13,15 @@ public class ServiceWrapper implements Serializable {
     private String id;
     private Long dbKey;
     private Photo photo;
-    private String name;
     private String defaultName;
     private String gender;
     private String status;
-    private Vaccine vaccine;
     private DateTime vaccineDate;
     private Alert alert;
     private String previousVaccineId;
     private DateTime dob;
 
     private String color;
-    private String formattedVaccineDate;
-    private String existingAge;
 
     private String patientName;
     private String patientNumber;
@@ -34,6 +30,9 @@ public class ServiceWrapper implements Serializable {
 
     private boolean today;
     private boolean synced;
+
+    private ServiceType serviceType;
+    private String value;
 
     public String getId() {
         return id;
@@ -59,14 +58,6 @@ public class ServiceWrapper implements Serializable {
         this.status = status;
     }
 
-    public void setVaccine(Vaccine vaccine) {
-        this.vaccine = vaccine;
-    }
-
-    public Vaccine getVaccine() {
-        return vaccine;
-    }
-
     public DateTime getVaccineDate() {
         return vaccineDate;
     }
@@ -83,14 +74,6 @@ public class ServiceWrapper implements Serializable {
         this.alert = alert;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
     public String getPreviousVaccineId() {
         return previousVaccineId;
     }
@@ -105,22 +88,6 @@ public class ServiceWrapper implements Serializable {
 
     public void setColor(String color) {
         this.color = color;
-    }
-
-    public String getFormattedVaccineDate() {
-        return formattedVaccineDate;
-    }
-
-    public void setFormattedVaccineDate(String formattedVaccineDate) {
-        this.formattedVaccineDate = formattedVaccineDate;
-    }
-
-    public String getExistingAge() {
-        return existingAge;
-    }
-
-    public void setExistingAge(String existingAge) {
-        this.existingAge = existingAge;
     }
 
     public String getPatientName() {
@@ -198,5 +165,50 @@ public class ServiceWrapper implements Serializable {
 
     public DateTime getDob() {
         return dob;
+    }
+
+    public void setServiceType(ServiceType serviceType) {
+        this.serviceType = serviceType;
+    }
+
+    public ServiceType getServiceType() {
+        return serviceType;
+    }
+
+    public String getName() {
+        if (serviceType == null) {
+            return defaultName;
+        }
+        return serviceType.getName();
+    }
+
+    public String getUnits() {
+        if (serviceType == null) {
+            return null;
+        }
+        return serviceType.getUnits();
+    }
+
+    public String getType() {
+        if (serviceType == null) {
+            return null;
+        }
+        return serviceType.getType();
+    }
+
+
+    public Long getTypeId() {
+        if (serviceType == null) {
+            return null;
+        }
+        return serviceType.getId();
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }

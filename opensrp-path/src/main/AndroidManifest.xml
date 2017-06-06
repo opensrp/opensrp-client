@@ -101,6 +101,8 @@
         <service android:name=".service.intent.PullUniqueIdsIntentService" />
         <service android:name=".service.intent.WeightIntentService" />
         <service android:name=".service.intent.VaccineIntentService" />
+        <service android:name=".service.intent.ZScoreRefreshIntentService" />
+        <service android:name=".service.intent.RecurringIntentService" />
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.vijay.jsonwizard.fileprovider"

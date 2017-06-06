@@ -1,4 +1,4 @@
-package org.ei.opensrp.path.viewComponents;
+package org.ei.opensrp.path.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -15,11 +15,10 @@ import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.adapter.ImmunizationRowAdapter;
 import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.domain.VaccineWrapper;
 import org.ei.opensrp.path.repository.VaccineRepository;
-import org.ei.opensrp.path.view.ExpandableHeightGridView;
-import org.ei.opensrp.path.view.VaccineCard;
 import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;

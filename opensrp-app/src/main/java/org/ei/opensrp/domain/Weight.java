@@ -20,6 +20,7 @@ public class Weight {
     String syncStatus;
     Integer outOfCatchment;
     Long updatedAt;
+    Double zScore;
 
     public Weight() {
     }
@@ -39,7 +40,7 @@ public class Weight {
         this.outOfCatchment=outOfCatchment;
     }
 
-    public Weight(Long id, String baseEntityId, String programClientId, Float kg, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId,Integer outOfCatchment) {
+    public Weight(Long id, String baseEntityId, String programClientId, Float kg, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId, Double zScore,Integer outOfCatchment) {
         this.id = id;
         this.baseEntityId = baseEntityId;
         this.programClientId = programClientId;
@@ -52,6 +53,7 @@ public class Weight {
         this.eventId=eventId;
         this.formSubmissionId=formSubmissionId;
         this.outOfCatchment=outOfCatchment;
+        this.zScore = zScore;
     }
 
 
@@ -154,5 +156,12 @@ public class Weight {
 
     public void setOutOfCatchment(Integer outOfCatchment) {
         this.outOfCatchment = outOfCatchment;
+    }
+    public Double getZScore() {
+        return zScore;
+    }
+
+    public void setZScore(Double zScore) {
+        this.zScore = zScore;
     }
 }

@@ -52,6 +52,7 @@ import org.joda.time.Minutes;
 import org.joda.time.Seconds;
 import org.opensrp.api.constants.Gender;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import util.JsonFormUtils;
@@ -78,6 +79,7 @@ public abstract class BaseActivity extends AppCompatActivity
     private PathAfterFetchListener pathAfterFetchListener;
     private Snackbar syncStatusSnackbar;
     private ProgressDialog progressDialog;
+    private ArrayList<Notification> notifications;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +98,7 @@ public abstract class BaseActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         pathAfterFetchListener = new PathAfterFetchListener();
+        notifications = new ArrayList<>();
 
         initializeProgressDialog();
     }
@@ -368,59 +371,106 @@ public abstract class BaseActivity extends AppCompatActivity
                                     String negativeButtonText,
                                     View.OnClickListener negativeButtonOnClick,
                                     Object tag) {
+        Notification notification = new Notification(message, notificationIcon, positiveButtonText,
+                positiveButtonOnClick, negativeButtonText, negativeButtonOnClick, tag);
+
+        // Add the notification as the last element in the notification list
+        String notificationMessage = notification.message;
+        if (notificationMessage == null) notificationMessage = "";
+        for (Notification curNotification : notifications) {
+            if (notificationMessage.equals(curNotification.message)) {
+                notifications.remove(curNotification);
+            }
+        }
+        notifications.add(notification);
+
+        updateNotificationViews(notification);
+    }
+
+    private void updateNotificationViews(final Notification notification) {
         TextView notiMessage = (TextView) findViewById(R.id.noti_message);
-        notiMessage.setText(message);
+        notiMessage.setText(notification.message);
         Button notiPositiveButton = (Button) findViewById(R.id.noti_positive_button);
-        notiPositiveButton.setTag(tag);
-        if (positiveButtonText != null) {
+        notiPositiveButton.setTag(notification.tag);
+        if (notification.positiveButtonText != null) {
             notiPositiveButton.setVisibility(View.VISIBLE);
-            notiPositiveButton.setText(positiveButtonText);
-            notiPositiveButton.setOnClickListener(positiveButtonOnClick);
+            notiPositiveButton.setText(notification.positiveButtonText);
+            notiPositiveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (notifications.size() > 0) {
+                        notifications.remove(notifications.size() - 1);
+                    }
+
+                    if (notification.positiveButtonOnClick != null) {
+                        notification.positiveButtonOnClick.onClick(v);
+                    }
+
+                    // Show the second last notification
+                    if (notifications.size() > 0) {
+                        updateNotificationViews(notifications.get(notifications.size() - 1));
+                    }
+                }
+            });
         } else {
             notiPositiveButton.setVisibility(View.GONE);
         }
 
         Button notiNegativeButton = (Button) findViewById(R.id.noti_negative_button);
-        notiNegativeButton.setTag(tag);
-        if (negativeButtonText != null) {
+        notiNegativeButton.setTag(notification.tag);
+        if (notification.negativeButtonText != null) {
             notiNegativeButton.setVisibility(View.VISIBLE);
-            notiNegativeButton.setText(negativeButtonText);
-            notiNegativeButton.setOnClickListener(negativeButtonOnClick);
+            notiNegativeButton.setText(notification.negativeButtonText);
+            notiNegativeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (notifications.size() > 0) {
+                        notifications.remove(notifications.size() - 1);
+                    }
+
+                    if (notification.negativeButtonOnClick != null) {
+                        notification.negativeButtonOnClick.onClick(v);
+                    }
+
+                    // Show the second last notification
+                    if (notifications.size() > 0) {
+                        updateNotificationViews(notifications.get(notifications.size() - 1));
+                    }
+                }
+            });
         } else {
             notiNegativeButton.setVisibility(View.GONE);
         }
 
         ImageView notiIcon = (ImageView) findViewById(R.id.noti_icon);
-        if (notificationIcon != null) {
+        if (notification.notificationIcon != null) {
             notiIcon.setVisibility(View.VISIBLE);
-            notiIcon.setImageDrawable(notificationIcon);
+            notiIcon.setImageDrawable(notification.notificationIcon);
         } else {
             notiIcon.setVisibility(View.GONE);
         }
 
-        final LinearLayout notification = (LinearLayout) findViewById(R.id.notification);
+        final LinearLayout notificationLL = (LinearLayout) findViewById(R.id.notification);
 
-        if (notification.getVisibility() == View.GONE) {
-            Animation slideDownAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_down);
-            slideDownAnimation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    notification.setVisibility(View.VISIBLE);
-                }
+        Animation slideDownAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_down);
+        slideDownAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                notificationLL.setVisibility(View.VISIBLE);
+            }
 
-                @Override
-                public void onAnimationEnd(Animation animation) {
+            @Override
+            public void onAnimationEnd(Animation animation) {
 
-                }
+            }
 
-                @Override
-                public void onAnimationRepeat(Animation animation) {
+            @Override
+            public void onAnimationRepeat(Animation animation) {
 
-                }
-            });
-            notification.clearAnimation();
-            notification.startAnimation(slideDownAnimation);
-        }
+            }
+        });
+        notificationLL.clearAnimation();
+        notificationLL.startAnimation(slideDownAnimation);
     }
 
     protected void hideNotification() {
@@ -555,6 +605,50 @@ public abstract class BaseActivity extends AppCompatActivity
     protected void hideProgressDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
+        }
+    }
+
+    private class Notification {
+        public final String message;
+        public final Drawable notificationIcon;
+        public final String positiveButtonText;
+        public final View.OnClickListener positiveButtonOnClick;
+        public final String negativeButtonText;
+        public final View.OnClickListener negativeButtonOnClick;
+        public final Object tag;
+
+        public Notification(String message, Drawable notificationIcon, String positiveButtonText,
+                            View.OnClickListener positiveButtonOnClick,
+                            String negativeButtonText,
+                            View.OnClickListener negativeButtonOnClick,
+                            Object tag) {
+            this.message = message;
+            this.notificationIcon = notificationIcon;
+            this.positiveButtonText = positiveButtonText;
+            this.positiveButtonOnClick = positiveButtonOnClick;
+            this.negativeButtonText = negativeButtonText;
+            this.negativeButtonOnClick = negativeButtonOnClick;
+            this.tag = tag;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (o instanceof Notification) {
+                Notification notification = (Notification) o;
+                String message = this.message;
+                if (message == null) message = "";
+                String positiveButtonText = this.positiveButtonText;
+                if (positiveButtonText == null) positiveButtonText = "";
+                String negativeButtonText = this.negativeButtonText;
+                if (negativeButtonText == null) negativeButtonText = "";
+
+                if (message.equals(notification.message)
+                        && positiveButtonText.equals(notification.positiveButtonText)
+                        && negativeButtonText.equals(notification.negativeButtonText)) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 

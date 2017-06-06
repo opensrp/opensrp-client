@@ -1,0 +1,32 @@
+[
+  {
+    "name": "BCG 2",
+    "type": "BCG",
+    "openmrs_date": {
+      "parent_entity": "886AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "entity": "concept",
+      "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "openmrs_calculate": {
+      "parent_entity": "886AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "entity": "concept",
+      "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "calculation": 2
+    },
+    "schedule": {
+      "due": [
+        {
+          "reference": "prerequisite",
+          "prerequisite": "BCG",
+          "offset": "+0d"
+        }
+      ],
+      "expiry": [
+        {
+          "reference": "dob",
+          "offset": "+1y"
+        }
+      ]
+    }
+  }
+]
