@@ -38,6 +38,8 @@ public class RecurringIntentService extends IntentService {
     final String NO = "no";
     final String VALUES = "values";
     final String OPENMRS_CHOICES_IDS = "openmrs_choice_ids";
+    final String OPENMRS_YES = "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    final String OPENMRS_NO = "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 
 
     public RecurringIntentService() {
@@ -158,8 +160,8 @@ public class RecurringIntentService extends IntentService {
             jsonObject.put(VALUES, valuesArray);
 
             JSONObject choices = new JSONObject();
-            choices.put(YES, "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-            choices.put(NO, "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            choices.put(YES, OPENMRS_YES);
+            choices.put(NO, OPENMRS_NO);
 
             jsonObject.put(OPENMRS_CHOICES_IDS, choices);
 

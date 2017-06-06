@@ -32,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -97,8 +98,7 @@ public class PathClientProcessor extends ClientProcessor {
                     if (isNullOrEmptyJSONObject(clientServiceClassificationJson)) {
                         continue;
                     }
-                    //TODO uncomment
-                    //processService(event, clientServiceClassificationJson);
+                    processService(event, clientServiceClassificationJson);
                 } else if (type.equals(MoveToMyCatchmentUtils.MOVE_TO_CATCHMENT_EVENT)) {
                     unsyncEvents.add(event);
                 } else {
@@ -156,8 +156,7 @@ public class PathClientProcessor extends ClientProcessor {
                     if (isNullOrEmptyJSONObject(clientServiceClassificationJson)) {
                         continue;
                     }
-                    //TODO uncomment
-                    //processService(event, clientServiceClassificationJson);
+                    processService(event, clientServiceClassificationJson);
                 } else if (eventType.equals(MoveToMyCatchmentUtils.MOVE_TO_CATCHMENT_EVENT)) {
                     unsyncEvents.add(event);
                 } else {
@@ -297,8 +296,15 @@ public class PathClientProcessor extends ClientProcessor {
 
                 Date date = null;
                 String eventDateStr = contentValues.getAsString(RecurringServiceRecordRepository.DATE);
-                if (!StringUtils.isNotBlank(eventDateStr)) {
-                    date = (new DateTime(eventDateStr)).toDate();
+                if (StringUtils.isNotBlank(eventDateStr)) {
+                    date = DateUtil.getDateFromString(eventDateStr);
+                    if (date == null) {
+                        try {
+                            date = DateUtil.parseDate(eventDateStr);
+                        } catch (ParseException e) {
+                            Log.e(TAG, e.toString(), e);
+                        }
+                    }
                 }
 
                 String value = null;
@@ -319,7 +325,7 @@ public class PathClientProcessor extends ClientProcessor {
                 }
 
                 RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
-                List<ServiceType> serviceTypeList = recurringServiceTypeRepository.findByName(name);
+                List<ServiceType> serviceTypeList = recurringServiceTypeRepository.searchByName(name);
                 if (serviceTypeList == null || serviceTypeList.isEmpty()) {
                     return false;
                 }
