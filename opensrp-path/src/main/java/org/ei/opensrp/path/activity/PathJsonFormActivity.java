@@ -17,10 +17,12 @@ import com.vijay.jsonwizard.utils.FormUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
+import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.fragment.PathJsonFormFragment;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.StockRepository;
+import org.ei.opensrp.path.repository.Vaccine_typesRepository;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,6 +61,82 @@ public class PathJsonFormActivity extends JsonFormActivity {
     private void refreshCalculateLogic(String key, String value) {
         stockVialsenteredinReceivedForm(key,value);
         stockDateEnteredinReceivedForm(key,value);
+        stockDateEnteredinIssuedForm(key, value);
+    }
+
+    private void stockDateEnteredinIssuedForm(String key, String value) {
+        JSONObject object = getStep("step1");
+        try {
+            if (object.getString("title").contains("Stock Issued")) {
+                if (key.equalsIgnoreCase("Date_Stock_Issued") && value != null && !value.equalsIgnoreCase("")) {
+                    if(balancetextview == null) {
+                        ArrayList<View> views = getFormDataViews();
+                        for (int i = 0; i < views.size(); i++) {
+                            if (views.get(i) instanceof MaterialEditText) {
+                                if (((String) views.get(i).getTag(com.vijay.jsonwizard.R.id.key)).equalsIgnoreCase("Vials_Issued")) {
+                                    balancetextview = (MaterialEditText) views.get(i);
+                                }
+                            }
+                        }
+                    }
+                    String label = "";
+                    int currentBalance = 0;
+                    int displaybalance = 0;
+                    String vialsvalue = "";
+                    String vaccineName = object.getString("title").replace("Stock Issued", "").trim();
+                    JSONArray fields = object.getJSONArray("fields");
+                    for (int i = 0; i < fields.length(); i++) {
+                        JSONObject questions = fields.getJSONObject(i);
+                        if (questions.has("key")) {
+                            if (questions.getString("key").equalsIgnoreCase("Date_Stock_Issued")) {
+                                if (questions.has("value")) {
+                                    Date encounterDate = new Date();
+                                    label = questions.getString("value");
+                                    if (label != null) {
+                                        if (StringUtils.isNotBlank(label)) {
+                                            Date dateTime = JsonFormUtils.formatDate(label, false);
+                                            if (dateTime != null) {
+                                                encounterDate = dateTime;
+                                            }
+                                        }
+                                    }
+
+                                    StockRepository str = new StockRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(), VaccinatorApplication.createCommonFtsObject(), Context.getInstance().alertService());
+                                    currentBalance = str.getVaccineUsedToday(encounterDate.getTime(),vaccineName.toLowerCase());
+                                }
+                            }
+                            int DosesPerVial = 0;
+                            int vialsused = 0;
+                            Vaccine_typesRepository vaccine_typesRepository = new Vaccine_typesRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(), VaccinatorApplication.createCommonFtsObject(), Context.getInstance().alertService());
+                            int dosesPerVial = vaccine_typesRepository.getDosesPerVial(vaccineName);
+                            if(currentBalance % dosesPerVial == 0){
+                                vialsused = currentBalance/dosesPerVial;
+                            }else if (currentBalance != 0){
+                                vialsused = (currentBalance/dosesPerVial) +1;
+                            }
+//                            if (questions.getString("key").equalsIgnoreCase("Vials_Received")) {
+//                                if (questions.has("value")) {
+//                                    label = questions.getString("value");
+//                                    vialsvalue = label;
+//                                }
+//                            }
+                            if (currentBalance != 0) {
+                                displaybalance = vialsused;
+                                if (balancetextview != null) {
+                                    balancetextview.setErrorColor(Color.BLACK);
+                                    balancetextview.setError(currentBalance + " children vaccinated today.Assuming " + displaybalance+" vials used.");
+                                }
+                            }else{
+                                balancetextview.setErrorColor(Color.BLACK);
+                                balancetextview.setError("");
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void stockDateEnteredinReceivedForm(String key, String value) {
@@ -110,7 +188,7 @@ public class PathJsonFormActivity extends JsonFormActivity {
                             if (vialsvalue != null && !vialsvalue.equalsIgnoreCase("")) {
                                 displaybalance = currentBalance + Integer.parseInt(vialsvalue);
                                 if (balancetextview != null) {
-                                    balancetextview.setErrorColor(Color.BLACK);
+                                    balancetextview.setErrorColor(getResources().getColor(R.color.dark_grey));
                                     balancetextview.setError("New balance : " + displaybalance);
                                 }
                             }

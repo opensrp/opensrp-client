@@ -81,6 +81,14 @@ public class Vaccine_typesRepository extends BaseRepository {
         Cursor cursor = database.query(VACCINE_Types_TABLE_NAME, VACCINE_Types_TABLE_COLUMNS,null,null, null, null, null, null);
         return readAllVaccines(cursor);
     }
+    public int getDosesPerVial(String name){
+        int dosespervaccine = 1;
+        ArrayList<Vaccine_types> vaccine_types = (ArrayList<Vaccine_types>) findIDByName(name);
+        for(int i = 0;i<vaccine_types.size();i++){
+            dosespervaccine = vaccine_types.get(0).getDoses();
+        }
+        return dosespervaccine;
+    }
 
 
 

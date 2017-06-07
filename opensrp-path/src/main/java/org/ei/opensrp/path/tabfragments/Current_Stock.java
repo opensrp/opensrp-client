@@ -187,6 +187,8 @@ public class Current_Stock extends Fragment implements
 
         Button received = (Button)view.findViewById(R.id.received);
         Button issued = (Button)view.findViewById(R.id.issued);
+        Button adjustment = (Button)view.findViewById(R.id.loss_adj);
+
         TextView vaccine_name = (TextView)view.findViewById(R.id.name);
         vaccine_name.setText(((StockControlActivity)getActivity()).vaccine_type.getName() + " Stock: ");
 
@@ -202,6 +204,13 @@ public class Current_Stock extends Fragment implements
                 launchIssuedForm();
             }
         });
+        adjustment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchAdjustmentForm();
+            }
+        });
+
         onInitialization();
         return view;
     }
@@ -271,6 +280,19 @@ public class Current_Stock extends Fragment implements
             e.printStackTrace();
         }
     }
+    private void launchAdjustmentForm() {
+        Context context = Context.getInstance();
+        Intent intent = new Intent(getActivity().getApplicationContext(), PathJsonFormActivity.class);
+        try {
+            JSONObject form = FormUtils.getInstance(getActivity().getApplicationContext()).getFormJson("stock_adjustment_form");
+            String vaccine_name = ((StockControlActivity)getActivity()).vaccine_type.getName();
+            String formmetadata = form.toString().replace("[vaccine]",vaccine_name);
+            intent.putExtra("json", formmetadata);
+            startActivityForResult(intent, REQUEST_CODE_GET_JSON);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     private void launchIssuedForm() {
         Context context = Context.getInstance();
         Intent intent = new Intent(getActivity().getApplicationContext(), PathJsonFormActivity.class);
@@ -311,11 +333,43 @@ public class Current_Stock extends Fragment implements
                     if(FormTitle.contains("Stock Received")) {
                         processStockReceived(jsonString);
                     }
+                    if(FormTitle.contains("Stock Loss/Adjustment")) {
+                        processStockLossAdjustment(jsonString);
+                    }
 
                 } catch (Exception e) {
                     Log.e("error", e.getMessage());
                 }
             }
+        }
+    }
+
+    private void processStockLossAdjustment(String jsonString) {
+        JSONObject jsonForm = null;
+        try {
+            Context context = Context.getInstance();
+            jsonForm = new JSONObject(jsonString);
+            JSONArray fields = JsonFormUtils.fields(jsonForm);
+            String Date_Stock_Received = JsonFormUtils.getFieldValue(fields, "Date_Stock_loss_adjustment");
+            String Received_Stock_From = JsonFormUtils.getFieldValue(fields, "Reason_for_adjustment");
+            String vials_received = JsonFormUtils.getFieldValue(fields, "Vials_Adjustment");
+
+            StockRepository str = new StockRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(),VaccinatorApplication.createCommonFtsObject(),context.alertService());
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
+
+            Date encounterDate = new Date();
+            if (StringUtils.isNotBlank(Date_Stock_Received)) {
+                Date dateTime = JsonFormUtils.formatDate(Date_Stock_Received, false);
+                if (dateTime != null) {
+                    encounterDate = dateTime;
+                }
+            }
+            Stock stock = new Stock(null,Stock.loss_adjustment,allSharedPreferences.fetchRegisteredANM(),Integer.parseInt(vials_received),encounterDate.getTime(),Received_Stock_From,StockRepository.TYPE_Unsynced,System.currentTimeMillis(),""+((StockControlActivity)(getActivity())).vaccine_type.getId());
+            str.add(stock);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 

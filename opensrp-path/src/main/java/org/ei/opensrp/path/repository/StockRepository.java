@@ -17,6 +17,7 @@ import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Stock;
 import org.ei.opensrp.path.domain.Vaccine_types;
 import org.ei.opensrp.service.AlertService;
+import org.ei.opensrp.util.StringUtil;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -213,6 +214,21 @@ public class StockRepository extends BaseRepository {
             cursor.close();
         }
         return stocks;
+    }
+    public int getVaccineUsedToday(Long date, String vaccineName){
+        int vaccineUsed = 0;
+        DateTime thedate = new DateTime(date);
+        DateTime startofday = thedate.withTimeAtStartOfDay();
+        DateTime endofday = thedate.plusDays(1).withTimeAtStartOfDay();
+        SQLiteDatabase database = getPathRepository().getReadableDatabase();
+        Cursor c = database.rawQuery("Select count(*) from vaccines where date >= "+startofday.getMillis()+" and date < "+endofday.getMillis()+" and name like '%"+vaccineName+"%'",null);
+        c.moveToFirst();
+        if(c.getCount()>0){
+            if(!StringUtils.isBlank(c.getString(0))){
+                vaccineUsed = Integer.parseInt(c.getString(0));
+            }
+        }
+        return vaccineUsed;
     }
 
 

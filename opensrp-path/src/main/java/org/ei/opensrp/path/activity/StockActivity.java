@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -16,12 +18,17 @@ import android.widget.TextView;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Vaccine_types;
+import org.ei.opensrp.path.fragment.ChildSmartRegisterFragment;
 import org.ei.opensrp.path.repository.PathRepository;
+import org.ei.opensrp.path.repository.StockRepository;
 import org.ei.opensrp.path.repository.Vaccine_typesRepository;
 import org.ei.opensrp.path.toolbar.LocationSwitcherToolbar;
+import org.ei.opensrp.path.view.LocationPickerView;
 import org.ei.opensrp.repository.AllSharedPreferences;
 
 import java.util.ArrayList;
+
+import util.JsonFormUtils;
 
 /**
  * Created by raihan on 5/23/17.
@@ -102,6 +109,28 @@ public class StockActivity extends BaseActivity {
     protected int getContentView() {
         return  R.layout.activity_stock;
     }
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_register) {
+//            startFormActivity("child_enrollment", null, null);
+        } else if (id == R.id.nav_record_vaccination_out_catchment) {
+//            startFormActivity("out_of_catchment_service", null, null);
+        } else if (id == R.id.stock) {
+            Intent intent = new Intent(this, StockActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_sync) {
+//            startSync();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
 
     @Override
     protected int getDrawerLayoutId() {
@@ -153,12 +182,13 @@ public class StockActivity extends BaseActivity {
 
 
                 final Vaccine_types vaccine_type = vaccine_types[position];
-
+                StockRepository stockRepository = new StockRepository((PathRepository)VaccinatorApplication.getInstance().getRepository(),VaccinatorApplication.createCommonFtsObject(), org.ei.opensrp.Context.getInstance().alertService());
+                int currentvials = stockRepository.getBalanceFromNameAndDate(vaccine_type.getName(),System.currentTimeMillis());
                 name.setText(vaccine_type.getName());
 
-                doses.setText("120 doses");
+                doses.setText(""+currentvials*vaccine_type.getDoses()+ " Doses");
 
-                vials.setText("6 vials");
+                vials.setText(""+currentvials+ " Vials");
 
                 gridView.setOnClickListener(new View.OnClickListener() {
                     @Override
