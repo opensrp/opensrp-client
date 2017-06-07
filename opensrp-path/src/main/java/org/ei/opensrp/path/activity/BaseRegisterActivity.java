@@ -1,6 +1,7 @@
 package org.ei.opensrp.path.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
@@ -189,6 +190,9 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
             startActivity(intent);
         }*/ else if (id == R.id.nav_sync) {
             startSync();
+        }else if (id == R.id.nav_hia2) {
+            Intent intent = new Intent(this, HIA2ReportsActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -85,7 +85,7 @@ public class ZScoreRefreshIntentService extends IntentService {
         dumpCsv(Gender.MALE, false);
         dumpCsv(Gender.FEMALE, false);
 
-        calculateChildZScores();
+        //calculateChildZScores();
     }
 
     private void fetchCSV(Gender gender) {

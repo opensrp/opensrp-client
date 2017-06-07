@@ -172,7 +172,8 @@
 
                         <ImageButton
                             android:id="@+id/growth_chart_button"
-                            android:background="@color/light_blue"
+                            android:src="@drawable/ic_icon_growth_chart"
+                            android:background="@null"
                             android:layout_width="0dp"
                             android:layout_height="70dp"
                             android:layout_marginLeft="@dimen/card_category_horizontal_margin"

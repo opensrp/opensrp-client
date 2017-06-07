@@ -222,5 +222,15 @@
     <string name="recurring">RECURRING SERVICES</string>
     <string name="months">Months</string>
     <string name="kg">Kg</string>
+    <string name="girls">Girls</string>
+    <string name="boys">Boys</string>
+    <string name="weight_for_age">Weight-for-age %1$s</string>
+    <string name="previous_weights">PREVIOUS WEIGHTS</string>
+    <string name="side_nav_hia2">HIA 2 Reports</string>
+    <string name="hia2_daily_tallies">Daily Tallies</string>
+    <string name="hia2_draft_reports">Draft Reports</string>
+    <string name="hia2_sent_reports">Sent Reports</string>
+    <string name="title_activity_hia2_report">HIA2 Reports</string>
+
 
 </resources>

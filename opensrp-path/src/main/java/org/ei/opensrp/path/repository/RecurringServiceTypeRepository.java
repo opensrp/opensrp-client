@@ -93,7 +93,7 @@ public class RecurringServiceTypeRepository extends BaseRepository {
         return readAllServiceTypes(cursor);
     }
 
-    public List<ServiceType> findByName(String name) {
+    public List<ServiceType> searchByName(String name) {
         if (StringUtils.isBlank(name)) {
             return new ArrayList<>();
         }
@@ -101,7 +101,7 @@ public class RecurringServiceTypeRepository extends BaseRepository {
 
 
         SQLiteDatabase database = getPathRepository().getReadableDatabase();
-        Cursor cursor = database.query(TABLE_NAME, TABLE_COLUMNS, NAME + " = ? ORDER BY " + UPDATED_AT_COLUMN, new String[]{name}, null, null, null, null);
+        Cursor cursor = database.query(TABLE_NAME, TABLE_COLUMNS, NAME + " LIKE ? ORDER BY " + UPDATED_AT_COLUMN, new String[]{"%" + name + "%"}, null, null, null, null);
         return readAllServiceTypes(cursor);
     }
 

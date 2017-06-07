@@ -58,25 +58,53 @@ public class RecurringServiceRecordRepository extends BaseRepository {
         if (serviceRecord == null) {
             return;
         }
-        if (StringUtils.isBlank(serviceRecord.getSyncStatus())) {
-            serviceRecord.setSyncStatus(TYPE_Unsynced);
+
+        try {
+            if (StringUtils.isBlank(serviceRecord.getSyncStatus())) {
+                serviceRecord.setSyncStatus(TYPE_Unsynced);
+            }
+            if (StringUtils.isBlank(serviceRecord.getFormSubmissionId())) {
+                serviceRecord.setFormSubmissionId(generateRandomUUIDString());
+            }
+
+            if (serviceRecord.getUpdatedAt() == null) {
+                serviceRecord.setUpdatedAt(Calendar.getInstance().getTimeInMillis());
+            }
+
+            SQLiteDatabase database = getPathRepository().getWritableDatabase();
+            if (serviceRecord.getId() == null) {
+                ServiceRecord sameServiceRecord = findUnique(database, serviceRecord);
+                if (sameServiceRecord != null) {
+                    serviceRecord.setUpdatedAt(sameServiceRecord.getUpdatedAt());
+                    serviceRecord.setId(sameServiceRecord.getId());
+                    update(database, serviceRecord);
+                } else {
+                    serviceRecord.setId(database.insert(TABLE_NAME, null, createValuesFor(serviceRecord)));
+                }
+            } else {
+                //mark the recurring service as unsynced for processing as an updated event
+                serviceRecord.setSyncStatus(TYPE_Unsynced);
+                update(database, serviceRecord);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
         }
-        if (StringUtils.isBlank(serviceRecord.getFormSubmissionId())) {
-            serviceRecord.setFormSubmissionId(generateRandomUUIDString());
+    }
+
+    public void update(SQLiteDatabase database, ServiceRecord serviceRecord) {
+        if (serviceRecord == null || serviceRecord.getId() == null) {
+            return;
         }
 
-        if (serviceRecord.getUpdatedAt() == null) {
-            serviceRecord.setUpdatedAt(Calendar.getInstance().getTimeInMillis());
+        if (database == null) {
+            database = getPathRepository().getWritableDatabase();
         }
 
-        SQLiteDatabase database = getPathRepository().getWritableDatabase();
-        if (serviceRecord.getId() == null) {
-            serviceRecord.setId(database.insert(TABLE_NAME, null, createValuesFor(serviceRecord)));
-        } else {
-            //mark the recurring service as unsynced for processing as an updated event
-            serviceRecord.setSyncStatus(TYPE_Unsynced);
+        try {
             String idSelection = ID_COLUMN + " = ?";
             database.update(TABLE_NAME, createValuesFor(serviceRecord), idSelection, new String[]{serviceRecord.getId().toString()});
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
         }
     }
 
@@ -92,7 +120,7 @@ public class RecurringServiceRecordRepository extends BaseRepository {
             cursor = getPathRepository().getReadableDatabase().query(TABLE_NAME, TABLE_COLUMNS, UPDATED_AT_COLUMN + " < ? AND " + SYNC_STATUS + " = ?", new String[]{time.toString(), TYPE_Unsynced}, null, null, null, null);
             serviceRecords = readAllServiceRecords(cursor);
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage(), e);
+            Log.e(TAG, Log.getStackTraceString(e));
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -120,7 +148,7 @@ public class RecurringServiceRecordRepository extends BaseRepository {
                 serviceRecord = serviceRecords.get(0);
             }
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage(), e);
+            Log.e(TAG, Log.getStackTraceString(e));
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -129,17 +157,61 @@ public class RecurringServiceRecordRepository extends BaseRepository {
         return serviceRecord;
     }
 
+    public ServiceRecord findUnique(SQLiteDatabase database, ServiceRecord serviceRecord) {
+
+        if (serviceRecord == null || (StringUtils.isBlank(serviceRecord.getFormSubmissionId()) && StringUtils.isBlank(serviceRecord.getEventId()))) {
+            return null;
+        }
+
+        try {
+            if (database == null) {
+                database = getPathRepository().getReadableDatabase();
+            }
+
+            String selection = null;
+            String[] selectionArgs = null;
+            if (StringUtils.isNotBlank(serviceRecord.getFormSubmissionId()) && StringUtils.isNotBlank(serviceRecord.getEventId())) {
+                selection = FORMSUBMISSION_ID + " = ? OR " + EVENT_ID + " = ? ";
+                selectionArgs = new String[]{serviceRecord.getFormSubmissionId(), serviceRecord.getEventId()};
+            } else if (StringUtils.isNotBlank(serviceRecord.getEventId())) {
+                selection = EVENT_ID + " = ? ";
+                selectionArgs = new String[]{serviceRecord.getEventId()};
+            } else if (StringUtils.isNotBlank(serviceRecord.getFormSubmissionId())) {
+                selection = FORMSUBMISSION_ID + " = ? ";
+                selectionArgs = new String[]{serviceRecord.getFormSubmissionId()};
+            }
+
+            Cursor cursor = database.query(TABLE_NAME, TABLE_COLUMNS, selection, selectionArgs, null, null, ID_COLUMN + " DESC ", null);
+            List<ServiceRecord> serviceRecordList = readAllServiceRecords(cursor);
+            if (!serviceRecordList.isEmpty()) {
+                return serviceRecordList.get(0);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
+
+        return null;
+    }
+
     public void deleteServiceRecord(Long caseId) {
-        ServiceRecord serviceRecord = find(caseId);
-        if (serviceRecord != null) {
-            getPathRepository().getWritableDatabase().delete(TABLE_NAME, ID_COLUMN + "= ?", new String[]{caseId.toString()});
+        try {
+            ServiceRecord serviceRecord = find(caseId);
+            if (serviceRecord != null) {
+                getPathRepository().getWritableDatabase().delete(TABLE_NAME, ID_COLUMN + "= ?", new String[]{caseId.toString()});
+            }
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
         }
     }
 
     public void close(Long caseId) {
-        ContentValues values = new ContentValues();
-        values.put(SYNC_STATUS, TYPE_Synced);
-        getPathRepository().getWritableDatabase().update(TABLE_NAME, values, ID_COLUMN + " = ?", new String[]{caseId.toString()});
+        try {
+            ContentValues values = new ContentValues();
+            values.put(SYNC_STATUS, TYPE_Synced);
+            getPathRepository().getWritableDatabase().update(TABLE_NAME, values, ID_COLUMN + " = ?", new String[]{caseId.toString()});
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
     }
 
     private List<ServiceRecord> readAllServiceRecords(Cursor cursor) {
@@ -173,7 +245,7 @@ public class RecurringServiceRecordRepository extends BaseRepository {
                         }
                     }
 
-                    if(cursor.getColumnIndex(RecurringServiceTypeRepository.NAME) > -1) {
+                    if (cursor.getColumnIndex(RecurringServiceTypeRepository.NAME) > -1) {
                         String name = cursor.getString(cursor.getColumnIndex(RecurringServiceTypeRepository.NAME));
                         if (name != null) {
                             name = removeHyphen(name);
@@ -189,7 +261,7 @@ public class RecurringServiceRecordRepository extends BaseRepository {
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
         } finally {
-            if(cursor != null) {
+            if (cursor != null) {
                 cursor.close();
             }
         }
