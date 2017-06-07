@@ -904,7 +904,35 @@ public class PathRepository extends Repository {
             Log.e(getClass().getName(), "Exception", e);
         }
     }
+    public void addReport(JSONObject jsonObject) {
+        try {
 
+            ContentValues values = new ContentValues();
+            values.put(report_column.json.name(), jsonObject.toString());
+            values.put(report_column.reportType.name(), jsonObject.has(report_column.reportType.name()) ? jsonObject.getString(report_column.reportType.name()) : "");
+            values.put(report_column.updatedAt.name(), dateFormat.format(new Date()));
+            values.put(report_column.syncStatus.name(), BaseRepository.TYPE_Unsynced);
+            //update existing event if eventid present
+            if (jsonObject.has(report_column.formSubmissionId.name()) && jsonObject.getString(report_column.formSubmissionId.name()) != null) {
+                //sanity check
+                if (checkIfExistsByFormSubmissionId(Table.report, jsonObject.getString(report_column.formSubmissionId.name()))) {
+                    int id = getWritableDatabase().update(Table.report.name(), values, report_column.formSubmissionId.name() + "=?", new String[]{jsonObject.getString(report_column.formSubmissionId.name())});
+                } else {
+                    //that odd case
+                    values.put(report_column.formSubmissionId.name(), jsonObject.getString(report_column.formSubmissionId.name()));
+
+                    getWritableDatabase().insert(Table.report.name(), null, values);
+
+                }
+            } else {
+// a case here would be if an event comes from openmrs
+                getWritableDatabase().insert(Table.report.name(), null, values);
+            }
+
+        } catch (Exception e) {
+            Log.e(getClass().getName(), "Exception", e);
+        }
+    }
     public void markEventAsSynced(String formSubmissionId) {
         try {
 
@@ -1094,6 +1122,7 @@ public class PathRepository extends Repository {
     // Definitions
     public enum Table {
         client(client_column.values()), event(event_column.values()),
+        report(report_column.values()),
         address(address_column.values()), obs(obs_column.values());
         private Column[] columns;
 
@@ -1201,6 +1230,39 @@ public class PathRepository extends Repository {
         serverVersion(ColumnAttribute.Type.longnum, false, true);
 
         private event_column(ColumnAttribute.Type type, boolean pk, boolean index) {
+            this.column = new ColumnAttribute(type, pk, index);
+        }
+
+        private ColumnAttribute column;
+
+        public ColumnAttribute column() {
+            return column;
+        }
+    }
+    public enum report_column implements Column {
+        creator(ColumnAttribute.Type.text, false, false),
+        dateCreated(ColumnAttribute.Type.date, false, true),
+        editor(ColumnAttribute.Type.text, false, false),
+        dateEdited(ColumnAttribute.Type.date, false, false),
+        voided(ColumnAttribute.Type.bool, false, false),
+        dateVoided(ColumnAttribute.Type.date, false, false),
+        voider(ColumnAttribute.Type.text, false, false),
+        voidReason(ColumnAttribute.Type.text, false, false),
+
+        reportId(ColumnAttribute.Type.text, true, true),
+        syncStatus(ColumnAttribute.Type.text, false, true),
+        json(ColumnAttribute.Type.text, false, false),
+        locationId(ColumnAttribute.Type.text, false, false),
+        reportDate(ColumnAttribute.Type.date, false, true),
+        reportType(ColumnAttribute.Type.text, false, true),
+        formSubmissionId(ColumnAttribute.Type.text, false, false),
+        providerId(ColumnAttribute.Type.text, false, false),
+        entityType(ColumnAttribute.Type.text, false, false),
+        version(ColumnAttribute.Type.text, false, false),
+        updatedAt(ColumnAttribute.Type.date, false, true),
+        serverVersion(ColumnAttribute.Type.longnum, false, true);
+
+        private report_column(ColumnAttribute.Type type, boolean pk, boolean index) {
             this.column = new ColumnAttribute(type, pk, index);
         }
 
@@ -1424,8 +1486,10 @@ public class PathRepository extends Repository {
             db.execSQL(WeightRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL);
             db.execSQL(WeightRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX);
             HIA2Repository.createTable(db);
+            createTable(db, Table.report, report_column.values());
+
         } catch (Exception e) {
-            Log.e(TAG, "upgradeToVersion4 " + e.getMessage());
+            Log.e(TAG, "upgradeToVersion7 " + e.getMessage());
         }
     }
 }

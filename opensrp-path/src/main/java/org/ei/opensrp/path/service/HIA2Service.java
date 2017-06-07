@@ -19,6 +19,7 @@ import java.util.Map;
 public class HIA2Service {
     private String TAG = HIA2Service.class.getCanonicalName();
     public static DateFormat dfyymm = new SimpleDateFormat("yyyy-MM");
+    public static String REPORT_NAME = "HIA2";
 
     private  String CHN1_005 = "CHN1-005";
     private  String CHN1_005_DHIS_ID = "n0uHub5ubqH";

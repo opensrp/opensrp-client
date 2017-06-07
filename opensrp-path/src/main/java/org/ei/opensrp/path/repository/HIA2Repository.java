@@ -8,9 +8,12 @@ import android.util.Log;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.ei.opensrp.Context;
+import org.ei.opensrp.path.domain.DataElement;
 import org.ei.opensrp.path.service.HIA2Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 public class HIA2Repository extends BaseRepository {
@@ -27,7 +30,7 @@ public class HIA2Repository extends BaseRepository {
     public static final String STATUS = "status";
     public static final String CREATED_AT_COLUMN = "created_at";
     public static final String UPDATED_AT_COLUMN = "updated_at";
-    public static final String[] WEIGHT_TABLE_COLUMNS = {ID_COLUMN, PROVIDER_ID, INDICATOR_CODE, VALUE, DHIS_ID, STATUS, MONTH, CREATED_AT_COLUMN, UPDATED_AT_COLUMN};
+    public static final String[] HIA2_TABLE_COLUMNS = {ID_COLUMN, PROVIDER_ID, INDICATOR_CODE, VALUE, DHIS_ID, STATUS, MONTH, CREATED_AT_COLUMN, UPDATED_AT_COLUMN};
 
     private static final String PROVIDER_ID_INDEX = "CREATE INDEX " + HIA2_TABLE_NAME + "_" + PROVIDER_ID + "_index ON " + HIA2_TABLE_NAME + "(" + PROVIDER_ID + " COLLATE NOCASE);";
     private static final String KEY_INDEX = "CREATE INDEX " + HIA2_TABLE_NAME + "_" + INDICATOR_CODE + "_index ON " + HIA2_TABLE_NAME + "(" + INDICATOR_CODE + " COLLATE NOCASE);";
@@ -86,6 +89,42 @@ public class HIA2Repository extends BaseRepository {
         }
     }
 
+    public List<DataElement> findByProviderIdAndMonth(String providerId, String month) {
+        List<DataElement> dataElements = null;
+        Cursor cursor = null;
+        try {
+            cursor = getPathRepository().getReadableDatabase().query(HIA2_TABLE_NAME, HIA2_TABLE_COLUMNS, PROVIDER_ID + " = ? AND " + MONTH + "=?", new String[]{providerId, month}, null, null, null, null);
+            dataElements = readAllDataElements(cursor);
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
+
+        return dataElements;
+    }
+
+    private List<DataElement> readAllDataElements(Cursor cursor) {
+        List<DataElement> dataElements = new ArrayList<>();
+        try {
+            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+
+                    DataElement dataElement = new DataElement();
+                    dataElement.setDhis2Id(cursor.getString(cursor.getColumnIndex(DHIS_ID)));
+                    dataElement.setName(cursor.getString(cursor.getColumnIndex(INDICATOR_CODE)));
+                    dataElement.setValue(cursor.getString(cursor.getColumnIndex(VALUE)));
+                    dataElements.add(dataElement);
+
+                    cursor.moveToNext();
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        } finally {
+            cursor.close();
+        }
+        return dataElements;
+
+    }
 
     private Long checkIfExists(String indicatorCode, String providerId, String month) {
         Cursor mCursor = null;

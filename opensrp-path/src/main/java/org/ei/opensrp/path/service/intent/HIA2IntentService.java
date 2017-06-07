@@ -2,15 +2,19 @@ package org.ei.opensrp.path.service.intent;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.util.Log;
 
+import org.ei.opensrp.Context;
 import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.domain.DataElement;
 import org.ei.opensrp.path.repository.HIA2Repository;
 import org.ei.opensrp.path.service.HIA2Service;
-import org.ei.opensrp.repository.AllSharedPreferences;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
+
+import util.ReportUtils;
 
 
 /**
@@ -20,22 +24,31 @@ public class HIA2IntentService extends IntentService {
     private static final String TAG = HIA2IntentService.class.getCanonicalName();
     private HIA2Repository hia2Repository;
     private HIA2Service hia2Service;
-    SharedPreferences preferences;
-    AllSharedPreferences allSharedPreferences;
+    private boolean generateReport;
 
-
-    public HIA2IntentService() {
+    public HIA2IntentService(final boolean _generateReport) {
 
         super("HIA2IntentService");
-
+        generateReport = _generateReport;
 
     }
 
+    /**
+     * Build indicators,save them to the db and generate report
+     *
+     * @param intent
+     */
     @Override
     protected void onHandleIntent(Intent intent) {
         try {
+            String userName = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
+            String month = HIA2Service.dfyymm.format(new Date());
             Map<String, Map<String, Object>> hia2Report = hia2Service.generateIndicators(VaccinatorApplication.getInstance().getRepository().getWritableDatabase());
             hia2Repository.save(hia2Report);
+            if (generateReport) {
+                List<DataElement> dataElements = hia2Repository.findByProviderIdAndMonth(userName, month);
+                ReportUtils.createReport(this, dataElements,HIA2Service.REPORT_NAME);
+            }
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
         }
