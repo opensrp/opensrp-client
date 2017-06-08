@@ -277,6 +277,7 @@ public class StockRepository extends BaseRepository {
                 sum = sum +0;
             }
         }
+        c.close();
         return sum;
     }
     public int getBalanceFromNameAndDate(String Name,Long updatedat) {
@@ -290,12 +291,16 @@ public class StockRepository extends BaseRepository {
         }
         Cursor c =database.rawQuery("Select sum(value) from Stocks Where date_created <=" +updatedat+ " and "+ VACCINE_TYPE_ID + " = "+id_for_vaccine,null);
         if(c.getCount() == 0) {
+            c.close();
             return 0;
         }else{
             c.moveToFirst();
             if(c.getString(0) != null) {
-                return Integer.parseInt(c.getString(0));
+                int toreturn = Integer.parseInt(c.getString(0));
+                c.close();
+                return toreturn;
             }else{
+                c.close();
                 return 0;
             }
         }

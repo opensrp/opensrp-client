@@ -1,5 +1,6 @@
 package org.ei.opensrp.path.fragment;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -14,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -357,6 +360,31 @@ public class PathJsonFormFragment extends JsonFormFragment {
             }
         }
     };
+
+    public void getLabelViewFromTag(String labeltext,String todisplay){
+//        super.getMainView();
+        updateRelevantTextView(getMainView(),todisplay,labeltext);
+
+//                findViewWithTag("labelHeaderImage")).setText("is it possible");
+    }
+    public void updateRelevantTextView(LinearLayout mMainView, String textstring, String currentKey) {
+        if(mMainView != null) {
+            int childCount = mMainView.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View view = mMainView.getChildAt(i);
+                if (view instanceof TextView) {
+                    TextView textView = (TextView) view;
+                    String key = (String) textView.getTag(com.vijay.jsonwizard.R.id.key);
+                    if (key.equals(currentKey)) {
+                        textView.setText(textstring);
+                    }
+                }
+//            else if(view instanceof  ViewGroup){
+//                updateRelevantTextView((ViewGroup) view,textstring,currentKey);
+//            }
+            }
+        }
+    }
 
 
 }
