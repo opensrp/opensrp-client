@@ -315,6 +315,9 @@ public class ServiceGroup extends LinearLayout implements View.OnClickListener,
             ServiceType nextServiceType = (ServiceType) nv.get("service");
             tag.setStatus(nv.get("status").toString());
             tag.setAlert((Alert) nv.get("alert"));
+            if (nv.get("date") != null && nv.get("date") instanceof DateTime) {
+                tag.setVaccineDate((DateTime) nv.get("date"));
+            }
             tag.setServiceType(nextServiceType);
         }
     }
