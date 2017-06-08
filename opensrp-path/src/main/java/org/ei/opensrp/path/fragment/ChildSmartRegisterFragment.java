@@ -178,6 +178,7 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
             toggleFilterSelection();
         }
         SyncStatusBroadcastReceiver.getInstance().addSyncStatusListener(this);
+        refreshSyncStatusViews();
     }
 
     @Override
@@ -253,7 +254,6 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
 
         View globalSearchButton = mView.findViewById(R.id.global_search);
         globalSearchButton.setOnClickListener(clientActionHandler);
-        refreshSyncStatusViews();
     }
 
     @Override

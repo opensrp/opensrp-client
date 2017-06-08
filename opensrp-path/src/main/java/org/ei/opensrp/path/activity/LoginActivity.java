@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -32,6 +33,7 @@ import org.ei.opensrp.Context;
 import org.ei.opensrp.domain.LoginResponse;
 import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.domain.ResponseStatus;
+import org.ei.opensrp.domain.TimeStatus;
 import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
@@ -39,6 +41,7 @@ import org.ei.opensrp.path.domain.Vaccine_types;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.Vaccine_typesRepository;
 import org.ei.opensrp.path.service.intent.PullUniqueIdsIntentService;
+import org.ei.opensrp.path.service.intent.ZScoreRefreshIntentService;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
 import org.ei.opensrp.util.Log;
@@ -53,10 +56,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import util.Utils;
+import util.PathConstants;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS;
@@ -79,7 +84,7 @@ public class LoginActivity extends Activity {
     public static final String KANNADA_LANGUAGE = "Kannada";
     public static final String URDU_LANGUAGE = "Urdu";
     android.content.Context appContext;
-
+    private RemoteLoginTask remoteLoginTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -154,7 +159,7 @@ public class LoginActivity extends Activity {
     }
 
     public void login(final View view) {
-        login(view, true);
+        login(view, !context.allSharedPreferences().fetchForceRemoteLogin());
     }
 
     public void login(final View view, boolean localLogin) {
@@ -204,7 +209,9 @@ public class LoginActivity extends Activity {
     }
 
     private void localLogin(View view, String userName, String password) {
-        if (context.userService().isUserInValidGroup(userName, password)) {
+        view.setClickable(true);
+        if (context.userService().isUserInValidGroup(userName, password)
+                && (!PathConstants.TIME_CHECK||TimeStatus.OK.equals(context.userService().validateStoredServerTimeZone()))) {
             localLoginWith(userName, password);
         } else {
 
@@ -217,14 +224,27 @@ public class LoginActivity extends Activity {
     private void remoteLogin(final View view, final String userName, final String password) {
         tryRemoteLogin(userName, password, new Listener<LoginResponse>() {
             public void onEvent(LoginResponse loginResponse) {
+                view.setClickable(true);
                 if (loginResponse == SUCCESS) {
                     if (context.userService().isUserInPioneerGroup(userName)) {
-                        remoteLoginWith(userName, password, loginResponse.payload());
-                        Intent intent = new Intent(appContext, PullUniqueIdsIntentService.class);
-                        appContext.startService(intent);
+                        TimeStatus timeStatus = context.userService().validateDeviceTime(
+                                loginResponse.payload(), PathConstants.MAX_SERVER_TIME_DIFFERENCE);
+                        if (!PathConstants.TIME_CHECK||timeStatus.equals(TimeStatus.OK)) {
+                            remoteLoginWith(userName, password, loginResponse.payload());
+                            Intent intent = new Intent(appContext, PullUniqueIdsIntentService.class);
+                            appContext.startService(intent);
+                        } else {
+                            if (timeStatus.equals(TimeStatus.TIMEZONE_MISMATCH)) {
+                                TimeZone serverTimeZone = context.userService()
+                                        .getServerTimeZone(loginResponse.payload());
+                                showErrorDialog(getString(timeStatus.getMessage(),
+                                        serverTimeZone.getDisplayName()));
+                            } else {
+                                showErrorDialog(getString(timeStatus.getMessage()));
+                            }
+                        }
                     } else {// Valid user from wrong group trying to log in
                         showErrorDialog(getResources().getString(R.string.unauthorized_group));
-                        view.setClickable(true);
                     }
                 } else {
                     if (loginResponse == null) {
@@ -239,7 +259,6 @@ public class LoginActivity extends Activity {
                         }
 //                        showErrorDialog(loginResponse.message());
                     }
-                    view.setClickable(true);
                 }
             }
         });
@@ -306,27 +325,42 @@ public class LoginActivity extends Activity {
     }
 
     private void tryRemoteLogin(final String userName, final String password, final Listener<LoginResponse> afterLoginCheck) {
-        LockingBackgroundTask task = new LockingBackgroundTask(new ProgressIndicator() {
-            @Override
-            public void setVisible() {
-                progressDialog.show();
-            }
+        if (remoteLoginTask != null && !remoteLoginTask.isCancelled()) {
+            remoteLoginTask.cancel(true);
+        }
 
-            @Override
-            public void setInvisible() {
-                progressDialog.dismiss();
-            }
-        });
+        remoteLoginTask = new RemoteLoginTask(userName, password, afterLoginCheck);
+        remoteLoginTask.execute();
+    }
 
-        task.doActionInBackground(new BackgroundAction<LoginResponse>() {
-            public LoginResponse actionToDoInBackgroundThread() {
-                return context.userService().isValidRemoteLogin(userName, password);
-            }
+    private class RemoteLoginTask extends AsyncTask<Void, Void, LoginResponse> {
+        private final String userName;
+        private final String password;
+        private final Listener<LoginResponse> afterLoginCheck;
 
-            public void postExecuteInUIThread(LoginResponse result) {
-                afterLoginCheck.onEvent(result);
-            }
-        });
+        public RemoteLoginTask(String userName, String password, Listener<LoginResponse> afterLoginCheck) {
+            this.userName = userName;
+            this.password = password;
+            this.afterLoginCheck = afterLoginCheck;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.show();
+        }
+
+        @Override
+        protected LoginResponse doInBackground(Void... params) {
+            return context.userService().isValidRemoteLogin(userName, password);
+        }
+
+        @Override
+        protected void onPostExecute(LoginResponse loginResponse) {
+            super.onPostExecute(loginResponse);
+            progressDialog.dismiss();
+            afterLoginCheck.onEvent(loginResponse);
+        }
     }
 
     private void fillUserIfExists() {
@@ -344,6 +378,7 @@ public class LoginActivity extends Activity {
     private void localLoginWith(String userName, String password) {
         context.userService().localLogin(userName, password);
         goToHome(false);
+        startZScoreIntentService();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -354,9 +389,15 @@ public class LoginActivity extends Activity {
         }).start();
     }
 
+    private void startZScoreIntentService() {
+        Intent intent = new Intent(this, ZScoreRefreshIntentService.class);
+        startService(intent);
+    }
+
     private void remoteLoginWith(String userName, String password, String userInfo) {
         context.userService().remoteLogin(userName, password, userInfo);
         goToHome(true);
+        startZScoreIntentService();
         DrishtiSyncScheduler.startOnlyIfConnectedToNetwork(getApplicationContext());
     }
 

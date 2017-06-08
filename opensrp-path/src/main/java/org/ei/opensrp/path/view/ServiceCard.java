@@ -14,7 +14,6 @@ import android.widget.TextView;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.domain.ServiceWrapper;
-import org.ei.opensrp.path.domain.VaccineWrapper;
 import org.joda.time.DateTime;
 
 import java.text.SimpleDateFormat;
@@ -150,18 +149,20 @@ public class ServiceCard extends LinearLayout {
     }
 
     private void updateStateUi() {
+        setVisibility(VISIBLE);
         switch (state) {
             case NOT_DUE:
-                setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_white));
+                setBackgroundResource(R.drawable.vaccine_card_background_white);
                 statusIV.setVisibility(GONE);
                 undoB.setVisibility(GONE);
                 nameTV.setVisibility(VISIBLE);
                 nameTV.setTextColor(context.getResources().getColor(R.color.silver));
                 nameTV.setText(getVaccineName());
                 setClickable(false);
+                setVisibility(GONE);
                 break;
             case DUE:
-                setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_blue));
+                setBackgroundResource(R.drawable.vaccine_card_background_blue);
                 statusIV.setVisibility(GONE);
                 undoB.setVisibility(GONE);
                 nameTV.setVisibility(VISIBLE);
@@ -174,7 +175,7 @@ public class ServiceCard extends LinearLayout {
                 setClickable(true);
                 break;
             case DONE_CAN_BE_UNDONE:
-                setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_white));
+                setBackgroundResource(R.drawable.vaccine_card_background_white);
                 statusIV.setVisibility(VISIBLE);
                 undoB.setVisibility(VISIBLE);
                 nameTV.setVisibility(VISIBLE);
@@ -189,7 +190,7 @@ public class ServiceCard extends LinearLayout {
                 setClickable(false);
                 break;
             case DONE_CAN_NOT_BE_UNDONE:
-                setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_white));
+                setBackgroundResource(R.drawable.vaccine_card_background_white);
                 statusIV.setVisibility(VISIBLE);
                 undoB.setVisibility(GONE);
                 nameTV.setVisibility(VISIBLE);
@@ -198,7 +199,7 @@ public class ServiceCard extends LinearLayout {
                 setClickable(false);
                 break;
             case OVERDUE:
-                setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_red));
+                setBackgroundResource(R.drawable.vaccine_card_background_red);
                 statusIV.setVisibility(GONE);
                 undoB.setVisibility(GONE);
                 nameTV.setVisibility(VISIBLE);
@@ -213,7 +214,7 @@ public class ServiceCard extends LinearLayout {
                 setClickable(true);
                 break;
             case EXPIRED:
-                setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_white));
+                setBackgroundResource(R.drawable.vaccine_card_background_white);
                 statusIV.setVisibility(GONE);
                 undoB.setVisibility(GONE);
                 nameTV.setVisibility(VISIBLE);

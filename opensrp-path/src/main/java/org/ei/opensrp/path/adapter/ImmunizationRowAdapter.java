@@ -1,4 +1,4 @@
-package org.ei.opensrp.path.viewComponents;
+package org.ei.opensrp.path.adapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,13 +11,14 @@ import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.path.domain.Photo;
 import org.ei.opensrp.path.domain.VaccineWrapper;
 import org.ei.opensrp.path.view.VaccineCard;
+import org.ei.opensrp.path.view.ImmunizationRowCard;
+import org.ei.opensrp.path.view.ImmunizationRowGroup;
 import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -31,7 +32,7 @@ import static util.Utils.getValue;
  * Created by raihan on 13/03/2017.
  */
 public class ImmunizationRowAdapter extends BaseAdapter {
-    private static final String TAG = "VaccineCardAdapter";
+    private static final String TAG = "ImmunizationRowAdapter";
     private final Context context;
     private HashMap<String, ImmunizationRowCard> vaccineCards;
     private final ImmunizationRowGroup vaccineGroup;
@@ -71,7 +72,7 @@ public class ImmunizationRowAdapter extends BaseAdapter {
                     .getJSONObject(position);
             String vaccineName = vaccineData.getString("name");
             if (!vaccineCards.containsKey(vaccineName)) {
-                ImmunizationRowCard vaccineCard = new ImmunizationRowCard(context,editmode);
+                ImmunizationRowCard vaccineCard = new ImmunizationRowCard(context, editmode);
                 vaccineCard.setOnVaccineStateChangeListener(vaccineGroup);
                 vaccineCard.setOnClickListener(vaccineGroup);
                 vaccineCard.getUndoB().setOnClickListener(vaccineGroup);
@@ -98,11 +99,6 @@ public class ImmunizationRowAdapter extends BaseAdapter {
                 vaccineWrapper.setPatientNumber(zeirId);
                 vaccineWrapper.setPatientName(getValue(vaccineGroup.getChildDetails().getColumnmaps(), "first_name", true) + " " + getValue(vaccineGroup.getChildDetails().getColumnmaps(), "last_name", true));
 
-//                updateWrapper(vaccineWrapper);
-//                vaccineCard.setVaccineWrapper(vaccineWrapper);
-//
-//                vaccineCards.put(vaccineName, vaccineCard);
-//                vaccineGroup.toggleRecordAllTV();
                 vaccineGroup.updateWrapper(vaccineWrapper);
                 vaccineGroup.updateWrapperStatus(vaccineWrapper);
                 vaccineCard.setVaccineWrapper(vaccineWrapper);

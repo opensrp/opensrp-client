@@ -149,7 +149,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
-                            android:text="Loss to follow-up"
+                            android:text="Lost to Follow-Up"
                             android:textColor="@color/black"
                             android:textSize="22sp"
                             android:password="false" />
@@ -158,7 +158,7 @@
                             style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Notifications off. Child cannot be located or contacted"
+                            android:text="Notifications off. Child cannot be located or contacted."
                             android:singleLine="false"
                             android:textColor="@color/client_list_grey"
                             android:textSize="22sp" />

@@ -153,7 +153,7 @@ public class VaccineCard extends LinearLayout {
     private void updateStateUi() {
         switch (state) {
             case NOT_DUE:
-                setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_white));
+                setBackgroundResource(R.drawable.vaccine_card_background_white);
                 statusIV.setVisibility(GONE);
                 undoB.setVisibility(GONE);
                 nameTV.setVisibility(VISIBLE);
@@ -162,7 +162,7 @@ public class VaccineCard extends LinearLayout {
                 setClickable(false);
                 break;
             case DUE:
-                setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_blue));
+                setBackgroundResource(R.drawable.vaccine_card_background_blue);
                 statusIV.setVisibility(GONE);
                 undoB.setVisibility(GONE);
                 nameTV.setVisibility(VISIBLE);
@@ -175,7 +175,7 @@ public class VaccineCard extends LinearLayout {
                 setClickable(true);
                 break;
             case DONE_CAN_BE_UNDONE:
-                setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_white));
+                setBackgroundResource(R.drawable.vaccine_card_background_white);
                 statusIV.setVisibility(VISIBLE);
                 undoB.setVisibility(VISIBLE);
                 nameTV.setVisibility(VISIBLE);
@@ -190,7 +190,7 @@ public class VaccineCard extends LinearLayout {
                 setClickable(false);
                 break;
             case DONE_CAN_NOT_BE_UNDONE:
-                setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_white));
+                setBackgroundResource(R.drawable.vaccine_card_background_white);
                 statusIV.setVisibility(VISIBLE);
                 undoB.setVisibility(GONE);
                 nameTV.setVisibility(VISIBLE);
@@ -199,7 +199,7 @@ public class VaccineCard extends LinearLayout {
                 setClickable(false);
                 break;
             case OVERDUE:
-                setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_red));
+                setBackgroundResource(R.drawable.vaccine_card_background_red);
                 statusIV.setVisibility(GONE);
                 undoB.setVisibility(GONE);
                 nameTV.setVisibility(VISIBLE);
@@ -214,7 +214,7 @@ public class VaccineCard extends LinearLayout {
                 setClickable(true);
                 break;
             case EXPIRED:
-                setBackgroundDrawable(getResources().getDrawable(R.drawable.vaccine_card_background_white));
+                setBackgroundResource(R.drawable.vaccine_card_background_white);
                 statusIV.setVisibility(GONE);
                 undoB.setVisibility(GONE);
                 nameTV.setVisibility(VISIBLE);

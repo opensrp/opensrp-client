@@ -19,6 +19,7 @@ import org.ei.opensrp.path.db.Column;
 import org.ei.opensrp.path.db.ColumnAttribute;
 import org.ei.opensrp.path.db.Event;
 import org.ei.opensrp.path.domain.Vaccine_names;
+import org.ei.opensrp.repository.AlertRepository;
 import org.ei.opensrp.repository.Repository;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
@@ -41,6 +42,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import util.DatabaseUtils;
 import util.JsonFormUtils;
 import util.MoveToMyCatchmentUtils;
 import util.PathConstants;
@@ -51,9 +53,11 @@ public class PathRepository extends Repository {
     protected SQLiteDatabase readableDatabase;
     protected SQLiteDatabase writableDatabase;
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private Context context;
 
     public PathRepository(Context context) {
         super(context, PathConstants.DATABASE_NAME, PathConstants.DATABASE_VERSION, org.ei.opensrp.Context.getInstance().session(), VaccinatorApplication.createCommonFtsObject(), org.ei.opensrp.Context.getInstance().sharedRepositoriesArray());
+        this.context = context;
     }
 
     @Override
@@ -85,40 +89,35 @@ public class PathRepository extends Repository {
                 case 3:
                     upgradeToVersion3(db);
                     break;
-                case 5:
+                case 4:
                     upgradeToVersion4(db);
                     break;
-                case 6:
+                case 5:
                     upgradeToVersion5(db);
                     break;
+                case 6:
+                    upgradeToVersion6(db);
+                    break;
+                case 7:
+                    upgradeToVersion7(db);
                 default:
-
                     break;
             }
             upgradeTo++;
         }
     }
 
-    private void upgradeToVersion4(SQLiteDatabase db) {
+    private void upgradeToVersion7(SQLiteDatabase db) {
         try {
 //            db.execSQL("DROP TABLE IF EXISTS  ");
             StockRepository.createTable(db);
-//            Vaccine_NamesRepository.createTable(db);
-//            Vaccine_typesRepository.createTable(db);
-        } catch (Exception e) {
-            Log.e(TAG, "upgradeToVersion4 " + e.getMessage());
-        }
-    }
-    private void upgradeToVersion5(SQLiteDatabase db) {
-        try {
-//            db.execSQL("DROP TABLE IF EXISTS  ");
-//            StockRepository.createTable(db);
             Vaccine_NamesRepository.createTable(db);
             Vaccine_typesRepository.createTable(db);
         } catch (Exception e) {
-            Log.e(TAG, "upgradeToVersion5 " + e.getMessage());
+            Log.e(TAG, "upgradeToVersion7 " + e.getMessage());
         }
     }
+
 
     @Override
     public SQLiteDatabase getReadableDatabase() {
@@ -628,7 +627,7 @@ public class PathRepository extends Repository {
                 if (StringUtils.isBlank(jsonEventStr) || jsonEventStr.equals("{}")) { // Skip blank/empty json string
                     continue;
                 }
-
+                jsonEventStr=jsonEventStr.replaceAll("'","");
                 JSONObject jsonObectEvent = new JSONObject(jsonEventStr);
                 events.add(jsonObectEvent);
                 if (jsonObectEvent.has(event_column.baseEntityId.name())) {
@@ -1381,7 +1380,7 @@ public class PathRepository extends Repository {
             Log.d(TAG, "Rename query is\n---------------------------\n" + renameQuery);
             database.execSQL(renameQuery);
         } catch (Exception e) {
-            Log.e(TAG, "upgradeToVersion2 " + e.getMessage());
+            Log.e(TAG, "upgradeToVersion2 " + Log.getStackTraceString(e));
         }
     }
 
@@ -1396,7 +1395,37 @@ public class PathRepository extends Repository {
             db.execSQL(WeightRepository.UPDATE_TABLE_ADD_FORMSUBMISSION_ID_COL);
             db.execSQL(WeightRepository.FORMSUBMISSION_INDEX);
         } catch (Exception e) {
-            Log.e(TAG, "upgradeToVersion3 " + e.getMessage());
+            Log.e(TAG, "upgradeToVersion3 " + Log.getStackTraceString(e));
+        }
+    }
+
+    private void upgradeToVersion4(SQLiteDatabase db) {
+        try {
+            db.execSQL(AlertRepository.ALTER_ADD_OFFLINE_COLUMN);
+            db.execSQL(AlertRepository.OFFLINE_INDEX);
+        } catch (Exception e) {
+            Log.e(TAG, "upgradeToVersion4" + Log.getStackTraceString(e));
+        }
+    }
+
+    private void upgradeToVersion5(SQLiteDatabase db) {
+        try {
+            RecurringServiceTypeRepository.createTable(db);
+            RecurringServiceRecordRepository.createTable(db);
+
+            RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
+            DatabaseUtils.populateRecurringServices(context, db, recurringServiceTypeRepository);
+        } catch (Exception e) {
+            Log.e(TAG, "upgradeToVersion5 " + Log.getStackTraceString(e));
+        }
+    }
+
+    private void upgradeToVersion6(SQLiteDatabase db) {
+        try {
+            ZScoreRepository.createTable(db);
+            db.execSQL(WeightRepository.ALTER_ADD_Z_SCORE_COLUMN);
+        } catch (Exception e) {
+            Log.e(TAG, "upgradeToVersion6" + Log.getStackTraceString(e));
         }
     }
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import org.apache.commons.lang3.StringUtils;
+import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.path.domain.Photo;
 import org.ei.opensrp.path.domain.ServiceWrapper;
 import org.ei.opensrp.path.view.ServiceCard;
@@ -19,10 +20,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 import util.ImageUtils;
 import util.Utils;
 
+import static util.Utils.fillValue;
 import static util.Utils.getName;
 import static util.Utils.getValue;
 
@@ -43,12 +47,11 @@ public class ServiceCardAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        try {
-            return serviceGroup.getServiceData().getJSONArray("services").length();
-        } catch (JSONException e) {
-            e.printStackTrace();
+        List<String> types = serviceGroup.getServiceTypeKeys();
+        if (types == null || types.isEmpty()) {
+            return 0;
         }
-        return 0;
+        return types.size();
     }
 
     @Override
@@ -64,10 +67,8 @@ public class ServiceCardAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         try {
-            JSONObject vaccineData = serviceGroup.getServiceData().getJSONArray("services")
-                    .getJSONObject(position);
-            String serviceType = vaccineData.getString("type");
-            if (!serviceCards.containsKey(serviceType)) {
+            String type = serviceGroup.getServiceTypeKeys().get(position);
+            if (!serviceCards.containsKey(type)) {
                 ServiceCard serviceCard = new ServiceCard(context);
                 serviceCard.setOnServiceStateChangeListener(serviceGroup);
                 serviceCard.setOnClickListener(serviceGroup);
@@ -76,8 +77,7 @@ public class ServiceCardAdapter extends BaseAdapter {
                 ServiceWrapper serviceWrapper = new ServiceWrapper();
                 serviceWrapper.setId(serviceGroup.getChildDetails().entityId());
                 serviceWrapper.setGender(serviceGroup.getChildDetails().getDetails().get("gender"));
-                serviceWrapper.setName(serviceType);
-                serviceWrapper.setDefaultName(serviceType);
+                serviceWrapper.setDefaultName(type);
 
                 String dobString = Utils.getValue(serviceGroup.getChildDetails().getColumnmaps(), "dob", false);
                 if (StringUtils.isNotBlank(dobString)) {
@@ -98,49 +98,75 @@ public class ServiceCardAdapter extends BaseAdapter {
                 String childName = getName(firstName, lastName);
                 serviceWrapper.setPatientName(childName.trim());
 
+                serviceGroup.updateWrapperStatus(type, serviceWrapper);
                 serviceGroup.updateWrapper(serviceWrapper);
-                serviceGroup.updateWrapperStatus(serviceWrapper);
                 serviceCard.setServiceWrapper(serviceWrapper);
 
-                serviceCards.put(serviceType, serviceCard);
+                serviceCards.put(type, serviceCard);
+
+                visibilityCheck();
             }
 
-            return serviceCards.get(serviceType);
-        } catch (JSONException e) {
+            return serviceCards.get(type);
+        } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
         }
 
         return null;
     }
 
-    public void update(ArrayList<ServiceWrapper> servicesToUpdate) {
+    public void updateAll() {
         if (serviceCards != null) {
-            if (servicesToUpdate == null) {// Update all vaccines
-                for (ServiceCard curCard : serviceCards.values()) {
-                    if (curCard != null) curCard.updateState();
-                }
-            } else {// Update just the vaccines specified
-                for (ServiceWrapper currWrapper : servicesToUpdate) {
-                    if (serviceCards.containsKey(currWrapper.getName())) {
-                        serviceCards.get(currWrapper.getName()).updateState();
+            // Update all vaccines
+            for (ServiceCard curCard : serviceCards.values()) {
+                if (curCard != null) curCard.updateState();
+            }
+        }
+
+        visibilityCheck();
+    }
+
+
+    public void visibilityCheck() {
+        // if all cards have been updated
+        if (getCount() == serviceCards.size()) {
+            if (atLeastOneVisibleCard()) {
+                serviceGroup.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        serviceGroup.setVisibility(View.VISIBLE);
                     }
-                }
+                });
+            } else {
+                serviceGroup.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        serviceGroup.setVisibility(View.GONE);
+                    }
+                });
             }
         }
     }
 
-    public ArrayList<ServiceWrapper> getDueServices() {
-        ArrayList<ServiceWrapper> dueVaccines = new ArrayList<>();
+    public boolean atLeastOneVisibleCard() {
         if (serviceCards != null) {
-            for (ServiceCard curCard : serviceCards.values()) {
-                if (curCard != null && (curCard.getState().equals(VaccineCard.State.DUE)
-                        || curCard.getState().equals(VaccineCard.State.OVERDUE))) {
-                    dueVaccines.add(curCard.getServiceWrapper());
+            for (ServiceCard serviceCard : serviceCards.values()) {
+                if (serviceCard.getVisibility() == View.VISIBLE) {
+                    return true;
                 }
             }
         }
+        return false;
+    }
 
-        return dueVaccines;
+    public List<ServiceWrapper> allWrappers() {
+        List<ServiceWrapper> serviceWrappers = new ArrayList<>();
+        if (serviceCards != null) {
+            for (ServiceCard serviceCard : serviceCards.values()) {
+                serviceWrappers.add(serviceCard.getServiceWrapper());
+            }
+        }
+        return serviceWrappers;
     }
 
 }

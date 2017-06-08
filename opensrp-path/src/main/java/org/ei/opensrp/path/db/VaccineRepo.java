@@ -90,6 +90,17 @@ public class VaccineRepo {
         return vl;
     }
 
+    public static Vaccine getVaccine(String name, String category) {
+        for (Vaccine curVaccine : Vaccine.values()) {
+            if (curVaccine.display.equalsIgnoreCase(name)
+                    && curVaccine.category.equalsIgnoreCase(category)) {
+                return curVaccine;
+            }
+        }
+
+        return null;
+    }
+
     public static ArrayList<Vaccine> nextVaccines(String vaccine) {
         ArrayList<Vaccine> vl = new ArrayList<>();
         for (Vaccine v : Vaccine.values()) {
