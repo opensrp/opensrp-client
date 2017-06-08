@@ -38,6 +38,8 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Map;
 
+import util.NetworkUtils;
+
 import static org.ei.opensrp.domain.FetchStatus.fetched;
 import static org.ei.opensrp.domain.FetchStatus.fetchedFailed;
 import static org.ei.opensrp.domain.FetchStatus.nothingFetched;
@@ -83,46 +85,53 @@ public class PathUpdateActionsTask {
 
         task.doActionInBackground(new BackgroundAction<FetchStatus>() {
             public FetchStatus actionToDoInBackgroundThread() {
+                if (NetworkUtils.isNetworkAvailable()) {
+                    FetchStatus fetchStatusForForms = sync();
+                    FetchStatus fetchStatusForActions = actionService.fetchNewActions();
+                    pathAfterFetchListener.partialFetch(fetchStatusForActions);
 
-                FetchStatus fetchStatusForForms = sync();
-                FetchStatus fetchStatusForActions = actionService.fetchNewActions();
-                pathAfterFetchListener.partialFetch(fetchStatusForActions);
+                    startPullUniqueIdsIntentService(context);
 
-                startPullUniqueIdsIntentService(context);
+                    startVaccineIntentService(context);
+                    startWeightIntentService(context);
+                    startRecurringIntentService(context);
 
-                startVaccineIntentService(context);
-                startWeightIntentService(context);
-                startRecurringIntentService(context);
+                    startReplicationIntentService(context);
 
-                startReplicationIntentService(context);
-
-                startImageUploadIntentService(context);
+                    startImageUploadIntentService(context);
 
 
-                FetchStatus fetchStatusAdditional = additionalSyncService == null ? nothingFetched : additionalSyncService.sync();
+                    FetchStatus fetchStatusAdditional = additionalSyncService == null ? nothingFetched : additionalSyncService.sync();
 
-                if (org.ei.opensrp.Context.getInstance().configuration().shouldSyncForm()) {
+                    if (org.ei.opensrp.Context.getInstance().configuration().shouldSyncForm()) {
 
-                    allFormVersionSyncService.verifyFormsInFolder();
-                    FetchStatus fetchVersionStatus = allFormVersionSyncService.pullFormDefinitionFromServer();
-                    DownloadStatus downloadStatus = allFormVersionSyncService.downloadAllPendingFormFromServer();
+                        allFormVersionSyncService.verifyFormsInFolder();
+                        FetchStatus fetchVersionStatus = allFormVersionSyncService.pullFormDefinitionFromServer();
+                        DownloadStatus downloadStatus = allFormVersionSyncService.downloadAllPendingFormFromServer();
 
-                    if (downloadStatus == DownloadStatus.downloaded) {
-                        allFormVersionSyncService.unzipAllDownloadedFormFile();
+                        if (downloadStatus == DownloadStatus.downloaded) {
+                            allFormVersionSyncService.unzipAllDownloadedFormFile();
+                        }
+
+                        if (fetchVersionStatus == fetched || downloadStatus == DownloadStatus.downloaded) {
+                            return fetched;
+                        }
                     }
 
-                    if (fetchVersionStatus == fetched || downloadStatus == DownloadStatus.downloaded) {
+                    if (fetchStatusForActions == fetched || fetchStatusForForms == fetched || fetchStatusAdditional == fetched)
                         return fetched;
-                    }
+
+                    return fetchStatusForForms;
                 }
 
-                if (fetchStatusForActions == fetched || fetchStatusForForms == fetched || fetchStatusAdditional == fetched)
-                    return fetched;
-
-                return fetchStatusForForms;
+                return FetchStatus.noConnection;
             }
 
             public void postExecuteInUIThread(FetchStatus result) {
+                if (result.equals(FetchStatus.nothingFetched) || result.equals(FetchStatus.fetched)) {
+                    ECSyncUpdater ecSyncUpdater = ECSyncUpdater.getInstance(context);
+                    ecSyncUpdater.updateLastCheckTimeStamp(Calendar.getInstance().getTimeInMillis());
+                }
                 pathAfterFetchListener.afterFetch(result);
                 sendSyncStatusBroadcastMessage(context, result);
             }
@@ -138,14 +147,14 @@ public class PathUpdateActionsTask {
             // Retrieve database host from preferences
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
             AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
-            ecUpdater.updateLastCheckTimeStamp(Calendar.getInstance().getTimeInMillis());
             while (true) {
                 long startSyncTimeStamp = ecUpdater.getLastSyncTimeStamp();
 
                 int eCount = ecUpdater.fetchAllClientsAndEvents(AllConstants.SyncFilters.FILTER_PROVIDER, allSharedPreferences.fetchRegisteredANM());
                 totalCount += eCount;
 
-                if (eCount == 0 || eCount < 0) {
+                if (eCount <= 0) {
+                    if (eCount < 0) totalCount = eCount;
                     break;
                 }
 

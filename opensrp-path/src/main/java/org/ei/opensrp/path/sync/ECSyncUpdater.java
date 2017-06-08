@@ -43,35 +43,30 @@ public class ECSyncUpdater {
     }
 
 
-    private JSONObject fetchAsJsonObject(String filter, String filterValue) {
-        try {
-            HTTPAgent httpAgent = org.ei.opensrp.Context.getInstance().getHttpAgent();
-            String baseUrl = org.ei.opensrp.Context.getInstance().configuration().dristhiBaseURL();
-            if (baseUrl.endsWith("/")) {
-                baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("/"));
-            }
-
-            Long lastSyncDatetime = getLastSyncTimeStamp();
-            Log.i(ECSyncUpdater.class.getName(), "LAST SYNC DT :" + new DateTime(lastSyncDatetime));
-
-            String url = baseUrl + SEARCH_URL + "?" + filter + "=" + filterValue + "&serverVersion=" + lastSyncDatetime;
-            Log.i(ECSyncUpdater.class.getName(), "URL: " + url);
-
-            if (httpAgent == null) {
-                throw new Exception(SEARCH_URL + " http agent is null");
-            }
-
-            Response resp = httpAgent.fetch(url);
-            if (resp.isFailure()) {
-                throw new Exception(SEARCH_URL + " not returned data");
-            }
-
-            JSONObject jsonObject = new JSONObject((String) resp.payload());
-            return jsonObject;
-        } catch (Exception e) {
-            Log.e(getClass().getName(), "", e);
-            return new JSONObject();
+    private JSONObject fetchAsJsonObject(String filter, String filterValue) throws Exception {
+        HTTPAgent httpAgent = org.ei.opensrp.Context.getInstance().getHttpAgent();
+        String baseUrl = org.ei.opensrp.Context.getInstance().configuration().dristhiBaseURL();
+        if (baseUrl.endsWith("/")) {
+            baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("/"));
         }
+
+        Long lastSyncDatetime = getLastSyncTimeStamp();
+        Log.i(ECSyncUpdater.class.getName(), "LAST SYNC DT :" + new DateTime(lastSyncDatetime));
+
+        String url = baseUrl + SEARCH_URL + "?" + filter + "=" + filterValue + "&serverVersion=" + lastSyncDatetime;
+        Log.i(ECSyncUpdater.class.getName(), "URL: " + url);
+
+        if (httpAgent == null) {
+            throw new Exception(SEARCH_URL + " http agent is null");
+        }
+
+        Response resp = httpAgent.fetch(url);
+        if (resp.isFailure()) {
+            throw new Exception(SEARCH_URL + " not returned data");
+        }
+
+        JSONObject jsonObject = new JSONObject((String) resp.payload());
+        return jsonObject;
     }
 
     public int fetchAllClientsAndEvents(String filterName, String filterValue) {

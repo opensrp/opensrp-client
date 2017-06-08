@@ -56,6 +56,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import util.JsonFormUtils;
+import util.NetworkUtils;
 
 /**
  * Base activity class for all other PATH activity classes. Implements:
@@ -152,16 +153,29 @@ public abstract class BaseActivity extends AppCompatActivity
                         } else if (fetchStatus.equals(FetchStatus.fetched)
                                 || fetchStatus.equals(FetchStatus.nothingFetched)) {
                             syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_complete, Snackbar.LENGTH_LONG);
+                        } else if (fetchStatus.equals(FetchStatus.noConnection)) {
+                            syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_failed_no_internet, Snackbar.LENGTH_LONG);
                         }
                         syncStatusSnackbar.show();
                     }
-                    String lastSync = getLastSyncTime();
 
-                    if (!TextUtils.isEmpty(lastSync)) {
-                        lastSync = " " + String.format(getString(R.string.last_sync), lastSync);
-                    }
-                    syncMenuItem.setTitle(String.format(getString(R.string.sync_), lastSync));
+                    updateLastSyncText();
                 }
+            }
+        }
+    }
+
+    private void updateLastSyncText() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        if (navigationView != null && navigationView.getMenu() != null) {
+            MenuItem syncMenuItem = navigationView.getMenu().findItem(R.id.nav_sync);
+            if (syncMenuItem != null) {
+                String lastSync = getLastSyncTime();
+
+                if (!TextUtils.isEmpty(lastSync)) {
+                    lastSync = " " + String.format(getString(R.string.last_sync), lastSync);
+                }
+                syncMenuItem.setTitle(String.format(getString(R.string.sync_), lastSync));
             }
         }
     }
@@ -563,6 +577,9 @@ public abstract class BaseActivity extends AppCompatActivity
         @Override
         public void onDrawerOpened(View drawerView) {
             super.onDrawerOpened(drawerView);
+            if (!SyncStatusBroadcastReceiver.getInstance().isSyncing()) {
+                updateLastSyncText();
+            }
         }
 
         @Override

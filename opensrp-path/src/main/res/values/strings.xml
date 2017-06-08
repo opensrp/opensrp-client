@@ -226,5 +226,6 @@
     <string name="boys">Boys</string>
     <string name="weight_for_age">Weight-for-age %1$s</string>
     <string name="previous_weights">PREVIOUS WEIGHTS</string>
+    <string name="sync_failed_no_internet">Sync failed. Check your internet connection.</string>
 
 </resources>
