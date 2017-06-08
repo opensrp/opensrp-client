@@ -55,7 +55,7 @@
                 android:layout_marginBottom="20dp" />
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <org.ei.opensrp.view.customControls.CustomFontTextView
@@ -71,7 +71,8 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:weightSum="10">
 
                     <org.ei.opensrp.view.customControls.CustomFontTextView
                         android:layout_width="0dp"
@@ -81,9 +82,9 @@
                         android:id="@+id/month1"
                         android:textColor="@color/client_list_grey"
                         android:textSize="@dimen/noti_message_text_size"
-                        android:layout_weight="1" />
+                        android:layout_weight="3.5" />
                     <org.ei.opensrp.view.customControls.CustomFontTextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/CustomFontTextViewStyle.ClientList.Light"
                         android:text="14 vials"
@@ -95,7 +96,8 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:weightSum="10">
 
                     <org.ei.opensrp.view.customControls.CustomFontTextView
                         android:layout_width="0dp"
@@ -105,9 +107,9 @@
                         android:id="@+id/month2"
                         android:textColor="@color/client_list_grey"
                         android:textSize="@dimen/noti_message_text_size"
-                        android:layout_weight="1" />
+                        android:layout_weight="3.5" />
                     <org.ei.opensrp.view.customControls.CustomFontTextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/CustomFontTextViewStyle.ClientList.Light"
                         android:text="14 vials"
@@ -119,7 +121,8 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:weightSum="10">
 
                     <org.ei.opensrp.view.customControls.CustomFontTextView
                         android:layout_width="0dp"
@@ -129,13 +132,38 @@
                         android:id="@+id/month3"
                         android:textColor="@color/client_list_grey"
                         android:textSize="@dimen/noti_message_text_size"
-                        android:layout_weight="1" />
+                        android:layout_weight="3.5" />
                     <org.ei.opensrp.view.customControls.CustomFontTextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/CustomFontTextViewStyle.ClientList.Light"
                         android:text="14 vials"
                         android:id="@+id/month3vials"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="@dimen/noti_message_text_size"
+                        android:layout_weight="1" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="10">
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:text="3 month average"
+                        android:id="@+id/month3label"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="@dimen/noti_message_text_size"
+                        android:layout_weight="3.5" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:text=""
+                        android:id="@+id/month3average"
                         android:textColor="@color/client_list_grey"
                         android:textSize="@dimen/noti_message_text_size"
                         android:layout_weight="1" />

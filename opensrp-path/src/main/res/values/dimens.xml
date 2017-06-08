@@ -119,4 +119,7 @@
     <dimen name="weight_table_divider_height">1dp</dimen>
     <dimen name="table_contents_text_size">22sp</dimen>
     <dimen name="table_contents_text_height">33dp</dimen>
+    <dimen name="registerlinkwidth">85dp</dimen>
+    <dimen name="registerlinkheight">85dp</dimen>
+    <dimen name="custom_navigation_icon_size">45dp</dimen>
 </resources>

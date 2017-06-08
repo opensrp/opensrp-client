@@ -13,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
@@ -90,6 +92,7 @@ public class StockActivity extends BaseActivity {
             }
             nameInitials.setText(initials);
         }
+        createDrawerLayoutactions();
 //        toolbar.setOnLocationChangeListener(this);
 //
 
@@ -105,6 +108,17 @@ public class StockActivity extends BaseActivity {
         adapter.notifyDataSetChanged();
     }
 
+    private void createDrawerLayoutactions() {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        LinearLayout gotoregisterButton = (LinearLayout)drawer.findViewById(R.id.child_register);
+        gotoregisterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+
+    }
+
     @Override
     protected int getContentView() {
         return  R.layout.activity_stock;
@@ -112,21 +126,21 @@ public class StockActivity extends BaseActivity {
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_register) {
-//            startFormActivity("child_enrollment", null, null);
-        } else if (id == R.id.nav_record_vaccination_out_catchment) {
-//            startFormActivity("out_of_catchment_service", null, null);
-        } else if (id == R.id.stock) {
-            Intent intent = new Intent(this, StockActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_sync) {
-//            startSync();
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+//        int id = item.getItemId();
+//
+//        if (id == R.id.nav_register) {
+////            startFormActivity("child_enrollment", null, null);
+//        } else if (id == R.id.nav_record_vaccination_out_catchment) {
+////            startFormActivity("out_of_catchment_service", null, null);
+//        } else if (id == R.id.stock) {
+//            Intent intent = new Intent(this, StockActivity.class);
+//            startActivity(intent);
+//        } else if (id == R.id.nav_sync) {
+////            startSync();
+//        }
+//
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 

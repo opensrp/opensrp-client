@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.StockControlActivity;
 import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.domain.Stock;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.StockRepository;
 import org.ei.opensrp.util.StringUtil;
@@ -98,10 +100,87 @@ public class Planning_Stock_fragment extends Fragment {
         createGraphDataAndView(view);
         createStockInfoForlastThreeMonths(view);
         getValueForStock(view);
+        getLastThreeMonthStockIssued(view);
 
 
 
         return view;
+    }
+
+    private void getLastThreeMonthStockIssued(View view) {
+        TextView lastmonthlabel = (TextView)view.findViewById(R.id.month1);
+        TextView lastmonthvialsUsed = (TextView)view.findViewById(R.id.month1vials);
+        TextView secondlastmonthlabel = (TextView)view.findViewById(R.id.month2);
+        TextView secondlastmonthvialsUsed = (TextView)view.findViewById(R.id.month2vials);
+        TextView thirdmonthlabel = (TextView)view.findViewById(R.id.month3);
+        TextView thirdmonthvialsUsed = (TextView)view.findViewById(R.id.month3vials);
+        TextView threemonthaverage = (TextView)view.findViewById(R.id.month3average);
+
+
+
+
+
+        DateTime today = new DateTime(System.currentTimeMillis());
+        DateTime startofthismonth = today.dayOfMonth().withMinimumValue();
+
+        //////////////////////last month///////////////////////////////////////////////////////////
+        DateTime startofLastMonth = today.minusMonths(1).dayOfMonth().withMinimumValue();
+        String lastmonth = startofLastMonth.monthOfYear().getAsShortText();
+        String lastmonthyear = startofLastMonth.year().getAsShortText();
+
+        int stockissuedlastmonth = -1*getStockIssuedIntimeFrame(startofLastMonth,startofthismonth);
+
+        lastmonthlabel.setText(lastmonth + " "+ lastmonthyear);
+        lastmonthvialsUsed.setText(""+stockissuedlastmonth + " vials");
+        //////////////////////////////////////////////////////////////////////////////////////////
+
+        //////////////////////2nd last month///////////////////////////////////////////////////////////
+        DateTime startof2ndLastMonth = startofLastMonth.minusDays(1).dayOfMonth().withMinimumValue();
+        String secondlastmonth = startof2ndLastMonth.monthOfYear().getAsShortText();
+        String secondlastmonthyear = startof2ndLastMonth.year().getAsShortText();
+
+        int stockissued2ndlastmonth = -1*getStockIssuedIntimeFrame(startof2ndLastMonth,startofLastMonth);
+
+        secondlastmonthlabel.setText(secondlastmonth +" "+secondlastmonthyear);
+        secondlastmonthvialsUsed.setText(""+stockissued2ndlastmonth + " vials");
+        //////////////////////////////////////////////////////////////////////////////////////////
+
+        //////////////////////3rd last month///////////////////////////////////////////////////////////
+        DateTime startof3rdLastMonth = startof2ndLastMonth.minusDays(1).dayOfMonth().withMinimumValue();
+        String thirdlastmonth = startof3rdLastMonth.monthOfYear().getAsShortText();
+        String thirdlastmonthyear = startof3rdLastMonth.year().getAsShortText();
+        int stockissued3rdlastmonth = -1*getStockIssuedIntimeFrame(startof3rdLastMonth,startof2ndLastMonth);
+
+        thirdmonthlabel.setText(thirdlastmonth +" "+thirdlastmonthyear);
+        thirdmonthvialsUsed.setText(""+stockissued3rdlastmonth + " vials");
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+
+        int threemonthaveragevalue = (int) Math.ceil((double)(stockissuedlastmonth+stockissued2ndlastmonth+stockissued3rdlastmonth)/3);
+        threemonthaverage.setText(threemonthaveragevalue+" vials");
+
+    }
+
+    private int getStockIssuedIntimeFrame(DateTime startofLastMonth, DateTime startofthismonth) {
+        int sum = 0;
+        PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+        net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
+
+        Cursor c = db.rawQuery("Select sum(value) from Stocks where " + StockRepository.DATE_CREATED + " >= " + startofLastMonth.toDate().getTime()+" and "+
+                StockRepository.DATE_CREATED + " < " + startofthismonth.toDate().getTime()+" and "+
+                StockRepository.TRANSACTION_TYPE + " = '"+ Stock.issued+"' and "+
+                StockRepository.VACCINE_TYPE_ID + " = "+ ((StockControlActivity)getActivity()).vaccine_type.getId(), null);
+        String stockvalue = "0";
+        if(c.getCount()>0) {
+            c.moveToFirst();
+            if(c.getString(0)!=null && !StringUtils.isBlank(c.getString(0)))
+                stockvalue = c.getString(0);
+            c.close();
+        }else{
+            c.close();
+        }
+        sum = sum + Integer.parseInt(stockvalue);
+        return sum;
     }
 
     private void getValueForStock(View view) {
