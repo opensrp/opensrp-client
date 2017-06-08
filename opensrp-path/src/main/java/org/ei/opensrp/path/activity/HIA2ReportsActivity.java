@@ -12,8 +12,8 @@ import android.support.v7.widget.Toolbar;
 
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.fragment.DailyTalliesFragment;
-import org.ei.opensrp.path.fragment.DraftReportsFragment;
-import org.ei.opensrp.path.fragment.SentReportsFragment;
+import org.ei.opensrp.path.fragment.DraftMonthlyFragment;
+import org.ei.opensrp.path.fragment.SentMonthlyFragment;
 
 /**
  * Created by coder on 6/7/17.
@@ -35,6 +35,8 @@ public class HIA2ReportsActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     private TabLayout tabLayout;
+
+    private int monthlyCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,9 +80,9 @@ public class HIA2ReportsActivity extends AppCompatActivity {
                 case 0:
                     return DailyTalliesFragment.newInstance();
                 case 1:
-                    return DraftReportsFragment.newInstance();
+                    return DraftMonthlyFragment.newInstance();
                 case 2:
-                    return SentReportsFragment.newInstance();
+                    return SentMonthlyFragment.newInstance();
             }
             return null;
         }
@@ -96,9 +98,9 @@ public class HIA2ReportsActivity extends AppCompatActivity {
                 case 0:
                     return getString(R.string.hia2_daily_tallies);
                 case 1:
-                    return getString(R.string.hia2_draft_reports);
+                    return String.format(getString(R.string.hia2_draft_monthly), monthlyCount);
                 case 2:
-                    return getString(R.string.hia2_sent_reports);
+                    return getString(R.string.hia2_sent_monthly);
 
             }
             return null;

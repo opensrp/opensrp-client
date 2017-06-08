@@ -228,9 +228,13 @@
     <string name="previous_weights">PREVIOUS WEIGHTS</string>
     <string name="side_nav_hia2">HIA 2 Reports</string>
     <string name="hia2_daily_tallies">Daily Tallies</string>
-    <string name="hia2_draft_reports">Draft Reports</string>
-    <string name="hia2_sent_reports">Sent Reports</string>
+    <string name="hia2_draft_monthly">Draft Monthly (%1$s)</string>
+    <string name="hia2_sent_monthly">Sent Monthly</string>
     <string name="title_activity_hia2_report">HIA2 Reports</string>
+    <string name="start_new_report">Start new report</string>
+    <string name="no_draft_reports">No draft reports</string>
+    <string name="no_monthly_ready">No monthly HIA2 reports ready to be completed.</string>
+    <string name="reports_available">Reports Available</string>
 
 
 </resources>

@@ -78,4 +78,5 @@
     <color name="z_score_3">#222539</color>
     <color name="growth_today_color">#008be6</color>
 
+    <color name="translucent_client_list_grey">#aa737373</color>
 </resources>

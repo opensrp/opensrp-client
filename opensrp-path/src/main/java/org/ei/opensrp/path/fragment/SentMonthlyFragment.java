@@ -6,10 +6,10 @@ import android.support.v4.app.Fragment;
 /**
  * Created by coder on 6/7/17.
  */
-public class DraftReportsFragment extends Fragment {
+public class SentMonthlyFragment extends Fragment {
 
-    public static DraftReportsFragment newInstance() {
-        DraftReportsFragment fragment = new DraftReportsFragment();
+    public static SentMonthlyFragment newInstance() {
+        SentMonthlyFragment fragment = new SentMonthlyFragment();
         Bundle args = new Bundle();
 
         fragment.setArguments(args);
