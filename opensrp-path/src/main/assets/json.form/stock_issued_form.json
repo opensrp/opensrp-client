@@ -121,6 +121,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid vial number"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Enter the Vials Issued"
         }
       },
       {
@@ -133,7 +137,7 @@
         "hint": "Wasted Vials",
         "v_min": {
           "value": "0",
-          "err": "value cannot be numeric"
+          "err": "value cannot be less than zero"
         },
         "v_numeric": {
           "value": "true",

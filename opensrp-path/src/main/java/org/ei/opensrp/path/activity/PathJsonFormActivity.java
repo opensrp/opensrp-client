@@ -60,7 +60,10 @@ public class PathJsonFormActivity extends JsonFormActivity {
 
     }
 
-
+    @Override
+    public void onFormFinish() {
+        super.onFormFinish();
+    }
 
     private void refreshCalculateLogic(String key, String value) {
         stockVialsenteredinReceivedForm(key,value);
@@ -364,6 +367,35 @@ public class PathJsonFormActivity extends JsonFormActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public boolean checkIfBalanceNegative(JSONObject object) {
+        boolean balancecheck = true;
+//        pathJsonFormFragment.getRelevantTextViewString("Balance")
+        try {
+            JSONArray fields = object.getJSONArray("fields");
+            for (int i = 0; i < fields.length(); i++) {
+                JSONObject questions = fields.getJSONObject(i);
+                if (questions.has("key")) {
+                    if (questions.getString("key").equalsIgnoreCase("Balance")) {
+                        if (questions.has("text")) {
+                            if(((String)questions.get("text")).contains("New balance")){
+                                int balance = Integer.parseInt(((String)questions.get("text")).replace("New balance","").trim());
+                                if(balance<0){
+                                    balancecheck = false;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                }
+
+            }
+        } catch (Exception e) {
+
+                    }
+        return balancecheck;
     }
 }
 

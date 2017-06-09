@@ -1,6 +1,7 @@
 package org.ei.opensrp.path.fragment;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -32,10 +34,12 @@ import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.activity.PathJsonFormActivity;
 import org.ei.opensrp.path.interactors.PathJsonFormInteractor;
 import org.ei.opensrp.path.provider.MotherLookUpSmartClientsProvider;
 import org.ei.opensrp.path.viewstates.PathJsonFormFragmentViewState;
 import org.joda.time.DateTime;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -387,6 +391,62 @@ public class PathJsonFormFragment extends JsonFormFragment {
 //                updateRelevantTextView((ViewGroup) view,textstring,currentKey);
 //            }
             }
+        }
+    }
+    public String getRelevantTextViewString( String currentKey) {
+        String toreturn = "";
+        if(getMainView() != null) {
+            int childCount = getMainView().getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View view = getMainView().getChildAt(i);
+                if (view instanceof TextView) {
+                    TextView textView = (TextView) view;
+                    String key = (String) textView.getTag(com.vijay.jsonwizard.R.id.key);
+                    if (key.equals(currentKey)) {
+                        toreturn = textView.getText().toString();
+                    }
+                }
+//            else if(view instanceof  ViewGroup){
+//                updateRelevantTextView((ViewGroup) view,textstring,currentKey);
+//            }
+            }
+        }
+        return toreturn;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean balancecheck = true;
+
+        if (item.getItemId() == com.vijay.jsonwizard.R.id.action_save) {
+            JSONObject object = getStep("step1");
+            try {
+                if (object.getString("title").contains("Stock Issued") || object.getString("title").contains("Stock Received")) {
+                    balancecheck = ((PathJsonFormActivity)getActivity()).checkIfBalanceNegative(object);
+                }
+            }catch (Exception e){
+
+            }
+        }
+        if(balancecheck) {
+            return super.onOptionsItemSelected(item);
+        }else{
+            final Snackbar snackbar = Snackbar
+                    .make(getMainView(), "Please Make sure the balance is not less than zero", Snackbar.LENGTH_LONG);
+            snackbar.setAction("Close", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    snackbar.dismiss();
+                }
+            });
+
+// Changing message text color
+            snackbar.setActionTextColor(Color.MAGENTA);
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+
+            snackbar.show();
+            return true;
         }
     }
 

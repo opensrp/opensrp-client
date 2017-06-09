@@ -121,6 +121,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid vial number"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Enter the vials received"
         }
       },
       {
