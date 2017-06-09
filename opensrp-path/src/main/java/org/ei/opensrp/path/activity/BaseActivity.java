@@ -211,6 +211,9 @@ public abstract class BaseActivity extends AppCompatActivity
         }
     }
     public void initializeCustomNavbarLIsteners(){
+
+
+
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         LinearLayout syncMenuItem = (LinearLayout) drawer.findViewById(R.id.nav_sync);
         syncMenuItem.setOnClickListener(new View.OnClickListener() {
