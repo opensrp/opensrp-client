@@ -230,6 +230,19 @@ public class StockRepository extends BaseRepository {
         }
         return vaccineUsed;
     }
+    public int getVaccineUsedUntildate(Long date, String vaccineName){
+        int vaccineUsed = 0;
+        DateTime thedate = new DateTime(date);
+        SQLiteDatabase database = getPathRepository().getReadableDatabase();
+        Cursor c = database.rawQuery("Select count(*) from vaccines where date <= "+thedate.getMillis()+" and name like '%"+vaccineName+"%'",null);
+        c.moveToFirst();
+        if(c.getCount()>0){
+            if(!StringUtils.isBlank(c.getString(0))){
+                vaccineUsed = Integer.parseInt(c.getString(0));
+            }
+        }
+        return vaccineUsed;
+    }
 
 
     public int getBalanceBefore(Stock stock) {

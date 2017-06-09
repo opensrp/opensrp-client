@@ -101,10 +101,25 @@ public class Planning_Stock_fragment extends Fragment {
         createStockInfoForlastThreeMonths(view);
         getValueForStock(view);
         getLastThreeMonthStockIssued(view);
+        waste_rate_Calculate(view);
 
 
 
         return view;
+    }
+
+    private void waste_rate_Calculate(View view) {
+        double wastepercent = 0.0;
+        StockRepository stockRepository = new StockRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(), VaccinatorApplication.createCommonFtsObject(), VaccinatorApplication.getInstance().context().alertService());
+        int vaccinegiven = stockRepository.getVaccineUsedUntildate(System.currentTimeMillis(),((StockControlActivity)getActivity()).vaccine_type.getName().toLowerCase().trim());
+        int vaccineissued = getStockIssuedIntimeFrame(DateTime.now().yearOfEra().withMinimumValue(),DateTime.now())*(((StockControlActivity)getActivity()).vaccine_type.getDoses());
+        if(vaccinegiven == 0 || vaccinegiven>vaccineissued){
+            wastepercent = 0.0;
+        }else{
+            wastepercent = (1- ((double)vaccinegiven/vaccineissued))*100;
+        }
+        ((TextView)view.findViewById(R.id.avg_vacc_waste_rate_value)).setText(""+wastepercent+ "%");
+
     }
 
     private void getLastThreeMonthStockIssued(View view) {
