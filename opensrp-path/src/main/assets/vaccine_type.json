@@ -7,14 +7,14 @@
     "openmrs_dose_concept_id": ""
   },
   {
-    "doses": "25",
+    "doses": "20",
     "name": "OPV",
     "openmrs_parent_entity_id": "",
     "openmrs_date_concept_id": "",
     "openmrs_dose_concept_id": ""
   },
   {
-    "doses": "10",
+    "doses": "1",
     "name": "Penta",
     "openmrs_parent_entity_id": "",
     "openmrs_date_concept_id": "",
@@ -28,7 +28,7 @@
     "openmrs_dose_concept_id": ""
   },
   {
-    "doses": "10",
+    "doses": "1",
     "name": "Rota",
     "openmrs_parent_entity_id": "",
     "openmrs_date_concept_id": "",
