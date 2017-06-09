@@ -370,31 +370,17 @@ public class PathJsonFormActivity extends JsonFormActivity {
     }
 
 
-    public boolean checkIfBalanceNegative(JSONObject object) {
+    public boolean checkIfBalanceNegative() {
         boolean balancecheck = true;
-//        pathJsonFormFragment.getRelevantTextViewString("Balance")
-        try {
-            JSONArray fields = object.getJSONArray("fields");
-            for (int i = 0; i < fields.length(); i++) {
-                JSONObject questions = fields.getJSONObject(i);
-                if (questions.has("key")) {
-                    if (questions.getString("key").equalsIgnoreCase("Balance")) {
-                        if (questions.has("text")) {
-                            if(((String)questions.get("text")).contains("New balance")){
-                                int balance = Integer.parseInt(((String)questions.get("text")).replace("New balance","").trim());
-                                if(balance<0){
-                                    balancecheck = false;
-                                }
-                            }
-                        }
-                    }
-                } else {
-                }
+        String balancestring = pathJsonFormFragment.getRelevantTextViewString("Balance");
 
+        if(balancestring.contains("New balance")) {
+            int balance = Integer.parseInt(balancestring.replace("New balance :", "").trim());
+            if (balance < 0) {
+                balancecheck = false;
             }
-        } catch (Exception e) {
+        }
 
-                    }
         return balancecheck;
     }
 }

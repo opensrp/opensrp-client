@@ -421,7 +421,7 @@ public class PathJsonFormFragment extends JsonFormFragment {
             JSONObject object = getStep("step1");
             try {
                 if (object.getString("title").contains("Stock Issued") || object.getString("title").contains("Stock Received")) {
-                    balancecheck = ((PathJsonFormActivity)getActivity()).checkIfBalanceNegative(object);
+                    balancecheck = ((PathJsonFormActivity)getActivity()).checkIfBalanceNegative();
                 }
             }catch (Exception e){
 
