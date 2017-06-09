@@ -135,6 +135,7 @@
     <string name="edit_registration_data">Edit registration data</string>
     <string name="edit_weight_data">Edit weight data</string>
     <string name="edit_immunization_data">Edit immunisation data</string>
+    <string name="edit_recurring_services_data">Edit recurring services data</string>
     <string name="mark_inactive">Mark inactive</string>
     <string name="mark_active">Mark active</string>
     <string name="mark_as_lost_to_followup">Mark as lost to followup</string>
