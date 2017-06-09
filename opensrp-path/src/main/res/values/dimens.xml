@@ -121,5 +121,5 @@
     <dimen name="table_contents_text_height">33dp</dimen>
     <dimen name="registerlinkwidth">85dp</dimen>
     <dimen name="registerlinkheight">85dp</dimen>
-    <dimen name="custom_navigation_icon_size">45dp</dimen>
+    <dimen name="custom_navigation_icon_size">35dp</dimen>
 </resources>

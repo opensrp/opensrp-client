@@ -17,21 +17,25 @@
         android:orientation="vertical">
 
         <include layout="@layout/nav_header_base" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/smart_register_client_divider_height"
+            android:src="#474747"/>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/nav_register">
+            android:id="@+id/nav_register"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
             <ImageView
                 android:layout_width="@dimen/custom_navigation_icon_size"
                 android:layout_height="@dimen/custom_navigation_icon_size"
                 android:id="@+id/addchildImageview"
-                android:src="@drawable/addchild"
+                android:src="@drawable/ic_action_add"
                 android:layout_margin="5dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:paddingRight="10dp"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center_vertical"
+                android:paddingTop="5dp" />
             <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -47,13 +51,15 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/nav_record_vaccination_out_catchment">
+            android:id="@+id/nav_record_vaccination_out_catchment"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
 
             <ImageView
                 android:layout_width="@dimen/custom_navigation_icon_size"
                 android:layout_height="@dimen/custom_navigation_icon_size"
                 android:id="@+id/outofareaImageview"
-                android:src="@drawable/outofareabig"
+                android:src="@drawable/ic_action_out_catchment"
                 android:layout_margin="5dp" />
             <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:layout_width="wrap_content"
@@ -70,14 +76,15 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/nav_sync">
+            android:id="@+id/nav_sync"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
 
             <ImageView
                 android:layout_width="@dimen/custom_navigation_icon_size"
                 android:layout_height="@dimen/custom_navigation_icon_size"
                 android:id="@+id/nav_syncImageview"
-                android:src="@drawable/syncbig"
-                android:paddingRight="10dp"
+                android:src="@drawable/ic_action_sync"
                 android:layout_margin="5dp" />
             <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:layout_width="wrap_content"
@@ -94,7 +101,8 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/child_register">
+            android:id="@+id/child_register"
+            android:layout_marginTop="5dp">
 
             <ImageView
                 android:layout_width="@dimen/registerlinkwidth"
@@ -120,7 +128,8 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/hia2reports">
+            android:id="@+id/hia2reports"
+            android:layout_marginTop="5dp">
 
             <ImageView
                 android:layout_width="@dimen/registerlinkwidth"
@@ -146,7 +155,8 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/stockcontrol">
+            android:id="@+id/stockcontrol"
+            android:layout_marginTop="5dp">
 
             <ImageView
                 android:layout_width="@dimen/registerlinkwidth"

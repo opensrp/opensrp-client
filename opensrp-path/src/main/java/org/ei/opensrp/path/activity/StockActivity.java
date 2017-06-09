@@ -92,7 +92,7 @@ public class StockActivity extends BaseActivity {
             }
             nameInitials.setText(initials);
         }
-        createDrawerLayoutactions();
+
 //        toolbar.setOnLocationChangeListener(this);
 //
 
@@ -108,16 +108,7 @@ public class StockActivity extends BaseActivity {
         adapter.notifyDataSetChanged();
     }
 
-    private void createDrawerLayoutactions() {
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        LinearLayout gotoregisterButton = (LinearLayout)drawer.findViewById(R.id.child_register);
-        gotoregisterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
 
-    }
 
     @Override
     protected int getContentView() {
@@ -143,6 +134,7 @@ public class StockActivity extends BaseActivity {
 //        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
 
 
