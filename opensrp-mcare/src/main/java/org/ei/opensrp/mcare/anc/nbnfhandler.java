@@ -32,7 +32,7 @@ public class nbnfhandler implements FormSubmissionHandler {
                 Context.getInstance().alertService().changeAlertStatusToComplete(entityID, "BirthNotificationFollowUp");
             }
         }
-        /*Map<String, String> overrideValue = new HashMap<String, String>();
+        Map<String, String> overrideValue = new HashMap<String, String>();
         if(submission.getFieldValue("FWBNFSTS").equalsIgnoreCase("0") && submission.getFieldValue("user_type").equalsIgnoreCase("FD")){
             CommonPersonObject motherObject = Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByCaseID(entityID);
             AllCommonsRepository motherRepo = Context.getInstance().allCommonsRepositoryobjects("mcaremother");
@@ -46,6 +46,6 @@ public class nbnfhandler implements FormSubmissionHandler {
             overrideValue.put("FWPSRPREGSTS","0");
             elcoRepo.mergeDetails(motherObject.getRelationalId(),overrideValue);
 
-        }*/
+        }
     }
 }

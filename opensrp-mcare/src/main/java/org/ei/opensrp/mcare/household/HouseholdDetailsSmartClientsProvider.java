@@ -115,7 +115,7 @@ public class HouseholdDetailsSmartClientsProvider implements SmartRegisterClient
             profilepic.setTag(smartRegisterClient);
 
             name.setText(humanize(pc.getColumnmaps().get("FWWOMFNAME") != null ? pc.getColumnmaps().get("FWWOMFNAME") : ""));
-            age.setText("("+(pc.getDetails().get("FWWOMAGE") != null ? pc.getDetails().get("FWWOMAGE") : "")+")");
+            age.setText("(("+(pc.getDetails().get("FWWOMAGE") != null ? pc.getDetails().get("FWWOMAGE") : "")+")");
 
             LinearLayout child_parent_carrier = (LinearLayout)itemView.findViewById(R.id.child_parent_holder);
             ArrayList<String> stringList = new ArrayList<String>();
@@ -186,7 +186,7 @@ public class HouseholdDetailsSmartClientsProvider implements SmartRegisterClient
                     try {
                         int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("FWBIRTHDATE") != null ?  pc.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
                         int calc_age = days / 365;
-                        age.setText("("+calc_age+")");
+                        age.setText("((("+calc_age+")");
                     }catch (Exception e){
 
                     }
@@ -218,7 +218,7 @@ public class HouseholdDetailsSmartClientsProvider implements SmartRegisterClient
                     try {
                         int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("FWBIRTHDATE") != null ?  pc.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
                         int calc_age = days / 365;
-                        age.setText("("+calc_age+")");
+                        age.setText("(((*"+calc_age+")");
                     }catch (Exception e){
 
                     }
@@ -250,7 +250,7 @@ public class HouseholdDetailsSmartClientsProvider implements SmartRegisterClient
                 try {
                     int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("FWBIRTHDATE") != null ?  pc.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
                     int calc_age = days / 365;
-                    age.setText("("+calc_age+")");
+                    age.setText("(*"+calc_age+")");
                 }catch (Exception e){
 
                 }

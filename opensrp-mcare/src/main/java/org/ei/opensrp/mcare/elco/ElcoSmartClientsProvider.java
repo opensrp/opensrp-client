@@ -107,15 +107,19 @@ public class ElcoSmartClientsProvider implements SmartRegisterCLientsProviderFor
         gobhhid.setText(" "+(pc.getColumnmaps().get("GOBHHID")!=null?pc.getColumnmaps().get("GOBHHID"):""));
         jivitahhid.setText(pc.getColumnmaps().get("JiVitAHHID")!=null?pc.getColumnmaps().get("JiVitAHHID"):"");
         village.setText((humanize((pc.getDetails().get("FWWOMMAUZA_PARA") != null ? pc.getDetails().get("FWWOMMAUZA_PARA") : "").replace("+", "_"))));
-        age.setText("("+(pc.getDetails().get("FWWOMAGE")!=null?pc.getDetails().get("FWWOMAGE"):"")+") ");
 
         DateUtil.setDefaultDateFormat("yyyy-MM-dd");
-        try {
-            int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("FWBIRTHDATE") != null ?  pc.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
-            int calc_age = days / 365;
-            age.setText("("+calc_age+") ");
-        }catch (Exception e){
-            Log.e(getClass().getName(), "Exception", e);
+        if (pc.getDetails().get("FWWOMAGE")!=null){
+            age.setText("(" + pc.getDetails().get("FWWOMAGE") + ") ");
+        }
+        else{
+            try {
+                int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("FWBIRTHDATE") != null ?  pc.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
+                int calc_age = days / 365;
+                age.setText("("+calc_age+") ");
+            }catch (Exception e){
+                Log.e(getClass().getName(), "Exception", e);
+            }
         }
 
         if((pc.getDetails().get("FWWOMNID")!=null?pc.getDetails().get("FWWOMNID"):"").length()>0) {
@@ -153,8 +157,7 @@ public class ElcoSmartClientsProvider implements SmartRegisterCLientsProviderFor
 //        village.setText(humanize(location));
 
         Date lastdate = null;
-        Log.e("-----------------------", householdparent.getDetails().toString());
-        Log.e("-----------------------",pc.getColumnmaps().get("FWWOMFNAME"));
+
         if(householdparent.getDetails().get("FWNHREGDATE")!= null && householdparent.getDetails().get("FWCENDATE")!= null) {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             try {
