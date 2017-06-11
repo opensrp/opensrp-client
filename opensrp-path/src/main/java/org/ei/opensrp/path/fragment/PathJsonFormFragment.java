@@ -420,7 +420,7 @@ public class PathJsonFormFragment extends JsonFormFragment {
         if (item.getItemId() == com.vijay.jsonwizard.R.id.action_save) {
             JSONObject object = getStep("step1");
             try {
-                if (object.getString("title").contains("Stock Issued") || object.getString("title").contains("Stock Received")) {
+                if (object.getString("title").contains("Stock Issued") || object.getString("title").contains("Stock Received") || object.getString("title").contains("Stock Loss/Adjustment")) {
                     balancecheck = ((PathJsonFormActivity)getActivity()).checkIfBalanceNegative();
                 }
             }catch (Exception e){

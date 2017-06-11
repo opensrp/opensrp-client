@@ -1,0 +1,38 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="60dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/stock_plus"
+            android:id="@+id/addbutton" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:textSize="@dimen/default_text_size"
+            app:met_floatingLabel="highlight"
+            app:met_floatingLabelText=""
+            app:met_floatingLabelTextSize="@dimen/default_text_size"
+            app:met_primaryColor="?colorAccent"
+            app:met_singleLineEllipsis="true"
+            android:layout_weight="1" />
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/stock_minus"
+            android:id="@+id/minusbutton" />
+
+    </LinearLayout>
+
+</RelativeLayout>

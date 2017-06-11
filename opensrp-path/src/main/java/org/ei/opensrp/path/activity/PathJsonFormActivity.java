@@ -70,6 +70,8 @@ public class PathJsonFormActivity extends JsonFormActivity {
         stockDateEnteredinReceivedForm(key,value);
         stockDateEnteredinIssuedForm(key, value);
         stockVialsEnteredinIssuedForm(key, value);
+        stockDateEnteredinAdjustmentForm(key,value);
+        stockVialsenteredinAdjustmentForm(key,value);
     }
 
     private void stockDateEnteredinIssuedForm(String key, String value) {
@@ -367,7 +369,133 @@ public class PathJsonFormActivity extends JsonFormActivity {
         }
     }
 
+    private void stockDateEnteredinAdjustmentForm(String key, String value) {
+        JSONObject object = getStep("step1");
+        try {
+            if (object.getString("title").contains("Stock Loss/Adjustment")) {
+                if (key.equalsIgnoreCase("Date_Stock_loss_adjustment") && value != null && !value.equalsIgnoreCase("")) {
+//                    if(balancetextview == null) {
+//                        ArrayList<View> views = getFormDataViews();
+//                        for (int i = 0; i < views.size(); i++) {
+//                            if (views.get(i) instanceof MaterialEditText) {
+//                                if (((String) views.get(i).getTag(com.vijay.jsonwizard.R.id.key)).equalsIgnoreCase("Vials_Received")) {
+//                                    balancetextview = (MaterialEditText) views.get(i);
+//                                }
+//                            }
+//                        }
+//                    }
+                    String label = "";
+                    int currentBalance = 0;
+                    int displaybalance = 0;
+                    String vialsvalue = "";
+                    JSONArray fields = object.getJSONArray("fields");
+                    for (int i = 0; i < fields.length(); i++) {
+                        JSONObject questions = fields.getJSONObject(i);
+                        if (questions.has("key")) {
+                            if (questions.getString("key").equalsIgnoreCase("Date_Stock_loss_adjustment")) {
+                                if (questions.has("value")) {
+                                    Date encounterDate = new Date();
+                                    label = questions.getString("value");
+                                    if (label != null) {
+                                        if (StringUtils.isNotBlank(label)) {
+                                            Date dateTime = JsonFormUtils.formatDate(label, false);
+                                            if (dateTime != null) {
+                                                encounterDate = dateTime;
+                                            }
+                                        }
+                                    }
+                                    String vaccineName = object.getString("title").replace("Stock Loss/Adjustment", "").trim();
+                                    StockRepository str = new StockRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(), VaccinatorApplication.createCommonFtsObject(), Context.getInstance().alertService());
+                                    currentBalance = str.getBalanceFromNameAndDate(vaccineName, encounterDate.getTime());
+                                }
+                            }
+                            if (questions.getString("key").equalsIgnoreCase("Vials_Adjustment")) {
+                                if (questions.has("value")) {
+                                    label = questions.getString("value");
+                                    vialsvalue = label;
+                                }
+                            }
+                            if (vialsvalue != null && !vialsvalue.equalsIgnoreCase("")) {
+                                displaybalance = currentBalance + Integer.parseInt(vialsvalue);
+//                                if (balancetextview != null) {
+//                                    balancetextview.setErrorColor(getResources().getColor(R.color.dark_grey));
+//                                    balancetextview.setError("New balance : " + displaybalance);
+//                                }
+                                pathJsonFormFragment.getLabelViewFromTag("Balance","New balance : " + displaybalance);
 
+                            }else{
+                                pathJsonFormFragment.getLabelViewFromTag("Balance","");
+
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    private void stockVialsenteredinAdjustmentForm(String key, String value) {
+        JSONObject object = getStep("step1");
+        try {
+            if (object.getString("title").contains("Stock Loss/Adjustment")) {
+                if (key.equalsIgnoreCase("Vials_Adjustment") && value != null && !value.equalsIgnoreCase("")) {
+//                    if(balancetextview == null) {
+//                        ArrayList<View> views = getFormDataViews();
+//                        for (int i = 0; i < views.size(); i++) {
+//                            if (views.get(i) instanceof MaterialEditText) {
+//                                if (((String) views.get(i).getTag(com.vijay.jsonwizard.R.id.key)).equalsIgnoreCase(key)) {
+//                                    balancetextview = (MaterialEditText) views.get(i);
+//                                }
+//                            }
+//                        }
+//                    }
+                    String label = "";
+                    int currentBalance = 0;
+                    int displaybalance = 0;
+                    JSONArray fields = object.getJSONArray("fields");
+                    for (int i = 0; i < fields.length(); i++) {
+                        JSONObject questions = fields.getJSONObject(i);
+                        if (questions.has("key")) {
+                            if (questions.getString("key").equalsIgnoreCase("Date_Stock_loss_adjustment")) {
+                                if (questions.has("value")) {
+                                    Date encounterDate = new Date();
+                                    label = questions.getString("value");
+                                    if (label != null) {
+                                        if (StringUtils.isNotBlank(label)) {
+                                            Date dateTime = JsonFormUtils.formatDate(label, false);
+                                            if (dateTime != null) {
+                                                encounterDate = dateTime;
+                                            }
+                                        }
+                                    }
+                                    String vaccineName = object.getString("title").replace("Stock Loss/Adjustment", "").trim();
+                                    StockRepository str = new StockRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(), VaccinatorApplication.createCommonFtsObject(), Context.getInstance().alertService());
+                                    currentBalance = str.getBalanceFromNameAndDate(vaccineName, encounterDate.getTime());
+                                }
+                            }
+                            String vialsvalue = value;
+                            if (vialsvalue != null && !vialsvalue.equalsIgnoreCase("") && !vialsvalue.equalsIgnoreCase("-")) {
+                                displaybalance = currentBalance + Integer.parseInt(vialsvalue);
+//                                if (balancetextview != null) {
+//                                    balancetextview.setErrorColor(Color.BLACK);
+//                                    balancetextview.setError("New balance : " + displaybalance);
+//                                }
+                                pathJsonFormFragment.getLabelViewFromTag("Balance","New balance : " + displaybalance);
+
+                            }else{
+                                pathJsonFormFragment.getLabelViewFromTag("Balance","");
+                            }
+                        }
+                    }
+                }else{
+                    pathJsonFormFragment.getLabelViewFromTag("Balance","");
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
     public boolean checkIfBalanceNegative() {
         boolean balancecheck = true;
         String balancestring = pathJsonFormFragment.getRelevantTextViewString("Balance");

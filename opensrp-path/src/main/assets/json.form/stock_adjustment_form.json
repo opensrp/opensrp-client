@@ -95,9 +95,14 @@
         "openmrs_data_type": "text",
         "type": "edit_text",
         "hint": "Vials [vaccine] adjustment",
-        "v_numeric": {
+        "number_picker":"true",
+        "v_required": {
           "value": "true",
-          "err": "Enter a valid vial number"
+          "err": "Please enter the value for adjustment"
+        },
+        "v_regex": {
+          "value": "-?[1-9]\\d*|0",
+          "err": "Please enter a valid value"
         }
       },
       {
