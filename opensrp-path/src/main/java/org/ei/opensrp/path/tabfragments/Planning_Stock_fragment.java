@@ -57,7 +57,7 @@ public class Planning_Stock_fragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
+    public View mainview;
     public Planning_Stock_fragment() {
         // Required empty public constructor
     }
@@ -94,25 +94,25 @@ public class Planning_Stock_fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_planning__stock_fragment, container, false);
+        mainview = view;
+        loatDataView(mainview);
+        return view;
+    }
+    public void loatDataView (View view){
         createTitle(view);
-
         createActiveChildrenStatsView(view);
         createGraphDataAndView(view);
         createStockInfoForlastThreeMonths(view);
         getValueForStock(view);
         getLastThreeMonthStockIssued(view);
         waste_rate_Calculate(view);
-
-
-
-        return view;
     }
 
     private void waste_rate_Calculate(View view) {
         double wastepercent = 0.0;
         StockRepository stockRepository = new StockRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(), VaccinatorApplication.createCommonFtsObject(), VaccinatorApplication.getInstance().context().alertService());
         int vaccinegiven = stockRepository.getVaccineUsedUntildate(System.currentTimeMillis(),((StockControlActivity)getActivity()).vaccine_type.getName().toLowerCase().trim());
-        int vaccineissued = getStockIssuedIntimeFrame(DateTime.now().yearOfEra().withMinimumValue(),DateTime.now())*(((StockControlActivity)getActivity()).vaccine_type.getDoses());
+        int vaccineissued = -1*getStockIssuedIntimeFrame(DateTime.now().yearOfEra().withMinimumValue(),DateTime.now())*(((StockControlActivity)getActivity()).vaccine_type.getDoses());
         if(vaccinegiven == 0 || vaccinegiven>vaccineissued){
             wastepercent = 0.0;
         }else{
@@ -272,6 +272,7 @@ public class Planning_Stock_fragment extends Fragment {
         }
         staticLabelsFormatter.setHorizontalLabels(montharry);
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+        graph.removeAllSeries();
         graph.addSeries(series);
         graph.getViewport().setMinX(now.minusMonths(3).toDate().getTime());
         graph.getViewport().setMaxX(now.toDate().getTime());

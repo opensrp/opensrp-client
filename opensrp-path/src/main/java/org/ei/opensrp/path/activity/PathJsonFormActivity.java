@@ -231,8 +231,6 @@ public class PathJsonFormActivity extends JsonFormActivity {
 
                         }
                     }
-                }else{
-                    pathJsonFormFragment.getLabelViewFromTag("Balance","");
                 }
             }
         } catch (JSONException e) {

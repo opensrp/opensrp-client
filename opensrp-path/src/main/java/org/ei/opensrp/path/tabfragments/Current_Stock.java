@@ -176,14 +176,14 @@ public class Current_Stock extends Fragment implements
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_current__stock, container, false);
-
+        mView = view;
         clientsProgressView = (ProgressBar) view.findViewById(R.id.client_list_progress);
         clientsView = (ListView) view.findViewById(R.id.list);
         paginationViewHandler.addPagination(clientsView);
 
         stockRepository = new StockRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(),VaccinatorApplication.createCommonFtsObject(),context().alertService());
 
-        getValueForStock(view);
+
 
         Button received = (Button)view.findViewById(R.id.received);
         Button issued = (Button)view.findViewById(R.id.issued);
@@ -313,8 +313,11 @@ public class Current_Stock extends Fragment implements
         CountExecute();
         filterandSortInInitializeQueries();
         refresh();
+        getValueForStock(mView);
     }
-
+    public void returnfromform(){
+        ((StockControlActivity)getActivity()).planning_stock_fragment.loatDataView(((StockControlActivity)getActivity()).planning_stock_fragment.mainview);
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -401,7 +404,7 @@ public class Current_Stock extends Fragment implements
             }
             Stock stock = new Stock(null,Stock.received,allSharedPreferences.fetchRegisteredANM(),Integer.parseInt(vials_received),encounterDate.getTime(),Received_Stock_From,StockRepository.TYPE_Unsynced,System.currentTimeMillis(),""+((StockControlActivity)(getActivity())).vaccine_type.getId());
             str.add(stock);
-
+            returnfromform();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -434,7 +437,7 @@ public class Current_Stock extends Fragment implements
             }
             Stock stock = new Stock(null,Stock.issued,allSharedPreferences.fetchRegisteredANM(),-1*Integer.parseInt(vials_received),encounterDate.getTime(),Received_Stock_From,StockRepository.TYPE_Unsynced,System.currentTimeMillis(),""+((StockControlActivity)(getActivity())).vaccine_type.getId());
             str.add(stock);
-
+            returnfromform();
         } catch (JSONException e) {
             e.printStackTrace();
         }

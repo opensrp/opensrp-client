@@ -38,6 +38,8 @@ import util.JsonFormUtils;
 public class StockActivity extends BaseActivity {
     GridView stockGrid;
     private LocationSwitcherToolbar toolbar;
+    public org.ei.opensrp.Context context;
+    public Vaccine_typesRepository VTR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,8 +101,11 @@ public class StockActivity extends BaseActivity {
 
 
         stockGrid = (GridView)findViewById(R.id.stockgrid);
-        org.ei.opensrp.Context context = org.ei.opensrp.Context.getInstance().updateApplicationContext(this.getApplicationContext());
-        Vaccine_typesRepository VTR = new Vaccine_typesRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(),VaccinatorApplication.createCommonFtsObject(),context.alertService());
+        context = org.ei.opensrp.Context.getInstance().updateApplicationContext(this.getApplicationContext());
+        VTR = new Vaccine_typesRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(),VaccinatorApplication.createCommonFtsObject(),context.alertService());
+    }
+
+    private void refreshadapter() {
         ArrayList<Vaccine_types> allVaccineTypes = (ArrayList) VTR.getAllVaccineTypes();
         Vaccine_types [] allVaccineTypesarray = allVaccineTypes.toArray(new Vaccine_types[allVaccineTypes.size()]);
         stockGridAdapter adapter = new stockGridAdapter(this,allVaccineTypesarray);
@@ -108,7 +113,11 @@ public class StockActivity extends BaseActivity {
         adapter.notifyDataSetChanged();
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshadapter();
+    }
 
     @Override
     protected int getContentView() {
