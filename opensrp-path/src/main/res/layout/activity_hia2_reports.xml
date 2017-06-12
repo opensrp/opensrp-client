@@ -19,7 +19,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#494949"
+            android:background="@color/toolbar_grey"
             app:popupTheme="@style/AppTheme.PopupOverlay">
             <TextView
                 android:id="@+id/name_inits"

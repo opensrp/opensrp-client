@@ -1,0 +1,137 @@
+package org.ei.opensrp.path.activity;
+
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.LinearLayout;
+
+import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.domain.HIA2Indicator;
+import org.ei.opensrp.path.toolbar.LocationSwitcherToolbar;
+import org.ei.opensrp.path.toolbar.SimpleToolbar;
+import org.ei.opensrp.path.view.IndicatorCategoryView;
+import org.ei.opensrp.view.customControls.CustomFontTextView;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class ReportSummaryActivity extends BaseActivity {
+    private static final String TAG = ReportSummaryActivity.class.getName();
+    public static final String EXTRA_INDICATORS = "indicators";
+    public static final String EXTRA_SUBMITTED_BY = "submitted_by";
+    public static final String EXTRA_TITLE = "title";
+    private HashMap<String, ArrayList<HIA2Indicator>> indicators;
+    private String submittedBy;
+    private SimpleToolbar toolbar;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar = (SimpleToolbar) getToolbar();
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        toolbar.setBackground(new ColorDrawable(getResources().getColor(R.color.toolbar_grey)));
+
+        Bundle extras = this.getIntent().getExtras();
+        if (extras != null) {
+            Serializable indicatorsSerializable = extras.getSerializable(EXTRA_INDICATORS);
+            if (indicatorsSerializable != null && indicatorsSerializable instanceof ArrayList) {
+                ArrayList<HIA2Indicator> indicators = (ArrayList<HIA2Indicator>) indicatorsSerializable;
+                setIndicators(indicators, false);
+            }
+
+            Serializable submittedBySerializable = extras.getSerializable(EXTRA_SUBMITTED_BY);
+            if (submittedBySerializable != null && submittedBySerializable instanceof String) {
+                submittedBy = (String) submittedBySerializable;
+            }
+
+            Serializable titleSerializable = extras.getSerializable(EXTRA_TITLE);
+            if (titleSerializable != null && titleSerializable instanceof String) {
+                toolbar.setTitle((String) titleSerializable);
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CustomFontTextView submittedBy = (CustomFontTextView) findViewById(R.id.submitted_by);
+        if (!TextUtils.isEmpty(this.submittedBy)) {
+            submittedBy.setVisibility(View.VISIBLE);
+            submittedBy.setText(String.format(getString(R.string.submitted_by_), this.submittedBy));
+        } else {
+            submittedBy.setVisibility(View.GONE);
+        }
+        refreshIndicatorViews();
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_report_summary;
+    }
+
+    @Override
+    protected int getDrawerLayoutId() {
+        return R.id.drawer_layout;
+    }
+
+    @Override
+    protected int getToolbarId() {
+        return SimpleToolbar.TOOLBAR_ID;
+    }
+
+    @Override
+    protected Class onBackActivity() {
+        return null;
+    }
+
+    public void setIndicators(ArrayList<HIA2Indicator> hia2Indicators) {
+        setIndicators(hia2Indicators, true);
+    }
+
+    private void setIndicators(ArrayList<HIA2Indicator> hia2Indicators, boolean refreshViews) {
+        this.indicators = new HashMap<>();
+        for (HIA2Indicator curHIA2Indicator : hia2Indicators) {
+            if (curHIA2Indicator != null && !TextUtils.isEmpty(curHIA2Indicator.category)) {
+                if (!this.indicators.containsKey(curHIA2Indicator.category)
+                        || this.indicators.get(curHIA2Indicator.category) == null) {
+                    this.indicators.put(curHIA2Indicator.category, new ArrayList<HIA2Indicator>());
+                }
+
+                this.indicators.get(curHIA2Indicator.category).add(curHIA2Indicator);
+            }
+        }
+
+        if (refreshViews) refreshIndicatorViews();
+    }
+
+    private void refreshIndicatorViews() {
+        LinearLayout indicatorCanvas = (LinearLayout) findViewById(R.id.indicator_canvas);
+        indicatorCanvas.removeAllViews();
+
+        if (indicators != null) {
+            boolean firstExpanded = false;
+            for (String curCategoryName : indicators.keySet()) {
+                IndicatorCategoryView curCategoryView = new IndicatorCategoryView(this);
+                curCategoryView.setIndicators(curCategoryName, indicators.get(curCategoryName));
+                indicatorCanvas.addView(curCategoryView);
+                if (!firstExpanded) {
+                    firstExpanded = true;
+                    curCategoryView.setExpanded(true);
+                }
+            }
+        }
+    }
+
+}
