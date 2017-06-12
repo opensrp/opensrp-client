@@ -1,17 +1,15 @@
 package org.ei.opensrp.path.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.adapter.ExpandedListAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,7 +37,7 @@ public class DailyTalliesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View fragmentview = inflater.inflate(R.layout.daily_tallies_fragment, container, false);
+        final View fragmentview = inflater.inflate(R.layout.expandable_list_fragment, container, false);
         expandableListView = (ExpandableListView) fragmentview.findViewById(R.id.expandable_list_view);
         updateExpandableList();
         return fragmentview;
@@ -135,112 +133,9 @@ public class DailyTalliesFragment extends Fragment {
             return;
         }
 
-        final List<String> headers = new ArrayList<>();
-        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
-            headers.add(entry.getKey());
-        }
-
-
-        BaseExpandableListAdapter expandableListAdapter = new BaseExpandableListAdapter() {
-            @Override
-            public Object getChild(int groupPosition, int childPosititon) {
-                return map.get(headers.get(groupPosition))
-                        .get(childPosititon);
-            }
-
-            @Override
-            public long getChildId(int groupPosition, int childPosition) {
-                return childPosition;
-            }
-
-            @Override
-            public View getChildView(int groupPosition, final int childPosition,
-                                     boolean isLastChild, View convertView, ViewGroup parent) {
-
-                if (convertView == null) {
-                    LayoutInflater inflater = (LayoutInflater)
-                            getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-
-                    convertView = inflater.inflate(R.layout.daily_tally_item, null);
-                }
-
-                TextView tv = (TextView) convertView.findViewById(R.id.tv);
-                String text = (String) getChild(groupPosition, childPosition);
-                tv.setText(text);
-
-                convertView.setTag(text);
-
-                isLastChild = (getChildrenCount(groupPosition) - 1) == childPosition;
-                View dividerBottom = convertView.findViewById(R.id.adapter_divider_bottom);
-                if (isLastChild) {
-                    dividerBottom.setVisibility(View.VISIBLE);
-                } else {
-                    dividerBottom.setVisibility(View.GONE);
-                }
-
-
-                return convertView;
-            }
-
-            @Override
-            public int getChildrenCount(int groupPosition) {
-                return map.get(headers.get(groupPosition))
-                        .size();
-            }
-
-            @Override
-            public Object getGroup(int groupPosition) {
-                return headers.get(groupPosition);
-            }
-
-            @Override
-            public int getGroupCount() {
-                return headers.size();
-            }
-
-            @Override
-            public long getGroupId(int groupPosition) {
-                return groupPosition;
-            }
-
-            @Override
-            public View getGroupView(int groupPosition, boolean isExpanded,
-                                     View convertView, ViewGroup parent) {
-
-                if (convertView == null) {
-                    LayoutInflater inflater = (LayoutInflater)
-                            getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-
-                    convertView = inflater.inflate(R.layout.daily_tally_header, null);
-                }
-
-                TextView tv = (TextView) convertView.findViewById(R.id.tv);
-                String text = (String) getGroup(groupPosition);
-                tv.setText(text);
-
-                convertView.setTag(text);
-
-                ExpandableListView mExpandableListView = (ExpandableListView) parent;
-                mExpandableListView.expandGroup(groupPosition);
-
-                return convertView;
-            }
-
-            @Override
-            public boolean hasStableIds() {
-                return false;
-            }
-
-            @Override
-            public boolean isChildSelectable(int groupPosition, int childPosition) {
-                return true;
-            }
-
-        };
-
+        ExpandedListAdapter expandableListAdapter = new ExpandedListAdapter(getActivity(), map, R.layout.daily_tally_header, R.layout.daily_tally_item);
         expandableListView.setAdapter(expandableListAdapter);
         expandableListAdapter.notifyDataSetChanged();
-
     }
 
 }
