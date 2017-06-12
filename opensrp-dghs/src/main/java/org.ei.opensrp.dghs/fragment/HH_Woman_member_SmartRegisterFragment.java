@@ -38,6 +38,7 @@ import org.ei.opensrp.dghs.hh_member.HHWardCommonObjectFilterOption;
 import org.ei.opensrp.dghs.hh_member.HH_member_SmartRegisterActivity;
 import org.ei.opensrp.dghs.hh_member.HouseholdCensusDueDateSort;
 import org.ei.opensrp.domain.form.FieldOverrides;
+import org.ei.opensrp.logger.Logger;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
@@ -258,6 +259,15 @@ public class HH_Woman_member_SmartRegisterFragment extends SecuredNativeSmartReg
                     assignHandler(Schedulename);
                     JSONObject overridejsonobject = new JSONObject();
                     try {
+                        CommonPersonObject memberObject = Context.getInstance().allCommonsRepositoryobjects("members").findByCaseID(pc.entityId());
+                        CommonPersonObject householdObject = Context.getInstance().allCommonsRepositoryobjects("household").findByCaseID(memberObject.getRelationalId());
+
+                        Logger.largeLog("---------pc",pc.getDetails().toString());
+                        Logger.largeLog("---------member",memberObject.getDetails().toString());
+                        Logger.largeLog("----------household",householdObject.getDetails().toString());
+
+                        overridejsonobject.put("existing_location",((householdObject.getDetails().get("existing_location")!=null?householdObject.getDetails().get("existing_location"):"")));
+
                         overridejsonobject.put("existing_contact_phone_number",((pc.getDetails().get("contact_phone_number")!=null?pc.getDetails().get("contact_phone_number"):"")));
 
                         overridejsonobject.put("existing_Is_Reg_Today",((pc.getDetails().get("Is_Reg_Today")!=null?pc.getDetails().get("Is_Reg_Today"):"")));

@@ -250,11 +250,15 @@ public class HH_child_member_SmartRegisterFragment extends SecuredNativeSmartReg
                     CommonPersonObjectClient pc = (CommonPersonObjectClient) view.getTag();
                     JSONObject overridejsonobject = new JSONObject();
                     try {
-                        CommonPersonObject memberobject = Context.getInstance().allCommonsRepositoryobjects("household").findByCaseID(pc.entityId());
-                        AllCommonsRepository memberrep = Context.getInstance().allCommonsRepositoryobjects("household");
+                        CommonPersonObject memberObject = Context.getInstance().allCommonsRepositoryobjects("members").findByCaseID(pc.entityId());
+                        CommonPersonObject householdObject = Context.getInstance().allCommonsRepositoryobjects("household").findByCaseID(memberObject.getRelationalId());
 
-                        Logger.largeLog("--------------",pc.toString());
-                        overridejsonobject.put("existing_Is_Reg_Today",((pc.getDetails().get("Is_Reg_Today")!=null?pc.getDetails().get("Is_Reg_Today"):"")));
+                        Logger.largeLog("---------pc",pc.getDetails().toString());
+                        Logger.largeLog("---------member",memberObject.getDetails().toString());
+                        Logger.largeLog("----------household",householdObject.getDetails().toString());
+                        overridejsonobject.put("e_bcg",((pc.getDetails().get("final_bcg")!=null?pc.getDetails().get("final_bcg"):"")));
+
+                        overridejsonobject.put("existing_location",((householdObject.getDetails().get("existing_location")!=null?householdObject.getDetails().get("existing_location"):"")));
 
                         overridejsonobject.put("e_bcg",((pc.getDetails().get("final_bcg")!=null?pc.getDetails().get("final_bcg"):"")));
                         overridejsonobject.put("e_opv0",((pc.getDetails().get("final_opv0")!=null?pc.getDetails().get("final_opv0"):"")));
