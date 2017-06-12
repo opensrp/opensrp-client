@@ -37,10 +37,10 @@ public class DailyTalliesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View fragmentview = inflater.inflate(R.layout.expandable_list_fragment, container, false);
-        expandableListView = (ExpandableListView) fragmentview.findViewById(R.id.expandable_list_view);
+        View fragmentView = inflater.inflate(R.layout.expandable_list_fragment, container, false);
+        expandableListView = (ExpandableListView) fragmentView.findViewById(R.id.expandable_list_view);
         updateExpandableList();
-        return fragmentview;
+        return fragmentView;
     }
 
     @Override
@@ -52,6 +52,23 @@ public class DailyTalliesFragment extends Fragment {
     }
 
     private void updateExpandableList() {
+        updateExpandableList(dummyData());
+    }
+
+    @SuppressWarnings("unchecked")
+    private void updateExpandableList(final Map<String, List<String>> map) {
+
+        if (expandableListView == null) {
+            return;
+        }
+
+        ExpandedListAdapter expandableListAdapter = new ExpandedListAdapter(getActivity(), map, R.layout.daily_tally_header, R.layout.daily_tally_item);
+        expandableListView.setAdapter(expandableListAdapter);
+        expandableListAdapter.notifyDataSetChanged();
+    }
+
+    //TODO REMOVE
+    private Map<String, List<String>> dummyData() {
         Map<String, List<String>> map = new LinkedHashMap<>();
 
         Calendar cal = Calendar.getInstance();
@@ -124,18 +141,7 @@ public class DailyTalliesFragment extends Fragment {
 
         map.put(three, days);
 
-        updateExpandableList(map);
-    }
-
-    private void updateExpandableList(final Map<String, List<String>> map) {
-
-        if (expandableListView == null) {
-            return;
-        }
-
-        ExpandedListAdapter expandableListAdapter = new ExpandedListAdapter(getActivity(), map, R.layout.daily_tally_header, R.layout.daily_tally_item);
-        expandableListView.setAdapter(expandableListAdapter);
-        expandableListAdapter.notifyDataSetChanged();
+        return map;
     }
 
 }

@@ -1,6 +1,7 @@
 package org.ei.opensrp.path.adapter;
 
 import android.content.Context;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,21 +19,21 @@ import java.util.Map;
 /**
  * Created by keyman on 12/06/2017.
  */
-public class ExpandedListAdapter extends BaseExpandableListAdapter {
+public class ExpandedListAdapter<T> extends BaseExpandableListAdapter {
 
     private Context context;
-    private Map<String, List<String>> map = new LinkedHashMap<>();
+    private Map<String, List<T>> map = new LinkedHashMap<>();
     private List<String> headers = new ArrayList<>();
     private int headerLayout;
     private int childLayout;
 
 
-    public ExpandedListAdapter(Context context, Map<String, List<String>> map, int headerLayout, int childLayout) {
+    public ExpandedListAdapter(Context context, Map<String, List<T>> map, int headerLayout, int childLayout) {
         this.context = context;
 
         if (map != null && !map.isEmpty()) {
             this.map = map;
-            for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+            for (Map.Entry<String, List<T>> entry : map.entrySet()) {
                 this.headers.add(entry.getKey());
             }
         }
@@ -44,7 +45,7 @@ public class ExpandedListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosititon) {
+    public T getChild(int groupPosition, int childPosititon) {
         return map.get(headers.get(groupPosition))
                 .get(childPosititon);
     }
@@ -63,13 +64,32 @@ public class ExpandedListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(childLayout, null);
         }
 
-        View tvView = convertView.findViewById(R.id.tv);
-        if (tvView != null) {
-            TextView tv = (TextView) tvView;
-            String text = (String) getChild(groupPosition, childPosition);
-            tv.setText(text);
+        T childObject = getChild(groupPosition, childPosition);
+        String text = null;
+        String details = null;
 
-            convertView.setTag(text);
+        if (childObject != null) {
+            if (childObject instanceof String) {
+                text = (String) getChild(groupPosition, childPosition);
+
+            } else if (childObject instanceof Pair) {
+                Pair<String, String> pair = (Pair<String, String>) getChild(groupPosition, childPosition);
+                text = pair.first;
+                details = pair.second;
+            }
+
+            View tvView = convertView.findViewById(R.id.tv);
+            if (tvView != null && text != null) {
+                TextView tv = (TextView) tvView;
+                tv.setText(text);
+                convertView.setTag(text);
+            }
+
+            View detailView = convertView.findViewById(R.id.details);
+            if (detailView != null && details != null) {
+                TextView detailTextView = (TextView) detailView;
+                detailTextView.setText(details);
+            }
         }
 
         isLastChild = (getChildrenCount(groupPosition) - 1) == childPosition;
