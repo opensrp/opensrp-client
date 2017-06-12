@@ -136,6 +136,7 @@
     <string name="edit_registration_data">Edit registration data</string>
     <string name="edit_weight_data">Edit weight data</string>
     <string name="edit_immunization_data">Edit immunisation data</string>
+    <string name="edit_recurring_services_data">Edit recurring services data</string>
     <string name="mark_inactive">Mark inactive</string>
     <string name="mark_active">Mark active</string>
     <string name="mark_as_lost_to_followup">Mark as lost to followup</string>
@@ -229,6 +230,7 @@
     <string name="boys">Boys</string>
     <string name="weight_for_age">Weight-for-age %1$s</string>
     <string name="previous_weights">PREVIOUS WEIGHTS</string>
+    <string name="sync_failed_no_internet">Sync failed. Check your internet connection.</string>
 
 >>>>>>> 6644dfb84f22b241670ee020ebb4b604582ad7b4
 </resources>
