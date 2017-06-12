@@ -240,7 +240,7 @@ public class Current_Stock extends Fragment implements
         setTablename(tableName);
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
         countqueryBUilder.SelectInitiateMainTableCounts(tableName);
-        countSelect = countqueryBUilder.mainCondition("");
+        countSelect = countqueryBUilder.mainCondition("Stocks."+StockRepository.VACCINE_TYPE_ID+" = "+ ((StockControlActivity)getActivity()).vaccine_type.getId());
         mainCondition = "";
         CountExecute();
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
