@@ -24,24 +24,15 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.vijay.jsonwizard.customviews.CheckBox;
-import com.vijay.jsonwizard.customviews.RadioButton;
-import com.vijay.jsonwizard.utils.DatePickerUtils;
-
 import org.apache.commons.lang3.StringUtils;
-import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.domain.Weight;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.path.domain.ZScore;
-import org.ei.opensrp.path.listener.VaccinationActionListener;
 import org.ei.opensrp.util.OpenSRPImageLoader;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.joda.time.DateTime;
 import org.opensrp.api.constants.Gender;
-import org.ei.opensrp.view.customControls.CustomFontTextView;
-import org.ei.opensrp.util.OpenSRPImageLoader;
-import org.ei.opensrp.view.activity.DrishtiApplication;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -246,7 +237,7 @@ public class GrowthDialogFragment extends DialogFragment {
             TextView ageTextView = new TextView(dialogView.getContext());
             ageTextView.setHeight(getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
             ageTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-                    getResources().getDimension(R.dimen.table_contents_text_size));
+                    getResources().getDimension(R.dimen.weight_table_contents_text_size));
             ageTextView.setText(DateUtils.getDuration(weight.getDate().getTime() - dob.getTime()));
             ageTextView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
             ageTextView.setTextColor(getResources().getColor(R.color.client_list_grey));
@@ -255,7 +246,7 @@ public class GrowthDialogFragment extends DialogFragment {
             TextView weightTextView = new TextView(dialogView.getContext());
             weightTextView.setHeight(getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
             weightTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-                    getResources().getDimension(R.dimen.table_contents_text_size));
+                    getResources().getDimension(R.dimen.weight_table_contents_text_size));
             weightTextView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
             weightTextView.setText(
                     String.format("%s %s", String.valueOf(weight.getKg()), getString(R.string.kg)));
@@ -265,7 +256,7 @@ public class GrowthDialogFragment extends DialogFragment {
             TextView zScoreTextView = new TextView(dialogView.getContext());
             zScoreTextView.setHeight(getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
             zScoreTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-                    getResources().getDimension(R.dimen.table_contents_text_size));
+                    getResources().getDimension(R.dimen.weight_table_contents_text_size));
             zScoreTextView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
             double zScore = ZScore.calculate(gender, dob, weight.getDate(), weight.getKg());
             zScore = ZScore.roundOff(zScore);

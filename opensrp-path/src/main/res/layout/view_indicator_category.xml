@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/category_name_canvas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/category_name"
+            style="@style/CustomFontTextViewStyle.ClientList.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/table_row_side_margin"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/expanded_view"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/table_row_side_margin"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_icon_expand" />
+    </RelativeLayout>
+
+    <TableLayout
+        android:id="@+id/indicator_table"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:stretchColumns="1">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/table_contents_text_height"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:gravity="left|center_vertical"
+                android:minWidth="80dp"
+                android:paddingLeft="@dimen/table_row_side_margin"
+                android:paddingRight="@dimen/table_row_middle_margin"
+                android:text="ID"
+                android:textColor="@color/client_list_grey"
+                android:textSize="@dimen/indicator_table_contents_text_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/table_contents_text_height"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:gravity="left|center_vertical"
+                android:maxWidth="@dimen/max_indicator_name_width"
+                android:minWidth="80dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="@dimen/table_row_middle_margin"
+                android:text="Indicator"
+                android:textColor="@color/client_list_grey"
+                android:textSize="@dimen/indicator_table_contents_text_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/table_contents_text_height"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:gravity="right|center_vertical"
+                android:minWidth="80dp"
+                android:paddingLeft="@dimen/table_row_middle_margin"
+                android:paddingRight="@dimen/table_row_side_margin"
+                android:text="Value"
+                android:textColor="@color/client_list_grey"
+                android:textSize="@dimen/indicator_table_contents_text_size" />
+        </TableRow>
+    </TableLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/indicator_table_divider_height"
+        android:background="@color/client_list_header_dark_grey" />
+</LinearLayout>

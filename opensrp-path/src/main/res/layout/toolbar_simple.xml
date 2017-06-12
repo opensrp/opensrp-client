@@ -1,0 +1,25 @@
+<android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:theme="@style/AppThemeNoTitle.AppBarOverlay">
+
+    <org.ei.opensrp.path.toolbar.SimpleToolbar
+        android:id="@+id/simple_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:id="@+id/title"
+                style="@style/CustomFontTextViewStyle.NavBar.Black"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent" />
+
+        </FrameLayout>
+    </org.ei.opensrp.path.toolbar.SimpleToolbar>
+
+</android.support.design.widget.AppBarLayout>
