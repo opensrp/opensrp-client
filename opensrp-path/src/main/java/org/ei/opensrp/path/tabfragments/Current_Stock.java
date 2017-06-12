@@ -212,6 +212,7 @@ public class Current_Stock extends Fragment implements
         });
 
         onInitialization();
+        refresh();
         return view;
     }
     private void getValueForStock(View view) {
@@ -370,7 +371,7 @@ public class Current_Stock extends Fragment implements
             }
             Stock stock = new Stock(null,Stock.loss_adjustment,allSharedPreferences.fetchRegisteredANM(),Integer.parseInt(vials_received),encounterDate.getTime(),Received_Stock_From,StockRepository.TYPE_Unsynced,System.currentTimeMillis(),""+((StockControlActivity)(getActivity())).vaccine_type.getId());
             str.add(stock);
-
+            returnfromform();
         } catch (JSONException e) {
             e.printStackTrace();
         }

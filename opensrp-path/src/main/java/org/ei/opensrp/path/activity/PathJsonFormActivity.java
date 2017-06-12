@@ -113,7 +113,7 @@ public class PathJsonFormActivity extends JsonFormActivity {
                                         }
                                     }
 
-                                    currentBalance = str.getVaccineUsedToday(encounterDate.getTime(),vaccineName.toLowerCase());
+                                    currentBalance = str.getVaccineUsedToday(encounterDate.getTime(),checkifmeasles(vaccineName.toLowerCase()));
                                 }
                             }
                             int DosesPerVial = 0;
@@ -194,7 +194,7 @@ public class PathJsonFormActivity extends JsonFormActivity {
                                             }
                                         }
                                     }
-                                    currentBalance = str.getVaccineUsedToday(encounterDate.getTime(),vaccineName.toLowerCase());
+                                    currentBalance = str.getVaccineUsedToday(encounterDate.getTime(),checkifmeasles(vaccineName.toLowerCase()));
 
                                 }
                             }
@@ -470,6 +470,7 @@ public class PathJsonFormActivity extends JsonFormActivity {
                                         }
                                     }
                                     String vaccineName = object.getString("title").replace("Stock Loss/Adjustment", "").trim();
+                                    vaccineName = checkifmeasles(vaccineName);
                                     StockRepository str = new StockRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(), VaccinatorApplication.createCommonFtsObject(), Context.getInstance().alertService());
                                     currentBalance = str.getBalanceFromNameAndDate(vaccineName, encounterDate.getTime());
                                 }
@@ -496,6 +497,14 @@ public class PathJsonFormActivity extends JsonFormActivity {
             e.printStackTrace();
         }
     }
+
+    private String checkifmeasles(String vaccineName) {
+        if(vaccineName.equalsIgnoreCase("M/MR")){
+            return "measles";
+        }
+        return vaccineName;
+    }
+
     public boolean checkIfBalanceNegative() {
         boolean balancecheck = true;
         String balancestring = pathJsonFormFragment.getRelevantTextViewString("Balance");
