@@ -1,7 +1,6 @@
 package org.ei.opensrp.path.fragment;
 
 import android.app.Activity;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -18,18 +17,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.path.R;
-import org.ei.opensrp.path.provider.MotherLookUpSmartClientsProvider;
 import org.ei.opensrp.view.customControls.CustomFontTextView;
 import org.ei.opensrp.view.customControls.FontVariant;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -81,23 +76,7 @@ public class DraftMonthlyFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    List<String> list = new ArrayList<String>();
-
-                    Calendar cal = Calendar.getInstance();
-                    cal.roll(Calendar.MONTH, false);
-                    String one = new SimpleDateFormat("MMMM yyyy").format(cal.getTime());
-                    list.add(one);
-
-                    cal.roll(Calendar.MONTH, false);
-                    String two = new SimpleDateFormat("MMMM yyyy").format(cal.getTime());
-                    list.add(two);
-
-
-                    cal.roll(Calendar.MONTH, false);
-                    String three = new SimpleDateFormat("MMMM yyyy").format(cal.getTime());
-                    list.add(three);
-
-                    updateResults(list, monthClickListener);
+                    updateResults(dummyData(), monthClickListener);
 
                 }
             });
@@ -202,6 +181,28 @@ public class DraftMonthlyFragment extends Fragment {
 
         snackbar.show();
 
+    }
+
+
+    //TODO REMOVE
+    private List<String> dummyData() {
+        List<String> list = new ArrayList<String>();
+
+        Calendar cal = Calendar.getInstance();
+        cal.roll(Calendar.MONTH, false);
+        String one = new SimpleDateFormat("MMMM yyyy").format(cal.getTime());
+        list.add(one);
+
+        cal.roll(Calendar.MONTH, false);
+        String two = new SimpleDateFormat("MMMM yyyy").format(cal.getTime());
+        list.add(two);
+
+
+        cal.roll(Calendar.MONTH, false);
+        String three = new SimpleDateFormat("MMMM yyyy").format(cal.getTime());
+        list.add(three);
+
+        return list;
     }
 }
 

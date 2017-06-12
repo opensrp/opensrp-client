@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
+
+        <ImageView
+            android:id="@+id/daily_tallies_img"
+            android:layout_width="@dimen/sent_monthly_pic_dim"
+            android:layout_height="@dimen/sent_monthly_pic_dim"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:paddingLeft="20dp"
+            android:src="@drawable/ic_sent_monthly" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/daily_tallies_img"
+            android:orientation="vertical"
+            android:paddingLeft="20dp">
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:id="@+id/tv"
+                style="@style/CustomFontTextViewStyle.ClientList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textColor="@color/text_black"
+                android:textSize="22sp" />
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:id="@+id/details"
+                style="@style/CustomFontTextViewStyle.ClientList.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Details"
+                android:textColor="@color/text_black"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/adapter_divider_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="0.25dp"
+        android:layout_below="@+id/tv"
+        android:layout_marginTop="10dp"
+        android:background="@color/light_grey"
+        android:visibility="gone" />
+
+</LinearLayout>

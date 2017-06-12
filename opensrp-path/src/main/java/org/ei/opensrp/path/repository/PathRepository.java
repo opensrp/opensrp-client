@@ -45,6 +45,7 @@ import util.DatabaseUtils;
 import util.JsonFormUtils;
 import util.MoveToMyCatchmentUtils;
 import util.PathConstants;
+import util.Utils;
 
 public class PathRepository extends Repository {
 
@@ -904,6 +905,7 @@ public class PathRepository extends Repository {
             Log.e(getClass().getName(), "Exception", e);
         }
     }
+
     public void addReport(JSONObject jsonObject) {
         try {
 
@@ -915,24 +917,25 @@ public class PathRepository extends Repository {
             //update existing event if eventid present
             if (jsonObject.has(report_column.formSubmissionId.name()) && jsonObject.getString(report_column.formSubmissionId.name()) != null) {
                 //sanity check
-                if (checkIfExistsByFormSubmissionId(Table.report, jsonObject.getString(report_column.formSubmissionId.name()))) {
-                    int id = getWritableDatabase().update(Table.report.name(), values, report_column.formSubmissionId.name() + "=?", new String[]{jsonObject.getString(report_column.formSubmissionId.name())});
+                if (checkIfExistsByFormSubmissionId(Table.path_reports, jsonObject.getString(report_column.formSubmissionId.name()))) {
+                    int id = getWritableDatabase().update(Table.path_reports.name(), values, report_column.formSubmissionId.name() + "=?", new String[]{jsonObject.getString(report_column.formSubmissionId.name())});
                 } else {
                     //that odd case
                     values.put(report_column.formSubmissionId.name(), jsonObject.getString(report_column.formSubmissionId.name()));
 
-                    getWritableDatabase().insert(Table.report.name(), null, values);
+                    getWritableDatabase().insert(Table.path_reports.name(), null, values);
 
                 }
             } else {
 // a case here would be if an event comes from openmrs
-                getWritableDatabase().insert(Table.report.name(), null, values);
+                getWritableDatabase().insert(Table.path_reports.name(), null, values);
             }
 
         } catch (Exception e) {
             Log.e(getClass().getName(), "Exception", e);
         }
     }
+
     public void markEventAsSynced(String formSubmissionId) {
         try {
 
@@ -1122,7 +1125,7 @@ public class PathRepository extends Repository {
     // Definitions
     public enum Table {
         client(client_column.values()), event(event_column.values()),
-        report(report_column.values()),
+        path_reports(report_column.values()),
         address(address_column.values()), obs(obs_column.values());
         private Column[] columns;
 
@@ -1239,6 +1242,7 @@ public class PathRepository extends Repository {
             return column;
         }
     }
+
     public enum report_column implements Column {
         creator(ColumnAttribute.Type.text, false, false),
         dateCreated(ColumnAttribute.Type.date, false, true),
@@ -1486,10 +1490,25 @@ public class PathRepository extends Repository {
             db.execSQL(WeightRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL);
             db.execSQL(WeightRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX);
             HIA2Repository.createTable(db);
-            createTable(db, Table.report, report_column.values());
+            createTable(db, Table.path_reports, report_column.values());
+            HIA2IndicatorsRepository.createTable(db);
+            //csv column no to table column names
+            Map<Integer,String> columnMappings= new HashMap<>();
+            columnMappings.put(0,HIA2IndicatorsRepository.ID_COLUMN);
+            columnMappings.put(1,HIA2IndicatorsRepository.INDICATOR_CODE);
+            columnMappings.put(2,HIA2IndicatorsRepository.LABEL);
+            columnMappings.put(3,HIA2IndicatorsRepository.DHIS_ID);
+            columnMappings.put(4,HIA2IndicatorsRepository.DESCRIPTION);
+            List<Map<String, String>> csvData = Utils.populateTableFromCSV(context, HIA2IndicatorsRepository.INDICATORS_CSV_FILE, columnMappings);
+            HIA2IndicatorsRepository hIA2IndicatorsRepository = VaccinatorApplication.getInstance().hIA2IndicatorsRepository();
+            hIA2IndicatorsRepository.save(db,csvData);
 
         } catch (Exception e) {
             Log.e(TAG, "upgradeToVersion7 " + e.getMessage());
         }
     }
+
+
+
+
 }

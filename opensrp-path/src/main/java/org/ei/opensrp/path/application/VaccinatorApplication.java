@@ -20,6 +20,7 @@ import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.domain.VaccineSchedule;
 import org.ei.opensrp.path.receiver.PathSyncBroadcastReceiver;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
+import org.ei.opensrp.path.repository.HIA2IndicatorsRepository;
 import org.ei.opensrp.path.repository.HIA2Repository;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
@@ -59,6 +60,7 @@ public class VaccinatorApplication extends DrishtiApplication
     private WeightRepository weightRepository;
     private UniqueIdRepository uniqueIdRepository;
     private HIA2Repository hia2Repository;
+    private HIA2IndicatorsRepository hIA2IndicatorsRepository;
     private VaccineRepository vaccineRepository;
     private ZScoreRepository zScoreRepository;
     private RecurringServiceRecordRepository recurringServiceRecordRepository;
@@ -274,6 +276,14 @@ public class VaccinatorApplication extends DrishtiApplication
         }
         return hia2Repository;
     }
+
+    public HIA2IndicatorsRepository hIA2IndicatorsRepository() {
+        if (hIA2IndicatorsRepository == null) {
+            hIA2IndicatorsRepository = new HIA2IndicatorsRepository((PathRepository) getRepository());
+        }
+        return hIA2IndicatorsRepository;
+    }
+
     public RecurringServiceTypeRepository recurringServiceTypeRepository() {
         if (recurringServiceTypeRepository == null) {
             recurringServiceTypeRepository = new RecurringServiceTypeRepository((PathRepository) getRepository());

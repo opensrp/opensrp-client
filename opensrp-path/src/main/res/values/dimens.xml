@@ -124,4 +124,5 @@
     <dimen name="table_row_side_margin">20dp</dimen>
     <dimen name="table_row_middle_margin">10dp</dimen>
     <dimen name="indicator_table_contents_text_size">18sp</dimen>
+
 </resources>
