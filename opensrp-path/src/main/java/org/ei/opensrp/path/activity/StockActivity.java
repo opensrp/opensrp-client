@@ -117,6 +117,9 @@ public class StockActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         refreshadapter();
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        LinearLayout stockregister = (LinearLayout) drawer.findViewById(R.id.stockcontrol);
+        stockregister.setBackgroundColor(getResources().getColor(R.color.tintcolor));
     }
 
     @Override

@@ -208,6 +208,7 @@ public class StockControlActivity extends AppCompatActivity {
 //                finish();
             }
         });
+        stockregister.setBackgroundColor(getResources().getColor(R.color.tintcolor));
 
     }
 

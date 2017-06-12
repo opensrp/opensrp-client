@@ -11,9 +11,11 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
@@ -115,6 +117,10 @@ public class ChildSmartRegisterActivity extends BaseRegisterActivity {
 
     @Override
     protected void onResumption() {
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        LinearLayout childregister = (LinearLayout) drawer.findViewById(R.id.child_register);
+        childregister.setBackgroundColor(getResources().getColor(R.color.tintcolor));
+
     }
 
     @Override
