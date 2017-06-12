@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model>
     <instance>
-        <Child_Vaccination_Followup  encounter_type="Child Vaccination Followup" id="child_vaccination_followup" version="201704130535">
+        <Child_Vaccination_Followup  encounter_type="Child Vaccination Followup" id="child_vaccination_followup" version="201705041048">
             <formhub>
                 <uuid />
             </formhub>
@@ -228,7 +228,7 @@
         </root>
     </instance>
     <instance id="yes_no">
-        <root >
+        <root>
             <item>
                 <itextId>static_instance-yes_no-0</itextId>
                 <name>yes</name>

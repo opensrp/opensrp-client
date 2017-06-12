@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
+import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
@@ -249,6 +250,9 @@ public class HH_child_member_SmartRegisterFragment extends SecuredNativeSmartReg
                     CommonPersonObjectClient pc = (CommonPersonObjectClient) view.getTag();
                     JSONObject overridejsonobject = new JSONObject();
                     try {
+                        CommonPersonObject memberobject = Context.getInstance().allCommonsRepositoryobjects("household").findByCaseID(pc.entityId());
+                        AllCommonsRepository memberrep = Context.getInstance().allCommonsRepositoryobjects("household");
+
                         Logger.largeLog("--------------",pc.toString());
                         overridejsonobject.put("existing_Is_Reg_Today",((pc.getDetails().get("Is_Reg_Today")!=null?pc.getDetails().get("Is_Reg_Today"):"")));
 

@@ -540,10 +540,10 @@ public class HH_ChildSmartClientsProvider implements SmartRegisterCLientsProvide
             return "PENTA 3"+ "\n"+ getVaccineDateText(alertlist.get(0).scheduleName(),pc);
         }
         if(alertlist.get(0).scheduleName().equalsIgnoreCase("child_measles1")) {
-            return "MEASLES 1"+ "\n"+ getVaccineDateText(alertlist.get(0).scheduleName(),pc);
+            return "MR 1"+ "\n"+ getVaccineDateText(alertlist.get(0).scheduleName(),pc);
         }
         if(alertlist.get(0).scheduleName().equalsIgnoreCase("child_measles2")) {
-            return "MEASLES 2"+ "\n"+ getVaccineDateText(alertlist.get(0).scheduleName(),pc);
+            return "MR 2"+ "\n"+ getVaccineDateText(alertlist.get(0).scheduleName(),pc);
         }
 
         return "";
