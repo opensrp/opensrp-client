@@ -257,7 +257,7 @@
                     <org.ei.opensrp.view.customControls.CustomFontTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        style="@style/CustomFontTextViewStyle.ClientList.Bold"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
                         android:text="Age"
                         android:id="@+id/age_label"
                         android:textColor="@color/client_list_grey"
@@ -267,7 +267,7 @@
                     <org.ei.opensrp.view.customControls.CustomFontTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        style="@style/CustomFontTextViewStyle.ClientList.Bold"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
                         android:text="Last Month"
                         android:id="@+id/last_month_label"
                         android:textColor="@color/client_list_grey"
@@ -277,7 +277,7 @@
                     <org.ei.opensrp.view.customControls.CustomFontTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        style="@style/CustomFontTextViewStyle.ClientList.Bold"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
                         android:text="This Month"
                         android:id="@+id/this_month_label"
                         android:textColor="@color/client_list_grey"
@@ -287,7 +287,7 @@
                     <org.ei.opensrp.view.customControls.CustomFontTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        style="@style/CustomFontTextViewStyle.ClientList.Bold"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
                         android:text="Difference"
                         android:id="@+id/difference_label"
                         android:textColor="@color/client_list_grey"
@@ -390,7 +390,7 @@
                     <org.ei.opensrp.view.customControls.CustomFontTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        style="@style/CustomFontTextViewStyle.ClientList.Bold"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
                         android:text="Total"
                         android:id="@+id/total_label"
                         android:textColor="@color/client_list_grey"
@@ -400,7 +400,7 @@
                     <org.ei.opensrp.view.customControls.CustomFontTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        style="@style/CustomFontTextViewStyle.ClientList.Bold"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
                         android:text="102"
                         android:id="@+id/last_month_total"
                         android:textColor="@color/client_list_grey"
@@ -410,7 +410,7 @@
                     <org.ei.opensrp.view.customControls.CustomFontTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        style="@style/CustomFontTextViewStyle.ClientList.Bold"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
                         android:text="122"
                         android:id="@+id/this_month_total"
                         android:textColor="@color/client_list_grey"
@@ -420,7 +420,7 @@
                     <org.ei.opensrp.view.customControls.CustomFontTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        style="@style/CustomFontTextViewStyle.ClientList.Bold"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
                         android:text="30"
                         android:id="@+id/difference_total"
                         android:textColor="@color/client_list_grey"

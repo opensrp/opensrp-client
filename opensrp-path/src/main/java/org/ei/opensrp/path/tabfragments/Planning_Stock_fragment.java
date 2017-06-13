@@ -279,6 +279,7 @@ public class Planning_Stock_fragment extends Fragment {
         graph.getViewport().setMinX(now.minusMonths(3).toDate().getTime());
         graph.getViewport().setMaxX(now.toDate().getTime());
         graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinY(0.0);
         graph.getViewport().setMaxY(series.getHighestValueY());
         graph.getGridLabelRenderer().setHumanRounding(false);
