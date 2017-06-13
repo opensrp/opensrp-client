@@ -9,14 +9,15 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/smart_register_client_divider_height"
-        android:src="@color/smart_register_client_divider_color"/>
+        android:src="@color/white"/>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/list_item_height"
+        android:layout_height="@dimen/abc_action_bar_stacked_max_height"
         android:weightSum="13"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp">
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:id="@+id/date"
@@ -26,23 +27,17 @@
             android:text="ZEIR ID"
             android:textColor="@color/client_list_grey"
             android:textSize="18sp"
-            android:layout_weight="2.5"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp" />
+            android:layout_weight="2.5" />
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:id="@+id/to_from"
-            style="@style/CustomFontTextViewStyle.ClientList.Light"
+            style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="ZEIR ID"
             android:textColor="@color/client_list_grey"
             android:textSize="18sp"
-            android:layout_weight="2"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp" />
+            android:layout_weight="2" />
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:id="@+id/received"
@@ -52,10 +47,7 @@
             android:text="ZEIR ID"
             android:textColor="@color/client_list_grey"
             android:textSize="18sp"
-            android:layout_weight="2.5"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp" />
+            android:layout_weight="2.5" />
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:id="@+id/issued"
@@ -65,10 +57,7 @@
             android:text="ZEIR ID"
             android:textColor="@color/client_list_grey"
             android:textSize="18sp"
-            android:layout_weight="2"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp" />
+            android:layout_weight="2" />
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:id="@+id/loss_adj"
@@ -78,10 +67,7 @@
             android:text="ZEIR ID"
             android:textColor="@color/client_list_grey"
             android:textSize="18sp"
-            android:layout_weight="2.25"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp" />
+            android:layout_weight="2.25" />
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:id="@+id/balance"
@@ -92,10 +78,7 @@
             android:textColor="@color/client_list_grey"
             android:textSize="18sp"
             android:layout_weight="1.75"
-            android:gravity="right"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp" />
+            android:gravity="right" />
     </LinearLayout>
 
 

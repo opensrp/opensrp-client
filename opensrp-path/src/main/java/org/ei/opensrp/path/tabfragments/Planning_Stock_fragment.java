@@ -30,6 +30,7 @@ import org.ei.opensrp.path.repository.StockRepository;
 import org.ei.opensrp.util.StringUtil;
 import org.joda.time.DateTime;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -118,7 +119,8 @@ public class Planning_Stock_fragment extends Fragment {
         }else{
             wastepercent = (1- ((double)vaccinegiven/vaccineissued))*100;
         }
-        ((TextView)view.findViewById(R.id.avg_vacc_waste_rate_value)).setText(""+wastepercent+ "%");
+        DecimalFormat df = new DecimalFormat("####0.00");
+        ((TextView)view.findViewById(R.id.avg_vacc_waste_rate_value)).setText(""+df.format(wastepercent)+ "%");
 
     }
 
@@ -277,7 +279,8 @@ public class Planning_Stock_fragment extends Fragment {
         graph.getViewport().setMinX(now.minusMonths(3).toDate().getTime());
         graph.getViewport().setMaxX(now.toDate().getTime());
         graph.getViewport().setXAxisBoundsManual(true);
-
+        graph.getViewport().setMinY(0.0);
+        graph.getViewport().setMaxY(series.getHighestValueY());
         graph.getGridLabelRenderer().setHumanRounding(false);
 
         return series;

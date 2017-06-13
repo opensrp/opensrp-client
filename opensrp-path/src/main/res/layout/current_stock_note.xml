@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <org.ei.opensrp.view.customControls.CustomFontTextView
+        android:id="@+id/balance"
+        style="@style/CustomFontTextViewStyle.ClientList.Light"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Note: stock numbers are in vials "
+        android:textColor="@color/client_list_grey"
+        android:textSize="18sp" />
+        android:textSize="18sp" />
+
+</LinearLayout>

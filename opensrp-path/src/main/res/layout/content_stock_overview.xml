@@ -12,11 +12,12 @@
         android:numColumns="auto_fit"
         android:gravity="center"
         android:layout_gravity="center"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="10dp"
+        android:verticalSpacing="8dp"
+        android:horizontalSpacing="8dp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:columnWidth="150dp"
-        android:layout_margin="10dp"
-        />
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp" />
 </LinearLayout>

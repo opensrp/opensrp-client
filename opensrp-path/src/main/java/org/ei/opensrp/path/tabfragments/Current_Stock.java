@@ -19,8 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
@@ -452,6 +454,8 @@ public class Current_Stock extends Fragment implements
 
 
         private void addPagination(ListView clientsView) {
+            LinearLayout toaddNote = new LinearLayout(getActivity());
+            toaddNote.setOrientation(LinearLayout.VERTICAL);
             ViewGroup footerView = getPaginationView();
             nextPageView = (Button) footerView.findViewById(R.id.btn_next_page);
             previousPageView = (Button) footerView.findViewById(R.id.btn_previous_page);
@@ -463,8 +467,14 @@ public class Current_Stock extends Fragment implements
             footerView.setLayoutParams(new AbsListView.LayoutParams(
                     AbsListView.LayoutParams.MATCH_PARENT,
                     (int) getResources().getDimension(R.dimen.pagination_bar_height)));
+            toaddNote.addView(footerView);
 
-            clientsView.addFooterView(footerView);
+
+            LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            toaddNote.addView((ViewGroup) getActivity().getLayoutInflater().inflate(R.layout.current_stock_note, null),p);
+
+            clientsView.addFooterView(toaddNote);
             refresh();
         }
 
