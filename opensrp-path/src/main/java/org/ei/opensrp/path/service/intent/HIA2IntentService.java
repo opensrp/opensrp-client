@@ -6,7 +6,7 @@ import android.util.Log;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.path.application.VaccinatorApplication;
-import org.ei.opensrp.path.domain.DataElement;
+import org.ei.opensrp.path.domain.Hia2Indicator;
 import org.ei.opensrp.path.repository.HIA2Repository;
 import org.ei.opensrp.path.service.HIA2Service;
 
@@ -46,8 +46,8 @@ public class HIA2IntentService extends IntentService {
             Map<String, Map<String, Object>> hia2Report = hia2Service.generateIndicators(VaccinatorApplication.getInstance().getRepository().getWritableDatabase());
             hia2Repository.save(hia2Report);
             if (generateReport) {
-                List<DataElement> dataElements = hia2Repository.findByProviderIdAndMonth(userName, month);
-                ReportUtils.createReport(this, dataElements,HIA2Service.REPORT_NAME);
+                List<Hia2Indicator> hia2Indicators = hia2Repository.findByProviderIdAndMonth(userName, month);
+                ReportUtils.createReport(this, hia2Indicators,HIA2Service.REPORT_NAME);
             }
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);

@@ -39,13 +39,13 @@ public class Report{
     private int duration=0;
 
     @JsonProperty
-    private List<DataElement> dataElements;
+    private List<Hia2Indicator> hia2Indicators;
 
     public Report() {
     }
 
     public Report(String baseEntityId, String locationId, DateTime reportDate, String reportType, String formSubmissionId,
-                  String providerId, String status, long version, int duration, List<DataElement> dataElements) {
+                  String providerId, String status, long version, int duration, List<Hia2Indicator> hia2Indicators) {
         this.baseEntityId=baseEntityId;
         this.locationId = locationId;
         this.reportDate = reportDate;
@@ -55,7 +55,7 @@ public class Report{
         this.status = status;
         this.version = version;
         this.duration = duration;
-        this.dataElements = dataElements;
+        this.hia2Indicators = hia2Indicators;
     }
 
     public String getLocationId() {
@@ -138,13 +138,13 @@ public class Report{
     }
 
 
-    public List<DataElement> getDataElements() {
-        return dataElements;
+    public List<Hia2Indicator> getHia2Indicators() {
+        return hia2Indicators;
     }
 
 
-    public void setDataElements(List<DataElement> dataElements) {
-        this.dataElements = dataElements;
+    public void setHia2Indicators(List<Hia2Indicator> hia2Indicators) {
+        this.hia2Indicators = hia2Indicators;
     }
     public String getBaseEntityId() {
         return baseEntityId;

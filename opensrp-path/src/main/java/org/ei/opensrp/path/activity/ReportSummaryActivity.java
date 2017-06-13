@@ -1,16 +1,13 @@
 package org.ei.opensrp.path.activity;
 
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import org.ei.opensrp.path.R;
-import org.ei.opensrp.path.domain.HIA2Indicator;
-import org.ei.opensrp.path.toolbar.LocationSwitcherToolbar;
+import org.ei.opensrp.path.domain.Hia2Indicator;
 import org.ei.opensrp.path.toolbar.SimpleToolbar;
 import org.ei.opensrp.path.view.IndicatorCategoryView;
 import org.ei.opensrp.view.customControls.CustomFontTextView;
@@ -24,7 +21,7 @@ public class ReportSummaryActivity extends BaseActivity {
     public static final String EXTRA_INDICATORS = "indicators";
     public static final String EXTRA_SUBMITTED_BY = "submitted_by";
     public static final String EXTRA_TITLE = "title";
-    private HashMap<String, ArrayList<HIA2Indicator>> indicators;
+    private HashMap<String, ArrayList<Hia2Indicator>> indicators;
     private String submittedBy;
     private SimpleToolbar toolbar;
 
@@ -47,7 +44,7 @@ public class ReportSummaryActivity extends BaseActivity {
         if (extras != null) {
             Serializable indicatorsSerializable = extras.getSerializable(EXTRA_INDICATORS);
             if (indicatorsSerializable != null && indicatorsSerializable instanceof ArrayList) {
-                ArrayList<HIA2Indicator> indicators = (ArrayList<HIA2Indicator>) indicatorsSerializable;
+                ArrayList<Hia2Indicator> indicators = (ArrayList<Hia2Indicator>) indicatorsSerializable;
                 setIndicators(indicators, false);
             }
 
@@ -96,20 +93,20 @@ public class ReportSummaryActivity extends BaseActivity {
         return null;
     }
 
-    public void setIndicators(ArrayList<HIA2Indicator> hia2Indicators) {
+    public void setIndicators(ArrayList<Hia2Indicator> hia2Indicators) {
         setIndicators(hia2Indicators, true);
     }
 
-    private void setIndicators(ArrayList<HIA2Indicator> hia2Indicators, boolean refreshViews) {
+    private void setIndicators(ArrayList<Hia2Indicator> hia2Indicators, boolean refreshViews) {
         this.indicators = new HashMap<>();
-        for (HIA2Indicator curHIA2Indicator : hia2Indicators) {
-            if (curHIA2Indicator != null && !TextUtils.isEmpty(curHIA2Indicator.category)) {
-                if (!this.indicators.containsKey(curHIA2Indicator.category)
-                        || this.indicators.get(curHIA2Indicator.category) == null) {
-                    this.indicators.put(curHIA2Indicator.category, new ArrayList<HIA2Indicator>());
+        for (Hia2Indicator curHIA2Indicator : hia2Indicators) {
+            if (curHIA2Indicator != null && !TextUtils.isEmpty(curHIA2Indicator.getCategory())) {
+                if (!this.indicators.containsKey(curHIA2Indicator.getCategory())
+                        || this.indicators.get(curHIA2Indicator.getCategory()) == null) {
+                    this.indicators.put(curHIA2Indicator.getCategory(), new ArrayList<Hia2Indicator>());
                 }
 
-                this.indicators.get(curHIA2Indicator.category).add(curHIA2Indicator);
+                this.indicators.get(curHIA2Indicator.getCategory()).add(curHIA2Indicator);
             }
         }
 

@@ -8,7 +8,7 @@ import android.util.Log;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.ei.opensrp.Context;
-import org.ei.opensrp.path.domain.DataElement;
+import org.ei.opensrp.path.domain.Hia2Indicator;
 import org.ei.opensrp.path.service.HIA2Service;
 
 import java.util.ArrayList;
@@ -89,30 +89,30 @@ public class HIA2Repository extends BaseRepository {
         }
     }
 
-    public List<DataElement> findByProviderIdAndMonth(String providerId, String month) {
-        List<DataElement> dataElements = null;
+    public List<Hia2Indicator> findByProviderIdAndMonth(String providerId, String month) {
+        List<Hia2Indicator> hia2Indicators = null;
         Cursor cursor = null;
         try {
             cursor = getPathRepository().getReadableDatabase().query(HIA2_TABLE_NAME, HIA2_TABLE_COLUMNS, PROVIDER_ID + " = ? AND " + MONTH + "=?", new String[]{providerId, month}, null, null, null, null);
-            dataElements = readAllDataElements(cursor);
+            hia2Indicators = readAllDataElements(cursor);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
         }
 
-        return dataElements;
+        return hia2Indicators;
     }
 
-    private List<DataElement> readAllDataElements(Cursor cursor) {
-        List<DataElement> dataElements = new ArrayList<>();
+    private List<Hia2Indicator> readAllDataElements(Cursor cursor) {
+        List<Hia2Indicator> hia2Indicators = new ArrayList<>();
         try {
             if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
 
-                    DataElement dataElement = new DataElement();
-                    dataElement.setDhis2Id(cursor.getString(cursor.getColumnIndex(DHIS_ID)));
-                    dataElement.setName(cursor.getString(cursor.getColumnIndex(INDICATOR_CODE)));
-                    dataElement.setValue(cursor.getString(cursor.getColumnIndex(VALUE)));
-                    dataElements.add(dataElement);
+                    Hia2Indicator hia2Indicator = new Hia2Indicator();
+                    hia2Indicator.setDhisId(cursor.getString(cursor.getColumnIndex(DHIS_ID)));
+                    hia2Indicator.setIndicatorCode(cursor.getString(cursor.getColumnIndex(INDICATOR_CODE)));
+                    hia2Indicator.setValue(cursor.getString(cursor.getColumnIndex(VALUE)));
+                    hia2Indicators.add(hia2Indicator);
 
                     cursor.moveToNext();
                 }
@@ -122,7 +122,7 @@ public class HIA2Repository extends BaseRepository {
         } finally {
             cursor.close();
         }
-        return dataElements;
+        return hia2Indicators;
 
     }
 

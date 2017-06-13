@@ -8,7 +8,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -16,7 +15,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import org.ei.opensrp.path.R;
-import org.ei.opensrp.path.domain.HIA2Indicator;
+import org.ei.opensrp.path.domain.Hia2Indicator;
 import org.ei.opensrp.view.customControls.CustomFontTextView;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ public class IndicatorCategoryView extends LinearLayout {
     private CustomFontTextView categoryName;
     private ImageView expandedView;
     private TableLayout indicatorTable;
-    private ArrayList<HIA2Indicator> indicators;
+    private ArrayList<Hia2Indicator> indicators;
 
     public IndicatorCategoryView(Context context) {
         super(context);
@@ -70,7 +69,7 @@ public class IndicatorCategoryView extends LinearLayout {
         setExpanded(false);
     }
 
-    public void setIndicators(String categoryName, ArrayList<HIA2Indicator> indicators) {
+    public void setIndicators(String categoryName, ArrayList<Hia2Indicator> indicators) {
         this.indicators = indicators;
         this.categoryName.setText(categoryName);
         refreshIndicatorTable();
@@ -78,7 +77,7 @@ public class IndicatorCategoryView extends LinearLayout {
 
     private void refreshIndicatorTable() {
         if (indicators != null) {
-            for (HIA2Indicator curIndicator : indicators) {
+            for (Hia2Indicator curIndicator : indicators) {
                 TableRow dividerRow = new TableRow(context);
                 View divider = new View(context);
                 TableRow.LayoutParams params = (TableRow.LayoutParams) divider.getLayoutParams();
@@ -97,7 +96,7 @@ public class IndicatorCategoryView extends LinearLayout {
                 idTextView.setHeight(getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
                 idTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                         getResources().getDimension(R.dimen.indicator_table_contents_text_size));
-                idTextView.setText(curIndicator.id.toUpperCase());
+                idTextView.setText(curIndicator.getIndicatorCode().toUpperCase());
                 idTextView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
                 idTextView.setPadding(
                         getResources().getDimensionPixelSize(R.dimen.table_row_side_margin),
@@ -114,7 +113,7 @@ public class IndicatorCategoryView extends LinearLayout {
                 nameTextView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
                 nameTextView.setPadding(0, 0,
                         getResources().getDimensionPixelSize(R.dimen.table_row_middle_margin), 0);
-                nameTextView.setText(curIndicator.name);
+                nameTextView.setText(curIndicator.getLabel());
                 nameTextView.setMaxWidth(context.getResources().getDimensionPixelSize(R.dimen.max_indicator_name_width));
                 nameTextView.setTextColor(getResources().getColor(R.color.client_list_grey));
                 curRow.addView(nameTextView);
@@ -130,7 +129,7 @@ public class IndicatorCategoryView extends LinearLayout {
                         getResources().getDimensionPixelSize(R.dimen.table_row_side_margin),
                         0);
                 valueTextView.setTextColor(getResources().getColor(R.color.client_list_grey));
-                valueTextView.setText(String.valueOf(Math.round(curIndicator.value)));
+                valueTextView.setText(curIndicator.getValue());
                 curRow.addView(valueTextView);
                 indicatorTable.addView(curRow);
             }
