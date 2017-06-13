@@ -19,6 +19,7 @@ import java.util.Map;
 public class HIA2Service {
     private String TAG = HIA2Service.class.getCanonicalName();
     public static DateFormat dfyymm = new SimpleDateFormat("yyyy-MM");
+    public static DateFormat dfyymmdd = new SimpleDateFormat("yyyy-MM-dd");
     public static String REPORT_NAME = "HIA2";
 
     private  String CHN1_005 = "CHN1-005";
@@ -151,6 +152,9 @@ public class HIA2Service {
     private  String CHN3_090_DHIS_ID = "FGJcw1TCM9D";
     private Map<String, Map<String, Object>> hia2Report = new HashMap<>();
     private SQLiteDatabase database;
+    public static String PREVIOUS_REPORT_DATES_QUERY="select distinct strftime('%Y-%m-%d',eventDate) as eventDate from event order by eventDate asc";
+    public static String HIA2_LAST_PROCESSED_DATE="HIA2_LAST_PROCESSED_DATE";
+    private String reportDate;
 
     //FIXME to uniquely identify out of areas change group by child.base_entity_id to group by zeir_id
     //FIXME add month as a variable to allow generation of previous months reports
@@ -161,8 +165,9 @@ public class HIA2Service {
      * Order of execution matters since indicators with total values depend on the values being added together existing in the hia2report map
      * @param _database
      */
-    public Map<String, Map<String, Object>> generateIndicators(final SQLiteDatabase _database) {
+    public Map<String, Map<String, Object>> generateIndicators(final SQLiteDatabase _database,String _reportDate) {
         database = _database;
+        reportDate=_reportDate;
         getCHN1_005();
         getCHN1_010();
         getCHN1_011();
@@ -258,7 +263,7 @@ public class HIA2Service {
         int count = 0;
         try {
             String query = "select count(*) as count," + ageQuery() + " from ec_child child inner join " + PathRepository.Table.event.name() + " e on e." + PathRepository.event_column.baseEntityId.name() + "= child.base_entity_id" +
-                    " where age " + age + " and  strftime('%Y-%m',date('now'))=strftime('%Y-%m',e.eventDate) and child.gender=" + (gender.isEmpty() ? "Male" : gender);
+                    " where age " + age + " and  '"+reportDate+"'=strftime('%Y-%m-%d',e.eventDate) and child.gender=" + (gender.isEmpty() ? "Male" : gender);
             count = executeQueryAndReturnCount(query);
         } catch (Exception e) {
             Log.logError(TAG, e.getMessage());
@@ -302,7 +307,7 @@ public class HIA2Service {
      */
     private void getCHN1_015() {
 //        gender = gender == null || gender.isEmpty() ? "Male" : gender;
-//        String query = "select count(*) as count," + ageQuery() + " from ec_child child inner join event e on e.baseEntityId=child.base_entity_id where  child.gender='" + gender + "' and strftime('%Y-%m',e.eventDate)=strftime('%Y-%m',date('now'))  and age between 12 and 59";
+//        String query = "select count(*) as count," + ageQuery() + " from ec_child child inner join event e on e.baseEntityId=child.base_entity_id where  child.gender='" + gender + "' and strftime('%Y-%m-%d',e.eventDate)='"+reportDate+"'  and age between 12 and 59";
         try {
             int count = clinicAttendance("Male", "between 12 and 59");
             Map<String, Object> indicatorMap = new HashMap<>();
@@ -449,11 +454,11 @@ public class HIA2Service {
     private void getCHN2_020() {
 
         try {
-            String query = "select count(*) as count, child.base_entity_id as beid,strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) as currentweightdate,(w.kg*1000) as currentweight," +
-                    "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m',date('now'),'-1 months')  limit 1) as prevweight," +
-                    "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m',date('now'),'-2 months')  limit 1 ) as last2monthsweight," +
+            String query = "select count(*) as count, child.base_entity_id as beid,strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) as currentweightdate,(w.kg*1000) as currentweight," +
+                    "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m-%d',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m-%d',date('now'),'-1 months')  limit 1) as prevweight," +
+                    "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m-%d',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m-%d',date('now'),'-2 months')  limit 1 ) as last2monthsweight," +
                     ageQuery() +
-                    "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id where strftime('%Y-%m',date('now'))=currentweightdate and age <23 and (currentweight-prevweight>0 and prevweight-last2monthsweight>0) group by beid";
+                    "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id where '"+reportDate+"'=currentweightdate and age <23 and (currentweight-prevweight>0 and prevweight-last2monthsweight>0) group by beid";
             int count = executeQueryAndReturnCount(query);
             Map<String, Object> indicatorMap = new HashMap<>();
             indicatorMap.put(CHN2_020_DHIS_ID, count);
@@ -471,11 +476,11 @@ public class HIA2Service {
      */
     private void getCHN2_025() {
         try {
-            String query = "select count(*) as count, child.base_entity_id as beid,strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) as currentweightdate,(w.kg*1000) as currentweight," +
-                    "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m',date('now'),'-1 months')  limit 1) as prevweight," +
-                    "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m',date('now'),'-2 months')  limit 1 ) as last2monthsweight," +
+            String query = "select count(*) as count, child.base_entity_id as beid,strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) as currentweightdate,(w.kg*1000) as currentweight," +
+                    "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m-%d',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m-%d',date('now'),'-1 months')  limit 1) as prevweight," +
+                    "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m-%d',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m-%d',date('now'),'-2 months')  limit 1 ) as last2monthsweight," +
                     ageQuery() +
-                    "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id where strftime('%Y-%m',date('now'))=currentweightdate and age between 24 and 59 and (currentweight-prevweight>0 and prevweight-last2monthsweight>0) group by beid";
+                    "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id where '"+reportDate+"'=currentweightdate and age between 24 and 59 and (currentweight-prevweight>0 and prevweight-last2monthsweight>0) group by beid";
             int count = executeQueryAndReturnCount(query);
             Map<String, Object> indicatorMap = new HashMap<>();
             indicatorMap.put(CHN2_025_DHIS_ID, count);
@@ -515,7 +520,7 @@ public class HIA2Service {
         try {
             String query = "select count(*) as count," + ageQuery() +
                     "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                    "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score between -2 and -3 group by child.base_entity_id;";
+                    "where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score between -2 and -3 group by child.base_entity_id;";
             int count = executeQueryAndReturnCount(query);
             Map<String, Object> indicatorMap = new HashMap<>();
             indicatorMap.put(CHN2_035_DHIS_ID, count);
@@ -533,7 +538,7 @@ public class HIA2Service {
         try {
             String query = "select count(*) as count," + ageQuery() +
                     "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                    "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score between -2 and -3 group by child.base_entity_id;";
+                    "where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score between -2 and -3 group by child.base_entity_id;";
             int count = executeQueryAndReturnCount(query);
             Map<String, Object> indicatorMap = new HashMap<>();
             indicatorMap.put(CHN2_040_DHIS_ID, count);
@@ -573,7 +578,7 @@ public class HIA2Service {
         try {
             String query = "select count(*) as count," + ageQuery() +
                     "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                    "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score< -3 group by child.base_entity_id;";
+                    "where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score< -3 group by child.base_entity_id;";
             int count = executeQueryAndReturnCount(query);
             Map<String, Object> indicatorMap = new HashMap<>();
             indicatorMap.put(CHN2_045_DHIS_ID, count);
@@ -592,7 +597,7 @@ public class HIA2Service {
         try {
             String query = "select count(*) as count," + ageQuery() +
                     "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                    "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score < -3 group by child.base_entity_id;";
+                    "where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score < -3 group by child.base_entity_id;";
             int count = executeQueryAndReturnCount(query);
             Map<String, Object> indicatorMap = new HashMap<>();
             indicatorMap.put(CHN2_050_DHIS_ID, count);
@@ -628,7 +633,7 @@ public class HIA2Service {
         try {
             String query = "select count(*) as count," + ageQuery() +
                     "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                    "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score>2 group by child.base_entity_id;";
+                    "where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score>2 group by child.base_entity_id;";
             int count = executeQueryAndReturnCount(query);
             Map<String, Object> indicatorMap = new HashMap<>();
             indicatorMap.put(CHN2_055_DHIS_ID, count);
@@ -646,7 +651,7 @@ public class HIA2Service {
         try {
             String query = "select count(*) as count," + ageQuery() +
                     "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                    "where strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score >2 group by child.base_entity_id;";
+                    "where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score >2 group by child.base_entity_id;";
 
             int count = executeQueryAndReturnCount(query);
             Map<String, Object> indicatorMap = new HashMap<>();
@@ -684,7 +689,7 @@ public class HIA2Service {
     private void getCHN2_065() {
         try {
             String query = "select count(*) as count, " + ageQuery() + " from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
-                    "where rst.type='vit_a' and strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(rsr.date/1000, 'unixepoch')) and age between 6 and 11";
+                    "where rst.type='vit_a' and '"+reportDate+"'=strftime('%Y-%m-%d',datetime(rsr.date/1000, 'unixepoch')) and age between 6 and 11";
 
             int count = executeQueryAndReturnCount(query);
             Map<String, Object> indicatorMap = new HashMap<>();
@@ -704,7 +709,7 @@ public class HIA2Service {
     private void getCHN2_070() {
         try {
             String query = "select count(*) as count," + ageQuery() + " from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
-                    "where rst.type='vit_a' and strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(rsr.date/1000, 'unixepoch')) and age between 12 and 59";
+                    "where rst.type='vit_a' and '"+reportDate+"'=strftime('%Y-%m-%d',datetime(rsr.date/1000, 'unixepoch')) and age between 12 and 59";
             int count = executeQueryAndReturnCount(query);
             Map<String, Object> indicatorMap = new HashMap<>();
             indicatorMap.put(CHN2_070_DHIS_ID, count);
@@ -722,7 +727,7 @@ public class HIA2Service {
     private void getCHN2_075() {
         try {
             String query = "select count(*) as count," + ageQuery() + " from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
-                    "where rst.type='deworming' and strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(rsr.date/1000, 'unixepoch')) and age between 12 and 59";
+                    "where rst.type='deworming' and '"+reportDate+"'=strftime('%Y-%m-%d',datetime(rsr.date/1000, 'unixepoch')) and age between 12 and 59";
 
             int count = executeQueryAndReturnCount(query);
             Map<String, Object> indicatorMap = new HashMap<>();
@@ -742,7 +747,7 @@ public class HIA2Service {
     private void getCHN2_080() {
         try {
             String query = "select count(*) as count from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
-                    "where rst.type='itn' and strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(rsr.date/1000, 'unixepoch'))";
+                    "where rst.type='itn' and '"+reportDate+"'=strftime('%Y-%m-%d',datetime(rsr.date/1000, 'unixepoch'))";
 
             int count = executeQueryAndReturnCount(query);
             Map<String, Object> indicatorMap = new HashMap<>();
@@ -1330,7 +1335,7 @@ public class HIA2Service {
         try {
             String vaccineCondition = vaccine.contains("measles") ? "(lower(v.name)='" + vaccine.toLowerCase() + "' or lower(v.name)='mr_1')" : "lower(v.name)='" + vaccine.toLowerCase() + "'";
             String query = "select count(*) as count, " + ageQuery() + " from vaccines v left join ec_child child on child.base_entity_id=v.base_entity_id " +
-                    "where age " + age + " and  strftime('%Y-%m',date('now'))=strftime('%Y-%m',datetime(v.date/1000, 'unixepoch')) and v.out_of_area=" + (outOfArea ? 1 : 0) + " and " + vaccineCondition;
+                    "where age " + age + " and  '"+reportDate+"'=strftime('%Y-%m-%d',datetime(v.date/1000, 'unixepoch')) and v.out_of_area=" + (outOfArea ? 1 : 0) + " and " + vaccineCondition;
             count = executeQueryAndReturnCount(query);
         } catch (Exception e) {
             Log.logError(TAG, vaccine.toUpperCase() + e.getMessage());
@@ -1345,7 +1350,7 @@ public class HIA2Service {
     }
 
     private String eventDateEqualsCurrentMonthQuery() {
-        return "strftime('%Y-%m',e.eventDate) = strftime('%Y-%m',date('now'))";
+        return "strftime('%Y-%m-%d',e.eventDate) = '"+reportDate+"'";
     }
 
     private int executeQueryAndReturnCount(String query) {

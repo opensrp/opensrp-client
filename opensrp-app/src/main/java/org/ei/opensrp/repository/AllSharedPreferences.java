@@ -166,6 +166,12 @@ public class AllSharedPreferences {
     public void savePort(Integer port){
         preferences.edit().putString(PORT, String.valueOf(port)).commit();
     }
+    public void savePreference(String key, String value){
+        preferences.edit().putString(key, value).commit();
+    }
+    public String getPreference(String key){
+        return preferences.getString(key,"");
+    }
     public void updateUrl(String baseUrl){
         try {
 
