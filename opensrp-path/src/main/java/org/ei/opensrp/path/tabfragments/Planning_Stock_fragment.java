@@ -21,12 +21,14 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import org.apache.commons.lang3.StringUtils;
+import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.StockControlActivity;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Stock;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.StockRepository;
+import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.util.StringUtil;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
@@ -34,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -56,6 +59,7 @@ public class Planning_Stock_fragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -111,6 +115,12 @@ public class Planning_Stock_fragment extends Fragment {
         getValueForStock(view);
         getLastThreeMonthStockIssued(view);
         waste_rate_Calculate(view);
+        VaccinesDueNextMonth(view);
+    }
+
+    private void VaccinesDueNextMonth(View view) {
+        int dosespervial = ((StockControlActivity)getActivity()).vaccine_type.getDoses();
+        ((TextView)view.findViewById(R.id.due_vacc_next_month_value)).setText(""+processVaccinesDueNextMonth()/dosespervial+ " vials");
     }
 
     private void waste_rate_Calculate(View view) {
@@ -227,6 +237,8 @@ public class Planning_Stock_fragment extends Fragment {
         avg_vacc_waste_rate_label.setText("Average "+ vaccineName+ " waste rate:");
         due_vacc_description.setText("Calculated from current active children that will be due for "+vaccineName+" next month");
         lastthreemonthstocktitle.setText("3 month "+vaccineName+" stock used");
+        ((TextView)view.findViewById(R.id.due_vacc_next_month_label)).setText("Due "+vaccineName+" Next month April 2017 :");
+
     }
 
     private void createStockInfoForlastThreeMonths(View view) {
@@ -292,6 +304,46 @@ public class Planning_Stock_fragment extends Fragment {
 
     }
 
+    public int processVaccinesDueNextMonth(){
+        int vaccinesDueNextMonth = 0;
+        ArrayList <JSONObject> vaccineArray = readvaccineFileAndReturnVaccinesofSameType(((StockControlActivity)getActivity()).vaccine_type.getName());
+        for(int i = 0;i<vaccineArray.size();i++){
+           vaccinesDueNextMonth = vaccinesDueNextMonth+ getVaccinesDueBasedOnSchedule(vaccineArray.get(i));
+        }
+        return vaccinesDueNextMonth;
+    }
+
+    private int getVaccinesDueBasedOnSchedule(JSONObject vaccineobject) {
+        int countofNextMonthVaccineDue = 0;
+        try {
+        PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+        net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
+
+        Cursor c =  db.rawQuery("Select startDate from alerts where scheduleName = '"+vaccineobject.getString("name")+"'",null);
+        c.moveToFirst();
+            while(!c.isAfterLast()){
+
+                String startdate = c.getString(0);
+                DateTime dateTime = new DateTime(DATE_FORMAT.parse(startdate).getTime());
+                DateTime today = new DateTime(System.currentTimeMillis());
+
+                //////////////////////next month///////////////////////////////////////////////////////////
+                DateTime startofNextMonth = today.plusMonths(1).dayOfMonth().withMinimumValue();
+                DateTime EndofNextMonth = today.plusMonths(1).dayOfMonth().withMaximumValue();
+
+                if(startofNextMonth.isBefore(dateTime) && dateTime.isBefore(EndofNextMonth)){
+                    countofNextMonthVaccineDue++;
+                }
+
+
+                c.moveToNext();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return countofNextMonthVaccineDue;
+    }
+
     public  ArrayList <JSONObject> readvaccineFileAndReturnVaccinesofSameType(String vaccinetypename){
         ArrayList <JSONObject> vaccinesofsametype = new ArrayList<JSONObject>();
         String vaccinejsonstring = VaccinatorUtils.getSupportedVaccines(VaccinatorApplication.getInstance());
@@ -319,51 +371,7 @@ public class Planning_Stock_fragment extends Fragment {
         return vaccinesofsametype;
     }
 
-    public int getDueVaccinesForNextMonthBasedOnDependantVaccineGiven(String dependentvaccinename ,long days ){
-        int toreturn = 0;
-        PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
-        net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
-        DateTime today = new DateTime(System.currentTimeMillis());
-        DateTime startofthismonth = today.dayOfMonth().withMinimumValue();
 
-        //////////////////////next month///////////////////////////////////////////////////////////
-        DateTime startofNextMonth = today.plusMonths(1).dayOfMonth().withMinimumValue();
-        DateTime EndofNextMonth = today.plusMonths(1).dayOfMonth().withMaximumValue();
-
-        Cursor c = db.rawQuery("Select Count (*) from vaccines where ("+StockRepository.DATE_CREATED+" + "+days +") => "+startofNextMonth.toDate().getTime()+"and ("+StockRepository.DATE_CREATED+" + "+days +") <= "+startofNextMonth.toDate().getTime()+ " and name ='"+dependentvaccinename+"'",null);
-        if(c.getColumnCount()>0){
-            c.moveToFirst();
-            toreturn = Integer.parseInt(c.getString(0));
-            c.close();
-        }
-        return toreturn;
-    }
-    public int getDueVaccinesForNextMonthBasedOnBirth(String dependentvaccinename ,long days,long expiry ){
-        int toreturn = 0;
-        PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
-        net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
-        DateTime today = new DateTime(System.currentTimeMillis());
-        DateTime startofthismonth = today.dayOfMonth().withMinimumValue();
-
-
-        //////////////////////next month///////////////////////////////////////////////////////////
-        DateTime startofNextMonth = today.plusMonths(1).dayOfMonth().withMinimumValue();
-        DateTime EndofNextMonth = today.plusMonths(1).dayOfMonth().withMaximumValue();
-
-        DateTime startofNextMonthlowerlimit = startofNextMonth.minus(days);
-        DateTime EndofNextMonthlowerlimit = EndofNextMonth.minus(days);
-        DateTime startofNextMonthbeforeExpiry = startofNextMonth.minus(expiry);
-//        select * from ec_child where ec_child.dob  < ('2012-02-27T05:00:00.000' + '6 years') and ec_child.base_entity_id not in (Select base_entity_id from vaccines where name = 'penta_1')
-        Cursor c = db.rawQuery("Select Count (*) from ec_child where ec_child.dob <= '"+startofNextMonthlowerlimit+"' and ec_child.dob >= '"+EndofNextMonthlowerlimit+"'  and ec_child.dob >= '"+startofNextMonthbeforeExpiry+"' and ec_child.base_entity_id not in (Select base_entity_id from vaccines where name = '"+dependentvaccinename+"'",null);
-//        Cursor c = db.rawQuery("Select Count (*) from vaccines where ("+StockRepository.DATE_CREATED+" + "+days +") => "+startofNextMonth+"and ("+StockRepository.DATE_CREATED+" + "+days +") <= "+startofNextMonth+ " and name ='"+dependentvaccinename+"'",null);
-        if(c.getColumnCount()>0){
-            c.moveToFirst();
-            toreturn = Integer.parseInt(c.getString(0));
-            c.close();
-        }
-
-        return toreturn;
-    }
 
 
     private void createActiveChildrenStatsView(View view) {
@@ -538,5 +546,52 @@ public class Planning_Stock_fragment extends Fragment {
         public void setChildrenThisMonthtwelveTofiftyNine(Long childrenThisMonthtwelveTofiftyNine) {
             this.childrenThisMonthtwelveTofiftyNine = childrenThisMonthtwelveTofiftyNine;
         }
+    }
+
+
+    public int getDueVaccinesForNextMonthBasedOnDependantVaccineGiven(String dependentvaccinename ,long days ){
+        int toreturn = 0;
+        PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+        net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
+        DateTime today = new DateTime(System.currentTimeMillis());
+        DateTime startofthismonth = today.dayOfMonth().withMinimumValue();
+
+        //////////////////////next month///////////////////////////////////////////////////////////
+        DateTime startofNextMonth = today.plusMonths(1).dayOfMonth().withMinimumValue();
+        DateTime EndofNextMonth = today.plusMonths(1).dayOfMonth().withMaximumValue();
+
+        Cursor c = db.rawQuery("Select Count (*) from vaccines where ("+StockRepository.DATE_CREATED+" + "+days +") => "+startofNextMonth.toDate().getTime()+"and ("+StockRepository.DATE_CREATED+" + "+days +") <= "+startofNextMonth.toDate().getTime()+ " and name ='"+dependentvaccinename+"'",null);
+        if(c.getColumnCount()>0){
+            c.moveToFirst();
+            toreturn = Integer.parseInt(c.getString(0));
+            c.close();
+        }
+        return toreturn;
+    }
+    public int getDueVaccinesForNextMonthBasedOnBirth(String dependentvaccinename ,long days,long expiry ){
+        int toreturn = 0;
+        PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+        net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
+        DateTime today = new DateTime(System.currentTimeMillis());
+        DateTime startofthismonth = today.dayOfMonth().withMinimumValue();
+
+
+        //////////////////////next month///////////////////////////////////////////////////////////
+        DateTime startofNextMonth = today.plusMonths(1).dayOfMonth().withMinimumValue();
+        DateTime EndofNextMonth = today.plusMonths(1).dayOfMonth().withMaximumValue();
+
+        DateTime startofNextMonthlowerlimit = startofNextMonth.minus(days);
+        DateTime EndofNextMonthlowerlimit = EndofNextMonth.minus(days);
+        DateTime startofNextMonthbeforeExpiry = startofNextMonth.minus(expiry);
+//        select * from ec_child where ec_child.dob  < ('2012-02-27T05:00:00.000' + '6 years') and ec_child.base_entity_id not in (Select base_entity_id from vaccines where name = 'penta_1')
+        Cursor c = db.rawQuery("Select Count (*) from ec_child where ec_child.dob <= '"+startofNextMonthlowerlimit+"' and ec_child.dob >= '"+EndofNextMonthlowerlimit+"'  and ec_child.dob >= '"+startofNextMonthbeforeExpiry+"' and ec_child.base_entity_id not in (Select base_entity_id from vaccines where name = '"+dependentvaccinename+"'",null);
+//        Cursor c = db.rawQuery("Select Count (*) from vaccines where ("+StockRepository.DATE_CREATED+" + "+days +") => "+startofNextMonth+"and ("+StockRepository.DATE_CREATED+" + "+days +") <= "+startofNextMonth+ " and name ='"+dependentvaccinename+"'",null);
+        if(c.getColumnCount()>0){
+            c.moveToFirst();
+            toreturn = Integer.parseInt(c.getString(0));
+            c.close();
+        }
+
+        return toreturn;
     }
 }
