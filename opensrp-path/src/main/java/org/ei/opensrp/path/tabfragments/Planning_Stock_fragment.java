@@ -29,6 +29,9 @@ import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.StockRepository;
 import org.ei.opensrp.util.StringUtil;
 import org.joda.time.DateTime;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -38,6 +41,7 @@ import java.util.concurrent.TimeUnit;
 
 import util.DateUtils;
 import util.Utils;
+import util.VaccinatorUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -288,6 +292,33 @@ public class Planning_Stock_fragment extends Fragment {
 
     }
 
+    public  ArrayList <JSONObject> readvaccineFileAndReturnVaccinesofSameType(String vaccinetypename){
+        ArrayList <JSONObject> vaccinesofsametype = new ArrayList<JSONObject>();
+        String vaccinejsonstring = VaccinatorUtils.getSupportedVaccines(VaccinatorApplication.getInstance());
+        try {
+            JSONArray vaccineentry = new JSONArray(vaccinejsonstring);
+
+            for(int i = 0 ;i < vaccineentry.length();i++){
+                JSONObject objectatindex = vaccineentry.getJSONObject(i);
+                if(objectatindex.has("vaccines")){
+                    JSONArray vaccinearray = objectatindex.getJSONArray("vaccines");
+                    for(int j = 0;j<vaccinearray.length();j++){
+                        if(vaccinearray.getJSONObject(j).has("type")){
+                            if(vaccinearray.getJSONObject(j).getString("type").equalsIgnoreCase(vaccinetypename)){
+                                vaccinesofsametype.add(vaccinearray.getJSONObject(j));
+                            }
+                        }
+                    }
+                }
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return vaccinesofsametype;
+    }
+
     public int getDueVaccinesForNextMonthBasedOnDependantVaccineGiven(String dependentvaccinename ,long days ){
         int toreturn = 0;
         PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
@@ -307,7 +338,7 @@ public class Planning_Stock_fragment extends Fragment {
         }
         return toreturn;
     }
-    public int getDueVaccinesForNextMonthBasedOnBirth(String dependentvaccinename ,long days ){
+    public int getDueVaccinesForNextMonthBasedOnBirth(String dependentvaccinename ,long days,long expiry ){
         int toreturn = 0;
         PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
         net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
@@ -319,10 +350,11 @@ public class Planning_Stock_fragment extends Fragment {
         DateTime startofNextMonth = today.plusMonths(1).dayOfMonth().withMinimumValue();
         DateTime EndofNextMonth = today.plusMonths(1).dayOfMonth().withMaximumValue();
 
-        startofNextMonth = startofthismonth.plus(days);
-        EndofNextMonth = EndofNextMonth.plus(days);
+        DateTime startofNextMonthlowerlimit = startofNextMonth.minus(days);
+        DateTime EndofNextMonthlowerlimit = EndofNextMonth.minus(days);
+        DateTime startofNextMonthbeforeExpiry = startofNextMonth.minus(expiry);
 //        select * from ec_child where ec_child.dob  < ('2012-02-27T05:00:00.000' + '6 years') and ec_child.base_entity_id not in (Select base_entity_id from vaccines where name = 'penta_1')
-        Cursor c = db.rawQuery("Select Count (*) from ec_child where ec_child.dob <= '"+startofNextMonth+"' and ec_child.dob >= '"+EndofNextMonth+"' and ec_child.base_entity_id not in (Select base_entity_id from vaccines where name = '"+dependentvaccinename+"'",null);
+        Cursor c = db.rawQuery("Select Count (*) from ec_child where ec_child.dob <= '"+startofNextMonthlowerlimit+"' and ec_child.dob >= '"+EndofNextMonthlowerlimit+"'  and ec_child.dob >= '"+startofNextMonthbeforeExpiry+"' and ec_child.base_entity_id not in (Select base_entity_id from vaccines where name = '"+dependentvaccinename+"'",null);
 //        Cursor c = db.rawQuery("Select Count (*) from vaccines where ("+StockRepository.DATE_CREATED+" + "+days +") => "+startofNextMonth+"and ("+StockRepository.DATE_CREATED+" + "+days +") <= "+startofNextMonth+ " and name ='"+dependentvaccinename+"'",null);
         if(c.getColumnCount()>0){
             c.moveToFirst();
