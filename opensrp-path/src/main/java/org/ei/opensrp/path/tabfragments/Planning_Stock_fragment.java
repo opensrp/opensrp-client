@@ -120,7 +120,7 @@ public class Planning_Stock_fragment extends Fragment {
 
     private void VaccinesDueNextMonth(View view) {
         int dosespervial = ((StockControlActivity)getActivity()).vaccine_type.getDoses();
-        ((TextView)view.findViewById(R.id.due_vacc_next_month_value)).setText(""+processVaccinesDueNextMonth()/dosespervial+ " vials");
+        ((TextView)view.findViewById(R.id.due_vacc_next_month_value)).setText(""+processVaccinesDueNextMonth()+ " vials");
     }
 
     private void waste_rate_Calculate(View view) {
