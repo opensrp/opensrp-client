@@ -152,7 +152,7 @@ public class HIA2Service {
     private  String CHN3_090_DHIS_ID = "FGJcw1TCM9D";
     private Map<String, Map<String, Object>> hia2Report = new HashMap<>();
     private SQLiteDatabase database;
-    public static String PREVIOUS_REPORT_DATES_QUERY="select distinct strftime('%Y-%m-%d',eventDate) as eventDate from event order by eventDate asc";
+    public static String PREVIOUS_REPORT_DATES_QUERY="select distinct strftime('%Y-%m-%d',"+PathRepository.event_column.eventDate+") as eventDate, "+PathRepository.event_column.updatedAt+" from "+ PathRepository.Table.event.name()+" %s order by eventDate asc";
     public static String HIA2_LAST_PROCESSED_DATE="HIA2_LAST_PROCESSED_DATE";
     private String reportDate;
 
