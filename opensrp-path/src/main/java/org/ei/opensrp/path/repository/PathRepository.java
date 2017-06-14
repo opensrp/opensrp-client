@@ -1121,6 +1121,30 @@ public class PathRepository extends Repository {
         return null;
     }
 
+    public List<String> getDbValues(SQLiteDatabase db, String query) {
+        List<String> values = new ArrayList<>();
+        Cursor cursor = null;
+
+        try {
+            cursor = db.rawQuery(query, null);
+
+            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+
+
+                    values.add(cursor.getString(0));
+
+                    cursor.moveToNext();
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        } finally {
+            cursor.close();
+        }
+        return values;
+
+    }
 
     // Definitions
     public enum Table {
@@ -1493,22 +1517,20 @@ public class PathRepository extends Repository {
             createTable(db, Table.path_reports, report_column.values());
             HIA2IndicatorsRepository.createTable(db);
             //csv column no to table column names
-            Map<Integer,String> columnMappings= new HashMap<>();
-            columnMappings.put(0,HIA2IndicatorsRepository.ID_COLUMN);
-            columnMappings.put(1,HIA2IndicatorsRepository.INDICATOR_CODE);
-            columnMappings.put(2,HIA2IndicatorsRepository.LABEL);
-            columnMappings.put(3,HIA2IndicatorsRepository.DHIS_ID);
-            columnMappings.put(4,HIA2IndicatorsRepository.DESCRIPTION);
+            Map<Integer, String> columnMappings = new HashMap<>();
+            columnMappings.put(0, HIA2IndicatorsRepository.ID_COLUMN);
+            columnMappings.put(1, HIA2IndicatorsRepository.INDICATOR_CODE);
+            columnMappings.put(2, HIA2IndicatorsRepository.LABEL);
+            columnMappings.put(3, HIA2IndicatorsRepository.DHIS_ID);
+            columnMappings.put(4, HIA2IndicatorsRepository.DESCRIPTION);
             List<Map<String, String>> csvData = Utils.populateTableFromCSV(context, HIA2IndicatorsRepository.INDICATORS_CSV_FILE, columnMappings);
             HIA2IndicatorsRepository hIA2IndicatorsRepository = VaccinatorApplication.getInstance().hIA2IndicatorsRepository();
-            hIA2IndicatorsRepository.save(db,csvData);
+            hIA2IndicatorsRepository.save(db, csvData);
 
         } catch (Exception e) {
             Log.e(TAG, "upgradeToVersion7 " + e.getMessage());
         }
     }
-
-
 
 
 }

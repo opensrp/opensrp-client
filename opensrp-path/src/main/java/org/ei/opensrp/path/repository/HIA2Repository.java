@@ -73,7 +73,6 @@ public class HIA2Repository extends BaseRepository {
                     cv.put(HIA2Repository.PROVIDER_ID, userName);
                     cv.put(HIA2Repository.MONTH, month);
                     if (id != null) {
-                        // cv.put(HIA2Repository.ID_COLUMN, id);
                         database.update(HIA2_TABLE_NAME, cv, ID_COLUMN + " = ?", new String[]{id.toString()});
 
                     } else {
