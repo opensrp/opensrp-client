@@ -235,7 +235,8 @@
     <string name="no_draft_reports">No draft reports</string>
     <string name="no_monthly_ready">No monthly HIA2 reports ready to be completed.</string>
     <string name="reports_available">Reports Available</string>
-    <string name="submitted_by_">Submitted by %1$s</string>
+    <string name="sent_reports_">Sent Reports > %1$s</string>
+    <string name="submitted_by_">Submitted %1$s by %2$s</string>
     <string name="sent_by">Sent %1$s by %2$s</string>
 
   </resources>

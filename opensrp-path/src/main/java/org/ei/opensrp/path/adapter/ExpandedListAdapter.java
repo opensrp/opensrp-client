@@ -19,21 +19,20 @@ import java.util.Map;
 /**
  * Created by keyman on 12/06/2017.
  */
-public class ExpandedListAdapter<T> extends BaseExpandableListAdapter {
+public class ExpandedListAdapter<L, T> extends BaseExpandableListAdapter {
 
     private Context context;
-    private Map<String, List<T>> map = new LinkedHashMap<>();
+    private Map<String, List<ItemData<L, T>>> map = new LinkedHashMap<>();
     private List<String> headers = new ArrayList<>();
     private int headerLayout;
     private int childLayout;
 
 
-    public ExpandedListAdapter(Context context, Map<String, List<T>> map, int headerLayout, int childLayout) {
+    public ExpandedListAdapter(Context context, Map<String, List<ItemData<L, T>>> map, int headerLayout, int childLayout) {
         this.context = context;
-
         if (map != null && !map.isEmpty()) {
             this.map = map;
-            for (Map.Entry<String, List<T>> entry : map.entrySet()) {
+            for (Map.Entry<String, List<ItemData<L, T>>> entry : map.entrySet()) {
                 this.headers.add(entry.getKey());
             }
         }
@@ -45,9 +44,8 @@ public class ExpandedListAdapter<T> extends BaseExpandableListAdapter {
     }
 
     @Override
-    public T getChild(int groupPosition, int childPosititon) {
-        return map.get(headers.get(groupPosition))
-                .get(childPosititon);
+    public ItemData<L, T> getChild(int groupPosition, int childPosititon) {
+        return map.get(headers.get(groupPosition)).get(childPosititon);
     }
 
     @Override
@@ -59,21 +57,22 @@ public class ExpandedListAdapter<T> extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
+        ItemData<L, T> childObject = getChild(groupPosition, childPosition);
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(childLayout, null);
+            convertView.setTag(R.id.item_data, childObject.getTagData());
         }
 
-        T childObject = getChild(groupPosition, childPosition);
         String text = null;
         String details = null;
 
         if (childObject != null) {
-            if (childObject instanceof String) {
-                text = (String) getChild(groupPosition, childPosition);
+            if (childObject.getLabelData() instanceof String) {
+                text = (String) getChild(groupPosition, childPosition).getLabelData();
 
-            } else if (childObject instanceof Pair) {
-                Pair<String, String> pair = (Pair<String, String>) getChild(groupPosition, childPosition);
+            } else if (childObject.getLabelData() instanceof Pair) {
+                Pair<String, String> pair = (Pair<String, String>) getChild(groupPosition, childPosition).getLabelData();
                 text = pair.first;
                 details = pair.second;
             }
@@ -157,5 +156,23 @@ public class ExpandedListAdapter<T> extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    public static class ItemData<L, T> {
+        private final L labelData;
+        private final T tagData;
+
+        public ItemData(L labelData, T tagData) {
+            this.labelData = labelData;
+            this.tagData = tagData;
+        }
+
+        public L getLabelData() {
+            return labelData;
+        }
+
+        public T getTagData() {
+            return tagData;
+        }
     }
 }

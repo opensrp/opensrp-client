@@ -22,7 +22,7 @@ public class Hia2Indicator {
     @JsonProperty
     private String value;
     @JsonProperty
-    private String month;
+    private Date month;
     @JsonProperty
     private Date createdAt;
     @JsonProperty
@@ -31,7 +31,7 @@ public class Hia2Indicator {
     public Hia2Indicator() {
     }
 
-    public Hia2Indicator(String providerId, String indicatorCode, String label, String dhisId, String description, String category, String value, String month, Date createdAt, Date updatedAt) {
+    public Hia2Indicator(String providerId, String indicatorCode, String label, String dhisId, String description, String category, String value, Date month, Date createdAt, Date updatedAt) {
         this.providerId = providerId;
         this.indicatorCode = indicatorCode;
         this.label = label;
@@ -100,11 +100,11 @@ public class Hia2Indicator {
         this.value = value;
     }
 
-    public String getMonth() {
+    public Date getMonth() {
         return month;
     }
 
-    public void setMonth(String month) {
+    public void setMonth(Date month) {
         this.month = month;
     }
 

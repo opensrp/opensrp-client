@@ -15,14 +15,15 @@ import org.ei.opensrp.view.customControls.CustomFontTextView;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ReportSummaryActivity extends BaseActivity {
     private static final String TAG = ReportSummaryActivity.class.getName();
     public static final String EXTRA_INDICATORS = "indicators";
-    public static final String EXTRA_SUBMITTED_BY = "submitted_by";
+    public static final String EXTRA_SUB_TITLE = "sub_title";
     public static final String EXTRA_TITLE = "title";
     private HashMap<String, ArrayList<Hia2Indicator>> indicators;
-    private String submittedBy;
+    private String subTitle;
     private SimpleToolbar toolbar;
 
     @Override
@@ -48,9 +49,9 @@ public class ReportSummaryActivity extends BaseActivity {
                 setIndicators(indicators, false);
             }
 
-            Serializable submittedBySerializable = extras.getSerializable(EXTRA_SUBMITTED_BY);
+            Serializable submittedBySerializable = extras.getSerializable(EXTRA_SUB_TITLE);
             if (submittedBySerializable != null && submittedBySerializable instanceof String) {
-                submittedBy = (String) submittedBySerializable;
+                subTitle = (String) submittedBySerializable;
             }
 
             Serializable titleSerializable = extras.getSerializable(EXTRA_TITLE);
@@ -64,9 +65,9 @@ public class ReportSummaryActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         CustomFontTextView submittedBy = (CustomFontTextView) findViewById(R.id.submitted_by);
-        if (!TextUtils.isEmpty(this.submittedBy)) {
+        if (!TextUtils.isEmpty(this.subTitle)) {
             submittedBy.setVisibility(View.VISIBLE);
-            submittedBy.setText(String.format(getString(R.string.submitted_by_), this.submittedBy));
+            submittedBy.setText(String.format(getString(R.string.submitted_by_), this.subTitle));
         } else {
             submittedBy.setVisibility(View.GONE);
         }
