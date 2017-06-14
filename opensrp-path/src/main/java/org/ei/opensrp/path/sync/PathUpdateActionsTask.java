@@ -19,6 +19,7 @@ import org.ei.opensrp.path.service.intent.PullUniqueIdsIntentService;
 import org.ei.opensrp.path.service.intent.RecurringIntentService;
 import org.ei.opensrp.path.service.intent.VaccineIntentService;
 import org.ei.opensrp.path.service.intent.WeightIntentService;
+import org.ei.opensrp.path.service.intent.ZScoreRefreshIntentService;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.service.ActionService;
 import org.ei.opensrp.service.AllFormVersionSyncService;
@@ -123,6 +124,8 @@ public class PathUpdateActionsTask {
             }
 
             public void postExecuteInUIThread(FetchStatus result) {
+                Intent intent = new Intent(context, ZScoreRefreshIntentService.class);
+                context.startService(intent);
                 pathAfterFetchListener.afterFetch(result);
                 sendSyncStatusBroadcastMessage(context, result);
             }
