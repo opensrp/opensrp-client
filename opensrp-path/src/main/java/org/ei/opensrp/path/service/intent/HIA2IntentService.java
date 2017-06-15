@@ -8,10 +8,12 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.domain.DailyTally;
 import org.ei.opensrp.path.domain.Tally;
 import org.ei.opensrp.path.repository.DailyTalliesRepository;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.service.HIA2Service;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,8 +66,12 @@ public class HIA2IntentService extends IntentService {
                 Map<String, Map<String, Object>> hia2Report = hia2Service.generateIndicators(db, date);
                 dailyTalliesRepository.save(date, hia2Report);
                 if (generateReport) {
-                    List<Tally> tallies = dailyTalliesRepository.findByProviderIdAndDay(userName, date);
-                    ReportUtils.createReport(this, Tally.getJsonObjects(tallies), HIA2Service.REPORT_NAME);
+                    List<DailyTally> tallies = dailyTalliesRepository.findByProviderIdAndDay(userName, date);
+                    List<JSONObject> tallyReports = new ArrayList<>();
+                    for (DailyTally curTally : tallies) {
+                        tallyReports.add(curTally.getJsonObject());
+                    }
+                    ReportUtils.createReport(this, tallyReports, HIA2Service.REPORT_NAME);
                 }
                 Context.getInstance().allSharedPreferences().savePreference(HIA2Service.HIA2_LAST_PROCESSED_DATE, updatedAt);
             }

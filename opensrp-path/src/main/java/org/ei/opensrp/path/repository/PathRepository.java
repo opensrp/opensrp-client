@@ -1489,6 +1489,7 @@ public class PathRepository extends Repository {
             db.execSQL(WeightRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL);
             db.execSQL(WeightRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX);
             DailyTalliesRepository.createTable(db);
+            MonthlyTalliesRepository.createTable(db);
             createTable(db, Table.path_reports, report_column.values());
             HIA2IndicatorsRepository.createTable(db);
             //csv column no to table column names

@@ -18,27 +18,17 @@ import java.util.List;
  */
 
 public class Tally implements Serializable {
-    public enum Type {DAILY, MONTHLY}
+    protected Hia2Indicator indicator;
+    @JsonProperty
+    protected long id;
+    @JsonProperty
+    protected String value;
+    @JsonProperty
+    protected String providerId;
+    @JsonProperty
+    protected Date updatedAt;
 
-    private final Type type;
-    private Hia2Indicator indicator;
-    @JsonProperty
-    private long id;
-    @JsonProperty
-    private String value;
-    @JsonProperty
-    private Date date;
-    @JsonProperty
-    private String providerId;
-    @JsonProperty
-    private Date updatedAt;
-
-    public Tally(Type type) {
-        this.type = type;
-    }
-
-    public Type getType() {
-        return type;
+    public Tally() {
     }
 
     public Hia2Indicator getIndicator() {
@@ -63,14 +53,6 @@ public class Tally implements Serializable {
 
     public void setValue(String value) {
         this.value = value;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public String getProviderId() {
@@ -108,17 +90,5 @@ public class Tally implements Serializable {
         }
 
         return combined;
-    }
-
-    public static List<JSONObject> getJsonObjects(List<Tally> tallies) throws JsonProcessingException, JSONException {
-        List<JSONObject> result = new ArrayList<>();
-
-        if (tallies != null) {
-            for (Tally currTally : tallies) {
-                result.add(currTally.getJsonObject());
-            }
-        }
-
-        return result;
     }
 }

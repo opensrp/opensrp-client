@@ -15,6 +15,8 @@ import org.ei.opensrp.path.activity.ReportSummaryActivity;
 import org.ei.opensrp.path.adapter.ExpandedListAdapter;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Hia2Indicator;
+import org.ei.opensrp.path.domain.MonthlyTally;
+import org.ei.opensrp.path.domain.Tally;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -83,7 +85,7 @@ public class SentMonthlyFragment extends Fragment {
                         Pair<String, Date> pair = (Pair<String, Date>) tag;
                         String providerId = pair.first;
                         Date month = pair.second;
-                        ArrayList<Hia2Indicator> indicators = new ArrayList(VaccinatorApplication.getInstance()
+                        ArrayList<MonthlyTally> indicators = new ArrayList(VaccinatorApplication.getInstance()
                                 .dailyTalliesRepository()// TODO: switch to using monthly tallies repository
                                 .findByProviderIdAndDay(providerId, month));
                         if (indicators.size() > 0) {
