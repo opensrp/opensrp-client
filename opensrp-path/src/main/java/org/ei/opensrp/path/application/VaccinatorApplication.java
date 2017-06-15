@@ -21,7 +21,7 @@ import org.ei.opensrp.path.domain.VaccineSchedule;
 import org.ei.opensrp.path.receiver.PathSyncBroadcastReceiver;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.repository.HIA2IndicatorsRepository;
-import org.ei.opensrp.path.repository.HIA2Repository;
+import org.ei.opensrp.path.repository.DailyTalliesRepository;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
 import org.ei.opensrp.path.repository.RecurringServiceTypeRepository;
@@ -59,7 +59,7 @@ public class VaccinatorApplication extends DrishtiApplication
     private static CommonFtsObject commonFtsObject;
     private WeightRepository weightRepository;
     private UniqueIdRepository uniqueIdRepository;
-    private HIA2Repository hia2Repository;
+    private DailyTalliesRepository dailyTalliesRepository;
     private HIA2IndicatorsRepository hIA2IndicatorsRepository;
     private VaccineRepository vaccineRepository;
     private ZScoreRepository zScoreRepository;
@@ -270,11 +270,11 @@ public class VaccinatorApplication extends DrishtiApplication
         return uniqueIdRepository;
     }
 
-    public HIA2Repository hia2Repository() {
-        if (hia2Repository == null) {
-            hia2Repository = new HIA2Repository((PathRepository) getRepository());
+    public DailyTalliesRepository dailyTalliesRepository() {
+        if (dailyTalliesRepository == null) {
+            dailyTalliesRepository = new DailyTalliesRepository((PathRepository) getRepository());
         }
-        return hia2Repository;
+        return dailyTalliesRepository;
     }
 
     public HIA2IndicatorsRepository hIA2IndicatorsRepository() {

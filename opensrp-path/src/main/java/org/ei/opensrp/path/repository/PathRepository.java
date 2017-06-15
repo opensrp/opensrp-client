@@ -1513,7 +1513,7 @@ public class PathRepository extends Repository {
             db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX);
             db.execSQL(WeightRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL);
             db.execSQL(WeightRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX);
-            HIA2Repository.createTable(db);
+            DailyTalliesRepository.createTable(db);
             createTable(db, Table.path_reports, report_column.values());
             HIA2IndicatorsRepository.createTable(db);
             //csv column no to table column names
