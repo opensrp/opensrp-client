@@ -71,7 +71,7 @@ public class DailyTalliesRepository extends BaseRepository {
      *                   code, and the second the DHIS id for the indicator. It's expected that
      *                   the inner most map will always hold one value
      */
-    public void save(Date day, Map<String, Map<String, Object>> hia2Report) {
+    public void save(String day, Map<String, Map<String, Object>> hia2Report) {
         SQLiteDatabase database = getPathRepository().getWritableDatabase();
         try {
             String userName = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
@@ -94,7 +94,7 @@ public class DailyTalliesRepository extends BaseRepository {
                         cv.put(DailyTalliesRepository.COLUMN_INDICATOR_ID, indicator.getId());
                         cv.put(DailyTalliesRepository.COLUMN_VALUE, indicatorValue);
                         cv.put(DailyTalliesRepository.COLUMN_PROVIDER_ID, userName);
-                        cv.put(DailyTalliesRepository.COLUMN_DAY, DAY_FORMAT.format(day));
+                        cv.put(DailyTalliesRepository.COLUMN_DAY, day);
 
                         if (id != null) {
                             database.update(TABLE_NAME, cv, COLUMN_ID + " = ?",
@@ -114,13 +114,17 @@ public class DailyTalliesRepository extends BaseRepository {
     }
 
     public List<Tally> findByProviderIdAndDay(String providerId, Date day) {
+        return findByProviderIdAndDay(providerId, DAY_FORMAT.format(day));
+    }
+
+    public List<Tally> findByProviderIdAndDay(String providerId, String day) {
         List<Tally> tallies = null;
         Cursor cursor = null;
         try {
             cursor = getPathRepository().getReadableDatabase()
                     .query(TABLE_NAME, TABLE_COLUMNS,
                             COLUMN_PROVIDER_ID + " = ? AND " + COLUMN_DAY + "=?",
-                            new String[]{providerId, DAY_FORMAT.format(day)},
+                            new String[]{providerId, day},
                             null, null, null, null);
             tallies = readAllDataElements(cursor);
         } catch (Exception e) {
@@ -167,12 +171,12 @@ public class DailyTalliesRepository extends BaseRepository {
         return tallies;
     }
 
-    private Long checkIfExists(long indicatorId, Date day) {
+    private Long checkIfExists(long indicatorId, String day) {
         Cursor mCursor = null;
         try {
             String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME +
                     " WHERE " + COLUMN_INDICATOR_ID + " = " + String.valueOf(indicatorId)
-                    + " and " + COLUMN_DAY + "='" + DAY_FORMAT.format(day) + "'";
+                    + " and " + COLUMN_DAY + "='" + day + "'";
             mCursor = getPathRepository().getWritableDatabase().rawQuery(query, null);
             if (mCursor != null && mCursor.moveToFirst()) {
                 return mCursor.getLong(0);

@@ -1109,8 +1109,7 @@ public class PathRepository extends Repository {
                     maplist.add(map);
                 } while (cursor.moveToNext());
             }
-            db.close();
-            // return contact list
+
             return maplist;
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
@@ -1121,30 +1120,6 @@ public class PathRepository extends Repository {
         return null;
     }
 
-    public List<String> getDbValues(SQLiteDatabase db, String query) {
-        List<String> values = new ArrayList<>();
-        Cursor cursor = null;
-
-        try {
-            cursor = db.rawQuery(query, null);
-
-            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
-                while (!cursor.isAfterLast()) {
-
-
-                    values.add(cursor.getString(0));
-
-                    cursor.moveToNext();
-                }
-            }
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-        } finally {
-            cursor.close();
-        }
-        return values;
-
-    }
 
     // Definitions
     public enum Table {

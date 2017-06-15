@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.activity.ChildSmartRegisterActivity;
+import org.ei.opensrp.path.activity.HIA2ReportsActivity;
 import org.ei.opensrp.view.customControls.CustomFontTextView;
 import org.ei.opensrp.view.customControls.FontVariant;
 
@@ -64,7 +66,7 @@ public class DraftMonthlyFragment extends Fragment {
     }
 
     private void updateStartNewReportButton() {
-        final boolean hia2ReportsReady = (new Random()).nextBoolean();
+        final boolean hia2ReportsReady = true; //(new Random()).nextBoolean();
 
         startNewReportEnabled.setVisibility(View.GONE);
         startNewReportDisabled.setVisibility(View.GONE);
@@ -161,7 +163,9 @@ public class DraftMonthlyFragment extends Fragment {
         public void onClick(View v) {
 
             alertDialog.dismiss();
+
             Toast.makeText(getActivity(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
+            startMonthlyReportForm();
 
         }
     };
@@ -183,6 +187,9 @@ public class DraftMonthlyFragment extends Fragment {
 
     }
 
+    protected void startMonthlyReportForm() {
+        ((HIA2ReportsActivity) getActivity()).startFormActivity("hia2_monthly_report", null, null);
+    }
 
     //TODO REMOVE
     private List<String> dummyData() {

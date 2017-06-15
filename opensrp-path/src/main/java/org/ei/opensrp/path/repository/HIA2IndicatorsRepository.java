@@ -9,6 +9,7 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import org.ei.opensrp.path.domain.Hia2Indicator;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -98,7 +99,7 @@ public class HIA2IndicatorsRepository extends BaseRepository {
         return null;
     }
 
-    public Hia2Indicator findById(int id) {
+    public Hia2Indicator findById(long id) {
         Cursor cursor = null;
 
         try {
@@ -123,7 +124,6 @@ public class HIA2IndicatorsRepository extends BaseRepository {
         try {
             if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
-
                     Hia2Indicator hia2Indicator = new Hia2Indicator();
                     hia2Indicator.setId(cursor.getLong(cursor.getColumnIndex(ID_COLUMN)));
                     hia2Indicator.setLabel(cursor.getString(cursor.getColumnIndex(LABEL)));
@@ -132,7 +132,7 @@ public class HIA2IndicatorsRepository extends BaseRepository {
                     hia2Indicator.setIndicatorCode(cursor.getString(cursor.getColumnIndex(INDICATOR_CODE)));
                     hia2Indicator.setCategory(cursor.getString(cursor.getColumnIndex(CATEGORY)));
                     hia2Indicator.setCreatedAt(new Date(cursor.getLong(cursor.getColumnIndex(CREATED_AT_COLUMN))));
-                    hia2Indicator.setUpdatedAt(new Date(cursor.getLong(cursor.getColumnIndex(UPDATED_AT_COLUMN))));
+                    hia2Indicator.setUpdatedAt(new Date(Timestamp.valueOf(cursor.getString(cursor.getColumnIndex(UPDATED_AT_COLUMN))).getTime()));
                     hia2Indicators.add(hia2Indicator);
 
                     cursor.moveToNext();
@@ -194,6 +194,12 @@ public class HIA2IndicatorsRepository extends BaseRepository {
             if (mCursor != null) mCursor.close();
         }
         return null;
+    }
+
+    public List<Hia2Indicator> fetchAll() {
+        SQLiteDatabase database = getPathRepository().getReadableDatabase();
+        Cursor cursor = database.query(HIA2_INDICATORS_TABLE_NAME, HIA2_TABLE_COLUMNS, null, null, null, null, UPDATED_AT_COLUMN);
+        return readAllDataElements(cursor);
     }
 
 }
