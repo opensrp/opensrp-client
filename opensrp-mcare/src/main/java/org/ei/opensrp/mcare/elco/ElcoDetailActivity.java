@@ -112,10 +112,11 @@ public class ElcoDetailActivity extends SecuredFragment implements View.OnClickL
         }else{
             nid.setVisibility(View.GONE);
         }
+
         husbandname.setText(Html.fromHtml(getString(R.string.elco_details_husband_name_label) + " " + humanize((Elcoclient.getDetails().get("FWHUSNAME") != null ? Elcoclient.getDetails().get("FWHUSNAME") : ""))));
-        age.setText(Html.fromHtml(getString(R.string.elco_age_label)+ " " + (Elcoclient.getDetails().get("FWWOMAGE") != null ? Elcoclient.getDetails().get("FWWOMAGE") : "")));
 
         DateUtil.setDefaultDateFormat("yyyy-MM-dd");
+        age.setText(Html.fromHtml(getString(R.string.elco_age_label)+ " " + Elcoclient.getDetails().get("FWWOMAGE") != null ? Elcoclient.getDetails().get("FWWOMAGE"):""));
         try {
             int days = DateUtil.dayDifference(DateUtil.getLocalDate((Elcoclient.getDetails().get("FWBIRTHDATE") != null ?  Elcoclient.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
             int calc_age = days / 365;

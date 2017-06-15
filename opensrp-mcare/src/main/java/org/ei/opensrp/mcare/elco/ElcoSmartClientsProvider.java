@@ -109,17 +109,12 @@ public class ElcoSmartClientsProvider implements SmartRegisterCLientsProviderFor
         village.setText((humanize((pc.getDetails().get("FWWOMMAUZA_PARA") != null ? pc.getDetails().get("FWWOMMAUZA_PARA") : "").replace("+", "_"))));
 
         DateUtil.setDefaultDateFormat("yyyy-MM-dd");
-        if (pc.getDetails().get("FWWOMAGE")!=null){
-            age.setText("(" + pc.getDetails().get("FWWOMAGE") + ") ");
-        }
-        else{
-            try {
-                int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("FWBIRTHDATE") != null ?  pc.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
-                int calc_age = days / 365;
-                age.setText("("+calc_age+") ");
-            }catch (Exception e){
-                Log.e(getClass().getName(), "Exception", e);
-            }
+        try {
+            int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("FWBIRTHDATE") != null ?  pc.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
+            int calc_age = days / 365;
+            age.setText("("+calc_age+") ");
+        }catch (Exception e){
+            Log.e(getClass().getName(), "Exception", e);
         }
 
         if((pc.getDetails().get("FWWOMNID")!=null?pc.getDetails().get("FWWOMNID"):"").length()>0) {
@@ -177,7 +172,7 @@ public class ElcoSmartClientsProvider implements SmartRegisterCLientsProviderFor
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 Date regdate = format.parse(householdparent.getDetails().get("FWNHREGDATE"));
-
+                    Log.e("--------------","FWNHREGDATE is not null" + regdate.toString());
 
                     lastdate = regdate;
 
@@ -216,7 +211,6 @@ public class ElcoSmartClientsProvider implements SmartRegisterCLientsProviderFor
             }
         }
 
-        Log.d("lastdate1",lastdate.toString());
         //psrf_schedule_logic == 1 || FWPSRSTS ==2
             if(lastdate!= null){
                 GregorianCalendar calendar = new GregorianCalendar();
@@ -229,20 +223,21 @@ public class ElcoSmartClientsProvider implements SmartRegisterCLientsProviderFor
 //           psrfdue.append(format.format(lastdate));
 
             }
-        Log.d("lastdate2",lastdate.toString());
 //        psrfdue.setOnClickListener(onClickListener);
 
             //Alert colors/////////////////////////////////////////////
 
 
-
+        Log.e("-----------",pc.getDetails().toString());
         List<Alert> alertlist_for_client = org.ei.opensrp.Context.getInstance().alertService().findByEntityIdAndAlertNames(pc.entityId(), "ELCO PSRF");
         for (Alert alert:alertlist_for_client) {
             Log.e("---------alert",alert.toString());
         }
         if(alertlist_for_client.size() == 0 ){
-            Log.e("lastDate",lastdate != null ? lastdate.toString() : "null");
-            psrfdue.setText(format.format(lastdate));
+            //Log.e("lastDate",lastdate != null ? lastdate.toString() : "null");
+            if(lastdate != null) {
+                psrfdue.setText(format.format(lastdate));
+            }
             psrfdue.setBackgroundColor(context.getResources().getColor(org.ei.opensrp.R.color.status_bar_text_almost_white));
             Log.v("is here", "3");
             try {

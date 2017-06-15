@@ -106,7 +106,6 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
 //        }
 //
 //        id.setText(pc.getDetails().get("case_id")!=null?pc.getCaseId():"");
-        Log.e("----------",pc.getDetails().toString());
         name.setText(humanize(pc.getColumnmaps().get("FWWOMFNAME")!=null?pc.getColumnmaps().get("FWWOMFNAME"):""));
         spousename.setText(humanize(pc.getDetails().get("FWHUSNAME")!=null?pc.getDetails().get("FWHUSNAME"):""));
         gobhhid.setText(" "+(pc.getColumnmaps().get("GOBHHID")!=null?pc.getColumnmaps().get("GOBHHID"):""));
@@ -114,24 +113,21 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
         village.setText(humanize((pc.getDetails().get("mauza") != null ? pc.getDetails().get("mauza") : "").replace("+", "_")));
 
 
-        DateUtil.setDefaultDateFormat("yyyy-MM-dd");
         AllCommonsRepository allmotherRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("mcaremother");
         CommonPersonObject childobject = allmotherRepository.findByCaseID(smartRegisterClient.entityId());
         AllCommonsRepository elcorep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("elco");
         final CommonPersonObject elcoObject = elcorep.findByCaseID(childobject.getRelationalId());
 
-        if(pc.getDetails().get("FWWOMAGE")!= null){
-            age.setText("("+ pc.getDetails().get("FWWOMAGE")+") ");
+        DateUtil.setDefaultDateFormat("yyyy-MM-dd");
+        age.setText("("+ pc.getDetails().get("FWWOMAGE")!= null ? pc.getDetails().get("FWWOMAGE")+")" : "");
+        try {
+            int days = DateUtil.dayDifference(DateUtil.getLocalDate((elcoObject.getDetails().get("FWBIRTHDATE") != null ?  elcoObject.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
+            int calc_age = days / 365;
+            age.setText("("+calc_age+") ");
+        }catch (Exception e){
+            Log.e(getClass().getName(), "Exception", e);
         }
-        else{
-            try {
-                int days = DateUtil.dayDifference(DateUtil.getLocalDate((elcoObject.getDetails().get("FWBIRTHDATE") != null ?  elcoObject.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
-                int calc_age = days / 365;
-                age.setText("("+calc_age+") ");
-            }catch (Exception e){
-                Log.e(getClass().getName(), "Exception", e);
-            }
-        }
+
 
 
         if(pc.getDetails().get("FWWOMNID").length()>0) {
@@ -571,7 +567,12 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
             customFontTextView.setText("Not Synced");
             customFontTextView.setTextColor(context.getResources().getColor(R.color.text_black));
             customFontTextView.setBackgroundColor(context.getResources().getColor(org.ei.opensrp.R.color.status_bar_text_almost_white));
-//
+            //////////////////////////////////////////////////////////////////////////////////
+            customFontTextView.setOnClickListener(onClickListener);
+            customFontTextView.setTag(R.id.clientobject, pc);
+            customFontTextView.setTag(R.id.textforAncRegister,alerttextstatus.getAlertText() != null ? alerttextstatus.getAlertText() : "");
+            customFontTextView.setTag(R.id.AlertStatustextforAncRegister, "urgent");
+            //////////////////////////////////////////////////////////////////////////////////
         }
     }
 

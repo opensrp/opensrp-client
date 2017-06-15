@@ -21,6 +21,7 @@ import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
 import org.ei.opensrp.cursoradapter.SmartRegisterCLientsProviderForCursorAdapter;
 import org.ei.opensrp.domain.Alert;
+import org.ei.opensrp.logger.Logger;
 import org.ei.opensrp.mcare.R;
 import org.ei.opensrp.mcare.application.McareApplication;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
@@ -137,7 +138,7 @@ public class HouseHoldSmartClientsProvider implements SmartRegisterCLientsProvid
         viewHolder.headofhouseholdname.setText(humanize(pc.getColumnmaps().get("FWHOHFNAME")!=null?pc.getColumnmaps().get("FWHOHFNAME"):""));
         viewHolder.no_of_mwra.setText(pc.getDetails().get("ELCO")!=null?pc.getDetails().get("ELCO"):"");
 
-
+        Logger.largeLog("----------",pc.getDetails().toString());
         Date lastdate = null;
         if(pc.getDetails().get("FWNHREGDATE")!= null && pc.getDetails().get("FWCENDATE")!= null) {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

@@ -17,6 +17,7 @@ import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
 import org.ei.opensrp.cursoradapter.SmartRegisterCLientsProviderForCursorAdapter;
 import org.ei.opensrp.domain.Alert;
+import org.ei.opensrp.logger.Logger;
 import org.ei.opensrp.mcare.R;
 import org.ei.opensrp.mcare.application.McareApplication;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
@@ -111,24 +112,22 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
 //
 //
 
+        Logger.largeLog("--------",pc.getDetails().toString());
 
-        DateUtil.setDefaultDateFormat("yyyy-MM-dd");
         AllCommonsRepository allmotherRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("mcaremother");
         CommonPersonObject childobject = allmotherRepository.findByCaseID(smartRegisterClient.entityId());
         AllCommonsRepository elcorep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("elco");
         final CommonPersonObject elcoObject = elcorep.findByCaseID(childobject.getRelationalId());
-        if (pc.getDetails().get("FWWOMAGE")!=null){
-            age.setText("(" + pc.getDetails().get("FWWOMAGE") + ") ");
-        }
-        else {
-            try {
-                int days = DateUtil.dayDifference(DateUtil.getLocalDate((elcoObject.getDetails().get("FWBIRTHDATE") != null ?  elcoObject.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
-                Log.v("days",""+days);
-                int calc_age = days / 365;
-                age.setText("("+calc_age+") ");
-            }catch (Exception e){
-                Log.e(getClass().getName(), "Exception", e);
-            }
+
+        DateUtil.setDefaultDateFormat("yyyy-MM-dd");
+        age.setText("(" + pc.getDetails().get("FWWOMAGE")!=null ? pc.getDetails().get("FWWOMAGE") + ")" : "");
+        try {
+            int days = DateUtil.dayDifference(DateUtil.getLocalDate((elcoObject.getDetails().get("FWBIRTHDATE") != null ?  elcoObject.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
+            Log.v("days",""+days);
+            int calc_age = days / 365;
+            age.setText("("+calc_age+") ");
+        }catch (Exception e){
+            Log.e(getClass().getName(), "Exception", e);
         }
 
 
@@ -168,12 +167,6 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
         constructPNCReminderDueBlock((pc.getColumnmaps().get("FWBNFDTOO") != null ? pc.getColumnmaps().get("FWBNFDTOO") : ""),pc, itemView);
 //        constructNBNFDueBlock(pc, itemView);s
         constructPncVisitStatusBlock(pc,itemView);
-
-
-
-        Log.e("----details",pc.getDetails().toString());
-        Log.e("----column",pc.getColumnmaps().toString());
-        Log.e("----","---------------------------------");
 //        return itemView;
     }
     private String doolay(CommonPersonObjectClient ancclient) {

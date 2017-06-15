@@ -1,5 +1,6 @@
 package org.ei.opensrp.mcare.anc;
 
+import android.content.ContentValues;
 import android.util.Log;
 
 import org.ei.opensrp.Context;
@@ -32,6 +33,9 @@ public class nbnfhandler implements FormSubmissionHandler {
                 Context.getInstance().alertService().changeAlertStatusToComplete(entityID, "BirthNotificationFollowUp");
             }
         }
+        if(submission.getFieldValue("FWBNFSTS").equalsIgnoreCase("0") && submission.getFieldValue("user_type").equalsIgnoreCase("FWA")){
+            return;
+        }
         Map<String, String> overrideValue = new HashMap<String, String>();
         if(submission.getFieldValue("FWBNFSTS").equalsIgnoreCase("0") && submission.getFieldValue("user_type").equalsIgnoreCase("FD")){
             CommonPersonObject motherObject = Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByCaseID(entityID);
@@ -40,12 +44,21 @@ public class nbnfhandler implements FormSubmissionHandler {
             motherRepo.mergeDetails(entityID,overrideValue);
 
             overrideValue.clear();
-
             CommonPersonObject elcoObject = Context.getInstance().allCommonsRepositoryobjects("elco").findByCaseID(motherObject.getRelationalId());
             AllCommonsRepository elcoRepo = Context.getInstance().allCommonsRepositoryobjects("elco");
             overrideValue.put("FWPSRPREGSTS","0");
             elcoRepo.mergeDetails(motherObject.getRelationalId(),overrideValue);
 
+        }
+        if(submission.getFieldValue("user_type").equalsIgnoreCase("FWA")){
+            overrideValue.clear();
+            AllCommonsRepository motherRepo = Context.getInstance().allCommonsRepositoryobjects("mcaremother");
+            overrideValue.put("FWWOMVALID","1");
+            motherRepo.mergeDetails(entityID,overrideValue);
+
+            ContentValues contentValue = new ContentValues();
+            contentValue.put("Is_PNC","0");
+            motherRepo.update("mcaremother",contentValue,entityID);
         }
     }
 }
