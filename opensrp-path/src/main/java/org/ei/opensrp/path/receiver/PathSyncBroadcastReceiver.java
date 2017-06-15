@@ -11,6 +11,8 @@ import org.ei.opensrp.sync.SyncAfterFetchListener;
 import org.ei.opensrp.sync.SyncProgressIndicator;
 import org.ei.opensrp.sync.UpdateActionsTask;
 
+import util.NetworkUtils;
+
 import static org.ei.opensrp.util.Log.logInfo;
 
 public class PathSyncBroadcastReceiver extends BroadcastReceiver {
