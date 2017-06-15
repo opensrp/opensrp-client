@@ -228,6 +228,7 @@ public class StockRepository extends BaseRepository {
                 vaccineUsed = Integer.parseInt(c.getString(0));
             }
         }
+        c.close();
         return vaccineUsed;
     }
     public int getVaccineUsedUntildate(Long date, String vaccineName){
@@ -241,6 +242,7 @@ public class StockRepository extends BaseRepository {
                 vaccineUsed = Integer.parseInt(c.getString(0));
             }
         }
+        c.close();
         return vaccineUsed;
     }
 
@@ -250,12 +252,16 @@ public class StockRepository extends BaseRepository {
 //        Cursor c = getPathRepository().getReadableDatabase().query(stock_TABLE_NAME, stock_TABLE_COLUMNS, DATE_UPDATED + " < ?", new String[]{""+updatedAt.longValue()}, null, null, null, null);
         Cursor c =database.rawQuery("Select sum(value) from Stocks Where date_updated <" +stock.getUpdatedAt()+ " and date_created <=" +new DateTime(stock.getDate_created()).toDate().getTime()+ " and "+VACCINE_TYPE_ID+ " = "+stock.getVaccine_type_id(),null);
         if(c.getCount() == 0) {
+            c.close();
             return 0;
         }else{
             c.moveToFirst();
             if(c.getString(0) != null) {
-                return Integer.parseInt(c.getString(0));
+                int toreturn = Integer.parseInt(c.getString(0));
+                c.close();
+                return toreturn;
             }else{
+                c.close();
                 return 0;
             }
         }

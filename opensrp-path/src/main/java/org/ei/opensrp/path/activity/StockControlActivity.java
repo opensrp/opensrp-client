@@ -244,6 +244,8 @@ public class StockControlActivity extends AppCompatActivity {
             if(c.getString(0)!=null && !StringUtils.isBlank(c.getString(0)))
                 stockvalue = c.getString(0);
             c.close();
+        }else{
+            c.close();
         }
         return Integer.parseInt(stockvalue);
     }
