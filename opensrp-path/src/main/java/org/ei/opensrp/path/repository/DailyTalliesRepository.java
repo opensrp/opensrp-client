@@ -50,6 +50,8 @@ public class DailyTalliesRepository extends BaseRepository {
             " ON " + TABLE_NAME + "(" + COLUMN_UPDATED_AT + ");";
     private static final String INDEX_DAY = "CREATE INDEX " + TABLE_NAME + "_" + COLUMN_DAY + "_index" +
             " ON " + TABLE_NAME + "(" + COLUMN_DAY + ");";
+    private static final String INDEX_UNIQUE = "CREATE UNIQUE INDEX " + TABLE_NAME + "_" + COLUMN_INDICATOR_ID + "_" + COLUMN_DAY + "_index" +
+            " ON " + TABLE_NAME + "(" + COLUMN_INDICATOR_ID + "," + COLUMN_DAY + ");";
 
 
     public DailyTalliesRepository(PathRepository pathRepository) {
@@ -62,6 +64,7 @@ public class DailyTalliesRepository extends BaseRepository {
         database.execSQL(INDEX_INDICATOR_ID);
         database.execSQL(INDEX_UPDATED_AT);
         database.execSQL(INDEX_DAY);
+        database.execSQL(INDEX_UNIQUE);
     }
 
     /**
@@ -89,20 +92,13 @@ public class DailyTalliesRepository extends BaseRepository {
                             .findByIndicatorCodeDhisId(indicatorCode, dhisId);
 
                     if (indicator != null) {
-                        Long id = checkIfExists(indicator.getId(), day);
-
                         ContentValues cv = new ContentValues();
                         cv.put(DailyTalliesRepository.COLUMN_INDICATOR_ID, indicator.getId());
                         cv.put(DailyTalliesRepository.COLUMN_VALUE, indicatorValue);
                         cv.put(DailyTalliesRepository.COLUMN_PROVIDER_ID, userName);
                         cv.put(DailyTalliesRepository.COLUMN_DAY, day);
 
-                        if (id != null) {
-                            database.update(TABLE_NAME, cv, COLUMN_ID + " = ?",
-                                    new String[]{id.toString()});
-                        } else {
-                            database.insert(TABLE_NAME, null, cv);
-                        }
+                        database.insertWithOnConflict(TABLE_NAME, null, cv, SQLiteDatabase.CONFLICT_REPLACE);
                     }
                 }
             }
