@@ -2,19 +2,24 @@ package org.ei.opensrp.path.repository;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.text.TextUtils;
 import android.util.Log;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
+import org.ei.opensrp.Context;
 import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.domain.DailyTally;
 import org.ei.opensrp.path.domain.Hia2Indicator;
 import org.ei.opensrp.path.domain.MonthlyTally;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Jason Rogena - jrogena@ona.io on 15/06/2017.
@@ -72,6 +77,109 @@ public class MonthlyTalliesRepository extends BaseRepository {
         database.execSQL(INDEX_MONTH);
         database.execSQL(INDEX_EDITED);
         database.execSQL(INDEX_DATE_SENT);
+    }
+
+    /**
+     * Returns a list of all months that have corresponding daily tallies by unsent monthly tallies
+     *
+     * @return List of months with unsent monthly tallies
+     */
+    public List<Date> findAllUnsentMonths() {
+        List<String> allTallyMonths = VaccinatorApplication.getInstance().dailyTalliesRepository()
+                .findAllDistinctMonths(MONTH_FORMAT);
+        Cursor cursor = null;
+        try {
+            if (allTallyMonths != null) {
+                String monthsString = "";
+                for (String curMonthString : allTallyMonths) {
+                    if (!TextUtils.isEmpty(monthsString)) {
+                        monthsString = monthsString + ", ";
+                    }
+
+                    monthsString = monthsString + "'" + curMonthString + "'";
+                }
+
+                String query = "SELECT DISTINCT " + COLUMN_MONTH +
+                        " FROM " + TABLE_NAME +
+                        " WHERE " + COLUMN_DATE_SENT + " IS NOT NULL" +
+                        " AND " + COLUMN_MONTH + " IN(" + monthsString + ")";
+                cursor = getPathRepository().getReadableDatabase().rawQuery(query, null);
+
+                if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                    while (!cursor.isAfterLast()) {
+                        String curMonth = MONTH_FORMAT.format(
+                                new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_MONTH))));
+                        allTallyMonths.remove(curMonth);
+                    }
+                }
+
+                List<Date> unsentMonths = new ArrayList<>();
+                for (String curMonthString : allTallyMonths) {
+                    unsentMonths.add(MONTH_FORMAT.parse(curMonthString));
+                }
+
+                return unsentMonths;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
+
+        return new ArrayList<>();
+    }
+
+    /**
+     * Returns a list of draft monthly tallies corresponding to the provided month
+     *
+     * @param month The month to get the draft tallies for
+     * @return
+     */
+    public List<MonthlyTally> findDrafts(Date month) {
+        // Check if there exists any tally in the database for the month provided
+        Cursor cursor = null;
+        List<MonthlyTally> monthlyTallies = new ArrayList<>();
+        try {
+            cursor = getPathRepository().getReadableDatabase().query(TABLE_NAME, TABLE_COLUMNS,
+                    COLUMN_MONTH + "'" + MONTH_FORMAT.format(month) + "'",
+                    null, null, null, null, null);
+            List<MonthlyTally> tallies = readAllDataElements(cursor);
+
+            if (tallies.size() == 0) {// No tallies generated yet
+                Map<Long, List<DailyTally>> dailyTallies = VaccinatorApplication.getInstance()
+                        .dailyTalliesRepository().findTalliesInMonth(month);
+                for (List<DailyTally> curList : dailyTallies.values()) {
+                    MonthlyTally curTally = addUpDailyTallies(curList);
+                    if (curTally != null) {
+                        monthlyTallies.add(curTally);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
+
+        return monthlyTallies;
+    }
+
+    private MonthlyTally addUpDailyTallies(List<DailyTally> dailyTallies) {
+        String userName = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
+        MonthlyTally monthlyTally = null;
+        double value = 0d;
+        for (int i = 0; i < dailyTallies.size(); i++) {
+            if (i == 0) {
+                monthlyTally = new MonthlyTally();
+                monthlyTally.setIndicator(dailyTallies.get(i).getIndicator());
+            }
+
+            value = value + Double.valueOf(dailyTallies.get(i).getValue());
+        }
+
+        if (monthlyTally != null) {
+            monthlyTally.setUpdatedAt(Calendar.getInstance().getTime());
+            monthlyTally.setValue(String.valueOf(Math.round(value)));
+            monthlyTally.setProviderId(userName);
+        }
+
+        return monthlyTally;
     }
 
     public List<MonthlyTally> findAllSent() {

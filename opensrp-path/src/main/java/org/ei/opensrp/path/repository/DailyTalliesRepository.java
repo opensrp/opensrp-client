@@ -114,6 +114,77 @@ public class DailyTalliesRepository extends BaseRepository {
         }
     }
 
+    /**
+     * Returns a list of dates for distinct months with daily tallies
+     *
+     * @param dateFormat The format to use to format the months' dates
+     * @return A list of months that have daily tallies
+     */
+    public List<String> findAllDistinctMonths(SimpleDateFormat dateFormat) {
+        SimpleDateFormat monthFormat = new SimpleDateFormat("yyyy-MM");
+        Cursor cursor = null;
+        try {
+            String query = "SELECT DISTINCT strftime('%Y-%m', " + COLUMN_DAY + ") month" +
+                    " FROM " + TABLE_NAME;
+            cursor = getPathRepository().getReadableDatabase().rawQuery(query, null);
+            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                List<String> months = new ArrayList<>();
+                while (!cursor.isAfterLast()) {
+                    Date curMonth = monthFormat.parse(cursor.getString(cursor.getColumnIndex("month")));
+                    months.add(dateFormat.format(curMonth));
+                    cursor.moveToNext();
+                }
+
+                return months;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return new ArrayList<>();
+    }
+
+    public Map<Long, List<DailyTally>> findTalliesInMonth(Date month) {
+        Map<Long, List<DailyTally>> talliesFromMonth = new HashMap<>();
+        Cursor cursor = null;
+        try {
+            SimpleDateFormat monthFormat = new SimpleDateFormat("yyyy-MM");
+            HashMap<Long, Hia2Indicator> indicatorMap = VaccinatorApplication.getInstance()
+                    .hIA2IndicatorsRepository().findAll();
+
+            cursor = getPathRepository().getReadableDatabase().query(TABLE_NAME, TABLE_COLUMNS,
+                    "strftime('%Y-%m', " + COLUMN_DAY + ") = '" + monthFormat.format(month) + "'",
+                    null, null, null, null, null);
+            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    DailyTally curTally = extractDailyTally(indicatorMap, cursor);
+                    if (curTally != null) {
+                        if (!talliesFromMonth.containsKey(curTally.getIndicator().getId())) {
+                            talliesFromMonth.put(
+                                    curTally.getIndicator().getId(),
+                                    new ArrayList<DailyTally>());
+                        }
+
+                        talliesFromMonth.get(curTally.getIndicator().getId()).add(curTally);
+                    }
+                    cursor.moveToNext();
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return talliesFromMonth;
+    }
+
     public List<DailyTally> findByProviderIdAndDay(String providerId, Date day) {
         return findByProviderIdAndDay(providerId, DAY_FORMAT.format(day));
     }
@@ -143,20 +214,8 @@ public class DailyTalliesRepository extends BaseRepository {
         try {
             if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
-                    long indicatorId = cursor.getLong(cursor.getColumnIndex(COLUMN_INDICATOR_ID));
-                    if (indicatorMap.containsKey(indicatorId)) {
-                        DailyTally curTally = new DailyTally();
-                        curTally.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
-                        curTally.setProviderId(
-                                cursor.getString(cursor.getColumnIndex(COLUMN_PROVIDER_ID)));
-                        curTally.setIndicator(indicatorMap.get(indicatorId));
-                        curTally.setValue(cursor.getString(cursor.getColumnIndex(COLUMN_VALUE)));
-                        curTally.setDay(
-                                new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_DAY))));
-                        curTally.setUpdatedAt(
-                                new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATED_AT)))
-                        );
-
+                    DailyTally curTally = extractDailyTally(indicatorMap, cursor);
+                    if (curTally != null) {
                         tallies.add(curTally);
                     }
 
@@ -170,6 +229,27 @@ public class DailyTalliesRepository extends BaseRepository {
         }
 
         return tallies;
+    }
+
+    private DailyTally extractDailyTally(HashMap<Long, Hia2Indicator> indicatorMap, Cursor cursor) {
+        long indicatorId = cursor.getLong(cursor.getColumnIndex(COLUMN_INDICATOR_ID));
+        if (indicatorMap.containsKey(indicatorId)) {
+            DailyTally curTally = new DailyTally();
+            curTally.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
+            curTally.setProviderId(
+                    cursor.getString(cursor.getColumnIndex(COLUMN_PROVIDER_ID)));
+            curTally.setIndicator(indicatorMap.get(indicatorId));
+            curTally.setValue(cursor.getString(cursor.getColumnIndex(COLUMN_VALUE)));
+            curTally.setDay(
+                    new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_DAY))));
+            curTally.setUpdatedAt(
+                    new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATED_AT)))
+            );
+
+            return curTally;
+        }
+
+        return null;
     }
 
     private Long checkIfExists(long indicatorId, String day) {
