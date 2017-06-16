@@ -84,6 +84,7 @@ import java.util.concurrent.TimeUnit;
 import util.DateUtils;
 import util.ImageUtils;
 import util.JsonFormUtils;
+import util.PathConstants;
 import util.RecurringServiceUtils;
 import util.Utils;
 import util.VaccinateActionUtils;
@@ -1038,7 +1039,7 @@ public class ChildImmunizationActivity extends BaseActivity
     @Override
     public void finish() {
         if (isLastModified()) {
-            String tableName = "ec_child";
+            String tableName = PathConstants.CHILD_TABLE_NAME;
             AllCommonsRepository allCommonsRepository = getOpenSRPContext().allCommonsRepositoryobjects(tableName);
             ContentValues contentValues = new ContentValues();
             contentValues.put("last_interacted_with", (new Date()).getTime());
@@ -1353,7 +1354,7 @@ public class ChildImmunizationActivity extends BaseActivity
             String baseEntityId = Utils.getValue(childDetails.getColumnmaps(), "base_entity_id", false);
             String motherBaseEntityId = Utils.getValue(childDetails.getColumnmaps(), "relational_id", false);
             if (!TextUtils.isEmpty(motherBaseEntityId) && !TextUtils.isEmpty(baseEntityId)) {
-                List<CommonPersonObject> children = getOpenSRPContext().commonrepository("ec_child")
+                List<CommonPersonObject> children = getOpenSRPContext().commonrepository(PathConstants.CHILD_TABLE_NAME)
                         .findByRelational_IDs(motherBaseEntityId);
 
                 if (children != null) {

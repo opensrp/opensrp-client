@@ -14,6 +14,7 @@ import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.repository.PathRepository;
+import org.ei.opensrp.path.service.intent.HIA2StatusRefreshIntentService;
 import org.ei.opensrp.path.service.intent.PathReplicationIntentService;
 import org.ei.opensrp.path.service.intent.PullUniqueIdsIntentService;
 import org.ei.opensrp.path.service.intent.RecurringIntentService;
@@ -38,6 +39,8 @@ import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Map;
+
+import util.NetworkUtils;
 
 import static org.ei.opensrp.domain.FetchStatus.fetched;
 import static org.ei.opensrp.domain.FetchStatus.fetchedFailed;
@@ -84,48 +87,56 @@ public class PathUpdateActionsTask {
 
         task.doActionInBackground(new BackgroundAction<FetchStatus>() {
             public FetchStatus actionToDoInBackgroundThread() {
+                if (NetworkUtils.isNetworkAvailable()) {
+                    FetchStatus fetchStatusForForms = sync();
+                    FetchStatus fetchStatusForActions = actionService.fetchNewActions();
+                    pathAfterFetchListener.partialFetch(fetchStatusForActions);
 
-                FetchStatus fetchStatusForForms = sync();
-                FetchStatus fetchStatusForActions = actionService.fetchNewActions();
-                pathAfterFetchListener.partialFetch(fetchStatusForActions);
+                    startPullUniqueIdsIntentService(context);
 
-                startPullUniqueIdsIntentService(context);
+                    startVaccineIntentService(context);
+                    startWeightIntentService(context);
+                    startRecurringIntentService(context);
 
-                startVaccineIntentService(context);
-                startWeightIntentService(context);
-                startRecurringIntentService(context);
+                    startReplicationIntentService(context);
 
-                startReplicationIntentService(context);
+                    startImageUploadIntentService(context);
 
-                startImageUploadIntentService(context);
+                    startHIA2StatusRefreshIntentService(context);
 
+                    FetchStatus fetchStatusAdditional = additionalSyncService == null ? nothingFetched : additionalSyncService.sync();
 
-                FetchStatus fetchStatusAdditional = additionalSyncService == null ? nothingFetched : additionalSyncService.sync();
+                    if (org.ei.opensrp.Context.getInstance().configuration().shouldSyncForm()) {
 
-                if (org.ei.opensrp.Context.getInstance().configuration().shouldSyncForm()) {
+                        allFormVersionSyncService.verifyFormsInFolder();
+                        FetchStatus fetchVersionStatus = allFormVersionSyncService.pullFormDefinitionFromServer();
+                        DownloadStatus downloadStatus = allFormVersionSyncService.downloadAllPendingFormFromServer();
 
-                    allFormVersionSyncService.verifyFormsInFolder();
-                    FetchStatus fetchVersionStatus = allFormVersionSyncService.pullFormDefinitionFromServer();
-                    DownloadStatus downloadStatus = allFormVersionSyncService.downloadAllPendingFormFromServer();
+                        if (downloadStatus == DownloadStatus.downloaded) {
+                            allFormVersionSyncService.unzipAllDownloadedFormFile();
+                        }
 
-                    if (downloadStatus == DownloadStatus.downloaded) {
-                        allFormVersionSyncService.unzipAllDownloadedFormFile();
+                        if (fetchVersionStatus == fetched || downloadStatus == DownloadStatus.downloaded) {
+                            return fetched;
+                        }
                     }
 
-                    if (fetchVersionStatus == fetched || downloadStatus == DownloadStatus.downloaded) {
+                    if (fetchStatusForActions == fetched || fetchStatusForForms == fetched || fetchStatusAdditional == fetched)
                         return fetched;
-                    }
+
+                    return fetchStatusForForms;
                 }
 
-                if (fetchStatusForActions == fetched || fetchStatusForForms == fetched || fetchStatusAdditional == fetched)
-                    return fetched;
-
-                return fetchStatusForForms;
+                return FetchStatus.noConnection;
             }
 
             public void postExecuteInUIThread(FetchStatus result) {
                 Intent intent = new Intent(context, ZScoreRefreshIntentService.class);
                 context.startService(intent);
+                if (result.equals(FetchStatus.nothingFetched) || result.equals(FetchStatus.fetched)) {
+                    ECSyncUpdater ecSyncUpdater = ECSyncUpdater.getInstance(context);
+                    ecSyncUpdater.updateLastCheckTimeStamp(Calendar.getInstance().getTimeInMillis());
+                }
                 pathAfterFetchListener.afterFetch(result);
                 sendSyncStatusBroadcastMessage(context, result);
             }
@@ -141,14 +152,14 @@ public class PathUpdateActionsTask {
             // Retrieve database host from preferences
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
             AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
-            ecUpdater.updateLastCheckTimeStamp(Calendar.getInstance().getTimeInMillis());
             while (true) {
                 long startSyncTimeStamp = ecUpdater.getLastSyncTimeStamp();
 
                 int eCount = ecUpdater.fetchAllClientsAndEvents(AllConstants.SyncFilters.FILTER_PROVIDER, allSharedPreferences.fetchRegisteredANM());
                 totalCount += eCount;
 
-                if (eCount == 0 || eCount < 0) {
+                if (eCount <= 0) {
+                    if (eCount < 0) totalCount = eCount;
                     break;
                 }
 
@@ -176,7 +187,7 @@ public class PathUpdateActionsTask {
         boolean keepSyncing = true;
         int limit = 50;
         try {
-           // db.markAllAsUnSynced();
+            // db.markAllAsUnSynced();
 
             while (keepSyncing) {
                 Map<String, Object> pendingEvents = null;
@@ -255,5 +266,10 @@ public class PathUpdateActionsTask {
         intent.setAction(SyncStatusBroadcastReceiver.ACTION_SYNC_STATUS);
         intent.putExtra(SyncStatusBroadcastReceiver.EXTRA_FETCH_STATUS, fetchStatus);
         context.sendBroadcast(intent);
+    }
+
+    private void startHIA2StatusRefreshIntentService(Context context) {
+        Intent intent = new Intent(context, HIA2StatusRefreshIntentService.class);
+        context.startService(intent);
     }
 }

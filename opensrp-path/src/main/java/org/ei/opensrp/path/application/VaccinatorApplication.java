@@ -43,6 +43,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import io.fabric.sdk.android.Fabric;
+import util.PathConstants;
 import util.VaccinateActionUtils;
 import util.VaccinatorUtils;
 
@@ -142,10 +143,10 @@ public class VaccinatorApplication extends DrishtiApplication
     }
 
     private static String[] getFtsSearchFields(String tableName) {
-        if (tableName.equals("ec_child")) {
+        if (tableName.equals(PathConstants.CHILD_TABLE_NAME)) {
             String[] ftsSearchFileds = {"zeir_id", "epi_card_number", "first_name", "last_name"};
             return ftsSearchFileds;
-        } else if (tableName.equals("ec_mother")) {
+        } else if (tableName.equals(PathConstants.MOTHER_TABLE_NAME)) {
             String[] ftsSearchFileds = {"zeir_id", "epi_card_number", "first_name", "last_name", "father_name", "husband_name", "contact_phone_number"};
             return ftsSearchFileds;
         }
@@ -155,7 +156,7 @@ public class VaccinatorApplication extends DrishtiApplication
     private static String[] getFtsSortFields(String tableName) {
 
 
-        if (tableName.equals("ec_child")) {
+        if (tableName.equals(PathConstants.CHILD_TABLE_NAME)) {
             ArrayList<VaccineRepo.Vaccine> vaccines = VaccineRepo.getVaccines("child");
             List<String> names = new ArrayList<>();
             names.add("first_name");
@@ -170,7 +171,7 @@ public class VaccinatorApplication extends DrishtiApplication
             }
 
             return names.toArray(new String[names.size()]);
-        } else if (tableName.equals("ec_mother")) {
+        } else if (tableName.equals(PathConstants.MOTHER_TABLE_NAME)) {
             String[] sortFields = {"first_name", "dob", "zeir_id", "last_interacted_with"};
             return sortFields;
         }
@@ -178,7 +179,7 @@ public class VaccinatorApplication extends DrishtiApplication
     }
 
     private static String[] getFtsTables() {
-        String[] ftsTables = {"ec_child", "ec_mother"};
+        String[] ftsTables = {PathConstants.CHILD_TABLE_NAME, PathConstants.MOTHER_TABLE_NAME};
         return ftsTables;
     }
 
@@ -186,7 +187,7 @@ public class VaccinatorApplication extends DrishtiApplication
         ArrayList<VaccineRepo.Vaccine> vaccines = VaccineRepo.getVaccines("child");
         Map<String, Pair<String, Boolean>> map = new HashMap<String, Pair<String, Boolean>>();
         for (VaccineRepo.Vaccine vaccine : vaccines) {
-            map.put(vaccine.display(), Pair.create("ec_child", false));
+            map.put(vaccine.display(), Pair.create(PathConstants.CHILD_TABLE_NAME, false));
         }
         return map;
     }

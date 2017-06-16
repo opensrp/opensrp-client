@@ -246,7 +246,7 @@ public class ZScoreRefreshIntentService extends IntentService {
 
     private CommonPersonObjectClient getChildDetails(String baseEntityId) {
         CommonPersonObject rawDetails = VaccinatorApplication.getInstance().context()
-                .commonrepository("ec_child").findByBaseEntityId(baseEntityId);
+                .commonrepository(PathConstants.CHILD_TABLE_NAME).findByBaseEntityId(baseEntityId);
         if (rawDetails != null) {
             // Get extra child details
             CommonPersonObjectClient childDetails = MotherLookUpSmartClientsProvider.convert(rawDetails);

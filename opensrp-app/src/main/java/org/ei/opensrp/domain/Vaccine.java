@@ -17,6 +17,7 @@ public class Vaccine {
     String anmId;
     String locationId;
     String syncStatus;
+    String hia2Status;
     Long updatedAt;
     String eventId;
     String formSubmissionId;
@@ -26,7 +27,7 @@ public class Vaccine {
     public Vaccine() {
     }
 
-    public Vaccine(Long id, String baseEntityId, String name, Integer calculation, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId,Integer outOfCatchment) {
+    public Vaccine(Long id, String baseEntityId, String name, Integer calculation, Date date, String anmId, String locationId, String syncStatus, String hia2Status, Long updatedAt,String eventId,String formSubmissionId,Integer outOfCatchment) {
         this.id = id;
         this.baseEntityId = baseEntityId;
         this.programClientId = null;
@@ -36,13 +37,14 @@ public class Vaccine {
         this.anmId = anmId;
         this.locationId = locationId;
         this.syncStatus = syncStatus;
+        this.hia2Status = hia2Status;
         this.updatedAt = updatedAt;
         this.eventId=eventId;
         this.formSubmissionId=formSubmissionId;
         this.outOfCatchment=outOfCatchment;
     }
 
-    public Vaccine(Long id, String baseEntityId, String programClientId, String name, Integer calculation, Date date, String anmId, String locationId, String syncStatus, Long updatedAt,String eventId,String formSubmissionId,Integer outOfCatchment) {
+    public Vaccine(Long id, String baseEntityId, String programClientId, String name, Integer calculation, Date date, String anmId, String locationId, String syncStatus, String hia2Status, Long updatedAt,String eventId,String formSubmissionId,Integer outOfCatchment) {
         this.id = id;
         this.baseEntityId = baseEntityId;
         this.programClientId = programClientId;
@@ -52,6 +54,7 @@ public class Vaccine {
         this.anmId = anmId;
         this.locationId = locationId;
         this.syncStatus = syncStatus;
+        this.hia2Status = hia2Status;
         this.updatedAt = updatedAt;
         this.eventId=eventId;
         this.formSubmissionId=formSubmissionId;
@@ -146,6 +149,15 @@ public class Vaccine {
     public void setSyncStatus(String syncStatus) {
         this.syncStatus = syncStatus;
     }
+
+    public String getHia2Status() {
+        return hia2Status;
+    }
+
+    public void setHia2Status(String hia2Status) {
+        this.hia2Status = hia2Status;
+    }
+
     public String getEventId() {
         return eventId;
     }

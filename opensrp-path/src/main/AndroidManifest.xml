@@ -106,6 +106,8 @@
         <service android:name=".service.intent.VaccineIntentService" />
         <service android:name=".service.intent.ZScoreRefreshIntentService" />
         <service android:name=".service.intent.RecurringIntentService" />
+        <service android:name=".service.intent.HIA2IntentService" />
+        <service android:name=".service.intent.HIA2StatusRefreshIntentService" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

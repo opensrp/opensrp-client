@@ -26,4 +26,8 @@ public class PathConstants extends AllConstants {
     public static final boolean TIME_CHECK = BuildConfig.TIME_CHECK;
     public static final String ZSCORE_MALE_URL = "http://www.who.int/childgrowth/standards/wfa_boys_0_5_zscores.txt";
     public static final String ZSCORE_FEMALE_URL = "http://www.who.int/childgrowth/standards/wfa_girls_0_5_zscores.txt";
+
+    public static final String CHILD_TABLE_NAME = "ec_child";
+    public static final String MOTHER_TABLE_NAME = "ec_mother";
+
 }
