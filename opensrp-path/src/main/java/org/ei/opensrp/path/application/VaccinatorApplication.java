@@ -22,6 +22,7 @@ import org.ei.opensrp.path.receiver.PathSyncBroadcastReceiver;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.repository.HIA2IndicatorsRepository;
 import org.ei.opensrp.path.repository.DailyTalliesRepository;
+import org.ei.opensrp.path.repository.MonthlyTalliesRepository;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
 import org.ei.opensrp.path.repository.RecurringServiceTypeRepository;
@@ -60,6 +61,7 @@ public class VaccinatorApplication extends DrishtiApplication
     private WeightRepository weightRepository;
     private UniqueIdRepository uniqueIdRepository;
     private DailyTalliesRepository dailyTalliesRepository;
+    private MonthlyTalliesRepository monthlyTalliesRepository;
     private HIA2IndicatorsRepository hIA2IndicatorsRepository;
     private VaccineRepository vaccineRepository;
     private ZScoreRepository zScoreRepository;
@@ -275,6 +277,14 @@ public class VaccinatorApplication extends DrishtiApplication
             dailyTalliesRepository = new DailyTalliesRepository((PathRepository) getRepository());
         }
         return dailyTalliesRepository;
+    }
+
+    public MonthlyTalliesRepository monthlyTalliesRepository() {
+        if (monthlyTalliesRepository == null) {
+            monthlyTalliesRepository = new MonthlyTalliesRepository((PathRepository) getRepository());
+        }
+
+        return monthlyTalliesRepository;
     }
 
     public HIA2IndicatorsRepository hIA2IndicatorsRepository() {
