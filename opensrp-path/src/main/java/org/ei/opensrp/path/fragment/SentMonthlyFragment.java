@@ -9,16 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.ReportSummaryActivity;
 import org.ei.opensrp.path.adapter.ExpandedListAdapter;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Hia2Indicator;
-import org.ei.opensrp.path.service.HIA2Service;
+import org.ei.opensrp.path.domain.MonthlyTally;
+import org.ei.opensrp.path.domain.Tally;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -86,9 +85,9 @@ public class SentMonthlyFragment extends Fragment {
                         Pair<String, Date> pair = (Pair<String, Date>) tag;
                         String providerId = pair.first;
                         Date month = pair.second;
-                        ArrayList<Hia2Indicator> indicators = new ArrayList(VaccinatorApplication.getInstance()
-                                .hia2Repository()
-                                .findByProviderIdAndMonth(providerId, HIA2Service.dfyymm.format(month)));
+                        ArrayList<MonthlyTally> indicators = new ArrayList(VaccinatorApplication.getInstance()
+                                .dailyTalliesRepository()// TODO: switch to using monthly tallies repository
+                                .findByProviderIdAndDay(providerId, month));
                         if (indicators.size() > 0) {
                             String dateSubmitted = new SimpleDateFormat("dd/MM/yy").format(indicators.get(0).getUpdatedAt());
                             String subTitle = String.format(getString(R.string.submitted_by_),
@@ -98,7 +97,7 @@ public class SentMonthlyFragment extends Fragment {
                             String title = String.format(getString(R.string.sent_reports_),
                                     monthString);
                             Intent intent = new Intent(getActivity(), ReportSummaryActivity.class);
-                            intent.putExtra(ReportSummaryActivity.EXTRA_INDICATORS, indicators);
+                            intent.putExtra(ReportSummaryActivity.EXTRA_TALLIES, indicators);
                             intent.putExtra(ReportSummaryActivity.EXTRA_TITLE, title);
                             intent.putExtra(ReportSummaryActivity.EXTRA_SUB_TITLE, subTitle);
                         }

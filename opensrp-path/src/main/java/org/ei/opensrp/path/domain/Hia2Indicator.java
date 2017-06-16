@@ -7,8 +7,7 @@ import java.util.Date;
  * Created by coder on 6/6/17.
  */
 public class Hia2Indicator {
-    @JsonProperty
-    private String providerId;
+    private long id;
     @JsonProperty
     private String indicatorCode;
     @JsonProperty
@@ -19,37 +18,29 @@ public class Hia2Indicator {
     private String description;
     @JsonProperty
     private String category;
-    @JsonProperty
-    private String value;
-    @JsonProperty
-    private Date month;
-    @JsonProperty
     private Date createdAt;
-    @JsonProperty
     private Date updatedAt;
 
     public Hia2Indicator() {
     }
 
-    public Hia2Indicator(String providerId, String indicatorCode, String label, String dhisId, String description, String category, String value, Date month, Date createdAt, Date updatedAt) {
-        this.providerId = providerId;
+    public Hia2Indicator(long id, String indicatorCode, String label, String dhisId, String description, String category, Date createdAt, Date updatedAt) {
+        this.id = id;
         this.indicatorCode = indicatorCode;
         this.label = label;
         this.dhisId = dhisId;
         this.description = description;
         this.category = category;
-        this.value = value;
-        this.month = month;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public String getProviderId() {
-        return providerId;
+    public long getId() {
+        return id;
     }
 
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getIndicatorCode() {
@@ -90,22 +81,6 @@ public class Hia2Indicator {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public Date getMonth() {
-        return month;
-    }
-
-    public void setMonth(Date month) {
-        this.month = month;
     }
 
     public Date getCreatedAt() {

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.domain.Hia2Indicator;
+import org.ei.opensrp.path.domain.Tally;
 import org.ei.opensrp.view.customControls.CustomFontTextView;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class IndicatorCategoryView extends LinearLayout {
     private CustomFontTextView categoryName;
     private ImageView expandedView;
     private TableLayout indicatorTable;
-    private ArrayList<Hia2Indicator> indicators;
+    private ArrayList<Tally> tallies;
 
     public IndicatorCategoryView(Context context) {
         super(context);
@@ -54,7 +55,8 @@ public class IndicatorCategoryView extends LinearLayout {
 
     private void init(Context context) {
         this.context = context;
-        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(R.layout.view_indicator_category, this, true);
         categoryName = (CustomFontTextView) findViewById(R.id.category_name);
         expandedView = (ImageView) findViewById(R.id.expanded_view);
@@ -69,15 +71,15 @@ public class IndicatorCategoryView extends LinearLayout {
         setExpanded(false);
     }
 
-    public void setIndicators(String categoryName, ArrayList<Hia2Indicator> indicators) {
-        this.indicators = indicators;
+    public void setTallies(String categoryName, ArrayList<Tally> tallies) {
+        this.tallies = tallies;
         this.categoryName.setText(categoryName);
         refreshIndicatorTable();
     }
 
     private void refreshIndicatorTable() {
-        if (indicators != null) {
-            for (Hia2Indicator curIndicator : indicators) {
+        if (tallies != null) {
+            for (Tally curTally : tallies) {
                 TableRow dividerRow = new TableRow(context);
                 View divider = new View(context);
                 TableRow.LayoutParams params = (TableRow.LayoutParams) divider.getLayoutParams();
@@ -96,7 +98,7 @@ public class IndicatorCategoryView extends LinearLayout {
                 idTextView.setHeight(getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
                 idTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                         getResources().getDimension(R.dimen.indicator_table_contents_text_size));
-                idTextView.setText(curIndicator.getIndicatorCode().toUpperCase());
+                idTextView.setText(curTally.getIndicator().getIndicatorCode().toUpperCase());
                 idTextView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
                 idTextView.setPadding(
                         getResources().getDimensionPixelSize(R.dimen.table_row_side_margin),
@@ -113,7 +115,7 @@ public class IndicatorCategoryView extends LinearLayout {
                 nameTextView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
                 nameTextView.setPadding(0, 0,
                         getResources().getDimensionPixelSize(R.dimen.table_row_middle_margin), 0);
-                nameTextView.setText(curIndicator.getLabel());
+                nameTextView.setText(curTally.getIndicator().getLabel());
                 nameTextView.setMaxWidth(context.getResources().getDimensionPixelSize(R.dimen.max_indicator_name_width));
                 nameTextView.setTextColor(getResources().getColor(R.color.client_list_grey));
                 curRow.addView(nameTextView);
@@ -129,7 +131,7 @@ public class IndicatorCategoryView extends LinearLayout {
                         getResources().getDimensionPixelSize(R.dimen.table_row_side_margin),
                         0);
                 valueTextView.setTextColor(getResources().getColor(R.color.client_list_grey));
-                valueTextView.setText(curIndicator.getValue());
+                valueTextView.setText(curTally.getValue());
                 curRow.addView(valueTextView);
                 indicatorTable.addView(curRow);
             }

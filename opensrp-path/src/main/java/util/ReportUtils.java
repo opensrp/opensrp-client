@@ -18,7 +18,7 @@ public class ReportUtils {
     private static final String TAG = ReportUtils.class.getCanonicalName();
 
 
-    public static void createReport(Context context, List<Hia2Indicator> hia2Indicators, String reportType) {
+    public static void createReport(Context context, List<JSONObject> hia2Indicators, String reportType) {
         try {
             ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(context);
 

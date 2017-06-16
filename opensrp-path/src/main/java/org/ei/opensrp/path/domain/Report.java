@@ -2,6 +2,7 @@ package org.ei.opensrp.path.domain;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.joda.time.DateTime;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -39,13 +40,13 @@ public class Report{
     private int duration=0;
 
     @JsonProperty
-    private List<Hia2Indicator> hia2Indicators;
+    private List<JSONObject> hia2Indicators;
 
     public Report() {
     }
 
     public Report(String baseEntityId, String locationId, DateTime reportDate, String reportType, String formSubmissionId,
-                  String providerId, String status, long version, int duration, List<Hia2Indicator> hia2Indicators) {
+                  String providerId, String status, long version, int duration, List<JSONObject> hia2Indicators) {
         this.baseEntityId=baseEntityId;
         this.locationId = locationId;
         this.reportDate = reportDate;
@@ -138,12 +139,12 @@ public class Report{
     }
 
 
-    public List<Hia2Indicator> getHia2Indicators() {
+    public List<JSONObject> getHia2Indicators() {
         return hia2Indicators;
     }
 
 
-    public void setHia2Indicators(List<Hia2Indicator> hia2Indicators) {
+    public void setHia2Indicators(List<JSONObject> hia2Indicators) {
         this.hia2Indicators = hia2Indicators;
     }
     public String getBaseEntityId() {

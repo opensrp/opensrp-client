@@ -8,10 +8,12 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.path.application.VaccinatorApplication;
-import org.ei.opensrp.path.domain.Hia2Indicator;
-import org.ei.opensrp.path.repository.HIA2Repository;
+import org.ei.opensrp.path.domain.DailyTally;
+import org.ei.opensrp.path.domain.Tally;
+import org.ei.opensrp.path.repository.DailyTalliesRepository;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.service.HIA2Service;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +28,7 @@ import util.ReportUtils;
  */
 public class HIA2IntentService extends IntentService {
     private static final String TAG = HIA2IntentService.class.getCanonicalName();
-    private HIA2Repository hia2Repository;
+    private DailyTalliesRepository dailyTalliesRepository;
     private PathRepository pathRepository;
     private HIA2Service hia2Service;
     private boolean generateReport;
@@ -53,23 +55,25 @@ public class HIA2IntentService extends IntentService {
             if (lastProcessedDate == null || lastProcessedDate.isEmpty()) {
                 reportDates = pathRepository.rawQuery(db, String.format(HIA2Service.PREVIOUS_REPORT_DATES_QUERY, ""));
 
-            }else {
+            } else {
                 reportDates = pathRepository.rawQuery(db, String.format(HIA2Service.PREVIOUS_REPORT_DATES_QUERY, "where updated_at >'" + lastProcessedDate + "'"));
             }
             String userName = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
-            for(Map<String,String> dates: reportDates) {
+            for (Map<String, String> dates : reportDates) {
+                String date = dates.get(PathRepository.event_column.eventDate);
+                String updatedAt = dates.get(PathRepository.event_column.updatedAt);
 
-                    String date=dates.get(PathRepository.event_column.eventDate);
-                    String updatedAt=dates.get(PathRepository.event_column.updatedAt);
-
-                    Map<String, Map<String, Object>> hia2Report = hia2Service.generateIndicators(db, date);
-                    hia2Repository.save(hia2Report);
-                    if (generateReport) {
-                        List<Hia2Indicator> hia2Indicators = hia2Repository.findByProviderIdAndMonth(userName, date);
-                        ReportUtils.createReport(this, hia2Indicators, HIA2Service.REPORT_NAME);
+                Map<String, Map<String, Object>> hia2Report = hia2Service.generateIndicators(db, date);
+                dailyTalliesRepository.save(date, hia2Report);
+                if (generateReport) {
+                    List<DailyTally> tallies = dailyTalliesRepository.findByProviderIdAndDay(userName, date);
+                    List<JSONObject> tallyReports = new ArrayList<>();
+                    for (DailyTally curTally : tallies) {
+                        tallyReports.add(curTally.getJsonObject());
                     }
-                    Context.getInstance().allSharedPreferences().savePreference(HIA2Service.HIA2_LAST_PROCESSED_DATE, updatedAt);
-
+                    ReportUtils.createReport(this, tallyReports, HIA2Service.REPORT_NAME);
+                }
+                Context.getInstance().allSharedPreferences().savePreference(HIA2Service.HIA2_LAST_PROCESSED_DATE, updatedAt);
             }
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
@@ -81,7 +85,7 @@ public class HIA2IntentService extends IntentService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        hia2Repository = VaccinatorApplication.getInstance().hia2Repository();
+        dailyTalliesRepository = VaccinatorApplication.getInstance().dailyTalliesRepository();
         pathRepository = (PathRepository) VaccinatorApplication.getInstance().getRepository();
         hia2Service = new HIA2Service();
         return super.onStartCommand(intent, flags, startId);
