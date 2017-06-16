@@ -15,7 +15,6 @@ import org.ei.opensrp.view.contract.FPClients;
 import org.ei.opensrp.view.contract.RefillFollowUps;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -26,8 +25,8 @@ import java.util.Map;
 
 import static java.util.Arrays.asList;
 import static junit.framework.Assert.assertEquals;
-import static org.ei.drishti.dto.AlertStatus.normal;
-import static org.ei.drishti.dto.AlertStatus.urgent;
+import static org.ei.opensrp.domain.AlertStatus.normal;
+import static org.ei.opensrp.domain.AlertStatus.urgent;
 import static org.ei.opensrp.util.EasyMap.create;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

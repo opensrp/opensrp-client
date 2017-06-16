@@ -57,6 +57,8 @@ import java.util.Calendar;
 
 import util.JsonFormUtils;
 
+import static org.ei.opensrp.util.Log.logError;
+
 /**
  * Base activity class for all other PATH activity classes. Implements:
  * - A uniform navigation bar that is launched by swiping from the left
@@ -249,23 +251,31 @@ public abstract class BaseActivity extends AppCompatActivity
         });
 
         TextView initialsTV = (TextView) navigationView.findViewById(R.id.initials_tv);
-        String preferredName = getOpenSRPContext().allSharedPreferences().getANMPreferredName(
-                getOpenSRPContext().allSharedPreferences().fetchRegisteredANM());
-        if (!TextUtils.isEmpty(preferredName)) {
-            String[] initialsArray = preferredName.split(" ");
-            String initials = "";
-            if (initialsArray.length > 0) {
-                initials = initialsArray[0].substring(0, 1);
-                if (initialsArray.length > 1) {
-                    initials = initials + initialsArray[1].substring(0, 1);
+
+        try {
+            String preferredName = getOpenSRPContext().allSharedPreferences().getANMPreferredName(
+                    getOpenSRPContext().allSharedPreferences().fetchRegisteredANM());
+            if (!TextUtils.isEmpty(preferredName)) {
+                String[] initialsArray = preferredName.split(" ");
+                String initials = "";
+                if (initialsArray.length > 0) {
+                    initials = initialsArray[0].substring(0, 1);
+                    if (initialsArray.length > 1) {
+                        initials = initials + initialsArray[1].substring(0, 1);
+                    }
                 }
+
+                initialsTV.setText(initials.toUpperCase());
             }
 
-            initialsTV.setText(initials.toUpperCase());
+
+            TextView nameTV = (TextView) navigationView.findViewById(R.id.name_tv);
+            nameTV.setText(preferredName);
+
+        } catch (Exception e) {
+            logError("Error on initView : Setting Preferences: Setting Initials");
         }
 
-        TextView nameTV = (TextView) navigationView.findViewById(R.id.name_tv);
-        nameTV.setText(preferredName);
         refreshSyncStatusViews(null);
     }
 

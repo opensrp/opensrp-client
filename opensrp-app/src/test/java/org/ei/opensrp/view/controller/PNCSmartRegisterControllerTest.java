@@ -29,7 +29,7 @@ import java.util.Map;
 import static java.util.Arrays.asList;
 import static java.util.Collections.EMPTY_LIST;
 import static junit.framework.Assert.assertEquals;
-import static org.ei.drishti.dto.AlertStatus.normal;
+import static org.ei.opensrp.domain.AlertStatus.normal;
 import static org.ei.opensrp.util.EasyMap.create;
 import static org.ei.opensrp.util.EasyMap.mapOf;
 import static org.mockito.Matchers.any;

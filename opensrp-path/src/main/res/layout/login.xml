@@ -47,6 +47,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/logoImage"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/login_logo_height"
                 android:layout_gravity="center"

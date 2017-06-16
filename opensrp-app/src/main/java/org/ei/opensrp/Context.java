@@ -32,7 +32,6 @@ import org.ei.opensrp.repository.Repository;
 import org.ei.opensrp.repository.ServiceProvidedRepository;
 import org.ei.opensrp.repository.SettingsRepository;
 import org.ei.opensrp.repository.TimelineEventRepository;
-
 import org.ei.opensrp.service.ANMService;
 import org.ei.opensrp.service.ActionService;
 import org.ei.opensrp.service.AlertService;
@@ -1044,5 +1043,8 @@ public class Context {
         return allCommonsRepositoryMap;
     }
 
+    public void setDetailsRepository(DetailsRepository _detailsRepository){
+        detailsRepository = _detailsRepository;
+    }
     ///////////////////////////////////////////////////////////////////////////////
 }

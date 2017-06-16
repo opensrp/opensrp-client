@@ -152,7 +152,7 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
      */
     public void updateViews(ArrayList<VaccineWrapper> vaccinesToUpdate) {
         this.state = State.IN_PAST;
-        if (this.vaccineData != null) {
+        if (this.vaccineData != null && vaccinesToUpdate != null) {
             String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
             DateTime dateTime = new DateTime(dobString);
             Date dob = dateTime.toDate();

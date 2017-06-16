@@ -12,8 +12,8 @@ import org.mockito.Mock;
 
 import java.util.HashMap;
 
-import static org.ei.drishti.dto.AlertStatus.normal;
-import static org.ei.drishti.dto.AlertStatus.urgent;
+import static org.ei.opensrp.domain.AlertStatus.normal;
+import static org.ei.opensrp.domain.AlertStatus.urgent;
 import static org.ei.opensrp.util.ActionBuilder.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;

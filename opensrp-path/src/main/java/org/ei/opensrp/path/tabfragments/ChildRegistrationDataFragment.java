@@ -89,7 +89,8 @@ public class ChildRegistrationDataFragment extends Fragment {
                 layout.removeAllViews();
             }
 
-            DetailsRepository detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
+            DetailsRepository detailsRepository = ((ChildDetailTabbedActivity)getActivity()).getDetailsRepository();
+            childDetails = childDetails!= null ? childDetails : ((ChildDetailTabbedActivity)getActivity()).getChildDetails();
             detailsMap = detailsRepository.getAllDetailsForClient(childDetails.entityId());
 
 //        detailsMap = childDetails.getColumnmaps();
@@ -102,7 +103,7 @@ public class ChildRegistrationDataFragment extends Fragment {
             layout.addView(wd.createTableRow(inflater, container, "First name", Utils.getValue(childDetails.getColumnmaps(), "first_name", true)));
             layout.addView(wd.createTableRow(inflater, container, "Last name", Utils.getValue(childDetails.getColumnmaps(), "last_name", true)));
             layout.addView(wd.createTableRow(inflater, container, "Sex", Utils.getValue(childDetails.getColumnmaps(), "gender", true)));
-            layout.addView(wd.createTableRow(inflater, container, "Child's DOB", ChildDetailTabbedActivity.DATE_FORMAT.format(new DateTime(Utils.getValue(childDetails.getColumnmaps(), "dob", true)).toDate())));
+            layout.addView(wd.createTableRow(inflater, container, "Child's DOB", !Utils.getValue(childDetails.getColumnmaps(), "dob", true).isEmpty() ? ChildDetailTabbedActivity.DATE_FORMAT.format(new DateTime(Utils.getValue(childDetails.getColumnmaps(), "dob", true)).toDate()):""));
 
 
             String formattedAge = "";

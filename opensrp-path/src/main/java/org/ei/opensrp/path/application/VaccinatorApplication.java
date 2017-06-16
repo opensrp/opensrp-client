@@ -43,6 +43,7 @@ import io.fabric.sdk.android.Fabric;
 import util.VaccinateActionUtils;
 import util.VaccinatorUtils;
 
+import static org.ei.opensrp.util.Log.logError;
 import static org.ei.opensrp.util.Log.logInfo;
 
 /**
@@ -103,7 +104,7 @@ public class VaccinatorApplication extends DrishtiApplication
         context.userService().logoutSession();
     }
 
-    private void cleanUpSyncState() {
+    public void cleanUpSyncState() {
         DrishtiSyncScheduler.stop(getApplicationContext());
         context.allSharedPreferences().saveIsSyncInProgress(false);
     }
@@ -118,7 +119,7 @@ public class VaccinatorApplication extends DrishtiApplication
         super.onTerminate();
     }
 
-    private void applyUserLanguagePreference() {
+    public void applyUserLanguagePreference() {
         Configuration config = getBaseContext().getResources().getConfiguration();
 
         String lang = context.allSharedPreferences().fetchLanguagePreference();
@@ -221,13 +222,18 @@ public class VaccinatorApplication extends DrishtiApplication
 
     @Override
     public Repository getRepository() {
-        if (repository == null) {
-            repository = new PathRepository(getInstance().getApplicationContext());
-            weightRepository();
-            vaccineRepository();
-            uniqueIdRepository();
-            recurringServiceTypeRepository();
-            recurringServiceRecordRepository();
+        try {
+            if (repository == null) {
+                repository = new PathRepository(getInstance().getApplicationContext());
+                weightRepository();
+                vaccineRepository();
+                uniqueIdRepository();
+                recurringServiceTypeRepository();
+                recurringServiceRecordRepository();
+            }
+        } catch (UnsatisfiedLinkError e) {
+            logError("Error on getRepository: " + e);
+
         }
         return repository;
     }
