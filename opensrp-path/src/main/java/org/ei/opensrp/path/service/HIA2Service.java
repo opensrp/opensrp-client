@@ -88,7 +88,7 @@ public class HIA2Service {
     private  String CHN3_090 = "CHN3-090";
     private Map<String, Object> hia2Report = new HashMap<>();
     private SQLiteDatabase database;
-    public static String PREVIOUS_REPORT_DATES_QUERY="select distinct strftime('%Y-%m-%d',"+PathRepository.event_column.eventDate+") as eventDate, "+PathRepository.event_column.updatedAt+" from "+ PathRepository.Table.event.name()+" %s order by eventDate asc";
+    public static String PREVIOUS_REPORT_DATES_QUERY="select distinct strftime('%Y-%m-%d',"+PathRepository.event_column.eventDate+") as eventDate, "+PathRepository.event_column.updatedAt+" from "+ PathRepository.Table.event.name();
     public static String HIA2_LAST_PROCESSED_DATE="HIA2_LAST_PROCESSED_DATE";
     private String reportDate;
 
@@ -197,7 +197,7 @@ public class HIA2Service {
         int count = 0;
         try {
             String query = "select count(*) as count," + ageQuery() + " from ec_child child inner join " + PathRepository.Table.event.name() + " e on e." + PathRepository.event_column.baseEntityId.name() + "= child.base_entity_id" +
-                    " where age " + age + " and  '"+reportDate+"'=strftime('%Y-%m-%d',e.eventDate) and child.gender=" + (gender.isEmpty() ? "Male" : gender);
+                    " where age " + age + " and  '"+reportDate+"'=strftime('%Y-%m-%d',e.eventDate) and child.gender='" + (gender.isEmpty() ? "Male" : gender+"'");
             count = executeQueryAndReturnCount(query);
         } catch (Exception e) {
             Log.logError(TAG, e.getMessage());
@@ -418,7 +418,7 @@ public class HIA2Service {
         try {
             String query = "select count(*) as count," + ageQuery() +
                     "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                    "where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score between -2 and -3 group by child.base_entity_id;";
+                    " where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score between -2 and -3 group by child.base_entity_id;";
             int count = executeQueryAndReturnCount(query);
             hia2Report.put(CHN2_035, count);
         } catch (Exception e) {
@@ -434,7 +434,7 @@ public class HIA2Service {
         try {
             String query = "select count(*) as count," + ageQuery() +
                     "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                    "where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score between -2 and -3 group by child.base_entity_id;";
+                    " where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score between -2 and -3 group by child.base_entity_id;";
             int count = executeQueryAndReturnCount(query);
             hia2Report.put(CHN2_040, count);
         } catch (Exception e) {
@@ -468,7 +468,7 @@ public class HIA2Service {
         try {
             String query = "select count(*) as count," + ageQuery() +
                     "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                    "where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score< -3 group by child.base_entity_id;";
+                    " where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score< -3 group by child.base_entity_id;";
             int count = executeQueryAndReturnCount(query);
             hia2Report.put(CHN2_045, count);
         } catch (Exception e) {
@@ -485,7 +485,7 @@ public class HIA2Service {
         try {
             String query = "select count(*) as count," + ageQuery() +
                     "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                    "where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score < -3 group by child.base_entity_id;";
+                    " where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score < -3 group by child.base_entity_id;";
             int count = executeQueryAndReturnCount(query);
             hia2Report.put(CHN2_050, count);
         } catch (Exception e) {
@@ -515,7 +515,7 @@ public class HIA2Service {
         try {
             String query = "select count(*) as count," + ageQuery() +
                     "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                    "where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score>2 group by child.base_entity_id;";
+                    " where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score>2 group by child.base_entity_id;";
             int count = executeQueryAndReturnCount(query);
             hia2Report.put(CHN2_055, count);
         } catch (Exception e) {
@@ -531,7 +531,7 @@ public class HIA2Service {
         try {
             String query = "select count(*) as count," + ageQuery() +
                     "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                    "where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score >2 group by child.base_entity_id;";
+                    " where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score >2 group by child.base_entity_id;";
 
             int count = executeQueryAndReturnCount(query);
             hia2Report.put(CHN2_060, count);
@@ -1144,7 +1144,7 @@ public class HIA2Service {
     }
 
     private String ageQuery() {
-        return "CAST ((julianday('now') - julianday(strftime('%Y-%m-%d',child.dob)))/(365/12) AS INTEGER)as age";
+        return " CAST ((julianday('now') - julianday(strftime('%Y-%m-%d',child.dob)))/(365/12) AS INTEGER)as age ";
     }
 
     private String eventDateEqualsCurrentMonthQuery() {
