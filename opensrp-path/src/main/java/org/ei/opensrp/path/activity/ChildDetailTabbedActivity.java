@@ -95,6 +95,7 @@ import java.util.Map;
 import util.DateUtils;
 import util.ImageUtils;
 import util.JsonFormUtils;
+import util.PathConstants;
 import util.RecurringServiceUtils;
 import util.Utils;
 import util.VaccinateActionUtils;
@@ -1334,7 +1335,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
             ContentValues contentValues = new ContentValues();
             //Add the base_entity_id
             contentValues.put(attributeName.toLowerCase(), attributeValue.toString());
-            int id = db.getWritableDatabase().update("ec_child", contentValues, "base_entity_id" + "=?", new String[]{childDetails.entityId()});
+            int id = db.getWritableDatabase().update(PathConstants.CHILD_TABLE_NAME, contentValues, "base_entity_id" + "=?", new String[]{childDetails.entityId()});
 
 
             Event event = (Event) new Event()

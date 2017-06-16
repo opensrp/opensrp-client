@@ -14,6 +14,7 @@ import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.repository.PathRepository;
+import org.ei.opensrp.path.service.intent.HIA2StatusRefreshIntentService;
 import org.ei.opensrp.path.service.intent.PathReplicationIntentService;
 import org.ei.opensrp.path.service.intent.PullUniqueIdsIntentService;
 import org.ei.opensrp.path.service.intent.RecurringIntentService;
@@ -101,6 +102,7 @@ public class PathUpdateActionsTask {
 
                     startImageUploadIntentService(context);
 
+                    startHIA2StatusRefreshIntentService(context);
 
                     FetchStatus fetchStatusAdditional = additionalSyncService == null ? nothingFetched : additionalSyncService.sync();
 
@@ -185,7 +187,7 @@ public class PathUpdateActionsTask {
         boolean keepSyncing = true;
         int limit = 50;
         try {
-           // db.markAllAsUnSynced();
+            // db.markAllAsUnSynced();
 
             while (keepSyncing) {
                 Map<String, Object> pendingEvents = null;
@@ -264,5 +266,10 @@ public class PathUpdateActionsTask {
         intent.setAction(SyncStatusBroadcastReceiver.ACTION_SYNC_STATUS);
         intent.putExtra(SyncStatusBroadcastReceiver.EXTRA_FETCH_STATUS, fetchStatus);
         context.sendBroadcast(intent);
+    }
+
+    private void startHIA2StatusRefreshIntentService(Context context) {
+        Intent intent = new Intent(context, HIA2StatusRefreshIntentService.class);
+        context.startService(intent);
     }
 }

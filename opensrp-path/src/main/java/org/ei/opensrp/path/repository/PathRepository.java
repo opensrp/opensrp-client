@@ -1357,7 +1357,7 @@ public class PathRepository extends Repository {
         // Create the new ec_child table
         try {
             String newTableNameSuffix = "_v2";
-            String originalTableName = "ec_child";
+            String originalTableName = PathConstants.CHILD_TABLE_NAME;
 
             Set<String> searchColumns = new LinkedHashSet<String>();
             searchColumns.add(CommonFtsObject.idColumn);
@@ -1502,6 +1502,9 @@ public class PathRepository extends Repository {
             List<Map<String, String>> csvData = Utils.populateTableFromCSV(context, HIA2IndicatorsRepository.INDICATORS_CSV_FILE, columnMappings);
             HIA2IndicatorsRepository hIA2IndicatorsRepository = VaccinatorApplication.getInstance().hIA2IndicatorsRepository();
             hIA2IndicatorsRepository.save(db, csvData);
+
+
+            db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_HIA2_STATUS_COL);
 
         } catch (Exception e) {
             Log.e(TAG, "upgradeToVersion7 " + e.getMessage());
