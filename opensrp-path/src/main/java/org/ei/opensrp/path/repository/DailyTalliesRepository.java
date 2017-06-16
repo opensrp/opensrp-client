@@ -76,7 +76,7 @@ public class DailyTalliesRepository extends BaseRepository {
             String userName = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
             database.beginTransaction();
             for (String indicatorCode : hia2Report.keySet()) {
-                    String indicatorValue = (String) hia2Report.get(indicatorCode);
+                    Integer indicatorValue = (Integer) hia2Report.get(indicatorCode);
 
                     // Get the HIA2 Indicator corresponding to the current tally
                     Hia2Indicator indicator = VaccinatorApplication.getInstance()
