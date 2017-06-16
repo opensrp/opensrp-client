@@ -11,8 +11,6 @@ import org.ei.opensrp.Context;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.DailyTally;
 import org.ei.opensrp.path.domain.Hia2Indicator;
-import org.ei.opensrp.path.domain.Tally;
-import org.ei.opensrp.path.service.HIA2Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,21 +70,18 @@ public class DailyTalliesRepository extends BaseRepository {
      *                   code, and the second the DHIS id for the indicator. It's expected that
      *                   the inner most map will always hold one value
      */
-    public void save(String day, Map<String, Map<String, Object>> hia2Report) {
+    public void save(String day, Map<String, Object> hia2Report) {
         SQLiteDatabase database = getPathRepository().getWritableDatabase();
         try {
             String userName = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
             database.beginTransaction();
             for (String indicatorCode : hia2Report.keySet()) {
-                Map<String, Object> indicatorMap = hia2Report.get(indicatorCode);
-                if (!indicatorMap.isEmpty()) {
-                    String dhisId = (String) indicatorMap.keySet().toArray()[0];
-                    String indicatorValue = (String) indicatorMap.get(dhisId);
+                    String indicatorValue = (String) hia2Report.get(indicatorCode);
 
                     // Get the HIA2 Indicator corresponding to the current tally
                     Hia2Indicator indicator = VaccinatorApplication.getInstance()
                             .hIA2IndicatorsRepository()
-                            .findByIndicatorCodeDhisId(indicatorCode, dhisId);
+                            .findByIndicatorCode(indicatorCode);
 
                     if (indicator != null) {
                         Long id = checkIfExists(indicator.getId(), day);
@@ -104,7 +99,6 @@ public class DailyTalliesRepository extends BaseRepository {
                             database.insert(TABLE_NAME, null, cv);
                         }
                     }
-                }
             }
             database.setTransactionSuccessful();
         } catch (SQLException e) {

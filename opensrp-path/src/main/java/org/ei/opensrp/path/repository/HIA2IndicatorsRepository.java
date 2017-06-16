@@ -79,11 +79,11 @@ public class HIA2IndicatorsRepository extends BaseRepository {
         return response;
     }
 
-    public Hia2Indicator findByIndicatorCodeDhisId(String indicatorCode, String dhisId) {
+    public Hia2Indicator findByIndicatorCode(String indicatorCode) {
         Cursor cursor = null;
 
         try {
-            cursor = getPathRepository().getReadableDatabase().query(HIA2_INDICATORS_TABLE_NAME, HIA2_TABLE_COLUMNS, INDICATOR_CODE + " = ? AND " + DHIS_ID + " = ?", new String[]{indicatorCode, dhisId}, null, null, null, null);
+            cursor = getPathRepository().getReadableDatabase().query(HIA2_INDICATORS_TABLE_NAME, HIA2_TABLE_COLUMNS, INDICATOR_CODE + " = ?", new String[]{indicatorCode}, null, null, null, null);
             List<Hia2Indicator> hia2Indicators = readAllDataElements(cursor);
             if (hia2Indicators.size() == 1) {
                 return hia2Indicators.get(0);

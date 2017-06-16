@@ -9,7 +9,6 @@ import net.sqlcipher.database.SQLiteDatabase;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.DailyTally;
-import org.ei.opensrp.path.domain.Tally;
 import org.ei.opensrp.path.repository.DailyTalliesRepository;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.service.HIA2Service;
@@ -63,7 +62,7 @@ public class HIA2IntentService extends IntentService {
                 String date = dates.get(PathRepository.event_column.eventDate);
                 String updatedAt = dates.get(PathRepository.event_column.updatedAt);
 
-                Map<String, Map<String, Object>> hia2Report = hia2Service.generateIndicators(db, date);
+               Map<String, Object> hia2Report = hia2Service.generateIndicators(db, date);
                 dailyTalliesRepository.save(date, hia2Report);
                 if (generateReport) {
                     List<DailyTally> tallies = dailyTalliesRepository.findByProviderIdAndDay(userName, date);
