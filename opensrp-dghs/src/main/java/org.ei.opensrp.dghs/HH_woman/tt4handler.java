@@ -34,5 +34,13 @@ public class tt4handler implements FormSubmissionHandler {
 //        ElcoDetails.put("FWELIGIBLE",submission.getFieldValue("FWELIGIBLE"));
         memberrep.mergeDetails(entityID,ElcoDetails);
 
+
+
+        AllCommonsRepository alerts = Context.getInstance().allCommonsRepositoryobjects("alerts");
+        List<Alert> alerts_list_tt5 = Context.getInstance().alertService().findByEntityIdAndAlertNames(entityID, "Woman_TT5");
+        if(alerts_list_tt5.size() > 0){
+            // delete tt5 schedule
+            alerts.close(entityID);
+        }
     }
 }
