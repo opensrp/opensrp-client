@@ -42,11 +42,10 @@
                 android:layout_height="@dimen/smart_register_client_divider_height"
                 android:src="@color/smart_register_client_divider_color"
                 android:layout_margin="10dp" />
-            <com.jjoe64.graphview.helper.GraphViewXML
+            <com.jjoe64.graphview.GraphView
                 android:id="@+id/graph"
                 android:layout_width="match_parent"
                 android:layout_height="200dip"
-                app:seriesData="0=5;2=5;3=0;4=2"
                 app:seriesType="line"
                 app:seriesColor="#3D9CE3" />
             <ImageView

@@ -104,9 +104,67 @@ public class Planning_Stock_fragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_planning__stock_fragment, container, false);
         mainview = view;
+        creatgraphview(mainview);
         loatDataView(mainview);
         return view;
     }
+
+    private void creatgraphview(View view) {
+        DateTime now = new DateTime(System.currentTimeMillis());
+        DateTime threemonthEarlierIterator = now.minusMonths(3);
+        ArrayList<DataPoint> datapointsforgraphs = new ArrayList<DataPoint>();
+        while(threemonthEarlierIterator.isBefore(now)){
+            PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+            net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
+
+            Cursor c = db.rawQuery("Select sum(value) from Stocks where " + StockRepository.DATE_CREATED + " <= " + threemonthEarlierIterator.toDate().getTime()+" and "+StockRepository.VACCINE_TYPE_ID + " = "+ ((StockControlActivity)getActivity()).vaccine_type.getId(), null);
+            String stockvalue = "0";
+            if(c.getCount()>0) {
+                c.moveToFirst();
+                if(c.getString(0)!=null && !StringUtils.isBlank(c.getString(0)))
+                    stockvalue = c.getString(0);
+                c.close();
+            }
+            datapointsforgraphs.add(new DataPoint(threemonthEarlierIterator.toDate(),Double.parseDouble(stockvalue)));
+            threemonthEarlierIterator = threemonthEarlierIterator.plusDays(1);
+
+        }
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(
+                datapointsforgraphs.toArray(new DataPoint[datapointsforgraphs.size()])
+        );
+        GraphView graph = (GraphView)view.findViewById(R.id.graph);
+        StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
+        String [] montharry;
+        int arraymonthslabelsize = 0;
+        if(now.minusMonths(1).monthOfYear() != now.monthOfYear()){
+            arraymonthslabelsize = 4;
+//            montharry = new String [arraymonthslabelsize];
+            montharry = new String[]{now.minusMonths(3).monthOfYear().getAsShortText()+" "+now.year().getAsShortText(),
+                    now.minusMonths(2).monthOfYear().getAsShortText()+" "+now.year().getAsShortText(),
+                    now.minusMonths(1).monthOfYear().getAsShortText()+" "+now.year().getAsShortText(),
+                    now.minusMonths(0).monthOfYear().getAsShortText()+" "+now.year().getAsShortText()
+            };
+        }else{
+            arraymonthslabelsize = 3;
+            montharry = new String[]{now.minusMonths(3).monthOfYear().getAsShortText()+" "+now.year().getAsShortText(),
+                    now.minusMonths(2).monthOfYear().getAsShortText()+" "+now.year().getAsShortText(),
+                    now.minusMonths(1).monthOfYear().getAsShortText()+" "+now.year().getAsShortText()
+            };
+        }
+        staticLabelsFormatter.setHorizontalLabels(montharry);
+        graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+        graph.removeAllSeries();
+        graph.addSeries(series);
+        graph.getViewport().setMinX(now.minusMonths(3).toDate().getTime());
+        graph.getViewport().setMaxX(now.toDate().getTime());
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMinY(0.0);
+        graph.getViewport().setMaxY(series.getHighestValueY());
+        graph.getGridLabelRenderer().setHumanRounding(false);
+    }
+
     public void loatDataView (View view){
         createTitle(view);
         createActiveChildrenStatsView(view);
@@ -271,34 +329,11 @@ public class Planning_Stock_fragment extends Fragment {
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(
                 datapointsforgraphs.toArray(new DataPoint[datapointsforgraphs.size()])
         );
-        GraphViewXML graph = (GraphViewXML)view.findViewById(R.id.graph);
-        StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
-        String [] montharry;
-        int arraymonthslabelsize = 0;
-        if(now.minusMonths(1).monthOfYear() != now.monthOfYear()){
-            arraymonthslabelsize = 4;
-//            montharry = new String [arraymonthslabelsize];
-            montharry = new String[]{now.minusMonths(3).monthOfYear().getAsShortText()+" "+now.year().getAsShortText(),
-                    now.minusMonths(2).monthOfYear().getAsShortText()+" "+now.year().getAsShortText(),
-                    now.minusMonths(1).monthOfYear().getAsShortText()+" "+now.year().getAsShortText(),
-                    now.minusMonths(0).monthOfYear().getAsShortText()+" "+now.year().getAsShortText()
-            };
-        }else{
-            arraymonthslabelsize = 3;
-            montharry = new String[]{now.minusMonths(3).monthOfYear().getAsShortText()+" "+now.year().getAsShortText(),
-                    now.minusMonths(2).monthOfYear().getAsShortText()+" "+now.year().getAsShortText(),
-                    now.minusMonths(1).monthOfYear().getAsShortText()+" "+now.year().getAsShortText()
-            };
-        }
-        staticLabelsFormatter.setHorizontalLabels(montharry);
-        graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+        GraphView graph = (GraphView)view.findViewById(R.id.graph);
+
         graph.removeAllSeries();
         graph.addSeries(series);
-        graph.getViewport().setMinX(now.minusMonths(3).toDate().getTime());
-        graph.getViewport().setMaxX(now.toDate().getTime());
-        graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(0.0);
         graph.getViewport().setMaxY(series.getHighestValueY());
         graph.getGridLabelRenderer().setHumanRounding(false);
 
