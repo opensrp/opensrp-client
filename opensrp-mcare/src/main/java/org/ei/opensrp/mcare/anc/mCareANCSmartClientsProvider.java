@@ -568,10 +568,10 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
             customFontTextView.setTextColor(context.getResources().getColor(R.color.text_black));
             customFontTextView.setBackgroundColor(context.getResources().getColor(org.ei.opensrp.R.color.status_bar_text_almost_white));
             //////////////////////////////////////////////////////////////////////////////////
-            customFontTextView.setOnClickListener(onClickListener);
-            customFontTextView.setTag(R.id.clientobject, pc);
-            customFontTextView.setTag(R.id.textforAncRegister,alerttextstatus.getAlertText() != null ? alerttextstatus.getAlertText() : "");
-            customFontTextView.setTag(R.id.AlertStatustextforAncRegister, "urgent");
+            //customFontTextView.setOnClickListener(onClickListener);
+            //customFontTextView.setTag(R.id.clientobject, pc);
+            //customFontTextView.setTag(R.id.textforAncRegister,alerttextstatus.getAlertText() != null ? alerttextstatus.getAlertText() : "");
+            //customFontTextView.setTag(R.id.AlertStatustextforAncRegister, "urgent");
             //////////////////////////////////////////////////////////////////////////////////
         }
     }
