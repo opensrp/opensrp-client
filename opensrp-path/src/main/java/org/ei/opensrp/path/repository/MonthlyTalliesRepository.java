@@ -134,12 +134,13 @@ public class MonthlyTalliesRepository extends BaseRepository {
      * @return
      */
     public List<MonthlyTally> findDrafts(Date month) {
-        // Check if there exists any tally in the database for the month provided
+        // Check if there exists any sent tally in the database for the month provided
         Cursor cursor = null;
         List<MonthlyTally> monthlyTallies = new ArrayList<>();
         try {
             cursor = getPathRepository().getReadableDatabase().query(TABLE_NAME, TABLE_COLUMNS,
-                    COLUMN_MONTH + "'" + MONTH_FORMAT.format(month) + "'",
+                    COLUMN_MONTH + "'" + MONTH_FORMAT.format(month) +
+                            "' AND " + COLUMN_DATE_SENT + " IS NOT NULL",
                     null, null, null, null, null);
             List<MonthlyTally> tallies = readAllDataElements(cursor);
 
@@ -182,16 +183,35 @@ public class MonthlyTalliesRepository extends BaseRepository {
         return monthlyTally;
     }
 
-    public List<MonthlyTally> findAllSent() {
-        List<MonthlyTally> tallies = new ArrayList<>();
+    public HashMap<String, ArrayList<MonthlyTally>> findAllSent(SimpleDateFormat dateFormat) {
+        HashMap<String, ArrayList<MonthlyTally>> tallies = new HashMap<>();
         Cursor cursor = null;
         try {
+            HashMap<Long, Hia2Indicator> indicatorMap = VaccinatorApplication.getInstance()
+                    .hIA2IndicatorsRepository().findAll();
             cursor = getPathRepository().getReadableDatabase()
                     .query(TABLE_NAME, TABLE_COLUMNS,
                             COLUMN_DATE_SENT + " IS NOT NULL", null, null, null, null, null);
-            tallies = readAllDataElements(cursor);
+            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    MonthlyTally curTally = extractMonthlyTally(indicatorMap, cursor);
+                    if (curTally != null) {
+                        if (!tallies.containsKey(dateFormat.format(curTally.getMonth()))) {
+                            tallies.put(dateFormat.format(curTally.getMonth()),
+                                    new ArrayList<MonthlyTally>());
+                        }
+
+                        tallies.get(dateFormat.format(curTally.getMonth())).add(curTally);
+                    }
+                    cursor.moveToNext();
+                }
+            }
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
 
         return tallies;
@@ -238,28 +258,8 @@ public class MonthlyTalliesRepository extends BaseRepository {
         try {
             if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
-                    long indicatorId = cursor.getLong(cursor.getColumnIndex(COLUMN_INDICATOR_ID));
-                    if (indicatorMap.containsKey(indicatorId)) {
-                        MonthlyTally curTally = new MonthlyTally();
-                        curTally.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
-                        curTally.setProviderId(
-                                cursor.getString(cursor.getColumnIndex(COLUMN_PROVIDER_ID)));
-                        curTally.setIndicator(indicatorMap.get(indicatorId));
-                        curTally.setValue(cursor.getString(cursor.getColumnIndex(COLUMN_VALUE)));
-                        curTally.setMonth(
-                                new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_MONTH))));
-                        curTally.setEdited(
-                                cursor.getInt(cursor.getColumnIndex(COLUMN_EDITED)) == 0 ?
-                                        false : true
-                        );
-                        curTally.setDateSent(
-                                cursor.getString(cursor.getColumnIndex(COLUMN_DATE_SENT)) == null ?
-                                        null : new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_DATE_SENT)))
-                        );
-                        curTally.setUpdatedAt(
-                                new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATED_AT)))
-                        );
-
+                    MonthlyTally curTally = extractMonthlyTally(indicatorMap, cursor);
+                    if (curTally != null) {
                         tallies.add(curTally);
                     }
 
@@ -273,6 +273,35 @@ public class MonthlyTalliesRepository extends BaseRepository {
         }
 
         return tallies;
+    }
+
+    private MonthlyTally extractMonthlyTally(HashMap<Long, Hia2Indicator> indicatorMap, Cursor cursor) {
+        long indicatorId = cursor.getLong(cursor.getColumnIndex(COLUMN_INDICATOR_ID));
+        if (indicatorMap.containsKey(indicatorId)) {
+            MonthlyTally curTally = new MonthlyTally();
+            curTally.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
+            curTally.setProviderId(
+                    cursor.getString(cursor.getColumnIndex(COLUMN_PROVIDER_ID)));
+            curTally.setIndicator(indicatorMap.get(indicatorId));
+            curTally.setValue(cursor.getString(cursor.getColumnIndex(COLUMN_VALUE)));
+            curTally.setMonth(
+                    new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_MONTH))));
+            curTally.setEdited(
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_EDITED)) == 0 ?
+                            false : true
+            );
+            curTally.setDateSent(
+                    cursor.getString(cursor.getColumnIndex(COLUMN_DATE_SENT)) == null ?
+                            null : new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_DATE_SENT)))
+            );
+            curTally.setUpdatedAt(
+                    new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATED_AT)))
+            );
+
+            return curTally;
+        }
+
+        return null;
     }
 
     private Long checkIfExists(long indicatorId, String month) {

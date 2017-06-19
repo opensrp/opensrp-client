@@ -239,6 +239,7 @@
     <string name="sent_reports_">Sent Reports > %1$s</string>
     <string name="submitted_by_">Submitted %1$s by %2$s</string>
     <string name="sent_by">Sent %1$s by %2$s</string>
+    <string name="daily_tally_">Daily Tally > %1$s</string>
     <string name="sync_failed_no_internet">Sync failed. Check your internet connection.</string>
 
 </resources>

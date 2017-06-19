@@ -11,6 +11,7 @@ import org.ei.opensrp.Context;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.DailyTally;
 import org.ei.opensrp.path.domain.Hia2Indicator;
+import org.ei.opensrp.path.domain.MonthlyTally;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -79,22 +80,22 @@ public class DailyTalliesRepository extends BaseRepository {
             String userName = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
             database.beginTransaction();
             for (String indicatorCode : hia2Report.keySet()) {
-                    Integer indicatorValue = (Integer) hia2Report.get(indicatorCode);
+                Integer indicatorValue = (Integer) hia2Report.get(indicatorCode);
 
-                    // Get the HIA2 Indicator corresponding to the current tally
-                    Hia2Indicator indicator = VaccinatorApplication.getInstance()
-                            .hIA2IndicatorsRepository()
-                            .findByIndicatorCode(indicatorCode);
+                // Get the HIA2 Indicator corresponding to the current tally
+                Hia2Indicator indicator = VaccinatorApplication.getInstance()
+                        .hIA2IndicatorsRepository()
+                        .findByIndicatorCode(indicatorCode);
 
-                    if (indicator != null) {
-                        ContentValues cv = new ContentValues();
-                        cv.put(DailyTalliesRepository.COLUMN_INDICATOR_ID, indicator.getId());
-                        cv.put(DailyTalliesRepository.COLUMN_VALUE, indicatorValue);
-                        cv.put(DailyTalliesRepository.COLUMN_PROVIDER_ID, userName);
-                        cv.put(DailyTalliesRepository.COLUMN_DAY, day);
+                if (indicator != null) {
+                    ContentValues cv = new ContentValues();
+                    cv.put(DailyTalliesRepository.COLUMN_INDICATOR_ID, indicator.getId());
+                    cv.put(DailyTalliesRepository.COLUMN_VALUE, indicatorValue);
+                    cv.put(DailyTalliesRepository.COLUMN_PROVIDER_ID, userName);
+                    cv.put(DailyTalliesRepository.COLUMN_DAY, day);
 
-                        database.insertWithOnConflict(TABLE_NAME, null, cv, SQLiteDatabase.CONFLICT_REPLACE);
-                    }
+                    database.insertWithOnConflict(TABLE_NAME, null, cv, SQLiteDatabase.CONFLICT_REPLACE);
+                }
             }
             database.setTransactionSuccessful();
         } catch (SQLException e) {
@@ -175,22 +176,47 @@ public class DailyTalliesRepository extends BaseRepository {
         return talliesFromMonth;
     }
 
-    public List<DailyTally> findByProviderIdAndDay(String providerId, Date day) {
-        return findByProviderIdAndDay(providerId, DAY_FORMAT.format(day));
-    }
-
-    public List<DailyTally> findByProviderIdAndDay(String providerId, String day) {
+    public List<DailyTally> findByProviderIdAndDay(String providerId, String date) {
         List<DailyTally> tallies = new ArrayList<>();
-        Cursor cursor = null;
         try {
-            cursor = getPathRepository().getReadableDatabase()
-                    .query(TABLE_NAME, TABLE_COLUMNS,
-                            COLUMN_PROVIDER_ID + " = ? AND " + COLUMN_DAY + "=?",
-                            new String[]{providerId, day},
-                            null, null, null, null);
+            Cursor cursor = getPathRepository().getReadableDatabase().query(TABLE_NAME, TABLE_COLUMNS,
+                    COLUMN_DAY + " = Datetime(?) AND " + COLUMN_PROVIDER_ID + " = ?",
+                    new String[]{date, providerId}, null, null, null, null);
             tallies = readAllDataElements(cursor);
         } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
+        return tallies;
+    }
+
+    public HashMap<String, ArrayList<DailyTally>> findAll(SimpleDateFormat dateFormat) {
+        HashMap<String, ArrayList<DailyTally>> tallies = new HashMap<>();
+        Cursor cursor = null;
+        try {
+            HashMap<Long, Hia2Indicator> indicatorMap = VaccinatorApplication.getInstance()
+                    .hIA2IndicatorsRepository().findAll();
+            cursor = getPathRepository().getReadableDatabase()
+                    .query(TABLE_NAME, TABLE_COLUMNS, null, null, null, null, null, null);
+            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    DailyTally curTally = extractDailyTally(indicatorMap, cursor);
+                    if (curTally != null) {
+                        if (!tallies.containsKey(dateFormat.format(curTally.getDay()))) {
+                            tallies.put(dateFormat.format(curTally.getDay()),
+                                    new ArrayList<DailyTally>());
+                        }
+
+                        tallies.get(dateFormat.format(curTally.getDay())).add(curTally);
+                    }
+                    cursor.moveToNext();
+                }
+            }
+        } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
 
         return tallies;
@@ -198,10 +224,9 @@ public class DailyTalliesRepository extends BaseRepository {
 
     private List<DailyTally> readAllDataElements(Cursor cursor) {
         List<DailyTally> tallies = new ArrayList<>();
-        HashMap<Long, Hia2Indicator> indicatorMap = VaccinatorApplication.getInstance()
-                .hIA2IndicatorsRepository().findAll();
-
         try {
+            HashMap<Long, Hia2Indicator> indicatorMap = VaccinatorApplication.getInstance()
+                    .hIA2IndicatorsRepository().findAll();
             if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
                     DailyTally curTally = extractDailyTally(indicatorMap, cursor);

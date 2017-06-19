@@ -1,6 +1,7 @@
 package org.ei.opensrp.path.fragment;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,17 +15,17 @@ import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.ReportSummaryActivity;
 import org.ei.opensrp.path.adapter.ExpandedListAdapter;
 import org.ei.opensrp.path.application.VaccinatorApplication;
-import org.ei.opensrp.path.domain.Hia2Indicator;
 import org.ei.opensrp.path.domain.MonthlyTally;
-import org.ei.opensrp.path.domain.Tally;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import util.Utils;
 
 /**
  * Created by coder on 6/7/17.
@@ -32,6 +33,7 @@ import java.util.Map;
 public class SentMonthlyFragment extends Fragment {
     private static final SimpleDateFormat MONTH_YEAR_FORMAT = new SimpleDateFormat("MMMM yyyy");
     private ExpandableListView expandableListView;
+    private HashMap<String, ArrayList<MonthlyTally>> sentMonthlyTallies;
 
     public static SentMonthlyFragment newInstance() {
         SentMonthlyFragment fragment = new SentMonthlyFragment();
@@ -52,6 +54,12 @@ public class SentMonthlyFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Utils.startAsyncTask(new GetSentTalliesTask(), null);
+    }
+
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
@@ -60,7 +68,7 @@ public class SentMonthlyFragment extends Fragment {
     }
 
     private void updateExpandedList() {
-        updateExpandedList(dummyData());
+        updateExpandedList(formatListData());
     }
 
     /**
@@ -68,32 +76,30 @@ public class SentMonthlyFragment extends Fragment {
      * @param map
      */
     @SuppressWarnings("unchecked")
-    private void updateExpandedList(final Map<String, List<ExpandedListAdapter.ItemData<Pair<String, String>, Pair<String, Date>>>> map) {
+    private void updateExpandedList(final Map<String, List<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>> map) {
 
         if (expandableListView == null) {
             return;
         }
 
-        ExpandedListAdapter<Pair<String, String>, Pair<String, Date>> expandableListAdapter = new ExpandedListAdapter(getActivity(), map, R.layout.sent_monthly_header, R.layout.sent_monthly_item);
+        ExpandedListAdapter<Pair<String, String>, Date> expandableListAdapter = new ExpandedListAdapter(getActivity(), map, R.layout.sent_monthly_header, R.layout.sent_monthly_item);
         expandableListView.setAdapter(expandableListAdapter);
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 Object tag = v.getTag(R.id.item_data);
                 if (tag != null) {
-                    if (tag instanceof Pair) {
-                        Pair<String, Date> pair = (Pair<String, Date>) tag;
-                        String providerId = pair.first;
-                        Date month = pair.second;
-                        ArrayList<MonthlyTally> indicators = new ArrayList(VaccinatorApplication.getInstance()
-                                .dailyTalliesRepository()// TODO: switch to using monthly tallies repository
-                                .findByProviderIdAndDay(providerId, month));
-                        if (indicators.size() > 0) {
-                            String dateSubmitted = new SimpleDateFormat("dd/MM/yy").format(indicators.get(0).getUpdatedAt());
+                    if (tag instanceof Date) {
+                        Date month = (Date) tag;
+                        if (sentMonthlyTallies.containsKey(MONTH_YEAR_FORMAT.format(month))
+                                && sentMonthlyTallies.get(MONTH_YEAR_FORMAT.format(month)).size() > 0) {
+                            ArrayList<MonthlyTally> indicators = sentMonthlyTallies
+                                    .get(MONTH_YEAR_FORMAT.format(month));
+                            String dateSubmitted = new SimpleDateFormat("dd/MM/yy").format(indicators.get(0).getDateSent());
                             String subTitle = String.format(getString(R.string.submitted_by_),
                                     dateSubmitted,
-                                    providerId);
-                            String monthString = new SimpleDateFormat("MMMM yyyy").format(month);
+                                    indicators.get(0).getProviderId());
+                            String monthString = MONTH_YEAR_FORMAT.format(month);
                             String title = String.format(getString(R.string.sent_reports_),
                                     monthString);
                             Intent intent = new Intent(getActivity(), ReportSummaryActivity.class);
@@ -109,89 +115,47 @@ public class SentMonthlyFragment extends Fragment {
         expandableListAdapter.notifyDataSetChanged();
     }
 
-    //TODO REMOVE
-    private Map<String, List<ExpandedListAdapter.ItemData<Pair<String, String>, Pair<String, Date>>>> dummyData() {
-        Map<String, List<ExpandedListAdapter.ItemData<Pair<String, String>, Pair<String, Date>>>> map = new LinkedHashMap<>();
+    private Map<String, List<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>> formatListData() {
+        Map<String, List<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>> map = new LinkedHashMap<>();
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+        SimpleDateFormat dateSentFormat = new SimpleDateFormat("M/d/yy");
 
-        Calendar cal = Calendar.getInstance();
-        cal.roll(Calendar.MONTH, false);
-        String one = new SimpleDateFormat("yyyy").format(cal.getTime());
+        if (sentMonthlyTallies != null) {
+            for (List<MonthlyTally> curMonthTallies : sentMonthlyTallies.values()) {
+                if (curMonthTallies != null && curMonthTallies.size() > 0) {
+                    Date month = curMonthTallies.get(0).getMonth();
+                    if (!map.containsKey(yearFormat.format(month))) {
+                        map.put(yearFormat.format(month),
+                                new ArrayList<ExpandedListAdapter.ItemData<Pair<String, String>,
+                                        Date>>());
+                    }
 
-        List<ExpandedListAdapter.ItemData<Pair<String, String>, Pair<String, Date>>> days = new ArrayList<>();
-
-        String day = new SimpleDateFormat("MMMM yyyy").format(cal.getTime());
-        String detail = String.format(getString(R.string.sent_by), new SimpleDateFormat("M/d/yy").format(cal.getTime()), "HW");
-        days.add(new ExpandedListAdapter.ItemData(Pair.create(day, detail), Pair.create("HW", cal.getTime())));
-
-        Calendar cal2 = cal;
-        cal2.roll(Calendar.MONTH, false);
-
-        day = new SimpleDateFormat("MMMM yyyy").format(cal2.getTime());
-        detail = String.format(getString(R.string.sent_by), new SimpleDateFormat("M/d/yy").format(cal2.getTime()), "HW");
-        days.add(new ExpandedListAdapter.ItemData(Pair.create(day, detail), Pair.create("HW", cal2.getTime())));
-
-        cal2.roll(Calendar.MONTH, false);
-
-        day = new SimpleDateFormat("MMMM yyyy").format(cal2.getTime());
-        detail = String.format(getString(R.string.sent_by), new SimpleDateFormat("M/d/yy").format(cal2.getTime()), "HW");
-        days.add(new ExpandedListAdapter.ItemData(Pair.create(day, detail), Pair.create("HW", cal2.getTime())));
-
-
-        map.put(one, days);
-
-        cal.roll(Calendar.YEAR, false);
-        String two = new SimpleDateFormat("yyyy").format(cal.getTime());
-
-        days = new ArrayList<>();
-
-        day = new SimpleDateFormat("MMMM yyyy").format(cal.getTime());
-        detail = String.format(getString(R.string.sent_by), new SimpleDateFormat("M/d/yy").format(cal.getTime()), "HW");
-        days.add(new ExpandedListAdapter.ItemData(Pair.create(day, detail), Pair.create("HW", cal.getTime())));
-
-
-        cal2 = cal;
-        cal2.roll(Calendar.MONTH, false);
-
-        day = new SimpleDateFormat("MMMM yyyy").format(cal2.getTime());
-        detail = String.format(getString(R.string.sent_by), new SimpleDateFormat("M/d/yy").format(cal2.getTime()), "HW");
-        days.add(new ExpandedListAdapter.ItemData(Pair.create(day, detail), Pair.create("HW", cal2.getTime())));
-
-        cal2.roll(Calendar.MONTH, false);
-
-        day = new SimpleDateFormat("MMMM yyyy").format(cal2.getTime());
-        detail = String.format(getString(R.string.sent_by), new SimpleDateFormat("M/d/yy").format(cal2.getTime()), "HW");
-        days.add(new ExpandedListAdapter.ItemData(Pair.create(day, detail), Pair.create("HW", cal2.getTime())));
-
-
-        map.put(two, days);
-
-
-        cal.roll(Calendar.YEAR, false);
-        String three = new SimpleDateFormat("yyyy").format(cal.getTime());
-        days = new ArrayList<>();
-
-        day = new SimpleDateFormat("MMMM yyyy").format(cal.getTime());
-        detail = String.format(getString(R.string.sent_by), new SimpleDateFormat("M/d/yy").format(cal.getTime()), "HW");
-        days.add(new ExpandedListAdapter.ItemData(Pair.create(day, detail), Pair.create("HW", cal.getTime())));
-
-
-        cal2 = cal;
-        cal2.roll(Calendar.MONTH, false);
-
-        day = new SimpleDateFormat("MMMM yyyy").format(cal2.getTime());
-        detail = String.format(getString(R.string.sent_by), new SimpleDateFormat("M/d/yy").format(cal2.getTime()), "HW");
-        days.add(new ExpandedListAdapter.ItemData(Pair.create(day, detail), Pair.create("HW", cal2.getTime())));
-
-
-        cal2.roll(Calendar.MONTH, false);
-
-        day = new SimpleDateFormat("MMMM yyyy").format(cal2.getTime());
-        detail = String.format(getString(R.string.sent_by), new SimpleDateFormat("M/d/yy").format(cal2.getTime()), "HW");
-        days.add(new ExpandedListAdapter.ItemData(Pair.create(day, detail), Pair.create("HW", cal2.getTime())));
-
-        map.put(three, days);
+                    String details = String.format(getString(R.string.sent_by),
+                            dateSentFormat.format(curMonthTallies.get(0).getDateSent()),
+                            curMonthTallies.get(0).getProviderId());
+                    map.get(yearFormat.format(month))
+                            .add(new ExpandedListAdapter.ItemData<Pair<String, String>, Date>(
+                                    Pair.create(MONTH_YEAR_FORMAT.format(month), details), month));
+                }
+            }
+        }
 
         return map;
 
+    }
+
+    private class GetSentTalliesTask extends AsyncTask<Void, Void, HashMap<String, ArrayList<MonthlyTally>>> {
+
+        @Override
+        protected HashMap<String, ArrayList<MonthlyTally>> doInBackground(Void... params) {
+            return VaccinatorApplication.getInstance().monthlyTalliesRepository().findAllSent(MONTH_YEAR_FORMAT);
+        }
+
+        @Override
+        protected void onPostExecute(HashMap<String, ArrayList<MonthlyTally>> stringListHashMap) {
+            super.onPostExecute(stringListHashMap);
+            SentMonthlyFragment.this.sentMonthlyTallies = stringListHashMap;
+            updateExpandedList();
+        }
     }
 }

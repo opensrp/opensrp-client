@@ -1,32 +1,39 @@
 package org.ei.opensrp.path.fragment;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.activity.ReportSummaryActivity;
 import org.ei.opensrp.path.adapter.ExpandedListAdapter;
+import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.domain.DailyTally;
+import org.ei.opensrp.path.domain.MonthlyTally;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import util.Utils;
 
 /**
  * Created by coder on 6/7/17.
  */
 public class DailyTalliesFragment extends Fragment {
-
+    private static final SimpleDateFormat DAY_FORMAT = new SimpleDateFormat("dd MMMM yyyy");
     private ExpandableListView expandableListView;
+    private HashMap<String, ArrayList<DailyTally>> dailyTallies;
 
     public static DailyTalliesFragment newInstance() {
         DailyTalliesFragment fragment = new DailyTalliesFragment();
@@ -61,6 +68,12 @@ public class DailyTalliesFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Utils.startAsyncTask(new GetAllTalliesTask(), null);
+    }
+
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
@@ -69,7 +82,7 @@ public class DailyTalliesFragment extends Fragment {
     }
 
     private void updateExpandableList() {
-        updateExpandableList(dummyData());
+        updateExpandableList(formatListData());
     }
 
     @SuppressWarnings("unchecked")
@@ -81,84 +94,66 @@ public class DailyTalliesFragment extends Fragment {
 
         ExpandedListAdapter<String, Date> expandableListAdapter = new ExpandedListAdapter(getActivity(), map, R.layout.daily_tally_header, R.layout.daily_tally_item);
         expandableListView.setAdapter(expandableListAdapter);
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                Object tag = v.getTag(R.id.item_data);
+                if (tag != null) {
+                    if (tag instanceof Date) {
+                        Date day = (Date) tag;
+                        if (dailyTallies.containsKey(DAY_FORMAT.format(day))
+                                && dailyTallies.get(DAY_FORMAT.format(day)).size() > 0) {
+                            ArrayList<DailyTally> indicators = dailyTallies
+                                    .get(DAY_FORMAT.format(day));
+                            String title = String.format(getString(R.string.daily_tally_),
+                                    DAY_FORMAT.format(day));
+                            Intent intent = new Intent(getActivity(), ReportSummaryActivity.class);
+                            intent.putExtra(ReportSummaryActivity.EXTRA_TALLIES, indicators);
+                            intent.putExtra(ReportSummaryActivity.EXTRA_TITLE, title);
+                        }
+                    }
+                }
+                return true;
+            }
+        });
         expandableListAdapter.notifyDataSetChanged();
     }
 
-    //TODO REMOVE
-    private Map<String, List<ExpandedListAdapter.ItemData<String, Date>>> dummyData() {
+    private Map<String, List<ExpandedListAdapter.ItemData<String, Date>>> formatListData() {
         Map<String, List<ExpandedListAdapter.ItemData<String, Date>>> map = new LinkedHashMap<>();
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM yyyy");
+        if (dailyTallies != null) {
+            for (ArrayList<DailyTally> curDay : dailyTallies.values()) {
+                if (curDay.size() > 0) {
+                    Date day = curDay.get(0).getDay();
+                    if (!map.containsKey(monthFormat.format(day))) {
+                        map.put(monthFormat.format(day),
+                                new ArrayList<ExpandedListAdapter.ItemData<String, Date>>());
+                    }
 
-        Calendar cal = Calendar.getInstance();
-        cal.roll(Calendar.MONTH, false);
-        String one = new SimpleDateFormat("MMMM yyyy").format(cal.getTime());
-
-        List<ExpandedListAdapter.ItemData<String, Date>> days = new ArrayList<>();
-
-        String day = new SimpleDateFormat("dd MMMM yyyy").format(cal.getTime());
-        days.add(new ExpandedListAdapter.ItemData(day, cal.getTime()));
-
-        Calendar cal2 = cal;
-        cal2.roll(Calendar.DAY_OF_MONTH, false);
-        cal2.roll(Calendar.DAY_OF_MONTH, false);
-
-        day = new SimpleDateFormat("dd MMMM yyyy").format(cal2.getTime());
-        days.add(new ExpandedListAdapter.ItemData(day, cal2.getTime()));
-
-        cal2.roll(Calendar.DAY_OF_MONTH, false);
-        cal2.roll(Calendar.DAY_OF_MONTH, false);
-
-        day = new SimpleDateFormat("dd MMMM yyyy").format(cal2.getTime());
-        days.add(new ExpandedListAdapter.ItemData(day, cal2.getTime()));
-
-        map.put(one, days);
-
-        cal.roll(Calendar.MONTH, false);
-        String two = new SimpleDateFormat("MMMM yyyy").format(cal.getTime());
-
-        days = new ArrayList<>();
-
-        day = new SimpleDateFormat("dd MMMM yyyy").format(cal.getTime());
-        days.add(new ExpandedListAdapter.ItemData(day, cal.getTime()));
-
-        cal2 = cal;
-        cal2.roll(Calendar.DAY_OF_MONTH, false);
-        cal2.roll(Calendar.DAY_OF_MONTH, false);
-
-        day = new SimpleDateFormat("dd MMMM yyyy").format(cal2.getTime());
-        days.add(new ExpandedListAdapter.ItemData(day, cal2.getTime()));
-
-        cal2.roll(Calendar.DAY_OF_MONTH, false);
-        cal2.roll(Calendar.DAY_OF_MONTH, false);
-
-        day = new SimpleDateFormat("dd MMMM yyyy").format(cal2.getTime());
-        days.add(new ExpandedListAdapter.ItemData(day, cal2.getTime()));
-
-        map.put(two, days);
-
-
-        cal.roll(Calendar.MONTH, false);
-        String three = new SimpleDateFormat("MMMM yyyy").format(cal.getTime());
-        days = new ArrayList<>();
-
-        day = new SimpleDateFormat("dd MMMM yyyy").format(cal.getTime());
-        days.add(new ExpandedListAdapter.ItemData(day, cal.getTime()));
-
-        cal2 = cal;
-        cal2.roll(Calendar.DAY_OF_MONTH, false);
-        cal2.roll(Calendar.DAY_OF_MONTH, false);
-
-        day = new SimpleDateFormat("dd MMMM yyyy").format(cal2.getTime());
-        days.add(new ExpandedListAdapter.ItemData(day, cal2.getTime()));
-
-        cal2.roll(Calendar.DAY_OF_MONTH, false);
-        cal2.roll(Calendar.DAY_OF_MONTH, false);
-
-        day = new SimpleDateFormat("dd MMMM yyyy").format(cal2.getTime());
-        days.add(new ExpandedListAdapter.ItemData(day, cal2.getTime()));
-
-        map.put(three, days);
+                    map.get(monthFormat.format(day)).add(
+                            new ExpandedListAdapter.ItemData<String, Date>(DAY_FORMAT.format(day),
+                                    day)
+                    );
+                }
+            }
+        }
 
         return map;
     }
 
+    private class GetAllTalliesTask extends AsyncTask<Void, Void, HashMap<String, ArrayList<DailyTally>>> {
+
+        @Override
+        protected HashMap<String, ArrayList<DailyTally>> doInBackground(Void... params) {
+            return VaccinatorApplication.getInstance().dailyTalliesRepository().findAll(DAY_FORMAT);
+        }
+
+        @Override
+        protected void onPostExecute(HashMap<String, ArrayList<DailyTally>> tallies) {
+            super.onPostExecute(tallies);
+            dailyTallies = tallies;
+            updateExpandableList();
+        }
+    }
 }
