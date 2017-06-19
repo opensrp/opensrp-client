@@ -1048,7 +1048,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
 
         WeightWrapper weightWrapper = new WeightWrapper();
         weightWrapper.setId(childDetails.entityId());
-        WeightRepository wp = VaccinatorApplication.getInstance().weightRepository();
+        WeightRepository wp = getVaccinatorApplicationInstance().weightRepository();
         List<Weight> weightlist = wp.findLast5(childDetails.entityId());
 //        if (weightlist.size() > i) {
         weightWrapper.setWeight(weightlist.get(i).getKg());
@@ -1323,7 +1323,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     public void updateClientAttribute(String attributeName, Object attributeValue) {
         try {
             Date date = new Date();
-            PathRepository db = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+            PathRepository db = (PathRepository) getVaccinatorApplicationInstance().getRepository();
             ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(this);
 
             JSONObject client = db.getClientByBaseEntityId(childDetails.entityId());

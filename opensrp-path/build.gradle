@@ -1,5 +1,28 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'jacoco'
+
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebug']) {
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+   // getReports().getXml().setDestination(file("$buildDir/../reports/jacoco/merged.xml"))
+   // getReports().getHtml().setDestination(file("$buildDir/../reports/jacoco/html"))
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*','**/*$ViewBinder*.*']
+    def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
+    def mainSrc = "$project.projectDir/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: project.buildDir, includes: [
+            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+    ])
+}
 
 buildscript {
     repositories {
@@ -62,6 +85,7 @@ android {
             buildConfigField "int", "DATABASE_VERSION", '6'
             buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
             buildConfigField "boolean", "TIME_CHECK", "false"
+            testCoverageEnabled true
         }
     }
     packagingOptions {
@@ -101,7 +125,7 @@ dependencies {
     compile 'com.github.lecho:hellocharts-android:v1.5.8'
 
 
-    //testCompile 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
+    //testCompile 'net.zetetic:android-database-sqlcipher:3.5.7@aar''
 
     compile ('junit:junit:4.12'){
 
