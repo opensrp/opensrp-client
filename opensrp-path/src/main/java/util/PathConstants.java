@@ -30,4 +30,12 @@ public class PathConstants extends AllConstants {
     public static final String CHILD_TABLE_NAME = "ec_child";
     public static final String MOTHER_TABLE_NAME = "ec_mother";
 
+    public static final class ServiceType {
+
+        public static final int DATA_SYNCHRONIZATION = 1;
+        public static final int DAILY_TALLIES_GENERATION = 2;
+        public static final int MONTHLY_TALLIES_GENERATION = 3;
+    }
+
+
 }
