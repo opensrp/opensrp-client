@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.domain.DownloadStatus;
@@ -14,7 +13,7 @@ import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.repository.PathRepository;
-import org.ei.opensrp.path.service.intent.HIA2StatusRefreshIntentService;
+import org.ei.opensrp.path.service.intent.HIA2IntentService;
 import org.ei.opensrp.path.service.intent.PathReplicationIntentService;
 import org.ei.opensrp.path.service.intent.PullUniqueIdsIntentService;
 import org.ei.opensrp.path.service.intent.RecurringIntentService;
@@ -102,7 +101,7 @@ public class PathUpdateActionsTask {
 
                     startImageUploadIntentService(context);
 
-                    startHIA2StatusRefreshIntentService(context);
+                    startHIA2IntentService(context);
 
                     FetchStatus fetchStatusAdditional = additionalSyncService == null ? nothingFetched : additionalSyncService.sync();
 
@@ -268,8 +267,8 @@ public class PathUpdateActionsTask {
         context.sendBroadcast(intent);
     }
 
-    private void startHIA2StatusRefreshIntentService(Context context) {
-        Intent intent = new Intent(context, HIA2StatusRefreshIntentService.class);
+    private void startHIA2IntentService(Context context) {
+        Intent intent = new Intent(context, HIA2IntentService.class);
         context.startService(intent);
     }
 }
