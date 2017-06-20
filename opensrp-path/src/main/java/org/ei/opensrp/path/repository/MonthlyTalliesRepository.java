@@ -50,7 +50,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
             COLUMN_MONTH + " DATETIME NOT NULL," +
             COLUMN_EDITED + " INTEGER NOT NULL DEFAULT 0," +
             COLUMN_DATE_SENT + " DATETIME NULL," +
-            COLUMN_UPDATED_AT + " TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP)";
+            COLUMN_UPDATED_AT + " TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)";
 
     private static final String INDEX_PROVIDER_ID = "CREATE INDEX " + TABLE_NAME + "_" + COLUMN_PROVIDER_ID + "_index" +
             " ON " + TABLE_NAME + "(" + COLUMN_PROVIDER_ID + " COLLATE NOCASE);";

@@ -25,6 +25,7 @@ import org.ei.opensrp.path.fragment.DailyTalliesFragment;
 import org.ei.opensrp.path.fragment.DraftMonthlyFragment;
 import org.ei.opensrp.path.fragment.SentMonthlyFragment;
 import org.ei.opensrp.path.repository.HIA2IndicatorsRepository;
+import org.ei.opensrp.path.toolbar.SimpleToolbar;
 import org.ei.opensrp.path.view.LocationPickerView;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.util.FormUtils;
@@ -41,8 +42,8 @@ import util.barcode.BarcodeIntentResult;
 /**
  * Created by coder on 6/7/17.
  */
-public class HIA2ReportsActivity extends AppCompatActivity {
-    private static String TAG = ChildSmartRegisterActivity.class.getCanonicalName();
+public class HIA2ReportsActivity extends BaseActivity {
+    private static String TAG = HIA2ReportsActivity.class.getCanonicalName();
     private static final int REQUEST_CODE_GET_JSON = 3432;
 
     /**
@@ -66,12 +67,12 @@ public class HIA2ReportsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hia2_reports);
+        /*setContentView(R.layout.activity_hia2_reports);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);*/
         tabLayout = (TabLayout) findViewById(R.id.tabs);
-        toolbar.setTitle("");
-        setTitle("");
+        //toolbar.setTitle("");
+        //setTitle("");
 
 
         // Create the adapter that will return a fragment for each of the three
@@ -220,6 +221,26 @@ public class HIA2ReportsActivity extends AppCompatActivity {
                 Log.d("JSONResult", jsonString);
             }
         }
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_hia2_reports;
+    }
+
+    @Override
+    protected int getDrawerLayoutId() {
+        return R.id.drawer_layout;
+    }
+
+    @Override
+    protected int getToolbarId() {
+        return SimpleToolbar.TOOLBAR_ID;
+    }
+
+    @Override
+    protected Class onBackActivity() {
+        return null;
     }
 
 }

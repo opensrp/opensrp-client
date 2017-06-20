@@ -1,16 +1,19 @@
 package org.ei.opensrp.path.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.activity.HIA2ReportsActivity;
 import org.ei.opensrp.path.activity.ReportSummaryActivity;
 import org.ei.opensrp.path.adapter.ExpandedListAdapter;
 import org.ei.opensrp.path.application.VaccinatorApplication;
@@ -31,9 +34,11 @@ import util.Utils;
  * Created by coder on 6/7/17.
  */
 public class DailyTalliesFragment extends Fragment {
+    private static final String TAG = DailyTalliesFragment.class.getCanonicalName();
     private static final SimpleDateFormat DAY_FORMAT = new SimpleDateFormat("dd MMMM yyyy");
     private ExpandableListView expandableListView;
     private HashMap<String, ArrayList<DailyTally>> dailyTallies;
+    private ProgressDialog progressDialog;
 
     public static DailyTalliesFragment newInstance() {
         DailyTalliesFragment fragment = new DailyTalliesFragment();
@@ -68,8 +73,8 @@ public class DailyTalliesFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         Utils.startAsyncTask(new GetAllTalliesTask(), null);
     }
 
@@ -142,7 +147,42 @@ public class DailyTalliesFragment extends Fragment {
         return map;
     }
 
+    private void initializeProgressDialog() {
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle(getString(R.string.loading));
+        progressDialog.setMessage(getString(R.string.please_wait_message));
+    }
+
+    public void showProgressDialog() {
+        try {
+            if (progressDialog == null) {
+                initializeProgressDialog();
+            }
+
+            progressDialog.show();
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
+    }
+
+    public void hideProgressDialog() {
+        try {
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+            }
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
+    }
+
     private class GetAllTalliesTask extends AsyncTask<Void, Void, HashMap<String, ArrayList<DailyTally>>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog();
+        }
 
         @Override
         protected HashMap<String, ArrayList<DailyTally>> doInBackground(Void... params) {
@@ -152,6 +192,7 @@ public class DailyTalliesFragment extends Fragment {
         @Override
         protected void onPostExecute(HashMap<String, ArrayList<DailyTally>> tallies) {
             super.onPostExecute(tallies);
+            hideProgressDialog();
             dailyTallies = tallies;
             updateExpandableList();
         }

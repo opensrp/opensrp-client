@@ -144,6 +144,7 @@ public abstract class BaseActivity extends AppCompatActivity
                         ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
                         if (fetchStatus.equals(FetchStatus.fetchedFailed)) {
                             syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_failed, Snackbar.LENGTH_INDEFINITE);
+                            syncStatusSnackbar.setActionTextColor(getResources().getColor(R.color.snackbar_action_color));
                             syncStatusSnackbar.setAction(R.string.retry, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
