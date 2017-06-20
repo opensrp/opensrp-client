@@ -34,7 +34,7 @@ import util.ImageUtils;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 
@@ -481,7 +481,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
         PowerMockito.mockStatic(ImageUtils.class);
 
-        PowerMockito.doReturn(new Photo()).when(ImageUtils.profilePhotoByClient(any(CommonPersonObjectClient.class)));
+        PowerMockito.doReturn(new Photo()).when(ImageUtils.profilePhotoByClient((CommonPersonObjectClient)anyObject()));
         activity.showWeightDialog(0);
         assertNotNull(activity.getFragmentManager());
 

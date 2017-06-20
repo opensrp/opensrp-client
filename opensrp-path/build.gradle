@@ -1,17 +1,18 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
 
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebug','createDebugCoverageReport']) {
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebug']) {
 
     reports {
         xml.enabled = true
         html.enabled = true
     }
 
-   // getReports().getXml().setDestination(file("$buildDir/../reports/jacoco/merged.xml"))
-   // getReports().getHtml().setDestination(file("$buildDir/../reports/jacoco/html"))
+    getReports().getXml().setDestination(file("$buildDir/../reports/jacoco/merged.xml"))
+    getReports().getHtml().setDestination(file("$buildDir/../reports/jacoco/html"))
 
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*','**/*$ViewBinder*.*']
     def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
@@ -20,7 +21,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebug','createDebugCo
     sourceDirectories = files([mainSrc])
     classDirectories = files([debugTree])
     executionData = fileTree(dir: project.buildDir, includes: [
-            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+            'jacoco/testDebug.exec', 'outputs/code-coverage/connected/*coverage.ec'
     ])
 }
 
@@ -34,7 +35,12 @@ buildscript {
         classpath 'org.apache.commons:commons-lang3:3.3.2'
         classpath 'org.robolectric:robolectric-gradle-plugin:1.1.0'
         classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0'
     }
+}
+
+coveralls {
+    jacocoReportPath = "$buildDir/../reports/jacoco/merged.xml"
 }
 
 repositories {
@@ -101,6 +107,12 @@ android {
         exclude 'META-INF/LGPL2.1'
         exclude 'LICENSE.txt'
     }
+
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
 }
 
 dependencies {
