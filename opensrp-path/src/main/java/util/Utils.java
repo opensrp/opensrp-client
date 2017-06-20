@@ -556,13 +556,15 @@ public class Utils {
         }
         return birthDateTime;
     }
+
     /**
+     * This method is only intended to be used for processing Zambia-EIR-DataDictionaryReporting-HIA2.csv
      *
      * @param csvFileName
-     * @param columns this map has the db column name as value and the csv column no as the key
+     * @param columns     this map has the db column name as value and the csv column no as the key
      * @return each map is db row with key as the column name and value as the value from the csv file
      */
-    public static List<Map<String, String>> populateTableFromCSV(Context context,String csvFileName, Map<Integer, String> columns) {
+    public static List<Map<String, String>> populateTableFromCSV(Context context, String csvFileName, Map<Integer, String> columns) {
         List<Map<String, String>> result = new ArrayList<>();
 
         try {
@@ -571,12 +573,20 @@ public class Utils {
 
             try {
                 String line;
+                String category = "";
                 while ((line = reader.readLine()) != null) {
                     Map<String, String> csvValues = new HashMap<>();
                     String[] rowData = line.split(",");
+                    if (!TextUtils.isDigitsOnly(rowData[0])) {
+                        category = cleanUpHeader(line);
+                        continue;
+                    }
                     for (Integer key : columns.keySet()) {
-                        String value = rowData[key];
-                        csvValues.put(columns.get(key), value);
+                        if (key != 999) {
+                            String value = rowData[key];
+                            csvValues.put(columns.get(key), value);
+                            csvValues.put(columns.get(999), category);
+                        }
                     }
                     result.add(csvValues);
                 }
@@ -598,4 +608,20 @@ public class Utils {
         return result;
     }
 
+    private static String cleanUpHeader(String header) {
+
+        try {
+            header = header.contains("\"") ? header.replaceAll("\"", "") : header;
+            int length = header.length()-1;
+            for (int i = length; i > 0; i--) {
+                if (header.charAt(i) != ',') {
+                    header=header.substring(0,i+1);
+                    break;
+                }
+            }
+            return header;
+        } catch (Exception ex) {
+            return header;
+        }
+    }
 }

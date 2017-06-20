@@ -1492,6 +1492,8 @@ public class PathRepository extends Repository {
             MonthlyTalliesRepository.createTable(db);
             createTable(db, Table.path_reports, report_column.values());
             HIA2IndicatorsRepository.createTable(db);
+            db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_HIA2_STATUS_COL);
+
             //csv column no to table column names
             Map<Integer, String> columnMappings = new HashMap<>();
             columnMappings.put(0, HIA2IndicatorsRepository.ID_COLUMN);
@@ -1499,12 +1501,13 @@ public class PathRepository extends Repository {
             columnMappings.put(2, HIA2IndicatorsRepository.LABEL);
             columnMappings.put(3, HIA2IndicatorsRepository.DHIS_ID);
             columnMappings.put(4, HIA2IndicatorsRepository.DESCRIPTION);
+            columnMappings.put(999, HIA2IndicatorsRepository.CATEGORY);//999 means nothing really, just to hold the column name for categories since category is a row in the hia2 csv
+
             List<Map<String, String>> csvData = Utils.populateTableFromCSV(context, HIA2IndicatorsRepository.INDICATORS_CSV_FILE, columnMappings);
             HIA2IndicatorsRepository hIA2IndicatorsRepository = VaccinatorApplication.getInstance().hIA2IndicatorsRepository();
             hIA2IndicatorsRepository.save(db, csvData);
 
 
-            db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_HIA2_STATUS_COL);
 
         } catch (Exception e) {
             Log.e(TAG, "upgradeToVersion7 " + e.getMessage());
