@@ -136,9 +136,6 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-csv', version: '1.4'
     compile 'com.github.lecho:hellocharts-android:v1.5.8'
 
-
-    //testCompile 'net.zetetic:android-database-sqlcipher:3.5.7@aar''
-
     compile ('junit:junit:4.12'){
 
     }

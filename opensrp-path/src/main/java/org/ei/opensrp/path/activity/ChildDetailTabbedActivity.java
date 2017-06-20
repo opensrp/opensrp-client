@@ -125,7 +125,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
     private ChildRegistrationDataFragment childDataFragment;
     private ChildUnderFiveFragment childUnderFiveFragment;
-    private static final String DIALOG_TAG = "ChildDetailActivity_DIALOG_TAG";
+    public static final String DIALOG_TAG = "ChildDetailActivity_DIALOG_TAG";
 
     private File currentfile;
     public String location_name = "";

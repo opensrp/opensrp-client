@@ -2,8 +2,10 @@ package org.ei.opensrp.path.activity;
 
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
@@ -11,6 +13,7 @@ import org.ei.opensrp.path.BuildConfig;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Photo;
+import org.ei.opensrp.path.toolbar.ChildDetailsToolbar;
 import org.ei.opensrp.repository.DetailsRepository;
 import org.junit.After;
 import org.junit.Before;
@@ -32,6 +35,7 @@ import java.util.Map;
 
 import util.ImageUtils;
 
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.anyObject;
@@ -72,6 +76,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
         Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivity.class);
         intent.putExtra("location_name", "Nairobi");
 
+
         controller = Robolectric.buildActivity(ChildDetailTabbedActivity.class, intent);
         activity = controller.get();
 
@@ -91,10 +96,30 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
     @After
     public void tearDown() {
-        controller
-                .pause()
-                .stop()
-                .destroy();
+        controller.pause().stop().destroy();
+    }
+
+
+    @Test
+    public void onCreateSetsUpSuccessfullyWithSerializedChildDetails() {
+
+
+        controller.pause().stop().destroy(); //destroy controller
+
+        //Recreate and start controller with bundles this time
+
+        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivity.class);
+        intent.putExtra("location_name", "Nairobi");
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(ChildDetailTabbedActivity.EXTRA_CHILD_DETAILS, childDetails);
+        intent.putExtras(bundle);
+
+
+        controller = Robolectric.buildActivity(ChildDetailTabbedActivity.class, intent);
+        activity = controller.get();
+
+        //Certify started successfully by checking if at least one random element rendered
+        assertNotNull(activity.findViewById(R.id.profile_image_iv));
     }
 
 
@@ -481,9 +506,79 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
         PowerMockito.mockStatic(ImageUtils.class);
 
-        PowerMockito.doReturn(new Photo()).when(ImageUtils.profilePhotoByClient((CommonPersonObjectClient)anyObject()));
+        PowerMockito.doReturn(new Photo()).when(ImageUtils.profilePhotoByClient((CommonPersonObjectClient) anyObject()));
         activity.showWeightDialog(0);
         assertNotNull(activity.getFragmentManager());
+
+    }
+
+    @Test
+    public void clickingToolBarNavigationButtonClosesTheActivity() {
+        ChildDetailsToolbar toolbar = (ChildDetailsToolbar) activity.findViewById(R.id.child_detail_toolbar);
+        ArrayList<View> outViews = new ArrayList<>();
+        toolbar.findViewsWithText(outViews, "NAVIGATE UP",
+                View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION);
+
+        assertFalse(outViews.isEmpty());
+        assertTrue(outViews.size() == 1);//only one
+        outViews.get(0).performClick();
+        assertTrue(activity.isFinishing());
+
+
+    }
+
+    @Test
+    public void shouldRenderStatusFragmentOnStatusViewClick() {
+
+        LinearLayout statusView = (LinearLayout) activity.findViewById(R.id.statusview);
+        assertNotNull(statusView);
+        statusView.performClick();
+
+        ArrayList<View> outViews = new ArrayList<>();
+        View view = activity.getFragmentManager().findFragmentByTag(ChildDetailTabbedActivity.DIALOG_TAG).getView();
+        assertNotNull(view);//make sure view exists
+        view.findViewsWithText(outViews, "Child Status",
+                View.FIND_VIEWS_WITH_TEXT);
+
+        assertFalse(outViews.isEmpty());
+        assertTrue(outViews.size() == 1);//only one
+        assertTrue(outViews.get(0).getVisibility() == View.VISIBLE);
+    }
+
+    @Test
+    @Ignore
+    public void statusViewShouldUpdateToInactiveOnInactiveClick() {
+
+        LinearLayout statusView = (LinearLayout) activity.findViewById(R.id.statusview);
+        assertNotNull(statusView);
+        statusView.performClick();
+
+        ArrayList<View> outViews = new ArrayList<>();
+        View view = activity.getFragmentManager().findFragmentByTag(ChildDetailTabbedActivity.DIALOG_TAG).getView();
+        assertNotNull(view);//make sure view exists
+        view.findViewsWithText(outViews, "Notifications On",
+                View.FIND_VIEWS_WITH_TEXT);
+
+        assertFalse(outViews.isEmpty());
+        assertTrue(outViews.size() == 1);//only one
+
+        View activateButtonView = outViews.get(0);
+        assertTrue(activateButtonView.getVisibility() == View.VISIBLE);
+
+        activateButtonView.performClick();
+
+        TextView statusTextView = (TextView)statusView.findViewById(R.id.statusname);
+        statusTextView.performClick();
+        assertTrue(statusTextView.getVisibility() == View.VISIBLE);
+    }
+
+
+    @Test
+    public void onBackActivityShouldReturnChildImmunizationActivityClass() {
+
+        assertNotNull(activity.getVaccinatorApplicationInstance());
+        assertTrue(activity.onBackActivity() == ChildImmunizationActivity.class);
+
 
     }
 
