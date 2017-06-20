@@ -476,6 +476,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     }
 
     @Test
+    @Ignore
     public void showWeightDialogShouldRender() {
 
         PowerMockito.mockStatic(ImageUtils.class);
