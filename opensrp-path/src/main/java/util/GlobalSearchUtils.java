@@ -1,9 +1,8 @@
 package util;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
@@ -11,25 +10,18 @@ import org.ei.opensrp.DristhiConfiguration;
 import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.path.fragment.AdvancedSearchFragment;
-import org.ei.opensrp.view.BackgroundAction;
-import org.ei.opensrp.view.LockingBackgroundTask;
-import org.ei.opensrp.view.ProgressIndicator;
 import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
-
-import static android.view.View.VISIBLE;
 
 /**
  * Created by keyman on 26/01/2017.
  */
 public class GlobalSearchUtils {
 
-    public static void backgroundSearch(final Map<String, String> map, final Listener<JSONArray> listener, final ProgressBar progressBar) {
+    public static void backgroundSearch(final Map<String, String> map, final Listener<JSONArray> listener, final ProgressDialog progressDialog) {
 
         Utils.startAsyncTask(new AsyncTask<Void, Void, JSONArray>() {
             @Override
@@ -51,13 +43,13 @@ public class GlobalSearchUtils {
 
             @Override
             protected void onProgressUpdate(Void... values) {
-                progressBar.setVisibility(VISIBLE);
+                progressDialog.show();
             }
 
             @Override
             protected void onPostExecute(JSONArray result) {
                 listener.onEvent(result);
-                progressBar.setVisibility(View.GONE);
+                progressDialog.dismiss();
             }
         }, null);
     }
