@@ -285,6 +285,7 @@ public class StockRepository extends BaseRepository {
                 sum = 0;
             }
         }
+        c.close();
         c =database.rawQuery("Select sum(value) from Stocks Where date_created <" + stock.getDate_created()+ " and "+VACCINE_TYPE_ID+ " = "+stock.getVaccine_type_id(),null);
         if(c.getCount() == 0) {
             sum = sum + 0;

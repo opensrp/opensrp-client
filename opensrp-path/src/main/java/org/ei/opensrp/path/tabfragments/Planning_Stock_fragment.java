@@ -320,6 +320,8 @@ public class Planning_Stock_fragment extends Fragment {
                 if(c.getString(0)!=null && !StringUtils.isBlank(c.getString(0)))
                 stockvalue = c.getString(0);
                 c.close();
+            }else{
+                c.close();
             }
             datapointsforgraphs.add(new DataPoint(threemonthEarlierIterator.toDate(),Double.parseDouble(stockvalue)));
             threemonthEarlierIterator = threemonthEarlierIterator.plusDays(1);
