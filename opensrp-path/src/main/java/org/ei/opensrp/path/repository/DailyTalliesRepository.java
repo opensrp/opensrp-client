@@ -240,7 +240,9 @@ public class DailyTalliesRepository extends BaseRepository {
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         } finally {
-            cursor.close();
+            if (cursor != null) {
+                cursor.close();
+            }
         }
 
         return tallies;
