@@ -3,7 +3,7 @@ apply plugin: 'io.fabric'
 apply plugin: 'jacoco'
 
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebug,createDebugCoverageReport']) {
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebug','createDebugCoverageReport']) {
 
     reports {
         xml.enabled = true
