@@ -16,7 +16,6 @@ android:
   components:
     # The BuildTools version used by your project
     - build-tools-23.0.2
-    - build-tools-22.0.1
     # The SDK version used to compile your projects
     - android-22
     # Additional components
