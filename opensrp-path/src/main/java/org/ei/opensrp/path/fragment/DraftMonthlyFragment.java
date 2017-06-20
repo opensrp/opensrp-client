@@ -1,6 +1,7 @@
 package org.ei.opensrp.path.fragment;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -15,24 +16,25 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.ei.opensrp.path.R;
-import org.ei.opensrp.path.activity.ChildSmartRegisterActivity;
 import org.ei.opensrp.path.activity.HIA2ReportsActivity;
+import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.repository.MonthlyTalliesRepository;
 import org.ei.opensrp.view.customControls.CustomFontTextView;
 import org.ei.opensrp.view.customControls.FontVariant;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.Random;
+
+import util.Utils;
 
 /**
  * Created by coder on 6/7/17.
  */
 public class DraftMonthlyFragment extends Fragment {
+    public static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("MMMM yyyy");
 
     private Button startNewReportEnabled;
     private Button startNewReportDisabled;
@@ -61,12 +63,26 @@ public class DraftMonthlyFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            updateStartNewReportButton();
+
+            Utils.startAsyncTask(new AsyncTask<Void, Void, List<Date>>() {
+                @Override
+                protected List<Date> doInBackground(Void... params) {
+                    MonthlyTalliesRepository monthlyTalliesRepository = VaccinatorApplication.getInstance().monthlyTalliesRepository();
+                    return monthlyTalliesRepository.findAllUnsentMonths();
+                }
+
+                @Override
+                protected void onPostExecute(List<Date> dates) {
+                    updateStartNewReportButton(dates);
+                }
+            }, null);
         }
     }
 
-    private void updateStartNewReportButton() {
-        final boolean hia2ReportsReady = true; //(new Random()).nextBoolean();
+    private void updateStartNewReportButton(final List<Date> dates) {
+
+        boolean hia2ReportsReady = dates != null && !dates.isEmpty();
+        refreshDraftMonthyTitle(dates == null ? 0 : dates.size());
 
         startNewReportEnabled.setVisibility(View.GONE);
         startNewReportDisabled.setVisibility(View.GONE);
@@ -78,7 +94,7 @@ public class DraftMonthlyFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    updateResults(dummyData(), monthClickListener);
+                    updateResults(dates, monthClickListener);
 
                 }
             });
@@ -95,7 +111,7 @@ public class DraftMonthlyFragment extends Fragment {
         }
     }
 
-    private void updateResults(final List<String> list, final View.OnClickListener clickListener) {
+    private void updateResults(final List<Date> list, final View.OnClickListener clickListener) {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.month_results, null);
 
@@ -143,8 +159,10 @@ public class DraftMonthlyFragment extends Fragment {
                 }
 
                 TextView tv = (TextView) convertView.findViewById(R.id.tv);
-                String text = list.get(position);
+                Date date = list.get(position);
+                String text = MONTH_FORMAT.format(date);
                 tv.setText(text);
+                tv.setTag(date);
 
                 convertView.setOnClickListener(clickListener);
                 convertView.setTag(list.get(position));
@@ -164,8 +182,10 @@ public class DraftMonthlyFragment extends Fragment {
 
             alertDialog.dismiss();
 
-            Toast.makeText(getActivity(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
-            startMonthlyReportForm();
+            Object tag = v.getTag();
+            if (tag != null && tag instanceof Date) {
+                startMonthlyReportForm((Date) tag);
+            }
 
         }
     };
@@ -187,29 +207,13 @@ public class DraftMonthlyFragment extends Fragment {
 
     }
 
-    protected void startMonthlyReportForm() {
-        ((HIA2ReportsActivity) getActivity()).startFormActivity("hia2_monthly_report", null, null);
+    protected void startMonthlyReportForm(Date date) {
+        ((HIA2ReportsActivity) getActivity()).startMonthlyReportForm("hia2_monthly_report", date);
     }
 
-    //TODO REMOVE
-    private List<String> dummyData() {
-        List<String> list = new ArrayList<String>();
+    private void refreshDraftMonthyTitle(int count) {
+        ((HIA2ReportsActivity) getActivity()).refreshDraftMonthlyTitle(count);
 
-        Calendar cal = Calendar.getInstance();
-        cal.roll(Calendar.MONTH, false);
-        String one = new SimpleDateFormat("MMMM yyyy").format(cal.getTime());
-        list.add(one);
-
-        cal.roll(Calendar.MONTH, false);
-        String two = new SimpleDateFormat("MMMM yyyy").format(cal.getTime());
-        list.add(two);
-
-
-        cal.roll(Calendar.MONTH, false);
-        String three = new SimpleDateFormat("MMMM yyyy").format(cal.getTime());
-        list.add(three);
-
-        return list;
     }
 }
 
