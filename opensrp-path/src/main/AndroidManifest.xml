@@ -79,6 +79,12 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
         <receiver android:name=".receiver.PathSyncBroadcastReceiver" />
+        <receiver android:name=".receiver.VaccinatorAlarmReceiver" />
+        <receiver android:name=".receiver.OnBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
 
         <activity android:name=".activity.ProviderProfileActivity" />
         <activity

@@ -12,12 +12,9 @@ import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
+import org.ei.opensrp.path.receiver.VaccinatorAlarmReceiver;
 import org.ei.opensrp.path.repository.PathRepository;
-import org.ei.opensrp.path.service.intent.PathReplicationIntentService;
 import org.ei.opensrp.path.service.intent.PullUniqueIdsIntentService;
-import org.ei.opensrp.path.service.intent.RecurringIntentService;
-import org.ei.opensrp.path.service.intent.VaccineIntentService;
-import org.ei.opensrp.path.service.intent.WeightIntentService;
 import org.ei.opensrp.path.service.intent.ZScoreRefreshIntentService;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.service.ActionService;
@@ -39,6 +36,7 @@ import java.util.Calendar;
 import java.util.Map;
 
 import util.NetworkUtils;
+import util.PathConstants;
 
 import static org.ei.opensrp.domain.FetchStatus.fetched;
 import static org.ei.opensrp.domain.FetchStatus.fetchedFailed;
@@ -90,16 +88,8 @@ public class PathUpdateActionsTask {
                     FetchStatus fetchStatusForActions = actionService.fetchNewActions();
                     pathAfterFetchListener.partialFetch(fetchStatusForActions);
 
-                    startPullUniqueIdsIntentService(context);
-
-                    startVaccineIntentService(context);
-                    startWeightIntentService(context);
-                    startRecurringIntentService(context);
-
-                    startReplicationIntentService(context);
-
                     startImageUploadIntentService(context);
-
+                    startPullUniqueIdsIntentService(context);
 
                     FetchStatus fetchStatusAdditional = additionalSyncService == null ? nothingFetched : additionalSyncService.sync();
 
@@ -229,12 +219,6 @@ public class PathUpdateActionsTask {
     }
 
 
-
-    private void startReplicationIntentService(Context context) {
-        Intent serviceIntent = new Intent(context, PathReplicationIntentService.class);
-        context.startService(serviceIntent);
-    }
-
     private void startImageUploadIntentService(Context context) {
         Intent intent = new Intent(context, ImageUploadSyncService.class);
         context.startService(intent);
@@ -245,20 +229,6 @@ public class PathUpdateActionsTask {
         context.startService(intent);
     }
 
-    private void startWeightIntentService(Context context) {
-        Intent intent = new Intent(context, WeightIntentService.class);
-        context.startService(intent);
-    }
-
-    private void startVaccineIntentService(Context context) {
-        Intent intent = new Intent(context, VaccineIntentService.class);
-        context.startService(intent);
-    }
-
-    private void startRecurringIntentService(Context context) {
-        Intent intent = new Intent(context, RecurringIntentService.class);
-        context.startService(intent);
-    }
 
     private void sendSyncStatusBroadcastMessage(Context context, FetchStatus fetchStatus) {
         Intent intent = new Intent();
@@ -267,5 +237,11 @@ public class PathUpdateActionsTask {
         context.sendBroadcast(intent);
     }
 
+    public static void setAlarms(Context context) {
+        VaccinatorAlarmReceiver.setAlarm(context, 60, PathConstants.ServiceType.DAILY_TALLIES_GENERATION);
+        VaccinatorAlarmReceiver.setAlarm(context, 2, PathConstants.ServiceType.WEIGHT_SYNC_PROCESSING);
+        VaccinatorAlarmReceiver.setAlarm(context, 2, PathConstants.ServiceType.VACCINE_SYNC_PROCESSING);
+        VaccinatorAlarmReceiver.setAlarm(context, 2, PathConstants.ServiceType.RECURRING_SERVICES_SYNC_PROCESSING);
+    }
 
 }

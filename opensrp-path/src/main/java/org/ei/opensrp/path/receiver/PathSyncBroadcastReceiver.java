@@ -8,8 +8,6 @@ import org.ei.opensrp.path.sync.PathAfterFetchListener;
 import org.ei.opensrp.path.sync.PathUpdateActionsTask;
 import org.ei.opensrp.sync.SyncProgressIndicator;
 
-import util.PathConstants;
-
 import static org.ei.opensrp.util.Log.logInfo;
 
 public class PathSyncBroadcastReceiver extends BroadcastReceiver {
@@ -26,10 +24,7 @@ public class PathSyncBroadcastReceiver extends BroadcastReceiver {
 
         pathUpdateActionsTask.updateFromServer(new PathAfterFetchListener());
 
-        setAlarms(context);
     }
-    private void setAlarms(Context context) {
-        VaccinatorAlarmReceiver.setAlarm(context, 60, PathConstants.ServiceType.DAILY_TALLIES_GENERATION);
-    }
+
 }
 

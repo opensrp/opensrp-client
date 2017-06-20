@@ -30,6 +30,7 @@ import org.ei.opensrp.path.repository.UniqueIdRepository;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.repository.WeightRepository;
 import org.ei.opensrp.path.repository.ZScoreRepository;
+import org.ei.opensrp.path.sync.PathUpdateActionsTask;
 import org.ei.opensrp.repository.Repository;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
 import org.ei.opensrp.view.activity.DrishtiApplication;
@@ -92,6 +93,8 @@ public class VaccinatorApplication extends DrishtiApplication
         cleanUpSyncState();
         initOfflineSchedules();
         setCrashlyticsUser(context);
+        PathUpdateActionsTask.setAlarms(this);
+
     }
 
     public static synchronized VaccinatorApplication getInstance() {
