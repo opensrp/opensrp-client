@@ -33,6 +33,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
 import util.NetworkUtils;
@@ -45,6 +46,7 @@ import static org.ei.opensrp.util.Log.logInfo;
 
 public class PathUpdateActionsTask {
     private static final String EVENTS_SYNC_PATH = "/rest/event/add";
+    private static final String REPORTS_SYNC_PATH = "/rest/reports/add";
     private final LockingBackgroundTask task;
     private ActionService actionService;
     private Context context;
@@ -169,8 +171,11 @@ public class PathUpdateActionsTask {
         }
 
     }
-
     public void pushToServer() {
+        pushECToServer();
+        pushReportsToServer();
+    }
+    public void pushECToServer() {
         boolean keepSyncing = true;
         int limit = 50;
         try {
@@ -218,6 +223,47 @@ public class PathUpdateActionsTask {
         }
     }
 
+    private void pushReportsToServer() {
+        try {
+            boolean keepSyncing = true;
+            int limit = 50;
+            while (keepSyncing) {
+                List<JSONObject> pendingReports = null;
+                pendingReports = db.getUnSyncedReports(limit);
+
+                if (pendingReports.isEmpty()) {
+                    return;
+                }
+
+                String baseUrl = org.ei.opensrp.Context.getInstance().configuration().dristhiBaseURL();
+                if (baseUrl.endsWith("/")) {
+                    baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("/"));
+                }
+                // create request body
+                JSONObject request = new JSONObject();
+
+                request.put("reports", pendingReports);
+                String jsonPayload = request.toString();
+                Response<String> response = httpAgent.post(
+                        MessageFormat.format("{0}/{1}",
+                                baseUrl,
+                                REPORTS_SYNC_PATH),
+                        jsonPayload);
+                if (response.isFailure()) {
+                    Log.e(getClass().getName(), "Reports sync failed.");
+                    return;
+                }
+                db.markReportsAsSynced(pendingReports);
+                Log.i(getClass().getName(), "Reports synced successfully.");
+            }
+        } catch (JSONException e) {
+            Log.e(getClass().getName(), e.getMessage());
+        } catch (ParseException e) {
+            Log.e(getClass().getName(), e.getMessage());
+        } catch (UnsupportedEncodingException e) {
+            Log.e(getClass().getName(), e.getMessage());
+        }
+    }
 
     private void startImageUploadIntentService(Context context) {
         Intent intent = new Intent(context, ImageUploadSyncService.class);

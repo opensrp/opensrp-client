@@ -29,41 +29,42 @@ public class VaccinatorAlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent alarmIntent) {
         int serviceType = alarmIntent.getIntExtra(serviceTypeName, 0);
+        if (!org.ei.opensrp.Context.getInstance().IsUserLoggedOut()) {
+            Intent serviceIntent = null;
+            switch (serviceType) {
+                case PathConstants.ServiceType.DATA_SYNCHRONIZATION:
+                    //handled by pathupdateactionstask
+                    android.util.Log.i(TAG, "Started data synchronization service at: " + dateFormatter.format(new Date()));
+                    break;
+                case PathConstants.ServiceType.DAILY_TALLIES_GENERATION:
+                    android.util.Log.i(TAG, "Started DAILY_TALLIES_GENERATION service at: " + dateFormatter.format(new Date()));
+                    serviceIntent = new Intent(context, HIA2IntentService.class);
+                    break;
+                case PathConstants.ServiceType.MONTHLY_TALLIES_GENERATION:
+                    android.util.Log.i(TAG, "Started MONTHLY_TALLIES_GENERATION service at: " + dateFormatter.format(new Date()));
+                    break;
+                case PathConstants.ServiceType.PULL_UNIQUE_IDS:
+                    //happens at pathupdateactionstask
+                    //serviceIntent = new Intent(context, PullUniqueIdsIntentService.class);
+                    android.util.Log.i(TAG, "Started PULL_UNIQUE_IDS service at: " + dateFormatter.format(new Date()));
+                    break;
+                case PathConstants.ServiceType.WEIGHT_SYNC_PROCESSING:
+                    serviceIntent = new Intent(context, WeightIntentService.class);
+                    android.util.Log.i(TAG, "Started WEIGHT_SYNC_PROCESSING service at: " + dateFormatter.format(new Date()));
+                    break;
+                case PathConstants.ServiceType.VACCINE_SYNC_PROCESSING:
+                    serviceIntent = new Intent(context, VaccineIntentService.class);
+                    android.util.Log.i(TAG, "Started VACCINE_SYNC_PROCESSING service at: " + dateFormatter.format(new Date()));
+                    break;
+                case PathConstants.ServiceType.RECURRING_SERVICES_SYNC_PROCESSING:
+                    serviceIntent = new Intent(context, RecurringIntentService.class);
+                    android.util.Log.i(TAG, "Started RECURRING_SERVICES_SYNC_PROCESSING service at: " + dateFormatter.format(new Date()));
+                    break;
+            }
 
-        Intent serviceIntent = null;
-        switch (serviceType) {
-            case PathConstants.ServiceType.DATA_SYNCHRONIZATION:
-                //handled by pathupdateactionstask
-                android.util.Log.i(TAG, "Started data synchronization service at: " + dateFormatter.format(new Date()));
-                break;
-            case PathConstants.ServiceType.DAILY_TALLIES_GENERATION:
-                android.util.Log.i(TAG, "Started DAILY_TALLIES_GENERATION service at: " + dateFormatter.format(new Date()));
-                serviceIntent = new Intent(context, HIA2IntentService.class);
-                break;
-            case PathConstants.ServiceType.MONTHLY_TALLIES_GENERATION:
-                android.util.Log.i(TAG, "Started MONTHLY_TALLIES_GENERATION service at: " + dateFormatter.format(new Date()));
-                break;
-            case PathConstants.ServiceType.PULL_UNIQUE_IDS:
-                //happens at pathupdateactionstask
-                //serviceIntent = new Intent(context, PullUniqueIdsIntentService.class);
-                android.util.Log.i(TAG, "Started PULL_UNIQUE_IDS service at: " + dateFormatter.format(new Date()));
-                break;
-            case PathConstants.ServiceType.WEIGHT_SYNC_PROCESSING:
-                serviceIntent = new Intent(context, WeightIntentService.class);
-                android.util.Log.i(TAG, "Started WEIGHT_SYNC_PROCESSING service at: " + dateFormatter.format(new Date()));
-                break;
-            case PathConstants.ServiceType.VACCINE_SYNC_PROCESSING:
-                serviceIntent = new Intent(context, VaccineIntentService.class);
-                android.util.Log.i(TAG, "Started VACCINE_SYNC_PROCESSING service at: " + dateFormatter.format(new Date()));
-                break;
-            case PathConstants.ServiceType.RECURRING_SERVICES_SYNC_PROCESSING:
-                serviceIntent = new Intent(context, RecurringIntentService.class);
-                android.util.Log.i(TAG, "Started RECURRING_SERVICES_SYNC_PROCESSING service at: " + dateFormatter.format(new Date()));
-                break;
+            if (serviceIntent != null)
+                this.startService(context, serviceIntent, serviceType);
         }
-
-        if (serviceIntent != null)
-            this.startService(context, serviceIntent, serviceType);
 
     }
 
