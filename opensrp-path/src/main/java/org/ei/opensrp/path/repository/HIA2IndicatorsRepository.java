@@ -196,9 +196,13 @@ public class HIA2IndicatorsRepository extends BaseRepository {
         return null;
     }
 
+    /**
+     * order by id asc so that the indicators are ordered by category and indicator id
+     * @return
+     */
     public List<Hia2Indicator> fetchAll() {
         SQLiteDatabase database = getPathRepository().getReadableDatabase();
-        Cursor cursor = database.query(HIA2_INDICATORS_TABLE_NAME, HIA2_TABLE_COLUMNS, null, null, null, null, UPDATED_AT_COLUMN);
+        Cursor cursor = database.query(HIA2_INDICATORS_TABLE_NAME, HIA2_TABLE_COLUMNS, null, null, null, null, ID_COLUMN+" asc ");
         return readAllDataElements(cursor);
     }
 

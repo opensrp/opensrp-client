@@ -642,6 +642,36 @@ public class PathRepository extends Repository {
         return result;
     }
 
+    public List<JSONObject> getUnSyncedReports(int limit) throws JSONException, ParseException, UnsupportedEncodingException {
+        List<JSONObject> reports = new ArrayList<JSONObject>();
+
+        String query = "select " + report_column.json + "," + report_column.syncStatus + " from " + Table.path_reports.name() + " where " + report_column.syncStatus + " = '" + BaseRepository.TYPE_Unsynced + "'  and length(" + report_column.json + ")>2 order by " + report_column.updatedAt + " asc limit " + limit;
+        Cursor cursor = null;
+        try {
+            cursor = getWritableDatabase().rawQuery(query, null);
+
+            while (cursor.moveToNext()) {
+                String jsonEventStr = (cursor.getString(0));
+                if (StringUtils.isBlank(jsonEventStr) || jsonEventStr.equals("{}")) { // Skip blank/empty json string
+                    continue;
+                }
+                jsonEventStr = jsonEventStr.replaceAll("'", "");
+                JSONObject jsonObectEvent = new JSONObject(jsonEventStr);
+                reports.add(jsonObectEvent);
+
+
+            }
+
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        } finally {
+            cursor.close();
+        }
+
+        return reports;
+    }
+
     public void markAllAsUnSynced() throws JSONException, ParseException, UnsupportedEncodingException {
 
         String events = "select " + event_column.baseEntityId + "," + event_column.syncStatus + " from " + Table.event.name();
@@ -950,6 +980,20 @@ public class PathRepository extends Repository {
         }
     }
 
+    public void markReportAsSynced(String formSubmissionId) {
+        try {
+
+            ContentValues values = new ContentValues();
+            values.put(report_column.formSubmissionId.name(), formSubmissionId);
+            values.put(report_column.syncStatus.name(), BaseRepository.TYPE_Synced);
+
+            getWritableDatabase().update(Table.path_reports.name(), values, report_column.formSubmissionId.name() + " = ?", new String[]{formSubmissionId});
+
+        } catch (Exception e) {
+            Log.e(getClass().getName(), "Exception", e);
+        }
+    }
+
     public void markClientAsSynced(String baseEntityId) {
         try {
 
@@ -979,6 +1023,21 @@ public class PathRepository extends Repository {
                 for (JSONObject event : events) {
                     String formSubmissionId = event.getString(event_column.formSubmissionId.name());
                     markEventAsSynced(formSubmissionId);
+                }
+            }
+        } catch (Exception e) {
+            Log.e(getClass().getName(), "Exception", e);
+        }
+
+    }
+
+    public void markReportsAsSynced(List<JSONObject> syncedReports) {
+        try {
+
+            if (syncedReports != null && !syncedReports.isEmpty()) {
+                for (JSONObject report : syncedReports) {
+                    String formSubmissionId = report.getString(report_column.formSubmissionId.name());
+                    markReportAsSynced(formSubmissionId);
                 }
             }
         } catch (Exception e) {
@@ -1506,7 +1565,6 @@ public class PathRepository extends Repository {
             List<Map<String, String>> csvData = Utils.populateTableFromCSV(context, HIA2IndicatorsRepository.INDICATORS_CSV_FILE, columnMappings);
             HIA2IndicatorsRepository hIA2IndicatorsRepository = VaccinatorApplication.getInstance().hIA2IndicatorsRepository();
             hIA2IndicatorsRepository.save(db, csvData);
-
 
 
         } catch (Exception e) {

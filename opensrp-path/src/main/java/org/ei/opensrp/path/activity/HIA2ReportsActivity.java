@@ -29,8 +29,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Random;
 
 import util.Utils;
 
@@ -166,10 +166,15 @@ public class HIA2ReportsActivity extends AppCompatActivity {
                 String title = DraftMonthlyFragment.MONTH_FORMAT.format(date).concat(" Draft");
                 step1.put("title", title);
 
-                JSONArray fields1 = new JSONArray();
-                JSONArray fields2 = new JSONArray();
-                JSONArray fields3 = new JSONArray();
+//                JSONArray fields1 = new JSONArray();
+//                JSONArray fields2 = new JSONArray();
+//                JSONArray fields3 = new JSONArray();
 
+                JSONArray sections = step1.getJSONArray(JsonFormConstants.SECTIONS);
+
+                String indicatorCategory = "";
+                //this map holds each category as key and all the fields for that category as the value (jsonarray)
+                LinkedHashMap<String, JSONArray> fieldsMap = new LinkedHashMap<>();
                 for (Hia2Indicator hia2Indicator : hia2Indicators) {
                     JSONObject jsonObject = new JSONObject();
                     if (hia2Indicator.getLabel() == null) {
@@ -183,33 +188,24 @@ public class HIA2ReportsActivity extends AppCompatActivity {
                     jsonObject.put("openmrs_entity_parent", "");
                     jsonObject.put("openmrs_entity", "");
                     jsonObject.put("openmrs_entity_id", "");
-
-                    if (hia2Indicator.getIndicatorCode() != null && hia2Indicator.getIndicatorCode().contains("CHN1")) {
-                        fields1.put(jsonObject);
-                    } else if (hia2Indicator.getIndicatorCode() != null && hia2Indicator.getIndicatorCode().contains("CHN2")) {
-                        fields2.put(jsonObject);
-                    } else if (hia2Indicator.getIndicatorCode() != null && hia2Indicator.getIndicatorCode().contains("CHN3")) {
-                        fields3.put(jsonObject);
+                    indicatorCategory = hia2Indicator.getCategory();
+                    JSONArray fields = null;
+                    if (fieldsMap.containsKey(indicatorCategory)) {
+                        fields = fieldsMap.get(indicatorCategory);
+                    } else {
+                        fields = new JSONArray();
                     }
+                    fields.put(jsonObject);
+                    fieldsMap.put(indicatorCategory, fields);
 
                 }
-
-                JSONArray sections = step1.getJSONArray(JsonFormConstants.SECTIONS);
-
-                JSONObject section1 = new JSONObject();
-                section1.put(JsonFormConstants.NAME, "Section 1");
-                section1.put(JsonFormConstants.FIELDS, fields1);
-                sections.put(section1);
-
-                JSONObject section2 = new JSONObject();
-                section2.put(JsonFormConstants.NAME, "Section 2");
-                section2.put(JsonFormConstants.FIELDS, fields2);
-                sections.put(section2);
-
-                JSONObject section3 = new JSONObject();
-                section3.put(JsonFormConstants.NAME, "Section 3");
-                section3.put(JsonFormConstants.FIELDS, fields3);
-                sections.put(section3);
+                //build sections in the form based on categories, each key is a category
+                for (String key : fieldsMap.keySet()) {
+                    JSONObject section = new JSONObject();
+                    section.put(JsonFormConstants.NAME, key);
+                    section.put(JsonFormConstants.FIELDS, fieldsMap.get(key));
+                    sections.put(section);
+                }
 
                 Intent intent = new Intent(this, PathJsonFormActivity.class);
                 intent.putExtra("json", form.toString());
