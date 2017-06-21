@@ -153,8 +153,8 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     }
 
     Map<String, String> details;
-    private static final String inactive = "inactive";
-    private static final String lostToFollowUp = "lost_to_follow_up";
+    public static final String inactive = "inactive";
+    public static final String lostToFollowUp = "lost_to_follow_up";
 
 
     @Override
@@ -263,7 +263,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
 
     private void initiallization() {
 
-        DetailsRepository detailsRepository = this.detailsRepository == null ? getOpenSRPContext().detailsRepository() : this.detailsRepository;
+        detailsRepository = detailsRepository == null ? this.getOpenSRPContext().detailsRepository() : detailsRepository;
         detailmaps = detailsRepository.getAllDetailsForClient(childDetails.entityId());
         profileWidget();
         ((TextView) detailtoolbar.findViewById(R.id.title)).setText(updateActivityTitle());

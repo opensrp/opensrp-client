@@ -31,13 +31,16 @@ import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import util.ImageUtils;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static org.ei.opensrp.util.EasyMap.create;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -68,6 +71,9 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     org.ei.opensrp.Context context_;
 
     ActivityController<ChildDetailTabbedActivity> controller;
+
+
+    Map<String, String> details = new HashMap<>();
 
     @Before
     public void setUp() {
@@ -546,30 +552,101 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     }
 
     @Test
-    @Ignore
-    public void statusViewShouldUpdateToInactiveOnInactiveClick() {
+    public void statusViewShouldUpdateToInactiveIfChildDetailsInactiveParamIsSetToTrue() {
+
+        controller.pause().stop().destroy(); //destroy controller
+
+        //Recreate and start controller with bundles this time
+
+        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivity.class);
+        intent.putExtra("location_name", "Nairobi");
+        Bundle bundle = new Bundle();
+        CommonPersonObjectClient newChildDetails = new CommonPersonObjectClient("1",new HashMap<String,String>(),"test");
+        Map<String, String> columnMap = create(ChildDetailTabbedActivity.inactive, "true").map();
+        newChildDetails.setColumnmaps(columnMap);
+        newChildDetails.setDetails(columnMap);
+        details = columnMap;//save for later call to getAllDetailsForClient method
+        bundle.putSerializable(ChildDetailTabbedActivity.EXTRA_CHILD_DETAILS, newChildDetails);
+        intent.putExtras(bundle);
+
+
+        controller = Robolectric.buildActivity(ChildDetailTabbedActivity.class, intent);
+        activity = controller.get();
+
+        activity.detailsRepository = getDetailsRepository();
+        controller.setup();
+        LinearLayout statusView = (LinearLayout) activity.findViewById(R.id.statusview);
+        assertNotNull(statusView);
+
+        TextView statusTextView = (TextView) statusView.findViewById(R.id.statusname);
+        assertTrue(statusTextView.getVisibility() == View.VISIBLE);
+        assertEquals("Inactive", statusTextView.getText().toString());
+
+    }
+
+    @Test
+    public void statusViewShouldUpdateToActiveifChildStatusParamListIsEmpty() {
+
+        controller.pause().stop().destroy(); //destroy controller
+
+        //Recreate and start controller with bundles this time
+
+        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivity.class);
+        intent.putExtra("location_name", "Nairobi");
+        Bundle bundle = new Bundle();
+        CommonPersonObjectClient newChildDetails = new CommonPersonObjectClient("1",new HashMap<String,String>(),"test");
+        newChildDetails.setColumnmaps(Collections.EMPTY_MAP);
+        newChildDetails.setDetails(Collections.EMPTY_MAP);
+        bundle.putSerializable(ChildDetailTabbedActivity.EXTRA_CHILD_DETAILS, newChildDetails);
+        intent.putExtras(bundle);
+
+
+        controller = Robolectric.buildActivity(ChildDetailTabbedActivity.class, intent);
+        activity = controller.get();
+        activity.detailsRepository = getDetailsRepository();
+        controller.setup();
 
         LinearLayout statusView = (LinearLayout) activity.findViewById(R.id.statusview);
         assertNotNull(statusView);
-        statusView.performClick();
 
-        ArrayList<View> outViews = new ArrayList<>();
-        View view = activity.getFragmentManager().findFragmentByTag(ChildDetailTabbedActivity.DIALOG_TAG).getView();
-        assertNotNull(view);//make sure view exists
-        view.findViewsWithText(outViews, "Notifications On",
-                View.FIND_VIEWS_WITH_TEXT);
-
-        assertFalse(outViews.isEmpty());
-        assertTrue(outViews.size() == 1);//only one
-
-        View activateButtonView = outViews.get(0);
-        assertTrue(activateButtonView.getVisibility() == View.VISIBLE);
-
-        activateButtonView.performClick();
-
-        TextView statusTextView = (TextView)statusView.findViewById(R.id.statusname);
-        statusTextView.performClick();
+        TextView statusTextView = (TextView) statusView.findViewById(R.id.statusname);
         assertTrue(statusTextView.getVisibility() == View.VISIBLE);
+        assertEquals("Active", statusTextView.getText().toString());
+
+
+    }
+
+    @Test
+    public void statusViewShouldUpdateToLostToFollowUpWhenChildStatusLostToFollowUpParamIsTrue() {
+
+        controller.pause().stop().destroy(); //destroy controller
+
+        //Recreate and start controller with bundles this time
+
+        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivity.class);
+        intent.putExtra("location_name", "Nairobi");
+        Bundle bundle = new Bundle();
+        CommonPersonObjectClient newChildDetails = new CommonPersonObjectClient("1",new HashMap<String,String>(),"test");
+        Map<String, String> columnMap = create(ChildDetailTabbedActivity.lostToFollowUp, "true").map();
+        newChildDetails.setColumnmaps(columnMap);
+        newChildDetails.setDetails(columnMap);
+        details = columnMap;//save for later call to getAllDetailsForClient method
+        bundle.putSerializable(ChildDetailTabbedActivity.EXTRA_CHILD_DETAILS, newChildDetails);
+        intent.putExtras(bundle);
+
+
+        controller = Robolectric.buildActivity(ChildDetailTabbedActivity.class, intent);
+        activity = controller.get();
+
+        activity.detailsRepository = getDetailsRepository();
+        controller.setup();
+        LinearLayout statusView = (LinearLayout) activity.findViewById(R.id.statusview);
+        assertNotNull(statusView);
+
+        TextView statusTextView = (TextView) statusView.findViewById(R.id.status);
+        assertTrue(statusTextView.getVisibility() == View.VISIBLE);
+        assertEquals("Lost to\nFollow-Up", statusTextView.getText().toString());
+
     }
 
 
@@ -589,9 +666,11 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     }
 
     class DetailsRepositoryLocal extends DetailsRepository {
+
+
         @Override
         public Map<String, String> getAllDetailsForClient(String baseEntityId) {
-            return Collections.emptyMap();
+            return details;
         }
     }
 
