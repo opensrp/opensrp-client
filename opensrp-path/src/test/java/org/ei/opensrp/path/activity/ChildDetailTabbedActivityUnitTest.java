@@ -41,6 +41,7 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.ei.opensrp.util.EasyMap.create;
+import static org.ei.opensrp.util.Log.logError;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -102,7 +103,11 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
     @After
     public void tearDown() {
-        controller.pause().stop().destroy();
+        try {
+            controller.pause().stop().destroy();
+        } catch (IllegalStateException e) {
+            logError("Error in tearDown " + e.getMessage());
+        }
     }
 
 
@@ -123,6 +128,8 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
         controller = Robolectric.buildActivity(ChildDetailTabbedActivity.class, intent);
         activity = controller.get();
+        activity.detailsRepository = getDetailsRepository();
+        controller.setup();
 
         //Certify started successfully by checking if at least one random element rendered
         assertNotNull(activity.findViewById(R.id.profile_image_iv));
@@ -137,7 +144,6 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
     }
 
-
     @Test
     public void shouldRenderEditIconImageView() {
 
@@ -145,6 +151,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
         assertNotNull(logoImageView);
 
     }
+
 
     @Test
     public void shouldRenderChildNameTextView() {
@@ -499,6 +506,8 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
     }
 
+
+
     @Test
     public void getVaccinatorApplicationInstanceShouldNotReturnNull() {
 
@@ -561,7 +570,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
         Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivity.class);
         intent.putExtra("location_name", "Nairobi");
         Bundle bundle = new Bundle();
-        CommonPersonObjectClient newChildDetails = new CommonPersonObjectClient("1",new HashMap<String,String>(),"test");
+        CommonPersonObjectClient newChildDetails = new CommonPersonObjectClient("1", new HashMap<String, String>(), "test");
         Map<String, String> columnMap = create(ChildDetailTabbedActivity.inactive, "true").map();
         newChildDetails.setColumnmaps(columnMap);
         newChildDetails.setDetails(columnMap);
@@ -594,7 +603,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
         Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivity.class);
         intent.putExtra("location_name", "Nairobi");
         Bundle bundle = new Bundle();
-        CommonPersonObjectClient newChildDetails = new CommonPersonObjectClient("1",new HashMap<String,String>(),"test");
+        CommonPersonObjectClient newChildDetails = new CommonPersonObjectClient("1", new HashMap<String, String>(), "test");
         newChildDetails.setColumnmaps(Collections.EMPTY_MAP);
         newChildDetails.setDetails(Collections.EMPTY_MAP);
         bundle.putSerializable(ChildDetailTabbedActivity.EXTRA_CHILD_DETAILS, newChildDetails);
@@ -626,7 +635,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
         Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivity.class);
         intent.putExtra("location_name", "Nairobi");
         Bundle bundle = new Bundle();
-        CommonPersonObjectClient newChildDetails = new CommonPersonObjectClient("1",new HashMap<String,String>(),"test");
+        CommonPersonObjectClient newChildDetails = new CommonPersonObjectClient("1", new HashMap<String, String>(), "test");
         Map<String, String> columnMap = create(ChildDetailTabbedActivity.lostToFollowUp, "true").map();
         newChildDetails.setColumnmaps(columnMap);
         newChildDetails.setDetails(columnMap);
