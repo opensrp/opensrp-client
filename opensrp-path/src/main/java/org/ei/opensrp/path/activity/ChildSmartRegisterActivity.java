@@ -205,10 +205,15 @@ public class ChildSmartRegisterActivity extends BaseRegisterActivity {
                 try {
                     form = new JSONObject(jsonString);
                     if (form.getString("encounter_type").equals("Household Registration")) {
-                       startFormActivity("woman_member_registration", null, null);
+                        form = FormUtils.getInstance(this).getFormJson("woman_member_registration");
+
+                        JsonFormUtils.addHouseholdRegLocHierarchyQuestions(form, Context.getInstance());
+                        Intent intent = new Intent(this, PathJsonFormActivity.class);
+                        intent.putExtra("json", form.toString());
+                        startActivityForResult(intent, REQUEST_CODE_GET_JSON);
 
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 

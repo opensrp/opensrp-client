@@ -121,6 +121,8 @@ public class JsonFormUtils {
                 saveBirthRegistration(context, openSrpContext, jsonString, providerId, "Child_Photo", "child", "mother");
             }else if (form.getString("encounter_type").equals("Household Registration")) {
                 saveHouseholdRegistration(context, openSrpContext, jsonString, providerId, "household_Photo", "household");
+            }else if (form.getString("encounter_type").equals("New Woman Member Registration")) {
+                saveHouseholdRegistration(context, openSrpContext, jsonString, providerId, "woman_photo", "mother");
             }
         } catch (JSONException e) {
             Log.e(TAG, Log.getStackTraceString(e));

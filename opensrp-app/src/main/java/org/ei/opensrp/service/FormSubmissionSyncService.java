@@ -77,6 +77,7 @@ public class FormSubmissionSyncService {
                         FORM_SUBMISSIONS_PATH),
                 jsonPayload);
         if (response.isFailure()) {
+
             logError(format("Form submissions sync failed. Submissions:  {0}", pendingFormSubmissions));
             return;
         }
