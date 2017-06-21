@@ -104,7 +104,7 @@ public class Planning_Stock_fragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_planning__stock_fragment, container, false);
         mainview = view;
-        creatgraphview(mainview);
+//        creatgraphview(mainview);
         loatDataView(mainview);
         return view;
     }
@@ -112,28 +112,17 @@ public class Planning_Stock_fragment extends Fragment {
     private void creatgraphview(View view) {
         DateTime now = new DateTime(System.currentTimeMillis());
         DateTime threemonthEarlierIterator = now.minusMonths(3);
-        ArrayList<DataPoint> datapointsforgraphs = new ArrayList<DataPoint>();
-        while(threemonthEarlierIterator.isBefore(now)){
-            PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
-            net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
 
-            Cursor c = db.rawQuery("Select sum(value) from Stocks where " + StockRepository.DATE_CREATED + " <= " + threemonthEarlierIterator.toDate().getTime()+" and "+StockRepository.VACCINE_TYPE_ID + " = "+ ((StockControlActivity)getActivity()).vaccine_type.getId(), null);
-            String stockvalue = "0";
-            if(c.getCount()>0) {
-                c.moveToFirst();
-                if(c.getString(0)!=null && !StringUtils.isBlank(c.getString(0)))
-                    stockvalue = c.getString(0);
-                c.close();
-            }
-            datapointsforgraphs.add(new DataPoint(threemonthEarlierIterator.toDate(),Double.parseDouble(stockvalue)));
-            threemonthEarlierIterator = threemonthEarlierIterator.plusDays(1);
-
-        }
-
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(
-                datapointsforgraphs.toArray(new DataPoint[datapointsforgraphs.size()])
-        );
         GraphView graph = (GraphView)view.findViewById(R.id.graph);
+        ViewGroup graphparent = (ViewGroup)graph.getParent();
+        final int index = graphparent.indexOfChild(graph);
+        graphparent.removeView(graph);
+        graph = new GraphView(getActivity());
+        graph.setId(R.id.graph);
+
+        graphparent.addView(graph,index);
+
+
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
         String [] montharry;
         int arraymonthslabelsize = 0;
@@ -155,19 +144,18 @@ public class Planning_Stock_fragment extends Fragment {
         staticLabelsFormatter.setHorizontalLabels(montharry);
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
         graph.removeAllSeries();
-        graph.addSeries(series);
         graph.getViewport().setMinX(now.minusMonths(3).toDate().getTime());
         graph.getViewport().setMaxX(now.toDate().getTime());
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinY(0.0);
-        graph.getViewport().setMaxY(series.getHighestValueY());
         graph.getGridLabelRenderer().setHumanRounding(false);
     }
 
     public void loatDataView (View view){
         createTitle(view);
         createActiveChildrenStatsView(view);
+        creatgraphview(view);
         createGraphDataAndView(view);
         createStockInfoForlastThreeMonths(view);
         getValueForStock(view);
@@ -307,7 +295,7 @@ public class Planning_Stock_fragment extends Fragment {
 
     private LineGraphSeries<DataPoint> createGraphDataAndView(View view) {
         DateTime now = new DateTime(System.currentTimeMillis());
-        DateTime threemonthEarlierIterator = now.minusMonths(3);
+        DateTime threemonthEarlierIterator = now.minusMonths(3).withTimeAtStartOfDay();
         ArrayList<DataPoint> datapointsforgraphs = new ArrayList<DataPoint>();
         while(threemonthEarlierIterator.isBefore(now)){
             PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
@@ -337,8 +325,6 @@ public class Planning_Stock_fragment extends Fragment {
         graph.addSeries(series);
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMaxY(series.getHighestValueY());
-        graph.getGridLabelRenderer().setHumanRounding(false);
-
         return series;
 
     }
