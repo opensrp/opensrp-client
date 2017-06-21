@@ -12,8 +12,10 @@ import org.ei.opensrp.domain.DownloadStatus;
 import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.domain.Stock;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.repository.PathRepository;
+import org.ei.opensrp.path.repository.StockRepository;
 import org.ei.opensrp.path.service.intent.PathReplicationIntentService;
 import org.ei.opensrp.path.service.intent.PullUniqueIdsIntentService;
 import org.ei.opensrp.path.service.intent.RecurringIntentService;
@@ -35,6 +37,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -224,6 +227,14 @@ public class PathUpdateActionsTask {
         } catch (UnsupportedEncodingException e) {
             Log.e(getClass().getName(), e.getMessage());
         }
+        pushStockToServer();
+    }
+
+    public void pushStockToServer() {
+        boolean keepSyncing = true;
+        int limit = 50;
+        StockRepository stockRepository = new StockRepository(db,VaccinatorApplication.createCommonFtsObject(), org.ei.opensrp.Context.getInstance().alertService());
+        ArrayList<Stock> stocks = (ArrayList<Stock>) stockRepository.findUnSyncedWithLimit(50);
     }
 
     private void startReplicationIntentService(Context context) {
