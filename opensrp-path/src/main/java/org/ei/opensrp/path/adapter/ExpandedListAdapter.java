@@ -22,13 +22,13 @@ import java.util.Map;
 public class ExpandedListAdapter<L, T> extends BaseExpandableListAdapter {
 
     private Context context;
-    private Map<String, List<ItemData<L, T>>> map = new LinkedHashMap<>();
+    private LinkedHashMap<String, List<ItemData<L, T>>> map = new LinkedHashMap<>();
     private List<String> headers = new ArrayList<>();
     private int headerLayout;
     private int childLayout;
 
 
-    public ExpandedListAdapter(Context context, Map<String, List<ItemData<L, T>>> map, int headerLayout, int childLayout) {
+    public ExpandedListAdapter(Context context, LinkedHashMap<String, List<ItemData<L, T>>> map, int headerLayout, int childLayout) {
         this.context = context;
         if (map != null && !map.isEmpty()) {
             this.map = map;

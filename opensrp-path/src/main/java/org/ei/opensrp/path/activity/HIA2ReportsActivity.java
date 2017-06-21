@@ -2,9 +2,8 @@ package org.ei.opensrp.path.activity;
 
 
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,11 +15,10 @@ import android.util.Log;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 
-import org.apache.commons.lang3.StringUtils;
-import org.ei.opensrp.Context;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Hia2Indicator;
+import org.ei.opensrp.path.domain.MonthlyTally;
 import org.ei.opensrp.path.fragment.DailyTalliesFragment;
 import org.ei.opensrp.path.fragment.DraftMonthlyFragment;
 import org.ei.opensrp.path.fragment.SentMonthlyFragment;
@@ -28,16 +26,16 @@ import org.ei.opensrp.path.repository.HIA2IndicatorsRepository;
 import org.ei.opensrp.path.toolbar.SimpleToolbar;
 import org.ei.opensrp.path.view.LocationPickerView;
 import org.ei.opensrp.repository.AllSharedPreferences;
+import org.ei.opensrp.path.repository.MonthlyTalliesRepository;
 import org.ei.opensrp.util.FormUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import util.JsonFormUtils;
-import util.barcode.BarcodeIntentIntegrator;
-import util.barcode.BarcodeIntentResult;
+import util.Utils;
 
 /**
  * Created by coder on 6/7/17.
@@ -62,8 +60,6 @@ public class HIA2ReportsActivity extends BaseActivity {
     private ViewPager mViewPager;
     private TabLayout tabLayout;
 
-    private int monthlyCount = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +81,19 @@ public class HIA2ReportsActivity extends BaseActivity {
 
         tabLayout.setupWithViewPager(mViewPager);
 
+        //Update Draft Monthly Title
+        Utils.startAsyncTask(new AsyncTask<Void, Void, List<Date>>() {
+            @Override
+            protected List<Date> doInBackground(Void... params) {
+                MonthlyTalliesRepository monthlyTalliesRepository = VaccinatorApplication.getInstance().monthlyTalliesRepository();
+                return monthlyTalliesRepository.findAllUnsentMonths();
+            }
+
+            @Override
+            protected void onPostExecute(List<Date> dates) {
+                refreshDraftMonthlyTitle(dates == null ? 0 : dates.size());
+            }
+        }, null);
     }
 
 
@@ -124,7 +133,7 @@ public class HIA2ReportsActivity extends BaseActivity {
                 case 0:
                     return getString(R.string.hia2_daily_tallies);
                 case 1:
-                    return String.format(getString(R.string.hia2_draft_monthly), monthlyCount);
+                    return getString(R.string.hia2_draft_monthly);
                 case 2:
                     return getString(R.string.hia2_sent_monthly);
 
@@ -141,11 +150,14 @@ public class HIA2ReportsActivity extends BaseActivity {
         return mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
     }
 
-    public void startFormActivity(String formName, String entityId, String metaData) {
+    public void startMonthlyReportForm(String formName, Date date) {
         try {
             Fragment currentFragment = currentFragment();
 
             if (currentFragment instanceof DraftMonthlyFragment) {
+                MonthlyTalliesRepository monthlyTalliesRepository = VaccinatorApplication.getInstance().monthlyTalliesRepository();
+                List<MonthlyTally> monthlyTallies = monthlyTalliesRepository.findDrafts(date);
+
                 HIA2IndicatorsRepository hIA2IndicatorsRepository = VaccinatorApplication.getInstance().hIA2IndicatorsRepository();
                 List<Hia2Indicator> hia2Indicators = hIA2IndicatorsRepository.fetchAll();
                 if (hia2Indicators == null || hia2Indicators.isEmpty()) {
@@ -154,7 +166,8 @@ public class HIA2ReportsActivity extends BaseActivity {
 
                 JSONObject form = FormUtils.getInstance(this).getFormJson(formName);
                 JSONObject step1 = form.getJSONObject("step1");
-                step1.put("title", "May 2007 Draft");
+                String title = DraftMonthlyFragment.MONTH_FORMAT.format(date).concat(" Draft");
+                step1.put("title", title);
 
                 JSONArray fields1 = new JSONArray();
                 JSONArray fields2 = new JSONArray();
@@ -169,7 +182,7 @@ public class HIA2ReportsActivity extends BaseActivity {
                     jsonObject.put("key", label.replace(" ", "_"));
                     jsonObject.put("type", "edit_text");
                     jsonObject.put("hint", label);
-                    jsonObject.put("value", String.valueOf((new Random()).nextInt(10) + 1));
+                    jsonObject.put("value", retrieveValue(monthlyTallies, hia2Indicator));
                     jsonObject.put("openmrs_entity_parent", "");
                     jsonObject.put("openmrs_entity", "");
                     jsonObject.put("openmrs_entity_id", "");
@@ -241,6 +254,36 @@ public class HIA2ReportsActivity extends BaseActivity {
     @Override
     protected Class onBackActivity() {
         return null;
+    }
+
+    public void refreshDraftMonthlyTitle(final int count) {
+        tabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+                    TabLayout.Tab tab = tabLayout.getTabAt(i);
+                    if (tab != null && tab.getText() != null && tab.getText().toString().contains(getString(R.string.hia2_draft_monthly))) {
+                        tab.setText(String.format(getString(R.string.hia2_draft_monthly_with_count), count));
+                    }
+                }
+            }
+        });
+
+    }
+
+    private String retrieveValue(List<MonthlyTally> monthlyTallies, Hia2Indicator hia2Indicator) {
+        String value = "";
+        if (hia2Indicator == null || monthlyTallies == null)
+            return value;
+
+        for (MonthlyTally monthlyTally : monthlyTallies) {
+            if (monthlyTally.getIndicator() != null) {
+                if (monthlyTally.getIndicator().getIndicatorCode().equalsIgnoreCase(hia2Indicator.getIndicatorCode())) {
+                    return monthlyTally.getValue();
+                }
+            }
+        }
+        return "";
     }
 
 }

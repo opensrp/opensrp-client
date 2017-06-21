@@ -13,8 +13,10 @@ import org.ei.opensrp.path.domain.DailyTally;
 import org.ei.opensrp.path.domain.Hia2Indicator;
 import org.ei.opensrp.path.domain.MonthlyTally;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -92,13 +94,16 @@ public class DailyTalliesRepository extends BaseRepository {
                     cv.put(DailyTalliesRepository.COLUMN_INDICATOR_ID, indicator.getId());
                     cv.put(DailyTalliesRepository.COLUMN_VALUE, indicatorValue);
                     cv.put(DailyTalliesRepository.COLUMN_PROVIDER_ID, userName);
-                    cv.put(DailyTalliesRepository.COLUMN_DAY, day);
+                    cv.put(DailyTalliesRepository.COLUMN_DAY, DAY_FORMAT.parse(day).getTime());
+                    cv.put(DailyTalliesRepository.COLUMN_UPDATED_AT, Calendar.getInstance().getTimeInMillis());
 
                     database.insertWithOnConflict(TABLE_NAME, null, cv, SQLiteDatabase.CONFLICT_REPLACE);
                 }
             }
             database.setTransactionSuccessful();
         } catch (SQLException e) {
+            Log.e(TAG, e.getMessage(), e);
+        } catch (ParseException e) {
             Log.e(TAG, e.getMessage(), e);
         } finally {
             database.endTransaction();
@@ -112,17 +117,19 @@ public class DailyTalliesRepository extends BaseRepository {
      * @return A list of months that have daily tallies
      */
     public List<String> findAllDistinctMonths(SimpleDateFormat dateFormat) {
-        SimpleDateFormat monthFormat = new SimpleDateFormat("yyyy-MM");
         Cursor cursor = null;
         try {
-            String query = "SELECT DISTINCT strftime('%Y-%m', " + COLUMN_DAY + ") month" +
-                    " FROM " + TABLE_NAME;
-            cursor = getPathRepository().getReadableDatabase().rawQuery(query, null);
+            cursor = getPathRepository().getReadableDatabase().query(true, TABLE_NAME,
+                    new String[]{COLUMN_DAY},
+                    null, null, null, null, null, null);
             if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
                 List<String> months = new ArrayList<>();
                 while (!cursor.isAfterLast()) {
-                    Date curMonth = monthFormat.parse(cursor.getString(cursor.getColumnIndex("month")));
-                    months.add(dateFormat.format(curMonth));
+                    Date curMonth = new Date(cursor.getLong(0));
+                    String month = dateFormat.format(curMonth);
+                    if (!months.contains(month)) {
+                        months.add(month);
+                    }
                     cursor.moveToNext();
                 }
 
@@ -240,7 +247,9 @@ public class DailyTalliesRepository extends BaseRepository {
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         } finally {
-            cursor.close();
+            if (cursor != null) {
+                cursor.close();
+            }
         }
 
         return tallies;

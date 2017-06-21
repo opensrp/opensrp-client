@@ -22,11 +22,14 @@ import org.ei.opensrp.path.domain.MonthlyTally;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import util.Utils;
 
@@ -48,20 +51,19 @@ public class SentMonthlyFragment extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Utils.startAsyncTask(new GetSentTalliesTask(), null);
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.expandable_list_fragment, container, false);
         expandableListView = (ExpandableListView) fragmentView.findViewById(R.id.expandable_list_view);
-        updateExpandedList();
-        return fragmentView;
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        Utils.startAsyncTask(new GetSentTalliesTask(), null);
+        return fragmentView;
     }
 
     @Override
@@ -81,7 +83,7 @@ public class SentMonthlyFragment extends Fragment {
      * @param map
      */
     @SuppressWarnings("unchecked")
-    private void updateExpandedList(final Map<String, List<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>> map) {
+    private void updateExpandedList(final LinkedHashMap<String, List<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>> map) {
 
         if (expandableListView == null) {
             return;
@@ -111,6 +113,7 @@ public class SentMonthlyFragment extends Fragment {
                             intent.putExtra(ReportSummaryActivity.EXTRA_TALLIES, indicators);
                             intent.putExtra(ReportSummaryActivity.EXTRA_TITLE, title);
                             intent.putExtra(ReportSummaryActivity.EXTRA_SUB_TITLE, subTitle);
+                            startActivity(intent);
                         }
                     }
                 }
@@ -120,17 +123,23 @@ public class SentMonthlyFragment extends Fragment {
         expandableListAdapter.notifyDataSetChanged();
     }
 
-    private Map<String, List<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>> formatListData() {
-        Map<String, List<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>> map = new LinkedHashMap<>();
+    private LinkedHashMap<String, List<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>> formatListData() {
+        Map<String, List<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>> map = new HashMap<>();
         SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
         SimpleDateFormat dateSentFormat = new SimpleDateFormat("M/d/yy");
+        Map<Long, String> sortMap = new TreeMap<>(new Comparator<Comparable>() {
+            public int compare(Comparable a, Comparable b) {
+                return b.compareTo(a);
+            }
+        });
 
         if (sentMonthlyTallies != null) {
             for (List<MonthlyTally> curMonthTallies : sentMonthlyTallies.values()) {
                 if (curMonthTallies != null && curMonthTallies.size() > 0) {
                     Date month = curMonthTallies.get(0).getMonth();
-                    if (!map.containsKey(yearFormat.format(month))) {
-                        map.put(yearFormat.format(month),
+                    String year = yearFormat.format(month);
+                    if (!map.containsKey(year)) {
+                        map.put(year,
                                 new ArrayList<ExpandedListAdapter.ItemData<Pair<String, String>,
                                         Date>>());
                     }
@@ -138,14 +147,27 @@ public class SentMonthlyFragment extends Fragment {
                     String details = String.format(getString(R.string.sent_by),
                             dateSentFormat.format(curMonthTallies.get(0).getDateSent()),
                             curMonthTallies.get(0).getProviderId());
-                    map.get(yearFormat.format(month))
+                    map.get(year)
                             .add(new ExpandedListAdapter.ItemData<Pair<String, String>, Date>(
                                     Pair.create(MONTH_YEAR_FORMAT.format(month), details), month));
+                    sortMap.put(month.getTime(), year);
                 }
             }
         }
 
-        return map;
+        LinkedHashMap<String, List<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>> sortedMap = new LinkedHashMap<>();
+        for (Long curKey : sortMap.keySet()) {
+            List<ExpandedListAdapter.ItemData<Pair<String, String>, Date>> list = map.get(sortMap.get(curKey));
+            Collections.sort(list, new Comparator<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>() {
+                @Override
+                public int compare(ExpandedListAdapter.ItemData<Pair<String, String>, Date> lhs, ExpandedListAdapter.ItemData<Pair<String, String>, Date> rhs) {
+                    return lhs.getTagData().compareTo(rhs.getTagData());
+                }
+            });
+            sortedMap.put(sortMap.get(curKey), list);
+        }
+
+        return sortedMap;
 
     }
 

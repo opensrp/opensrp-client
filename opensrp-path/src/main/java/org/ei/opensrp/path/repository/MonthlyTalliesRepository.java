@@ -122,6 +122,10 @@ public class MonthlyTalliesRepository extends BaseRepository {
             }
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
 
         return new ArrayList<>();
@@ -139,7 +143,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
         List<MonthlyTally> monthlyTallies = new ArrayList<>();
         try {
             cursor = getPathRepository().getReadableDatabase().query(TABLE_NAME, TABLE_COLUMNS,
-                    COLUMN_MONTH + "'" + MONTH_FORMAT.format(month) +
+                    COLUMN_MONTH + " = '" + MONTH_FORMAT.format(month) +
                             "' AND " + COLUMN_DATE_SENT + " IS NOT NULL",
                     null, null, null, null, null);
             List<MonthlyTally> tallies = readAllDataElements(cursor);
@@ -156,6 +160,10 @@ public class MonthlyTalliesRepository extends BaseRepository {
             }
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
 
         return monthlyTallies;
@@ -231,6 +239,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
                 cv.put(COLUMN_DATE_SENT,
                         tally.getDateSent() == null ? null : tally.getDateSent().getTime());
                 cv.put(COLUMN_EDITED, tally.isEdited() ? 1 : 0);
+                cv.put(COLUMN_UPDATED_AT, Calendar.getInstance().getTimeInMillis());
 
                 if (id != null) {
                     database.update(TABLE_NAME, cv, COLUMN_ID + " = ?",
@@ -269,7 +278,9 @@ public class MonthlyTalliesRepository extends BaseRepository {
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         } finally {
-            cursor.close();
+            if (cursor != null) {
+                cursor.close();
+            }
         }
 
         return tallies;

@@ -22,11 +22,15 @@ import org.ei.opensrp.path.domain.MonthlyTally;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import util.Utils;
 
@@ -48,34 +52,19 @@ public class DailyTalliesFragment extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Utils.startAsyncTask(new GetAllTalliesTask(), null);
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.expandable_list_fragment, container, false);
         expandableListView = (ExpandableListView) fragmentView.findViewById(R.id.expandable_list_view);
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Object tag = v.getTag(R.id.item_data);
-                if (tag != null) {
-                    if (tag instanceof Date) {
-                        // TODO: get data from the repository
-                        Date date = (Date) tag;
 
-                    }
-                }
-                return true;
-            }
-        });
-        updateExpandableList();
         return fragmentView;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Utils.startAsyncTask(new GetAllTalliesTask(), null);
     }
 
     @Override
@@ -91,7 +80,7 @@ public class DailyTalliesFragment extends Fragment {
     }
 
     @SuppressWarnings("unchecked")
-    private void updateExpandableList(final Map<String, List<ExpandedListAdapter.ItemData<String, Date>>> map) {
+    private void updateExpandableList(final LinkedHashMap<String, List<ExpandedListAdapter.ItemData<String, Date>>> map) {
 
         if (expandableListView == null) {
             return;
@@ -105,16 +94,15 @@ public class DailyTalliesFragment extends Fragment {
                 Object tag = v.getTag(R.id.item_data);
                 if (tag != null) {
                     if (tag instanceof Date) {
-                        Date day = (Date) tag;
-                        if (dailyTallies.containsKey(DAY_FORMAT.format(day))
-                                && dailyTallies.get(DAY_FORMAT.format(day)).size() > 0) {
-                            ArrayList<DailyTally> indicators = dailyTallies
-                                    .get(DAY_FORMAT.format(day));
-                            String title = String.format(getString(R.string.daily_tally_),
-                                    DAY_FORMAT.format(day));
+                        Date date = (Date) tag;
+                        String dayString = DAY_FORMAT.format(date);
+                        if (dailyTallies.containsKey(dayString)) {
+                            ArrayList<DailyTally> indicators = dailyTallies.get(dayString);
+                            String title = String.format(getString(R.string.daily_tally_), dayString);
                             Intent intent = new Intent(getActivity(), ReportSummaryActivity.class);
                             intent.putExtra(ReportSummaryActivity.EXTRA_TALLIES, indicators);
                             intent.putExtra(ReportSummaryActivity.EXTRA_TITLE, title);
+                            startActivity(intent);
                         }
                     }
                 }
@@ -124,27 +112,47 @@ public class DailyTalliesFragment extends Fragment {
         expandableListAdapter.notifyDataSetChanged();
     }
 
-    private Map<String, List<ExpandedListAdapter.ItemData<String, Date>>> formatListData() {
-        Map<String, List<ExpandedListAdapter.ItemData<String, Date>>> map = new LinkedHashMap<>();
+    private LinkedHashMap<String, List<ExpandedListAdapter.ItemData<String, Date>>> formatListData() {
+        Map<String, List<ExpandedListAdapter.ItemData<String, Date>>> map = new HashMap<>();
+        Map<Long, String> sortMap = new TreeMap<>(new Comparator<Comparable>() {
+            public int compare(Comparable a, Comparable b) {
+                return b.compareTo(a);
+            }
+        });
         SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM yyyy");
         if (dailyTallies != null) {
             for (ArrayList<DailyTally> curDay : dailyTallies.values()) {
                 if (curDay.size() > 0) {
                     Date day = curDay.get(0).getDay();
-                    if (!map.containsKey(monthFormat.format(day))) {
-                        map.put(monthFormat.format(day),
+                    String monthString = monthFormat.format(day);
+                    if (!map.containsKey(monthString)) {
+                        map.put(monthString,
                                 new ArrayList<ExpandedListAdapter.ItemData<String, Date>>());
                     }
 
-                    map.get(monthFormat.format(day)).add(
+                    map.get(monthString).add(
                             new ExpandedListAdapter.ItemData<String, Date>(DAY_FORMAT.format(day),
                                     day)
                     );
+                    sortMap.put(day.getTime(), monthString);
                 }
             }
         }
 
-        return map;
+        LinkedHashMap<String, List<ExpandedListAdapter.ItemData<String, Date>>> sortedMap = new LinkedHashMap<>();
+        for (Long curKey : sortMap.keySet()) {
+            List<ExpandedListAdapter.ItemData<String, Date>> list = map.get(sortMap.get(curKey));
+            Collections.sort(list, new Comparator<ExpandedListAdapter.ItemData<String, Date>>() {
+                @Override
+                public int compare(ExpandedListAdapter.ItemData<String, Date> lhs,
+                                   ExpandedListAdapter.ItemData<String, Date> rhs) {
+                    return lhs.getTagData().compareTo(rhs.getTagData());
+                }
+            });
+            sortedMap.put(sortMap.get(curKey), list);
+        }
+
+        return sortedMap;
     }
 
     private void initializeProgressDialog() {

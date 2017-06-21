@@ -5,6 +5,7 @@ import android.database.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.ei.opensrp.path.repository.PathRepository;
+import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.util.Log;
 
 import java.text.DateFormat;
@@ -22,74 +23,74 @@ public class HIA2Service {
     public static DateFormat dfyymmdd = new SimpleDateFormat("yyyy-MM-dd");
     public static String REPORT_NAME = "HIA2";
 
-    private  String CHN1_005 = "CHN1-005";
-    private  String CHN1_010 = "CHN1-010";
-    private  String CHN1_011 = "CHN1-011";
-    private  String CHN1_015 = "CHN1-015";
-    private  String CHN1_020 = "CHN1-020";
-    private  String CHN1_021 = "CHN1-021";
-    private  String CHN1_025 = "CHN1-025";
-    private  String CHN1_030 = "CHN1-030";
-    private  String CHN2_005 = "CHN2-005";
-    private  String CHN2_010 = "CHN2-010";
-    private  String CHN2_015 = "CHN2-015";
-    private  String CHN2_020 = "CHN2-020";
-    private  String CHN2_025 = "CHN2-025";
-    private  String CHN2_030 = "CHN2-030";
-    private  String CHN2_035 = "CHN2-035";
-    private  String CHN2_040 = "CHN2-040";
-    private  String CHN2_041 = "CHN2-041";
-    private  String CHN2_045 = "CHN2-045";
-    private  String CHN2_050 = "CHN2-050";
-    private  String CHN2_051 = "CHN2-051";
-    private  String CHN2_055 = "CHN2-055";
-    private  String CHN2_060 = "CHN2-060";
-    private  String CHN2_061 = "CHN2-061";
-    private  String CHN2_065 = "CHN2-065";
-    private  String CHN2_070 = "CHN2-070";
-    private  String CHN2_075 = "CHN2-075";
-    private  String CHN2_080 = "CHN2-080";
-    private  String CHN3_005 = "CHN3-005";
-    private  String CHN3_005_O = "CHN3-005-O";
-    private  String CHN3_010 = "CHN3-010";
-    private  String CHN3_010_O = "CHN3-010-O";
-    private  String CHN3_015 = "CHN3-015";
-    private  String CHN3_015_O = "CHN3-015-O";
-    private  String CHN3_020 = "CHN3-020";
-    private  String CHN3_020_O = "CHN3-020-O";
-    private  String CHN3_025 = "CHN3-025";
-    private  String CHN3_025_O = "CHN3-025-O";
-    private  String CHN3_027 = "CHN3-027";
-    private  String CHN3_027_O = "CHN3-027-O";
-    private  String CHN3_030 = "CHN3-030";
-    private  String CHN3_030_O = "CHN3-030-O";
-    private  String CHN3_035 = "CHN3-035";
-    private  String CHN3_035_O = "CHN3-035-O";
-    private  String CHN3_040 = "CHN3-040";
-    private  String CHN3_040_O = "CHN3-040-O";
-    private  String CHN3_045 = "CHN3-045";
-    private  String CHN3_045_O = "CHN3-045-O";
-    private  String CHN3_050 = "CHN3-050";
-    private  String CHN3_050_O = "CHN3-050-O";
-    private  String CHN3_055 = "CHN3-055";
-    private  String CHN3_055_O = "CHN3-055-O";
-    private  String CHN3_060 = "CHN3-060";
-    private  String CHN3_060_O = "CHN3-060-O";
-    private  String CHN3_065 = "CHN3-065";
-    private  String CHN3_065_O = "CHN3-065-O";
-    private  String CHN3_070 = "CHN3-070";
-    private  String CHN3_070_O = "CHN3-070-O";
-    private  String CHN3_075 = "CHN3-075";
-    private  String CHN3_075_O = "CHN3-075-O";
-    private  String CHN3_80 = "CHN3-80";
-    private  String CHN3_80_O = "CHN3-80-O";
-    private  String CHN3_085 = "CHN3-085";
-    private  String CHN3_085_O = "CHN3-085-O";
-    private  String CHN3_090 = "CHN3-090";
+    private String CHN1_005 = "CHN1-005";
+    private String CHN1_010 = "CHN1-010";
+    private String CHN1_011 = "CHN1-011";
+    private String CHN1_015 = "CHN1-015";
+    private String CHN1_020 = "CHN1-020";
+    private String CHN1_021 = "CHN1-021";
+    private String CHN1_025 = "CHN1-025";
+    private String CHN1_030 = "CHN1-030";
+    private String CHN2_005 = "CHN2-005";
+    private String CHN2_010 = "CHN2-010";
+    private String CHN2_015 = "CHN2-015";
+    private String CHN2_020 = "CHN2-020";
+    private String CHN2_025 = "CHN2-025";
+    private String CHN2_030 = "CHN2-030";
+    private String CHN2_035 = "CHN2-035";
+    private String CHN2_040 = "CHN2-040";
+    private String CHN2_041 = "CHN2-041";
+    private String CHN2_045 = "CHN2-045";
+    private String CHN2_050 = "CHN2-050";
+    private String CHN2_051 = "CHN2-051";
+    private String CHN2_055 = "CHN2-055";
+    private String CHN2_060 = "CHN2-060";
+    private String CHN2_061 = "CHN2-061";
+    private String CHN2_065 = "CHN2-065";
+    private String CHN2_070 = "CHN2-070";
+    private String CHN2_075 = "CHN2-075";
+    private String CHN2_080 = "CHN2-080";
+    private String CHN3_005 = "CHN3-005";
+    private String CHN3_005_O = "CHN3-005-O";
+    private String CHN3_010 = "CHN3-010";
+    private String CHN3_010_O = "CHN3-010-O";
+    private String CHN3_015 = "CHN3-015";
+    private String CHN3_015_O = "CHN3-015-O";
+    private String CHN3_020 = "CHN3-020";
+    private String CHN3_020_O = "CHN3-020-O";
+    private String CHN3_025 = "CHN3-025";
+    private String CHN3_025_O = "CHN3-025-O";
+    private String CHN3_027 = "CHN3-027";
+    private String CHN3_027_O = "CHN3-027-O";
+    private String CHN3_030 = "CHN3-030";
+    private String CHN3_030_O = "CHN3-030-O";
+    private String CHN3_035 = "CHN3-035";
+    private String CHN3_035_O = "CHN3-035-O";
+    private String CHN3_040 = "CHN3-040";
+    private String CHN3_040_O = "CHN3-040-O";
+    private String CHN3_045 = "CHN3-045";
+    private String CHN3_045_O = "CHN3-045-O";
+    private String CHN3_050 = "CHN3-050";
+    private String CHN3_050_O = "CHN3-050-O";
+    private String CHN3_055 = "CHN3-055";
+    private String CHN3_055_O = "CHN3-055-O";
+    private String CHN3_060 = "CHN3-060";
+    private String CHN3_060_O = "CHN3-060-O";
+    private String CHN3_065 = "CHN3-065";
+    private String CHN3_065_O = "CHN3-065-O";
+    private String CHN3_070 = "CHN3-070";
+    private String CHN3_070_O = "CHN3-070-O";
+    private String CHN3_075 = "CHN3-075";
+    private String CHN3_075_O = "CHN3-075-O";
+    private String CHN3_80 = "CHN3-80";
+    private String CHN3_80_O = "CHN3-80-O";
+    private String CHN3_085 = "CHN3-085";
+    private String CHN3_085_O = "CHN3-085-O";
+    private String CHN3_090 = "CHN3-090";
     private Map<String, Object> hia2Report = new HashMap<>();
     private SQLiteDatabase database;
-    public static String PREVIOUS_REPORT_DATES_QUERY="select distinct strftime('%Y-%m-%d',"+PathRepository.event_column.eventDate+") as eventDate, "+PathRepository.event_column.updatedAt+" from "+ PathRepository.Table.event.name();
-    public static String HIA2_LAST_PROCESSED_DATE="HIA2_LAST_PROCESSED_DATE";
+    public static String PREVIOUS_REPORT_DATES_QUERY = "select distinct strftime('%Y-%m-%d'," + PathRepository.event_column.eventDate + ") as eventDate, " + PathRepository.event_column.updatedAt + " from " + PathRepository.Table.event.name();
+    public static String HIA2_LAST_PROCESSED_DATE = "HIA2_LAST_PROCESSED_DATE";
     private String reportDate;
 
     //FIXME to uniquely identify out of areas change group by child.base_entity_id to group by zeir_id
@@ -99,11 +100,12 @@ public class HIA2Service {
     /**
      * Generate indicators populating them to hia2report map by executing various db queries.
      * Order of execution matters since indicators with total values depend on the values being added together existing in the hia2report map
+     *
      * @param _database
      */
-    public Map<String,Object> generateIndicators(final SQLiteDatabase _database,String day) {
+    public Map<String, Object> generateIndicators(final SQLiteDatabase _database, String day) {
         database = _database;
-        reportDate=day;
+        reportDate = day;
         getCHN1_005();
         getCHN1_010();
         getCHN1_011();
@@ -173,7 +175,6 @@ public class HIA2Service {
 
     /**
      * Number of male children aged < 12 months who attended a clinic this month.
-     *
      */
     private void getCHN1_005() {
 
@@ -197,7 +198,7 @@ public class HIA2Service {
         int count = 0;
         try {
             String query = "select count(*) as count," + ageQuery() + " from ec_child child inner join " + PathRepository.Table.event.name() + " e on e." + PathRepository.event_column.baseEntityId.name() + "= child.base_entity_id" +
-                    " where age " + age + " and  '"+reportDate+"'=strftime('%Y-%m-%d',e.eventDate) and child.gender='" + (gender.isEmpty() ? "Male" : gender+"'");
+                    " where age " + age + " and  '" + reportDate + "'=strftime('%Y-%m-%d',e.eventDate) and child.gender='" + (gender.isEmpty() ? "Male" : gender + "'");
             count = executeQueryAndReturnCount(query);
         } catch (Exception e) {
             Log.logError(TAG, e.getMessage());
@@ -263,7 +264,6 @@ public class HIA2Service {
      * Number of Total children aged 12 to 59 months who attended clinic this month
      * [CHN1-015] + [CHN1-020]
      * [Non-editable in the form]
-     *
      */
     private void getCHN1_021() {
         int totalCount = (Integer) hia2Report.get(CHN1_015) + (Integer) hia2Report.get(CHN1_020);
@@ -275,8 +275,6 @@ public class HIA2Service {
      * Number of total children < 5 who attended a clinic this month
      * "[CHN1-011] + [CHN1-021]
      * [Non-editable in the form]"
-     *
-     *
      */
     private void getCHN1_025() {
         int totalCount = (Integer) hia2Report.get(CHN1_011) + (Integer) hia2Report.get(CHN1_021);
@@ -287,8 +285,6 @@ public class HIA2Service {
     /**
      * Number of total children who attended clinic and are not part of clinic's catchment area
      * COUNT Number of total children who attended clinic and are not part of clinic's catchment area (i.e., total number of out of catchment area form submissions that month)
-     *
-     *
      */
     private void getCHN1_030() {
         try {
@@ -303,8 +299,6 @@ public class HIA2Service {
     /**
      * Number of total children weighed aged 0-23 months who attended  clinic this month
      * using like for event since this total includes out of area service
-     *
-     *
      */
     private void getCHN2_005() {
         try {
@@ -319,8 +313,6 @@ public class HIA2Service {
 
     /**
      * Number of total children weighed aged 24-59 months who attended  clinic this month
-     *
-     *
      */
     private void getCHN2_010() {
         try {
@@ -336,8 +328,6 @@ public class HIA2Service {
     /**
      * Number of total children weighed aged < 5 years who attended  clinic this month	"[CHN2-005] + [CHN2-010]
      * [Non-editable in the form]"
-     *
-     *
      */
     private void getCHN2_015() {
         try {
@@ -353,8 +343,6 @@ public class HIA2Service {
      * Number of children age 0-23 months who where weighed for = 2 consecutive months who did not gain >100g of weight in those months
      * COUNT number of children 0-23 months [Date_Birth] with [weight current visit - weight previous visits < 100g] who had = 2 consecutive weight encounters at this clinic
      * FIXME
-     *
-     *
      */
 
     private void getCHN2_020() {
@@ -364,7 +352,7 @@ public class HIA2Service {
                     "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m-%d',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m-%d',date('now'),'-1 months')  limit 1) as prevweight," +
                     "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m-%d',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m-%d',date('now'),'-2 months')  limit 1 ) as last2monthsweight," +
                     ageQuery() +
-                    "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id where '"+reportDate+"'=currentweightdate and age <23 and (currentweight-prevweight>0 and prevweight-last2monthsweight>0) group by beid";
+                    "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id where '" + reportDate + "'=currentweightdate and age <23 and (currentweight-prevweight>0 and prevweight-last2monthsweight>0) group by beid";
             int count = executeQueryAndReturnCount(query);
             hia2Report.put(CHN2_020, count);
         } catch (Exception e) {
@@ -384,7 +372,7 @@ public class HIA2Service {
                     "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m-%d',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m-%d',date('now'),'-1 months')  limit 1) as prevweight," +
                     "(select (pw.kg*1000) from weights pw where pw.base_entity_id=w.base_entity_id  and strftime('%Y-%m-%d',datetime(pw.date/1000, 'unixepoch'))=strftime('%Y-%m-%d',date('now'),'-2 months')  limit 1 ) as last2monthsweight," +
                     ageQuery() +
-                    "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id where '"+reportDate+"'=currentweightdate and age between 24 and 59 and (currentweight-prevweight>0 and prevweight-last2monthsweight>0) group by beid";
+                    "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id where '" + reportDate + "'=currentweightdate and age between 24 and 59 and (currentweight-prevweight>0 and prevweight-last2monthsweight>0) group by beid";
             int count = executeQueryAndReturnCount(query);
             hia2Report.put(CHN2_025, count);
         } catch (Exception e) {
@@ -397,8 +385,6 @@ public class HIA2Service {
      * Number of total children age < five years who where weighed for = 2 consecutive months who did not gain >100g of weight in those months
      * "[CHN2-020] + [CHN2-025]
      * [Non-editable in the form]"
-     *
-     *
      */
     private void getCHN2_030() {
         try {
@@ -418,7 +404,7 @@ public class HIA2Service {
         try {
             String query = "select count(*) as count," + ageQuery() +
                     "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                    " where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score between -2 and -3 group by child.base_entity_id;";
+                    " where '" + reportDate + "'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score between -2 and -3 group by child.base_entity_id;";
             int count = executeQueryAndReturnCount(query);
             hia2Report.put(CHN2_035, count);
         } catch (Exception e) {
@@ -434,7 +420,7 @@ public class HIA2Service {
         try {
             String query = "select count(*) as count," + ageQuery() +
                     "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                    " where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score between -2 and -3 group by child.base_entity_id;";
+                    " where '" + reportDate + "'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score between -2 and -3 group by child.base_entity_id;";
             int count = executeQueryAndReturnCount(query);
             hia2Report.put(CHN2_040, count);
         } catch (Exception e) {
@@ -461,14 +447,12 @@ public class HIA2Service {
 
     /**
      * Number of total children age 0-23 months whose weight is below -3Z scores
-     *
-     *
      */
     private void getCHN2_045() {
         try {
             String query = "select count(*) as count," + ageQuery() +
                     "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                    " where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score< -3 group by child.base_entity_id;";
+                    " where '" + reportDate + "'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score< -3 group by child.base_entity_id;";
             int count = executeQueryAndReturnCount(query);
             hia2Report.put(CHN2_045, count);
         } catch (Exception e) {
@@ -478,14 +462,12 @@ public class HIA2Service {
 
     /**
      * Number of total children age 24-59 months whose weight is below -3Z scores
-     *
-     *
      */
     private void getCHN2_050() {
         try {
             String query = "select count(*) as count," + ageQuery() +
                     "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                    " where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score < -3 group by child.base_entity_id;";
+                    " where '" + reportDate + "'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score < -3 group by child.base_entity_id;";
             int count = executeQueryAndReturnCount(query);
             hia2Report.put(CHN2_050, count);
         } catch (Exception e) {
@@ -515,7 +497,7 @@ public class HIA2Service {
         try {
             String query = "select count(*) as count," + ageQuery() +
                     "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                    " where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score>2 group by child.base_entity_id;";
+                    " where '" + reportDate + "'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age<=23 and w.z_score>2 group by child.base_entity_id;";
             int count = executeQueryAndReturnCount(query);
             hia2Report.put(CHN2_055, count);
         } catch (Exception e) {
@@ -531,7 +513,7 @@ public class HIA2Service {
         try {
             String query = "select count(*) as count," + ageQuery() +
                     "from weights w left join ec_child child on w.base_entity_id=child.base_entity_id" +
-                    " where '"+reportDate+"'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score >2 group by child.base_entity_id;";
+                    " where '" + reportDate + "'=strftime('%Y-%m-%d',datetime(w.date/1000, 'unixepoch')) and age between 24 and 59 and w.z_score >2 group by child.base_entity_id;";
 
             int count = executeQueryAndReturnCount(query);
             hia2Report.put(CHN2_060, count);
@@ -557,13 +539,11 @@ public class HIA2Service {
 
     /**
      * Number of children age 6-11 months who received vitamin A at this facility in this month
-     *
-     *
      */
     private void getCHN2_065() {
         try {
             String query = "select count(*) as count, " + ageQuery() + " from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
-                    "where rst.type='vit_a' and '"+reportDate+"'=strftime('%Y-%m-%d',datetime(rsr.date/1000, 'unixepoch')) and age between 6 and 11";
+                    "where rst.type='vit_a' and '" + reportDate + "'=strftime('%Y-%m-%d',datetime(rsr.date/1000, 'unixepoch')) and age between 6 and 11";
 
             int count = executeQueryAndReturnCount(query);
             hia2Report.put(CHN2_065, count);
@@ -575,13 +555,11 @@ public class HIA2Service {
 
     /**
      * Vitamin A supplement to infant and children 12-59 months
-     *
-     *
      */
     private void getCHN2_070() {
         try {
             String query = "select count(*) as count," + ageQuery() + " from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
-                    "where rst.type='vit_a' and '"+reportDate+"'=strftime('%Y-%m-%d',datetime(rsr.date/1000, 'unixepoch')) and age between 12 and 59";
+                    "where rst.type='vit_a' and '" + reportDate + "'=strftime('%Y-%m-%d',datetime(rsr.date/1000, 'unixepoch')) and age between 12 and 59";
             int count = executeQueryAndReturnCount(query);
             hia2Report.put(CHN2_070, count);
         } catch (Exception e) {
@@ -591,13 +569,11 @@ public class HIA2Service {
 
     /**
      * Number of children age 12-59 months who received a deworming dose at this facility in this month
-     *
-     *
      */
     private void getCHN2_075() {
         try {
             String query = "select count(*) as count," + ageQuery() + " from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
-                    "where rst.type='deworming' and '"+reportDate+"'=strftime('%Y-%m-%d',datetime(rsr.date/1000, 'unixepoch')) and age between 12 and 59";
+                    "where rst.type='deworming' and '" + reportDate + "'=strftime('%Y-%m-%d',datetime(rsr.date/1000, 'unixepoch')) and age between 12 and 59";
 
             int count = executeQueryAndReturnCount(query);
             hia2Report.put(CHN2_075, count);
@@ -609,13 +585,11 @@ public class HIA2Service {
 
     /**
      * Number of children who received insecticide treated nets at this facility in this month
-     *
-     *
      */
     private void getCHN2_080() {
         try {
             String query = "select count(*) as count from recurring_service_records rsr inner join recurring_service_types rst on rsr.recurring_service_id=rst._id left join ec_child child on rsr.base_entity_id=child.base_entity_id\n" +
-                    "where rst.type='itn' and '"+reportDate+"'=strftime('%Y-%m-%d',datetime(rsr.date/1000, 'unixepoch'))";
+                    "where rst.type='itn' and '" + reportDate + "'=strftime('%Y-%m-%d',datetime(rsr.date/1000, 'unixepoch'))";
 
             int count = executeQueryAndReturnCount(query);
             hia2Report.put(CHN2_080, count);
@@ -627,8 +601,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received BCG dose at this facility in this month
-     *
-     *
      */
     private void getCHN3_005() {
         try {
@@ -642,8 +614,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received BCG dose at outreach conducted by this facility in this month
-     *
-     *
      */
     private void getCHN3_005_O() {
         try {
@@ -656,8 +626,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received OPV0 dose at this facility in this month
-     *
-     *
      */
     private void getCHN3_010() {
         try {
@@ -697,8 +665,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received OPV1 dose at outreach conducted by this facility in this month
-     *
-     *
      */
     private void getCHN3_015_O() {
         try {
@@ -711,8 +677,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received OPV2 dose at this facility in this month
-     *
-     *
      */
     private void getCHN3_020() {
         try {
@@ -725,8 +689,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received OPV2 dose at outreach conducted by this facility in this month
-     *
-     *
      */
     private void getCHN3_020_O() {
         try {
@@ -775,8 +737,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received IPV dose at outreach conducted by this facility in this month
-     *
-     *
      */
     private void getCHN3_027_O() {
         try {
@@ -789,8 +749,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received OPV4 dose at this facility in this month
-     *
-     *
      */
     private void getCHN3_030() {
         try {
@@ -803,8 +761,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received OPV4 dose at outreach conducted by this facility in this month
-     *
-     *
      */
     private void getCHN3_030_O() {
         try {
@@ -817,8 +773,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received DPT-Hib+HepB 1 dose at this facility in this month
-     *
-     *
      */
     private void getCHN3_035() {
         try {
@@ -831,8 +785,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received DPT-Hib+HepB 1 dose at outreach conducted by this facility in this month
-     *
-     *
      */
     private void getCHN3_035_O() {
         try {
@@ -845,8 +797,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received DPT-Hib+HepB 2 dose at this facility in this month
-     *
-     *
      */
     private void getCHN3_040() {
         try {
@@ -859,8 +809,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received DPT-Hib+HepB 2 dose at outreach conducted by this facility in this month
-     *
-     *
      */
     private void getCHN3_040_O() {
         try {
@@ -873,8 +821,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received DPT-Hib+HepB 3 dose at this facility in this month
-     *
-     *
      */
     private void getCHN3_045() {
         try {
@@ -887,8 +833,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received DPT-Hib+HepB 3 dose at outreach conducted by this facility in this month
-     *
-     *
      */
     private void getCHN3_045_O() {
         try {
@@ -901,8 +845,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received PCV 1 dose at this facility in this month
-     *
-     *
      */
     private void getCHN3_050() {
         try {
@@ -915,8 +857,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received PCV 1 dose at outreach conducted by this facility in this month
-     *
-     *
      */
     private void getCHN3_050_O() {
         try {
@@ -929,8 +869,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received PCV 2 dose at this facility in this month
-     *
-     *
      */
     private void getCHN3_055() {
         try {
@@ -943,8 +881,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received PCV 2 dose at outreach conducted by this facility in this month
-     *
-     *
      */
     private void getCHN3_055_O() {
         try {
@@ -957,8 +893,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received PCV 3 dose at this facility in this month
-     *
-     *
      */
     private void getCHN3_060() {
         try {
@@ -971,8 +905,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received PCV 3 dose at outreach conducted by this facility in this month
-     *
-     *
      */
     private void getCHN3_060_O() {
         try {
@@ -985,8 +917,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received RV 1  dose at this facility in this month
-     *
-     *
      */
     private void getCHN3_065() {
         try {
@@ -999,8 +929,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received RV 1 dose at outreach conducted by this facility in this month
-     *
-     *
      */
     private void getCHN3_065_O() {
         try {
@@ -1013,8 +941,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received RV 2  dose at this facility in this month
-     *
-     *
      */
     private void getCHN3_070() {
         try {
@@ -1027,8 +953,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received RV 2 dose at outreach conducted by this facility in this month
-     *
-     *
      */
     private void getCHN3_070_O() {
         try {
@@ -1041,8 +965,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received Measles/ MR 1 dose at this facility in this month
-     *
-     *
      */
     private void getCHN3_075() {
         try {
@@ -1055,8 +977,6 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who received Measles/ MR dose at outreach conducted by this facility in this month
-     *
-     *
      */
     private void getCHN3_075_O() {
         try {
@@ -1069,26 +989,32 @@ public class HIA2Service {
 
     /**
      * Number of children < one year who have received the complete BCG, OPV series, DPT-Hib+Hep1 series, PCV series , RV series and measles/MR 1 within 10 days of each antigen being due at this facility
-     *
-     *  FIXME
+     * <p/>
      */
     private void getCHN3_80() {
-
+        try {
+            int count = getVaccineCountWithH1A2Status("<12", false);
+            hia2Report.put(CHN3_80, count);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_80 " + e.getMessage());
+        }
     }
 
     /**
      * Number of children < one year who have received the complete BCG, OPV series, DPT-Hib+Hep1 series, PCV series , RV series and measles/MR 1 within 10 days of each antigen being due at outreach conducyed by this facility
-     *
-     *  FIXME
+     * <p/>
      */
     private void getCHN3_80_O() {
-
+        try {
+            int count = getVaccineCountWithH1A2Status("<12", true);
+            hia2Report.put(CHN3_80_O, count);
+        } catch (Exception e) {
+            Log.logError(TAG, "CHN3_80_O " + e.getMessage());
+        }
     }
 
     /**
      * Number of children at 18 months  who received Measles/ MR 2 dose at this facility in this month
-     *
-
      */
     private void getCHN3_085() {
         try {
@@ -1101,8 +1027,6 @@ public class HIA2Service {
 
     /**
      * Number of children  at 18 months who received Measles/ MR 2 dose at outreach conducted by this facility in this month
-     *
-     *
      */
     private void getCHN3_085_O() {
         try {
@@ -1116,7 +1040,6 @@ public class HIA2Service {
     /**
      * Number of days during the month that vaccine storage fridge was not functioning
      * FIXME
-     *
      */
     private void getCHN3_090() {
 
@@ -1133,10 +1056,39 @@ public class HIA2Service {
         try {
             String vaccineCondition = vaccine.contains("measles") ? "(lower(v.name)='" + vaccine.toLowerCase() + "' or lower(v.name)='mr_1')" : "lower(v.name)='" + vaccine.toLowerCase() + "'";
             String query = "select count(*) as count, " + ageQuery() + " from vaccines v left join ec_child child on child.base_entity_id=v.base_entity_id " +
-                    "where age " + age + " and  '"+reportDate+"'=strftime('%Y-%m-%d',datetime(v.date/1000, 'unixepoch')) and v.out_of_area=" + (outOfArea ? 1 : 0) + " and " + vaccineCondition;
+                    "where age " + age + " and  '" + reportDate + "'=strftime('%Y-%m-%d',datetime(v.date/1000, 'unixepoch')) and v.out_of_area=" + (outOfArea ? 1 : 0) + " and " + vaccineCondition;
             count = executeQueryAndReturnCount(query);
         } catch (Exception e) {
             Log.logError(TAG, vaccine.toUpperCase() + e.getMessage());
+        }
+
+        return count;
+
+    }
+
+    /**
+     * @param age       in months specified as e.g <12 or >12 or between 12 and 59
+     * @param outOfArea
+     * @return
+     */
+    private int getVaccineCountWithH1A2Status(String age, boolean outOfArea) {
+        int count = 0;
+        try {
+            String vaccineCondition = " lower(v.name) in (" +
+                    "'bcg', " +
+                    "'opv_0', 'opv_1', 'opv_2', 'opv_3', " +
+                    "'ipv', " +
+                    "'opv_4', " +
+                    "'penta_1', 'penta_2', 'penta_3', " +
+                    "'pcv_1', 'pcv_2', 'pcv_3', " +
+                    "'rota_1', 'rota_2', " +
+                    "'measles_1', 'mr_1'" +
+                    ") and v." + VaccineRepository.HIA2_STATUS + " = '" + VaccineRepository.HIA2_Within + "' ";
+            String query = "select count(*) as count, " + ageQuery() + " from vaccines v left join ec_child child on child.base_entity_id=v.base_entity_id " +
+                    "where age " + age + " and  '" + reportDate + "'=strftime('%Y-%m-%d',datetime(v.date/1000, 'unixepoch')) and v.out_of_area=" + (outOfArea ? 1 : 0) + " and " + vaccineCondition;
+            count = executeQueryAndReturnCount(query);
+        } catch (Exception e) {
+            Log.logError(TAG, "HIA2_Status" + e.getMessage());
         }
 
         return count;
@@ -1148,7 +1100,7 @@ public class HIA2Service {
     }
 
     private String eventDateEqualsCurrentMonthQuery() {
-        return "strftime('%Y-%m-%d',e.eventDate) = '"+reportDate+"'";
+        return "strftime('%Y-%m-%d',e.eventDate) = '" + reportDate + "'";
     }
 
     private int executeQueryAndReturnCount(String query) {

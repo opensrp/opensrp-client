@@ -1,12 +1,13 @@
 package org.ei.opensrp.path.domain;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by coder on 6/6/17.
  */
-public class Hia2Indicator {
+public class Hia2Indicator implements Serializable {
     private long id;
     @JsonProperty
     private String indicatorCode;

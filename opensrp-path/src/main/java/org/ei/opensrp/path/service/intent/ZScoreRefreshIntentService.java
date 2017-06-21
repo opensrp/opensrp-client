@@ -83,6 +83,8 @@ public class ZScoreRefreshIntentService extends IntentService {
         dumpCsv(Gender.FEMALE, false);
 
         calculateChildZScores();
+        Intent hia2Intent = new Intent(VaccinatorApplication.getInstance(), HIA2IntentService.class);
+        startService(hia2Intent);
     }
 
     private void fetchCSV(Gender gender) {
