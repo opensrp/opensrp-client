@@ -95,41 +95,40 @@ public class IndicatorCategoryView extends LinearLayout {
                 TableRow curRow = new TableRow(context);
 
                 TextView idTextView = new TextView(context);
-                idTextView.setHeight(getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
                 idTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                         getResources().getDimension(R.dimen.indicator_table_contents_text_size));
                 idTextView.setText(curTally.getIndicator().getIndicatorCode().toUpperCase());
                 idTextView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
                 idTextView.setPadding(
                         getResources().getDimensionPixelSize(R.dimen.table_row_side_margin),
-                        0,
+                        getResources().getDimensionPixelSize(R.dimen.table_contents_text_v_margin),
                         getResources().getDimensionPixelSize(R.dimen.table_row_middle_margin),
-                        0);
+                        getResources().getDimensionPixelSize(R.dimen.table_contents_text_v_margin));
                 idTextView.setTextColor(getResources().getColor(R.color.client_list_grey));
                 curRow.addView(idTextView);
 
                 TextView nameTextView = new TextView(context);
-                nameTextView.setHeight(getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
                 nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                         getResources().getDimension(R.dimen.indicator_table_contents_text_size));
                 nameTextView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
-                nameTextView.setPadding(0, 0,
-                        getResources().getDimensionPixelSize(R.dimen.table_row_middle_margin), 0);
+                nameTextView.setPadding(0,
+                        getResources().getDimensionPixelSize(R.dimen.table_contents_text_v_margin),
+                        getResources().getDimensionPixelSize(R.dimen.table_row_middle_margin),
+                        getResources().getDimensionPixelSize(R.dimen.table_contents_text_v_margin));
                 nameTextView.setText(curTally.getIndicator().getLabel());
                 nameTextView.setMaxWidth(context.getResources().getDimensionPixelSize(R.dimen.max_indicator_name_width));
                 nameTextView.setTextColor(getResources().getColor(R.color.client_list_grey));
                 curRow.addView(nameTextView);
 
                 TextView valueTextView = new TextView(context);
-                valueTextView.setHeight(getResources().getDimensionPixelSize(R.dimen.table_contents_text_height));
                 valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                         getResources().getDimension(R.dimen.indicator_table_contents_text_size));
                 valueTextView.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
                 valueTextView.setPadding(
                         getResources().getDimensionPixelSize(R.dimen.table_row_middle_margin),
-                        0,
+                        getResources().getDimensionPixelSize(R.dimen.table_contents_text_v_margin),
                         getResources().getDimensionPixelSize(R.dimen.table_row_side_margin),
-                        0);
+                        getResources().getDimensionPixelSize(R.dimen.table_contents_text_v_margin));
                 valueTextView.setTextColor(getResources().getColor(R.color.client_list_grey));
                 valueTextView.setText(curTally.getValue());
                 curRow.addView(valueTextView);

@@ -119,6 +119,7 @@
     <dimen name="weight_table_divider_height">1dp</dimen>
     <dimen name="weight_table_contents_text_size">22sp</dimen>
     <dimen name="table_contents_text_height">33dp</dimen>
+    <dimen name="table_contents_text_v_margin">5dp</dimen>
     <dimen name="indicator_table_divider_height">1.5dp</dimen>
     <dimen name="max_indicator_name_width">350dp</dimen>
     <dimen name="table_row_side_margin">20dp</dimen>
