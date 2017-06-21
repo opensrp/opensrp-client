@@ -1,5 +1,7 @@
 package org.ei.opensrp.dghs.HH_woman;
 
+import android.util.Log;
+
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.domain.Alert;
@@ -35,11 +37,12 @@ public class tt4handler implements FormSubmissionHandler {
         memberrep.mergeDetails(entityID,ElcoDetails);
 
 
-
+        Log.d("------------------","tt4 handler");
         AllCommonsRepository alerts = Context.getInstance().allCommonsRepositoryobjects("alerts");
         List<Alert> alerts_list_tt5 = Context.getInstance().alertService().findByEntityIdAndAlertNames(entityID, "Woman_TT5");
         if(alerts_list_tt5.size() > 0){
             // delete tt5 schedule
+            Log.d("------------------","tt5 already exist");
             alerts.close(entityID);
         }
     }
