@@ -230,6 +230,14 @@ public class PathUpdateActionsTask {
             Log.e(getClass().getName(), e.getMessage());
         }
         pushStockToServer();
+        pullStockFromServer();
+    }
+
+    private void pullStockFromServer() {
+//        String baseUrl = org.ei.opensrp.Context.getInstance().configuration().dristhiBaseURL();
+//        if (baseUrl.endsWith("/")) {
+//            baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("/"));
+//        }
     }
 
     public void pushStockToServer() {
