@@ -12,10 +12,13 @@ import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.path.BuildConfig;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.domain.Photo;
+import org.ei.opensrp.path.toolbar.ChildDetailsToolbar;
 import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.util.EasyMap;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -28,6 +31,7 @@ import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,11 +41,12 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 
 /**
- * EasyMap.created by martin on 07/06/2017.
+ * created by martin on 07/06/2017.
  */
 
 @Config(constants = BuildConfig.class, application = VaccinatorApplicationTestVersion.class, shadows = {CustomFontTextViewShadow.class})
@@ -111,7 +116,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
     }
 
-  /*
+
     @Test
     public void shouldRenderEditIconImageView() {
 
@@ -509,7 +514,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
 
     }
-    */
+
 
     @Test
     public void shouldRenderStatusFragmentOnStatusViewClick() {
@@ -594,7 +599,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
     }
 
-/*
+
 
     @Test
     public void statusViewShouldUpdateToActiveifChildStatusParamListIsEmpty() {
@@ -661,7 +666,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
     }
 
-    */
+
 
 
     @Test
