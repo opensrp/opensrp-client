@@ -129,12 +129,12 @@ public class HouseholdSmartClientsProvider implements RegisterClientsProvider <C
         fillValue((TextView) parentView.findViewById(R.id.household_women_rep_member_count),  getValue(pc.getColumnmaps(), "women", false)+" el.women");
         fillValue((TextView) parentView.findViewById(R.id.household_child_member_count),  getValue(pc.getColumnmaps(), "children", false)+" child(ren)");
 
-        fillValue((TextView) parentView.findViewById(R.id.household_address),
+       /* fillValue((TextView) parentView.findViewById(R.id.household_address),
                 getValue(pc.getColumnmaps(), "address1", true) + ", " +
                         getValue(pc.getColumnmaps(), "union_council", true).replace("Uc", "UC") + ", " +
                         getValue(pc.getColumnmaps(), "town", true) + ",\n " +
                         getValue(pc.getColumnmaps(), "city_village", true) + ", " +
                         getValue(pc.getColumnmaps(), "province", true));
-        fillValue((TextView) parentView.findViewById(R.id.household_contact), getValue(pc.getColumnmaps(), "contact_phone_number", true));
+        fillValue((TextView) parentView.findViewById(R.id.household_contact), getValue(pc.getColumnmaps(), "contact_phone_number", true));*/
     }
 }

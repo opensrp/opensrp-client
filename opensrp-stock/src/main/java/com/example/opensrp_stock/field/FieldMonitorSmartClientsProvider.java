@@ -12,7 +12,6 @@ import com.example.opensrp_stock.R;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.core.template.RegisterClientsProvider;
-import org.ei.opensrp.core.template.ServiceModeOption;
 import org.ei.opensrp.service.AlertService;
 import org.joda.time.DateTime;
 
@@ -25,8 +24,6 @@ import java.util.Map;
 
 import static com.example.opensrp_stock.field.util.VaccinatorUtils.calculateEndingBalance;
 import static com.example.opensrp_stock.field.util.VaccinatorUtils.calculateStartingBalance;
-import static com.example.opensrp_stock.field.util.VaccinatorUtils.calculateWasted;
-import static org.ei.opensrp.core.utils.Utils.*;
 import static org.ei.opensrp.core.utils.Utils.addAsInts;
 import static org.ei.opensrp.core.utils.Utils.fillValue;
 import static org.ei.opensrp.core.utils.Utils.getValue;
@@ -174,16 +171,16 @@ public class FieldMonitorSmartClientsProvider implements RegisterClientsProvider
 
             List<CommonPersonObject> nextMonthRpt = org.ei.opensrp.Context.getInstance().commonrepository("stock").customQueryForCompleteRow("SELECT * FROM stock WHERE report='monthly' AND date LIKE '" + date.plusMonths(1).toString("yyyy-MM") + "%' ", null, "stock");
 
-            if (nextMonthRpt.isEmpty()) {
+          /*  if (nextMonthRpt.isEmpty()) {
                 fillValue((TextView) parentView.findViewById(R.id.total_wasted), "N/A");
             }
             else {
                 fillValue((TextView) parentView.findViewById(R.id.total_wasted), calculateWasted(balanceInHand, received, totalUsed, nextMonthRpt, "bcg", "opv", "ipv", "pcv", "penta", "measles", "tt"));
-            }
+            }*/
             fillValue((TextView) parentView.findViewById(R.id.month), date.toString("MMM, yy"));
             fillValue((TextView) parentView.findViewById(R.id.monthly_target), pc.getColumnmaps().get("Target_assigned_for_vaccination_at_each_month"));
             fillValue((TextView) parentView.findViewById(R.id.total_received), received+"<font color='silver'>/"+pc.getColumnmaps().get("total_received")+"</font>");
-            fillValue((TextView) parentView.findViewById(R.id.total_used), totalUsed+"");
+          //  fillValue((TextView) parentView.findViewById(R.id.total_used), totalUsed+"");
             fillValue((TextView) parentView.findViewById(R.id.total_balance_in_hand), balanceInHand+"<font color='silver'>/"+pc.getColumnmaps().get("total_balanceInHand")+"</font>");
             fillValue((TextView) parentView.findViewById(R.id.starting_balance_in_hand), calculateStartingBalance(balanceInHand, received));
             fillValue((TextView) parentView.findViewById(R.id.current_balance_in_hand), calculateEndingBalance(balanceInHand, received, totalUsed));

@@ -1,173 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="fill_parent"
-              android:layout_height="@dimen/list_item_height"
-    android:weightSum="23" android:background="#eeeeee" >
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/list_item_height"
+    android:background="#eeeeee"
+    android:orientation="horizontal"
+    android:weightSum="22">
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="2"
-        android:layout_height="wrap_content">
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="3">
 
-        <ImageView
-            android:layout_height="80dp"
-            android:id="@+id/profilepic"
-            android:layout_margin="2dp"
-            android:layout_gravity="center_vertical"
-            android:scaleType="fitXY"
-            android:background="@color/dull_white"
-            android:src="@drawable/profile_user"
-            android:layout_width="77dp" />
-
-        <TextView
-            android:text="HHH"
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/hhh_flag"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:background="@color/light_blue"
-            android:textSize="13sp" />
-    </FrameLayout>
+            android:padding="2dp">
+
+            <ImageView
+                android:id="@+id/profilepic"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center_vertical"
+                android:padding="2dp"
+               android:layout_margin="5dp"
+                android:background="@color/dull_white"
+                android:scaleType="fitXY"
+                android:src="@drawable/profile_user" />
+
+            <TextView
+                android:id="@+id/hhh_flag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/light_blue"
+                android:text="HHH"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </FrameLayout>
     </LinearLayout>
 
     <LinearLayout
-    android:layout_height="match_parent"
-    android:layout_width="0dp"
-    android:layout_weight="4"
-        android:background="#ffffff"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_marginRight="1dp"
+        android:layout_weight="8"
+        android:background="#ffffff"
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/CustomFontTextViewStyle.ListView.Medium"
-            android:text="My Full Name"
-            android:textStyle="bold"
             android:id="@+id/name"
+            style="@style/CustomFontTextViewStyle.ListView.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="My Full Name"
             android:textColor="@color/light_blue"
-            android:textSize="17sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="99 years"
-            style="@style/CustomFontTextViewStyle.ListView.Normal"
-            android:id="@+id/age"
-            android:textSize="17sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="W/O- Guarrdian name"
-            style="@style/CustomFontTextViewStyle.ListView.Normal"
-            android:id="@+id/guardian_name"
-            android:textSize="17sp"
-            android:maxLines="2"
-            android:singleLine="false" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="0dp"
-        android:layout_height="fill_parent" android:background="#ffffff"
-        android:layout_weight="5"
-        android:layout_marginRight="1dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Contact Number"
-            style="@style/CustomFontTextViewStyle.ListView.Normal"
-            android:id="@+id/contact_number"
             android:textSize="17sp"
             android:textStyle="bold" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="52 a, Zaman Town, Korangi, Karachi"
-                android:id="@+id/address"
-                style="@style/CustomFontTextViewStyle.ListView.Normal"
-                android:textSize="17sp"
-                android:layout_gravity="top"
-                android:singleLine="false"
-                android:maxLines="4" />
+            android:id="@+id/guardian_name"
+            style="@style/CustomFontTextViewStyle.ListView.Normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:singleLine="false"
+            android:text="W/O- Guarrdian name"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/age"
+            style="@style/CustomFontTextViewStyle.ListView.Normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="99 years"
+            android:textSize="17sp" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
+   <!-- <LinearLayout
         android:layout_width="0dp"
         android:layout_height="fill_parent"
-        android:layout_weight="4"
+        android:layout_marginRight="1dp"
+        android:layout_weight="5"
         android:background="#ffffff"
-        android:layout_marginRight="1dp">
+        android:orientation="vertical">
 
         <TextView
-            android:text="Last Encounters Happened"
-            android:textStyle="bold"
-            android:id="@+id/last_events"
+            android:id="@+id/address"
             style="@style/CustomFontTextViewStyle.ListView.Normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
             android:layout_gravity="top"
             android:maxLines="4"
-            android:singleLine="false" />
+            android:singleLine="false"
+            android:text="52 a, Zaman Town, Korangi, Karachi"
+            android:textSize="17sp" />
+
+    </LinearLayout>-->
+
+    <LinearLayout
+        android:id="@+id/obs_container"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_marginRight="1dp"
+        android:layout_weight="7"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/last_events"
+            style="@style/CustomFontTextViewStyle.ListView.Normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:maxLines="10"
+            android:singleLine="false"
+            android:text="Last Encounters Happened"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_height="match_parent"
+    <!--<LinearLayout
+        android:id="@+id/obs_container"
         android:layout_width="0dp"
-        android:orientation="vertical"
-        android:layout_weight="5"
+        android:layout_height="match_parent"
+        android:layout_weight="6"
         android:background="#ffffff"
-        android:id="@+id/obs_container">
+        android:orientation="vertical">
 
         <TableLayout
+            android:id="@+id/obs_table"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/obs_table"
             android:layout_margin="1dp"
             android:background="@android:color/white">
 
-            <include layout="@layout/tablerow_small_compact"/>
+            <include layout="@layout/tablerow_small_compact" />
 
         </TableLayout>
-    </LinearLayout>
+    </LinearLayout>-->
 
-    <LinearLayout android:layout_width="0dp" android:orientation="horizontal"
-        android:layout_height="fill_parent" android:layout_weight="3"
-        android:background="@android:color/white">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="4"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/register_household"
-            android:src="@drawable/register_household"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_margin="2dp"
-            android:scaleType="fitXY"
+            android:layout_gravity="center_vertical"
             android:background="@color/dull_white"
-            android:layout_height="match_parent"
-            android:layout_width="60dp" />
+            android:src="@drawable/register_household" />
 
         <ImageView
             android:id="@+id/register_vaccination"
-            android:src="@drawable/syringe"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_margin="2dp"
-            android:scaleType="fitXY"
-            android:background="@color/dull_white"
-            android:layout_height="match_parent"
-            android:layout_width="60dp"
+            android:layout_gravity="center_vertical"
             android:alpha="0.75"
-            android:padding="10dp"
-            android:layout_gravity="right" />
+            android:background="@color/dull_white"
+            android:paddingRight="15dp"
+            android:src="@drawable/syringe" />
 
     </LinearLayout>
 </LinearLayout>

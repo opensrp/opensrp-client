@@ -7,7 +7,8 @@
         android:allowBackup="true">
 
         <activity android:name=".ThrivepkLoginActivity"
-            android:screenOrientation="landscape" android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            android:screenOrientation="portrait"
+             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -16,17 +17,18 @@
 
         <activity android:name=".ThrivepkHomeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="landscape"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoTitle"></activity>
 
         <activity
             android:name=".report.VaccineReport"
-            android:screenOrientation="landscape"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <receiver android:name=".application.CESyncReceiver" />
 
-        <activity android:name=".ProviderProfileActivity"></activity>
+        <activity android:name=".ProviderProfileActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

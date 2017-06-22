@@ -125,7 +125,7 @@
                   android:screenOrientation="landscape">
         </activity>
         <activity android:name=".view.activity.SettingsActivity"
-            android:screenOrientation="landscape">
+            android:screenOrientation="portrait">
         </activity>
 
         <receiver android:name=".view.receiver.SyncBroadcastReceiver"/>

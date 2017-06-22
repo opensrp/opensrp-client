@@ -1,114 +1,112 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="#ff313131">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+    android:background="#ff313131"
+    android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="10">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="450dp"
-                android:orientation="vertical"
+                android:layout_height="0dp"
+                android:layout_weight="9.5"
                 android:background="@drawable/bg_texture"
-                android:paddingTop="20dp"
+                android:orientation="vertical"
                 android:paddingBottom="20dp"
-                >
+                android:paddingTop="20dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_horizontal">
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal">
+
 
                     <FrameLayout
+                        android:id="@+id/zmContainer"
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
-                        android:layout_weight="1" android:id="@+id/zmContainer"
-                        android:layout_marginRight="10dp">
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1">
 
                         <ImageButton
                             android:id="@+id/btn_zm_register"
                             style="@style/ImageButton.Home.Register"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
-                            android:src="@drawable/register_zm"
-                            android:scaleType="fitXY"/>
+                            android:scaleType="fitXY"
+                            android:src="@drawable/register_zm" />
 
                         <TextView
                             style="@style/CustomFontTextViewStyle.Home.RegisterName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textStyle="bold"
+                            android:paddingTop="50dp"
                             android:text="Program"
-                            android:paddingTop="50dp"/>
-
-                        <TextView
-                            android:text="Location Filtered"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/zm_location_filtered"
-                            android:textColor="@android:color/white"
-                            android:textSize="14sp"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="center_horizontal"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginRight="12dp"
-                            android:layout_marginLeft="11dp"
-                            android:layout_marginBottom="5dp"
-                            android:background="@color/dull_red_dark"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:text="0000 M"
+                            android:id="@+id/zm_location_filtered"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginLeft="11dp"
+                            android:layout_marginRight="12dp"
+                            android:layout_marginTop="12dp"
+                            android:background="@color/dull_red_dark"
+                            android:gravity="center_horizontal"
+                            android:text="Location Filtered"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
                             android:id="@+id/zm_register_male_count"
+                            android:layout_width="55dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="bottom|right"
-                            android:textColor="@android:color/white"
-                            android:background="@color/maroon"
-                            android:textStyle="bold"
-                            android:layout_marginRight="12dp"
                             android:layout_marginBottom="25dp"
+                            android:layout_marginRight="12dp"
+                            android:background="@color/maroon"
+                            android:paddingLeft="5dp"
+                            android:text="0000 M"
+                            android:textColor="@android:color/white"
                             android:textSize="13sp"
-                            android:layout_width="55dp"
-                            android:paddingLeft="5dp" />
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:text="0000 F"
-                            android:layout_height="wrap_content"
                             android:id="@+id/zm_register_female_count"
-                            android:layout_gravity="bottom|right"
-                            android:textColor="@android:color/white"
-                            android:background="@color/maroon"
-                            android:textStyle="bold"
-                            android:layout_marginRight="12dp"
-                            android:layout_marginBottom="45dp"
-                            android:textSize="13sp"
                             android:layout_width="55dp"
-                            android:paddingLeft="5dp" />
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginBottom="45dp"
+                            android:layout_marginRight="12dp"
+                            android:background="@color/maroon"
+                            android:paddingLeft="5dp"
+                            android:text="0000 F"
+                            android:textColor="@android:color/white"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:text="0000 T"
-                            android:layout_height="wrap_content"
                             android:id="@+id/zm_register_intersex_count"
-                            android:layout_gravity="bottom|right"
-                            android:textColor="@android:color/white"
-                            android:background="@color/maroon"
-                            android:textStyle="bold"
-                            android:layout_marginRight="12dp"
-                            android:layout_marginBottom="65dp"
-                            android:textSize="13sp"
                             android:layout_width="55dp"
-                            android:paddingLeft="5dp" />
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|right"
+                            android:layout_marginBottom="65dp"
+                            android:layout_marginRight="12dp"
+                            android:background="@color/maroon"
+                            android:paddingLeft="5dp"
+                            android:text="0000 T"
+                            android:textColor="@android:color/white"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/txt_zm_register_client_count"
@@ -116,9 +114,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:text="000000M"
                             android:textSize="13sp"
-                            android:textStyle="bold"
-                            android:text="000000M" />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/txt_zm_register_woman_count"
@@ -126,9 +124,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
                             android:gravity="center"
+                            android:text="0000W"
                             android:textSize="13sp"
-                            android:textStyle="bold"
-                            android:text="0000W" />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/txt_zm_register_child_count"
@@ -137,47 +135,48 @@
                             android:layout_height="40dp"
                             android:layout_marginLeft="75dp"
                             android:gravity="center"
+                            android:text="0000C"
                             android:textSize="13sp"
-                            android:textStyle="bold"
-                            android:text="0000C" />
+                            android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/textView"
                             style="@style/CustomFontTextViewStyle.Home.RegisterLabel"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textStyle="bold"
+                            android:paddingTop="75dp"
                             android:text="@string/register_label"
-                            android:id="@+id/textView"
-                            android:paddingTop="75dp"/>
+                            android:textStyle="bold" />
                     </FrameLayout>
 
                     <FrameLayout
+                        android:id="@+id/householdContainer"
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
-                        android:layout_weight="1" android:id="@+id/householdContainer"
-                        android:layout_marginRight="10dp">
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1">
 
                         <ImageButton
                             android:id="@+id/btn_household_register"
                             style="@style/ImageButton.Home.Register"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
-                            android:src="@drawable/register_household"
-                            android:scaleType="fitXY"/>
+                            android:scaleType="fitXY"
+                            android:src="@drawable/register_household" />
 
                         <TextView
                             style="@style/CustomFontTextViewStyle.Home.RegisterName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                            android:text="@string/home_household_label" />
+                            android:text="@string/home_household_label"
+                            android:textStyle="bold" />
 
                         <TextView
                             style="@style/CustomFontTextViewStyle.Home.RegisterLabel"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                            android:text="@string/register_label" />
+                            android:text="@string/register_label"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/txt_household_register_client_count"
@@ -185,188 +184,199 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:text="0000M"
                             android:textSize="13sp"
-                            android:textStyle="bold"
-                            android:text="0000M" />
+                            android:textStyle="bold" />
+
                         <TextView
                             android:id="@+id/txt_household_register_client_plus_members_count"
                             style="@style/CustomFontTextViewStyle.Badge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textStyle="bold"
+                            android:layout_marginRight="75dp"
                             android:gravity="center"
-                            android:textSize="13sp"
                             android:text="0000 H"
-                            android:layout_marginRight="75dp" />
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="fill_parent"
-                        android:layout_weight="1" android:id="@+id/ancContainer"
-                        android:layout_marginRight="10dp">
-
-                        <ImageButton
-                            android:id="@+id/btn_anc_register"
-                            android:layout_width="match_parent"
-                            android:layout_height="200dp"
-                            android:src="@drawable/register_anc"
-                            style="@style/ImageButton.Home.Register"
-                            android:scaleType="fitXY"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/home_anc_label"
-                            android:textStyle="bold"
-                            style="@style/CustomFontTextViewStyle.Home.RegisterName"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/register_label"
-                            android:textStyle="bold"
-                            style="@style/CustomFontTextViewStyle.Home.RegisterLabel"/>
-
-                        <TextView
-                            android:id="@+id/txt_anc_register_client_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/CustomFontTextViewStyle.Badge"
                             android:textSize="13sp"
-                            android:textStyle="bold"
-                            android:text="00000"
-                            android:gravity="center" />
-
+                            android:textStyle="bold" />
                     </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="fill_parent"
-                        android:layout_weight="1" android:id="@+id/womanImmunizationContainer"
-                        android:layout_marginRight="10dp">
-
-                        <ImageButton
-                            android:id="@+id/btn_woman_register"
-                            android:layout_width="match_parent"
-                            android:layout_height="200dp"
-                            android:src="@drawable/register_woman"
-                            style="@style/ImageButton.Home.Register"
-                            android:scaleType="fitXY"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/home_women_label"
-                            android:textStyle="bold"
-                            style="@style/CustomFontTextViewStyle.Home.RegisterName"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/register_label"
-                            android:textStyle="bold"
-                            style="@style/CustomFontTextViewStyle.Home.RegisterLabel"/>
-
-                        <TextView
-                            android:id="@+id/txt_woman_register_client_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/CustomFontTextViewStyle.Badge"
-                            android:textStyle="bold"
-                            android:textSize="13sp"
-                            android:text="00000"
-                            android:gravity="center" />
-
-                    </FrameLayout>
-
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp">
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
 
                     <FrameLayout
+                        android:id="@+id/ancContainer"
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
-                        android:layout_weight="1" android:id="@+id/childImmunizationContainer"
                         android:layout_marginRight="10dp"
-                        >
+                        android:layout_weight="1">
 
                         <ImageButton
-                            android:id="@+id/btn_child_register"
+                            android:id="@+id/btn_anc_register"
+                            style="@style/ImageButton.Home.Register"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
-                            android:src="@drawable/register_child"
-                            style="@style/ImageButton.Home.Register"
-                            android:scaleType="fitXY"/>
+                            android:scaleType="fitXY"
+                            android:src="@drawable/register_anc" />
 
                         <TextView
+                            style="@style/CustomFontTextViewStyle.Home.RegisterName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/home_child_label"
-                            android:textStyle="bold"
-                            style="@style/CustomFontTextViewStyle.Home.RegisterName"/>
+                            android:text="@string/home_anc_label"
+                            android:textStyle="bold" />
 
                         <TextView
+                            style="@style/CustomFontTextViewStyle.Home.RegisterLabel"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/register_label"
-                            android:textStyle="bold"
-                            style="@style/CustomFontTextViewStyle.Home.RegisterLabel"/>
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/txt_child_register_client_count"
+                            android:id="@+id/txt_anc_register_client_count"
+                            style="@style/CustomFontTextViewStyle.Badge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/CustomFontTextViewStyle.Badge"
-                            android:textSize="13sp"
-                            android:textStyle="bold"
+                            android:gravity="center"
                             android:text="00000"
-                            android:gravity="center" />
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
 
                     </FrameLayout>
 
                     <FrameLayout
+                        android:id="@+id/womanImmunizationContainer"
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
-                        android:layout_weight="1" android:id="@+id/stockContainer">
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1">
 
                         <ImageButton
-                            android:id="@+id/btn_field_register"
+                            android:id="@+id/btn_woman_register"
+                            style="@style/ImageButton.Home.Register"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
-                            android:src="@drawable/register_fieldmonitor"
-                            style="@style/ImageButton.Home.Register"
-                            android:scaleType="fitXY"/>
+                            android:scaleType="fitXY"
+                            android:src="@drawable/register_woman" />
 
                         <TextView
+                            style="@style/CustomFontTextViewStyle.Home.RegisterName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/home_field_monitor_label"
-                            android:textStyle="bold"
-                            style="@style/CustomFontTextViewStyle.Home.RegisterName"/>
+                            android:text="@string/home_women_label"
+                            android:textStyle="bold" />
 
                         <TextView
+                            style="@style/CustomFontTextViewStyle.Home.RegisterLabel"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/register_label"
-                            android:textStyle="bold"
-                            style="@style/CustomFontTextViewStyle.Home.RegisterLabel"/>
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txt_woman_register_client_count"
+                            style="@style/CustomFontTextViewStyle.Badge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="00000"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:id="@+id/childImmunizationContainer"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1">
+
+                        <ImageButton
+                            android:id="@+id/btn_child_register"
+                            style="@style/ImageButton.Home.Register"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/register_child" />
+
+                        <TextView
+                            style="@style/CustomFontTextViewStyle.Home.RegisterName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_child_label"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/CustomFontTextViewStyle.Home.RegisterLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/register_label"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txt_child_register_client_count"
+                            style="@style/CustomFontTextViewStyle.Badge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="00000"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/stockContainer"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1">
+
+                        <ImageButton
+                            android:id="@+id/btn_field_register"
+                            style="@style/ImageButton.Home.Register"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/register_fieldmonitor" />
+
+                        <TextView
+                            style="@style/CustomFontTextViewStyle.Home.RegisterName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_field_monitor_label"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/CustomFontTextViewStyle.Home.RegisterLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/register_label"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/txt_field_register_client_countm"
+                            style="@style/CustomFontTextViewStyle.Badge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="13sp"
-                            android:textStyle="bold"
-                            style="@style/CustomFontTextViewStyle.Badge"
+                            android:gravity="center"
                             android:text="0000 M"
-                            android:gravity="center" />
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
 
                     </FrameLayout>
 
@@ -380,83 +390,83 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_weight="0.5"
+                android:weightSum="2">
 
-             <!--   <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:visibility="gone">
+                <!--   <LinearLayout
+                       android:orientation="horizontal"
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="1"
+                       android:visibility="gone">
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
+                       <RelativeLayout
+                           android:layout_width="0dp"
+                           android:layout_height="match_parent"
+                           android:layout_weight="1">
 
-                    </RelativeLayout>
+                       </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/btn_learning"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:text="Learning"
-                        android:textStyle="bold"
-                        style="@style/CustomFontTextViewStyle.Home.Buttons"
-                        android:gravity="center_vertical"/>
+                       <TextView
+                           android:id="@+id/btn_learning"
+                           android:layout_width="0dp"
+                           android:layout_height="50dp"
+                           android:layout_weight="1"
+                           android:text="Learning"
+                           android:textStyle="bold"
+                           style="@style/CustomFontTextViewStyle.Home.Buttons"
+                           android:gravity="center_vertical"/>
 
-                    <TextView
-                        android:id="@+id/btn_why"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:text="Why"
-                        android:textStyle="bold"
-                        style="@style/CustomFontTextViewStyle.Home.Buttons"
-                        android:gravity="center_vertical" />
-                    <TextView
-                        android:id="@+id/btn_how"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:text="How"
-                        android:textStyle="bold"
-                        style="@style/CustomFontTextViewStyle.Home.Buttons"
-                        android:gravity="center_vertical" />
-                </LinearLayout>-->
+                       <TextView
+                           android:id="@+id/btn_why"
+                           android:layout_width="0dp"
+                           android:layout_height="50dp"
+                           android:layout_weight="1"
+                           android:text="Why"
+                           android:textStyle="bold"
+                           style="@style/CustomFontTextViewStyle.Home.Buttons"
+                           android:gravity="center_vertical" />
+                       <TextView
+                           android:id="@+id/btn_how"
+                           android:layout_width="0dp"
+                           android:layout_height="50dp"
+                           android:layout_weight="1"
+                           android:text="How"
+                           android:textStyle="bold"
+                           style="@style/CustomFontTextViewStyle.Home.Buttons"
+                           android:gravity="center_vertical" />
+                   </LinearLayout>-->
 
                 <TextView
                     android:id="@+id/btn_reporting"
+                    style="@style/CustomFontTextViewStyle.Home.Buttons"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/ic_reporting"
-                    android:text="@string/str_reporting"
-                    android:textStyle="bold"
-                    style="@style/CustomFontTextViewStyle.Home.Buttons"
-                    android:paddingLeft="130dp"
+                    android:drawablePadding="50dp"
                     android:gravity="center_vertical"
-                    android:drawablePadding="50dp" />
+                    android:paddingLeft="30dp"
+                    android:text="@string/str_reporting"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/btn_provider_profile"
+                    style="@style/CustomFontTextViewStyle.Home.Buttons"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/profile_provider"
-                    android:paddingLeft="130dp"
+                    android:drawablePadding="50dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="30dp"
                     android:paddingRight="70dp"
                     android:text="@string/str_provider_profile"
-                    android:textStyle="bold"
-                    style="@style/CustomFontTextViewStyle.Home.Buttons"
-                    android:gravity="center_vertical"
-                    android:drawablePadding="50dp" />
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
         </LinearLayout>
-
-    </ScrollView>
 
 </LinearLayout>

@@ -29,7 +29,6 @@ import java.util.Map;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static com.example.opensrp_stock.field.util.VaccinatorUtils.generateSchedule;
 import static com.example.opensrp_stock.field.util.VaccinatorUtils.nextVaccineDue;
-import static org.ei.opensrp.core.utils.Utils.*;
 import static org.ei.opensrp.core.utils.Utils.convertDateFormat;
 import static org.ei.opensrp.core.utils.Utils.fillValue;
 import static org.ei.opensrp.core.utils.Utils.getValue;
@@ -78,13 +77,13 @@ public class WomanSmartClientsProvider implements RegisterClientsProvider <Commo
         catch (Exception e){}
         fillValue((TextView) convertView.findViewById(R.id.woman_age),  age<0?"No DoB":(age+ " years"));
         fillValue((TextView) convertView.findViewById(R.id.woman_epi_number), pc.getColumnmaps(), "epi_card_number", false);
-        String edd = convertDateFormat(getValue(pc.getColumnmaps(), "final_edd", false),true);
+       /* String edd = convertDateFormat(getValue(pc.getColumnmaps(), "final_edd", false),true);
         fillValue((TextView) convertView.findViewById(R.id.woman_edd), edd == ""?"N/A":edd);
         String ga = getValue(pc.getColumnmaps(), "final_ga", false);
         ga = ga==""?"N/A":(ga+" weeks");
         fillValue((TextView) convertView.findViewById(R.id.woman_ga), ga);
 
-        fillValue((TextView) convertView.findViewById(R.id.woman_contact_number), getValue(pc.getColumnmaps(), "contact_phone_number", true));
+        fillValue((TextView) convertView.findViewById(R.id.woman_contact_number), getValue(pc.getColumnmaps(), "contact_phone_number", true));*/
 
         //convertView.setTag(viewHolder);
 

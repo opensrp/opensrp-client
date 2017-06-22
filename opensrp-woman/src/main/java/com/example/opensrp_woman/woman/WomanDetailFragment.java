@@ -98,7 +98,7 @@ public class WomanDetailFragment extends DetailFragment {
         catch (Exception e){
             e.printStackTrace();
         }
-        addRow(getActivity(), dt, "Birthdate (Age)", convertDateFormat(getValue(client.getColumnmaps(), "dob", false), "No DoB", true) + " (" + age + " years)", Size.MEDIUM);
+        addRow(getActivity(), dt, "Birthdate (Age)", convertDateFormat(getValue(client.getColumnmaps(), "dob", false), "No DoB", true) +" \n "+"(" + age + " years)", Size.MEDIUM);
         addRow(getActivity(), dt, "Father's Name", getValue(client.getColumnmaps(), "father_name", true), Size.MEDIUM);
         addRow(getActivity(), dt, "Husband's Name", getValue(client.getColumnmaps(), "husband_name", true), Size.MEDIUM);
 

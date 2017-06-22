@@ -39,6 +39,7 @@ import org.ei.opensrp.core.template.SearchFilterOption;
 import org.ei.opensrp.core.template.SearchType;
 import org.ei.opensrp.core.template.ServiceModeOption;
 import org.ei.opensrp.core.template.SortingOption;
+import org.ei.opensrp.core.utils.ByColumnAndByDetails;
 import org.ei.opensrp.core.utils.barcode.Barcode;
 import org.ei.opensrp.core.utils.barcode.BarcodeIntentIntegrator;
 import org.ei.opensrp.core.utils.barcode.BarcodeIntentResult;
@@ -54,6 +55,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.ei.opensrp.core.utils.Utils.ageInYears;
+import static org.ei.opensrp.core.utils.Utils.convertDateFormat;
 import static org.ei.opensrp.core.utils.Utils.convertToCommonPersonObject;
 import static org.ei.opensrp.core.utils.Utils.getValue;
 
@@ -91,8 +94,8 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
             @Override
             public ServiceModeOption serviceMode() {
                 return new VaccinationServiceModeOption(null, "Household Register", new int[]{
-                        R.string.household_profile , R.string.household_members, R.string.household_address, R.string.household_contactNumber, R.string.household_add_member
-                }, new int[]{6,2,3,2,1});
+                        R.string.household_profile , R.string.household_members, R.string.household_add_member
+                }, new int[]{13,5,2});
             }
             @Override
             public FilterOption villageFilter() {
@@ -190,13 +193,10 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
         integ.initiateScan(new ScanType("CHILD", entityId, data));
     }
 
-    public void startAncEnrollmentForm(final String entityId, final HashMap<String, String> overrides){
-        overrides.putAll(VaccinatorUtils.providerDetails());
-        Log.v(getClass().getName(), "Enrolling anc with id "+entityId);
-        startForm("anc_visit_form",entityId, overrides);
+    public void startAncRegistration(String entityId, CommonPersonObject data) {
+        integ.addExtra(Barcode.SCAN_MODE, Barcode.QR_MODE);
 
-      //  integ.addExtra(Barcode.SCAN_MODE, Barcode.QR_MODE);
-      //  integ.initiateScan(new ScanType("GROUP", "", null));
+        integ.initiateScan(new ScanType("ANC", entityId, data));
     }
 
     @Override
@@ -266,6 +266,12 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
         Log.v(getClass().getName(), "Enrolling child with id "+entityId);
         startForm("child_enrollment", entityId, overrides);
     }
+    public void startAncEnrollmentForm(final String entityId, final HashMap<String, String> overrides){
+        overrides.putAll(VaccinatorUtils.providerDetails());
+        Log.v(getClass().getName(), "Enrolling anc with id "+entityId);
+        startForm("anc_visit_form",entityId, overrides);
+    }
+
 
     private void onQRCodeSucessfullyScanned(String qrCode, String entityType, String linkId, CommonPersonObject data) {
         String hhId = findHouseholdOrPersonWithId(qrCode);
@@ -285,17 +291,18 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
             Toast.makeText(getActivity(), "Found a Woman already registered for given ID with no Household information. Search in Woman register", Toast.LENGTH_LONG).show();
             return;
         }
-       /* CommonPersonObject anc = vaccinatorTables(qrCode, "pkanc");
-        if(anc != null){
-            Toast.makeText(getActivity(), "Found a Woman already registered for given ID. Search in Anc register", Toast.LENGTH_LONG).show();
+        CommonPersonObject anc = vaccinatorTables(qrCode, "pkanc");
+        if(anc != null && entityType.equalsIgnoreCase("MEMBER") == false){
+            Toast.makeText(getActivity(), "Found a Woman already registered for given ID with no Household information. Search in Anc register", Toast.LENGTH_LONG).show();
             return;
-        }*/
+        }
 
         //todo search in clientDB
 
         if (VaccinatorUtils.providerRolesList().toLowerCase().contains("vaccinator")
                 && entityType.equalsIgnoreCase("WOMAN") == false
-                && entityType.equalsIgnoreCase("CHILD") == false){
+                && entityType.equalsIgnoreCase("CHILD") == false
+                && entityType.equalsIgnoreCase("ANC") == false){
             Toast.makeText(getActivity(), "No household member found associated with given ID. Search in corresponding register", Toast.LENGTH_LONG).show();
             return;
         }
@@ -369,6 +376,38 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
 
             startChildEnrollmentForm(linkId, map);
         }
+        else if(entityType.equalsIgnoreCase("ANC")){//todo what about offsite enrollment
+            map.put("existing_program_client_id", qrCode);
+            map.put("program_client_id", qrCode);
+
+            CommonPersonObject memberData = data;
+            CommonPersonObject hhData = filterHousehold(memberData.getRelationalId()).get(0);
+            map.put("first_name", getValue(memberData.getColumnmaps(), "first_name", false));
+            map.put("gender", memberData.getColumnmaps().get("gender"));
+            map.put("birth_date", getValue(memberData.getColumnmaps(), "dob", false));
+            map.put("contact_phone_number", getValue(memberData.getColumnmaps(), "contact_phone_number", false));
+            map.put("ethnicity", getValue(memberData.getColumnmaps(), "ethnicity", false));
+            map.put("ethnicity_other", getValue(memberData.getColumnmaps(), "ethnicity_other", false));
+            map.put("province", getValue(hhData.getColumnmaps(), "province", false));
+            map.put("city_village", getValue(hhData.getColumnmaps(), "city_village", false));
+            map.put("town", getValue(hhData.getColumnmaps(), "town", false));
+            map.put("union_council", getValue(hhData.getColumnmaps(), "union_council", false));
+            map.put("address1", getValue(hhData.getColumnmaps(), "address1", false));
+            // For filtering data after FS
+            map.put("household_id", hhData.getColumnmaps().get("household_id"));
+
+            map.put("existing_household_id", getValue(memberData.getColumnmaps(), "household_id", true));
+            map.put("existing_full_address", getValue(memberData.getDetails(), "address", true));//
+            map.put("existing_first_name", getValue(memberData.getColumnmaps(), "first_name", true));
+            map.put("existing_father_name", getValue(memberData.getColumnmaps(), "father_name", true));//
+            map.put("existing_husband_name", getValue(memberData.getColumnmaps(), "husband_name", true));//
+
+            map.put("existing_birth_date", convertDateFormat(getValue(memberData.getColumnmaps(), "dob", true), true));
+            map.put("existing_age", String.valueOf(ageInYears(memberData, "dob", ByColumnAndByDetails.byColumn, true)));
+            map.put("existing_ethnicity", getValue(memberData.getColumnmaps(), "ethnicity", true));
+
+            startAncEnrollmentForm(linkId, map);
+        }
         else {
             map.put("household_id", qrCode);
             map.put("town", getValue(VaccinatorUtils.providerDetails(), "provider_town", false));
@@ -386,7 +425,7 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
                             Arrays.asList(new String[]
                                     {"count(pkindividual.id) registeredMembers",
                                     "SUM(CASE WHEN julianday(DATETIME('now'))-julianday(pkindividual.dob) < 365*5 THEN 1 ELSE 0 END) children",
-                                    "SUM(CASE WHEN julianday(DATETIME('now'))-julianday(pkindividual.dob) BETWEEN 365*15 AND 365*49 AND pkindividual.gender IN ('female', 'f') THEN 1 ELSE 0 END) women"}), null).limitAndOffset(5, 0),
+                                    "SUM(CASE WHEN julianday(DATETIME('now'))-julianday(pkindividual.dob) BETWEEN 365*15 AND 365*49 AND pkindividual.gender IN ('female', 'f') THEN 1 ELSE 0 END) women"}), null).limitAndOffset(7, 0),
                     new RegisterCursorAdapter(getActivity(), clientsProvider()));
         }
         return loaderHandler;

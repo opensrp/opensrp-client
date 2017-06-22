@@ -9,9 +9,7 @@
     <include layout="@layout/detail_nav_bar"/>
 
     <include
-        layout="@layout/woman_detail_profile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        layout="@layout/woman_detail_profile" />
 
     <include layout="@layout/womandetail_vaccine_detail" />
 </LinearLayout>

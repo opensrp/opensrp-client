@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="list_item_height">82dp</dimen>
+    <dimen name="list_item_height">100dp</dimen>
     <dimen name="list_item_text_font_size">16sp</dimen>
     <dimen name="list_main_text_font_size">19sp</dimen>
     <dimen name="list_header_height">25dp</dimen>
-    <dimen name="list_main_header_size">22sp</dimen>
+    <dimen name="list_main_header_size">30sp</dimen>
     <dimen name="list_header_font_size">24sp</dimen>
     <dimen name="list_service_mode_font_size">22sp</dimen>
     <dimen name="list_view_margin_left_and_right">10dp</dimen>

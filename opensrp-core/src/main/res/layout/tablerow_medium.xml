@@ -16,7 +16,7 @@
         android:textSize="17sp"
         android:textColor="@color/text_black"
         android:textStyle="bold"
-        android:paddingLeft="10dp"
+        android:paddingLeft="2dp"
         android:paddingTop="5dp" />
 
     <TextView
@@ -30,7 +30,8 @@
         android:singleLine="false"
         android:maxLines="10"
         android:ellipsize="end"
-        android:paddingLeft="30dp"
+        android:paddingLeft="5dp"
         android:paddingTop="5dp"
+        android:paddingRight="2dp"
         android:longClickable="false" />
 </TableRow>

@@ -5,7 +5,6 @@ import com.google.common.base.Joiner;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Query{
@@ -47,7 +46,7 @@ public class Query{
 		}
 
 	public Query between(String name, long from, long to){
-		addToQuery(name+"<long>:["+from+" TO "+to+"] ");
+		addToQuery(name+":["+from+" TO "+to+"] ");
 		return this;
 	}
 		private void addToQuery(String q){

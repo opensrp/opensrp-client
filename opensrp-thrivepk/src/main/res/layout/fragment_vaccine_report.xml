@@ -11,11 +11,13 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/darker_gray">
+        android:background="@android:color/darker_gray"
+        android:weightSum="12">
 
         <TextView
             android:text="From"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
             android:layout_height="match_parent"
             android:id="@+id/datefrom_label"
             android:gravity="center_vertical"
@@ -30,7 +32,7 @@
             android:background="@color/status_bar_text_almost_white"
             android:text="22-22-2222"
             android:paddingLeft="10dp"
-            android:layout_weight="2"
+            android:layout_weight="2.5"
             android:textColor="@color/text_black"
             android:layout_width="0dp"
             android:gravity="center_vertical|center_horizontal"
@@ -39,7 +41,8 @@
 
         <TextView
             android:text="To"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
             android:layout_height="match_parent"
             android:id="@+id/dateto_label"
             android:gravity="center_vertical"
@@ -54,7 +57,7 @@
             android:background="@color/status_bar_text_almost_white"
             android:text="22-22-2222"
             android:paddingLeft="10dp"
-            android:layout_weight="2"
+            android:layout_weight="2.5"
             android:textColor="@color/text_black"
             android:layout_width="0dp"
             android:gravity="center_vertical|center_horizontal"
@@ -63,11 +66,11 @@
 
         <Button
             android:text="Woman"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/woman_button"
             android:background="@color/dull_blue_light"
-            android:layout_weight="4"
+            android:layout_weight="2.5"
             android:layout_marginTop="2dp"
             android:layout_marginRight="2dp"
             android:layout_marginLeft="2dp"
@@ -76,11 +79,11 @@
 
         <Button
             android:text="Child"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/child_button"
             android:background="@color/silver"
-            android:layout_weight="4"
+            android:layout_weight="2.5"
             android:layout_marginTop="2dp"
             android:layout_marginRight="2dp"
             android:layout_marginLeft="2dp"

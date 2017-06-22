@@ -63,7 +63,7 @@ public class WomanSmartRegisterFragment extends SmartClientRegisterFragment {
     public RegisterDataLoaderHandler loaderHandler() {
         if (loaderHandler == null){
             loaderHandler = new RegisterDataCursorLoaderHandler(getActivity(),
-                    new RegisterQuery("pkwoman", "id", null, null).limitAndOffset(5, 0),
+                    new RegisterQuery("pkwoman", "id", null, null).limitAndOffset(7, 0),
                     new RegisterCursorAdapter(getActivity(), clientsProvider()));
         }
         return loaderHandler;
@@ -81,11 +81,10 @@ public class WomanSmartRegisterFragment extends SmartClientRegisterFragment {
             @Override
             public ServiceModeOption serviceMode() {
                 return new VaccinationServiceModeOption(null, "TT", new int[]{
-                        R.string.woman_profile , R.string.epi_number,
-                        R.string.woman_edd, R.string.woman_contact_number, R.string.woman_last_vaccine, R.string.woman_next_vaacine
-                }, new int[]{8,3,3,3,3,3});
+                        R.string.woman_profile ,
+                       R.string.woman_last_vaccine, R.string.woman_next_vaacine
+                }, new int[]{12,4,4});
             }
-
             @Override
             public FilterOption villageFilter() {
                 return null;
@@ -126,7 +125,7 @@ public class WomanSmartRegisterFragment extends SmartClientRegisterFragment {
         public void onClick(View view) {
             int i = view.getId();
             if (i == R.id.woman_profile_info_layout || i == R.id.woman_profile_info_layout1) {
-                ((RegisterActivity) getActivity()).showDetailFragment((CommonPersonObjectClient) view.getTag(), true);
+                ((RegisterActivity) getActivity()).showDetailFragment((CommonPersonObjectClient) view.getTag(), false);
 
             } else if (i == R.id.woman_next_visit_holder) {
                 HashMap<String, String> map = new HashMap<>();

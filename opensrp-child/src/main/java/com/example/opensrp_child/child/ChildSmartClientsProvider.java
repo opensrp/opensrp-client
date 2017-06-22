@@ -14,7 +14,6 @@ import com.example.opensrp_stock.field.util.VaccineRepo;
 
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.core.template.RegisterClientsProvider;
-import org.ei.opensrp.core.template.ServiceModeOption;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.util.StringUtil;
@@ -93,7 +92,7 @@ public class ChildSmartClientsProvider implements RegisterClientsProvider <Commo
         }
         fillValue((TextView) convertView.findViewById(R.id.child_age), (months < 0?"":(months+ " months") ));
         fillValue((TextView) convertView.findViewById(R.id.child_epi_number), pc.getColumnmaps(), "epi_card_number", false);
-        fillValue((TextView) convertView.findViewById(R.id.child_contact_number), pc.getColumnmaps(), "contact_phone_number", false);
+        //fillValue((TextView) convertView.findViewById(R.id.child_contact_number), pc.getColumnmaps(), "contact_phone_number", false);
 
         String vaccineretro = getValue(pc.getColumnmaps(), "vaccines", false);
         String vaccine2 = getValue(pc.getColumnmaps(), "vaccines_2", false);

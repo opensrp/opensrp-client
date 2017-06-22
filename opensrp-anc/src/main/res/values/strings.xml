@@ -9,7 +9,7 @@
 
 
     <string name="anc_profile">WOMAN PROFILE</string>
-    <string name="birthdate_age">DATE OF BIRTH(AGE)</string>
+    <string name="birthdate_age">DOB(AGE)</string>
     <string name="anc_visits">ANC VISITS</string>
     <string name="edd_ga">EDD AND GA</string>
     <string name="pregnancy_risk">PREGNANCY RISK</string>
@@ -28,4 +28,6 @@
 
     <string name="contactNumber">Contact</string>
     <string name="home_household_label">Household</string>
+
+    <string name="anc_add">ADD</string>
 </resources>

@@ -1,5 +1,5 @@
 rootProject.name = 'opensrp-app-parent'
-include ':opensrp-app', ':opensrp-child', ':opensrp-household', ':opensrp-woman', ':opensrp-stock', ':opensrp-zm', ':opensrp-anccare', ':opensrp-thrivepk',
+include ':opensrp-app', ':opensrp-child', ':opensrp-household', ':opensrp-woman', ':opensrp-stock', ':opensrp-zm', ':opensrp-thrivepk',
         ':opensrp-core',
         ':opensrp-immunization',
         ':opensrp-anc'

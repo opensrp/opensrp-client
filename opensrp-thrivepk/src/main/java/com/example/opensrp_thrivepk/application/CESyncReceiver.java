@@ -191,6 +191,7 @@ public class CESyncReceiver extends BroadcastReceiver {
         int limit = 2000;
         // +1 in sync param range to make sure that last record doesnot come again
         Query tq = new Query(FilterType.AND)
+                .eq("type","full")
                 .between("lastEdited", lastSyncDatetime+1, DateTime.now().getMillis());
         if (filter instanceof List){
             tq.in(property, (List<String>) filter);
@@ -255,7 +256,7 @@ public class CESyncReceiver extends BroadcastReceiver {
             l.add(m.get(CESQLiteHelper.client_column.baseEntityId.name()));
         }
 
-        JSONArray jarr = fetchAsJson(context, LAST_SYNC_DATETIME_EVENT, EVENT_SEARCH_URL, CESQLiteHelper.event_column.baseEntityId.name(), l);
+        JSONArray jarr = fetchAsJson(context, LAST_SYNC_DATETIME_EVENT, EVENT_SEARCH_URL, clientLocationProperty, location);
 
         ArrayList<String> eventIds = new ArrayList();
         for (int i = 0; i < jarr.length(); i++) {

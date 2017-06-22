@@ -7,7 +7,7 @@
         <activity
             android:name=".zm.ZMSmartRegisterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="landscape"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoTitle" />
     </application>
 

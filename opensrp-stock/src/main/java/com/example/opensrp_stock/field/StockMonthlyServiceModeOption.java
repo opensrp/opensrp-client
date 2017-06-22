@@ -21,23 +21,23 @@ public class StockMonthlyServiceModeOption extends ServiceModeOption {
         return new HeaderProvider() {
             @Override
             public int count() {
-                return 8;
+                return 6;
             }
 
             @Override
             public int weightSum() {
-                return 24;
+                return 22;
             }
 
             @Override
             public int[] weights() {
-                return new int[]{2,2,3,2,4,3,4,4};
+                return new int[]{3,3,4,4,4,4};
             }
 
             @Override
             public int[] headerTextResourceIds() {
                 return new int[]{ R.string.month, R.string.month_target, R.string.month_received,
-                        R.string.month_used, R.string.month_wasted, R.string.month_inhand, R.string.month_starting, R.string.month_current
+                       R.string.month_inhand, R.string.month_starting, R.string.month_current
                 };
             }
         };

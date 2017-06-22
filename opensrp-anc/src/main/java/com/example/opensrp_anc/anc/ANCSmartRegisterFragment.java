@@ -15,10 +15,12 @@ import com.example.opensrp_stock.field.util.VaccinatorUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
+import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.core.db.domain.ClientEvent;
 import org.ei.opensrp.core.db.handler.RegisterDataCursorLoaderHandler;
 import org.ei.opensrp.core.db.handler.RegisterDataLoaderHandler;
+import org.ei.opensrp.core.db.repository.RegisterRepository;
 import org.ei.opensrp.core.db.utils.RegisterQuery;
 import org.ei.opensrp.core.template.CommonSortingOption;
 import org.ei.opensrp.core.template.DefaultOptionsProvider;
@@ -40,10 +42,9 @@ import org.ei.opensrp.core.widget.RegisterCursorAdapter;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.controller.FormController;
 import org.ei.opensrp.view.dialog.DialogOption;
-import org.joda.time.DateTime;
-import org.joda.time.Days;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.example.opensrp_stock.field.util.VaccinatorUtils.providerDetails;
@@ -80,7 +81,7 @@ public class ANCSmartRegisterFragment extends RegisterDataGridFragment {
     public RegisterDataLoaderHandler loaderHandler() {
         if (loaderHandler == null){
             loaderHandler = new RegisterDataCursorLoaderHandler(getActivity(),
-                    new RegisterQuery("pkanc", "id", null, null).limitAndOffset(5, 0),
+                    new RegisterQuery("pkanc", "id", null, null).limitAndOffset(7, 0),
                     new RegisterCursorAdapter(getActivity(), clientsProvider()));
         }
         return loaderHandler;
@@ -122,8 +123,8 @@ public class ANCSmartRegisterFragment extends RegisterDataGridFragment {
             @Override
             public ServiceModeOption serviceMode() {
                 return new AncServiceModeOption(null,"ANC",
-                        new int[]{R.string.anc_profile,R.string.birthdate_age,R.string.contact,R.string.edd_ga,R.string.comments},
-                        new int[]{7,4,3,4,3}
+                        new int[]{R.string.anc_profile,R.string.birthdate_age,R.string.edd_ga,R.string.anc_add},
+                        new int[]{10,4,4,2}
                 );
             }
 
@@ -191,7 +192,7 @@ public class ANCSmartRegisterFragment extends RegisterDataGridFragment {
       //  HashMap<String, String> map = new HashMap<>();
        // startForm("anc_visit_form", " ", map);
         integ.addExtra(Barcode.SCAN_MODE, Barcode.QR_MODE);
-        integ.initiateScan(new ScanType("GROUP", "", null));
+        integ.initiateScan(new ScanType("ANC", "", null));
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -210,11 +211,19 @@ public class ANCSmartRegisterFragment extends RegisterDataGridFragment {
     }
 
     private void onQRCodeSucessfullyScanned(String code, String type, String id, ClientEvent data) {
-        HashMap<String,String> map = new HashMap<>();
-        map.put("existing_program_client_id", code);
-        map.put("program_client_id", code);
-        map.putAll(providerDetails());
-        startForm("anc_visit_form",id, map);
+
+        List<CommonPersonObject> fc = getFilteredClients(code);
+        if(fc.size() > 0) {
+            //do nothing. let user select from filtered data
+            onFilterManual(code);
+        }
+        else{
+            HashMap<String,String> map = new HashMap<>();
+            map.put("existing_program_client_id", code);
+            map.put("program_client_id", code);
+            map.putAll(providerDetails());
+            startForm("anc_visit_form",id, map);
+        }
     }
 
     @Override
@@ -236,12 +245,12 @@ public class ANCSmartRegisterFragment extends RegisterDataGridFragment {
                 ((RegisterActivity) getActivity()).showDetailFragment((CommonPersonObjectClient) view.getTag(), false);
 
             }
-            else if (i == R.id.open_test_form1) {
+            else if (i == R.id.open_anc_form) {
                 HashMap<String, String> map = new HashMap<>();
                 CommonPersonObjectClient client = (CommonPersonObjectClient) view.getTag();
                 map.putAll(followupOverrides(client));
                 map.putAll(providerDetails());
-                Toast.makeText(getActivity(), "Open test Form", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Open ANC Visit Form", Toast.LENGTH_LONG).show();
                 startForm("anc_visit_form", ((SmartRegisterClient) view.getTag()).entityId(), map);
 
             }
@@ -256,27 +265,19 @@ public class ANCSmartRegisterFragment extends RegisterDataGridFragment {
                 +", Province: "+ getValue(client, "province", true));
         map.put("existing_program_client_id", getValue(client.getColumnmaps(), "program_client_id", false));
         map.put("program_client_id", getValue(client.getColumnmaps(), "program_client_id", false));
-
-        int days = 0;
-        try{
-            days = Days.daysBetween(new DateTime(getValue(client.getColumnmaps(), "dob", false)), DateTime.now()).getDays();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-        map.put("existing_first_name", getValue(client.getColumnmaps(), "first_name", true));
-        map.put("existing_last_name", getValue(client.getColumnmaps(), "last_name", true));
-        map.put("existing_gender", getValue(client.getColumnmaps(), "gender", true));
-        map.put("existing_mother_name", getValue(client.getColumnmaps(), "mother_name", true));
-        map.put("existing_father_name", getValue(client.getColumnmaps(), "father_name", true));
-        map.put("existing_birth_date", getValue(client.getColumnmaps(), "dob", false));
-        map.put("existing_age", days+"");
-        map.put("existing_epi_card_number", getValue(client.getColumnmaps(), "epi_card_number", false));
-        map.put("reminders_approval", getValue(client.getColumnmaps(), "reminders_approval", false));
-        map.put("contact_phone_number", getValue(client.getColumnmaps(), "contact_phone_number", false));
-
-       // map.putAll(getPreloadVaccineData(client));
+        map.put("existing_first_name", getValue(client.getColumnmaps(), "existing_first_name", true));
+        map.put("existing_father_name", getValue(client.getColumnmaps(), "existing_father_name", true));
+        map.put("existing_husband_name", getValue(client.getColumnmaps(), "existing_husband_name", true));
+        map.put("existing_birth_date", getValue(client.getColumnmaps(), "existing_birth_date", true));
+        map.put("existing_age", getValue(client.getColumnmaps(), "existing_age", true));
+        map.put("existing_household_id", getValue(client.getColumnmaps(), "existing_household_id", false));
+        map.put("existing_ethnicity", getValue(client.getColumnmaps(), "existing_ethnicity", false));
+        map.put("e_tt1", getValue(client.getColumnmaps(), "e_tt1", false));
+        map.put("e_tt2", getValue(client.getColumnmaps(), "e_tt1", false));
+        map.put("e_tt3", getValue(client.getColumnmaps(), "e_tt1", false));
+        map.put("e_tt4", getValue(client.getColumnmaps(), "e_tt1", false));
+        map.put("e_tt5", getValue(client.getColumnmaps(), "e_tt1", false));
+        map.put("comments", getValue(client.getColumnmaps(), "comments", false));
 
         return map;
     }
@@ -305,6 +306,10 @@ public class ANCSmartRegisterFragment extends RegisterDataGridFragment {
         // create a matrix for the manipulation
         imv.setAdjustViewBounds(true);
         imv.setScaleType(ImageView.ScaleType.FIT_XY);
+    }
+
+    private List<CommonPersonObject> getFilteredClients(String filterString) {
+        return RegisterRepository.queryData("pkanc", null," program_client_id = '"+filterString+"' OR contact_phone_number LIKE '%"+filterString+"%'" , null, null);
     }
 
 }

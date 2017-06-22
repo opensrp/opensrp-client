@@ -1,44 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent" android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:weightSum="3"
-    android:background="@color/dim_foreground_disabled_material_dark">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dim_foreground_disabled_material_dark"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TableLayout
+            android:id="@+id/vaccine_details"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@drawable/listview_background_rounded"
-            android:id="@+id/vaccine_details"
             android:layout_margin="1dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="@drawable/listview_background_rounded">
 
-            <include layout="@layout/child_vaccine_row"/>
-            <include layout="@layout/child_vaccine_row"/>
+            <include layout="@layout/child_vaccine_row" />
+
+            <include layout="@layout/child_vaccine_row" />
 
         </TableLayout>
+
+        <TableLayout
+            android:id="@+id/vaccine_details3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:background="@drawable/listview_background_rounded">
+
+            <include layout="@layout/child_vaccine_row" />
+
+            <include layout="@layout/child_vaccine_row" />
+
+        </TableLayout>
+
+    </LinearLayout>
+
     <TableLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:background="@drawable/listview_background_rounded"
         android:id="@+id/vaccine_details2"
-        android:layout_margin="1dp"
-        android:layout_weight="1">
-
-        <include layout="@layout/child_vaccine_row"/>
-        <include layout="@layout/child_vaccine_row"/>
-
-    </TableLayout>
-    <TableLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/listview_background_rounded"
-        android:id="@+id/vaccine_details3"
         android:layout_margin="1dp"
-        android:layout_weight="1">
+        android:background="@drawable/listview_background_rounded">
 
-        <include layout="@layout/child_vaccine_row"/>
-        <include layout="@layout/child_vaccine_row"/>
+        <include layout="@layout/child_vaccine_row" />
+
+        <include layout="@layout/child_vaccine_row" />
 
     </TableLayout>
 </LinearLayout>

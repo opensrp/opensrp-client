@@ -5,8 +5,8 @@
     <string name="child_profile">CHILD PROFILE</string>
     <string name="child_DOB">Date Of Birth</string>
     <string name="child_reminder">REMINDER</string>
-    <string name="child_last_vaccine">LAST VACCINE(S)</string>
-    <string name="child_next_vaacine">NEXT VACCINE(S) DUE</string>
+    <string name="child_last_vaccine">LAST VACCINE</string>
+    <string name="child_next_vaacine">NEXT VACCINE DUE</string>
     <string name="child_register_title">Child Register</string>
     <string name="child_title">Child</string>
     <string name="child_alphabetical_sort">Alphabetical (Child Name)</string>

@@ -1,59 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:background="#ffffff">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
 
-    <include layout="@layout/detail_nav_bar"/>
+    <include layout="@layout/detail_nav_bar" />
 
     <include
-        layout="@layout/child_detail_profile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        layout="@layout/child_detail_profile" />
 
     <LinearLayout
-            android:id="@+id/clients_header_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:id="@+id/clients_header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@color/dim_foreground_disabled_material_dark">
+        android:background="@color/dim_foreground_disabled_material_dark"
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/vaccination_summary"
             android:id="@+id/childdetail_vaccination_summary"
             style="@style/CustomFontTextViewStyle.ListView.Medium"
-            android:layout_gravity="center_vertical"
-            android:textColor="@color/text_black"
-            android:textStyle="bold"
-            android:textSize="25dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp" />
-
-        <View
             android:layout_width="0dp"
-            android:layout_height="0dp"
             android:layout_weight="1"
-            />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+            android:text="@string/vaccination_summary"
+            android:textColor="@color/text_black"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Status Tag goes Here"
             android:id="@+id/childdetail_status_tag"
             style="@style/CustomFontTextViewStyle.ListView.Medium"
-            android:textColor="@color/text_black"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+            android:text="Status Tag goes Here"
+            android:textColor="@color/text_black"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
     </LinearLayout>
-    <include layout="@layout/childdetail_vaccine_detail"  />
+
+    <include layout="@layout/childdetail_vaccine_detail" />
 </LinearLayout>

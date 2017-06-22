@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
@@ -30,7 +31,6 @@ import org.ei.opensrp.core.template.RegisterClientsProvider;
 import org.ei.opensrp.core.template.ServiceModeOption;
 import org.ei.opensrp.core.utils.Utils;
 import org.ei.opensrp.core.widget.RadioAlertView;
-
 import org.ei.opensrp.service.AlertService;
 import org.joda.time.DateTime;
 import org.joda.time.Months;
@@ -52,9 +52,10 @@ import static org.ei.opensrp.core.utils.Utils.getColor;
 
 /**
  * Created by Ahmed on 19-Oct-15.
+ *
  * @author Maimoona
  */
-public class ZMSmartClientsProvider implements RegisterClientsProvider <ClientEvent>{
+public class ZMSmartClientsProvider implements RegisterClientsProvider<ClientEvent> {
 
 
     private final LayoutInflater inflater;
@@ -87,35 +88,38 @@ public class ZMSmartClientsProvider implements RegisterClientsProvider <ClientEv
         final String father = pc.findObsValue(null, true, "father_name");
 
         String guardian = "";
-        if (StringUtils.isNotBlank(husband)){
-            guardian = ("W/O- "+husband);
-        }
-        else if (StringUtils.isNotBlank(father)){
-            guardian = "C/O- "+father;
+        if (StringUtils.isNotBlank(husband)) {
+            guardian = ("W/O- " + husband);
+        } else if (StringUtils.isNotBlank(father)) {
+            guardian = "C/O- " + father;
         }
 
         fillValue((TextView) convertView.findViewById(R.id.guardian_name), formatValue(guardian, true));
 
         int age = -1;
-        try{
+        try {
             age = Years.yearsBetween(pc.getClient().getBirthdate(), DateTime.now()).getYears();
+        } catch (Exception e) {
         }
-        catch (Exception e){}
-        fillValue((TextView) convertView.findViewById(R.id.age),  getAgeString(pc.getClient().getBirthdate()));
+        DateTime birthDate = pc.getClient().getBirthdate();
 
-        fillValue((TextView) convertView.findViewById(R.id.contact_number), pc.findObsValue(null, true, "contact_phone_number"));
+        fillValue((TextView) convertView.findViewById(R.id.age), birthDate == null ? "No DoB" : birthDate.toString("dd/MM/yyyy"));
 
-        Address ad = pc.getClient().getAddress("usual_residence");
+       /* fillValue((TextView) convertView.findViewById(R.id.contact_number), pc.findObsValue(null, true, "contact_phone_number"));*/
+
+      /*  Address ad = pc.getClient().getAddress("usual_residence");
         fillValue((TextView) convertView.findViewById(R.id.address), ad==null?"":
                 Joiner.on(", ").join(
                         formatValue(ad.getAddressField("address1"), true),
                         formatValue(ad.getSubTown(), true),
                         formatValue(ad.getTown(), true),
-                        formatValue(ad.getCityVillage(), true)));
+                        formatValue(ad.getCityVillage(), true)));*/
 
         String lastEvent = "";
-        for (Event e: pc.getEvents()){
-            lastEvent += "* "+e.getEventType().replaceAll("(?i)\\sform", "")+"\n";
+        for (Event e : pc.getEvents()) {
+            if(e.getEventType()!=null){
+                lastEvent += "* " + e.getEventType().replaceAll("(?i)\\sform", "") + "<br/>";
+            }
         }
 
         fillValue((TextView) convertView.findViewById(R.id.last_events), lastEvent);
@@ -124,81 +128,85 @@ public class ZMSmartClientsProvider implements RegisterClientsProvider <ClientEv
 
         int profilePic = profilePicIcon(age, pc.getClient().getGender());
 
-        if (profilePic != -1){
+        if (profilePic != -1) {
             profileCont.setImageResource(profilePic);
-        }
-        else profileCont.setImageResource(R.drawable.profile_user);
+        } else profileCont.setImageResource(R.drawable.profile_user);
 
         boolean isHHH = pc.getClient().getAttributes().toString().matches("(?i).*household.head.*");
 
-        if (isHHH){
+        if (isHHH) {
             convertView.findViewById(R.id.hhh_flag).setVisibility(View.VISIBLE);
-        }
-        else convertView.findViewById(R.id.hhh_flag).setVisibility(View.GONE);
+        } else convertView.findViewById(R.id.hhh_flag).setVisibility(View.GONE);
 
         final List<Obs> ol = new ArrayList<>();
-        for (Event e: pc.getEvents()){
+        for (Event e : pc.getEvents()) {
             ol.addAll(e.getObs());
         }
 
-        final TableLayout t = (TableLayout) convertView.findViewById(R.id.obs_table);
+       /* final TableLayout t = (TableLayout) convertView.findViewById(R.id.obs_table);
         t.removeAllViews();
         t.setOnClickListener(null);
 
         fillObs(t, pc.getClient());
         fillObs(t, ol);
 
-        if (t.getChildCount() > 0) {
-            convertView.findViewById(R.id.obs_container).setBackgroundColor(getColor(context, R.color.transparent_blue));
+       if (t.getChildCount() > 0) {
+        convertView.findViewById(R.id.obs_container).setBackgroundColor(getColor(context, R.color.transparent_blue));*/
+        convertView.findViewById(R.id.obs_container).setBackgroundColor(getColor(context, R.color.dull_white));
+        final String finalGuardian = guardian;
+        final int finalProfilePic = profilePic;
+        LinearLayout li = (LinearLayout) convertView.findViewById(R.id.obs_container);
+        li.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder ald = new AlertDialog.Builder(context);
 
-            final String finalGuardian = guardian;
-            final int finalProfilePic = profilePic;
-            t.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    AlertDialog.Builder ald = new AlertDialog.Builder(context);
-
-                    View tl = context.getLayoutInflater().inflate(R.layout.obs_list, null);
-
-                    ((TextView)tl.findViewById(R.id.name)).setText(pc.getClient().fullName());
-                    ((TextView)tl.findViewById(R.id.guardian_name)).setText(finalGuardian);
-                    ((TextView)tl.findViewById(R.id.age)).setText(getAgeString(pc.getClient().getBirthdate()));
-                    if(finalProfilePic != -1){
-                        ((ImageView)tl.findViewById(R.id.profile_pic)).setImageResource(finalProfilePic);
-                    }
-
-                    TableLayout tb = (TableLayout) tl.findViewById(R.id.obs_table);
-                    tb.removeAllViews();
-
-                    fillObs(tb, pc.getClient());
-                    fillObs(tb, ol);
-
-                    ald.setView(tl);
-                    ald.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    });
-                    ald.show();
+                View tl = context.getLayoutInflater().inflate(R.layout.obs_list, null);
+                Address ad = pc.getClient().getAddress("usual_residence");
+                ((TextView) tl.findViewById(R.id.address)).setText(ad == null ? "" :
+                        Joiner.on(", ").join(
+                                formatValue(ad.getAddressField("address1"), true),
+                                formatValue(ad.getSubTown(), true),
+                                formatValue(ad.getTown(), true),
+                                formatValue(ad.getCityVillage(), true)));
+                ((TextView) tl.findViewById(R.id.contact_number)).setText(pc.findObsValue(null, true, "contact_phone_number"));
+                ((TextView) tl.findViewById(R.id.name)).setText(pc.getClient().fullName());
+                ((TextView) tl.findViewById(R.id.guardian_name)).setText(finalGuardian);
+                ((TextView) tl.findViewById(R.id.age)).setText(getAgeString(pc.getClient().getBirthdate()));
+                if (finalProfilePic != -1) {
+                    ((ImageView) tl.findViewById(R.id.profile_pic)).setImageResource(finalProfilePic);
                 }
-            });
-        }
-        else {
+
+                TableLayout tb = (TableLayout) tl.findViewById(R.id.obs_table);
+                tb.removeAllViews();
+
+                fillObs(tb, pc.getClient());
+                fillObs(tb, ol);
+
+                ald.setView(tl);
+                ald.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                ald.show();
+            }
+        });
+       /* } else {
             convertView.findViewById(R.id.obs_container).setBackgroundColor(getColor(context, R.color.dull_white));
-        }
+        }*/
 
         convertView.findViewById(R.id.register_household).setVisibility(View.GONE);
         convertView.findViewById(R.id.register_vaccination).setVisibility(View.GONE);
 
         // is a woman
-        if (isEligibleWoman(pc.getClient()))
-        {
+        if (isEligibleWoman(pc.getClient())) {
             setupRegisterActions(convertView, R.id.register_vaccination, "pkwoman", "(?i).*tt\\s+.*(enrollment)|follow.*up.*", "Woman", pc, WomanSmartRegisterActivity.class);
         }
         // is a child
-        else if (age >= 0 && age <= 5){
-            fillValue((TextView) convertView.findViewById(R.id.age),  getAgeString(pc.getClient().getBirthdate()));
+        else if (age >= 0 && age <= 5) {
+            fillValue((TextView) convertView.findViewById(R.id.age), getAgeString(pc.getClient().getBirthdate()));
 
             setupRegisterActions(convertView, R.id.register_vaccination, "pkchild", "(?i).*child\\s+.*(enrollment)|follow.*up.*", "Child", pc, ChildSmartRegisterActivity.class);
         }
@@ -207,7 +215,7 @@ public class ZMSmartClientsProvider implements RegisterClientsProvider <ClientEv
             if ((Utils.providerDetails().has("permissions")
                     && Utils.providerDetails().getJSONArray("permissions").toString().toLowerCase().contains("view household register"))
                     && pc.getClient().getAttribute("Household ID") != null
-                    && queryData("pkhousehold", null, "household_id='"+pc.getClient().getAttribute("Household ID")+"' OR id='"+pc.getClient().getBaseEntityId()+"'", null, null).size() > 0){
+                    && queryData("pkhousehold", null, "household_id='" + pc.getClient().getAttribute("Household ID") + "' OR id='" + pc.getClient().getBaseEntityId() + "'", null, null).size() > 0) {
 
                 convertView.findViewById(R.id.register_household).setVisibility(View.VISIBLE);
 
@@ -219,25 +227,24 @@ public class ZMSmartClientsProvider implements RegisterClientsProvider <ClientEv
         //convertView.setTag(viewHolder);
 
 
-
         return convertView;
     }
 
-    private String getAgeString(DateTime birthdate){
-        if (birthdate == null){
+    private String getAgeString(DateTime birthdate) {
+        if (birthdate == null) {
             return "No DoB";
         }
 
-        if (birthdate.plusYears(5).isAfterNow()){
+        if (birthdate.plusYears(5).isAfterNow()) {
             int age = Months.monthsBetween(birthdate, DateTime.now()).getMonths();
-            return birthdate.toString("dd/MM/yyyy")+" ("+age+" M)";
+            return birthdate.toString("dd/MM/yyyy") + " (" + age + " M)";
         }
 
         int age = Years.yearsBetween(birthdate, DateTime.now()).getYears();
-        return birthdate.toString("dd/MM/yyyy")+" ("+age+" Y)";
+        return birthdate.toString("dd/MM/yyyy") + " (" + age + " Y)";
     }
 
-    private void openExistingRecord(View convertView, int buttonId, final Class registerActivity, final String idProperty, final String id){
+    private void openExistingRecord(View convertView, int buttonId, final Class registerActivity, final String idProperty, final String id) {
         final FragmentActivity context = registerDataGridFragment.getActivity();
         convertView.findViewById(buttonId).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -251,40 +258,38 @@ public class ZMSmartClientsProvider implements RegisterClientsProvider <ClientEv
     }
 
     private void setupRegisterActions(View convertView, int actionButtonId, String registerBindType, String eventMatcher, final String entityName,
-                                      final ClientEvent pc, Class registerActivity){
+                                      final ClientEvent pc, Class registerActivity) {
         convertView.findViewById(actionButtonId).setVisibility(View.VISIBLE);
 
         final List<CommonPersonObject> entity;
-        if ((entity = queryData(registerBindType, null, "id='"+pc.getClient().getBaseEntityId()+"'", null, null)).size() > 0){
+        if ((entity = queryData(registerBindType, null, "id='" + pc.getClient().getBaseEntityId() + "'", null, null)).size() > 0) {
             openExistingRecord(convertView, actionButtonId, registerActivity, "program_client_id", entity.get(0).getColumnmaps().get("program_client_id"));
-        }
-        else {
+        } else {
             String message = "N/A";
             Map<String, View.OnClickListener> map = new HashMap<>();
 
             if (pc.getLatestEvent(eventMatcher) != null) {
-                message = entityName+" is enrolled into another center with Program Client ID "+pc.getClient().getIdentifier("Program Client ID")+". " +
+                message = entityName + " is enrolled into another center with Program Client ID " + pc.getClient().getIdentifier("Program Client ID") + ". " +
                         "Do you want to fill Offsite Followup form and enroll person into your vaccination register?";
                 map.put("Yes, fill Offsite Followup form", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        registerDataGridFragment.startOffsiteFollowupForm(entityName.toLowerCase()+"_offsite_followup", pc.getClient().getBaseEntityId(), pc);
+                        registerDataGridFragment.startOffsiteFollowupForm(entityName.toLowerCase() + "_offsite_followup", pc.getClient().getBaseEntityId(), pc);
                     }
                 });
-            }
-            else {
-                message = entityName+" is not enrolled in your register. Do you want to enroll person into vaccination register? " +
+            } else {
+                message = entityName + " is not enrolled in your register. Do you want to enroll person into vaccination register? " +
                         "If so, provide an EPI Card and choose option below to assign Program Client ID: ";
                 map.put("Scan QR code ID", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        registerDataGridFragment.startEnrollmentForm(entityName.toLowerCase()+"_enrollment", pc.getClient().getBaseEntityId(), pc, true);
+                        registerDataGridFragment.startEnrollmentForm(entityName.toLowerCase() + "_enrollment", pc.getClient().getBaseEntityId(), pc, true);
                     }
                 });
                 map.put("Manually enter Program ID", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        registerDataGridFragment.startEnrollmentForm(entityName.toLowerCase()+"_enrollment", pc.getClient().getBaseEntityId(), pc, false);
+                        registerDataGridFragment.startEnrollmentForm(entityName.toLowerCase() + "_enrollment", pc.getClient().getBaseEntityId(), pc, false);
                     }
                 });
             }
@@ -299,12 +304,12 @@ public class ZMSmartClientsProvider implements RegisterClientsProvider <ClientEv
         }
     }
 
-    private void fillRow(TableLayout table, String label, List<Obs> ol, String... fields){
-        for (String s: fields){
-            for (Obs o: ol){
+    private void fillRow(TableLayout table, String label, List<Obs> ol, String... fields) {
+        for (String s : fields) {
+            for (Obs o : ol) {
                 if (StringUtils.isNotBlank(o.getFormSubmissionField())
                         && o.getFormSubmissionField().equalsIgnoreCase(s)
-                        && StringUtils.isNotBlank(o.getValue(true))){
+                        && StringUtils.isNotBlank(o.getValue(true))) {
                     Utils.addRow(registerDataGridFragment.getActivity(), table, label, o.getValue(true), Utils.Size.SMALL);
                     return;
                 }
@@ -312,19 +317,18 @@ public class ZMSmartClientsProvider implements RegisterClientsProvider <ClientEv
         }
     }
 
-    private void fillObs(TableLayout t, Client c){
-        if(c.getIdentifier("Program Client ID") != null){
+    private void fillObs(TableLayout t, Client c) {
+        if (c.getIdentifier("Program Client ID") != null) {
             Utils.addRow(registerDataGridFragment.getActivity(), t, "PID", c.getIdentifier("Program Client ID"), Utils.Size.SMALL);
         }
         if (c.getIdentifier("Household ID") != null) {
             Utils.addRow(registerDataGridFragment.getActivity(), t, "HHID", c.getIdentifier("Household ID"), Utils.Size.SMALL);
-        }
-        else if (c.getAttribute("Household ID") != null) {
+        } else if (c.getAttribute("Household ID") != null) {
             Utils.addRow(registerDataGridFragment.getActivity(), t, "HHID", c.getAttribute("Household ID").toString(), Utils.Size.SMALL);
         }
     }
 
-    private void fillObs(TableLayout t, List<Obs> ol){
+    private void fillObs(TableLayout t, List<Obs> ol) {
         fillRow(t, "TT5", ol, "tt5", "tt5_retro");
         fillRow(t, "TT4", ol, "tt4", "tt4_retro");
         fillRow(t, "TT3", ol, "tt3", "tt3_retro");

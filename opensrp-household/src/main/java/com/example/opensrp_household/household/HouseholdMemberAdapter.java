@@ -20,6 +20,7 @@ import com.example.opensrp_woman.woman.WomanSmartRegisterActivity;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.core.template.RegisterActivity;
 import org.ei.opensrp.core.utils.ByColumnAndByDetails;
+import org.ei.opensrp.view.activity.ANCSmartRegisterActivity;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -76,17 +77,22 @@ public class HouseholdMemberAdapter extends ArrayAdapter<HouseholdMemberDetails>
 
         if(list.get(position).isMemberExists()) {
             btnAction.setVisibility(View.VISIBLE);
+           // ancRegisterAction.setVisibility(View.VISIBLE);//add
             lv.setVisibility(View.VISIBLE);
             Log.v(getClass().getName(), "MAPP:"+list.get(position).getClient().getColumnmaps());
             lv.setText(getValue(list.get(position).getClient().getColumnmaps(), "vaccines_2", true));
         } else {
             btnAction.setVisibility(View.GONE);
+            ancRegisterAction.setVisibility(View.GONE);//add
             lv.setVisibility(View.GONE);
             if(list.get(position).isCantBeEnrolled() == false){
                 btnAction.setVisibility(View.VISIBLE);
                 lv.setVisibility(View.VISIBLE);
                 lv.setText(getValue(list.get(position).getClient().getColumnmaps(), "vaccines_2", true));
             }
+           /* if(list.get(position).isAncEnrollment()==true){
+                ancRegisterAction.setVisibility(View.VISIBLE);
+            }*/
         }
 
         //add
@@ -133,7 +139,7 @@ public class HouseholdMemberAdapter extends ArrayAdapter<HouseholdMemberDetails>
 
                     if(age >= 15 && age <= 49 && person.getColumnmaps().get("gender").equalsIgnoreCase("female") || person.getColumnmaps().get("gender").equalsIgnoreCase("f")){
                         final Intent intent;
-                        intent = new Intent(fragment.getActivity(), HouseholdSmartRegisterActivity.class);
+                        intent = new Intent(fragment.getActivity(), ANCSmartRegisterActivity.class);
                         intent.putExtra("program_client_id", person.getColumnmaps().get("program_client_id"));
                         fragment.getActivity().startActivity(intent);
                         fragment.getActivity().finish();
@@ -177,7 +183,7 @@ public class HouseholdMemberAdapter extends ArrayAdapter<HouseholdMemberDetails>
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                ((HouseholdSmartRegisterFragment)((RegisterActivity)(fragment).getActivity()).getBaseFragment()).startAncEnrollmentForm(list.get(position).client.getCaseId(), fillAncEnrollmentOverrides(member));
+                                ((HouseholdSmartRegisterFragment)((RegisterActivity)(fragment).getActivity()).getBaseFragment()).startAncRegistration(list.get(position).client.getCaseId(), list.get(position).getClient());
                             }
                         }, 0);
                     }

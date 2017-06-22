@@ -71,7 +71,7 @@ public class ZMSmartRegisterFragment extends RegisterDataGridFragment {
     public RegisterDataLoaderHandler loaderHandler() {
         if (loaderHandler == null){
             loaderHandler = new RegisterDataCursorLoaderHandler(getActivity(),
-                    new CERegisterQuery("client.baseEntityId", null).limitAndOffset(5, 0),
+                    new CERegisterQuery("client.baseEntityId", null).limitAndOffset(7, 0),
                     new CERegisterCursorAdapter(getActivity(), clientsProvider()));
         }
         return loaderHandler;
@@ -117,9 +117,8 @@ public class ZMSmartRegisterFragment extends RegisterDataGridFragment {
             @Override
             public ServiceModeOption serviceMode() {
                 return new VaccinationServiceModeOption(null, "", new int[]{
-                        R.string.zm_profile , R.string.zm_contact_number,
-                        R.string.zm_last_events, R.string.zm_obs_list, R.string.zm_action
-                }, new int[]{6,5,4,5,3});
+                        R.string.zm_profile , R.string.zm_last_events, R.string.zm_action
+                }, new int[]{11,7,4});
             }
 
             @Override

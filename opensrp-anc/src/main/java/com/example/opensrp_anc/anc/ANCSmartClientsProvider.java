@@ -48,7 +48,7 @@ public class ANCSmartClientsProvider implements RegisterClientsProvider<CommonPe
         fillValue((TextView) parentView.findViewById(R.id.patient_husbandname), client.getColumnmaps(), "existing_husband_name", false);
         fillValue((TextView) parentView.findViewById(R.id.anc_birthdate), client.getColumnmaps(), "existing_birth_date", false);
         fillValue((TextView) parentView.findViewById(R.id.anc_age), client.getColumnmaps(), "existing_age", false);
-        fillValue((TextView) parentView.findViewById(R.id.anc_contact), client.getColumnmaps(), "contact_phone_number", false);
+        //fillValue((TextView) parentView.findViewById(R.id.anc_contact), client.getColumnmaps(), "contact_phone_number", false);
        /* fillValue((TextView) parentView.findViewById(R.id.anc_visit_1), client.getColumnmaps(), "anc_visit1_date", false);
         fillValue((TextView) parentView.findViewById(R.id.anc_visit_2), client.getColumnmaps(), "anc_visit2_date", false);
         fillValue((TextView) parentView.findViewById(R.id.anc_visit_3), client.getColumnmaps(), "anc_visit3_date", false);
@@ -56,13 +56,13 @@ public class ANCSmartClientsProvider implements RegisterClientsProvider<CommonPe
         fillValue((TextView) parentView.findViewById(R.id.anc_other_visit), client.getColumnmaps(), "anc_other_visit_date", false);*/
         fillValue((TextView) parentView.findViewById(R.id.anc_edd), client.getColumnmaps(), "final_edd", false);
         fillValue((TextView) parentView.findViewById(R.id.anc_ga), client.getColumnmaps(), "final_ga", false);
-        fillValue((TextView) parentView.findViewById(R.id.anc_comments), client.getColumnmaps(), "comments", false);
+       // fillValue((TextView) parentView.findViewById(R.id.anc_comments), client.getColumnmaps(), "comments", false);
 
         parentView.findViewById(R.id.child_profile_info_layout).setTag(client);
         parentView.findViewById(R.id.child_profile_info_layout).setOnClickListener(onClickListener);
 
-        parentView.findViewById(R.id.open_test_form1).setTag(client);
-        parentView.findViewById(R.id.open_test_form1).setOnClickListener(onClickListener);
+        parentView.findViewById(R.id.open_anc_form).setTag(client);
+        parentView.findViewById(R.id.open_anc_form).setOnClickListener(onClickListener);
 
         return parentView;
     }

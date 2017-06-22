@@ -59,6 +59,14 @@ public class FieldMonitorRegisterFragment extends RegisterDataGridFragment {
         return "stock";
     }
 
+    public void setNavBar(){
+        View view= getView();
+        LinearLayout navBar= (LinearLayout) view.findViewById(R.id.register_nav_bar_container);
+        navBar.removeAllViews();
+        View C=getLayoutInflater(null).inflate(getResources().getLayout(R.layout.stock_navbar),null);
+        navBar.addView(C);
+    }
+
     @Override
     protected DefaultOptionsProvider getDefaultOptionsProvider() {
         return new DefaultOptionsProvider() {
@@ -169,6 +177,7 @@ public class FieldMonitorRegisterFragment extends RegisterDataGridFragment {
     @Override
     protected void onInitialization() {
 
+        setNavBar();
         mView.findViewById(org.ei.opensrp.core.R.id.filter_selection).setVisibility(View.GONE);
         mView.findViewById(org.ei.opensrp.core.R.id.village).setVisibility(View.GONE);
         mView.findViewById(org.ei.opensrp.core.R.id.label_village).setVisibility(View.GONE);
@@ -189,6 +198,7 @@ public class FieldMonitorRegisterFragment extends RegisterDataGridFragment {
         overrides.putAll(VaccinatorUtils.providerDetails());
         startForm(getRegistrationForm(overrides), "", overrides);
     }
+
 
     protected String getRegistrationForm(HashMap<String, String> overridemap) {
         return "vaccine_stock_position";

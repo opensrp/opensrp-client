@@ -56,7 +56,7 @@ public class BaseEntity extends BaseDataObject {
 	
 	public Address getAddress(String addressType) {
 		for (Address address : getAddresses()) {
-			if(address.getAddressType().equalsIgnoreCase(addressType)){
+			if(address.getAddressType()!=null && address.getAddressType().equalsIgnoreCase(addressType)){
 				return address;
 			}
 		}

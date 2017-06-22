@@ -20,7 +20,7 @@ import java.util.Map;
 import static com.example.opensrp_stock.field.util.VaccinatorUtils.VACCINE_SCHEDULE_COMPARATOR;
 import static com.example.opensrp_stock.field.util.VaccinatorUtils.addVaccineRow;
 import static com.example.opensrp_stock.field.util.VaccinatorUtils.generateSchedule;
-import static org.ei.opensrp.core.utils.Utils.*;
+import static org.ei.opensrp.core.utils.Utils.Size;
 import static org.ei.opensrp.core.utils.Utils.addRow;
 import static org.ei.opensrp.core.utils.Utils.convertDateFormat;
 import static org.ei.opensrp.core.utils.Utils.getValue;
@@ -97,7 +97,7 @@ public class ChildDetailFragment extends DetailFragment {
         catch (Exception e){
             e.printStackTrace();
         }
-        addRow(getActivity(), dt, "Birthdate (Age)", convertDateFormat(getValue(client.getColumnmaps(), "dob", false), "No DoB", true) + " (" + (months < 0? "":(months+"")) + " months" + ")", Size.MEDIUM);
+        addRow(getActivity(), dt, "Birthdate (Age)", convertDateFormat(getValue(client.getColumnmaps(), "dob", false), "No DoB", true) +" \n" +" (" + (months < 0? "":(months+"")) + " months" + ")", Size.MEDIUM);
         addRow(getActivity(), dt, "Gender", getValue(client.getColumnmaps(), "gender", true), Size.MEDIUM);
         addRow(getActivity(), dt, "Ethnicity", getValue(client, "ethnicity", true), Size.MEDIUM);
 

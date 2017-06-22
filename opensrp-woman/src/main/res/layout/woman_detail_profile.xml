@@ -1,43 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff" >
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/woman_profilepic"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:src="@drawable/pk_woman_avtar"
+        app:border_color="#FF000000" />
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:weightSum="10"
-        android:layout_marginBottom="5dp">
-
-        <ImageView
-            android:layout_width="@dimen/client_profile_pic_width"
-            android:layout_height="80dp"
-            android:id="@+id/woman_profilepic"
-            android:src="@drawable/pk_woman_avtar"
-            android:layout_margin="5dp"
-            android:scaleType="fitXY" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
 
         <TableLayout
+            android:id="@+id/woman_detail_info_table1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/woman_detail_info_table1"
+            android:layout_weight="1"
             android:background="@drawable/listview_background_rounded"
-            android:shrinkColumns="1" android:layout_weight="5">
+            android:shrinkColumns="1">
 
             <include layout="@layout/tablerow_medium" />
+
             <include layout="@layout/tablerow_medium" />
         </TableLayout>
 
         <TableLayout
+            android:id="@+id/woman_detail_info_table2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/woman_detail_info_table2"
+            android:layout_weight="1"
             android:background="@drawable/listview_background_rounded"
-            android:shrinkColumns="1" android:layout_weight="5">
+            android:shrinkColumns="1">
 
             <include layout="@layout/tablerow_medium" />
+
             <include layout="@layout/tablerow_medium" />
         </TableLayout>
 

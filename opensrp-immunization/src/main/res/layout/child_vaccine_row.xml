@@ -4,11 +4,11 @@
     android:background="#ffffff"
     android:paddingTop="3dp"
     android:paddingBottom="3dp"
-    android:paddingLeft="5dp">
+    android:paddingLeft="2dp">
 
     <TextView
         android:layout_height="wrap_content"
-        android:layout_width="52dp"
+        android:layout_width="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="xx W"
         android:id="@+id/milestone"
@@ -28,8 +28,7 @@
         android:textSize="17sp"
         android:textColor="@color/text_black"
         android:textStyle="bold"
-        android:paddingTop="5dp"
-        android:paddingLeft="10dp" />
+        android:paddingTop="5dp"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -37,7 +36,7 @@
         android:layout_height="15dp"
         android:id="@+id/status"
         android:background="@color/alert_complete_green"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="2dp"
         android:layout_gravity="center_vertical" />
 
     <TextView
@@ -51,8 +50,7 @@
         android:singleLine="false"
         android:maxLines="10"
         android:ellipsize="end"
-        android:paddingLeft="5dp"
+        android:paddingLeft="2dp"
         android:paddingTop="5dp"
-        android:minHeight="35dp"
-        android:layout_marginLeft="5dp" />
+        android:minHeight="35dp" />
 </TableRow>

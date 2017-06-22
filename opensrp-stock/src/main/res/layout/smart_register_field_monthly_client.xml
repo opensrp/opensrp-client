@@ -2,131 +2,100 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@id/stock_detail_holder"
-    android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="#e0e0e0">
+    android:background="#ffffff"
+    android:orientation="horizontal">
 
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_weight="2"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="1dp" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="#ffffff">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Month, (Year)"
-            android:id="@+id/month"
-            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
-            android:textStyle="bold"
-            android:textSize="17sp" />
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_weight="2"
+    <TextView
+        android:id="@+id/month"
+        style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="1dp" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="#ffffff">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="20000"
-            android:id="@+id/monthly_target"
-            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
-            android:textSize="17sp" />
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
+        android:layout_marginLeft="1dp"
         android:layout_weight="3"
+        android:background="#ffffff"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="Month, (Year)"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/monthly_target"
+        style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="1dp" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="#ffffff">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="20000"
-            android:id="@+id/total_received"
-            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
-            android:textSize="17sp" />
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_weight="2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="1dp" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="#ffffff">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="20000"
-            android:id="@+id/total_used"
-            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
-            android:textSize="17sp" />
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_weight="4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="1dp" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="#ffffff">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="20000"
-            android:id="@+id/total_wasted"
-            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
-            android:textSize="17sp" />
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
+        android:layout_marginLeft="1dp"
         android:layout_weight="3"
+        android:background="#ffffff"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="200000"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/total_received"
+        style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="1dp" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="#ffffff">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="20000"
-            android:id="@+id/total_balance_in_hand"
-            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
-            android:textSize="17sp" />
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
+        android:layout_marginLeft="1dp"
         android:layout_weight="4"
+        android:background="#ffffff"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="200000"
+        android:textSize="17sp" />
+
+   <!-- <TextView
+        android:id="@+id/total_used"
+        style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="1dp" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="#ffffff">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="20000"
-            android:id="@+id/starting_balance_in_hand"
-            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
-            android:textSize="17sp" />
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
+        android:layout_marginLeft="1dp"
         android:layout_weight="4"
+        android:background="#ffffff"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="200000"
+        android:textSize="17sp" />-->
+
+    <TextView
+        android:id="@+id/total_balance_in_hand"
+        style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="1dp" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="#ffffff">
+        android:layout_marginLeft="1dp"
+        android:layout_weight="4"
+        android:background="#ffffff"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="200000"
+        android:textSize="17sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="20000"
-            android:id="@+id/current_balance_in_hand"
-            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
-            android:textSize="17sp" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/starting_balance_in_hand"
+        style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp"
+        android:layout_weight="4"
+        android:background="#ffffff"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="200000"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/current_balance_in_hand"
+        style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp"
+        android:layout_weight="4"
+        android:background="#ffffff"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="200000"
+        android:textSize="17sp" />
 </LinearLayout>

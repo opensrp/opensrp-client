@@ -2,7 +2,6 @@ package org.ei.opensrp.core.template;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -21,14 +20,12 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
-import org.ei.opensrp.core.R;
 import org.ei.opensrp.commonregistry.CommonObjectFilterOption;
-import org.ei.opensrp.core.utils.Utils;
-import org.ei.opensrp.cursoradapter.CursorFilterOption;
+import org.ei.opensrp.core.R;
+import org.ei.opensrp.core.db.handler.RegisterDataLoaderHandler;
+import org.ei.opensrp.core.widget.CustomFontTextView;
 import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
@@ -44,8 +41,6 @@ import org.json.JSONObject;
 import org.opensrp.api.domain.Location;
 import org.opensrp.api.util.LocationTree;
 import org.opensrp.api.util.TreeNode;
-import org.ei.opensrp.core.db.handler.RegisterDataLoaderHandler;
-import org.ei.opensrp.core.widget.CustomFontTextView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -125,7 +120,7 @@ public abstract class RegisterDataGridFragment extends SecuredFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+      //  getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         View view = inflater.inflate(R.layout.register_activity, container, false);
@@ -369,6 +364,10 @@ public abstract class RegisterDataGridFragment extends SecuredFragment {
 
     public EditText getSearchView() {
         return searchView;
+    }
+
+    public View getView(){
+        return mView;
     }
 
     private class FilterDialogOptionModel implements DialogOptionModel {

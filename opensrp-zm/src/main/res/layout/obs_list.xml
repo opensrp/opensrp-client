@@ -1,64 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="10dp">
 
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
             <ImageView
-                app:srcCompat="@drawable/listview_background_rounded"
                 android:id="@+id/profile_pic"
-                android:scaleType="fitXY"
                 android:layout_width="40dp"
-                android:layout_height="40dp" />
+                android:layout_height="40dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/listview_background_rounded" />
 
             <TextView
-                android:text="Afia Rehman"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/name"
-                android:textStyle="normal|bold"
-                android:textSize="20sp"
-                android:textColor="@color/text_black"
-                android:layout_marginLeft="10dp" />
-
-            <TextView
-                android:text="22-22-2222 (xx years)"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/age"
+                android:layout_marginLeft="10dp"
+                android:text="Afia Rehman"
                 android:textColor="@color/text_black"
-                android:layout_marginLeft="20dp" />
+                android:textSize="20sp"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:id="@+id/age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="22-22-2222 (xx years)"
+                android:textColor="@color/text_black" />
+
         </LinearLayout>
 
     </LinearLayout>
 
     <TextView
-        android:text="W/O- Abdur-rehman Khan"
+        android:id="@+id/guardian_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/guardian_name"
-        android:textSize="16sp"
+        android:layout_marginLeft="50dp"
+        android:text="W/O- Abdur-rehman Khan"
         android:textColor="@color/text_black"
-        android:layout_marginLeft="50dp" />
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/contact_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:text="Contact Number"
+        android:textColor="@color/text_black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginLeft="50dp"
+        android:maxLines="4"
+        android:singleLine="false"
+        android:text="52 a, Zaman Town, Korangi, Karachi"
+        android:textColor="@color/text_black"
+        android:textSize="16sp" />
 
     <TableLayout
+        android:id="@+id/obs_table"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        android:id="@+id/obs_table">
+        android:layout_marginTop="20dp">
 
         <TableRow
             android:layout_width="match_parent"

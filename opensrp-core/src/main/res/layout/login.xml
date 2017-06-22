@@ -1,41 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="fill_parent"
-    android:layout_width="fill_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/login_layout"
-    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/opensrp_blue"
-    android:baselineAligned="true">
+    android:orientation="vertical">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_margin="20dp"
-        android:layout_gravity="center">
+        android:gravity="center">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" android:layout_gravity="center_vertical">
+        <include layout="@layout/seg_app_logo" />
 
-            <include layout="@layout/seg_app_logo"/>
-
-            <include layout="@layout/seg_login"/>
-
-        </LinearLayout>
+        <include layout="@layout/seg_login" />
 
         <TextView
             android:id="@+id/login_build"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:textColor="#90c4dc"
-            android:textSize="17dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="5dp"
             android:text="build and version number to be displayed"
-            android:layout_gravity="center_horizontal|bottom" />
-    </FrameLayout>
+            android:textColor="#90c4dc"
+            android:textSize="17dp" />
+
+    </LinearLayout>
 
 </LinearLayout>

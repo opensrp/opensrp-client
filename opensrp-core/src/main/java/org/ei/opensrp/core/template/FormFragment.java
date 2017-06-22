@@ -28,10 +28,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.ei.opensrp.core.R;
+import org.ei.opensrp.core.utils.Utils;
 import org.ei.opensrp.util.FormUtils;
 import org.ei.opensrp.view.customControls.OpenSRPWebView;
 import org.json.JSONObject;
-import org.ei.opensrp.core.utils.Utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -235,7 +235,7 @@ public class FormFragment extends Fragment {
         webView.loadDataWithBaseURL("file:///android_asset/web/forms/", sb.toString(), "text/html", "utf-8", null);
         //webView.loadUrl("file:///android_asset/web/template.html");
 
-        resizeForm();
+        //resizeForm();
     }
 
     public String readFileAssets(String fileName) {

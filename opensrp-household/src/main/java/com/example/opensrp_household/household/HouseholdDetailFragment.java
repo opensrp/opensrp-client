@@ -184,7 +184,7 @@ public class HouseholdDetailFragment extends DetailFragment {
             List<CommonPersonObject> l = RegisterRepository.queryData("pkwoman", null, "id='"+individual.getCaseId()+"' OR program_client_id='" + programId + "'", null, null);
             l.addAll(RegisterRepository.queryData("pkchild", null, "id='"+individual.getCaseId()+"' OR  program_client_id='" + programId + "'", null, null));
             Log.d("caseID",individual.getCaseId());
-           // l.addAll(RegisterRepository.queryData("pkanc", null, "id='"+individual.getCaseId()+"' OR  program_client_id='" + programId + "'", null, null));
+            l.addAll(RegisterRepository.queryData("pkanc", null, "id='"+individual.getCaseId()+"' OR  program_client_id='" + programId + "'", null, null));
 
             if (l.size() > 0) {
                 if (StringUtils.isBlank(programId)){
@@ -199,7 +199,7 @@ public class HouseholdDetailFragment extends DetailFragment {
                 }
                 member.setMemberExists(true);
                 member.setCantBeEnrolled(true);
-              //  member.setAncEnrollment(false);//add
+                member.setAncEnrollment(false);//add
                //todo member.getClient().getDetails().putAll(l.get(0).getDetails());
             }
             /* todo handle from CE else if (StringUtils.isNotBlank(member.getProgramId())){

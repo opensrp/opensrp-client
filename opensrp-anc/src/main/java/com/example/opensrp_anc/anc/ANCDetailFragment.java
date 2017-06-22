@@ -1,6 +1,5 @@
 package com.example.opensrp_anc.anc;
 
-import android.content.pm.ActivityInfo;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
@@ -33,10 +32,10 @@ public class ANCDetailFragment extends DetailFragment {
 
     @Override
     protected void generateView() {
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        ((TextView)  currentView.findViewById(org.ei.opensrp.core.R.id.details_id_label)).setText(getValue(client.getColumnmaps(), "program_client_id", true));
+        // getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        ((TextView) currentView.findViewById(org.ei.opensrp.core.R.id.details_id_label)).setText(getValue(client.getColumnmaps(), "program_client_id", true));
 
-       // setProfiePic(currentView.getContext(), (ImageView) currentView.findViewById(R.id.anc_profilepic), "pkanc",  client.entityId(), null);
+        // setProfiePic(currentView.getContext(), (ImageView) currentView.findViewById(R.id.anc_profilepic), "pkanc",  client.entityId(), null);
 
         TableLayout dt1 = (TableLayout) currentView.findViewById(R.id.anc_detail_info_table1);
         dt1.removeAllViews();
@@ -53,12 +52,18 @@ public class ANCDetailFragment extends DetailFragment {
         dt2.removeAllViews();
 
         addRow(getActivity(), dt2, "Mobile Number", getValue(client.getColumnmaps(), "contact_phone_number", true), Utils.Size.MEDIUM);
+        String Province = getValue(client.getColumnmaps(), "province", true);
+        String City = getValue(client.getColumnmaps(), "city_village", true);
+        String Town = getValue(client.getColumnmaps(), "town", true);
+        String UC = getValue(client.getColumnmaps(), "union_council", true).replace("Uc", "UC");
+        String Address = getValue(client.getColumnmaps(), "address1", true);
+        if(!City.contains("$") || !Province.contains("$")){
         addRow(getActivity(), dt2, "Address",
-                getValue(client.getColumnmaps(), "address1", true) + ", \n" +
-                        getValue(client.getColumnmaps(), "union_council", true).replace("Uc", "UC") + ", " +
-                        getValue(client.getColumnmaps(), "town", true) + ",\n" +
-                        getValue(client.getColumnmaps(), "city_village", true) + ", " +
-                        getValue(client.getColumnmaps(), "province", true), Utils.Size.MEDIUM);
+                Address  + ", \n" +
+                        UC + ", " +
+                        Town + ",\n" +
+                        City + ", " +
+                        Province , Utils.Size.MEDIUM);}
         addRow(getActivity(), dt2, "Ethnicity", getValue(client.getColumnmaps(), "existing_ethnicity", true), Utils.Size.MEDIUM);
 
         TableLayout dt3 = (TableLayout) currentView.findViewById(R.id.anc_detail_info_table3);
@@ -85,7 +90,7 @@ public class ANCDetailFragment extends DetailFragment {
        /* TableLayout dt5 = (TableLayout) currentView.findViewById(R.id.anc_detail_info_table5);
         dt5.removeAllViews();*/
 
-        ((TextView)  currentView.findViewById(R.id.anc_comments)).setText(getValue(client.getColumnmaps(), "comments", true));
+        ((TextView) currentView.findViewById(R.id.anc_comments)).setText(getValue(client.getColumnmaps(), "comments", true));
     }
 
     @Override

@@ -60,7 +60,7 @@ public class ChildSmartRegisterFragment extends SmartClientRegisterFragment {
     public RegisterDataLoaderHandler loaderHandler() {
         if (loaderHandler == null){
             loaderHandler = new RegisterDataCursorLoaderHandler(getActivity(),
-                    new RegisterQuery("pkchild", "id", null, null).limitAndOffset(5, 0),
+                    new RegisterQuery("pkchild", "id", null, null).limitAndOffset(7, 0),
                     new RegisterCursorAdapter(getActivity(), clientsProvider()));
         }
         return loaderHandler;
@@ -76,9 +76,9 @@ public class ChildSmartRegisterFragment extends SmartClientRegisterFragment {
             @Override
             public ServiceModeOption serviceMode() {
                 return new VaccinationServiceModeOption(null, "Vaccine", new int[]{
-                        R.string.child_profile , R.string.birthdate_age, R.string.epi_number, R.string.child_contact_number,
+                        R.string.child_profile , R.string.birthdate_age,
                         R.string.child_last_vaccine, R.string.child_next_vaacine
-                }, new int[]{6,3,2,3,4,3});
+                }, new int[]{8,4,4,4});
             }
 
             @Override
@@ -122,7 +122,7 @@ public class ChildSmartRegisterFragment extends SmartClientRegisterFragment {
             int i = view.getId();
             if (i == R.id.child_profile_info_layout) {/*DetailActivity.startDetailActivity(getActivity(), (CommonPersonObjectClient) view.getTag(), ChildDetailActivity.class);
                     getActivity().finish();*/
-                ((RegisterActivity) getActivity()).showDetailFragment((CommonPersonObjectClient) view.getTag(), true);
+                ((RegisterActivity) getActivity()).showDetailFragment((CommonPersonObjectClient) view.getTag(), false);
 
             } else if (i == R.id.child_next_visit_holder) {
                 HashMap<String, String> map = new HashMap<>();
