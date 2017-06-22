@@ -9,8 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
@@ -23,10 +21,9 @@ import org.ei.opensrp.path.fragment.DailyTalliesFragment;
 import org.ei.opensrp.path.fragment.DraftMonthlyFragment;
 import org.ei.opensrp.path.fragment.SentMonthlyFragment;
 import org.ei.opensrp.path.repository.HIA2IndicatorsRepository;
-import org.ei.opensrp.path.toolbar.SimpleToolbar;
-import org.ei.opensrp.path.view.LocationPickerView;
-import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.path.repository.MonthlyTalliesRepository;
+import org.ei.opensrp.path.service.HIA2Service;
+import org.ei.opensrp.path.toolbar.SimpleToolbar;
 import org.ei.opensrp.util.FormUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,7 +31,9 @@ import org.json.JSONObject;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import util.JsonFormUtils;
 import util.Utils;
 
 /**
@@ -149,9 +148,11 @@ public class HIA2ReportsActivity extends BaseActivity {
 
         return mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
     }
+    Date report_month = null;
 
     public void startMonthlyReportForm(String formName, Date date) {
         try {
+            report_month=date;
             Fragment currentFragment = currentFragment();
 
             if (currentFragment instanceof DraftMonthlyFragment) {
@@ -184,7 +185,7 @@ public class HIA2ReportsActivity extends BaseActivity {
                         hia2Indicator.setLabel("");
                     }
                     String label = hia2Indicator.getLabel();
-                    jsonObject.put("key", label.replace(" ", "_"));
+                    jsonObject.put("key", hia2Indicator.getId());
                     jsonObject.put("type", "edit_text");
                     jsonObject.put("hint", label);
                     jsonObject.put("value", retrieveValue(monthlyTallies, hia2Indicator));
@@ -212,6 +213,7 @@ public class HIA2ReportsActivity extends BaseActivity {
 
                 Intent intent = new Intent(this, PathJsonFormActivity.class);
                 intent.putExtra("json", form.toString());
+                intent.putExtra("report_month", HIA2Service.dfyymmdd.format(date));
                 Log.d(TAG, "form is " + form.toString());
                 startActivityForResult(intent, REQUEST_CODE_GET_JSON);
             }
@@ -226,8 +228,16 @@ public class HIA2ReportsActivity extends BaseActivity {
         if (requestCode == REQUEST_CODE_GET_JSON) {
             if (resultCode == RESULT_OK) {
 
-                String jsonString = data.getStringExtra("json");
-                Log.d("JSONResult", jsonString);
+                try {
+                    String jsonString = data.getStringExtra("json");
+
+                    JSONObject monthlyDraftForm = new JSONObject(jsonString);
+                    Map<String, String> result = JsonFormUtils.sectionFields(monthlyDraftForm);
+                    VaccinatorApplication.getInstance().monthlyTalliesRepository().save(result,report_month);
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
+                }
+
             }
         }
     }

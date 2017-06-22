@@ -56,6 +56,7 @@ public class DraftMonthlyFragment extends Fragment {
 
         startNewReportEnabled = (Button) fragmentview.findViewById(R.id.start_new_report_enabled);
         startNewReportDisabled = (Button) fragmentview.findViewById(R.id.start_new_report_disabled);
+        setupSaveDraftReportsView(fragmentview);
         return fragmentview;
     }
 
@@ -109,6 +110,71 @@ public class DraftMonthlyFragment extends Fragment {
                 }
             });
         }
+    }
+
+    private void setupSaveDraftReportsView(View inflatedView) {
+       final ListView listView = (ListView) inflatedView.findViewById(R.id.list);
+       final TextView noDraftsText = (TextView) inflatedView.findViewById(R.id.empty_view);
+        //hide empty_view
+        Utils.startAsyncTask(new AsyncTask<Void, Void, List<Date>>() {
+            @Override
+            protected List<Date> doInBackground(Void... params) {
+                MonthlyTalliesRepository monthlyTalliesRepository = VaccinatorApplication.getInstance().monthlyTalliesRepository();
+                return monthlyTalliesRepository.findAllUnsentMonths();
+            }
+
+            @Override
+            protected void onPostExecute(List<Date> dates) {
+                if(!dates.isEmpty()) {
+                    noDraftsText.setVisibility(View.GONE);
+                    updateDraftsReportListView(listView, dates);
+                }
+            }
+        }, null);
+
+
+    }
+    private void updateDraftsReportListView(final ListView listView, final List<Date> list){
+
+        BaseAdapter baseAdapter = new BaseAdapter() {
+            @Override
+            public int getCount() {
+                return list.size();
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return list.get(position);
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return position;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if (convertView == null) {
+                    LayoutInflater inflater = (LayoutInflater)
+                            getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
+                    convertView = inflater.inflate(R.layout.month_item, null);
+                }
+
+                TextView tv = (TextView) convertView.findViewById(R.id.tv);
+                Date date = list.get(position);
+                String text = MONTH_FORMAT.format(date);
+                tv.setText(text);
+                tv.setTag(date);
+
+                convertView.setOnClickListener(monthDraftsClickListener);
+                convertView.setTag(list.get(position));
+
+                return convertView;
+            }
+        };
+
+        listView.setAdapter(baseAdapter);
     }
 
     private void updateResults(final List<Date> list, final View.OnClickListener clickListener) {
@@ -177,6 +243,19 @@ public class DraftMonthlyFragment extends Fragment {
     }
 
     View.OnClickListener monthClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            alertDialog.dismiss();
+
+            Object tag = v.getTag();
+            if (tag != null && tag instanceof Date) {
+                startMonthlyReportForm((Date) tag);
+            }
+
+        }
+    };
+    View.OnClickListener monthDraftsClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 

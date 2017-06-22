@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class MonthlyTalliesRepository extends BaseRepository {
     private static final String TAG = MonthlyTalliesRepository.class.getCanonicalName();
-    private static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("yyyy-MM");
+    public static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("yyyy-MM");
     public static final String TABLE_NAME = "monthly_tallies";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_PROVIDER_ID = "provider_id";
@@ -247,6 +247,49 @@ public class MonthlyTalliesRepository extends BaseRepository {
                 } else {
                     database.insert(TABLE_NAME, null, cv);
                 }
+
+                return true;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        } finally {
+            database.endTransaction();
+        }
+
+        return false;
+    }
+
+    /**
+     * save data from the monthly draft form whereby in the map the key is indicator_id and value is the form value
+     * assumption here is that the data is edited..probably find a way to confirm this
+     * @param draftFormValues
+     * @param month
+     * @return
+     */
+    public boolean save(Map<String,String> draftFormValues, Date month) {
+        SQLiteDatabase database = getPathRepository().getWritableDatabase();
+        try {
+            database.beginTransaction();
+            if (draftFormValues != null && !draftFormValues.isEmpty()&&month!=null ) {
+                String userName = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
+
+                for(String key:draftFormValues.keySet()){
+                    Long id = checkIfExists(Integer.valueOf(key),MONTH_FORMAT.format(month));
+                    ContentValues cv = new ContentValues();
+                    cv.put(COLUMN_INDICATOR_ID, Integer.valueOf(key));
+                    cv.put(COLUMN_VALUE, draftFormValues.get(key));
+                    cv.put(COLUMN_MONTH, month.getTime());
+                    cv.put(COLUMN_EDITED, 1);
+                    cv.put(COLUMN_PROVIDER_ID,userName);
+
+                    if (id != null) {
+                        database.update(TABLE_NAME, cv, COLUMN_ID + " = ?",
+                                new String[]{id.toString()});
+                    } else {
+                        database.insert(TABLE_NAME, null, cv);
+                    }
+                }
+
 
                 return true;
             }
