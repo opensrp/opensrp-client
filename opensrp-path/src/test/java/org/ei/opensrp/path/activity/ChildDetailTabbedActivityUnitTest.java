@@ -2,6 +2,7 @@ package org.ei.opensrp.path.activity;
 
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -99,7 +100,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     @After
     public void tearDown() {
 
-            controller.pause().stop().destroy();
+            destroyController();
 
     }
 
@@ -528,7 +529,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
         assertTrue(outViews.get(0).getVisibility() == View.VISIBLE);
     }
 
-    /*
+
 
 
 
@@ -537,7 +538,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     public void onCreateSetsUpSuccessfullyWithSerializedChildDetails() {
 
 
-        controller.pause().stop().destroy(); //destroy controller
+        destroyController(); //destroy controller
 
         //Recreate and start controller with bundles this time
 
@@ -557,10 +558,12 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
         assertNotNull(activity.findViewById(R.id.profile_image_iv));
     }
 
+    /*
+
     @Test
     public void statusViewShouldUpdateToInactiveIfChildDetailsInactiveParamIsSetToTrue() {
 
-        controller.pause().stop().destroy(); //destroy controller
+        destroyController(); //destroy controller
 
         //Recreate and start controller with bundles this time
 
@@ -593,7 +596,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     @Test
     public void statusViewShouldUpdateToActiveifChildStatusParamListIsEmpty() {
 
-        controller.pause().stop().destroy(); //destroy controller
+        destroyController(); //destroy controller
 
         //Recreate and start controller with bundles this time
 
@@ -625,7 +628,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     @Test
     public void statusViewShouldUpdateToLostToFollowUpWhenChildStatusLostToFollowUpParamIsTrue() {
 
-        controller.pause().stop().destroy(); //destroy controller
+        destroyController(); //destroy controller
 
         //Recreate and start controller with bundles this time
 
@@ -679,6 +682,15 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
         @Override
         public Map<String, String> getAllDetailsForClient(String baseEntityId) {
             return details;
+        }
+    }
+
+    private void destroyController(){
+        try{
+
+            destroyController(); //destroy controller if we can
+        }catch(Exception e){
+
         }
     }
 
