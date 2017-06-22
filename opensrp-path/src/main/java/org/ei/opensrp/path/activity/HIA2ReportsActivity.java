@@ -203,7 +203,7 @@ public class HIA2ReportsActivity extends BaseActivity {
 
             if (currentFragment instanceof DraftMonthlyFragment) {
                 MonthlyTalliesRepository monthlyTalliesRepository = VaccinatorApplication.getInstance().monthlyTalliesRepository();
-                List<MonthlyTally> monthlyTallies = monthlyTalliesRepository.findDrafts(date);
+                List<MonthlyTally> monthlyTallies = monthlyTalliesRepository.findDrafts(MonthlyTalliesRepository.MONTH_FORMAT.format(date));
 
                 HIA2IndicatorsRepository hIA2IndicatorsRepository = VaccinatorApplication.getInstance().hIA2IndicatorsRepository();
                 List<Hia2Indicator> hia2Indicators = hIA2IndicatorsRepository.fetchAll();
