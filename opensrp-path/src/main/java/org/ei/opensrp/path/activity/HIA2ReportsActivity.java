@@ -9,12 +9,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.github.ybq.android.spinkit.style.Circle;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 
+import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Hia2Indicator;
@@ -22,6 +29,7 @@ import org.ei.opensrp.path.domain.MonthlyTally;
 import org.ei.opensrp.path.fragment.DailyTalliesFragment;
 import org.ei.opensrp.path.fragment.DraftMonthlyFragment;
 import org.ei.opensrp.path.fragment.SentMonthlyFragment;
+import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.repository.HIA2IndicatorsRepository;
 import org.ei.opensrp.path.toolbar.SimpleToolbar;
 import org.ei.opensrp.path.view.LocationPickerView;
@@ -59,17 +67,20 @@ public class HIA2ReportsActivity extends BaseActivity {
      */
     private ViewPager mViewPager;
     private TabLayout tabLayout;
+    private SimpleToolbar toolbar;
+    private ProgressBar syncProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*setContentView(R.layout.activity_hia2_reports);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        //toolbar.setTitle("");
-        //setTitle("");
+        ActionBarDrawerToggle toggle = getDrawerToggle();
+        toggle.setDrawerIndicatorEnabled(false);
+        toggle.setHomeAsUpIndicator(null);
 
+        toolbar = (SimpleToolbar) getToolbar();
+        toolbar.setTitle(getString(R.string.side_nav_hia2));
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -80,6 +91,20 @@ public class HIA2ReportsActivity extends BaseActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         tabLayout.setupWithViewPager(mViewPager);
+
+        TextView initialsTV = (TextView) findViewById(R.id.name_inits);
+        initialsTV.setText(getLoggedInUserInitials());
+        initialsTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDrawer();
+            }
+        });
+
+        syncProgressBar = (ProgressBar) findViewById(R.id.sync_progress_bar);
+        Circle circle = new Circle();
+        syncProgressBar.setIndeterminateDrawable(circle);
+        refreshSyncStatusViews();
 
         //Update Draft Monthly Title
         Utils.startAsyncTask(new AsyncTask<Void, Void, List<Date>>() {
@@ -96,6 +121,28 @@ public class HIA2ReportsActivity extends BaseActivity {
         }, null);
     }
 
+    private void refreshSyncStatusViews() {
+        TextView initialsTV = (TextView) findViewById(R.id.name_inits);
+        if (SyncStatusBroadcastReceiver.getInstance().isSyncing()) {
+            syncProgressBar.setVisibility(View.VISIBLE);
+            initialsTV.setVisibility(View.GONE);
+        } else {
+            initialsTV.setVisibility(View.VISIBLE);
+            syncProgressBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onSyncStart() {
+        super.onSyncStart();
+        refreshSyncStatusViews();
+    }
+
+    @Override
+    public void onSyncComplete(FetchStatus fetchStatus) {
+        super.onSyncComplete(fetchStatus);
+        refreshSyncStatusViews();
+    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -81,6 +82,7 @@ public abstract class BaseActivity extends AppCompatActivity
     private Snackbar syncStatusSnackbar;
     private ProgressDialog progressDialog;
     private ArrayList<Notification> notifications;
+    private BaseActivityToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +92,7 @@ public abstract class BaseActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(getDrawerLayoutId());
-        BaseActivityToggle toggle = new BaseActivityToggle(
+        toggle = new BaseActivityToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -164,6 +166,15 @@ public abstract class BaseActivity extends AppCompatActivity
                 }
             }
         }
+    }
+
+    protected ActionBarDrawerToggle getDrawerToggle() {
+        return toggle;
+    }
+
+    protected void openDrawer() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(getDrawerLayoutId());
+        drawer.openDrawer(Gravity.LEFT);
     }
 
     private void updateLastSyncText() {
@@ -270,6 +281,15 @@ public abstract class BaseActivity extends AppCompatActivity
         });
 
         TextView initialsTV = (TextView) navigationView.findViewById(R.id.initials_tv);
+        initialsTV.setText(getLoggedInUserInitials());
+        String preferredName = getOpenSRPContext().allSharedPreferences().getANMPreferredName(
+                getOpenSRPContext().allSharedPreferences().fetchRegisteredANM());
+        TextView nameTV = (TextView) navigationView.findViewById(R.id.name_tv);
+        nameTV.setText(preferredName);
+        refreshSyncStatusViews(null);
+    }
+
+    protected String getLoggedInUserInitials() {
         String preferredName = getOpenSRPContext().allSharedPreferences().getANMPreferredName(
                 getOpenSRPContext().allSharedPreferences().fetchRegisteredANM());
         if (!TextUtils.isEmpty(preferredName)) {
@@ -282,12 +302,10 @@ public abstract class BaseActivity extends AppCompatActivity
                 }
             }
 
-            initialsTV.setText(initials.toUpperCase());
+            return initials.toUpperCase();
         }
 
-        TextView nameTV = (TextView) navigationView.findViewById(R.id.name_tv);
-        nameTV.setText(preferredName);
-        refreshSyncStatusViews(null);
+        return null;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

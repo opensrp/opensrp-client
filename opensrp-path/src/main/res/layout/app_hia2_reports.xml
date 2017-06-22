@@ -19,33 +19,53 @@
             android:id="@+id/simple_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:layout_marginLeft="-10dp"
             android:background="@color/toolbar_grey"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <FrameLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <TextView
-                    android:id="@+id/name_inits"
-                    android:layout_width="47dp"
-                    android:layout_height="47dp"
-                    android:layout_margin="1dp"
-                    android:background="@drawable/name_inits_bg"
-                    android:gravity="center"
-                    android:text="RW"
-                    android:textAllCaps="true"
-                    android:textColor="@color/actionbar"
-                    android:textSize="25sp"
-                    android:layout_gravity="center_vertical" />
+
+                <RelativeLayout
+                    android:id="@+id/initials_canvas"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical">
+
+                    <ProgressBar
+                        android:id="@+id/sync_progress_bar"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_centerInParent="true"
+                        android:indeterminate="true" />
+
+                    <TextView
+                        android:id="@+id/name_inits"
+                        android:layout_width="47dp"
+                        android:layout_height="47dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/name_inits_bg"
+                        android:gravity="center"
+                        android:textAllCaps="true"
+                        android:textColor="@color/actionbar"
+                        android:textSize="25sp" />
+                </RelativeLayout>
 
                 <org.ei.opensrp.view.customControls.CustomFontTextView
                     android:id="@+id/title"
                     style="@style/CustomFontTextViewStyle.NavBar.Black"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@android:color/transparent" />
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toRightOf="@id/initials_canvas"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_vertical" />
 
-            </FrameLayout>
+            </RelativeLayout>
         </org.ei.opensrp.path.toolbar.SimpleToolbar>
 
         <android.support.design.widget.TabLayout
