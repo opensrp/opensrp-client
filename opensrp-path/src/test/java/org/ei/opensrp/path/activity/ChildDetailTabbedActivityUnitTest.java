@@ -12,13 +12,10 @@ import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.path.BuildConfig;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
-import org.ei.opensrp.path.domain.Photo;
-import org.ei.opensrp.path.toolbar.ChildDetailsToolbar;
 import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.util.EasyMap;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -40,7 +37,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 
@@ -115,6 +111,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
     }
 
+  /*
     @Test
     public void shouldRenderEditIconImageView() {
 
@@ -391,6 +388,13 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     }
 
     @Test
+    public void getChildDetailsMethodShouldNotReturnNull() {
+
+        assertNotNull(activity.getChildDetails());
+
+    }
+
+    @Test
     public void shouldRenderLandmarkRow() {
         final ArrayList<View> outViews = new ArrayList<>();
         activity.getViewPagerAdapter().getItem(0).getView().findViewById(R.id.rowholder).findViewsWithText(outViews, "Landmark",
@@ -426,19 +430,12 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
     }
 
+
     @Test
     @Ignore
     public void shouldDisplayOnOptionsMenu() {
         //MenuItem menuItem = shadowOf(activity).getOptionsMenu().findItem(R.id.registration_data);
         //activity.onOptionsItemSelected(menuItem);
-    }
-
-
-    @Test
-    public void getChildDetailsMethodShouldNotReturnNull() {
-
-        assertNotNull(activity.getChildDetails());
-
     }
 
     @Test
@@ -512,6 +509,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
 
     }
+    */
 
     @Test
     public void shouldRenderStatusFragmentOnStatusViewClick() {
@@ -557,7 +555,8 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
         controller.setup();
 
         //Certify started successfully by checking if at least one random element rendered
-        assertNotNull(activity.findViewById(R.id.profile_image_iv));
+        TextView nameView = (TextView) activity.findViewById(R.id.name);
+        assertNotNull(nameView);
     }
 
 
@@ -595,8 +594,8 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
     }
 
+/*
 
-    /*
     @Test
     public void statusViewShouldUpdateToActiveifChildStatusParamListIsEmpty() {
 

@@ -55,7 +55,7 @@ script:
 
 after_failure:
 #- pandoc opensrp-mcare/build/reports/androidTests/connected/index.html -t plain
-- pandoc opensrp-path/build/reports/tests/connected/index.html -t plain
+#- pandoc opensrp-path/build/reports/tests/connected/index.html -t plain
 
 
 notifications:
