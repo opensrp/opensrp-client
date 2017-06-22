@@ -44,7 +44,9 @@
                 android:layout_margin="10dp" />
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dip">
+                android:layout_height="200dip"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/graph"
                 android:layout_width="match_parent"
@@ -215,7 +217,8 @@
                 <org.ei.opensrp.view.customControls.CustomFontTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                    style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
+                    fontVariant="medium"
                     android:text="14 vials"
                     android:id="@+id/vials"
                     android:textColor="@color/bluetext"
@@ -237,7 +240,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/CustomFontTextViewStyle.ClientList.Medium"
-                    android:text="Number of active Children"
+                    android:text="Number of active children"
                     android:id="@+id/number_of_active_children_title"
                     android:textColor="@color/background_floating_material_dark"
                     android:textSize="20sp" />
@@ -308,7 +311,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         style="@style/CustomFontTextViewStyle.ClientList.Light"
-                        android:text="0-11 Months"
+                        android:text="0 - 11 months"
                         android:id="@+id/zerotoelevenlabel"
                         android:textColor="@color/client_list_grey"
                         android:textSize="18sp"
@@ -350,7 +353,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         style="@style/CustomFontTextViewStyle.ClientList.Light"
-                        android:text="12-59 Months"
+                        android:text="12 - 59 months"
                         android:id="@+id/twelvetofiftyninemonthslabel"
                         android:textColor="@color/client_list_grey"
                         android:textSize="18sp"
@@ -459,7 +462,8 @@
                 <org.ei.opensrp.view.customControls.CustomFontTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                    style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
+                    fontVariant="medium"
                     android:text="14 vials"
                     android:id="@+id/due_vacc_next_month_value"
                     android:textColor="@color/bluetext"
@@ -499,7 +503,8 @@
                 <org.ei.opensrp.view.customControls.CustomFontTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                    style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
+                    fontVariant="medium"
                     android:text="10%"
                     android:id="@+id/avg_vacc_waste_rate_value"
                     android:textColor="@color/bluetext"
