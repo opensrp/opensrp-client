@@ -1,0 +1,26 @@
+build:
+  image: onaio/android:java8
+  commands:
+    - id
+    - java -version
+    - gradle --version
+    - gradle clean
+    - gradle test
+notify:
+  email:
+    from: $$FROM
+    host: $$SMTP_HOST
+    port: $$SMTP_PORT
+    username: $$SMTP_USERNAME
+    password: $$SMTP_PASSWORD
+    recipients:
+      - tech+drone@ona.io
+    on_success: true
+    on_failure: true
+  slack:
+    webhook_url: 'https://hooks.slack.com/services/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'
+    username: 'drone'
+    channel: '#opensrp-client'
+    on_started: false
+    on_success: true
+    on_failure: true

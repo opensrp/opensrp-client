@@ -15,6 +15,7 @@ import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Photo;
 import org.ei.opensrp.path.toolbar.ChildDetailsToolbar;
 import org.ei.opensrp.repository.DetailsRepository;
+import org.ei.opensrp.util.EasyMap;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -35,6 +36,7 @@ import java.util.Map;
 
 import util.ImageUtils;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
@@ -43,7 +45,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 
 /**
- * Created by martin on 07/06/2017.
+ * EasyMap.created by martin on 07/06/2017.
  */
 
 @Config(constants = BuildConfig.class, application = VaccinatorApplicationTestVersion.class, shadows = {CustomFontTextViewShadow.class})
@@ -558,7 +560,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
         assertNotNull(activity.findViewById(R.id.profile_image_iv));
     }
 
-    /*
+
 
     @Test
     public void statusViewShouldUpdateToInactiveIfChildDetailsInactiveParamIsSetToTrue() {
@@ -571,7 +573,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
         intent.putExtra("location_name", "Nairobi");
         Bundle bundle = new Bundle();
         CommonPersonObjectClient newChildDetails = new CommonPersonObjectClient("1", new HashMap<String, String>(), "test");
-        Map<String, String> columnMap = create(ChildDetailTabbedActivity.inactive, "true").map();
+        Map<String, String> columnMap = EasyMap.create(ChildDetailTabbedActivity.inactive, "true").map();
         newChildDetails.setColumnmaps(columnMap);
         newChildDetails.setDetails(columnMap);
         details = columnMap;//save for later call to getAllDetailsForClient method
@@ -593,6 +595,8 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
     }
 
+
+    /*
     @Test
     public void statusViewShouldUpdateToActiveifChildStatusParamListIsEmpty() {
 
@@ -636,7 +640,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
         intent.putExtra("location_name", "Nairobi");
         Bundle bundle = new Bundle();
         CommonPersonObjectClient newChildDetails = new CommonPersonObjectClient("1", new HashMap<String, String>(), "test");
-        Map<String, String> columnMap = create(ChildDetailTabbedActivity.lostToFollowUp, "true").map();
+        Map<String, String> columnMap = EasyMap.create(ChildDetailTabbedActivity.lostToFollowUp, "true").map();
         newChildDetails.setColumnmaps(columnMap);
         newChildDetails.setDetails(columnMap);
         details = columnMap;//save for later call to getAllDetailsForClient method
@@ -688,7 +692,8 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     private void destroyController(){
         try{
 
-            destroyController(); //destroy controller if we can
+            controller.pause().stop().destroy(); //destroy controller if we can
+
         }catch(Exception e){
 
         }
