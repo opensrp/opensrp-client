@@ -31,6 +31,7 @@ import org.ei.opensrp.sync.AdditionalSyncService;
 import org.ei.opensrp.view.BackgroundAction;
 import org.ei.opensrp.view.LockingBackgroundTask;
 import org.ei.opensrp.view.ProgressIndicator;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -50,6 +51,7 @@ import static org.ei.opensrp.util.Log.logInfo;
 
 public class PathUpdateActionsTask {
     private static final String EVENTS_SYNC_PATH = "/rest/event/add";
+    private static final String STOCK_SYNC_PATH = "/rest/stock/add/";
     private final LockingBackgroundTask task;
     private ActionService actionService;
     private Context context;
@@ -233,8 +235,64 @@ public class PathUpdateActionsTask {
     public void pushStockToServer() {
         boolean keepSyncing = true;
         int limit = 50;
-        StockRepository stockRepository = new StockRepository(db,VaccinatorApplication.createCommonFtsObject(), org.ei.opensrp.Context.getInstance().alertService());
-        ArrayList<Stock> stocks = (ArrayList<Stock>) stockRepository.findUnSyncedWithLimit(50);
+
+        try {
+
+            while (keepSyncing) {
+                StockRepository stockRepository = new StockRepository(db,VaccinatorApplication.createCommonFtsObject(), org.ei.opensrp.Context.getInstance().alertService());
+                ArrayList<Stock> stocks = (ArrayList<Stock>) stockRepository.findUnSyncedWithLimit(limit);
+                JSONArray stocksarray = createJsonArrayFromStockArray(stocks);
+                if (stocks.isEmpty()) {
+                    return;
+                }
+
+                String baseUrl = org.ei.opensrp.Context.getInstance().configuration().dristhiBaseURL();
+                if (baseUrl.endsWith("/")) {
+                    baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("/"));
+                }
+                // create request body
+                JSONObject request = new JSONObject();
+
+                request.put("stocks", request);
+
+                String jsonPayload = request.toString();
+                Response<String> response = httpAgent.post(
+                        MessageFormat.format("{0}/{1}",
+                                baseUrl,
+                                STOCK_SYNC_PATH),
+                        jsonPayload);
+                if (response.isFailure()) {
+                    Log.e(getClass().getName(), "Events sync failed.");
+                    return;
+                }
+                stockRepository.markEventsAsSynced(stocks);
+                Log.i(getClass().getName(), "Events synced successfully.");
+            }
+        } catch (JSONException e) {
+            Log.e(getClass().getName(), e.getMessage());
+        }
+    }
+
+    private JSONArray createJsonArrayFromStockArray(ArrayList<Stock> stocks) {
+        JSONArray array = new JSONArray();
+        for(int i = 0;i<stocks.size();i++){
+            JSONObject stock = new JSONObject();
+            try {
+                stock.put("identifier",stocks.get(i).getId());
+                stock.put("vaccine_type_id",stocks.get(i).getVaccine_type_id());
+                stock.put("transaction_type",stocks.get(i).getTransaction_type());
+                stock.put("providerid",stocks.get(i).getProviderid());
+                stock.put("date_created",stocks.get(i).getDate_created());
+                stock.put("value",stocks.get(i).getValue());
+                stock.put("to_from",stocks.get(i).getTo_from());
+                stock.put("sync_status",stocks.get(i).getSyncStatus());
+                stock.put("date_updated",stocks.get(i).getUpdatedAt());
+                array.put(stock);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return array;
     }
 
     private void startReplicationIntentService(Context context) {

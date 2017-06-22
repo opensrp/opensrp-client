@@ -343,4 +343,11 @@ public class StockRepository extends BaseRepository {
         }
     }
 
+    public void markEventsAsSynced(ArrayList<Stock> stocks) {
+        for(int i = 0 ;i < stocks.size();i++){
+            Stock stockToAdd = stocks.get(i);
+            stockToAdd.setSyncStatus(TYPE_Synced);
+            add(stockToAdd);
+        }
+    }
 }
