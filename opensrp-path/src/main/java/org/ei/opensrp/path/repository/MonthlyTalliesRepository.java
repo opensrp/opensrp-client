@@ -13,6 +13,7 @@ import org.ei.opensrp.path.domain.DailyTally;
 import org.ei.opensrp.path.domain.Hia2Indicator;
 import org.ei.opensrp.path.domain.MonthlyTally;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,7 +48,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
             COLUMN_INDICATOR_ID + " INTEGER NOT NULL," +
             COLUMN_PROVIDER_ID + " VARCHAR NOT NULL," +
             COLUMN_VALUE + " VARCHAR NOT NULL," +
-            COLUMN_MONTH + " DATETIME NOT NULL," +
+            COLUMN_MONTH + " VARCHAR NOT NULL," +
             COLUMN_EDITED + " INTEGER NOT NULL DEFAULT 0," +
             COLUMN_DATE_SENT + " DATETIME NULL," +
             COLUMN_UPDATED_AT + " TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)";
@@ -107,8 +108,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
 
                 if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
                     while (!cursor.isAfterLast()) {
-                        String curMonth = MONTH_FORMAT.format(
-                                new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_MONTH))));
+                        String curMonth = cursor.getString(cursor.getColumnIndex(COLUMN_MONTH));
                         allTallyMonths.remove(curMonth);
                     }
                 }
@@ -137,13 +137,13 @@ public class MonthlyTalliesRepository extends BaseRepository {
      * @param month The month to get the draft tallies for
      * @return
      */
-    public List<MonthlyTally> findDrafts(Date month) {
+    public List<MonthlyTally> findDrafts(String month) {
         // Check if there exists any sent tally in the database for the month provided
         Cursor cursor = null;
         List<MonthlyTally> monthlyTallies = new ArrayList<>();
         try {
             cursor = getPathRepository().getReadableDatabase().query(TABLE_NAME, TABLE_COLUMNS,
-                    COLUMN_MONTH + " = '" + MONTH_FORMAT.format(month) +
+                    COLUMN_MONTH + " = '" +month +
                             "' AND " + COLUMN_DATE_SENT + " IS NOT NULL",
                     null, null, null, null, null);
             List<MonthlyTally> tallies = readAllDataElements(cursor);
@@ -235,7 +235,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
                 cv.put(COLUMN_INDICATOR_ID, tally.getIndicator().getId());
                 cv.put(COLUMN_VALUE, tally.getValue());
                 cv.put(COLUMN_PROVIDER_ID, tally.getProviderId());
-                cv.put(COLUMN_MONTH, tally.getMonth().getTime());
+                cv.put(COLUMN_MONTH, MONTH_FORMAT.format(tally.getMonth()));
                 cv.put(COLUMN_DATE_SENT,
                         tally.getDateSent() == null ? null : tally.getDateSent().getTime());
                 cv.put(COLUMN_EDITED, tally.isEdited() ? 1 : 0);
@@ -329,7 +329,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
         return tallies;
     }
 
-    private MonthlyTally extractMonthlyTally(HashMap<Long, Hia2Indicator> indicatorMap, Cursor cursor) {
+    private MonthlyTally extractMonthlyTally(HashMap<Long, Hia2Indicator> indicatorMap, Cursor cursor) throws ParseException {
         long indicatorId = cursor.getLong(cursor.getColumnIndex(COLUMN_INDICATOR_ID));
         if (indicatorMap.containsKey(indicatorId)) {
             MonthlyTally curTally = new MonthlyTally();
@@ -338,8 +338,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
                     cursor.getString(cursor.getColumnIndex(COLUMN_PROVIDER_ID)));
             curTally.setIndicator(indicatorMap.get(indicatorId));
             curTally.setValue(cursor.getString(cursor.getColumnIndex(COLUMN_VALUE)));
-            curTally.setMonth(
-                    new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_MONTH))));
+            curTally.setMonth(MONTH_FORMAT.parse(cursor.getString(cursor.getColumnIndex(COLUMN_MONTH))));
             curTally.setEdited(
                     cursor.getInt(cursor.getColumnIndex(COLUMN_EDITED)) == 0 ?
                             false : true
@@ -363,7 +362,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
         try {
             String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME +
                     " WHERE " + COLUMN_INDICATOR_ID + " = " + String.valueOf(indicatorId)
-                    + " and " + COLUMN_MONTH + "='" + month + "'";
+                    + " and " + COLUMN_MONTH + " = '" + month + "'";
             mCursor = getPathRepository().getWritableDatabase().rawQuery(query, null);
             if (mCursor != null && mCursor.moveToFirst()) {
                 return mCursor.getLong(0);

@@ -146,16 +146,15 @@ public class DailyTalliesRepository extends BaseRepository {
         return new ArrayList<>();
     }
 
-    public Map<Long, List<DailyTally>> findTalliesInMonth(Date month) {
+    public Map<Long, List<DailyTally>> findTalliesInMonth(String monthString) {
         Map<Long, List<DailyTally>> talliesFromMonth = new HashMap<>();
         Cursor cursor = null;
         try {
-            SimpleDateFormat monthFormat = new SimpleDateFormat("yyyy-MM");
             HashMap<Long, Hia2Indicator> indicatorMap = VaccinatorApplication.getInstance()
                     .hIA2IndicatorsRepository().findAll();
 
             cursor = getPathRepository().getReadableDatabase().query(TABLE_NAME, TABLE_COLUMNS,
-                    "strftime('%Y-%m', " + COLUMN_DAY + ") = '" + monthFormat.format(month) + "'",
+                    "strftime('%Y-%m', " + COLUMN_DAY + ") = '" + monthString+ "'",
                     null, null, null, null, null);
             if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
