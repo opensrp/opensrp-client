@@ -2,7 +2,6 @@ package org.ei.opensrp.path.activity;
 
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,7 +37,6 @@ import util.ImageUtils;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-import static org.ei.opensrp.util.Log.logError;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -100,36 +98,9 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
     @After
     public void tearDown() {
-        try {
+
             controller.pause().stop().destroy();
-        } catch (IllegalStateException e) {
-            logError("Error in tearDown " + e.getMessage());
-        }
-    }
 
-
-    @Test
-    public void onCreateSetsUpSuccessfullyWithSerializedChildDetails() {
-
-
-        controller.pause().stop().destroy(); //destroy controller
-
-        //Recreate and start controller with bundles this time
-
-        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivity.class);
-        intent.putExtra("location_name", "Nairobi");
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(ChildDetailTabbedActivity.EXTRA_CHILD_DETAILS, childDetails);
-        intent.putExtras(bundle);
-
-
-        controller = Robolectric.buildActivity(ChildDetailTabbedActivity.class, intent);
-        activity = controller.get();
-        activity.detailsRepository = getDetailsRepository();
-        controller.setup();
-
-        //Certify started successfully by checking if at least one random element rendered
-        assertNotNull(activity.findViewById(R.id.profile_image_iv));
     }
 
 
@@ -558,6 +529,34 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     }
 
     /*
+
+
+
+
+    @Test
+    public void onCreateSetsUpSuccessfullyWithSerializedChildDetails() {
+
+
+        controller.pause().stop().destroy(); //destroy controller
+
+        //Recreate and start controller with bundles this time
+
+        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivity.class);
+        intent.putExtra("location_name", "Nairobi");
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(ChildDetailTabbedActivity.EXTRA_CHILD_DETAILS, childDetails);
+        intent.putExtras(bundle);
+
+
+        controller = Robolectric.buildActivity(ChildDetailTabbedActivity.class, intent);
+        activity = controller.get();
+        activity.detailsRepository = getDetailsRepository();
+        controller.setup();
+
+        //Certify started successfully by checking if at least one random element rendered
+        assertNotNull(activity.findViewById(R.id.profile_image_iv));
+    }
+
     @Test
     public void statusViewShouldUpdateToInactiveIfChildDetailsInactiveParamIsSetToTrue() {
 
