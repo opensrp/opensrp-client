@@ -32,7 +32,8 @@
             <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/CustomFontTextViewStyle.ClientList.Light"
+                fontVariant="light"
+                style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
                 android:text="14 vials"
                 android:id="@+id/vials"
                 android:textColor="@color/bluetext"
@@ -145,7 +146,7 @@
                 style="@style/CustomFontTextViewStyle.ClientList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Issued(-)"
+                android:text="Issued (-)"
                 android:textColor="@color/dim_foreground_material_light"
                 android:textSize="18sp"
                 android:layout_weight="2"

@@ -57,6 +57,7 @@
         "type": "date_picker",
         "hint": "Date [vaccine] stock issued *",
         "expanded": false,
+        "min_date": "today-1m",
         "max_date": "today",
         "v_required": {
           "value": "true",
@@ -113,7 +114,7 @@
         "openmrs_entity_id": "",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "Vials [vaccine] issued",
+        "hint": "Vials [vaccine] issued *",
         "v_min": {
           "value": "1",
           "err": "issued vials must be greater than 0"
@@ -134,7 +135,7 @@
         "openmrs_entity_id": "",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "Wasted Vials",
+        "hint": "Wasted vials",
         "v_min": {
           "value": "0",
           "err": "value cannot be less than zero"

@@ -55,8 +55,9 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "date_picker",
-        "hint": "Date of  [vaccine] loss/adjustment *",
+        "hint": "Date of [vaccine] stock loss/adjustment *",
         "expanded": false,
+        "min_date": "today-1m",
         "max_date": "today",
         "v_required": {
           "value": "true",
@@ -70,7 +71,7 @@
         "openmrs_entity_id": "",
         "openmrs_data_type": "select one",
         "type": "radio",
-        "label": "Reason for M/MR adjustment *",
+        "label": "Reason for [vaccine] adjustment *",
         "options":[
           {
             "key":"Physical_recount",
@@ -94,8 +95,9 @@
         "openmrs_entity_id": "",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "Vials [vaccine] adjustment",
+        "hint": "Vials [vaccine] adjustment *",
         "number_picker":"true",
+        "value": "0",
         "v_required": {
           "value": "true",
           "err": "Please enter the value for adjustment"

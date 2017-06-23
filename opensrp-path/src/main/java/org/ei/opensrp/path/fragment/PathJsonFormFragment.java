@@ -431,7 +431,7 @@ public class PathJsonFormFragment extends JsonFormFragment {
             return super.onOptionsItemSelected(item);
         }else{
             final Snackbar snackbar = Snackbar
-                    .make(getMainView(), "Please Make sure the balance is not less than zero", Snackbar.LENGTH_LONG);
+                    .make(getMainView(), "Please make sure the balance is not less than zero.", Snackbar.LENGTH_LONG);
             snackbar.setAction("Close", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -440,10 +440,10 @@ public class PathJsonFormFragment extends JsonFormFragment {
             });
 
 // Changing message text color
-            snackbar.setActionTextColor(Color.MAGENTA);
+            snackbar.setActionTextColor(Color.WHITE);
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-            textView.setTextColor(Color.RED);
+            textView.setTextColor(Color.WHITE);
 
             snackbar.show();
             return true;

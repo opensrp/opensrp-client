@@ -95,7 +95,7 @@ public class StockRowSmartClientsProvider implements StockProviderForCursorAdapt
         }
         if(stock.getTransaction_type().equalsIgnoreCase(Stock.issued)){
             received.setText("");
-            issued.setText(""+stock.getValue());
+            issued.setText(""+(-1*stock.getValue()));
             loss_adj.setText("");
         }
         if(stock.getTransaction_type().equalsIgnoreCase(Stock.loss_adjustment)){
@@ -105,7 +105,7 @@ public class StockRowSmartClientsProvider implements StockProviderForCursorAdapt
         }
 
         date.setText(JsonFormUtils.dd_MM_yyyy.format(new Date(stock.getDate_created())));
-        to_from.setText(stock.getTo_from());
+        to_from.setText(stock.getTo_from().replace("_"," "));
 
         balance.setText(""+(stock.getValue()+stockRepository.getBalanceBeforeCheck(stock)));
 

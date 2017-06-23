@@ -329,7 +329,7 @@ public class Planning_Stock_fragment extends Fragment {
         GraphView graph = (GraphView)view.findViewById(R.id.graph);
 
         graph.removeAllSeries();
-        series.setThickness(4);
+        series.setThickness(3);
         series.setColor(getResources().getColor(R.color.bluetext));
         graph.addSeries(series);
         graph.getViewport().setYAxisBoundsManual(true);

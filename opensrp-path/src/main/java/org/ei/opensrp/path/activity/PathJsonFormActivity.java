@@ -129,7 +129,7 @@ public class PathJsonFormActivity extends JsonFormActivity {
                                 if (questions.has("value")) {
                                     if(!StringUtils.isBlank(questions.getString("value"))){
                                         newBalance = str.getBalanceFromNameAndDate(vaccineName,encounterDate.getTime())+Integer.parseInt(questions.getString("value"));
-                                        pathJsonFormFragment.getLabelViewFromTag("Balance","New balance : " + newBalance);
+                                        pathJsonFormFragment.getLabelViewFromTag("Balance","New balance: " + newBalance);
                                     }
                                 }else{
                                     pathJsonFormFragment.getLabelViewFromTag("Balance","");
@@ -203,7 +203,7 @@ public class PathJsonFormActivity extends JsonFormActivity {
                             if (value!=null && !StringUtils.isBlank(value)) {
 
                                         newBalance = existingbalance - Integer.parseInt(value);
-                                        pathJsonFormFragment.getLabelViewFromTag("Balance","New balance : " + newBalance);
+                                        pathJsonFormFragment.getLabelViewFromTag("Balance","New balance: " + newBalance);
                                     }else{
                                         pathJsonFormFragment.getLabelViewFromTag("Balance","");
                                     }
@@ -292,7 +292,7 @@ public class PathJsonFormActivity extends JsonFormActivity {
 //                                    balancetextview.setErrorColor(getResources().getColor(R.color.dark_grey));
 //                                    balancetextview.setError("New balance : " + displaybalance);
 //                                }
-                                pathJsonFormFragment.getLabelViewFromTag("Balance","New balance : " + displaybalance);
+                                pathJsonFormFragment.getLabelViewFromTag("Balance","New balance: " + displaybalance);
 
                             }else{
                                 pathJsonFormFragment.getLabelViewFromTag("Balance","");
@@ -353,7 +353,7 @@ public class PathJsonFormActivity extends JsonFormActivity {
 //                                    balancetextview.setErrorColor(Color.BLACK);
 //                                    balancetextview.setError("New balance : " + displaybalance);
 //                                }
-                                pathJsonFormFragment.getLabelViewFromTag("Balance","New balance : " + displaybalance);
+                                pathJsonFormFragment.getLabelViewFromTag("Balance","New balance: " + displaybalance);
 
                             }else{
                                 pathJsonFormFragment.getLabelViewFromTag("Balance","");
@@ -510,7 +510,7 @@ public class PathJsonFormActivity extends JsonFormActivity {
         String balancestring = pathJsonFormFragment.getRelevantTextViewString("Balance");
 
         if(balancestring.contains("New balance")) {
-            int balance = Integer.parseInt(balancestring.replace("New balance :", "").trim());
+            int balance = Integer.parseInt(balancestring.replace("New balance:", "").trim());
             if (balance < 0) {
                 balancecheck = false;
             }
