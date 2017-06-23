@@ -6,6 +6,7 @@ build:
     - gradle --version
     - gradle clean --stacktrace
     - gradle opensrp-path:jacocoTestReport
+    - gradle coveralls
 notify:
   email:
     from: $$FROM
