@@ -32,7 +32,7 @@ public class LoginActivityUnitTest extends BaseUnitTest {
     public void tearDown() {
     }
 
-    @Test 
+    @Test
     public void usernameTextFieldShouldContainCorrectTextAfterInput() {
 
         EditText usernameText = (EditText) activity.findViewById(R.id.login_userNameText);

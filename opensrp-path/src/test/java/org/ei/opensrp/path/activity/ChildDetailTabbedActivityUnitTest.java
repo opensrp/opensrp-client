@@ -540,7 +540,6 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
 
     @Test
-    @Ignore
     public void onCreateSetsUpSuccessfullyWithSerializedChildDetails() {
 
 
