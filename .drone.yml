@@ -1,5 +1,5 @@
 build:
-  image: onaio/android:java8
+  image: onaio/android:opensrp-client
   commands:
     - id
     - java -version

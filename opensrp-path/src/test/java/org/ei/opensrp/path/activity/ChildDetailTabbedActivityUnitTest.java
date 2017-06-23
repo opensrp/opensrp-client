@@ -567,6 +567,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
 
     @Test
+    @Ignore
     public void statusViewShouldUpdateToInactiveIfChildDetailsInactiveParamIsSetToTrue() {
 
         destroyController(); //destroy controller
