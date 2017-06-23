@@ -4,8 +4,8 @@ build:
     - id
     - java -version
     - gradle --version
-    - gradle clean
-    - gradle test
+    - gradle clean --stacktrace
+    - gradle opensrp-path:jacocoTestReport
 notify:
   email:
     from: $$FROM
