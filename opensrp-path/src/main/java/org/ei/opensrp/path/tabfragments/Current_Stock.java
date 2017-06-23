@@ -431,6 +431,10 @@ public class Current_Stock extends Fragment implements
                 Received_Stock_From = JsonFormUtils.getFieldValue(fields, "Issued_Stock_To");
             }
             String vials_received = JsonFormUtils.getFieldValue(fields, "Vials_Issued");
+            String vials_wasted = JsonFormUtils.getFieldValue(fields, "Vials_Wasted");
+            if(StringUtils.isNotBlank(vials_wasted)){
+                vials_received = ""+(Integer.parseInt(vials_received)+Integer.parseInt(vials_wasted));
+            }
 
             StockRepository str = new StockRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(),VaccinatorApplication.createCommonFtsObject(),context.alertService());
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
