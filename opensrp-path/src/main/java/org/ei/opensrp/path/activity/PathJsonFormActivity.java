@@ -70,6 +70,7 @@ public class PathJsonFormActivity extends JsonFormActivity {
         stockDateEnteredinReceivedForm(key,value);
         stockDateEnteredinIssuedForm(key, value);
         stockVialsEnteredinIssuedForm(key, value);
+        stockWastedVialsEnteredinIssuedForm( key, value);
         stockDateEnteredinAdjustmentForm(key,value);
         stockVialsenteredinAdjustmentForm(key,value);
     }
@@ -93,9 +94,11 @@ public class PathJsonFormActivity extends JsonFormActivity {
                     String label = "";
                     int currentBalance = 0;
                     int displaybalance = 0;
+                    int existingbalance = 0;
                     int newBalance = 0;
                     Date encounterDate = new Date();
                     String vialsvalue = "";
+                    String wastedvials = "0";
                     String vaccineName = object.getString("title").replace("Stock Issued", "").trim();
                     JSONArray fields = object.getJSONArray("fields");
                     for (int i = 0; i < fields.length(); i++) {
@@ -116,39 +119,54 @@ public class PathJsonFormActivity extends JsonFormActivity {
                                     currentBalance = str.getVaccineUsedToday(encounterDate.getTime(),checkifmeasles(vaccineName.toLowerCase()));
                                 }
                             }
-                            int DosesPerVial = 0;
-                            int vialsused = 0;
-                            Vaccine_typesRepository vaccine_typesRepository = new Vaccine_typesRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(), VaccinatorApplication.createCommonFtsObject(), Context.getInstance().alertService());
-                            int dosesPerVial = vaccine_typesRepository.getDosesPerVial(vaccineName);
-                            if(currentBalance % dosesPerVial == 0){
-                                vialsused = currentBalance/dosesPerVial;
-                            }else if (currentBalance != 0){
-                                vialsused = (currentBalance/dosesPerVial) +1;
+
+                            if (questions.getString("key").equalsIgnoreCase("Vials_Wasted")) {
+                                if (questions.has("value")) {
+                                    if(!StringUtils.isBlank(questions.getString("value"))){
+                                        wastedvials = questions.getString("value");
+                                    }
+                                }else{
+                                    wastedvials = "0";
+                                }
                             }
                             if (questions.getString("key").equalsIgnoreCase("Vials_Issued")) {
                                 if (questions.has("value")) {
                                     if(!StringUtils.isBlank(questions.getString("value"))){
-                                        newBalance = str.getBalanceFromNameAndDate(vaccineName,encounterDate.getTime())+Integer.parseInt(questions.getString("value"));
-                                        pathJsonFormFragment.getLabelViewFromTag("Balance","New balance: " + newBalance);
-                                    }
+                                        vialsvalue = questions.getString("value");
+                                                                            }
                                 }else{
                                     pathJsonFormFragment.getLabelViewFromTag("Balance","");
                                 }
                             }
                             ;
-                            if (currentBalance != 0) {
-                                displaybalance = vialsused;
-                                if (balancetextview != null) {
-                                    balancetextview.setErrorColor(Color.BLACK);
-                                    balancetextview.setError(currentBalance + " children vaccinated today.Assuming " + displaybalance+" vials used.");
-//                                    writeValue("step1","labelHeaderImage","checkwritetolabel","","","");
-                                }
-                            }else{
-                                balancetextview.setErrorColor(Color.BLACK);
-                                balancetextview.setError("");
 
-                            }
                         }
+                    }
+                    if(!StringUtils.isBlank(vialsvalue)) {
+                        newBalance = str.getBalanceFromNameAndDate(vaccineName, encounterDate.getTime()) - Integer.parseInt(vialsvalue) - Integer.parseInt(wastedvials);
+                        pathJsonFormFragment.getLabelViewFromTag("Balance", "New balance: " + newBalance);
+                    }
+
+                    int DosesPerVial = 0;
+                    int vialsused = 0;
+                    Vaccine_typesRepository vaccine_typesRepository = new Vaccine_typesRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(), VaccinatorApplication.createCommonFtsObject(), Context.getInstance().alertService());
+                    int dosesPerVial = vaccine_typesRepository.getDosesPerVial(vaccineName);
+                    if(currentBalance % dosesPerVial == 0){
+                        vialsused = currentBalance/dosesPerVial;
+                    }else if (currentBalance != 0){
+                        vialsused = (currentBalance/dosesPerVial) +1;
+                    }
+                    if (currentBalance != 0) {
+                        displaybalance = vialsused;
+                        if (balancetextview != null) {
+                            balancetextview.setErrorColor(Color.BLACK);
+                            balancetextview.setError(currentBalance + " children vaccinated today.Assuming " + displaybalance+" vials used.");
+//                                    writeValue("step1","labelHeaderImage","checkwritetolabel","","","");
+                        }
+                    }else{
+                        balancetextview.setErrorColor(Color.BLACK);
+                        balancetextview.setError("");
+
                     }
                 }
             }
@@ -173,12 +191,14 @@ public class PathJsonFormActivity extends JsonFormActivity {
                         }
                     }
                     String label = "";
-                    int currentBalance = 0;
+                    int currentBalanceVaccineUsed = 0;
                     int displaybalance = 0;
                     int newBalance = 0;
                     Date encounterDate = new Date();
                     String vialsvalue = "";
+                    String wastedvials = "0";
                     String vaccineName = object.getString("title").replace("Stock Issued", "").trim();
+                    int existingbalance = str.getBalanceFromNameAndDate(vaccineName,encounterDate.getTime());;
                     JSONArray fields = object.getJSONArray("fields");
                     for (int i = 0; i < fields.length(); i++) {
                         JSONObject questions = fields.getJSONObject(i);
@@ -194,44 +214,157 @@ public class PathJsonFormActivity extends JsonFormActivity {
                                             }
                                         }
                                     }
-                                    currentBalance = str.getVaccineUsedToday(encounterDate.getTime(),checkifmeasles(vaccineName.toLowerCase()));
+                                    existingbalance = str.getBalanceFromNameAndDate(vaccineName,encounterDate.getTime());
+                                    currentBalanceVaccineUsed = str.getVaccineUsedToday(encounterDate.getTime(),checkifmeasles(vaccineName.toLowerCase()));
 
                                 }
                             }
-                            int existingbalance = str.getBalanceFromNameAndDate(vaccineName,encounterDate.getTime());
-                            pathJsonFormFragment.getLabelViewFromTag("Balance","");
-                            if (value!=null && !StringUtils.isBlank(value)) {
 
-                                        newBalance = existingbalance - Integer.parseInt(value);
-                                        pathJsonFormFragment.getLabelViewFromTag("Balance","New balance: " + newBalance);
-                                    }else{
-                                        pathJsonFormFragment.getLabelViewFromTag("Balance","");
+                            if (questions.getString("key").equalsIgnoreCase("Vials_Wasted")) {
+
+                                if (questions.has("value")) {
+                                    if(!StringUtils.isBlank(questions.getString("value"))){
+                                        wastedvials = questions.getString("value");
                                     }
-                            int DosesPerVial = 0;
-                            int vialsused = 0;
-                            Vaccine_typesRepository vaccine_typesRepository = new Vaccine_typesRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(), VaccinatorApplication.createCommonFtsObject(), Context.getInstance().alertService());
-                            int dosesPerVial = vaccine_typesRepository.getDosesPerVial(vaccineName);
-                            if(currentBalance % dosesPerVial == 0){
-                                vialsused = currentBalance/dosesPerVial;
-                            }else if (currentBalance != 0){
-                                vialsused = (currentBalance/dosesPerVial) +1;
-                            }
-                            if (currentBalance != 0) {
-                                displaybalance = vialsused;
-                                if (balancetextview != null) {
-                                    balancetextview.setErrorColor(Color.BLACK);
-                                    balancetextview.setError(currentBalance + " children vaccinated today.Assuming " + displaybalance+" vials used.");
-//                                    writeValue("step1","labelHeaderImage","checkwritetolabel","","","");
+                                }else{
+                                    wastedvials = "0";
                                 }
-                            }else{
-                                balancetextview.setErrorColor(Color.BLACK);
-                                balancetextview.setError("");
-
                             }
+
 
                                                    ;
 
                         }
+                    }
+                    pathJsonFormFragment.getLabelViewFromTag("Balance","");
+
+                    if (value!=null && !StringUtils.isBlank(value)) {
+
+                        newBalance = existingbalance - Integer.parseInt(value) -Integer.parseInt(wastedvials) ;
+                        pathJsonFormFragment.getLabelViewFromTag("Balance","New balance: " + newBalance);
+                    }else{
+                        pathJsonFormFragment.getLabelViewFromTag("Balance","");
+                    }
+                    int DosesPerVial = 0;
+                    int vialsused = 0;
+                    Vaccine_typesRepository vaccine_typesRepository = new Vaccine_typesRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(), VaccinatorApplication.createCommonFtsObject(), Context.getInstance().alertService());
+                    int dosesPerVial = vaccine_typesRepository.getDosesPerVial(vaccineName);
+                    if(currentBalanceVaccineUsed % dosesPerVial == 0){
+                        vialsused = currentBalanceVaccineUsed/dosesPerVial;
+                    }else if (currentBalanceVaccineUsed != 0){
+                        vialsused = (currentBalanceVaccineUsed/dosesPerVial) +1;
+                    }
+                    if (currentBalanceVaccineUsed != 0) {
+                        displaybalance = vialsused;
+                        if (balancetextview != null) {
+                            balancetextview.setErrorColor(Color.BLACK);
+                            balancetextview.setError(currentBalanceVaccineUsed + " children vaccinated today.Assuming " + displaybalance+" vials used.");
+//                                    writeValue("step1","labelHeaderImage","checkwritetolabel","","","");
+                        }
+                    }else{
+                        balancetextview.setErrorColor(Color.BLACK);
+                        balancetextview.setError("");
+
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    private void stockWastedVialsEnteredinIssuedForm(String key, String value) {
+        JSONObject object = getStep("step1");
+        try {
+            if (object.getString("title").contains("Stock Issued")) {
+                StockRepository str = new StockRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(), VaccinatorApplication.createCommonFtsObject(), Context.getInstance().alertService());
+                if (key.equalsIgnoreCase("Vials_Wasted") ) {
+                    if(balancetextview == null) {
+                        ArrayList<View> views = getFormDataViews();
+                        for (int i = 0; i < views.size(); i++) {
+                            if (views.get(i) instanceof MaterialEditText) {
+                                if (((String) views.get(i).getTag(com.vijay.jsonwizard.R.id.key)).equalsIgnoreCase("Vials_Issued")) {
+                                    balancetextview = (MaterialEditText) views.get(i);
+                                }
+                            }
+                        }
+                    }
+                    String label = "";
+                    int currentBalanceVaccineUsed = 0;
+                    int displaybalance = 0;
+                    int newBalance = 0;
+                    Date encounterDate = new Date();
+                    String vialsvalue = "";
+                    String wastedvials = value;
+                    String vaccineName = object.getString("title").replace("Stock Issued", "").trim();
+                    int existingbalance = str.getBalanceFromNameAndDate(vaccineName,encounterDate.getTime());;
+                    JSONArray fields = object.getJSONArray("fields");
+                    for (int i = 0; i < fields.length(); i++) {
+                        JSONObject questions = fields.getJSONObject(i);
+                        if (questions.has("key")) {
+                            if (questions.getString("key").equalsIgnoreCase("Date_Stock_Issued")) {
+                                if (questions.has("value")) {
+                                    label = questions.getString("value");
+                                    if (label != null) {
+                                        if (StringUtils.isNotBlank(label)) {
+                                            Date dateTime = JsonFormUtils.formatDate(label, false);
+                                            if (dateTime != null) {
+                                                encounterDate = dateTime;
+                                            }
+                                        }
+                                    }
+                                    existingbalance = str.getBalanceFromNameAndDate(vaccineName,encounterDate.getTime());
+                                    currentBalanceVaccineUsed = str.getVaccineUsedToday(encounterDate.getTime(),checkifmeasles(vaccineName.toLowerCase()));
+
+                                }
+                            }
+
+                            if (questions.getString("key").equalsIgnoreCase("Vials_Issued")) {
+
+                                if (questions.has("value")) {
+                                    if(!StringUtils.isBlank(questions.getString("value"))){
+                                        vialsvalue = questions.getString("value");
+                                    }
+                                }else{
+                                    vialsvalue = "0";
+                                }
+                            }
+
+
+                            ;
+
+                        }
+                    }
+                    pathJsonFormFragment.getLabelViewFromTag("Balance","");
+                    if(wastedvials ==null || StringUtils.isBlank(wastedvials)){
+                        wastedvials = "0";
+                    }
+                    if (vialsvalue!=null && !StringUtils.isBlank(vialsvalue)) {
+
+                        newBalance = existingbalance - Integer.parseInt(vialsvalue) -Integer.parseInt(wastedvials) ;
+                        pathJsonFormFragment.getLabelViewFromTag("Balance","New balance: " + newBalance);
+                    }else{
+                        pathJsonFormFragment.getLabelViewFromTag("Balance","");
+                    }
+                    int DosesPerVial = 0;
+                    int vialsused = 0;
+                    Vaccine_typesRepository vaccine_typesRepository = new Vaccine_typesRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(), VaccinatorApplication.createCommonFtsObject(), Context.getInstance().alertService());
+                    int dosesPerVial = vaccine_typesRepository.getDosesPerVial(vaccineName);
+                    if(currentBalanceVaccineUsed % dosesPerVial == 0){
+                        vialsused = currentBalanceVaccineUsed/dosesPerVial;
+                    }else if (currentBalanceVaccineUsed != 0){
+                        vialsused = (currentBalanceVaccineUsed/dosesPerVial) +1;
+                    }
+                    if (currentBalanceVaccineUsed != 0) {
+                        displaybalance = vialsused;
+                        if (balancetextview != null) {
+                            balancetextview.setErrorColor(Color.BLACK);
+                            balancetextview.setError(currentBalanceVaccineUsed + " children vaccinated today.Assuming " + displaybalance+" vials used.");
+//                                    writeValue("step1","labelHeaderImage","checkwritetolabel","","","");
+                        }
+                    }else{
+                        balancetextview.setErrorColor(Color.BLACK);
+                        balancetextview.setError("");
+
                     }
                 }
             }
