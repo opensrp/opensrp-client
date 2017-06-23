@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.helper.GraphViewXML;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
@@ -35,6 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -138,11 +140,16 @@ public class Planning_Stock_fragment extends Fragment {
             arraymonthslabelsize = 3;
             montharry = new String[]{now.minusMonths(3).monthOfYear().getAsShortText()+" "+now.year().getAsShortText(),
                     now.minusMonths(2).monthOfYear().getAsShortText()+" "+now.year().getAsShortText(),
-                    now.minusMonths(1).monthOfYear().getAsShortText()+" "+now.year().getAsShortText()
+                    now.minusMonths(1).monthOfYear().getAsShortText()+" "+now.year().getAsShortText(),
+                    now.minusMonths(0).monthOfYear().getAsShortText()+" "+now.year().getAsShortText(),
+
             };
         }
         staticLabelsFormatter.setHorizontalLabels(montharry);
-        graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+//        graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+        DateFormat month_date = new SimpleDateFormat("MMM yyyy");
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity(),month_date));
+        graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
         graph.removeAllSeries();
         graph.getViewport().setMinX(now.minusMonths(3).toDate().getTime());
         graph.getViewport().setMaxX(now.toDate().getTime());
@@ -179,8 +186,8 @@ public class Planning_Stock_fragment extends Fragment {
         }else{
             wastepercent = (1- ((double)vaccinegiven/vaccineissued))*100;
         }
-        DecimalFormat df = new DecimalFormat("####0.00");
-        ((TextView)view.findViewById(R.id.avg_vacc_waste_rate_value)).setText(""+df.format(wastepercent)+ "%");
+        DecimalFormat df = new DecimalFormat("####0");
+        ((TextView)view.findViewById(R.id.avg_vacc_waste_rate_value)).setText(""+df.format(Math.ceil(wastepercent))+ "%");
 
     }
 
@@ -279,13 +286,13 @@ public class Planning_Stock_fragment extends Fragment {
 
         titleview.setText(vaccineName+ " Planning");
         graphtitletext.setText("3 month "+vaccineName + " stock levels");
-        current_stock_label.setText("Current "+ vaccineName+ " stock:");
-        avg_vacc_waste_rate_label.setText("Average "+ vaccineName+ " waste rate:");
-        due_vacc_description.setText("Calculated from current active children that will be due for "+vaccineName+" next month");
+        current_stock_label.setText("Current "+ vaccineName+ " stock: ");
+        avg_vacc_waste_rate_label.setText("Average "+ vaccineName+ " waste rate: ");
+        due_vacc_description.setText("Calculated from current active children that will be due for "+vaccineName+" next month.");
         lastthreemonthstocktitle.setText("3 month "+vaccineName+" stock used");
 
         DateTime NextMonth = new DateTime(System.currentTimeMillis()).plusMonths(1);
-        ((TextView)view.findViewById(R.id.due_vacc_next_month_label)).setText("Due "+vaccineName+" Next month "+NextMonth.monthOfYear().getAsShortText()+" "+NextMonth.year().getAsShortText()+" :");
+        ((TextView)view.findViewById(R.id.due_vacc_next_month_label)).setText("Due "+vaccineName+" next month "+NextMonth.monthOfYear().getAsShortText()+" "+NextMonth.year().getAsShortText()+": ");
 
     }
 
@@ -322,6 +329,8 @@ public class Planning_Stock_fragment extends Fragment {
         GraphView graph = (GraphView)view.findViewById(R.id.graph);
 
         graph.removeAllSeries();
+        series.setThickness(3);
+        series.setColor(getResources().getColor(R.color.bluetext));
         graph.addSeries(series);
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMaxY(series.getHighestValueY());
@@ -417,8 +426,8 @@ public class Planning_Stock_fragment extends Fragment {
         TextView last_month_total = (TextView)view.findViewById(R.id.last_month_total);
         TextView this_month_total = (TextView)view.findViewById(R.id.this_month_total);
         TextView difference_total = (TextView)view.findViewById(R.id.difference_total);
-
-
+        String stringDifference0to11 = "";
+        String stringDifference12to59 = "";
         activeChildrenStats activeChildrenStats = getActivechildrenStat();
 
 
@@ -432,15 +441,26 @@ public class Planning_Stock_fragment extends Fragment {
 
         Long difference0to11 = activeChildrenStats.getChildrenLastMonthZeroToEleven() - activeChildrenStats.getChildrenThisMonthZeroToEleven();
         if(difference0to11<0){
-            difference0to11 = -1* difference0to11;
+            stringDifference0to11 = ""+ difference0to11;
+        }else{
+            stringDifference0to11 = "+" + difference0to11;
         }
         Long difference12to59 = activeChildrenStats.getChildrenLastMonthtwelveTofiftyNine() - activeChildrenStats.getChildrenThisMonthtwelveTofiftyNine();
         if(difference12to59<0){
-            difference12to59 = -1*difference12to59;
+            stringDifference12to59 = ""+difference12to59;
+        }else{
+            stringDifference12to59 = "+"+difference12to59;
         }
-        twelvetofiftyninedifference.setText(""+difference12to59);
-        zerotoelevendifference.setText(""+difference0to11);
-        difference_total.setText(""+(difference0to11+difference12to59));
+
+
+
+        twelvetofiftyninedifference.setText(stringDifference12to59);
+        zerotoelevendifference.setText(stringDifference0to11);
+        if((difference0to11+difference12to59)<0) {
+            difference_total.setText("" + (difference0to11 + difference12to59));
+        }else{
+            difference_total.setText("+" + (difference0to11 + difference12to59));
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -204,9 +204,9 @@ public class StockActivity extends BaseActivity {
                 int currentvials = stockRepository.getBalanceFromNameAndDate(vaccine_type.getName(),System.currentTimeMillis());
                 name.setText(vaccine_type.getName());
 
-                doses.setText(""+currentvials*vaccine_type.getDoses()+ " Doses");
+                doses.setText(""+currentvials*vaccine_type.getDoses()+ " doses");
 
-                vials.setText(""+currentvials+ " Vials");
+                vials.setText(""+currentvials+ " vials");
 
                 gridView.setOnClickListener(new View.OnClickListener() {
                     @Override

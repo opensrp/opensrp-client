@@ -32,7 +32,8 @@
             <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/CustomFontTextViewStyle.ClientList.Light"
+                fontVariant="light"
+                style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
                 android:text="14 vials"
                 android:id="@+id/vials"
                 android:textColor="@color/bluetext"
@@ -51,30 +52,34 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:drawableLeft="@drawable/stock_plus"
-                android:text="  Received"
+                android:text=" Received"
                 android:textAllCaps="false"
                 android:id="@+id/received"
                 android:textColor="#767676"
-                android:background="@drawable/login_button"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:layout_weight="1"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp" />
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:background="@drawable/bg_gray_gradient"
+                android:textAppearance="@style/CustomFontTextViewStyle.ListView.Medium.NoPadding" />
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:drawableLeft="@drawable/stock_minus"
-                android:text="  Issued"
+                android:text="Issued"
                 android:textAllCaps="false"
                 android:id="@+id/issued"
                 android:textColor="#767676"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/login_button"
+                android:background="@drawable/bg_gray_gradient"
                 android:paddingEnd="20dp"
-                android:paddingStart="20dp" />
+                android:paddingStart="20dp"
+                android:textAppearance="@style/CustomFontTextViewStyle.ListView.Medium.NoPadding"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp" />
 
             <Button
                 android:layout_width="0dp"
@@ -84,12 +89,15 @@
                 android:textAllCaps="false"
                 android:id="@+id/loss_adj"
                 android:textColor="#767676"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/login_button"
                 android:paddingStart="20dp"
-                android:paddingEnd="20dp" />
+                android:paddingEnd="20dp"
+                android:textAppearance="@style/CustomFontTextViewStyle.ListView.Medium.NoPadding"
+                android:background="@drawable/bg_gray_gradient"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp" />
         </LinearLayout>
         <ImageView
             android:layout_width="match_parent"
@@ -145,7 +153,7 @@
                 style="@style/CustomFontTextViewStyle.ClientList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Issued(-)"
+                android:text="Issued (-)"
                 android:textColor="@color/dim_foreground_material_light"
                 android:textSize="18sp"
                 android:layout_weight="2"

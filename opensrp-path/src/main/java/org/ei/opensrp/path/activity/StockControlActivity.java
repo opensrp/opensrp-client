@@ -74,6 +74,7 @@ public class StockControlActivity extends AppCompatActivity {
         toolbar.setTitle("");
         setTitle("");
 
+        ((TextView)toolbar.findViewById(R.id.title)).setText("Stock Control > "+vaccine_type.getName());
 
 
         // Create the adapter that will return a fragment for each of the three
