@@ -6,7 +6,7 @@ build:
     - gradle --version
     - gradle clean --stacktrace
     - gradle opensrp-path:jacocoTestReport
-    - bash <(curl -s https://codecov.io/bash)
+    - curl -s https://codecov.io/bash
 notify:
   email:
     from: $$FROM
