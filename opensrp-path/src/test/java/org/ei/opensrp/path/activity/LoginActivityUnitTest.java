@@ -8,7 +8,6 @@ import android.widget.LinearLayout;
 import org.ei.opensrp.path.R;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.robolectric.Robolectric;
 
@@ -33,8 +32,7 @@ public class LoginActivityUnitTest extends BaseUnitTest {
     public void tearDown() {
     }
 
-    @Test
-    @Ignore
+    @Test 
     public void usernameTextFieldShouldContainCorrectTextAfterInput() {
 
         EditText usernameText = (EditText) activity.findViewById(R.id.login_userNameText);
@@ -47,7 +45,6 @@ public class LoginActivityUnitTest extends BaseUnitTest {
 
 
     @Test
-    @Ignore
     public void passwordTextFieldShouldContainCorrectTextAfterInput() {
         EditText passwordText = (EditText) activity.findViewById(R.id.login_passwordText);
         assertNotNull(passwordText);
@@ -58,7 +55,6 @@ public class LoginActivityUnitTest extends BaseUnitTest {
     }
 
     @Test
-    @Ignore
     public void theApplicationLogoShouldRenderCorrectlyOnLoad() {
 
         LinearLayout logoImageViewCanvas = (LinearLayout) activity.findViewById(R.id.logoCanvasLL);
