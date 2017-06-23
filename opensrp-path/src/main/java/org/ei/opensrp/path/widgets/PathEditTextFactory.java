@@ -1,6 +1,7 @@
 package org.ei.opensrp.path.widgets;
 
 import android.content.Context;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -101,7 +102,8 @@ public class PathEditTextFactory extends EditTextFactory {
                 }
             });
 
-
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER |
+                    InputType.TYPE_NUMBER_FLAG_SIGNED);
 
 
             return views;
