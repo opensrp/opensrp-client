@@ -6,9 +6,7 @@ build:
     - gradle --version
     - gradle clean --stacktrace
     - gradle opensrp-path:jacocoTestReport
-    - go get github.com/axw/gocov/gocov
-    - go get github.com/mattn/goveralls
-    - goveralls -service drone.io 
+    - bash <(curl -s https://codecov.io/bash)
 notify:
   email:
     from: $$FROM
