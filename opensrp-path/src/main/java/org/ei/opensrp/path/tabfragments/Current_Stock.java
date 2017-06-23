@@ -359,6 +359,11 @@ public class Current_Stock extends Fragment implements
             String Date_Stock_Received = JsonFormUtils.getFieldValue(fields, "Date_Stock_loss_adjustment");
             String Received_Stock_From = JsonFormUtils.getFieldValue(fields, "Reason_for_adjustment");
             String vials_received = JsonFormUtils.getFieldValue(fields, "Vials_Adjustment");
+            if(Received_Stock_From.equalsIgnoreCase("Other")){
+                Received_Stock_From = JsonFormUtils.getFieldValue(fields, "adjusted_Stock_TO_Other");
+            }else{
+                Received_Stock_From = JsonFormUtils.getFieldValue(fields, "Reason_for_adjustment");
+            }
 
             StockRepository str = new StockRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(),VaccinatorApplication.createCommonFtsObject(),context.alertService());
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());

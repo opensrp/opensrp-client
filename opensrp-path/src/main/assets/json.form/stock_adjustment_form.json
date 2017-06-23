@@ -89,6 +89,25 @@
         }
       },
       {
+        "key": "adjusted_Stock_TO_Other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hint": "Please specify: *",
+        "edit_type": "name",
+        "v_required": {
+          "value": true,
+          "err": "Please specify where else the stock was adjusted from"
+        },
+        "relevance": {
+          "step1:Reason_for_adjustment": {
+            "type": "string",
+            "ex": "equalTo(., \"Other\")"
+          }
+        }
+      },
+      {
         "key": "Vials_Adjustment",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",

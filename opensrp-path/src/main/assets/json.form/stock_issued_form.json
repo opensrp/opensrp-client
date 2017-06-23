@@ -101,7 +101,7 @@
           "err": "Please specify where else the stock was received from"
         },
         "relevance": {
-          "step1:Received_Stock_From": {
+          "step1:Issued_Stock_To": {
             "type": "string",
             "ex": "equalTo(., \"Other\")"
           }
