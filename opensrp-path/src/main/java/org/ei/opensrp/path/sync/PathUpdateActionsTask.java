@@ -44,14 +44,17 @@ import java.util.Map;
 
 import util.NetworkUtils;
 
+import static java.text.MessageFormat.format;
 import static org.ei.opensrp.domain.FetchStatus.fetched;
 import static org.ei.opensrp.domain.FetchStatus.fetchedFailed;
 import static org.ei.opensrp.domain.FetchStatus.nothingFetched;
+import static org.ei.opensrp.util.Log.logError;
 import static org.ei.opensrp.util.Log.logInfo;
 
 public class PathUpdateActionsTask {
     private static final String EVENTS_SYNC_PATH = "/rest/event/add";
-    private static final String STOCK_SYNC_PATH = "/rest/stock/add/";
+    private static final String STOCK_Add_PATH = "/rest/stock/add/";
+    private static final String STOCK_SYNC_PATH = "/rest/stock/sync/";
     private final LockingBackgroundTask task;
     private ActionService actionService;
     private Context context;
@@ -168,6 +171,8 @@ public class PathUpdateActionsTask {
                 Log.i(getClass().getName(), "!!!!! Sync count:  " + eCount);
                 pathAfterFetchListener.partialFetch(fetched);
             }
+            pushStockToServer();
+            pullStockFromServer();
 
             if (totalCount == 0) {
                 return nothingFetched;
@@ -211,7 +216,7 @@ public class PathUpdateActionsTask {
                 }
                 String jsonPayload = request.toString();
                 Response<String> response = httpAgent.post(
-                        MessageFormat.format("{0}/{1}",
+                        format("{0}/{1}",
                                 baseUrl,
                                 EVENTS_SYNC_PATH),
                         jsonPayload);
@@ -229,15 +234,96 @@ public class PathUpdateActionsTask {
         } catch (UnsupportedEncodingException e) {
             Log.e(getClass().getName(), e.getMessage());
         }
-        pushStockToServer();
-        pullStockFromServer();
+
     }
 
     private void pullStockFromServer() {
-//        String baseUrl = org.ei.opensrp.Context.getInstance().configuration().dristhiBaseURL();
-//        if (baseUrl.endsWith("/")) {
-//            baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("/"));
-//        }
+        boolean keepSyncing = true;
+        int limit = 50;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
+        String anmId = allSharedPreferences.fetchRegisteredANM();
+        String baseUrl = org.ei.opensrp.Context.getInstance().configuration().dristhiBaseURL();
+        if (baseUrl.endsWith("/")) {
+            baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("/"));
+        }
+
+        while (true) {
+            long timestamp = preferences.getLong("last_stock_sync",0);
+            String uri = format("{0}/{1}?providerid={2}&timestamp={3}",
+                    baseUrl,
+                    STOCK_SYNC_PATH,
+                    anmId,
+                    timestamp
+                    );
+            Response<String> response = httpAgent.fetch(uri);
+            if (response.isFailure()) {
+                logError(format("Form submissions pull failed."));
+                return ;
+            }
+            String jsonPayload = response.payload();
+            ArrayList <Stock> Stock_arrayList = getStockFromPayload(jsonPayload);
+            Long highestTimestamp = getHighestTimestampFromStockPayLoad(jsonPayload);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putLong("last_stock_sync", highestTimestamp);
+            editor.commit();
+            if (Stock_arrayList.isEmpty()) {
+                return ;
+            } else {
+                StockRepository stockRepository = new StockRepository(db,VaccinatorApplication.createCommonFtsObject(), org.ei.opensrp.Context.getInstance().alertService());
+                for(int j = 0;j<Stock_arrayList.size();j++){
+                    stockRepository.add(Stock_arrayList.get(j));
+                }
+
+            }
+        }
+    }
+
+    private Long getHighestTimestampFromStockPayLoad(String jsonPayload) {
+        Long toreturn = 0l;
+        try {
+            JSONObject stockcontainer = new JSONObject(jsonPayload);
+            if (stockcontainer.has("stocks")) {
+                JSONArray stockArray = stockcontainer.getJSONArray("stocks");
+                for(int i = 0;i<stockArray.length();i++){
+
+                    JSONObject stockobject = stockArray.getJSONObject(i);
+                    if(stockobject.getLong("serverVersion")>toreturn){
+                        toreturn = stockobject.getLong("serverVersion");
+                    }
+
+                }
+            }
+        }catch (Exception e){
+
+        }
+        return toreturn;
+    }
+
+    private ArrayList<Stock> getStockFromPayload(String jsonPayload) {
+        ArrayList <Stock> Stock_arrayList = new ArrayList<Stock>();
+        try {
+            JSONObject stockcontainer = new JSONObject(jsonPayload);
+            if (stockcontainer.has("stocks")) {
+                JSONArray stockArray = stockcontainer.getJSONArray("stocks");
+                for(int i = 0;i<stockArray.length();i++){
+                    JSONObject stockobject = stockArray.getJSONObject(i);
+                    Stock stock = new Stock(stockobject.getLong("identifier"),
+                                            stockobject.getString("transaction_type"),
+                                            stockobject.getString("providerid"),
+                                            stockobject.getInt("value"),
+                                            stockobject.getLong("date_created"),
+                                            stockobject.getString("to_from"),
+                                            stockobject.getString("sync_status"),
+                                            stockobject.getLong("date_updated"),
+                                            stockobject.getString("vaccine_type_id"));
+                    Stock_arrayList.add(stock);
+                }
+            }
+        }catch (Exception e){
+
+        }
+        return Stock_arrayList;
     }
 
     public void pushStockToServer() {
@@ -265,9 +351,9 @@ public class PathUpdateActionsTask {
 
                 String jsonPayload = request.toString();
                 Response<String> response = httpAgent.post(
-                        MessageFormat.format("{0}/{1}",
+                        format("{0}/{1}",
                                 baseUrl,
-                                STOCK_SYNC_PATH),
+                                STOCK_Add_PATH),
                         jsonPayload);
                 if (response.isFailure()) {
                     Log.e(getClass().getName(), "Events sync failed.");
