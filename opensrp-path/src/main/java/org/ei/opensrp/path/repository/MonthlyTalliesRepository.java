@@ -29,6 +29,7 @@ import java.util.Map;
 public class MonthlyTalliesRepository extends BaseRepository {
     private static final String TAG = MonthlyTalliesRepository.class.getCanonicalName();
     public static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("yyyy-MM");
+    public static final SimpleDateFormat dfddmmyy = new SimpleDateFormat("dd/MM/yy");
     public static final String TABLE_NAME = "monthly_tallies";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_PROVIDER_ID = "provider_id";
@@ -38,9 +39,10 @@ public class MonthlyTalliesRepository extends BaseRepository {
     public static final String COLUMN_EDITED = "edited";
     public static final String COLUMN_DATE_SENT = "date_sent";
     public static final String COLUMN_UPDATED_AT = "updated_at";
+    public static final String COLUMN_CREATED_AT = "created_at";
     public static final String[] TABLE_COLUMNS = {
             COLUMN_ID, COLUMN_INDICATOR_ID, COLUMN_PROVIDER_ID,
-            COLUMN_VALUE, COLUMN_MONTH, COLUMN_EDITED, COLUMN_DATE_SENT, COLUMN_UPDATED_AT
+            COLUMN_VALUE, COLUMN_MONTH, COLUMN_EDITED, COLUMN_DATE_SENT, COLUMN_CREATED_AT, COLUMN_UPDATED_AT
     };
 
     private static final String CREATE_TABLE_QUERY = "CREATE TABLE " + TABLE_NAME + "(" +
@@ -51,6 +53,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
             COLUMN_MONTH + " VARCHAR NOT NULL," +
             COLUMN_EDITED + " INTEGER NOT NULL DEFAULT 0," +
             COLUMN_DATE_SENT + " DATETIME NULL," +
+            COLUMN_CREATED_AT + " DATETIME NULL," +
             COLUMN_UPDATED_AT + " TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)";
 
     private static final String INDEX_PROVIDER_ID = "CREATE INDEX " + TABLE_NAME + "_" + COLUMN_PROVIDER_ID + "_index" +
@@ -143,12 +146,12 @@ public class MonthlyTalliesRepository extends BaseRepository {
         List<MonthlyTally> monthlyTallies = new ArrayList<>();
         try {
             cursor = getPathRepository().getReadableDatabase().query(TABLE_NAME, TABLE_COLUMNS,
-                    COLUMN_MONTH + " = '" +month +
-                            "' AND " + COLUMN_DATE_SENT + " IS NOT NULL",
+                    COLUMN_MONTH + " = '" + month +
+                            "' AND " + COLUMN_DATE_SENT + " IS NULL",
                     null, null, null, null, null);
-            List<MonthlyTally> tallies = readAllDataElements(cursor);
+             monthlyTallies = readAllDataElements(cursor);
 
-            if (tallies.size() == 0) {// No tallies generated yet
+            if (monthlyTallies.size() == 0) {// No tallies generated yet
                 Map<Long, List<DailyTally>> dailyTallies = VaccinatorApplication.getInstance()
                         .dailyTalliesRepository().findTalliesInMonth(month);
                 for (List<DailyTally> curList : dailyTallies.values()) {
@@ -239,12 +242,12 @@ public class MonthlyTalliesRepository extends BaseRepository {
                 cv.put(COLUMN_DATE_SENT,
                         tally.getDateSent() == null ? null : tally.getDateSent().getTime());
                 cv.put(COLUMN_EDITED, tally.isEdited() ? 1 : 0);
-                cv.put(COLUMN_UPDATED_AT, Calendar.getInstance().getTimeInMillis());
 
                 if (id != null) {
                     database.update(TABLE_NAME, cv, COLUMN_ID + " = ?",
                             new String[]{id.toString()});
                 } else {
+                    cv.put(COLUMN_CREATED_AT, Calendar.getInstance().getTimeInMillis());
                     database.insert(TABLE_NAME, null, cv);
                 }
 
@@ -262,44 +265,48 @@ public class MonthlyTalliesRepository extends BaseRepository {
     /**
      * save data from the monthly draft form whereby in the map the key is indicator_id and value is the form value
      * assumption here is that the data is edited..probably find a way to confirm this
+     *
      * @param draftFormValues
      * @param month
      * @return
      */
-    public boolean save(Map<String,String> draftFormValues, Date month) {
+    public boolean save(Map<String, String> draftFormValues, Date month) {
         SQLiteDatabase database = getPathRepository().getWritableDatabase();
         try {
             database.beginTransaction();
-            if (draftFormValues != null && !draftFormValues.isEmpty()&&month!=null ) {
+            if (draftFormValues != null && !draftFormValues.isEmpty() && month != null) {
                 String userName = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
 
-                for(String key:draftFormValues.keySet()){
-                    Long id = checkIfExists(Integer.valueOf(key),MONTH_FORMAT.format(month));
+                for (String key : draftFormValues.keySet()) {
+                    Long id = checkIfExists(Integer.valueOf(key), MONTH_FORMAT.format(month));
+                    String value = draftFormValues.get(key);
                     ContentValues cv = new ContentValues();
                     cv.put(COLUMN_INDICATOR_ID, Integer.valueOf(key));
-                    cv.put(COLUMN_VALUE, draftFormValues.get(key));
-                    cv.put(COLUMN_MONTH, month.getTime());
+                    cv.put(COLUMN_VALUE, (value == null || value.isEmpty() ? 0 : Integer.valueOf(value)));
+                    cv.put(COLUMN_MONTH, MONTH_FORMAT.format(month));
                     cv.put(COLUMN_EDITED, 1);
-                    cv.put(COLUMN_PROVIDER_ID,userName);
+                    cv.put(COLUMN_PROVIDER_ID, userName);
 
                     if (id != null) {
                         database.update(TABLE_NAME, cv, COLUMN_ID + " = ?",
                                 new String[]{id.toString()});
                     } else {
+                        cv.put(COLUMN_CREATED_AT, Calendar.getInstance().getTimeInMillis());
                         database.insert(TABLE_NAME, null, cv);
                     }
                 }
 
 
-                return true;
             }
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
+            return false;
         } finally {
+            database.setTransactionSuccessful();
             database.endTransaction();
         }
 
-        return false;
+        return true;
     }
 
     private List<MonthlyTally> readAllDataElements(Cursor cursor) {
@@ -308,8 +315,8 @@ public class MonthlyTalliesRepository extends BaseRepository {
                 .hIA2IndicatorsRepository().findAll();
 
         try {
-            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
-                while (!cursor.isAfterLast()) {
+            if (cursor != null && cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
                     MonthlyTally curTally = extractMonthlyTally(indicatorMap, cursor);
                     if (curTally != null) {
                         tallies.add(curTally);
@@ -355,6 +362,45 @@ public class MonthlyTalliesRepository extends BaseRepository {
         }
 
         return null;
+    }
+
+    /**
+     * @return
+     */
+    public List<MonthlyTally> findAllEditedUnsentMonths() {
+        Cursor cursor = null;
+        List<MonthlyTally> tallies = new ArrayList<>();
+
+        try {
+
+            String query = "SELECT DISTINCT " + COLUMN_MONTH + "," + COLUMN_CREATED_AT +
+                    " FROM " + TABLE_NAME +
+                    " WHERE " + COLUMN_DATE_SENT + " IS NULL" + " AND " + COLUMN_EDITED + " =1 " +
+                    " GROUP BY  " + COLUMN_MONTH;
+            cursor = getPathRepository().getReadableDatabase().rawQuery(query, null);
+
+            if (cursor != null && cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
+                    String curMonth = cursor.getString(cursor.getColumnIndex(COLUMN_MONTH));
+                    Long dateStarted = cursor.getLong(cursor.getColumnIndex(COLUMN_CREATED_AT));
+
+                        MonthlyTally tally = new MonthlyTally();
+                        tally.setMonth(MONTH_FORMAT.parse(curMonth));
+                        tally.setCreatedAt(new Date(dateStarted));
+                        tallies.add(tally);
+                }
+
+            }
+
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return tallies;
     }
 
     private Long checkIfExists(long indicatorId, String month) {

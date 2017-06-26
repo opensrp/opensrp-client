@@ -9,11 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -217,7 +213,7 @@ public class HIA2ReportsActivity extends BaseActivity {
 
                 JSONObject form = FormUtils.getInstance(this).getFormJson(formName);
                 JSONObject step1 = form.getJSONObject("step1");
-                String title = DraftMonthlyFragment.MONTH_FORMAT.format(date).concat(" Draft");
+                String title = MonthlyTalliesRepository.MONTH_FORMAT.format(date).concat(" Draft");
                 step1.put("title", title);
 
 //                JSONArray fields1 = new JSONArray();

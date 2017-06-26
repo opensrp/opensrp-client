@@ -284,7 +284,7 @@ public class PathUpdateActionsTask {
     }
 
     public static void setAlarms(Context context) {
-        VaccinatorAlarmReceiver.setAlarm(context, 60, PathConstants.ServiceType.DAILY_TALLIES_GENERATION);
+        VaccinatorAlarmReceiver.setAlarm(context, 2, PathConstants.ServiceType.DAILY_TALLIES_GENERATION);
         VaccinatorAlarmReceiver.setAlarm(context, 2, PathConstants.ServiceType.WEIGHT_SYNC_PROCESSING);
         VaccinatorAlarmReceiver.setAlarm(context, 2, PathConstants.ServiceType.VACCINE_SYNC_PROCESSING);
         VaccinatorAlarmReceiver.setAlarm(context, 2, PathConstants.ServiceType.RECURRING_SERVICES_SYNC_PROCESSING);

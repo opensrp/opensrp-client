@@ -8,10 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created by Jason Rogena - jrogena@ona.io on 15/06/2017.
@@ -27,6 +25,10 @@ public class Tally implements Serializable {
     protected String providerId;
     @JsonProperty
     protected Date updatedAt;
+
+
+    @JsonProperty
+    protected Date createdAt;
 
     public Tally() {
     }
@@ -69,6 +71,13 @@ public class Tally implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public JSONObject getJsonObject() throws JsonProcessingException, JSONException {

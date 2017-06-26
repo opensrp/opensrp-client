@@ -20,6 +20,7 @@ import android.widget.TextView;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.HIA2ReportsActivity;
 import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.domain.MonthlyTally;
 import org.ei.opensrp.path.repository.MonthlyTalliesRepository;
 import org.ei.opensrp.view.customControls.CustomFontTextView;
 import org.ei.opensrp.view.customControls.FontVariant;
@@ -34,12 +35,10 @@ import util.Utils;
  * Created by coder on 6/7/17.
  */
 public class DraftMonthlyFragment extends Fragment {
-    public static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("MMMM yyyy");
 
     private Button startNewReportEnabled;
     private Button startNewReportDisabled;
     private AlertDialog alertDialog;
-
 
     public static DraftMonthlyFragment newInstance() {
         DraftMonthlyFragment fragment = new DraftMonthlyFragment();
@@ -57,6 +56,7 @@ public class DraftMonthlyFragment extends Fragment {
         startNewReportEnabled = (Button) fragmentview.findViewById(R.id.start_new_report_enabled);
         startNewReportDisabled = (Button) fragmentview.findViewById(R.id.start_new_report_disabled);
         setupSaveDraftReportsView(fragmentview);
+
         return fragmentview;
     }
 
@@ -116,15 +116,16 @@ public class DraftMonthlyFragment extends Fragment {
        final ListView listView = (ListView) inflatedView.findViewById(R.id.list);
        final TextView noDraftsText = (TextView) inflatedView.findViewById(R.id.empty_view);
         //hide empty_view
-        Utils.startAsyncTask(new AsyncTask<Void, Void, List<Date>>() {
+        Utils.startAsyncTask(new AsyncTask<Void, Void, List<MonthlyTally>>() {
             @Override
-            protected List<Date> doInBackground(Void... params) {
+            protected List<MonthlyTally> doInBackground(Void... params) {
                 MonthlyTalliesRepository monthlyTalliesRepository = VaccinatorApplication.getInstance().monthlyTalliesRepository();
-                return monthlyTalliesRepository.findAllUnsentMonths();
+                List<MonthlyTally> tallies = monthlyTalliesRepository.findAllEditedUnsentMonths();
+                return tallies;
             }
 
             @Override
-            protected void onPostExecute(List<Date> dates) {
+            protected void onPostExecute(List<MonthlyTally> dates) {
                 if(!dates.isEmpty()) {
                     noDraftsText.setVisibility(View.GONE);
                     updateDraftsReportListView(listView, dates);
@@ -134,8 +135,8 @@ public class DraftMonthlyFragment extends Fragment {
 
 
     }
-    private void updateDraftsReportListView(final ListView listView, final List<Date> list){
-
+    private void updateDraftsReportListView(final ListView listView, final List<MonthlyTally> list){
+        final SimpleDateFormat df= new SimpleDateFormat("MMM yyyy");
         BaseAdapter baseAdapter = new BaseAdapter() {
             @Override
             public int getCount() {
@@ -158,22 +159,26 @@ public class DraftMonthlyFragment extends Fragment {
                     LayoutInflater inflater = (LayoutInflater)
                             getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
-                    convertView = inflater.inflate(R.layout.month_item, null);
+                    convertView = inflater.inflate(R.layout.month_draft_item, null);
                 }
 
                 TextView tv = (TextView) convertView.findViewById(R.id.tv);
-                Date date = list.get(position);
-                String text = MONTH_FORMAT.format(date);
+                TextView startedAt = (TextView) convertView.findViewById(R.id.month_draft_started_at);
+                MonthlyTally date = list.get(position);
+                String text = df.format(date.getMonth());
+                String startedat = MonthlyTalliesRepository.dfddmmyy.format(date.getCreatedAt());
+                String started = getActivity().getString(R.string.started);
                 tv.setText(text);
-                tv.setTag(date);
+                tv.setTag(text);
+                startedAt.setText(started+" "+startedat);
 
                 convertView.setOnClickListener(monthDraftsClickListener);
-                convertView.setTag(list.get(position));
+                convertView.setTag(date.getMonth());
 
                 return convertView;
             }
         };
-
+        listView.setVisibility(View.VISIBLE);
         listView.setAdapter(baseAdapter);
     }
 
@@ -226,7 +231,7 @@ public class DraftMonthlyFragment extends Fragment {
 
                 TextView tv = (TextView) convertView.findViewById(R.id.tv);
                 Date date = list.get(position);
-                String text = MONTH_FORMAT.format(date);
+                String text = MonthlyTalliesRepository.MONTH_FORMAT.format(date);
                 tv.setText(text);
                 tv.setTag(date);
 
@@ -259,7 +264,7 @@ public class DraftMonthlyFragment extends Fragment {
         @Override
         public void onClick(View v) {
 
-            alertDialog.dismiss();
+            //alertDialog.dismiss();
 
             Object tag = v.getTag();
             if (tag != null && tag instanceof Date) {
