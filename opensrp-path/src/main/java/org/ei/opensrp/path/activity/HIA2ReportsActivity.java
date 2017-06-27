@@ -99,10 +99,10 @@ public class HIA2ReportsActivity extends BaseActivity {
             }
         });
 
-        //syncProgressBar = (ProgressBar) findViewById(R.id.sync_progress_bar);
+//        syncProgressBar = (ProgressBar) findViewById(R.id.sync_progress_bar);
 //        Circle circle = new Circle();
 //        syncProgressBar.setIndeterminateDrawable(circle);
-       // refreshSyncStatusViews();
+//        refreshSyncStatusViews();
 
         //Update Draft Monthly Title
         Utils.startAsyncTask(new AsyncTask<Void, Void, List<Date>>() {
@@ -133,7 +133,7 @@ public class HIA2ReportsActivity extends BaseActivity {
     @Override
     public void onSyncStart() {
         super.onSyncStart();
-        //refreshSyncStatusViews();
+       // refreshSyncStatusViews();
     }
     @Override
     public void onResume() {
