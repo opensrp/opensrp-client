@@ -615,7 +615,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
 
 
-    @Test 
+    @Test
     public void statusViewShouldUpdateToActiveifChildStatusParamListIsEmpty() {
 
         destroyController(); //destroy controller
@@ -648,7 +648,6 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     }
 
     @Test
-    @Ignore
     public void statusViewShouldUpdateToLostToFollowUpWhenChildStatusLostToFollowUpParamIsTrue() {
 
         destroyController(); //destroy controller
