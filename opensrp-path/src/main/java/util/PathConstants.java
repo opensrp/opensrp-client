@@ -29,6 +29,7 @@ public class PathConstants extends AllConstants {
 
     public static final String CHILD_TABLE_NAME = "ec_child";
     public static final String MOTHER_TABLE_NAME = "ec_mother";
+    public static final String CURRENT_LOCATION_ID = "CURRENT_LOCATION_ID";
 
     public static final class ServiceType {
 

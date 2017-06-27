@@ -3,7 +3,6 @@ package util;
 import android.content.Context;
 import android.util.Log;
 
-import org.ei.opensrp.path.domain.Hia2Indicator;
 import org.ei.opensrp.path.domain.Report;
 import org.ei.opensrp.path.sync.ECSyncUpdater;
 import org.joda.time.DateTime;
@@ -23,11 +22,11 @@ public class ReportUtils {
             ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(context);
 
             String providerId = org.ei.opensrp.Context.getInstance().allSharedPreferences().fetchRegisteredANM();
-
+            String locationId = org.ei.opensrp.Context.getInstance().allSharedPreferences().getPreference(PathConstants.CURRENT_LOCATION_ID);
             Report report = new Report();
             report.setFormSubmissionId(JsonFormUtils.generateRandomUUIDString());
             report.setHia2Indicators(hia2Indicators);
-           // report.setLocationId();//FIXME
+            report.setLocationId(locationId);
             report.setProviderId(providerId);
             report.setReportDate(new DateTime());
             report.setReportType(reportType);
