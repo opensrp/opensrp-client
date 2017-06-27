@@ -128,6 +128,23 @@ public class StockRepository extends BaseRepository {
         }
         return stocks;
     }
+    public List<Stock> findUnSyncedWithLimit(int limit) {
+        List<Stock> stocks = new ArrayList<Stock>();
+        Cursor cursor = null;
+        try {
+
+
+            cursor = getPathRepository().getReadableDatabase().query(stock_TABLE_NAME, stock_TABLE_COLUMNS,  SYNC_STATUS + " = ?", new String[]{ TYPE_Unsynced}, null, null, null, ""+limit);
+            stocks = readAllstocks(cursor);
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return stocks;
+    }
 
     public Stock readAllStockforCursorAdapter(Cursor cursor) {
 
@@ -326,4 +343,11 @@ public class StockRepository extends BaseRepository {
         }
     }
 
+    public void markEventsAsSynced(ArrayList<Stock> stocks) {
+        for(int i = 0 ;i < stocks.size();i++){
+            Stock stockToAdd = stocks.get(i);
+            stockToAdd.setSyncStatus(TYPE_Synced);
+            add(stockToAdd);
+        }
+    }
 }
