@@ -1,0 +1,239 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.ei.opensrp.path.tabfragments.Current_Stock"
+    android:background="#ffffff">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp">
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomFontTextViewStyle.ClientList"
+                android:text="M/MR Stock: "
+                android:id="@+id/name"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/bottom_text_size" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fontVariant="light"
+                style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
+                android:text="14 vials"
+                android:id="@+id/vials"
+                android:textColor="@color/bluetext"
+                android:textSize="@dimen/bottom_text_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:drawableLeft="@drawable/stock_plus"
+                android:text=" Received"
+                android:textAllCaps="false"
+                android:id="@+id/received"
+                android:textColor="#767676"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:background="@drawable/bg_gray_gradient"
+                android:textAppearance="@style/CustomFontTextViewStyle.ListView.Medium.NoPadding" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:drawableLeft="@drawable/stock_minus"
+                android:text="Issued"
+                android:textAllCaps="false"
+                android:id="@+id/issued"
+                android:textColor="#767676"
+                android:textSize="18sp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_gray_gradient"
+                android:paddingEnd="20dp"
+                android:paddingStart="20dp"
+                android:textAppearance="@style/CustomFontTextViewStyle.ListView.Medium.NoPadding"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:drawableLeft="@drawable/stock_list"
+                android:text="  Loss/Adj"
+                android:textAllCaps="false"
+                android:id="@+id/loss_adj"
+                android:textColor="#767676"
+                android:textSize="18sp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textAppearance="@style/CustomFontTextViewStyle.ListView.Medium.NoPadding"
+                android:background="@drawable/bg_gray_gradient"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp" />
+        </LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/smart_register_client_divider_height"
+            android:src="@color/smart_register_client_divider_color"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="13">
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:id="@+id/datelabel"
+                style="@style/CustomFontTextViewStyle.ClientList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:textColor="@color/dim_foreground_material_light"
+                android:textSize="18sp"
+                android:layout_weight="2.5"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" />
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:id="@+id/to_fromlabel"
+                style="@style/CustomFontTextViewStyle.ClientList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="To/From"
+                android:textColor="@color/dim_foreground_material_light"
+                android:textSize="18sp"
+                android:layout_weight="2"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" />
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:id="@+id/receivedlabel"
+                style="@style/CustomFontTextViewStyle.ClientList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Received (+)"
+                android:textColor="@color/dim_foreground_material_light"
+                android:textSize="18sp"
+                android:layout_weight="2.5"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:id="@+id/issuedlabel"
+                style="@style/CustomFontTextViewStyle.ClientList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Issued (-)"
+                android:textColor="@color/dim_foreground_material_light"
+                android:textSize="18sp"
+                android:layout_weight="2"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:id="@+id/loss_adjlabel"
+                style="@style/CustomFontTextViewStyle.ClientList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Loss/Adj"
+                android:textColor="@color/dim_foreground_material_light"
+                android:textSize="18sp"
+                android:layout_weight="2.25"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:id="@+id/balancelabel"
+                style="@style/CustomFontTextViewStyle.ClientList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Balance"
+                android:textColor="@color/dim_foreground_material_light"
+                android:textSize="18sp"
+                android:layout_weight="1.76"
+                android:gravity="right"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="10dp" />
+        </LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/smart_register_client_divider_height"
+            android:src="@color/smart_register_client_divider_color"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <FrameLayout
+                android:id="@+id/child_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/listview_background_rounded"
+                    android:paddingBottom="10dp">
+
+                    <ProgressBar
+                        android:id="@+id/client_list_progress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="visible"
+                        style="@android:style/Widget.Holo.Light.ProgressBar.Large.Inverse" />
+
+                    <ListView
+                        android:id="@+id/list"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@color/smart_register_client_divider_color"
+                        android:dividerHeight="@dimen/smart_register_client_divider_height"
+                        android:visibility="invisible"
+                        android:layout_gravity="center_horizontal|top" />
+
+                </FrameLayout>
+            </FrameLayout>
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+</FrameLayout>

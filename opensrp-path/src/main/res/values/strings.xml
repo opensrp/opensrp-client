@@ -15,6 +15,7 @@
     <string name="child_id_sort">Program Id </string>
     <string name="child_search_hint">Search Child</string>
     <string name="child_details_title"> Child Details</string>
+    <string name="stock_title"> Stock Control</string>
     <string name="vaccination_summary"> Vaccination Summary</string>
 
     <string name="search_hint">Search Register</string>
@@ -200,6 +201,8 @@
     <string name="mother_lookup_results">Matching records</string>
     <string name="dismiss">Cancel</string>
     <string name="change_status">Change status</string>
+    <string name="title_activity_stock_control">StockControlActivity</string>
+
 
     <string name="recurring_services">Recurring Services</string>
     <string name="given_today">%1$s given today</string>
@@ -247,4 +250,5 @@
     <string name="drawer_close">Drawer close</string>
     <string name="started">Started</string>
 
+>>>>>>> 6644dfb84f22b241670ee020ebb4b604582ad7b4
 </resources>

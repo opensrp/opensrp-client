@@ -72,7 +72,7 @@
     <color name="transparent_dark_blue">#ff196d99</color>
 
     <color name="snackbar_background_yellow">#FFED18</color>
-
+    <color name="bluetext">#3D9EC9</color>
     <color name="z_score_0">#227532</color>
     <color name="z_score_2">#b1312c</color>
     <color name="z_score_3">#222539</color>

@@ -9,13 +9,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.github.ybq.android.spinkit.style.Circle;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 
 import org.ei.opensrp.domain.FetchStatus;
@@ -26,11 +27,10 @@ import org.ei.opensrp.path.domain.MonthlyTally;
 import org.ei.opensrp.path.fragment.DailyTalliesFragment;
 import org.ei.opensrp.path.fragment.DraftMonthlyFragment;
 import org.ei.opensrp.path.fragment.SentMonthlyFragment;
-import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.repository.HIA2IndicatorsRepository;
 import org.ei.opensrp.path.repository.MonthlyTalliesRepository;
 import org.ei.opensrp.path.service.HIA2Service;
-import org.ei.opensrp.path.toolbar.SimpleToolbar;
+import org.ei.opensrp.path.toolbar.LocationSwitcherToolbar;
 import org.ei.opensrp.util.FormUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -65,7 +65,7 @@ public class HIA2ReportsActivity extends BaseActivity {
      */
     private ViewPager mViewPager;
     private TabLayout tabLayout;
-    private SimpleToolbar toolbar;
+    private LocationSwitcherToolbar toolbar;
     private ProgressBar syncProgressBar;
 
     @Override
@@ -75,7 +75,7 @@ public class HIA2ReportsActivity extends BaseActivity {
         toggle.setDrawerIndicatorEnabled(false);
         toggle.setHomeAsUpIndicator(null);
 
-        toolbar = (SimpleToolbar) getToolbar();
+        toolbar = (LocationSwitcherToolbar) getToolbar();
         toolbar.setTitle(getString(R.string.side_nav_hia2));
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -99,10 +99,10 @@ public class HIA2ReportsActivity extends BaseActivity {
             }
         });
 
-        syncProgressBar = (ProgressBar) findViewById(R.id.sync_progress_bar);
-        Circle circle = new Circle();
-        syncProgressBar.setIndeterminateDrawable(circle);
-        refreshSyncStatusViews();
+        //syncProgressBar = (ProgressBar) findViewById(R.id.sync_progress_bar);
+//        Circle circle = new Circle();
+//        syncProgressBar.setIndeterminateDrawable(circle);
+       // refreshSyncStatusViews();
 
         //Update Draft Monthly Title
         Utils.startAsyncTask(new AsyncTask<Void, Void, List<Date>>() {
@@ -119,27 +119,34 @@ public class HIA2ReportsActivity extends BaseActivity {
         }, null);
     }
 
-    private void refreshSyncStatusViews() {
-        TextView initialsTV = (TextView) findViewById(R.id.name_inits);
-        if (SyncStatusBroadcastReceiver.getInstance().isSyncing()) {
-            syncProgressBar.setVisibility(View.VISIBLE);
-            initialsTV.setVisibility(View.GONE);
-        } else {
-            initialsTV.setVisibility(View.VISIBLE);
-            syncProgressBar.setVisibility(View.GONE);
-        }
-    }
+//    private void refreshSyncStatusViews() {
+//        TextView initialsTV = (TextView) findViewById(R.id.name_inits);
+//        if (SyncStatusBroadcastReceiver.getInstance().isSyncing()) {
+//            syncProgressBar.setVisibility(View.VISIBLE);
+//            initialsTV.setVisibility(View.GONE);
+//        } else {
+//            initialsTV.setVisibility(View.VISIBLE);
+//            syncProgressBar.setVisibility(View.GONE);
+//        }
+//    }
 
     @Override
     public void onSyncStart() {
         super.onSyncStart();
-        refreshSyncStatusViews();
+        //refreshSyncStatusViews();
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //this should go to the base class?
+        LinearLayout hia2 = (LinearLayout) drawer.findViewById(R.id.hia2reports);
+        hia2.setBackgroundColor(getResources().getColor(R.color.tintcolor));
+    }
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
         super.onSyncComplete(fetchStatus);
-        refreshSyncStatusViews();
+        //refreshSyncStatusViews();
     }
 
     /**
@@ -300,7 +307,7 @@ public class HIA2ReportsActivity extends BaseActivity {
 
     @Override
     protected int getToolbarId() {
-        return SimpleToolbar.TOOLBAR_ID;
+        return LocationSwitcherToolbar.TOOLBAR_ID;
     }
 
     @Override

@@ -18,6 +18,7 @@ import org.ei.opensrp.path.db.Client;
 import org.ei.opensrp.path.db.Column;
 import org.ei.opensrp.path.db.ColumnAttribute;
 import org.ei.opensrp.path.db.Event;
+import org.ei.opensrp.path.domain.Vaccine_names;
 import org.ei.opensrp.repository.AlertRepository;
 import org.ei.opensrp.repository.Repository;
 import org.joda.time.DateTime;
@@ -98,14 +99,28 @@ public class PathRepository extends Repository {
                 case 6:
                     upgradeToVersion6(db);
                 case 7:
-                    upgradeToVersion7(db);
+                    upgradeToVersion7Stock(db);
+                    upgradeToVersion7Hia2(db);
                     break;
+
                 default:
                     break;
             }
             upgradeTo++;
         }
     }
+
+    private void upgradeToVersion7Stock(SQLiteDatabase db) {
+        try {
+//            db.execSQL("DROP TABLE IF EXISTS  ");
+            StockRepository.createTable(db);
+            Vaccine_NamesRepository.createTable(db);
+            Vaccine_typesRepository.createTable(db);
+        } catch (Exception e) {
+            Log.e(TAG, "upgradeToVersion7Stock " + e.getMessage());
+        }
+    }
+
 
     @Override
     public SQLiteDatabase getReadableDatabase() {
@@ -1541,7 +1556,7 @@ public class PathRepository extends Repository {
         }
     }
 
-    private void upgradeToVersion7(SQLiteDatabase db) {
+    private void upgradeToVersion7Hia2(SQLiteDatabase db) {
         try {
             db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL);
             db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX);
@@ -1568,7 +1583,7 @@ public class PathRepository extends Repository {
 
 
         } catch (Exception e) {
-            Log.e(TAG, "upgradeToVersion7 " + e.getMessage());
+            Log.e(TAG, "upgradeToVersion7Hia2 " + e.getMessage());
         }
     }
 

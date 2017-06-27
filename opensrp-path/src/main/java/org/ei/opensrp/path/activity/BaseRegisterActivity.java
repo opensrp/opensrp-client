@@ -16,10 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.sync.ECSyncUpdater;
 import org.ei.opensrp.path.sync.PathAfterFetchListener;
@@ -34,8 +36,6 @@ import org.joda.time.Minutes;
 import org.joda.time.Seconds;
 
 import java.util.Calendar;
-
-import util.NetworkUtils;
 
 /**
  * Base activity class for path regiters views
@@ -175,6 +175,7 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
         TextView nameTV = (TextView) navigationView.findViewById(R.id.name_tv);
         nameTV.setText(preferredName);
         refreshSyncStatusViews(null);
+        initializeCustomNavbarLIsteners();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -187,10 +188,10 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
             startFormActivity("child_enrollment", null, null);
         } else if (id == R.id.nav_record_vaccination_out_catchment) {
             startFormActivity("out_of_catchment_service", null, null);
-        }/* else if (id == R.id.nav_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
+        } else if (id == R.id.stock) {
+            Intent intent = new Intent(this, StockActivity.class);
             startActivity(intent);
-        }*/ else if (id == R.id.nav_sync) {
+        } else if (id == R.id.nav_sync) {
             startSync();
         }else if (id == R.id.nav_hia2) {
             Intent intent = new Intent(this, HIA2ReportsActivity.class);
@@ -210,11 +211,53 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
                 context().allFormVersionSyncService());
         pathUpdateActionsTask.updateFromServer(pathAfterFetchListener);
     }
+//////////////////////////////////for navigation menu items///////////////////////////
+//    private void refreshSyncStatusViews(FetchStatus fetchStatus) {
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        if (navigationView != null && navigationView.getMenu() != null) {
+//            MenuItem syncMenuItem = navigationView.getMenu().findItem(R.id.nav_sync);
+//            if (syncMenuItem != null) {
+//                if (SyncStatusBroadcastReceiver.getInstance().isSyncing()) {
+//                    ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
+//                    if (syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
+//                    syncStatusSnackbar = Snackbar.make(rootView, R.string.syncing,
+//                            Snackbar.LENGTH_LONG);
+//                    syncStatusSnackbar.show();
+//                    syncMenuItem.setTitle(R.string.syncing);
+//                } else {
+//                    if (fetchStatus != null) {
+//                        if (syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
+//                        ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
+//                        if (fetchStatus.equals(FetchStatus.fetchedFailed)) {
+//                            syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_failed, Snackbar.LENGTH_INDEFINITE);
+//                            syncStatusSnackbar.setAction(R.string.retry, new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    startSync();
+//                                }
+//                            });
+//                        } else if (fetchStatus.equals(FetchStatus.fetched)
+//                                || fetchStatus.equals(FetchStatus.nothingFetched)) {
+//                            syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_complete, Snackbar.LENGTH_LONG);
+//                        }
+//                        syncStatusSnackbar.show();
+//                    }
+//                    String lastSync = getLastSyncTime();
+//
+//                    if (!TextUtils.isEmpty(lastSync)) {
+//                        lastSync = " " + String.format(getString(R.string.last_sync), lastSync);
+//                    }
+//                    syncMenuItem.setTitle(String.format(getString(R.string.sync_), lastSync));
+//                }
+//            }
+//        }
+//    }
 
+    /////////////////////////for custom navigation //////////////////////////////////////////////////////
     private void refreshSyncStatusViews(FetchStatus fetchStatus) {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null && navigationView.getMenu() != null) {
-            MenuItem syncMenuItem = navigationView.getMenu().findItem(R.id.nav_sync);
+            LinearLayout syncMenuItem = (LinearLayout) navigationView.findViewById(R.id.nav_sync);
             if (syncMenuItem != null) {
                 if (SyncStatusBroadcastReceiver.getInstance().isSyncing()) {
                     ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
@@ -222,7 +265,7 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
                     syncStatusSnackbar = Snackbar.make(rootView, R.string.syncing,
                             Snackbar.LENGTH_LONG);
                     syncStatusSnackbar.show();
-                    syncMenuItem.setTitle(R.string.syncing);
+                    ((TextView)syncMenuItem.findViewById(R.id.nav_synctextview)).setText(R.string.syncing);
                 } else {
                     if (fetchStatus != null) {
                         if (syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
@@ -245,23 +288,92 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
                         syncStatusSnackbar.show();
                     }
 
+//<<<<<<< HEAD
+//                    if (!TextUtils.isEmpty(lastSync)) {
+//                        lastSync = " " + String.format(getString(R.string.last_sync), lastSync);
+//                    }
+//                    ((TextView)syncMenuItem.findViewById(R.id.nav_synctextview)).setText(String.format(getString(R.string.sync_), lastSync));
+//=======
                     updateLastSyncText();
                 }
             }
         }
     }
+    public void initializeCustomNavbarLIsteners(){
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        LinearLayout syncMenuItem = (LinearLayout) drawer.findViewById(R.id.nav_sync);
+        syncMenuItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startSync();
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+        LinearLayout addchild = (LinearLayout) drawer.findViewById(R.id.nav_register);
+        addchild.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startFormActivity("child_enrollment", null, null);
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
+        });
+        LinearLayout outofcatchment = (LinearLayout) drawer.findViewById(R.id.nav_record_vaccination_out_catchment);
+        outofcatchment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startFormActivity("out_of_catchment_service", null, null);
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
+        });
+        LinearLayout stockregister = (LinearLayout) drawer.findViewById(R.id.stockcontrol);
+        stockregister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), StockActivity.class);
+                startActivity(intent);
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
+        });
+        LinearLayout hia2 = (LinearLayout) drawer.findViewById(R.id.hia2reports);
+        hia2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), HIA2ReportsActivity.class);
+                startActivity(intent);
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
+        });
+        LinearLayout childregister = (LinearLayout) drawer.findViewById(R.id.child_register);
+        childregister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VaccinatorApplication.setCrashlyticsUser(VaccinatorApplication.getInstance().context());
+                Intent intent = new Intent(getApplicationContext(), ChildSmartRegisterActivity.class);
+                intent.putExtra(BaseRegisterActivity.IS_REMOTE_LOGIN, false);
+                startActivity(intent);
+                drawer.closeDrawer(GravityCompat.START);
+
+//                finish();
+            }
+        });
+
+    }
 
     private void updateLastSyncText() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null && navigationView.getMenu() != null) {
-            MenuItem syncMenuItem = navigationView.getMenu().findItem(R.id.nav_sync);
+            TextView syncMenuItem = ((TextView)navigationView.findViewById(R.id.nav_synctextview));
             if (syncMenuItem != null) {
                 String lastSync = getLastSyncTime();
 
                 if (!TextUtils.isEmpty(lastSync)) {
                     lastSync = " " + String.format(getString(R.string.last_sync), lastSync);
                 }
-                syncMenuItem.setTitle(String.format(getString(R.string.sync_), lastSync));
+                syncMenuItem.setText(String.format(getString(R.string.sync_), lastSync));
             }
         }
     }

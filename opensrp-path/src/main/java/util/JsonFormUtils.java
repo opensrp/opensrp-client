@@ -927,7 +927,7 @@ public class JsonFormUtils {
 
     // Helper functions
 
-    private static JSONArray fields(JSONObject jsonForm) {
+    public static JSONArray fields(JSONObject jsonForm) {
         try {
 
             JSONObject step1 = jsonForm.has(STEP1) ? jsonForm.getJSONObject(STEP1) : null;
@@ -1027,7 +1027,7 @@ public class JsonFormUtils {
         return null;
     }
 
-    private static String getFieldValue(JSONArray jsonArray, String key) {
+    public static String getFieldValue(JSONArray jsonArray, String key) {
         if (jsonArray == null || jsonArray.length() == 0) {
             return null;
         }

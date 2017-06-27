@@ -129,7 +129,13 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
                 JSONObject item = fields.getJSONObject(i);
                 String keyAtIndex = item.getString("key");
                 if (key.equals(keyAtIndex)) {
-                    item.put("value", value);
+                    if(item.has("text")){
+                        item.put("text", value);
+                    }else{
+                        item.put("value", value);
+
+                    }
+
                     item.put("openmrs_entity_parent", openMrsEntityParent);
                     item.put("openmrs_entity", openMrsEntity);
                     item.put("openmrs_entity_id", openMrsEntityId);

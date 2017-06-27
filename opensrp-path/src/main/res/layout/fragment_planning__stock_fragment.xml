@@ -1,0 +1,522 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="org.ei.opensrp.path.tabfragments.Planning_Stock_fragment"
+    android:background="#ffffff">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView3" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:layout_margin="10dp">
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomFontTextViewStyle.ClientList"
+                android:text="M/MR Stock: "
+                android:id="@+id/name"
+                android:textColor="@color/background_floating_material_dark"
+                android:textSize="@dimen/bottom_text_size"
+                android:layout_marginBottom="25dp"
+                android:layout_marginTop="10dp" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                android:text="14 vials"
+                android:id="@+id/graph_label_text"
+                android:textColor="@color/background_floating_material_dark"
+                android:textSize="20sp" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/smart_register_client_divider_height"
+                android:src="@color/smart_register_client_divider_color"
+                android:layout_margin="10dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dip"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/graph"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:seriesType="line"
+                app:seriesColor="#3D9CE3" />
+            </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/smart_register_client_divider_height"
+                android:src="@color/smart_register_client_divider_color"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                    android:text="3 month stck used"
+                    android:id="@+id/last_three_months_stock_title"
+                    android:textColor="@color/background_floating_material_dark"
+                    android:textSize="20sp"
+                    android:layout_marginBottom="10dp" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="10"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp">
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:text="14 vials"
+                        android:id="@+id/month1"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="3.5"
+                        android:textIsSelectable="false" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:text="14 vials"
+                        android:id="@+id/month1vials"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:textIsSelectable="false" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="10"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp">
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:text="14 vials"
+                        android:id="@+id/month2"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="3.5"
+                        android:textIsSelectable="false" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:text="14 vials"
+                        android:id="@+id/month2vials"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:textIsSelectable="false" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="10"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp">
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:text="14 vials"
+                        android:id="@+id/month3"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="3.5"
+                        android:textIsSelectable="false" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:text="14 vials"
+                        android:id="@+id/month3vials"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:textIsSelectable="false" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="10"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp">
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:text="3 month average"
+                        android:id="@+id/month3label"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="3.5"
+                        android:textIsSelectable="false" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:text=""
+                        android:id="@+id/month3average"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:textIsSelectable="false" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/smart_register_client_divider_height"
+                android:src="@color/smart_register_client_divider_color"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="15dp" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical">
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                    android:text="M/MR Stock: "
+                    android:id="@+id/current_stock"
+                    android:textColor="@color/background_floating_material_dark"
+                    android:textSize="20sp"
+                    android:layout_gravity="center_vertical" />
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
+                    fontVariant="medium"
+                    android:text="14 vials"
+                    android:id="@+id/vials"
+                    android:textColor="@color/bluetext"
+                    android:textSize="20sp"
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/smart_register_client_divider_height"
+                android:src="@color/smart_register_client_divider_color"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                    android:text="Number of active children"
+                    android:id="@+id/number_of_active_children_title"
+                    android:textColor="@color/background_floating_material_dark"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/smart_register_client_divider_height"
+                    android:src="@color/smart_register_client_divider_color"
+                    android:id="@+id/imageView4"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                        android:text="Age"
+                        android:id="@+id/age_label"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:textStyle="bold" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                        android:text="Last Month"
+                        android:id="@+id/last_month_label"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:textStyle="bold" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                        android:text="This Month"
+                        android:id="@+id/this_month_label"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:textStyle="bold" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                        android:text="Difference"
+                        android:id="@+id/difference_label"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:text="0 - 11 months"
+                        android:id="@+id/zerotoelevenlabel"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:text="45"
+                        android:id="@+id/zerotoelevenlastmonth"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:text="55"
+                        android:id="@+id/zerotoeleventhismonth"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:text="10"
+                        android:id="@+id/zerotoelevendifference"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:text="12 - 59 months"
+                        android:id="@+id/twelvetofiftyninemonthslabel"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:text="47"
+                        android:id="@+id/twelvetofiftyninelastmont"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:text="67"
+                        android:id="@+id/twelvetofiftyninethismonth"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:text="20"
+                        android:id="@+id/twelvetofiftyninedifference"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp">
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                        android:text="Total"
+                        android:id="@+id/total_label"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:textStyle="bold" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                        android:text="102"
+                        android:id="@+id/last_month_total"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:textStyle="bold" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                        android:text="122"
+                        android:id="@+id/this_month_total"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:textStyle="bold" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                        android:text="30"
+                        android:id="@+id/difference_total"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/smart_register_client_divider_height"
+                android:src="@color/smart_register_client_divider_color"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_vertical">
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                    android:text="Due MMR Next month April 2017 :"
+                    android:id="@+id/due_vacc_next_month_label"
+                    android:textColor="@color/background_floating_material_dark"
+                    android:textSize="20sp"
+                    android:layout_gravity="center_vertical" />
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
+                    fontVariant="medium"
+                    android:text="14 vials"
+                    android:id="@+id/due_vacc_next_month_value"
+                    android:textColor="@color/bluetext"
+                    android:textSize="20sp"
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
+                android:text="Calculated from current active children that will be due for M/MR next month"
+                android:id="@+id/due_vacc_description"
+                android:textColor="@color/client_list_grey"
+                android:textSize="18sp" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/smart_register_client_divider_height"
+                android:src="@color/smart_register_client_divider_color"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp">
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                    android:text="Average M/MR waste rate :"
+                    android:id="@+id/avg_vacc_waste_rate_label"
+                    android:textColor="@color/background_floating_material_dark"
+                    android:textSize="20sp"
+                    android:layout_gravity="center_vertical" />
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
+                    fontVariant="medium"
+                    android:text="10%"
+                    android:id="@+id/avg_vacc_waste_rate_value"
+                    android:textColor="@color/bluetext"
+                    android:textSize="20sp"
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/smart_register_client_divider_height"
+                android:src="@color/smart_register_client_divider_color"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</FrameLayout>
