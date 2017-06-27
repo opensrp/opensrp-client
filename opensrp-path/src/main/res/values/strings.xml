@@ -171,10 +171,10 @@
     <string name="requires_internet_connection">(Requires internet connection)</string>
     <string name="my_catchment_area">My Catchment Area Only</string>
     <string name="search_limits">Search limits</string>
-    <string name="client_status">Client Status</string>
+    <string name="client_status">Client status</string>
     <string name="active">Active</string>
     <string name="inactive">Inactive</string>
-    <string name="lost_to_follow_up">Lost to Follow-up</string>
+    <string name="lost_to_follow_up">Lost to Follow-Up</string>
     <string name="zeir_id">ZEIR ID</string>
     <string name="zeir_id_hint">ZEIR ID number</string>
     <string name="first_name">First Name</string>
@@ -232,5 +232,11 @@
     <string name="previous_weights">PREVIOUS WEIGHTS</string>
     <string name="sync_failed_no_internet">Sync failed. Check your internet connection.</string>
 
->>>>>>> 6644dfb84f22b241670ee020ebb4b604582ad7b4
+
+    <string name="searching_dialog_title">Searching…</string>
+    <string name="searching_dialog_message">Please wait</string>
+
+    <string name="move_to_catchment_dialog_title">Moving…</string>
+    <string name="move_to_catchment_dialog_message">Please wait</string>
+
 </resources>
