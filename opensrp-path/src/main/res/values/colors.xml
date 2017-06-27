@@ -78,4 +78,7 @@
     <color name="z_score_3">#222539</color>
     <color name="growth_today_color">#008be6</color>
 
+    <color name="translucent_client_list_grey">#aa737373</color>
+    <color name="toolbar_grey">#494949</color>
+    <color name="snackbar_action_color">#eeff1c</color>
 </resources>

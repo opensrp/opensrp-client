@@ -397,11 +397,11 @@ public class LoginActivity extends Activity {
     private void remoteLoginWith(String userName, String password, String userInfo) {
         context.userService().remoteLogin(userName, password, userInfo);
         goToHome(true);
-        startZScoreIntentService();
         DrishtiSyncScheduler.startOnlyIfConnectedToNetwork(getApplicationContext());
     }
 
     private void goToHome(boolean remote) {
+        if (!remote) startZScoreIntentService();
         VaccinatorApplication.setCrashlyticsUser(context);
         Intent intent = new Intent(this, ChildSmartRegisterActivity.class);
         intent.putExtra(BaseRegisterActivity.IS_REMOTE_LOGIN, remote);

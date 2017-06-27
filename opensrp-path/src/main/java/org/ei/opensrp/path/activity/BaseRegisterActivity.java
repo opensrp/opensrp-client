@@ -27,7 +27,8 @@ import org.ei.opensrp.path.sync.ECSyncUpdater;
 import org.ei.opensrp.path.sync.PathAfterFetchListener;
 import org.ei.opensrp.path.sync.PathUpdateActionsTask;
 import org.ei.opensrp.sync.SyncProgressIndicator;
-import org.ei.opensrp.view.activity.*;
+import org.ei.opensrp.view.activity.DrishtiApplication;
+import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Hours;
@@ -35,8 +36,6 @@ import org.joda.time.Minutes;
 import org.joda.time.Seconds;
 
 import java.util.Calendar;
-
-import util.NetworkUtils;
 
 /**
  * Base activity class for path regiters views
@@ -194,6 +193,9 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
             startActivity(intent);
         } else if (id == R.id.nav_sync) {
             startSync();
+        }else if (id == R.id.nav_hia2) {
+            Intent intent = new Intent(this, HIA2ReportsActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -270,6 +272,7 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
                         ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
                         if (fetchStatus.equals(FetchStatus.fetchedFailed)) {
                             syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_failed, Snackbar.LENGTH_INDEFINITE);
+                            syncStatusSnackbar.setActionTextColor(getResources().getColor(R.color.snackbar_action_color));
                             syncStatusSnackbar.setAction(R.string.retry, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -329,6 +332,16 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), StockActivity.class);
+                startActivity(intent);
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
+        });
+        LinearLayout hia2 = (LinearLayout) drawer.findViewById(R.id.hia2reports);
+        hia2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), HIA2ReportsActivity.class);
                 startActivity(intent);
                 drawer.closeDrawer(GravityCompat.START);
 

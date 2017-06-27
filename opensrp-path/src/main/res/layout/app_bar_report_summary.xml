@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="org.ei.opensrp.path.activity.BaseActivity">
+
+    <include layout="@layout/toolbar_simple" />
+
+    <include layout="@layout/content_report_summary" />
+
+    <include layout="@layout/notification_base" />
+
+</android.support.design.widget.CoordinatorLayout>

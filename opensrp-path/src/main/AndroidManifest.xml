@@ -73,6 +73,7 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+
             android:name="com.vijay.jsonwizard.activities.JsonFormActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
@@ -84,6 +85,12 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
         <receiver android:name=".receiver.PathSyncBroadcastReceiver" />
+        <receiver android:name=".receiver.VaccinatorAlarmReceiver" />
+        <receiver android:name=".receiver.OnBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
 
         <activity android:name=".activity.ProviderProfileActivity" />
         <activity
@@ -94,7 +101,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoTitle.NoActionBar" />
         <activity
-            android:name=".activity.StockActivity"
+            android:name=".activity.HIA2ReportsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoTitle.NoActionBar" />
+        <activity android:name=".activity.ReportSummaryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoTitle.NoActionBar" />
+        <activity android:name=".activity.StockActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoTitle.NoActionBar" />
 
@@ -108,6 +121,8 @@
         <service android:name=".service.intent.VaccineIntentService" />
         <service android:name=".service.intent.ZScoreRefreshIntentService" />
         <service android:name=".service.intent.RecurringIntentService" />
+        <service android:name=".service.intent.HIA2IntentService" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.vijay.jsonwizard.fileprovider"

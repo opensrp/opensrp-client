@@ -14,12 +14,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
@@ -67,7 +65,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.opensrp.api.constants.Gender;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -87,6 +84,7 @@ import java.util.concurrent.TimeUnit;
 import util.DateUtils;
 import util.ImageUtils;
 import util.JsonFormUtils;
+import util.PathConstants;
 import util.RecurringServiceUtils;
 import util.Utils;
 import util.VaccinateActionUtils;
@@ -1041,7 +1039,7 @@ public class ChildImmunizationActivity extends BaseActivity
     @Override
     public void finish() {
         if (isLastModified()) {
-            String tableName = "ec_child";
+            String tableName = PathConstants.CHILD_TABLE_NAME;
             AllCommonsRepository allCommonsRepository = getOpenSRPContext().allCommonsRepositoryobjects(tableName);
             ContentValues contentValues = new ContentValues();
             contentValues.put("last_interacted_with", (new Date()).getTime());
@@ -1356,7 +1354,7 @@ public class ChildImmunizationActivity extends BaseActivity
             String baseEntityId = Utils.getValue(childDetails.getColumnmaps(), "base_entity_id", false);
             String motherBaseEntityId = Utils.getValue(childDetails.getColumnmaps(), "relational_id", false);
             if (!TextUtils.isEmpty(motherBaseEntityId) && !TextUtils.isEmpty(baseEntityId)) {
-                List<CommonPersonObject> children = getOpenSRPContext().commonrepository("ec_child")
+                List<CommonPersonObject> children = getOpenSRPContext().commonrepository(PathConstants.CHILD_TABLE_NAME)
                         .findByRelational_IDs(motherBaseEntityId);
 
                 if (children != null) {
@@ -1577,7 +1575,7 @@ public class ChildImmunizationActivity extends BaseActivity
                     DateTime dateTime = new DateTime(dobString);
                     Double birthWeight = Double.valueOf(Utils.getValue(childDetails.getColumnmaps(), "Birth_Weight", false));
 
-                    Weight weight = new Weight(-1l, null, (float) birthWeight.doubleValue(), dateTime.toDate(), null, null, null, Calendar.getInstance().getTimeInMillis(), null, null);
+                    Weight weight = new Weight(-1l, null, (float) birthWeight.doubleValue(), dateTime.toDate(), null, null, null, Calendar.getInstance().getTimeInMillis(), null, null,0);
                     allWeights.add(weight);
                 }
             } catch (Exception e) {

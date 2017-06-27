@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,22 +14,17 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Vaccine_types;
-import org.ei.opensrp.path.fragment.ChildSmartRegisterFragment;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.StockRepository;
 import org.ei.opensrp.path.repository.Vaccine_typesRepository;
 import org.ei.opensrp.path.toolbar.LocationSwitcherToolbar;
-import org.ei.opensrp.path.view.LocationPickerView;
 import org.ei.opensrp.repository.AllSharedPreferences;
 
 import java.util.ArrayList;
-
-import util.JsonFormUtils;
 
 /**
  * Created by raihan on 5/23/17.
@@ -80,7 +74,7 @@ public class StockActivity extends BaseActivity {
                 }
             }
         });
-       ;
+
 
         AllSharedPreferences allSharedPreferences = org.ei.opensrp.Context.getInstance().allSharedPreferences();
         String preferredName = allSharedPreferences.getANMPreferredName(allSharedPreferences.fetchRegisteredANM());

@@ -58,6 +58,7 @@ import java.util.Map;
 import util.GlobalSearchUtils;
 import util.JsonFormUtils;
 import util.MoveToMyCatchmentUtils;
+import util.PathConstants;
 import util.Utils;
 
 public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
@@ -380,8 +381,8 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
             return;
         }
 
-        String tableName = "ec_child";
-        String parentTableName = "ec_mother";
+        String tableName = PathConstants.CHILD_TABLE_NAME;
+        String parentTableName = PathConstants.MOTHER_TABLE_NAME;
 
         editMap.clear();
 
@@ -590,7 +591,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     private void initListMode() {
         switchViews(true);
 
-        String tableName = "ec_child";
+        String tableName = PathConstants.CHILD_TABLE_NAME;
         setTablename(tableName);
         AdvancedSearchClientsProvider hhscp = new AdvancedSearchClientsProvider(getActivity(),
                 clientActionHandler, context().alertService(), VaccinatorApplication.getInstance().vaccineRepository(), VaccinatorApplication.getInstance().weightRepository(), commonRepository());
@@ -712,9 +713,9 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     }
 
     private String sortByStatus() {
-        return " CASE WHEN ec_child.inactive  != 'true' is null and ec_child.lost_to_follow_up != 'true' THEN 1 "
-                + " WHEN ec_child.inactive = 'true' THEN 2 "
-                + " WHEN ec_child.lost_to_follow_up = 'true' THEN 3 END ";
+        return " CASE WHEN " + PathConstants.CHILD_TABLE_NAME + ".inactive  != 'true' is null and " + PathConstants.CHILD_TABLE_NAME + ".lost_to_follow_up != 'true' THEN 1 "
+                + " WHEN " + PathConstants.CHILD_TABLE_NAME + ".inactive = 'true' THEN 2 "
+                + " WHEN " + PathConstants.CHILD_TABLE_NAME + ".lost_to_follow_up = 'true' THEN 3 END ";
     }
 
     @Override

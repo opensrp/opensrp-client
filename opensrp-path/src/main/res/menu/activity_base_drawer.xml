@@ -22,6 +22,10 @@
             android:id="@+id/nav_sync"
             android:icon="@drawable/ic_action_sync"
             android:title="" />
+        <item
+            android:id="@+id/nav_hia2"
+            android:icon="@drawable/ic_action_out_catchment"
+            android:title="@string/side_nav_hia2" />
     </group>
 
 </menu>

@@ -5,8 +5,6 @@ import android.util.Log;
 
 import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.path.application.VaccinatorApplication;
-import org.ei.opensrp.path.db.Client;
-import org.ei.opensrp.path.db.Event;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.service.HTTPAgent;
 import org.joda.time.DateTime;
@@ -151,6 +149,13 @@ public class ECSyncUpdater {
     public void addEvent(String baseEntityId, JSONObject jsonObject) {
         try {
             db.addEvent(baseEntityId, jsonObject);
+        } catch (Exception e) {
+            Log.e(getClass().getName(), "Exception", e);
+        }
+    }
+    public void addReport(JSONObject jsonObject) {
+        try {
+            db.addReport(jsonObject);
         } catch (Exception e) {
             Log.e(getClass().getName(), "Exception", e);
         }

@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -82,6 +83,7 @@ public abstract class BaseActivity extends AppCompatActivity
     private Snackbar syncStatusSnackbar;
     private ProgressDialog progressDialog;
     private ArrayList<Notification> notifications;
+    private BaseActivityToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +93,7 @@ public abstract class BaseActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(getDrawerLayoutId());
-        BaseActivityToggle toggle = new BaseActivityToggle(
+        toggle = new BaseActivityToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -189,6 +191,7 @@ public abstract class BaseActivity extends AppCompatActivity
                         ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
                         if (fetchStatus.equals(FetchStatus.fetchedFailed)) {
                             syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_failed, Snackbar.LENGTH_INDEFINITE);
+                            syncStatusSnackbar.setActionTextColor(getResources().getColor(R.color.snackbar_action_color));
                             syncStatusSnackbar.setAction(R.string.retry, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -216,6 +219,15 @@ public abstract class BaseActivity extends AppCompatActivity
         }
     }
 
+    protected ActionBarDrawerToggle getDrawerToggle() {
+        return toggle;
+    }
+
+    protected void openDrawer() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(getDrawerLayoutId());
+        drawer.openDrawer(Gravity.LEFT);
+    }
+
     private void updateLastSyncText() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null && navigationView.getMenu() != null) {
@@ -230,7 +242,7 @@ public abstract class BaseActivity extends AppCompatActivity
             }
         }
     }
-    public void initializeCustomNavbarLIsteners(){
+    private void initializeCustomNavbarLIsteners(){
 
 
 
@@ -285,6 +297,16 @@ public abstract class BaseActivity extends AppCompatActivity
 //                finish();
             }
         });
+        LinearLayout hia2 = (LinearLayout) drawer.findViewById(R.id.hia2reports);
+        hia2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), HIA2ReportsActivity.class);
+                startActivity(intent);
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
+        });
 
     }
 
@@ -326,10 +348,16 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        this.menu = menu;
-        getMenuInflater().inflate(toolbar.getSupportedMenu(), menu);
-        toolbar.prepareMenu();
-        return super.onCreateOptionsMenu(menu);
+        if (toolbar.getSupportedMenu() != 0) {
+            this.menu = menu;
+            getMenuInflater().inflate(toolbar.getSupportedMenu(), menu);
+            toolbar.prepareMenu();
+            return super.onCreateOptionsMenu(menu);
+        } else {
+            toolbar.prepareMenu();
+        }
+
+        return false;
     }
 
     @Override
@@ -347,7 +375,7 @@ public abstract class BaseActivity extends AppCompatActivity
         }
     }
 
-    public void initViews() {
+    private void initViews() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         Button logoutButton = (Button) navigationView.findViewById(R.id.logout_b);
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -371,6 +399,60 @@ public abstract class BaseActivity extends AppCompatActivity
         });
 
         TextView initialsTV = (TextView) navigationView.findViewById(R.id.initials_tv);
+        initialsTV.setText(getLoggedInUserInitials());
+        String preferredName = getOpenSRPContext().allSharedPreferences().getANMPreferredName(
+                getOpenSRPContext().allSharedPreferences().fetchRegisteredANM());
+        TextView nameTV = (TextView) navigationView.findViewById(R.id.name_tv);
+        nameTV.setText(preferredName);
+        refreshSyncStatusViews(null);
+        initializeCustomNavbarLIsteners();
+    }
+    //FIXME this method conflicts with raihan's don't know what the difference is
+//    public void initViews() {
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        Button logoutButton = (Button) navigationView.findViewById(R.id.logout_b);
+//        logoutButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                DrishtiApplication application = (DrishtiApplication) getApplication();
+//                application.logoutCurrentUser();
+//                finish();
+//            }
+//        });
+//
+//        ImageButton cancelButton = (ImageButton) navigationView.findViewById(R.id.cancel_b);
+//        cancelButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                DrawerLayout drawer = (DrawerLayout) BaseActivity.this.findViewById(getDrawerLayoutId());
+//                if (drawer.isDrawerOpen(GravityCompat.START)) {
+//                    drawer.closeDrawer(GravityCompat.START);
+//                }
+//            }
+//        });
+//
+//        TextView initialsTV = (TextView) navigationView.findViewById(R.id.initials_tv);
+//        String preferredName = getOpenSRPContext().allSharedPreferences().getANMPreferredName(
+//                getOpenSRPContext().allSharedPreferences().fetchRegisteredANM());
+//        if (!TextUtils.isEmpty(preferredName)) {
+//            String[] initialsArray = preferredName.split(" ");
+//            String initials = "";
+//            if (initialsArray.length > 0) {
+//                initials = initialsArray[0].substring(0, 1);
+//                if (initialsArray.length > 1) {
+//                    initials = initials + initialsArray[1].substring(0, 1);
+//                }
+//            }
+//
+//            initialsTV.setText(initials.toUpperCase());
+//        }
+//
+//        TextView nameTV = (TextView) navigationView.findViewById(R.id.name_tv);
+//        nameTV.setText(preferredName);
+//        refreshSyncStatusViews(null);
+//        initializeCustomNavbarLIsteners();
+//    }
+    protected String getLoggedInUserInitials() {
         String preferredName = getOpenSRPContext().allSharedPreferences().getANMPreferredName(
                 getOpenSRPContext().allSharedPreferences().fetchRegisteredANM());
         if (!TextUtils.isEmpty(preferredName)) {
@@ -383,13 +465,11 @@ public abstract class BaseActivity extends AppCompatActivity
                 }
             }
 
-            initialsTV.setText(initials.toUpperCase());
+            return initials.toUpperCase();
         }
 
-        TextView nameTV = (TextView) navigationView.findViewById(R.id.name_tv);
-        nameTV.setText(preferredName);
-        refreshSyncStatusViews(null);
-        initializeCustomNavbarLIsteners();
+       return null;
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

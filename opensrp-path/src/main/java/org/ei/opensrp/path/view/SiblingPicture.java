@@ -3,6 +3,7 @@ package org.ei.opensrp.path.view;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Path;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ import java.util.Map;
 
 import util.ImageUtils;
 import util.JsonFormUtils;
+import util.PathConstants;
 import util.Utils;
 
 /**
@@ -82,7 +84,7 @@ public class SiblingPicture extends RecyclerView.ViewHolder {
         @Override
         protected CommonPersonObjectClient doInBackground(Void... params) {
             CommonPersonObject rawDetails = baseActivity.getOpenSRPContext()
-                    .commonrepository("ec_child").findByBaseEntityId(baseEntityId);
+                    .commonrepository(PathConstants.CHILD_TABLE_NAME).findByBaseEntityId(baseEntityId);
             if (rawDetails != null) {
                 // Get extra child details
                 CommonPersonObjectClient childDetails = MotherLookUpSmartClientsProvider.convert(rawDetails);

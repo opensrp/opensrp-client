@@ -46,6 +46,7 @@ import util.DatabaseUtils;
 import util.JsonFormUtils;
 import util.MoveToMyCatchmentUtils;
 import util.PathConstants;
+import util.Utils;
 
 public class PathRepository extends Repository {
 
@@ -97,9 +98,11 @@ public class PathRepository extends Repository {
                     break;
                 case 6:
                     upgradeToVersion6(db);
-                    break;
                 case 7:
-                    upgradeToVersion7(db);
+                    upgradeToVersion7Stock(db);
+                    upgradeToVersion7Hia2(db);
+                    break;
+
                 default:
                     break;
             }
@@ -107,14 +110,14 @@ public class PathRepository extends Repository {
         }
     }
 
-    private void upgradeToVersion7(SQLiteDatabase db) {
+    private void upgradeToVersion7Stock(SQLiteDatabase db) {
         try {
 //            db.execSQL("DROP TABLE IF EXISTS  ");
             StockRepository.createTable(db);
             Vaccine_NamesRepository.createTable(db);
             Vaccine_typesRepository.createTable(db);
         } catch (Exception e) {
-            Log.e(TAG, "upgradeToVersion7 " + e.getMessage());
+            Log.e(TAG, "upgradeToVersion7Stock " + e.getMessage());
         }
     }
 
@@ -627,7 +630,7 @@ public class PathRepository extends Repository {
                 if (StringUtils.isBlank(jsonEventStr) || jsonEventStr.equals("{}")) { // Skip blank/empty json string
                     continue;
                 }
-                jsonEventStr=jsonEventStr.replaceAll("'","");
+                jsonEventStr = jsonEventStr.replaceAll("'", "");
                 JSONObject jsonObectEvent = new JSONObject(jsonEventStr);
                 events.add(jsonObectEvent);
                 if (jsonObectEvent.has(event_column.baseEntityId.name())) {
@@ -652,6 +655,36 @@ public class PathRepository extends Repository {
         }
 
         return result;
+    }
+
+    public List<JSONObject> getUnSyncedReports(int limit) throws JSONException, ParseException, UnsupportedEncodingException {
+        List<JSONObject> reports = new ArrayList<JSONObject>();
+
+        String query = "select " + report_column.json + "," + report_column.syncStatus + " from " + Table.path_reports.name() + " where " + report_column.syncStatus + " = '" + BaseRepository.TYPE_Unsynced + "'  and length(" + report_column.json + ")>2 order by " + report_column.updatedAt + " asc limit " + limit;
+        Cursor cursor = null;
+        try {
+            cursor = getWritableDatabase().rawQuery(query, null);
+
+            while (cursor.moveToNext()) {
+                String jsonEventStr = (cursor.getString(0));
+                if (StringUtils.isBlank(jsonEventStr) || jsonEventStr.equals("{}")) { // Skip blank/empty json string
+                    continue;
+                }
+                jsonEventStr = jsonEventStr.replaceAll("'", "");
+                JSONObject jsonObectEvent = new JSONObject(jsonEventStr);
+                reports.add(jsonObectEvent);
+
+
+            }
+
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        } finally {
+            cursor.close();
+        }
+
+        return reports;
     }
 
     public void markAllAsUnSynced() throws JSONException, ParseException, UnsupportedEncodingException {
@@ -784,6 +817,7 @@ public class PathRepository extends Repository {
         }
         return null;
     }
+
     public JSONObject getEventsByFormSubmissionId(String formSubmissionId) {
         List<JSONObject> list = new ArrayList<JSONObject>();
         if (StringUtils.isBlank(formSubmissionId)) {
@@ -917,6 +951,36 @@ public class PathRepository extends Repository {
         }
     }
 
+    public void addReport(JSONObject jsonObject) {
+        try {
+
+            ContentValues values = new ContentValues();
+            values.put(report_column.json.name(), jsonObject.toString());
+            values.put(report_column.reportType.name(), jsonObject.has(report_column.reportType.name()) ? jsonObject.getString(report_column.reportType.name()) : "");
+            values.put(report_column.updatedAt.name(), dateFormat.format(new Date()));
+            values.put(report_column.syncStatus.name(), BaseRepository.TYPE_Unsynced);
+            //update existing event if eventid present
+            if (jsonObject.has(report_column.formSubmissionId.name()) && jsonObject.getString(report_column.formSubmissionId.name()) != null) {
+                //sanity check
+                if (checkIfExistsByFormSubmissionId(Table.path_reports, jsonObject.getString(report_column.formSubmissionId.name()))) {
+                    int id = getWritableDatabase().update(Table.path_reports.name(), values, report_column.formSubmissionId.name() + "=?", new String[]{jsonObject.getString(report_column.formSubmissionId.name())});
+                } else {
+                    //that odd case
+                    values.put(report_column.formSubmissionId.name(), jsonObject.getString(report_column.formSubmissionId.name()));
+
+                    getWritableDatabase().insert(Table.path_reports.name(), null, values);
+
+                }
+            } else {
+// a case here would be if an event comes from openmrs
+                getWritableDatabase().insert(Table.path_reports.name(), null, values);
+            }
+
+        } catch (Exception e) {
+            Log.e(getClass().getName(), "Exception", e);
+        }
+    }
+
     public void markEventAsSynced(String formSubmissionId) {
         try {
 
@@ -925,6 +989,20 @@ public class PathRepository extends Repository {
             values.put(event_column.syncStatus.name(), BaseRepository.TYPE_Synced);
 
             getWritableDatabase().update(Table.event.name(), values, event_column.formSubmissionId.name() + " = ?", new String[]{formSubmissionId});
+
+        } catch (Exception e) {
+            Log.e(getClass().getName(), "Exception", e);
+        }
+    }
+
+    public void markReportAsSynced(String formSubmissionId) {
+        try {
+
+            ContentValues values = new ContentValues();
+            values.put(report_column.formSubmissionId.name(), formSubmissionId);
+            values.put(report_column.syncStatus.name(), BaseRepository.TYPE_Synced);
+
+            getWritableDatabase().update(Table.path_reports.name(), values, report_column.formSubmissionId.name() + " = ?", new String[]{formSubmissionId});
 
         } catch (Exception e) {
             Log.e(getClass().getName(), "Exception", e);
@@ -960,6 +1038,21 @@ public class PathRepository extends Repository {
                 for (JSONObject event : events) {
                     String formSubmissionId = event.getString(event_column.formSubmissionId.name());
                     markEventAsSynced(formSubmissionId);
+                }
+            }
+        } catch (Exception e) {
+            Log.e(getClass().getName(), "Exception", e);
+        }
+
+    }
+
+    public void markReportsAsSynced(List<JSONObject> syncedReports) {
+        try {
+
+            if (syncedReports != null && !syncedReports.isEmpty()) {
+                for (JSONObject report : syncedReports) {
+                    String formSubmissionId = report.getString(report_column.formSubmissionId.name());
+                    markReportAsSynced(formSubmissionId);
                 }
             }
         } catch (Exception e) {
@@ -1090,8 +1183,7 @@ public class PathRepository extends Repository {
                     maplist.add(map);
                 } while (cursor.moveToNext());
             }
-            db.close();
-            // return contact list
+
             return maplist;
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
@@ -1104,8 +1196,9 @@ public class PathRepository extends Repository {
 
 
     // Definitions
-    private enum Table {
+    public enum Table {
         client(client_column.values()), event(event_column.values()),
+        path_reports(report_column.values()),
         address(address_column.values()), obs(obs_column.values());
         private Column[] columns;
 
@@ -1223,6 +1316,40 @@ public class PathRepository extends Repository {
         }
     }
 
+    public enum report_column implements Column {
+        creator(ColumnAttribute.Type.text, false, false),
+        dateCreated(ColumnAttribute.Type.date, false, true),
+        editor(ColumnAttribute.Type.text, false, false),
+        dateEdited(ColumnAttribute.Type.date, false, false),
+        voided(ColumnAttribute.Type.bool, false, false),
+        dateVoided(ColumnAttribute.Type.date, false, false),
+        voider(ColumnAttribute.Type.text, false, false),
+        voidReason(ColumnAttribute.Type.text, false, false),
+
+        reportId(ColumnAttribute.Type.text, true, true),
+        syncStatus(ColumnAttribute.Type.text, false, true),
+        json(ColumnAttribute.Type.text, false, false),
+        locationId(ColumnAttribute.Type.text, false, false),
+        reportDate(ColumnAttribute.Type.date, false, true),
+        reportType(ColumnAttribute.Type.text, false, true),
+        formSubmissionId(ColumnAttribute.Type.text, false, false),
+        providerId(ColumnAttribute.Type.text, false, false),
+        entityType(ColumnAttribute.Type.text, false, false),
+        version(ColumnAttribute.Type.text, false, false),
+        updatedAt(ColumnAttribute.Type.date, false, true),
+        serverVersion(ColumnAttribute.Type.longnum, false, true);
+
+        private report_column(ColumnAttribute.Type type, boolean pk, boolean index) {
+            this.column = new ColumnAttribute(type, pk, index);
+        }
+
+        private ColumnAttribute column;
+
+        public ColumnAttribute column() {
+            return column;
+        }
+    }
+
     public enum obs_column implements Column {
         formSubmissionId(ColumnAttribute.Type.text, false, true),
         fieldType(ColumnAttribute.Type.text, false, false),
@@ -1304,7 +1431,7 @@ public class PathRepository extends Repository {
         // Create the new ec_child table
         try {
             String newTableNameSuffix = "_v2";
-            String originalTableName = "ec_child";
+            String originalTableName = PathConstants.CHILD_TABLE_NAME;
 
             Set<String> searchColumns = new LinkedHashSet<String>();
             searchColumns.add(CommonFtsObject.idColumn);
@@ -1428,4 +1555,37 @@ public class PathRepository extends Repository {
             Log.e(TAG, "upgradeToVersion6" + Log.getStackTraceString(e));
         }
     }
+
+    private void upgradeToVersion7Hia2(SQLiteDatabase db) {
+        try {
+            db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL);
+            db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX);
+            db.execSQL(WeightRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL);
+            db.execSQL(WeightRepository.UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX);
+            DailyTalliesRepository.createTable(db);
+            MonthlyTalliesRepository.createTable(db);
+            createTable(db, Table.path_reports, report_column.values());
+            HIA2IndicatorsRepository.createTable(db);
+            db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_HIA2_STATUS_COL);
+
+            //csv column no to table column names
+            Map<Integer, String> columnMappings = new HashMap<>();
+            columnMappings.put(0, HIA2IndicatorsRepository.ID_COLUMN);
+            columnMappings.put(1, HIA2IndicatorsRepository.INDICATOR_CODE);
+            columnMappings.put(2, HIA2IndicatorsRepository.LABEL);
+            columnMappings.put(3, HIA2IndicatorsRepository.DHIS_ID);
+            columnMappings.put(4, HIA2IndicatorsRepository.DESCRIPTION);
+            columnMappings.put(999, HIA2IndicatorsRepository.CATEGORY);//999 means nothing really, just to hold the column name for categories since category is a row in the hia2 csv
+
+            List<Map<String, String>> csvData = Utils.populateTableFromCSV(context, HIA2IndicatorsRepository.INDICATORS_CSV_FILE, columnMappings);
+            HIA2IndicatorsRepository hIA2IndicatorsRepository = VaccinatorApplication.getInstance().hIA2IndicatorsRepository();
+            hIA2IndicatorsRepository.save(db, csvData);
+
+
+        } catch (Exception e) {
+            Log.e(TAG, "upgradeToVersion7Hia2 " + e.getMessage());
+        }
+    }
+
+
 }
