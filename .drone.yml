@@ -6,7 +6,7 @@ build:
     - gradle --version
     - gradle clean --stacktrace
     - gradle opensrp-path:jacocoTestReport
-    - cd /opensrp-path
+    - cd opensrp-path
     - mvn org.eluder.coveralls:coveralls-maven-plugin:report -DrepoToken=${COVERALLS_REPO_TOKEN} -X
 notify:
   email:
