@@ -26,6 +26,7 @@ import org.ei.opensrp.path.domain.Hia2Indicator;
 import org.ei.opensrp.path.domain.MonthlyTally;
 import org.ei.opensrp.path.fragment.DailyTalliesFragment;
 import org.ei.opensrp.path.fragment.DraftMonthlyFragment;
+import org.ei.opensrp.path.fragment.SendMonthlyDraftDialogFragment;
 import org.ei.opensrp.path.fragment.SentMonthlyFragment;
 import org.ei.opensrp.path.repository.HIA2IndicatorsRepository;
 import org.ei.opensrp.path.repository.MonthlyTalliesRepository;
@@ -133,8 +134,9 @@ public class HIA2ReportsActivity extends BaseActivity {
     @Override
     public void onSyncStart() {
         super.onSyncStart();
-       // refreshSyncStatusViews();
+        // refreshSyncStatusViews();
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -143,6 +145,7 @@ public class HIA2ReportsActivity extends BaseActivity {
         LinearLayout hia2 = (LinearLayout) drawer.findViewById(R.id.hia2reports);
         hia2.setBackgroundColor(getResources().getColor(R.color.tintcolor));
     }
+
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
         super.onSyncComplete(fetchStatus);
@@ -201,11 +204,12 @@ public class HIA2ReportsActivity extends BaseActivity {
 
         return mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
     }
+
     Date report_month = null;
 
     public void startMonthlyReportForm(String formName, Date date) {
         try {
-            report_month=date;
+            report_month = date;
             Fragment currentFragment = currentFragment();
 
             if (currentFragment instanceof DraftMonthlyFragment) {
@@ -276,23 +280,51 @@ public class HIA2ReportsActivity extends BaseActivity {
 
     }
 
+    boolean showFragment = false;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_GET_JSON) {
             if (resultCode == RESULT_OK) {
 
                 try {
+                    showFragment = true;
                     String jsonString = data.getStringExtra("json");
 
                     JSONObject monthlyDraftForm = new JSONObject(jsonString);
                     Map<String, String> result = JsonFormUtils.sectionFields(monthlyDraftForm);
-                    VaccinatorApplication.getInstance().monthlyTalliesRepository().save(result,report_month);
+                    VaccinatorApplication.getInstance().monthlyTalliesRepository().save(result, report_month);
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage());
                 }
 
             }
         }
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        if (showFragment) {
+            //showDialog("");
+        }
+        showFragment=false;
+    }
+
+    void showDialog(String date) {
+
+        // DialogFragment.show() will take care of adding the fragment
+        // in a transaction.  We also want to remove any currently showing
+        // dialog, so make our own transaction and take care of that here.
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("SendMonthlyDraftDialogFragment");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+
+        // Create and show the dialog.
+        SendMonthlyDraftDialogFragment newFragment = SendMonthlyDraftDialogFragment.newInstance(date);
+        newFragment.show(ft, "SendMonthlyDraftDialogFragment");
     }
 
     @Override
