@@ -648,7 +648,6 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     }
 
     @Test
-    @Ignore
     public void statusViewShouldUpdateToLostToFollowUpWhenChildStatusLostToFollowUpParamIsTrue() {
 
         destroyController(); //destroy controller

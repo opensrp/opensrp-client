@@ -19,8 +19,9 @@ notify:
       - tech+drone@ona.io
     on_success: true
     on_failure: true
+
   slack:
-    webhook_url: 'https://hooks.slack.com/services/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'
+    secrets: 'fAiZ4yA7DM6nUKh7nqsCTqZBb03VEAvi5NcRu5mNh5coNn/50XNeZl+qpv7Dw70Ef85Y/k68uc6KwTGVqPXEmVq9Hk3e7lqpBNN8rufvgCYDDGPmywBmU5BhSeykKo0Ee7llM3mRR/EipjIWw1+YvMcS3hCoygf/UlMDDhG0Jo0='
     username: 'drone'
     channel: '#opensrp-client'
     on_started: false
