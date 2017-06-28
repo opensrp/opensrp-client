@@ -1,4 +1,4 @@
-package org.ei.opensrp.path.activity;
+package shared.customshadows;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -12,7 +12,7 @@ import org.robolectric.shadows.ShadowTextView;
  * Created by onadev on 15/06/2017.
  */
 @Implements(CustomFontTextView.class)
-public class CustomFontTextViewShadow extends ShadowTextView{
+public class FontTextViewShadow extends ShadowTextView{
 
     public void CustomFontTextView(Context context, AttributeSet attrs, int defStyle) {
 

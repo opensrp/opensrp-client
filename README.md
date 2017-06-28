@@ -23,12 +23,15 @@ login-password - Demot123
 
 Check app.properties file in "drishti-app/asset/" folder to change the demo server url to your own instance of opensrp server. 
 
+Tests
+==========================
+* Drone
 
-Code Coverage Badge
+[![Build Status](http://drone.onalabs.org/api/badges/OpenSRP/opensrp-client/status.svg)](http://drone.onalabs.org/OpenSRP/opensrp-client)
+
+Code Coverage
 ====================================
-*Coveralls
+* Coveralls
 
 [![Coverage Status](https://coveralls.io/repos/github/OpenSRP/opensrp-client/badge.svg?branch=master)](https://coveralls.io/github/OpenSRP/opensrp-client?branch=master)
 
-*Drone
-[![Build Status](http://drone.onalabs.org/api/badges/OpenSRP/opensrp-client/status.svg)](http://drone.onalabs.org/OpenSRP/opensrp-client)

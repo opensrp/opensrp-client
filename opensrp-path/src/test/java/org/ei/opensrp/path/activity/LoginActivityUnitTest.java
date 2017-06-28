@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robolectric.Robolectric;
 
+import shared.BaseUnitTest;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 

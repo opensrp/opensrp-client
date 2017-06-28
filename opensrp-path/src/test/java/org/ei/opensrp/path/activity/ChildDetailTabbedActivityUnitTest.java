@@ -35,6 +35,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import shared.BaseUnitTest;
+import shared.customshadows.FontTextViewShadow;
+import shared.VaccinatorApplicationTestVersion;
 import util.ImageUtils;
 
 import static junit.framework.Assert.assertEquals;
@@ -49,7 +52,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
  * created by martin on 07/06/2017.
  */
 
-@Config(constants = BuildConfig.class, application = VaccinatorApplicationTestVersion.class, shadows = {CustomFontTextViewShadow.class})
+@Config(constants = BuildConfig.class, application = VaccinatorApplicationTestVersion.class, shadows = {FontTextViewShadow.class})
 @PrepareForTest({org.ei.opensrp.Context.class, ImageUtils.class})
 public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 

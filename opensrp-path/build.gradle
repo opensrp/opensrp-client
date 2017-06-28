@@ -113,6 +113,10 @@ android {
         unitTests.returnDefaultValues = true
     }
 
+    tasks.withType(Test) {
+        maxHeapSize = "512m"
+        jvmArgs "-XX:MaxPermSize=512m"
+    }
 }
 
 dependencies {

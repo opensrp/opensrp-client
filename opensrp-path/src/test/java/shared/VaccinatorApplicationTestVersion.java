@@ -1,4 +1,4 @@
-package org.ei.opensrp.path.activity;
+package shared;
 
 import org.ei.opensrp.domain.ServiceRecord;
 import org.ei.opensrp.domain.Vaccine;
