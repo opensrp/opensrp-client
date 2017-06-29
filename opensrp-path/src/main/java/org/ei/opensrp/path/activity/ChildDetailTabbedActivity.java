@@ -997,7 +997,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
             duration = DateUtils.getDuration(dateTime);
         }
 
-        Photo photo = ImageUtils.profilePhotoByClient(childDetails);
+        Photo photo = getProfilePhotoByClient();
 
         WeightWrapper weightWrapper = new WeightWrapper();
         weightWrapper.setId(childDetails.entityId());
@@ -1044,17 +1044,19 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
             duration = DateUtils.getDuration(dateTime);
         }
 
-        Photo photo = ImageUtils.profilePhotoByClient(childDetails);
+        Photo photo = getProfilePhotoByClient();
 
         WeightWrapper weightWrapper = new WeightWrapper();
         weightWrapper.setId(childDetails.entityId());
         WeightRepository wp = getVaccinatorApplicationInstance().weightRepository();
         List<Weight> weightlist = wp.findLast5(childDetails.entityId());
 //        if (weightlist.size() > i) {
-        weightWrapper.setWeight(weightlist.get(i).getKg());
-        weightWrapper.setUpdatedWeightDate(new DateTime(weightlist.get(i).getDate()), false);
+        if(!weightlist.isEmpty()) {
+            weightWrapper.setWeight(weightlist.get(i).getKg());
+            weightWrapper.setUpdatedWeightDate(new DateTime(weightlist.get(i).getDate()), false);
 //            weightWrapper.setWeight(weight.getKg());
-        weightWrapper.setDbKey(weightlist.get(i).getId());
+            weightWrapper.setDbKey(weightlist.get(i).getId());
+        }
 //        }
         weightWrapper.setGender(gender.toString());
         weightWrapper.setPatientName(childName);
@@ -1066,6 +1068,10 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         EditWeightDialogFragment editWeightDialogFragment = EditWeightDialogFragment.newInstance(this, weightWrapper);
         editWeightDialogFragment.show(ft, DIALOG_TAG);
 
+    }
+
+    protected Photo getProfilePhotoByClient() {
+        return ImageUtils.profilePhotoByClient(childDetails);
     }
 
 

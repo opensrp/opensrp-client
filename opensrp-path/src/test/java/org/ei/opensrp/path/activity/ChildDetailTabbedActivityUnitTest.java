@@ -9,16 +9,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
-import org.ei.opensrp.path.BuildConfig;
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.activity.mocks.ChildDetailTabbedActivityTestVersion;
+import org.ei.opensrp.path.activity.mocks.MenuItemTestVersion;
 import org.ei.opensrp.path.application.VaccinatorApplication;
-import org.ei.opensrp.path.domain.Photo;
 import org.ei.opensrp.path.toolbar.ChildDetailsToolbar;
 import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.util.EasyMap;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -28,7 +27,6 @@ import org.powermock.reflect.Whitebox;
 import org.robolectric.Robolectric;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
-import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,23 +34,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 import shared.BaseUnitTest;
-import shared.customshadows.FontTextViewShadow;
-import shared.VaccinatorApplicationTestVersion;
 import util.ImageUtils;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 
 /**
- * created by martin on 07/06/2017.
+ * created by onadev on 07/06/2017.
  */
-
-@Config(constants = BuildConfig.class, application = VaccinatorApplicationTestVersion.class, shadows = {FontTextViewShadow.class})
 @PrepareForTest({org.ei.opensrp.Context.class, ImageUtils.class})
 public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
@@ -61,7 +54,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     // public PowerMockRule rule = new PowerMockRule();
 
     @InjectMocks
-    ChildDetailTabbedActivity activity;
+    ChildDetailTabbedActivityTestVersion activity;
 
 
     @Mock
@@ -73,7 +66,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     @Mock
     org.ei.opensrp.Context context_;
 
-    ActivityController<ChildDetailTabbedActivity> controller;
+    ActivityController<ChildDetailTabbedActivityTestVersion> controller;
 
 
     Map<String, String> details = new HashMap<>();
@@ -82,11 +75,11 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     public void setUp() {
 
 
-        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivity.class);
+        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivityTestVersion.class);
         intent.putExtra("location_name", "Nairobi");
 
 
-        controller = Robolectric.buildActivity(ChildDetailTabbedActivity.class, intent);
+        controller = Robolectric.buildActivity(ChildDetailTabbedActivityTestVersion.class, intent);
         activity = controller.get();
 
         initMocks(this);
@@ -106,7 +99,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     @After
     public void tearDown() {
 
-            destroyController();
+        destroyController();
 
     }
 
@@ -440,11 +433,103 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
 
     @Test
-    @Ignore
-    public void shouldDisplayOnOptionsMenu() {
-        //MenuItem menuItem = shadowOf(activity).getOptionsMenu().findItem(R.id.registration_data);
-        //activity.onOptionsItemSelected(menuItem);
+    public void shouldDisplayOnOptionsMenuCaseRegistrationData() {
+        MenuItemTestVersion menuItem = new MenuItemTestVersion();
+        menuItem.setItemId(R.id.registration_data);
+        activity.onOptionsItemSelected(menuItem);
+        ArrayList<View> outViews = new ArrayList<>();
+
+        //Validate correct form view loaded by validating various fields
+
+        activity.getViewPagerAdapter().getItem(0).getView().findViewById(R.id.scrollView2).findViewsWithText(outViews, "Child's home health facility",
+                View.FIND_VIEWS_WITH_TEXT);
+        assertTrue(!outViews.isEmpty());
+
+        outViews = new ArrayList<>();
+        activity.getViewPagerAdapter().getItem(0).getView().findViewById(R.id.scrollView2).findViewsWithText(outViews, "Child's ZEIR ID",
+                View.FIND_VIEWS_WITH_TEXT);
+        assertTrue(!outViews.isEmpty());
+
+        outViews = new ArrayList<>();
+        activity.getViewPagerAdapter().getItem(0).getView().findViewById(R.id.scrollView2).findViewsWithText(outViews, "Child's register card number",
+                View.FIND_VIEWS_WITH_TEXT);
+        assertTrue(!outViews.isEmpty());
+
+        outViews = new ArrayList<>();
+        activity.getViewPagerAdapter().getItem(0).getView().findViewById(R.id.scrollView2).findViewsWithText(outViews, "Child's birth certificate number",
+                View.FIND_VIEWS_WITH_TEXT);
+        assertTrue(!outViews.isEmpty());
+
+
     }
+
+
+    @Test
+    public void shouldDisplayOnOptionsMenuCaseImmunizationData() {
+        MenuItemTestVersion menuItem = new MenuItemTestVersion();
+        menuItem.setItemId(R.id.immunization_data);
+        activity.onOptionsItemSelected(menuItem);
+        ArrayList<View> outViews = new ArrayList<>();
+
+        //Validate correct form view loaded by validating various fields
+
+        activity.findViewById(R.id.immunizations).findViewsWithText(outViews, "IMMUNIZATIONS",
+                View.FIND_VIEWS_WITH_TEXT);
+        assertTrue(!outViews.isEmpty());
+
+
+    }
+
+
+    @Test
+    public void shouldDisplayOnOptionsMenuCaseWeightData() {
+        MenuItemTestVersion menuItem = new MenuItemTestVersion();
+        menuItem.setItemId(R.id.weight_data);
+        activity.onOptionsItemSelected(menuItem);
+        ArrayList<View> outViews = new ArrayList<>();
+
+        //Validate correct form view loaded by validating various fields
+
+
+        activity.findViewById(R.id.scrollView).findViewsWithText(outViews, "PMTCT",
+                View.FIND_VIEWS_WITH_TEXT);
+        assertTrue(!outViews.isEmpty());
+
+        outViews = new ArrayList<>();
+        activity.findViewById(R.id.scrollView).findViewsWithText(outViews, "LAST 5 WEIGHTS",
+                View.FIND_VIEWS_WITH_TEXT);
+        assertTrue(!outViews.isEmpty());
+        assertTrue(outViews.get(0).getVisibility() == View.VISIBLE);
+
+
+    }
+
+
+    @Test
+    public void shouldDisplayOnOptionsMenuCaseReportDeceased() {
+        MenuItemTestVersion menuItem = new MenuItemTestVersion();
+        menuItem.setItemId(R.id.report_deceased);
+        boolean result = activity.onOptionsItemSelected(menuItem);
+
+        //Testing whether function call returned true
+        assertTrue(result);
+
+    }
+
+    @Test
+    public void shouldDisplayOnOptionsMenuCaseChangeStatus() {
+        MenuItemTestVersion menuItem = new MenuItemTestVersion();
+        menuItem.setItemId(R.id.change_status);
+        activity.onOptionsItemSelected(menuItem);
+
+        boolean result = activity.onOptionsItemSelected(menuItem);
+
+        //Testing whether function call returned true
+        assertTrue(result);
+
+
+    }
+
 
     @Test
     public void getViewPagerAdapterShouldNotReturnNull() {
@@ -483,7 +568,6 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     }
 
 
-
     @Test
     public void getVaccinatorApplicationInstanceShouldNotReturnNull() {
 
@@ -492,14 +576,10 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     }
 
     @Test
-    @Ignore
     public void showWeightDialogShouldRender() {
 
-        PowerMockito.mockStatic(ImageUtils.class);
-
-        PowerMockito.doReturn(new Photo()).when(ImageUtils.profilePhotoByClient((CommonPersonObjectClient) anyObject()));
         activity.showWeightDialog(0);
-        assertNotNull(activity.getFragmentManager());
+        assertNotNull(activity.getFragmentManager().findFragmentByTag(ChildDetailTabbedActivity.DIALOG_TAG));
 
     }
 
@@ -527,7 +607,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
         statusView.performClick();
 
         ArrayList<View> outViews = new ArrayList<>();
-        View view = activity.getFragmentManager().findFragmentByTag(ChildDetailTabbedActivity.DIALOG_TAG).getView();
+        View view = activity.getFragmentManager().findFragmentByTag(ChildDetailTabbedActivityTestVersion.DIALOG_TAG).getView();
         assertNotNull(view);//make sure view exists
         view.findViewsWithText(outViews, "Child Status",
                 View.FIND_VIEWS_WITH_TEXT);
@@ -538,10 +618,6 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     }
 
 
-
-
-
-
     @Test
     public void onCreateSetsUpSuccessfullyWithSerializedChildDetails() {
 
@@ -550,14 +626,14 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
         //Recreate and start controller with bundles this time
 
-        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivity.class);
+        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivityTestVersion.class);
         intent.putExtra("location_name", "Nairobi");
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ChildDetailTabbedActivity.EXTRA_CHILD_DETAILS, childDetails);
+        bundle.putSerializable(ChildDetailTabbedActivityTestVersion.EXTRA_CHILD_DETAILS, childDetails);
         intent.putExtras(bundle);
 
 
-        controller = Robolectric.buildActivity(ChildDetailTabbedActivity.class, intent);
+        controller = Robolectric.buildActivity(ChildDetailTabbedActivityTestVersion.class, intent);
         activity = controller.get();
         activity.detailsRepository = getDetailsRepository();
         controller.setup();
@@ -568,7 +644,6 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     }
 
 
-
     @Test
     public void statusViewShouldUpdateToInactiveIfChildDetailsInactiveParamIsSetToTrue() {
 
@@ -576,19 +651,19 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
         //Recreate and start controller with bundles this time
 
-        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivity.class);
+        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivityTestVersion.class);
         intent.putExtra("location_name", "Nairobi");
         Bundle bundle = new Bundle();
         CommonPersonObjectClient newChildDetails = new CommonPersonObjectClient("1", new HashMap<String, String>(), "test");
-        Map<String, String> columnMap = EasyMap.create(ChildDetailTabbedActivity.inactive, "true").map();
+        Map<String, String> columnMap = EasyMap.create(ChildDetailTabbedActivityTestVersion.inactive, "true").map();
         newChildDetails.setColumnmaps(columnMap);
         newChildDetails.setDetails(columnMap);
         details = columnMap;//save for later call to getAllDetailsForClient method
-        bundle.putSerializable(ChildDetailTabbedActivity.EXTRA_CHILD_DETAILS, newChildDetails);
+        bundle.putSerializable(ChildDetailTabbedActivityTestVersion.EXTRA_CHILD_DETAILS, newChildDetails);
         intent.putExtras(bundle);
 
 
-        controller = Robolectric.buildActivity(ChildDetailTabbedActivity.class, intent);
+        controller = Robolectric.buildActivity(ChildDetailTabbedActivityTestVersion.class, intent);
         activity = controller.get();
 
         activity.detailsRepository = getDetailsRepository();
@@ -603,9 +678,6 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     }
 
 
-
-
-
     @Test
     public void onBackActivityShouldReturnChildImmunizationActivityClass() {
 
@@ -616,8 +688,6 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     }
 
 
-
-
     @Test
     public void statusViewShouldUpdateToActiveifChildStatusParamListIsEmpty() {
 
@@ -625,17 +695,17 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
         //Recreate and start controller with bundles this time
 
-        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivity.class);
+        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivityTestVersion.class);
         intent.putExtra("location_name", "Nairobi");
         Bundle bundle = new Bundle();
         CommonPersonObjectClient newChildDetails = new CommonPersonObjectClient("1", new HashMap<String, String>(), "test");
         newChildDetails.setColumnmaps(Collections.EMPTY_MAP);
         newChildDetails.setDetails(Collections.EMPTY_MAP);
-        bundle.putSerializable(ChildDetailTabbedActivity.EXTRA_CHILD_DETAILS, newChildDetails);
+        bundle.putSerializable(ChildDetailTabbedActivityTestVersion.EXTRA_CHILD_DETAILS, newChildDetails);
         intent.putExtras(bundle);
 
 
-        controller = Robolectric.buildActivity(ChildDetailTabbedActivity.class, intent);
+        controller = Robolectric.buildActivity(ChildDetailTabbedActivityTestVersion.class, intent);
         activity = controller.get();
         activity.detailsRepository = getDetailsRepository();
         controller.setup();
@@ -657,19 +727,19 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
         //Recreate and start controller with bundles this time
 
-        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivity.class);
+        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivityTestVersion.class);
         intent.putExtra("location_name", "Nairobi");
         Bundle bundle = new Bundle();
         CommonPersonObjectClient newChildDetails = new CommonPersonObjectClient("1", new HashMap<String, String>(), "test");
-        Map<String, String> columnMap = EasyMap.create(ChildDetailTabbedActivity.lostToFollowUp, "true").map();
+        Map<String, String> columnMap = EasyMap.create(ChildDetailTabbedActivityTestVersion.lostToFollowUp, "true").map();
         newChildDetails.setColumnmaps(columnMap);
         newChildDetails.setDetails(columnMap);
         details = columnMap;//save for later call to getAllDetailsForClient method
-        bundle.putSerializable(ChildDetailTabbedActivity.EXTRA_CHILD_DETAILS, newChildDetails);
+        bundle.putSerializable(ChildDetailTabbedActivityTestVersion.EXTRA_CHILD_DETAILS, newChildDetails);
         intent.putExtras(bundle);
 
 
-        controller = Robolectric.buildActivity(ChildDetailTabbedActivity.class, intent);
+        controller = Robolectric.buildActivity(ChildDetailTabbedActivityTestVersion.class, intent);
         activity = controller.get();
 
         activity.detailsRepository = getDetailsRepository();
@@ -698,14 +768,15 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
         }
     }
 
-    private void destroyController(){
-        try{
+    private void destroyController() {
+        try {
 
             controller.pause().stop().destroy(); //destroy controller if we can
 
-        }catch(Exception e){
-
+        } catch (Exception e) {
         }
+
+        System.gc();
     }
 
 

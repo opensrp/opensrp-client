@@ -18,7 +18,7 @@ import static junit.framework.Assert.assertNotNull;
 
 
 /**
- * Created by martin on 07/06/2017.
+ * Created by onadev on 07/06/2017.
  */
 public class LoginActivityUnitTest extends BaseUnitTest {
     LoginActivity activity;
