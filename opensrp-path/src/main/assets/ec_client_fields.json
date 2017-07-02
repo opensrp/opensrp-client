@@ -26,90 +26,18 @@
           }
         },
         {
-          "column_name": "first_name",
-          "type": "Client",
-          "json_mapping": {
-            "field": "firstName"
-          }
-        },
-        {
-          "column_name": "last_name",
-          "type": "Client",
-          "json_mapping": {
-            "field": "lastName"
-          }
-        },
-        {
-          "column_name": "HoH_Gender",
-          "type": "Client",
-          "json_mapping": {
-            "field": "gender"
-          }
-        },
-        {
-          "column_name": "birthdate",
-          "type": "Client",
-          "json_mapping": {
-            "field": "birthdate"
-          }
-        },
-        {
-          "column_name": "HoH_Unique_ID",
-          "type": "Event",
-          "json_mapping": {
-            "field": "obs.fieldCode",
-            "formSubmissionField": "HoH_Unique_ID"
-          }
-        },
-        {
-          "column_name": "HoH_NID",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.nationalId"
-          }
-        },
-        {
-          "column_name": "HoH_BRID",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.birthRegistrationId"
-          }
-        },
-        {
-          "column_name": "HoH_Mobile_No",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.phoneNumber"
-          }
-        },
-        {
-          "column_name": "HoH_Education",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.education"
-          }
-        },
-        {
-          "column_name": "HoH_Occupation",
-          "type": "Client",
-          "json_mapping": {
-            "field": "attributes.occupation"
-          }
-        },
-        {
-          "column_name": "HH_Member_No",
-          "type": "Event",
-          "json_mapping": {
-            "field": "obs.fieldCode",
-            "formSubmissionField":"HH_Member_No"
-          }
-        },
-        {
           "column_name": "Date_Of_Reg",
           "type": "Event",
           "json_mapping": {
             "field": "obs.fieldCode",
             "formSubmissionField": "Date_Of_Reg"
+          }
+        },
+        {
+          "column_name": "address1",
+          "type": "Client",
+          "json_mapping": {
+            "field": "addresses.addressFields.address1"
           }
         }
       ]
