@@ -47,8 +47,8 @@
     },
     "encounter_location": "",
     "look_up": {
-        "entity_id":"",
-        "value":""
+      "entity_id":"",
+      "value":""
     }
   },
   "step1": {
@@ -65,24 +65,89 @@
       {
         "key": "HIE_FACILITIES",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "openmrs_data_type": "text",
+        "openmrs_entity": "person_address",
+        "openmrs_entity_id": "address6",
+        "openmrs_data_type": "usual_residence",
         "type": "tree",
         "hint": "Household head's home health facility *",
         "tree": [],
         "v_required": {
-          "value": false,
+          "value": true,
           "err": "Please enter the Household head's home facility"
         }
-      },  
+      },
+      {
+        "key": "WARD",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_addressss",
+        "openmrs_entity_id": "address2",
+        "openmrs_data_type": "usual_residence",
+        "type": "spinner",
+        "hint": "ওয়ার্ড নং- *",
+        "values": [
+          "ওয়ার্ড নং-১",
+          "ওয়ার্ড নং-২",
+          "ওয়ার্ড নং-৩"
+        ],
+        "openmrs_choice_ids": {
+          "ওয়ার্ড নং-১": "",
+          "ওয়ার্ড নং-২": "",
+          "ওয়ার্ড নং-৩": ""
+        },
+        "v_required": {
+          "value": true,
+          "err": "Please enter the ward"
+        }
+      },
+      {
+        "key": "BLOCK",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "openmrs_data_type": "usual_residence",
+        "type": "spinner",
+        "hint": "ব্লক নং/ কেন্দ্রের নাম *",
+        "values": [
+          "ক১",
+          "ক২",
+          "খ১",
+          "খ২",
+          "গ১",
+          "গ২",
+          "ঘ১",
+          "ঘ২"
+        ],
+        "openmrs_choice_ids": {
+          "ক১": "",
+          "ক২": "",
+          "খ১": "",
+          "খ২": "",
+          "গ১": "",
+          "গ২": "",
+          "ঘ১": "",
+          "ঘ২": ""
+        },
+        "v_required": {
+          "value": true,
+          "err": "Please enter the Block"
+        }
+      },
+      {
+        "key": "ADDRESS_LINE",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "address1",
+        "openmrs_data_type": "usual_residence",
+        "type": "edit_text",
+        "hint": "বাড়ীর ঠিকানা-"
+      },
       {
         "key": "Date_Of_Reg",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "date_picker",
-        "hint": "Date of Registration",
+        "hint": "রেজিস্ট্রেশন তারিখ",
         "expanded": false,
         "duration": {
           "label": "Age"
@@ -100,206 +165,8 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "householdCode",
         "type": "edit_text",
-        "hint": "House/GR/ Holding No"
-      },
-      {
-        "key": "HoH_Reg_No",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "edit_text",
-        "hint": "HoH Registration No."
-      },
-      {
-        "key": "HoH_Fname",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "first_name",
-        "type": "edit_text",
-        "hint": "Name of Head of Household",
-        "edit_type": "name",
-        "v_regex": {
-          "value": "[A-Za-z\\s\.\-]*",
-          "err": "Please enter a valid name"
-        }
-      },
-      {
-        "key": "HoH_Lname",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "last_name",
-        "type": "edit_text",
-        "hint": "Last name *",
-        "edit_type": "name",
-        "v_required": {
-          "value": "true",
-          "err": "Please enter the last name"
-        },
-        "v_regex": {
-          "value": "[A-Za-z\\s\.\-]*",
-          "err": "Please enter a valid name"
-        }
-      },
-      {
-        "key": "HoH_Gender",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "gender",
-        "type": "spinner",
-        "hint": "Head of Household Gender",
-        "values": [
-          "Male",
-          "Female"
-        ],
-        "v_required": {
-          "value": "true",
-          "err": "Please enter the sex"
-        }
-      },
-      {
-        "key": "calc_HoH_dob_confirm",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "birthdate",
-        "type": "date_picker",
-        "hint": "Birth Date of Household Head",
-        "expanded": false,
-        "duration": {
-          "label": "Age"
-        },
-        "max_date": "today-25y",
-        "v_required": {
-          "value": "true",
-          "err": "Please enter the date of birth"
-        }
-      },
-      {
-        "key": "HoH_Unique_ID",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "type": "spinner",
-        "hint": "Which ID card do you have?",
-        "values": [
-          "NID",
-          "BRID"
-        ]
-      },
-      {
-        "key": "HoH_NID",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "nationalId",
-        "openmrs_data_type": "text",
-        "type": "edit_text",
-        "hint": "Type NID",
-        "v_required": {
-          "value": true,
-          "err": "Please Type NID"
-        },
-        "relevance": {
-          "step1:HoH_Unique_ID": {
-            "type": "string",
-            "ex": "equalTo(., \"NID\")"
-          }
-        }
-      },
-      {
-        "key": "HoH_BRID",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "birthRegistrationId",
-        "openmrs_data_type": "text",
-        "type": "edit_text",
-        "hint": "Type BRID",
-        "v_required": {
-          "value": true,
-          "err": "Please Type BRID"
-        },
-        "relevance": {
-          "step1:HoH_Unique_ID": {
-            "type": "string",
-            "ex": "equalTo(., \"BRID\")"
-          }
-        }
-      },
-      {
-        "key": "HoH_Mobile_No",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "phoneNumber",
-        "type": "edit_text",
-        "hint": "Mobile Number",
-        "v_numeric": {
-          "value": "true",
-          "err": "invalid phone number"
-        },
-        "v_regex": {
-          "value": "^(?!0{11})[0-9]{11}|\s*",
-          "err": "invalid phone number"
-        }
-      },
-      {
-        "key": "HoH_Education",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "education",
-        "type": "spinner",
-        "hint": "Highest grade passed",
-        "values": [
-          "Nursery",
-          "1st",
-          "2nd",
-          "3rd",
-          "4th",
-          "5th",
-          "6th",
-          "7th",
-          "8th",
-          "9th",
-          "10th or equavalent",
-          "SSC or equavalent",
-          "HSC or equavalent",
-          "Honors or equavalent",
-          "Masters or equavalent",
-          "Engineering",
-          "Medical",
-          "Vocational"
-        ]
-      },
-      {
-        "key": "HoH_Occupation",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "occupation",
-        "type": "spinner",
-        "hint": "Occupation",
-        "values": [
-          "Housewife",
-          "Teacher",
-          "Doctor",
-          "Engineer",
-          "Reporter",
-          "Artist",
-          "Farmer",
-          "Nothing/ Unemployed",
-          "Service",
-          "Business"
-        ]
-      },
-      {
-        "key": "HH_Member_No",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "openmrs_data_type": "text",
-        "type": "edit_text",
-        "hint": "How many people are currently living in this household?",
-        "v_required": {
-          "value": true,
-          "err": "Please enter the birth facility name"
-        }
-      }      
+        "hint": "বাড়ি/ জিআর/ হোল্ডিং নম্বর"
+      }
     ]
   }
 }
