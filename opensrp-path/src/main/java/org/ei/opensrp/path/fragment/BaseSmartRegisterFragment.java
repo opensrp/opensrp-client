@@ -1,17 +1,13 @@
 package org.ei.opensrp.path.fragment;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 
+import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.cursoradapter.SecuredNativeSmartRegisterCursorAdapterFragment;
@@ -22,9 +18,10 @@ import org.ei.opensrp.path.activity.ChildImmunizationActivity;
 import org.ei.opensrp.path.view.LocationPickerView;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
-import org.ei.opensrp.view.customControls.CustomFontTextView;
+import org.json.JSONException;
 
 import util.JsonFormUtils;
+import util.PathConstants;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
@@ -179,6 +176,13 @@ public class BaseSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
         if(clinicSelection != null) {
             clinicSelection.setText(JsonFormUtils.getOpenMrsReadableName(
                     clinicSelection.getSelectedItem()));
+            try {
+
+                String locationId = JsonFormUtils.getOpenMrsLocationId(context(), clinicSelection.getSelectedItem());
+                Context.getInstance().allSharedPreferences().savePreference(PathConstants.CURRENT_LOCATION_ID,locationId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 

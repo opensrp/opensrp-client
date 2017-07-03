@@ -2,13 +2,12 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="@dimen/pagination_bar_height"
-    android:background="@color/client_list_header_dark_grey">
+    android:layout_height="@dimen/pagination_bar_height">
 
     <Button
         android:id="@+id/btn_previous_page"
         android:layout_width="@dimen/pagination_bar_button_width"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:background="@drawable/transparent_blue_background"
         android:gravity="center"

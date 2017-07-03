@@ -9,7 +9,6 @@ import org.ei.opensrp.path.domain.ZScore;
 import org.opensrp.api.constants.Gender;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

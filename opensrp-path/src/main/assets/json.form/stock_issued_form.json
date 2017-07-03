@@ -1,0 +1,159 @@
+{
+  "count": "1",
+  "encounter_type": "",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location":""
+  },
+  "step1": {
+    "title": "[vaccine] Stock Issued",
+    "fields": [
+      {
+        "key": "Date_Stock_Issued",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "date_picker",
+        "hint": "Date [vaccine] stock issued *",
+        "expanded": false,
+        "min_date": "today-1m",
+        "max_date": "today",
+        "v_required": {
+          "value": "true",
+          "err": "Enter the service date"
+        }
+      },
+      {
+        "key": "Issued_Stock_To",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "openmrs_data_type": "select one",
+        "type": "radio",
+        "label": "Issued to *",
+        "options":[
+          {
+            "key":"C/C",
+            "text":"Children's Clinic (C/C)"
+          },
+          {
+            "key":"Other",
+            "text":"Other"
+          }
+        ],
+        "value": "Children's Clinic (C/C)",
+        "v_required": {
+          "value": true,
+          "err": "Please enter the place where stock was issued"
+        }
+      },
+      {
+        "key": "Issued_Stock_TO_Other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hint": "Please specify: *",
+        "edit_type": "name",
+        "v_required": {
+          "value": true,
+          "err": "Please specify where else the stock was received from"
+        },
+        "relevance": {
+          "step1:Issued_Stock_To": {
+            "type": "string",
+            "ex": "equalTo(., \"Other\")"
+          }
+        }
+      },
+      {
+        "key": "Vials_Issued",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "Vials [vaccine] issued *",
+        "v_min": {
+          "value": "1",
+          "err": "issued vials must be greater than 0"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid vial number"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Enter the Vials Issued"
+        }
+      },
+      {
+        "key": "Vials_Wasted",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "Wasted vials",
+        "v_min": {
+          "value": "0",
+          "err": "value cannot be less than zero"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid vial number"
+        }
+      },
+      {
+        "key":"Balance",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "openmrs_data_type": "text",
+        "type":"label",
+        "text":""
+      }
+    ]
+  }
+}

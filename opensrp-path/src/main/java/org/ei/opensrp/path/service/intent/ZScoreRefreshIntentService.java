@@ -28,7 +28,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -79,13 +78,13 @@ public class ZScoreRefreshIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        // TODO: Fetch CSVs from online
-
         // Dump CSV to file
         dumpCsv(Gender.MALE, false);
         dumpCsv(Gender.FEMALE, false);
 
-        //calculateChildZScores();
+        calculateChildZScores();
+        Intent hia2Intent = new Intent(VaccinatorApplication.getInstance(), HIA2IntentService.class);
+        startService(hia2Intent);
     }
 
     private void fetchCSV(Gender gender) {
@@ -202,50 +201,54 @@ public class ZScoreRefreshIntentService extends IntentService {
      * corresponding ZScores
      */
     private void calculateChildZScores() {
-        HashMap<String, CommonPersonObjectClient> children = new HashMap<>();
-        List<Weight> weightsWithoutZScores = VaccinatorApplication.getInstance().weightRepository().findWithNoZScore();
-        for (Weight curWeight : weightsWithoutZScores) {
-            if (!TextUtils.isEmpty(curWeight.getBaseEntityId())) {
-                if (!children.containsKey(curWeight.getBaseEntityId())) {
-                    CommonPersonObjectClient childDetails = getChildDetails(curWeight.getBaseEntityId());
-                    children.put(curWeight.getBaseEntityId(), childDetails);
-                }
-
-                CommonPersonObjectClient curChild = children.get(curWeight.getBaseEntityId());
-
-                if (curChild != null) {
-                    Gender gender = Gender.UNKNOWN;
-                    String genderString = Utils.getValue(curChild.getColumnmaps(), "gender", false);
-                    if (genderString != null && genderString.toLowerCase().equals("female")) {
-                        gender = Gender.FEMALE;
-                    } else if (genderString != null && genderString.toLowerCase().equals("male")) {
-                        gender = Gender.MALE;
+        try {
+            HashMap<String, CommonPersonObjectClient> children = new HashMap<>();
+            List<Weight> weightsWithoutZScores = VaccinatorApplication.getInstance().weightRepository().findWithNoZScore();
+            for (Weight curWeight : weightsWithoutZScores) {
+                if (!TextUtils.isEmpty(curWeight.getBaseEntityId())) {
+                    if (!children.containsKey(curWeight.getBaseEntityId())) {
+                        CommonPersonObjectClient childDetails = getChildDetails(curWeight.getBaseEntityId());
+                        children.put(curWeight.getBaseEntityId(), childDetails);
                     }
 
-                    Date dob = null;
-                    String dobString = Utils.getValue(curChild.getColumnmaps(), "dob", false);
-                    if (!TextUtils.isEmpty(dobString)) {
-                        DateTime dateTime = new DateTime(dobString);
-                        dob = dateTime.toDate();
-                    }
+                    CommonPersonObjectClient curChild = children.get(curWeight.getBaseEntityId());
 
-                    if (gender != Gender.UNKNOWN && dob != null) {
-                        VaccinatorApplication.getInstance().weightRepository().add(dob, gender, curWeight);
+                    if (curChild != null) {
+                        Gender gender = Gender.UNKNOWN;
+                        String genderString = Utils.getValue(curChild.getColumnmaps(), "gender", false);
+                        if (genderString != null && genderString.toLowerCase().equals("female")) {
+                            gender = Gender.FEMALE;
+                        } else if (genderString != null && genderString.toLowerCase().equals("male")) {
+                            gender = Gender.MALE;
+                        }
+
+                        Date dob = null;
+                        String dobString = Utils.getValue(curChild.getColumnmaps(), "dob", false);
+                        if (!TextUtils.isEmpty(dobString)) {
+                            DateTime dateTime = new DateTime(dobString);
+                            dob = dateTime.toDate();
+                        }
+
+                        if (gender != Gender.UNKNOWN && dob != null) {
+                            VaccinatorApplication.getInstance().weightRepository().add(dob, gender, curWeight);
+                        } else {
+                            Log.w(TAG, "Could not get the date of birth or gender for child with base entity id " + curWeight.getBaseEntityId());
+                        }
                     } else {
-                        Log.w(TAG, "Could not get the date of birth or gender for child with base entity id " + curWeight.getBaseEntityId());
+                        Log.w(TAG, "Could not get the details for child with base entity id " + curWeight.getBaseEntityId());
                     }
                 } else {
-                    Log.w(TAG, "Could not get the details for child with base entity id " + curWeight.getBaseEntityId());
+                    Log.w(TAG, "Current weight with id " + curWeight.getId() + " has no base entity id");
                 }
-            } else {
-                Log.w(TAG, "Current weight with id " + curWeight.getId() + " has no base entity id");
             }
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
         }
     }
 
     private CommonPersonObjectClient getChildDetails(String baseEntityId) {
         CommonPersonObject rawDetails = VaccinatorApplication.getInstance().context()
-                .commonrepository("ec_child").findByBaseEntityId(baseEntityId);
+                .commonrepository(PathConstants.CHILD_TABLE_NAME).findByBaseEntityId(baseEntityId);
         if (rawDetails != null) {
             // Get extra child details
             CommonPersonObjectClient childDetails = MotherLookUpSmartClientsProvider.convert(rawDetails);

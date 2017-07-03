@@ -18,11 +18,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class VaccineRepository extends BaseRepository {
     private static final String TAG = VaccineRepository.class.getCanonicalName();
-    private static final String VACCINE_SQL = "CREATE TABLE vaccines (_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,base_entity_id VARCHAR NOT NULL,program_client_id VARCHAR NULL,name VARCHAR NOT NULL,calculation INTEGER,date DATETIME NOT NULL,anmid VARCHAR NULL,location_id VARCHAR NULL,sync_status VARCHAR,updated_at INTEGER NULL, UNIQUE(base_entity_id, program_client_id, name) ON CONFLICT IGNORE)";
+    private static final String VACCINE_SQL = "CREATE TABLE vaccines (_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,base_entity_id VARCHAR NOT NULL,program_client_id VARCHAR NULL,name VARCHAR NOT NULL,calculation INTEGER,date DATETIME NOT NULL,anmid VARCHAR NULL,location_id VARCHAR NULL,sync_status VARCHAR, updated_at INTEGER NULL, UNIQUE(base_entity_id, program_client_id, name) ON CONFLICT IGNORE)";
     public static final String VACCINE_TABLE_NAME = "vaccines";
     public static final String ID_COLUMN = "_id";
     public static final String BASE_ENTITY_ID = "base_entity_id";
@@ -35,8 +34,11 @@ public class VaccineRepository extends BaseRepository {
     public static final String ANMID = "anmid";
     public static final String LOCATIONID = "location_id";
     public static final String SYNC_STATUS = "sync_status";
+    public static final String HIA2_STATUS = "hia2_status";
     public static final String UPDATED_AT_COLUMN = "updated_at";
-    public static final String[] VACCINE_TABLE_COLUMNS = {ID_COLUMN, BASE_ENTITY_ID, PROGRAM_CLIENT_ID, NAME, CALCULATION, DATE, ANMID, LOCATIONID, SYNC_STATUS, UPDATED_AT_COLUMN, EVENT_ID, FORMSUBMISSION_ID};
+    public static final String OUT_OF_AREA = "out_of_area";
+
+    public static final String[] VACCINE_TABLE_COLUMNS = {ID_COLUMN, BASE_ENTITY_ID, PROGRAM_CLIENT_ID, NAME, CALCULATION, DATE, ANMID, LOCATIONID, SYNC_STATUS, HIA2_STATUS, UPDATED_AT_COLUMN, EVENT_ID, FORMSUBMISSION_ID, OUT_OF_AREA};
 
     private static final String BASE_ENTITY_ID_INDEX = "CREATE INDEX " + VACCINE_TABLE_NAME + "_" + BASE_ENTITY_ID + "_index ON " + VACCINE_TABLE_NAME + "(" + BASE_ENTITY_ID + " COLLATE NOCASE);";
     private static final String UPDATED_AT_INDEX = "CREATE INDEX " + VACCINE_TABLE_NAME + "_" + UPDATED_AT_COLUMN + "_index ON " + VACCINE_TABLE_NAME + "(" + UPDATED_AT_COLUMN + ");";
@@ -46,9 +48,16 @@ public class VaccineRepository extends BaseRepository {
 
     public static final String UPDATE_TABLE_ADD_FORMSUBMISSION_ID_COL = "ALTER TABLE " + VACCINE_TABLE_NAME + " ADD COLUMN " + FORMSUBMISSION_ID + " VARCHAR;";
     public static final String FORMSUBMISSION_INDEX = "CREATE INDEX " + VACCINE_TABLE_NAME + "_" + FORMSUBMISSION_ID + "_index ON " + VACCINE_TABLE_NAME + "(" + FORMSUBMISSION_ID + " COLLATE NOCASE);";
+    public static final String UPDATE_TABLE_ADD_OUT_OF_AREA_COL = "ALTER TABLE " + VACCINE_TABLE_NAME + " ADD COLUMN " + OUT_OF_AREA + " INTEGER;";
+    public static final String UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX = "CREATE INDEX " + VACCINE_TABLE_NAME + "_" + OUT_OF_AREA + "_index ON " + VACCINE_TABLE_NAME + "(" + OUT_OF_AREA + " COLLATE NOCASE);";
+
+    public static final String UPDATE_TABLE_ADD_HIA2_STATUS_COL = "ALTER TABLE " + VACCINE_TABLE_NAME + " ADD COLUMN " + HIA2_STATUS + " VARCHAR;";
 
     public static String TYPE_Unsynced = "Unsynced";
     public static String TYPE_Synced = "Synced";
+
+    public static String HIA2_Within = "Within";
+    public static String HIA2_Overdue = "Overdue";
 
     private CommonFtsObject commonFtsObject;
     private AlertService alertService;
@@ -71,6 +80,9 @@ public class VaccineRepository extends BaseRepository {
         }
 
         try {
+
+            vaccine.setHia2Status(null);
+
             if (StringUtils.isBlank(vaccine.getSyncStatus())) {
                 vaccine.setSyncStatus(TYPE_Unsynced);
             }
@@ -114,6 +126,16 @@ public class VaccineRepository extends BaseRepository {
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
         }
+    }
+
+    public void updateHia2Status(Vaccine vaccine, String hai2Status) {
+        if (vaccine == null || vaccine.getId() == null) {
+            return;
+        }
+
+        vaccine.setHia2Status(hai2Status);
+        SQLiteDatabase database = getPathRepository().getWritableDatabase();
+        update(database, vaccine);
     }
 
     public List<Vaccine> findUnSyncedBeforeTime(int hours) {
@@ -198,6 +220,23 @@ public class VaccineRepository extends BaseRepository {
 
     }
 
+    public List<Vaccine> findWithNullHia2Status() {
+        List<Vaccine> vaccines = new ArrayList<Vaccine>();
+        Cursor cursor = null;
+        try {
+
+            cursor = getPathRepository().getReadableDatabase().query(VACCINE_TABLE_NAME, VACCINE_TABLE_COLUMNS, HIA2_STATUS + " is null", null, null, null, null, null);
+            vaccines = readAllVaccines(cursor);
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return vaccines;
+    }
+
     public void deleteVaccine(Long caseId) {
         try {
             Vaccine vaccine = find(caseId);
@@ -221,6 +260,7 @@ public class VaccineRepository extends BaseRepository {
         }
     }
 
+
     private List<Vaccine> readAllVaccines(Cursor cursor) {
         List<Vaccine> vaccines = new ArrayList<Vaccine>();
 
@@ -242,7 +282,8 @@ public class VaccineRepository extends BaseRepository {
                                     cursor.getString(cursor.getColumnIndex(ANMID)),
                                     cursor.getString(cursor.getColumnIndex(LOCATIONID)),
                                     cursor.getString(cursor.getColumnIndex(SYNC_STATUS)),
-                                    cursor.getLong(cursor.getColumnIndex(UPDATED_AT_COLUMN)), cursor.getString(cursor.getColumnIndex(EVENT_ID)), cursor.getString(cursor.getColumnIndex(FORMSUBMISSION_ID))
+                                    cursor.getString(cursor.getColumnIndex(HIA2_STATUS)),
+                                    cursor.getLong(cursor.getColumnIndex(UPDATED_AT_COLUMN)), cursor.getString(cursor.getColumnIndex(EVENT_ID)), cursor.getString(cursor.getColumnIndex(FORMSUBMISSION_ID)), cursor.getInt(cursor.getColumnIndex(OUT_OF_AREA))
                             ));
 
                     cursor.moveToNext();
@@ -268,9 +309,11 @@ public class VaccineRepository extends BaseRepository {
         values.put(ANMID, vaccine.getAnmId());
         values.put(LOCATIONID, vaccine.getLocationId());
         values.put(SYNC_STATUS, vaccine.getSyncStatus());
+        values.put(HIA2_STATUS, vaccine.getHia2Status());
         values.put(UPDATED_AT_COLUMN, vaccine.getUpdatedAt() != null ? vaccine.getUpdatedAt() : null);
         values.put(EVENT_ID, vaccine.getEventId() != null ? vaccine.getEventId() : null);
         values.put(FORMSUBMISSION_ID, vaccine.getFormSubmissionId() != null ? vaccine.getFormSubmissionId() : null);
+        values.put(OUT_OF_AREA, vaccine.getOutOfCatchment() != null ? vaccine.getOutOfCatchment() : null);
         return values;
     }
 

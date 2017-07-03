@@ -43,11 +43,11 @@ public class ZScore {
         this.sd3 = sd3;
     }
 
-    public static int getZScoreColor(double zScore) {
-        zScore = Math.abs(zScore);
-        if (zScore < 2) {
+    public static int getZScoreColor(final double zScore) {
+        double absScore = Math.abs(zScore);
+        if (absScore < 2.0) {
             return R.color.z_score_0;
-        } else if (zScore >= 2 && zScore < 3) {
+        } else if (absScore >= 2.0 && absScore < 3.0) {
             return R.color.z_score_2;
         } else {
             return R.color.z_score_3;

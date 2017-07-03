@@ -65,7 +65,7 @@ public class RadioButtonFactory implements FormWidgetFactory {
             radioButton.setTag(R.id.childKey, item.getString("key"));
             radioButton.setGravity(Gravity.CENTER_VERTICAL);
             radioButton.setTag(R.id.address,  stepName + ":" + jsonObject.getString("key"));
-            radioButton.setTextSize(context.getResources().getDimension(R.dimen.default_text_size));
+//            radioButton.setTextSize(context.getResources().getDimension(R.dimen.default_text_size));
             radioButton.setOnCheckedChangeListener(listener);
             if (!TextUtils.isEmpty(jsonObject.optString("value"))
                     && jsonObject.optString("value").equals(item.getString("key"))) {

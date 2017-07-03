@@ -74,8 +74,8 @@ public class MotherLookUpUtils {
             return results;
         }
 
-        String tableName = "ec_mother";
-        String childTableName = "ec_child";
+        String tableName = PathConstants.MOTHER_TABLE_NAME;
+        String childTableName = PathConstants.CHILD_TABLE_NAME;
 
 
         List<String> ids = new ArrayList<>();

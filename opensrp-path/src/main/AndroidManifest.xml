@@ -10,7 +10,7 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".application.VaccinatorApplication"
@@ -71,38 +71,58 @@
         <activity
             android:name=".activity.VaccineReportActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
+
             android:name="com.vijay.jsonwizard.activities.JsonFormActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".activity.PathJsonFormActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
         <receiver android:name=".receiver.PathSyncBroadcastReceiver" />
+        <receiver android:name=".receiver.VaccinatorAlarmReceiver" />
+        <receiver android:name=".receiver.OnBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
 
-        <activity android:name=".activity.ProviderProfileActivity"></activity>
-        <activity android:name=".activity.SettingsActivity"
+        <activity android:name=".activity.ProviderProfileActivity" />
+        <activity
+            android:name=".activity.SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ChildImmunizationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoTitle.NoActionBar" />
+        <activity
+            android:name=".activity.HIA2ReportsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoTitle.NoActionBar" />
+        <activity android:name=".activity.ReportSummaryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoTitle.NoActionBar" />
+        <activity android:name=".activity.StockActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoTitle.NoActionBar" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="3f94f9c3caeff331b3a2bd8c2182b663ad6a955a" />
+
         <service android:name=".service.intent.PathReplicationIntentService" />
         <service android:name=".service.intent.PullUniqueIdsIntentService" />
         <service android:name=".service.intent.WeightIntentService" />
         <service android:name=".service.intent.VaccineIntentService" />
         <service android:name=".service.intent.ZScoreRefreshIntentService" />
         <service android:name=".service.intent.RecurringIntentService" />
+        <service android:name=".service.intent.HIA2IntentService" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.vijay.jsonwizard.fileprovider"
@@ -110,8 +130,15 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/captured_images_path"></meta-data>
+                android:resource="@xml/captured_images_path" />
         </provider>
+
+        <activity
+            android:name=".activity.StockControlActivity"
+            android:label="@string/title_activity_stock_control"
+            android:theme="@style/AppThemeNoTitle.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>

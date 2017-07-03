@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +37,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.sync.ECSyncUpdater;
 import org.ei.opensrp.path.sync.PathAfterFetchListener;
@@ -56,6 +58,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import util.JsonFormUtils;
+import util.NetworkUtils;
 
 /**
  * Base activity class for all other PATH activity classes. Implements:
@@ -80,6 +83,7 @@ public abstract class BaseActivity extends AppCompatActivity
     private Snackbar syncStatusSnackbar;
     private ProgressDialog progressDialog;
     private ArrayList<Notification> notifications;
+    private BaseActivityToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +93,7 @@ public abstract class BaseActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(getDrawerLayoutId());
-        BaseActivityToggle toggle = new BaseActivityToggle(
+        toggle = new BaseActivityToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -125,24 +129,69 @@ public abstract class BaseActivity extends AppCompatActivity
         return toolbar;
     }
 
+
+    ///////////////////////////////// navigation bar with menu
+//    private void refreshSyncStatusViews(FetchStatus fetchStatus) {
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        if (navigationView != null && navigationView.getMenu() != null) {
+//            MenuItem syncMenuItem = navigationView.getMenu().findItem(R.id.nav_sync);
+//            if (syncMenuItem != null) {
+//                if (SyncStatusBroadcastReceiver.getInstance().isSyncing()) {
+//                    syncMenuItem.setTitle(R.string.syncing);
+//                    ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
+//                    if (syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
+//                    syncStatusSnackbar = Snackbar.make(rootView, R.string.syncing,
+//                            Snackbar.LENGTH_LONG);
+//                    syncStatusSnackbar.show();
+//                } else {
+//                    if (fetchStatus != null) {
+//                        if (syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
+//                        ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
+//                        if (fetchStatus.equals(FetchStatus.fetchedFailed)) {
+//                            syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_failed, Snackbar.LENGTH_INDEFINITE);
+//                            syncStatusSnackbar.setAction(R.string.retry, new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    startSync();
+//                                }
+//                            });
+//                        } else if (fetchStatus.equals(FetchStatus.fetched)
+//                                || fetchStatus.equals(FetchStatus.nothingFetched)) {
+//                            syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_complete, Snackbar.LENGTH_LONG);
+//                        }
+//                        syncStatusSnackbar.show();
+//                    }
+//                    String lastSync = getLastSyncTime();
+//
+//                    if (!TextUtils.isEmpty(lastSync)) {
+//                        lastSync = " " + String.format(getString(R.string.last_sync), lastSync);
+//                    }
+//                    syncMenuItem.setTitle(String.format(getString(R.string.sync_), lastSync));
+//                }
+//            }
+//        }
+//    }
+
+    /////////////////////////for custom navigation //////////////////////////////////////////////////////
     private void refreshSyncStatusViews(FetchStatus fetchStatus) {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null && navigationView.getMenu() != null) {
-            MenuItem syncMenuItem = navigationView.getMenu().findItem(R.id.nav_sync);
+            LinearLayout syncMenuItem = (LinearLayout) navigationView.findViewById(R.id.nav_sync);
             if (syncMenuItem != null) {
                 if (SyncStatusBroadcastReceiver.getInstance().isSyncing()) {
-                    syncMenuItem.setTitle(R.string.syncing);
                     ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
                     if (syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
                     syncStatusSnackbar = Snackbar.make(rootView, R.string.syncing,
                             Snackbar.LENGTH_LONG);
                     syncStatusSnackbar.show();
+                    ((TextView)syncMenuItem.findViewById(R.id.nav_synctextview)).setText(R.string.syncing);
                 } else {
                     if (fetchStatus != null) {
                         if (syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
                         ViewGroup rootView = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
                         if (fetchStatus.equals(FetchStatus.fetchedFailed)) {
                             syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_failed, Snackbar.LENGTH_INDEFINITE);
+                            syncStatusSnackbar.setActionTextColor(getResources().getColor(R.color.snackbar_action_color));
                             syncStatusSnackbar.setAction(R.string.retry, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -152,18 +201,113 @@ public abstract class BaseActivity extends AppCompatActivity
                         } else if (fetchStatus.equals(FetchStatus.fetched)
                                 || fetchStatus.equals(FetchStatus.nothingFetched)) {
                             syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_complete, Snackbar.LENGTH_LONG);
+                        } else if (fetchStatus.equals(FetchStatus.noConnection)) {
+                            syncStatusSnackbar = Snackbar.make(rootView, R.string.sync_failed_no_internet, Snackbar.LENGTH_LONG);
                         }
                         syncStatusSnackbar.show();
                     }
-                    String lastSync = getLastSyncTime();
 
-                    if (!TextUtils.isEmpty(lastSync)) {
-                        lastSync = " " + String.format(getString(R.string.last_sync), lastSync);
-                    }
-                    syncMenuItem.setTitle(String.format(getString(R.string.sync_), lastSync));
+//<<<<<<< HEAD
+//                    if (!TextUtils.isEmpty(lastSync)) {
+//                        lastSync = " " + String.format(getString(R.string.last_sync), lastSync);
+//                    }
+//                    ((TextView)syncMenuItem.findViewById(R.id.nav_synctextview)).setText(String.format(getString(R.string.sync_), lastSync));
+//=======
+                    updateLastSyncText();
                 }
             }
         }
+    }
+
+    protected ActionBarDrawerToggle getDrawerToggle() {
+        return toggle;
+    }
+
+    protected void openDrawer() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(getDrawerLayoutId());
+        drawer.openDrawer(Gravity.LEFT);
+    }
+
+    private void updateLastSyncText() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        if (navigationView != null && navigationView.getMenu() != null) {
+            TextView syncMenuItem = ((TextView)navigationView.findViewById(R.id.nav_synctextview));
+            if (syncMenuItem != null) {
+                String lastSync = getLastSyncTime();
+
+                if (!TextUtils.isEmpty(lastSync)) {
+                    lastSync = " " + String.format(getString(R.string.last_sync), lastSync);
+                }
+                syncMenuItem.setText(String.format(getString(R.string.sync_), lastSync));
+            }
+        }
+    }
+    private void initializeCustomNavbarLIsteners(){
+
+
+
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        LinearLayout syncMenuItem = (LinearLayout) drawer.findViewById(R.id.nav_sync);
+        syncMenuItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startSync();
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+        LinearLayout addchild = (LinearLayout) drawer.findViewById(R.id.nav_register);
+        addchild.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startJsonForm("child_enrollment", null);
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
+        });
+        LinearLayout outofcatchment = (LinearLayout) drawer.findViewById(R.id.nav_record_vaccination_out_catchment);
+        outofcatchment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startJsonForm("out_of_catchment_service", null);
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
+        });
+        LinearLayout stockregister = (LinearLayout) drawer.findViewById(R.id.stockcontrol);
+        stockregister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), StockActivity.class);
+                startActivity(intent);
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
+        });
+        LinearLayout childregister = (LinearLayout) drawer.findViewById(R.id.child_register);
+        childregister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VaccinatorApplication.setCrashlyticsUser(VaccinatorApplication.getInstance().context());
+                Intent intent = new Intent(getApplicationContext(), ChildSmartRegisterActivity.class);
+                intent.putExtra(BaseRegisterActivity.IS_REMOTE_LOGIN, false);
+                startActivity(intent);
+                finish();
+                drawer.closeDrawer(GravityCompat.START);
+
+//                finish();
+            }
+        });
+        LinearLayout hia2 = (LinearLayout) drawer.findViewById(R.id.hia2reports);
+        hia2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), HIA2ReportsActivity.class);
+                startActivity(intent);
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
+        });
+
     }
 
     private String getLastSyncTime() {
@@ -204,10 +348,16 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        this.menu = menu;
-        getMenuInflater().inflate(toolbar.getSupportedMenu(), menu);
-        toolbar.prepareMenu();
-        return super.onCreateOptionsMenu(menu);
+        if (toolbar.getSupportedMenu() != 0) {
+            this.menu = menu;
+            getMenuInflater().inflate(toolbar.getSupportedMenu(), menu);
+            toolbar.prepareMenu();
+            return super.onCreateOptionsMenu(menu);
+        } else {
+            toolbar.prepareMenu();
+        }
+
+        return false;
     }
 
     @Override
@@ -225,7 +375,7 @@ public abstract class BaseActivity extends AppCompatActivity
         }
     }
 
-    public void initViews() {
+    private void initViews() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         Button logoutButton = (Button) navigationView.findViewById(R.id.logout_b);
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -249,6 +399,60 @@ public abstract class BaseActivity extends AppCompatActivity
         });
 
         TextView initialsTV = (TextView) navigationView.findViewById(R.id.initials_tv);
+        initialsTV.setText(getLoggedInUserInitials());
+        String preferredName = getOpenSRPContext().allSharedPreferences().getANMPreferredName(
+                getOpenSRPContext().allSharedPreferences().fetchRegisteredANM());
+        TextView nameTV = (TextView) navigationView.findViewById(R.id.name_tv);
+        nameTV.setText(preferredName);
+        refreshSyncStatusViews(null);
+        initializeCustomNavbarLIsteners();
+    }
+    //FIXME this method conflicts with raihan's don't know what the difference is
+//    public void initViews() {
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        Button logoutButton = (Button) navigationView.findViewById(R.id.logout_b);
+//        logoutButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                DrishtiApplication application = (DrishtiApplication) getApplication();
+//                application.logoutCurrentUser();
+//                finish();
+//            }
+//        });
+//
+//        ImageButton cancelButton = (ImageButton) navigationView.findViewById(R.id.cancel_b);
+//        cancelButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                DrawerLayout drawer = (DrawerLayout) BaseActivity.this.findViewById(getDrawerLayoutId());
+//                if (drawer.isDrawerOpen(GravityCompat.START)) {
+//                    drawer.closeDrawer(GravityCompat.START);
+//                }
+//            }
+//        });
+//
+//        TextView initialsTV = (TextView) navigationView.findViewById(R.id.initials_tv);
+//        String preferredName = getOpenSRPContext().allSharedPreferences().getANMPreferredName(
+//                getOpenSRPContext().allSharedPreferences().fetchRegisteredANM());
+//        if (!TextUtils.isEmpty(preferredName)) {
+//            String[] initialsArray = preferredName.split(" ");
+//            String initials = "";
+//            if (initialsArray.length > 0) {
+//                initials = initialsArray[0].substring(0, 1);
+//                if (initialsArray.length > 1) {
+//                    initials = initials + initialsArray[1].substring(0, 1);
+//                }
+//            }
+//
+//            initialsTV.setText(initials.toUpperCase());
+//        }
+//
+//        TextView nameTV = (TextView) navigationView.findViewById(R.id.name_tv);
+//        nameTV.setText(preferredName);
+//        refreshSyncStatusViews(null);
+//        initializeCustomNavbarLIsteners();
+//    }
+    protected String getLoggedInUserInitials() {
         String preferredName = getOpenSRPContext().allSharedPreferences().getANMPreferredName(
                 getOpenSRPContext().allSharedPreferences().fetchRegisteredANM());
         if (!TextUtils.isEmpty(preferredName)) {
@@ -261,12 +465,11 @@ public abstract class BaseActivity extends AppCompatActivity
                 }
             }
 
-            initialsTV.setText(initials.toUpperCase());
+            return initials.toUpperCase();
         }
 
-        TextView nameTV = (TextView) navigationView.findViewById(R.id.name_tv);
-        nameTV.setText(preferredName);
-        refreshSyncStatusViews(null);
+       return null;
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -279,10 +482,7 @@ public abstract class BaseActivity extends AppCompatActivity
             startJsonForm("child_enrollment", null);
         } else if (id == R.id.nav_record_vaccination_out_catchment) {
             startJsonForm("out_of_catchment_service", null);
-        }/* else if (id == R.id.nav_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-        }*/ else if (id == R.id.nav_sync) {
+        }  else if (id == R.id.nav_sync) {
             startSync();
         }
 
@@ -563,6 +763,9 @@ public abstract class BaseActivity extends AppCompatActivity
         @Override
         public void onDrawerOpened(View drawerView) {
             super.onDrawerOpened(drawerView);
+            if (!SyncStatusBroadcastReceiver.getInstance().isSyncing()) {
+                updateLastSyncText();
+            }
         }
 
         @Override

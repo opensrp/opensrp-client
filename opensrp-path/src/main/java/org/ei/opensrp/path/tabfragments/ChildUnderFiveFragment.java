@@ -101,17 +101,17 @@ public class ChildUnderFiveFragment extends Fragment {
         DetailsRepository detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
         Detailsmap = detailsRepository.getAllDetailsForClient(childDetails.entityId());
 
-        loadview(false, false);
+        loadView(false, false, false);
         return underFiveFragment;
     }
 
-    public void loadview(boolean editmode, boolean editweightmode) {
+    public void loadView(boolean editVaccineMode, boolean editServiceMode, boolean editWeightMode) {
         if (fragmentContainer != null) {
             createPTCMTVIEW(fragmentContainer, "PMTCT: ", Utils.getValue(childDetails.getColumnmaps(), "pmtct_status", true));
-            createWeightLayout(fragmentContainer, editweightmode);
+            createWeightLayout(fragmentContainer, editWeightMode);
 
-            updateVaccinationViews(fragmentContainer, editmode);
-            updateServiceViews(fragmentContainer, editmode);
+            updateVaccinationViews(fragmentContainer, editVaccineMode);
+            updateServiceViews(fragmentContainer, editServiceMode);
         }
     }
 

@@ -56,6 +56,7 @@ import org.ei.opensrp.view.dialog.SortOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import util.PathConstants;
 import util.VaccinateActionUtils;
 
 import static android.view.View.INVISIBLE;
@@ -282,8 +283,8 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
     }
 
     public void initializeQueries() {
-        String tableName = "ec_child";
-        String parentTableName = "ec_mother";
+        String tableName = PathConstants.CHILD_TABLE_NAME;
+        String parentTableName = PathConstants.MOTHER_TABLE_NAME;
 
         ChildSmartClientsProvider hhscp = new ChildSmartClientsProvider(getActivity(),
                 clientActionHandler, context().alertService(), VaccinatorApplication.getInstance().vaccineRepository(), VaccinatorApplication.getInstance().weightRepository());
