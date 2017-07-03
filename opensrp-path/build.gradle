@@ -27,8 +27,8 @@ android {
         applicationId "org.ei.opensrp.path"
         minSdkVersion 18
         targetSdkVersion 21
-        versionCode 5
-        versionName "1.1.5"
+        versionCode 6
+        versionName "1.2.0"
         multiDexEnabled true
         dexOptions {
             javaMaxHeapSize "4g"
