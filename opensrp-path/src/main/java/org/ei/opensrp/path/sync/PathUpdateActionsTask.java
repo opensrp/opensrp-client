@@ -344,7 +344,7 @@ public class PathUpdateActionsTask {
                 // create request body
                 JSONObject request = new JSONObject();
 
-                request.put("stocks", request);
+                request.put("stocks", stocksarray);
 
                 String jsonPayload = request.toString();
                 Response<String> response = httpAgent.post(
