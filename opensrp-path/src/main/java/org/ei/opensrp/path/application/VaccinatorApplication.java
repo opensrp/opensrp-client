@@ -20,6 +20,9 @@ import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.domain.VaccineSchedule;
 import org.ei.opensrp.path.receiver.PathSyncBroadcastReceiver;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
+import org.ei.opensrp.path.repository.HIA2IndicatorsRepository;
+import org.ei.opensrp.path.repository.DailyTalliesRepository;
+import org.ei.opensrp.path.repository.MonthlyTalliesRepository;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
 import org.ei.opensrp.path.repository.RecurringServiceTypeRepository;
@@ -27,6 +30,7 @@ import org.ei.opensrp.path.repository.UniqueIdRepository;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.repository.WeightRepository;
 import org.ei.opensrp.path.repository.ZScoreRepository;
+import org.ei.opensrp.path.sync.PathUpdateActionsTask;
 import org.ei.opensrp.repository.Repository;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
 import org.ei.opensrp.view.activity.DrishtiApplication;
@@ -40,6 +44,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import io.fabric.sdk.android.Fabric;
+import util.PathConstants;
 import util.VaccinateActionUtils;
 import util.VaccinatorUtils;
 
@@ -58,6 +63,9 @@ public class VaccinatorApplication extends DrishtiApplication
     private static CommonFtsObject commonFtsObject;
     private WeightRepository weightRepository;
     private UniqueIdRepository uniqueIdRepository;
+    private DailyTalliesRepository dailyTalliesRepository;
+    private MonthlyTalliesRepository monthlyTalliesRepository;
+    private HIA2IndicatorsRepository hIA2IndicatorsRepository;
     private VaccineRepository vaccineRepository;
     private ZScoreRepository zScoreRepository;
     private RecurringServiceRecordRepository recurringServiceRecordRepository;
@@ -86,6 +94,8 @@ public class VaccinatorApplication extends DrishtiApplication
         cleanUpSyncState();
         initOfflineSchedules();
         setCrashlyticsUser(context);
+        PathUpdateActionsTask.setAlarms(this);
+
     }
 
     public static synchronized VaccinatorApplication getInstance() {
@@ -137,10 +147,10 @@ public class VaccinatorApplication extends DrishtiApplication
     }
 
     private static String[] getFtsSearchFields(String tableName) {
-        if (tableName.equals("ec_child")) {
+        if (tableName.equals(PathConstants.CHILD_TABLE_NAME)) {
             String[] ftsSearchFileds = {"zeir_id", "epi_card_number", "first_name", "last_name"};
             return ftsSearchFileds;
-        } else if (tableName.equals("ec_mother")) {
+        } else if (tableName.equals(PathConstants.MOTHER_TABLE_NAME)) {
             String[] ftsSearchFileds = {"zeir_id", "epi_card_number", "first_name", "last_name", "father_name", "husband_name", "contact_phone_number"};
             return ftsSearchFileds;
         }
@@ -150,7 +160,7 @@ public class VaccinatorApplication extends DrishtiApplication
     private static String[] getFtsSortFields(String tableName) {
 
 
-        if (tableName.equals("ec_child")) {
+        if (tableName.equals(PathConstants.CHILD_TABLE_NAME)) {
             ArrayList<VaccineRepo.Vaccine> vaccines = VaccineRepo.getVaccines("child");
             List<String> names = new ArrayList<>();
             names.add("first_name");
@@ -165,7 +175,7 @@ public class VaccinatorApplication extends DrishtiApplication
             }
 
             return names.toArray(new String[names.size()]);
-        } else if (tableName.equals("ec_mother")) {
+        } else if (tableName.equals(PathConstants.MOTHER_TABLE_NAME)) {
             String[] sortFields = {"first_name", "dob", "zeir_id", "last_interacted_with"};
             return sortFields;
         }
@@ -173,7 +183,7 @@ public class VaccinatorApplication extends DrishtiApplication
     }
 
     private static String[] getFtsTables() {
-        String[] ftsTables = {"ec_child", "ec_mother"};
+        String[] ftsTables = {PathConstants.CHILD_TABLE_NAME, PathConstants.MOTHER_TABLE_NAME};
         return ftsTables;
     }
 
@@ -181,7 +191,7 @@ public class VaccinatorApplication extends DrishtiApplication
         ArrayList<VaccineRepo.Vaccine> vaccines = VaccineRepo.getVaccines("child");
         Map<String, Pair<String, Boolean>> map = new HashMap<String, Pair<String, Boolean>>();
         for (VaccineRepo.Vaccine vaccine : vaccines) {
-            map.put(vaccine.display(), Pair.create("ec_child", false));
+            map.put(vaccine.display(), Pair.create(PathConstants.CHILD_TABLE_NAME, false));
         }
         return map;
     }
@@ -270,6 +280,28 @@ public class VaccinatorApplication extends DrishtiApplication
             uniqueIdRepository = new UniqueIdRepository((PathRepository) getRepository());
         }
         return uniqueIdRepository;
+    }
+
+    public DailyTalliesRepository dailyTalliesRepository() {
+        if (dailyTalliesRepository == null) {
+            dailyTalliesRepository = new DailyTalliesRepository((PathRepository) getRepository());
+        }
+        return dailyTalliesRepository;
+    }
+
+    public MonthlyTalliesRepository monthlyTalliesRepository() {
+        if (monthlyTalliesRepository == null) {
+            monthlyTalliesRepository = new MonthlyTalliesRepository((PathRepository) getRepository());
+        }
+
+        return monthlyTalliesRepository;
+    }
+
+    public HIA2IndicatorsRepository hIA2IndicatorsRepository() {
+        if (hIA2IndicatorsRepository == null) {
+            hIA2IndicatorsRepository = new HIA2IndicatorsRepository((PathRepository) getRepository());
+        }
+        return hIA2IndicatorsRepository;
     }
 
     public RecurringServiceTypeRepository recurringServiceTypeRepository() {

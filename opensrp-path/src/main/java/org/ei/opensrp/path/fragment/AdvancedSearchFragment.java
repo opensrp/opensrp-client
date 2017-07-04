@@ -1,6 +1,7 @@
 package org.ei.opensrp.path.fragment;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
@@ -28,7 +29,6 @@ import com.vijay.jsonwizard.customviews.RadioButton;
 import com.vijay.jsonwizard.utils.DatePickerUtils;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ei.opensrp.Context;
 import org.ei.opensrp.clientandeventmodel.DateUtil;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
@@ -39,12 +39,8 @@ import org.ei.opensrp.path.activity.ChildImmunizationActivity;
 import org.ei.opensrp.path.activity.ChildSmartRegisterActivity;
 import org.ei.opensrp.path.adapter.AdvancedSearchPaginatedCursorAdapter;
 import org.ei.opensrp.path.application.VaccinatorApplication;
-import org.ei.opensrp.path.db.Event;
-import org.ei.opensrp.path.db.Obs;
 import org.ei.opensrp.path.domain.RegisterClickables;
 import org.ei.opensrp.path.provider.AdvancedSearchClientsProvider;
-import org.ei.opensrp.path.sync.ECSyncUpdater;
-import org.ei.opensrp.path.sync.PathClientProcessor;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,6 +58,7 @@ import java.util.Map;
 import util.GlobalSearchUtils;
 import util.JsonFormUtils;
 import util.MoveToMyCatchmentUtils;
+import util.PathConstants;
 import util.Utils;
 
 public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
@@ -88,6 +85,8 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     private View advancedSearchForm;
 
     private TextView filterCount;
+
+    private ProgressDialog progressDialog;
 
     //private List<Integer> editedList = new ArrayList<>();
     private Map<String, String> editMap = new HashMap<>();
@@ -189,6 +188,8 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
         backButton.setVisibility(View.VISIBLE);
 
         populateFormViews(view);
+
+        initializeProgressDialog();
     }
 
     @Override
@@ -380,8 +381,8 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
             return;
         }
 
-        String tableName = "ec_child";
-        String parentTableName = "ec_mother";
+        String tableName = PathConstants.CHILD_TABLE_NAME;
+        String parentTableName = PathConstants.MOTHER_TABLE_NAME;
 
         editMap.clear();
 
@@ -590,7 +591,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     private void initListMode() {
         switchViews(true);
 
-        String tableName = "ec_child";
+        String tableName = PathConstants.CHILD_TABLE_NAME;
         setTablename(tableName);
         AdvancedSearchClientsProvider hhscp = new AdvancedSearchClientsProvider(getActivity(),
                 clientActionHandler, context().alertService(), VaccinatorApplication.getInstance().vaccineRepository(), VaccinatorApplication.getInstance().weightRepository(), commonRepository());
@@ -637,7 +638,9 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
             editMap.put(BIRTH_DATE, bDate);
         }
 
-        GlobalSearchUtils.backgroundSearch(editMap, listener, clientsProgressView);
+        progressDialog.setTitle(getString(R.string.searching_dialog_title));
+        progressDialog.setMessage(getString(R.string.searching_dialog_message));
+        GlobalSearchUtils.backgroundSearch(editMap, listener, progressDialog);
     }
 
     @Override
@@ -710,9 +713,9 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     }
 
     private String sortByStatus() {
-        return " CASE WHEN ec_child.inactive  != 'true' is null and ec_child.lost_to_follow_up != 'true' THEN 1 "
-                + " WHEN ec_child.inactive = 'true' THEN 2 "
-                + " WHEN ec_child.lost_to_follow_up = 'true' THEN 3 END ";
+        return " CASE WHEN " + PathConstants.CHILD_TABLE_NAME + ".inactive  != 'true' is null and " + PathConstants.CHILD_TABLE_NAME + ".lost_to_follow_up != 'true' THEN 1 "
+                + " WHEN " + PathConstants.CHILD_TABLE_NAME + ".inactive = 'true' THEN 2 "
+                + " WHEN " + PathConstants.CHILD_TABLE_NAME + ".lost_to_follow_up = 'true' THEN 3 END ";
     }
 
     @Override
@@ -814,7 +817,6 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
             advancedSearchForm.setVisibility(View.GONE);
             listViewLayout.setVisibility(View.VISIBLE);
             clientsView.setVisibility(View.VISIBLE);
-            clientsProgressView.setVisibility(View.INVISIBLE);
 
             updateMatchingResults(0);
             showProgressView();
@@ -824,7 +826,6 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
             advancedSearchForm.setVisibility(View.VISIBLE);
             listViewLayout.setVisibility(View.GONE);
             clientsView.setVisibility(View.INVISIBLE);
-            clientsProgressView.setVisibility(View.VISIBLE);
             listMode = false;
         }
     }
@@ -1037,7 +1038,9 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
                 .setNegativeButton(org.ei.opensrp.path.R.string.yes_button_label,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                MoveToMyCatchmentUtils.moveToMyCatchment(ids, moveToMyCatchmentListener, clientsProgressView);
+                                progressDialog.setTitle(getString(R.string.move_to_catchment_dialog_title));
+                                progressDialog.setMessage(getString(R.string.move_to_catchment_dialog_message));
+                                MoveToMyCatchmentUtils.moveToMyCatchment(ids, moveToMyCatchmentListener, progressDialog);
                             }
                         }).create();
 
@@ -1194,4 +1197,20 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
         }
     };
 
+    private void initializeProgressDialog() {
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setCancelable(false);
+    }
+
+    @Override
+    public void showProgressView() {
+        progressDialog.setTitle(getString(R.string.searching_dialog_title));
+        progressDialog.setMessage(getString(R.string.searching_dialog_message));
+        progressDialog.show();
+    }
+
+    @Override
+    public void hideProgressView() {
+        progressDialog.hide();
+    }
 }

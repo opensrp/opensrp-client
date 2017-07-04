@@ -3,6 +3,7 @@ package org.ei.opensrp.path.domain;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.clientandeventmodel.DateUtil;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.AlertStatus;
@@ -85,7 +86,6 @@ public class VaccineSchedule {
     /**
      * Updates offline alerts for the provided person entity id
      *
-     * @param application
      * @param baseEntityId
      * @param dob
      * @param vaccineCategory

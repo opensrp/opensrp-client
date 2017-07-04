@@ -26,6 +26,7 @@ import util.VaccinatorUtils;
 public class VaccineIntentService extends IntentService {
     private static final String TAG = VaccineIntentService.class.getCanonicalName();
     public static final String EVENT_TYPE = "Vaccination";
+    public static final String EVENT_TYPE_OUT_OF_CATCHMENT = "Out of Area Service - Vaccination";
     public static final String ENTITY_TYPE = "vaccination";
     private VaccineRepository vaccineRepository;
     private JSONArray availableVaccines;
@@ -84,6 +85,11 @@ public class VaccineIntentService extends IntentService {
                     jsonArray.put(jsonObject);
 
                     JsonFormUtils.createVaccineEvent(getApplicationContext(), vaccine, EVENT_TYPE, ENTITY_TYPE, jsonArray);
+                  //log out of catchment service since this is required in some of the hia2 report indicators
+                    if (vaccine.getBaseEntityId() == null || vaccine.getBaseEntityId().isEmpty()) {
+                        JsonFormUtils.createVaccineEvent(getApplicationContext(), vaccine, EVENT_TYPE_OUT_OF_CATCHMENT, ENTITY_TYPE, jsonArray);
+
+                    }
                     vaccineRepository.close(vaccine.getId());
                 }
             }

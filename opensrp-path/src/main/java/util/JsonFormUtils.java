@@ -96,6 +96,7 @@ public class JsonFormUtils {
     private static final String ENCOUNTER_TYPE = "encounter_type";
     public static final String CURRENT_ZEIR_ID = "current_zeir_id";
     public static final String STEP1 = "step1";
+    public static final String SECTIONS = "sections";
     public static final String READ_ONLY = "read_only";
     private static final String METADATA = "metadata";
     public static final String ZEIR_ID = "ZEIR_ID";
@@ -926,7 +927,7 @@ public class JsonFormUtils {
 
     // Helper functions
 
-    private static JSONArray fields(JSONObject jsonForm) {
+    public static JSONArray fields(JSONObject jsonForm) {
         try {
 
             JSONObject step1 = jsonForm.has(STEP1) ? jsonForm.getJSONObject(STEP1) : null;
@@ -940,6 +941,49 @@ public class JsonFormUtils {
             Log.e(TAG, "", e);
         }
         return null;
+    }
+
+    /**
+     * return field values that are in sections e.g for the hia2 monthly draft form which has sections
+     *
+     * @param jsonForm
+     * @return
+     */
+    public static Map<String, String> sectionFields(JSONObject jsonForm) {
+        try {
+
+            JSONObject step1 = jsonForm.has(STEP1) ? jsonForm.getJSONObject(STEP1) : null;
+            if (step1 == null) {
+                return null;
+            }
+
+            JSONArray sections = step1.has(SECTIONS) ? step1.getJSONArray(SECTIONS) : null;
+            if (sections == null) {
+                return null;
+            }
+
+            Map<String, String> result = new HashMap<>();
+            for (int i = 0; i < sections.length(); i++) {
+                JSONObject sectionsJSONObject = sections.getJSONObject(i);
+                if (sectionsJSONObject.has(FIELDS)) {
+                    JSONArray fieldsArray = sectionsJSONObject.getJSONArray(FIELDS);
+                    for (int j = 0; j < fieldsArray.length(); j++) {
+                        JSONObject fieldJsonObject = fieldsArray.getJSONObject(j);
+                        String key = fieldJsonObject.getString(KEY);
+                        String value = fieldJsonObject.getString(VALUE);
+                        result.put(key, value);
+
+                    }
+                }
+
+            }
+            return result;
+
+        } catch (JSONException e) {
+            Log.e(TAG, "", e);
+            return null;
+        }
+
     }
 
     private static String getFieldValue(JSONArray jsonArray, FormEntityConstants.Person person) {
@@ -983,7 +1027,7 @@ public class JsonFormUtils {
         return null;
     }
 
-    private static String getFieldValue(JSONArray jsonArray, String key) {
+    public static String getFieldValue(JSONArray jsonArray, String key) {
         if (jsonArray == null || jsonArray.length() == 0) {
             return null;
         }

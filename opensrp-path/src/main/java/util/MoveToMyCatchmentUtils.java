@@ -1,11 +1,8 @@
 package util;
 
-import android.content.SharedPreferences;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
@@ -15,7 +12,6 @@ import org.ei.opensrp.domain.ResponseStatus;
 import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.path.db.Event;
 import org.ei.opensrp.path.db.Obs;
-import org.ei.opensrp.path.fragment.AdvancedSearchFragment;
 import org.ei.opensrp.path.repository.BaseRepository;
 import org.ei.opensrp.path.sync.ECSyncUpdater;
 import org.ei.opensrp.path.sync.PathClientProcessor;
@@ -28,11 +24,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
-import static android.view.View.VISIBLE;
-import static android.view.View.generateViewId;
-import static android.view.View.getDefaultSize;
 
 /**
  * Created by keyman on 26/01/2017.
@@ -40,7 +31,7 @@ import static android.view.View.getDefaultSize;
 public class MoveToMyCatchmentUtils {
     public static String MOVE_TO_CATCHMENT_EVENT = "Move To Catchment";
 
-    public static void moveToMyCatchment(final List<String> ids, final Listener<JSONObject> listener, final ProgressBar progressBar) {
+    public static void moveToMyCatchment(final List<String> ids, final Listener<JSONObject> listener, final ProgressDialog progressDialog) {
 
         Utils.startAsyncTask(new AsyncTask<Void, Void, JSONObject>() {
             @Override
@@ -62,13 +53,13 @@ public class MoveToMyCatchmentUtils {
 
             @Override
             protected void onProgressUpdate(Void... values) {
-                progressBar.setVisibility(VISIBLE);
+                progressDialog.show();
             }
 
             @Override
             protected void onPostExecute(JSONObject result) {
                 listener.onEvent(result);
-                progressBar.setVisibility(View.GONE);
+                progressDialog.dismiss();
             }
         }, null);
     }
@@ -84,7 +75,7 @@ public class MoveToMyCatchmentUtils {
         String baseUrl = configuration.dristhiBaseURL();
         String idString = StringUtils.join(ids, ",");
 
-        String paramString = "?baseEntityId=" + urlEncode(idString.trim());
+        String paramString = "?baseEntityId=" + urlEncode(idString.trim()) + "&limit=1000";
         String uri = baseUrl + ECSyncUpdater.SEARCH_URL + paramString;
 
         Response<String> response = context.getHttpAgent().fetch(uri);

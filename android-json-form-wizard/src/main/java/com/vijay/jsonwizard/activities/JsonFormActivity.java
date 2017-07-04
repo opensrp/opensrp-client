@@ -49,9 +49,9 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
 
     private static final String TAG = "JsonFormActivity";
 
-    private Toolbar             mToolbar;
+    private Toolbar mToolbar;
 
-    private JSONObject          mJSONObject;
+    private JSONObject mJSONObject;
     private PropertyManager propertyManager;
     private HashMap<String, View> skipLogicViews;
     private HashMap<String, View> constrainedViews;
@@ -63,7 +63,7 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
     public void init(String json) {
         try {
             mJSONObject = new JSONObject(json);
-            if(!mJSONObject.has("encounter_type")) {
+            if (!mJSONObject.has("encounter_type")) {
                 mJSONObject = new JSONObject();
                 throw new JSONException("Form encounter_type not set");
             }
@@ -89,7 +89,7 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
         }
     }
 
-    public void initializeFormFragment(){
+    public void initializeFormFragment() {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, JsonFormFragment.getFormFragment(JsonFormConstants.FIRST_STEP_NAME)).commit();
     }
@@ -124,12 +124,18 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
                            String openMrsEntity, String openMrsEntityId) throws JSONException {
         synchronized (mJSONObject) {
             JSONObject jsonObject = mJSONObject.getJSONObject(stepName);
-            JSONArray fields = jsonObject.getJSONArray("fields");
+            JSONArray fields = fetchFields(jsonObject);
             for (int i = 0; i < fields.length(); i++) {
                 JSONObject item = fields.getJSONObject(i);
                 String keyAtIndex = item.getString("key");
                 if (key.equals(keyAtIndex)) {
-                    item.put("value", value);
+                    if(item.has("text")){
+                        item.put("text", value);
+                    }else{
+                        item.put("value", value);
+
+                    }
+
                     item.put("openmrs_entity_parent", openMrsEntityParent);
                     item.put("openmrs_entity", openMrsEntity);
                     item.put("openmrs_entity_id", openMrsEntityId);
@@ -148,7 +154,7 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
             throws JSONException {
         synchronized (mJSONObject) {
             JSONObject jsonObject = mJSONObject.getJSONObject(stepName);
-            JSONArray fields = jsonObject.getJSONArray("fields");
+            JSONArray fields = fetchFields(jsonObject);
             for (int i = 0; i < fields.length(); i++) {
                 JSONObject item = fields.getJSONObject(i);
                 String keyAtIndex = item.getString("key");
@@ -255,7 +261,7 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
             String[] address = addressString.split(":");
             try {
                 JSONObject viewData = getObjectUsingAddress(address);
-                if(viewData.has("hidden") && viewData.getBoolean("hidden")) {
+                if (viewData.has("hidden") && viewData.getBoolean("hidden")) {
                     toggleViewVisibility(curView, false);
                 }
             } catch (Exception e) {
@@ -276,7 +282,7 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
 
     private String getViewKey(View view) {
         String key = (String) view.getTag(R.id.key);
-        if(view.getTag(R.id.childKey) != null) {
+        if (view.getTag(R.id.childKey) != null) {
             key = key + ":" + (String) view.getTag(R.id.childKey);
         }
 
@@ -306,7 +312,8 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
                 })
                 .setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {}
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
                 })
                 .create();
 
@@ -314,7 +321,7 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
     }
 
     @Override
-        public void refreshSkipLogic(String parentKey, String childKey) {
+    public void refreshSkipLogic(String parentKey, String childKey) {
         initComparisons();
         for (View curView : skipLogicViews.values()) {
             String relevanceTag = (String) curView.getTag(R.id.relevance);
@@ -388,7 +395,7 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
             changedViewKey = changedViewKey + ":" + childKey;
         }
 
-        if(changedViewKey != null && constrainedViews.containsKey(changedViewKey)) {
+        if (changedViewKey != null && constrainedViews.containsKey(changedViewKey)) {
             checkViewConstraints(constrainedViews.get(changedViewKey));
         }
 
@@ -463,12 +470,12 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
                 JSONArray resultArray = new JSONArray();
                 JSONArray options = object.getJSONArray("options");
                 for (int j = 0; j < options.length(); j++) {
-                    if(options.getJSONObject(j).getString("value").toLowerCase().equals("true")) {
+                    if (options.getJSONObject(j).getString("value").toLowerCase().equals("true")) {
                         resultArray.put(options.getJSONObject(j).getString("key"));
                     }
                 }
 
-                if(resultArray.length() > 0) {
+                if (resultArray.length() > 0) {
                     result = resultArray.toString();
                 }
             } else {
@@ -481,7 +488,7 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
 
     private JSONObject getObjectUsingAddress(String[] address) throws Exception {
         if (address != null && address.length == 2) {
-            JSONArray fields = mJSONObject.getJSONObject(address[0]).getJSONArray("fields");
+            JSONArray fields = fetchFields(mJSONObject.getJSONObject(address[0]));
             for (int i = 0; i < fields.length(); i++) {
                 if (fields.getJSONObject(i).getString("key").equals(address[1])) {
                     return fields.getJSONObject(i);
@@ -548,10 +555,10 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
         String[] splitArgs = functionArgs.split(",");
         if (splitArgs.length == 2) {
             Pattern valueRegex = Pattern.compile("\"(.*)\"");
-            for(int i = 0; i < splitArgs.length; i++) {
+            for (int i = 0; i < splitArgs.length; i++) {
                 String curArg = splitArgs[i].trim();
 
-                if(curArg.equals(".")) {
+                if (curArg.equals(".")) {
                     args[i] = value;
                 } else {
                     Matcher valueMatcher = valueRegex.matcher(curArg);
@@ -575,9 +582,9 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
      * This method checks whether a constraint has been enforced and returns an error message if not
      * The error message should be displayable to the user
      *
-     * @param value         The value to be checked
-     * @param constraint    The constraint expression to use
-     * @return  An error message if constraint has not been enfored or NULL if constraint enforced
+     * @param value      The value to be checked
+     * @param constraint The constraint expression to use
+     * @return An error message if constraint has not been enfored or NULL if constraint enforced
      * @throws Exception
      */
     private String enforceConstraint(String value, View view, JSONObject constraint) throws Exception {
@@ -608,4 +615,38 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
 
         return errorMessage;
     }
+
+    private JSONArray fetchFields(JSONObject parentJson) {
+        JSONArray fields = new JSONArray();
+        try {
+            if (parentJson.has(JsonFormConstants.SECTIONS) && parentJson.get(JsonFormConstants.SECTIONS) instanceof JSONArray) {
+                JSONArray sections = parentJson.getJSONArray(JsonFormConstants.SECTIONS);
+
+                for (int i = 0; i < sections.length(); i++) {
+                    JSONObject sectionJson = sections.getJSONObject(i);
+                    if (sectionJson.has(JsonFormConstants.FIELDS)) {
+                        fields = concatArray(fields, sectionJson.getJSONArray(JsonFormConstants.FIELDS));
+                    }
+                }
+            } else if (parentJson.has(JsonFormConstants.FIELDS) && parentJson.get(JsonFormConstants.FIELDS) instanceof JSONArray) {
+                fields = parentJson.getJSONArray(JsonFormConstants.FIELDS);
+            }
+        } catch (JSONException e) {
+
+        }
+
+        return fields;
+    }
+
+    private JSONArray concatArray(JSONArray... arrs)
+            throws JSONException {
+        JSONArray result = new JSONArray();
+        for (JSONArray arr : arrs) {
+            for (int i = 0; i < arr.length(); i++) {
+                result.put(arr.get(i));
+            }
+        }
+        return result;
+    }
+
 }

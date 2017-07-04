@@ -58,15 +58,19 @@ import org.joda.time.DateTime;
 import org.opensrp.api.domain.Location;
 import org.opensrp.api.util.TreeNode;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -518,6 +522,18 @@ public class Utils {
         return fileContents;
     }
 
+    public static InputStream getAssetFileInputStream(Context context, String path) {
+        InputStream is = null;
+        try {
+            is = context.getAssets().open(path);
+
+        } catch (IOException ex) {
+            Log.e(TAG, Log.getStackTraceString(ex));
+        }
+
+        return is;
+    }
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static <T> void startAsyncTask(AsyncTask<T, ?, ?> asyncTask, T[] params) {
         if (params == null) {
@@ -541,5 +557,71 @@ public class Utils {
         return birthDateTime;
     }
 
+    /**
+     * This method is only intended to be used for processing Zambia-EIR-DataDictionaryReporting-HIA2.csv
+     *
+     * @param csvFileName
+     * @param columns     this map has the db column name as value and the csv column no as the key
+     * @return each map is db row with key as the column name and value as the value from the csv file
+     */
+    public static List<Map<String, String>> populateTableFromCSV(Context context, String csvFileName, Map<Integer, String> columns) {
+        List<Map<String, String>> result = new ArrayList<>();
 
+        try {
+            InputStream is = getAssetFileInputStream(context, csvFileName);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+            try {
+                String line;
+                String category = "";
+                while ((line = reader.readLine()) != null) {
+                    Map<String, String> csvValues = new HashMap<>();
+                    String[] rowData = line.split(",");
+                    if (!TextUtils.isDigitsOnly(rowData[0])) {
+                        category = cleanUpHeader(line);
+                        continue;
+                    }
+                    for (Integer key : columns.keySet()) {
+                        if (key != 999) {
+                            String value = rowData[key];
+                            csvValues.put(columns.get(key), value);
+                            csvValues.put(columns.get(999), category);
+                        }
+                    }
+                    result.add(csvValues);
+                }
+            } catch (IOException e) {
+                Log.e(TAG, "populateTableFromCSV: error reading csv file " + e.getMessage());
+
+            } finally {
+                try {
+                    is.close();
+                    reader.close();
+                } catch (Exception e) {
+                    Log.e(TAG, "populateTableFromCSV: unable to close inputstream/bufferedreader " + e.getMessage());
+                }
+            }
+
+        } catch (Exception e) {
+            Log.e(TAG, "populateTableFromCSV " + e.getMessage());
+        }
+        return result;
+    }
+
+    private static String cleanUpHeader(String header) {
+
+        try {
+            header = header.contains("\"") ? header.replaceAll("\"", "") : header;
+            int length = header.length()-1;
+            for (int i = length; i > 0; i--) {
+                if (header.charAt(i) != ',') {
+                    header=header.substring(0,i+1);
+                    break;
+                }
+            }
+            return header;
+        } catch (Exception ex) {
+            return header;
+        }
+    }
 }

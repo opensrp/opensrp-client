@@ -103,8 +103,13 @@ public class VaccineCardAdapter extends BaseAdapter {
                 vaccineCard.setVaccineWrapper(vaccineWrapper);
 
                 vaccineCards.put(vaccineName, vaccineCard);
+            }
+
+            //If last position, toggle RecordAll
+            if (position == (getCount() - 1)) {
                 vaccineGroup.toggleRecordAllTV();
             }
+
 
             return vaccineCards.get(vaccineName);
         } catch (JSONException e) {

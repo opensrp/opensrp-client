@@ -95,6 +95,7 @@ import java.util.Map;
 import util.DateUtils;
 import util.ImageUtils;
 import util.JsonFormUtils;
+import util.PathConstants;
 import util.RecurringServiceUtils;
 import util.Utils;
 import util.VaccinateActionUtils;
@@ -196,7 +197,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                 for (int i = 0; i < overflow.size(); i++) {
                     overflow.getItem(i).setVisible(true);
                 }
-                childUnderFiveFragment.loadview(false, false);
+                childUnderFiveFragment.loadView(false, false, false);
 
                 saveButton.setVisibility(View.INVISIBLE);
             }
@@ -224,7 +225,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                     for (int i = 0; i < overflow.size(); i++) {
                         overflow.getItem(i).setVisible(true);
                     }
-                    childUnderFiveFragment.loadview(false, false);
+                    childUnderFiveFragment.loadView(false, false, false);
                 }
             }
 
@@ -292,19 +293,25 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         }
 
         if (!show_vaccine_list) {
-            RecurringServiceRecordRepository recurringServiceRecordRepository = getVaccinatorApplicationInstance().recurringServiceRecordRepository();
-            List<ServiceRecord> serviceRecordList = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());
-            for (ServiceRecord serviceRecord : serviceRecordList) {
-                boolean check = showVaccineListCheck(serviceRecord.getEventId(), serviceRecord.getFormSubmissionId());
-                if (check) {
-                    show_vaccine_list = true;
-                    break;
-                }
+
+            overflow.findItem(R.id.immunization_data).setEnabled(false);
+        }
+
+        boolean showServiceList = false;
+
+        RecurringServiceRecordRepository recurringServiceRecordRepository = getVaccinatorApplicationInstance().recurringServiceRecordRepository();
+        List<ServiceRecord> serviceRecordList = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());
+        for (ServiceRecord serviceRecord : serviceRecordList) {
+            boolean check = showVaccineListCheck(serviceRecord.getEventId(), serviceRecord.getFormSubmissionId());
+            if (check) {
+                showServiceList = true;
+                break;
+
             }
         }
 
-        if (!show_vaccine_list) {
-            overflow.getItem(3).setEnabled(false);
+        if (!showServiceList) {
+            overflow.findItem(R.id.recurring_services_data).setEnabled(false);
         }
 
         WeightRepository wp = getVaccinatorApplicationInstance().weightRepository();
@@ -330,7 +337,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         }
 
         if (!show_weight_edit) {
-            overflow.getItem(2).setEnabled(false);
+            overflow.findItem(R.id.weight_data).setEnabled(false);
         }
         return true;
     }
@@ -368,17 +375,24 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                 return true;
             case R.id.immunization_data:
                 viewPager.setCurrentItem(1);
-                childUnderFiveFragment.loadview(true, false);
+                childUnderFiveFragment.loadView(true, false, false);
                 saveButton.setVisibility(View.VISIBLE);
                 for (int i = 0; i < overflow.size(); i++) {
                     overflow.getItem(i).setVisible(false);
                 }
-//                detailtoolbar.hideOverflowMenu();
+                return true;
+
+            case R.id.recurring_services_data:
+                viewPager.setCurrentItem(1);
+                childUnderFiveFragment.loadView(false, true, false);
+                saveButton.setVisibility(View.VISIBLE);
+                for (int i = 0; i < overflow.size(); i++) {
+                    overflow.getItem(i).setVisible(false);
+                }
                 return true;
             case R.id.weight_data:
-//                showWeightDialog();
                 viewPager.setCurrentItem(1);
-                childUnderFiveFragment.loadview(false, true);
+                childUnderFiveFragment.loadView(false, false, true);
                 saveButton.setVisibility(View.VISIBLE);
                 for (int i = 0; i < overflow.size(); i++) {
                     overflow.getItem(i).setVisible(false);
@@ -966,11 +980,11 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
             }
 
             tag.setDbKey(weight.getId());
-            childUnderFiveFragment.loadview(false, true);
+            childUnderFiveFragment.loadView(false, false, true);
 //            updateRecordWeightView(tag);
 //            setLastModified(true);
         } else {
-            childUnderFiveFragment.loadview(false, false);
+            childUnderFiveFragment.loadView(false, false, false);
         }
     }
 
@@ -1051,7 +1065,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         WeightRepository wp = getVaccinatorApplicationInstance().weightRepository();
         List<Weight> weightlist = wp.findLast5(childDetails.entityId());
 //        if (weightlist.size() > i) {
-        if(!weightlist.isEmpty()) {
+        if (!weightlist.isEmpty()) {
             weightWrapper.setWeight(weightlist.get(i).getKg());
             weightWrapper.setUpdatedWeightDate(new DateTime(weightlist.get(i).getDate()), false);
 //            weightWrapper.setWeight(weight.getKg());
@@ -1344,7 +1358,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
             ContentValues contentValues = new ContentValues();
             //Add the base_entity_id
             contentValues.put(attributeName.toLowerCase(), attributeValue.toString());
-            int id = db.getWritableDatabase().update("ec_child", contentValues, "base_entity_id" + "=?", new String[]{childDetails.entityId()});
+            int id = db.getWritableDatabase().update(PathConstants.CHILD_TABLE_NAME, contentValues, "base_entity_id" + "=?", new String[]{childDetails.entityId()});
 
 
             Event event = (Event) new Event()

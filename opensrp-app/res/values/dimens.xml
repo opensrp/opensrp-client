@@ -67,4 +67,7 @@
     <dimen name="anc_list_hb_ifa_service_mode_hb_details_indicator_view_margin">5dp</dimen>
     <dimen name="anc_list_delivery_plan_service_mode_tick_view_height">25dp</dimen>
     <dimen name="anc_list_delivery_plan_service_mode_tick_view_width">25dp</dimen>
+
+    <dimen name="daily_tallies_pic_dim">65dp</dimen>
+    <dimen name="sent_monthly_pic_dim">70dp</dimen>
 </resources>

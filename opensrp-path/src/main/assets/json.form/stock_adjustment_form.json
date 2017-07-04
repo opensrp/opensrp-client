@@ -1,0 +1,140 @@
+{
+  "count": "1",
+  "encounter_type": "",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location":""
+  },
+  "step1": {
+    "title": "[vaccine] Stock Loss/Adjustment",
+    "fields": [
+      {
+        "key": "Date_Stock_loss_adjustment",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "date_picker",
+        "hint": "Date of [vaccine] stock loss/adjustment *",
+        "expanded": false,
+        "min_date": "today-1m",
+        "max_date": "today",
+        "v_required": {
+          "value": "true",
+          "err": "Enter the service date"
+        }
+      },
+      {
+        "key": "Reason_for_adjustment",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "openmrs_data_type": "select one",
+        "type": "radio",
+        "label": "Reason for [vaccine] adjustment *",
+        "options":[
+          {
+            "key":"Physical_recount",
+            "text":"Physical recount"
+          },
+          {
+            "key":"Other",
+            "text":"Other"
+          }
+        ],
+        "value": "Physical_recount",
+        "v_required": {
+          "value": true,
+          "err": ""
+        }
+      },
+      {
+        "key": "adjusted_Stock_TO_Other",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "edit_text",
+        "hint": "Please specify: *",
+        "edit_type": "name",
+        "v_required": {
+          "value": true,
+          "err": "Please specify where else the stock was adjusted from"
+        },
+        "relevance": {
+          "step1:Reason_for_adjustment": {
+            "type": "string",
+            "ex": "equalTo(., \"Other\")"
+          }
+        }
+      },
+      {
+        "key": "Vials_Adjustment",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "Vials [vaccine] adjustment *",
+        "number_picker":"true",
+        "value": "0",
+        "v_required": {
+          "value": "true",
+          "err": "Please enter the value for adjustment"
+        },
+        "v_regex": {
+          "value": "-?[1-9]\\d*|0",
+          "err": "Please enter a valid value"
+        }
+      },
+      {
+        "key":"Balance",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "openmrs_data_type": "text",
+        "type":"label",
+        "text":""
+      }
+    ]
+  }
+}
