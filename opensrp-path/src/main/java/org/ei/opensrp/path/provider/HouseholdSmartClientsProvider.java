@@ -84,6 +84,9 @@ public class HouseholdSmartClientsProvider implements SmartRegisterCLientsProvid
         fillValue((TextView) convertView.findViewById(R.id.id), getValue(pc.getColumnmaps(), "HHID", false));
         fillValue((TextView) convertView.findViewById(R.id.registrationdate), getValue(pc.getColumnmaps(), "Date_Of_Reg", false));
         fillValue((TextView) convertView.findViewById(R.id.address), getValue(pc.getColumnmaps(), "address1", false));
+        fillValue((TextView) convertView.findViewById(R.id.householdprimarytext), getValue(pc.getColumnmaps(), "block", false));
+        fillValue((TextView) convertView.findViewById(R.id.housholdsecondarytext), getValue(pc.getColumnmaps(), "address2", false));
+
 //
 //        String firstName = getValue(pc.getColumnmaps(), "first_name", true);
 //        String lastName = getValue(pc.getColumnmaps(), "last_name", true);

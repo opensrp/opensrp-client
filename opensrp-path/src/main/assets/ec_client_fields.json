@@ -49,7 +49,7 @@
         },
         {
           "column_name": "block",
-          "type": "Client",
+          "type": "Event",
           "json_mapping": {
             "field": "obs.fieldCode",
             "formSubmissionField": "BLOCK"

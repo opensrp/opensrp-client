@@ -79,7 +79,7 @@
       {
         "key": "WARD",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_addressss",
+        "openmrs_entity": "person_address",
         "openmrs_entity_id": "address2",
         "openmrs_data_type": "usual_residence",
         "type": "spinner",
@@ -135,7 +135,7 @@
       {
         "key": "ADDRESS_LINE",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
+        "openmrs_entity": "person_address",
         "openmrs_entity_id": "address1",
         "openmrs_data_type": "usual_residence",
         "type": "edit_text",
