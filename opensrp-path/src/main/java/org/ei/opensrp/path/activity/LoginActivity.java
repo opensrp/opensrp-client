@@ -351,7 +351,7 @@ public class LoginActivity extends Activity {
 
     private void goToHome(boolean remote) {
         VaccinatorApplication.setCrashlyticsUser(context);
-        Intent intent = new Intent(this, ChildSmartRegisterActivity.class);
+        Intent intent = new Intent(this, HouseholdSmartRegisterActivity.class);
         intent.putExtra(BaseRegisterActivity.IS_REMOTE_LOGIN, remote);
         startActivity(intent);
         finish();

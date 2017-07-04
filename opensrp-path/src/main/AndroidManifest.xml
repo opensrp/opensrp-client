@@ -39,6 +39,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBarAndTitle" />
         <activity
+            android:name=".activity.HouseholdSmartRegisterActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarAndTitle" />
+        <activity
             android:name=".activity.ChildDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBarAndTitle" />

@@ -27,6 +27,7 @@ import org.ei.opensrp.path.adapter.PathRegisterActivityPagerAdapter;
 import org.ei.opensrp.path.fragment.AdvancedSearchFragment;
 import org.ei.opensrp.path.fragment.BaseSmartRegisterFragment;
 import org.ei.opensrp.path.fragment.ChildSmartRegisterFragment;
+import org.ei.opensrp.path.fragment.HouseholdSmartRegisterFragment;
 import org.ei.opensrp.path.receiver.ServiceReceiver;
 import org.ei.opensrp.path.view.LocationPickerView;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
@@ -76,7 +77,7 @@ public class HouseholdSmartRegisterActivity extends BaseRegisterActivity {
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        mBaseFragment = new ChildSmartRegisterFragment();
+        mBaseFragment = new HouseholdSmartRegisterFragment();
         advancedSearchFragment = new AdvancedSearchFragment();
         Fragment[] otherFragments = {new AdvancedSearchFragment()};
 
@@ -150,8 +151,8 @@ public class HouseholdSmartRegisterActivity extends BaseRegisterActivity {
     @Override
     public void startFormActivity(String formName, String entityId, String metaData) {
         try {
-            if (mBaseFragment instanceof ChildSmartRegisterFragment) {
-                LocationPickerView locationPickerView = ((ChildSmartRegisterFragment) mBaseFragment).getLocationPickerView();
+            if (mBaseFragment instanceof HouseholdSmartRegisterFragment) {
+                LocationPickerView locationPickerView = ((HouseholdSmartRegisterFragment) mBaseFragment).getLocationPickerView();
                 String locationId = JsonFormUtils.getOpenMrsLocationId(context(), locationPickerView.getSelectedItem());
                 JsonFormUtils.startForm(this, context(), REQUEST_CODE_GET_JSON, formName, entityId,
                         metaData, locationId);

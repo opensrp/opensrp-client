@@ -26,6 +26,7 @@ import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.ChildImmunizationActivity;
 import org.ei.opensrp.path.activity.ChildSmartRegisterActivity;
+import org.ei.opensrp.path.activity.HouseholdSmartRegisterActivity;
 import org.ei.opensrp.path.activity.LoginActivity;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.db.VaccineRepo;
@@ -34,6 +35,7 @@ import org.ei.opensrp.path.option.BasicSearchOption;
 import org.ei.opensrp.path.option.DateSort;
 import org.ei.opensrp.path.option.StatusSort;
 import org.ei.opensrp.path.provider.ChildSmartClientsProvider;
+import org.ei.opensrp.path.provider.HouseholdSmartClientsProvider;
 import org.ei.opensrp.path.servicemode.VaccinationServiceModeOption;
 import org.ei.opensrp.path.view.LocationPickerView;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
@@ -87,7 +89,7 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
 
             @Override
             public SortOption sortOption() {
-                return new CursorCommonObjectSort(getResources().getString(R.string.woman_alphabetical_sort), "last_interacted_with desc");
+                return new CursorCommonObjectSort(getResources().getString(R.string.woman_alphabetical_sort), "HHID desc");
             }
 
             @Override
@@ -142,7 +144,7 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
     @Override
     protected void startRegistration() {
 //        ((ChildSmartRegisterActivity) getActivity()).startFormActivity("child_enrollment", null, null);
-        ((ChildSmartRegisterActivity) getActivity()).startFormActivity("household_registration", null, null);
+        ((HouseholdSmartRegisterActivity) getActivity()).startFormActivity("household_registration", null, null);
 //        ((ChildSmartRegisterActivity) getActivity()).startFormActivity("woman_member_registration", null, null);
 
 
@@ -265,9 +267,8 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
 
     public void initializeQueries() {
         String tableName = "ec_household";
-        String parentTableName = "ec_mother";
 
-        ChildSmartClientsProvider hhscp = new ChildSmartClientsProvider(getActivity(),
+        HouseholdSmartClientsProvider hhscp = new HouseholdSmartClientsProvider(getActivity(),
                 clientActionHandler, context().alertService(), VaccinatorApplication.getInstance().vaccineRepository(), VaccinatorApplication.getInstance().weightRepository());
         clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, hhscp, Context.getInstance().commonrepository(tableName));
         clientsView.setAdapter(clientAdapter);
@@ -285,30 +286,10 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
         queryBUilder.SelectInitiateMainTable(tableName, new String[]{
                 tableName + ".relationalid",
                 tableName + ".details",
-                tableName + ".zeir_id",
-                tableName + ".relational_id",
-                tableName + ".first_name",
-                tableName + ".last_name",
-                tableName + ".gender",
-                parentTableName + ".first_name as mother_first_name",
-                parentTableName + ".last_name as mother_last_name",
-                parentTableName + ".dob as mother_dob",
-                parentTableName + ".nrc_number as mother_nrc_number",
-                tableName + ".father_name",
-                tableName + ".dob",
-                tableName + ".epi_card_number",
-                tableName + ".contact_phone_number",
-                tableName + ".pmtct_status",
-                tableName + ".provider_uc",
-                tableName + ".provider_town",
-                tableName + ".provider_id",
-                tableName + ".provider_location_id",
-                tableName + ".client_reg_date",
-                tableName + ".last_interacted_with",
-                tableName + ".inactive",
-                tableName + ".lost_to_follow_up"
+                tableName + ".HHID",
+                tableName + ".Date_Of_Reg",
+                tableName + ".address1"
         });
-        queryBUilder.customJoin("LEFT JOIN " + parentTableName + " ON  " + tableName + ".relational_id =  " + parentTableName + ".id");
         mainSelect = queryBUilder.mainCondition("");
         Sortqueries = ((CursorSortOption) getDefaultOptionsProvider().sortOption()).sort();
 
@@ -466,7 +447,7 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
             }
         }
 
-        ((ChildSmartRegisterActivity) getActivity()).updateAdvancedSearchFilterCount(count);
+        ((HouseholdSmartRegisterActivity) getActivity()).updateAdvancedSearchFilterCount(count);
     }
 
     public void countDueOverDue() {

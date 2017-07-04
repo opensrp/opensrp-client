@@ -39,6 +39,21 @@
           "json_mapping": {
             "field": "addresses.addressFields.address1"
           }
+        },
+        {
+          "column_name": "address2",
+          "type": "Client",
+          "json_mapping": {
+            "field": "addresses.addressFields.address2"
+          }
+        },
+        {
+          "column_name": "block",
+          "type": "Client",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "formSubmissionField": "BLOCK"
+          }
         }
       ]
     },
