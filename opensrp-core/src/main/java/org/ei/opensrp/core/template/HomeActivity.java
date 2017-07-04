@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
@@ -243,7 +243,7 @@ public abstract class HomeActivity extends SecuredActivity {
         if (allowRegister){
             View container = findViewById(containerId);
             container.setVisibility(View.VISIBLE);
-            ImageButton registerButton = (ImageButton)findViewById(registerButtonId);
+            LinearLayout registerButton = (LinearLayout) findViewById(registerButtonId);
             if(registerClickListener !=  null){
                 registerButton.setOnClickListener(registerClickListener);
             }
@@ -357,10 +357,10 @@ public abstract class HomeActivity extends SecuredActivity {
         private final boolean allowed;
         private final String authority;
         private final int container;
-        private final ImageButton registerButton;
+        private final LinearLayout registerButton;
         private final Map<Integer, RegisterCountView> countViews;
 
-        Register(boolean allowed, String authority, int container, ImageButton registerButton, Map<Integer, RegisterCountView> countViews){
+        Register(boolean allowed, String authority, int container, LinearLayout registerButton, Map<Integer, RegisterCountView> countViews){
             this.allowed = allowed;
             this.authority = authority;
             this.container = container;
@@ -376,7 +376,7 @@ public abstract class HomeActivity extends SecuredActivity {
             return container;
         }
 
-        public ImageButton getRegisterButton() {
+        public LinearLayout getRegisterButton() {
             return registerButton;
         }
 
