@@ -54,26 +54,27 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     // public PowerMockRule rule = new PowerMockRule();
 
     @InjectMocks
-    ChildDetailTabbedActivityTestVersion activity;
+    private ChildDetailTabbedActivityTestVersion activity;
 
 
     @Mock
-    CommonPersonObjectClient childDetails;
+    private CommonPersonObjectClient childDetails;
 
     @Mock
-    DetailsRepository detailsRepository;
+    private DetailsRepository detailsRepository;
 
     @Mock
-    org.ei.opensrp.Context context_;
+    private org.ei.opensrp.Context context_;
 
-    ActivityController<ChildDetailTabbedActivityTestVersion> controller;
+    private ActivityController<ChildDetailTabbedActivityTestVersion> controller;
 
 
-    Map<String, String> details = new HashMap<>();
+    private Map<String, String> details;
 
     @Before
     public void setUp() {
 
+        details = new HashMap<>();
 
         Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivityTestVersion.class);
         intent.putExtra("location_name", "Nairobi");
@@ -98,8 +99,13 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
     @After
     public void tearDown() {
-
         destroyController();
+        details = null;
+        activity = null;
+        controller = null;
+        context_ = null;
+        detailsRepository = null;
+        childDetails = null;
 
     }
 
@@ -560,7 +566,6 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
     }
 
-    @Test
     public void onBackPressShouldFinishActivity() {
         activity.onBackPressed();
         assertTrue(activity.isFinishing());
@@ -619,6 +624,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
 
     @Test
+
     public void onCreateSetsUpSuccessfullyWithSerializedChildDetails() {
 
 
@@ -645,6 +651,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
 
     @Test
+
     public void statusViewShouldUpdateToInactiveIfChildDetailsInactiveParamIsSetToTrue() {
 
         destroyController(); //destroy controller
@@ -689,6 +696,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
 
     @Test
+
     public void statusViewShouldUpdateToActiveifChildStatusParamListIsEmpty() {
 
         destroyController(); //destroy controller
@@ -721,6 +729,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     }
 
     @Test
+
     public void statusViewShouldUpdateToLostToFollowUpWhenChildStatusLostToFollowUpParamIsTrue() {
 
         destroyController(); //destroy controller
@@ -770,7 +779,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
     private void destroyController() {
         try {
-
+            activity.finish();
             controller.pause().stop().destroy(); //destroy controller if we can
 
         } catch (Exception e) {
