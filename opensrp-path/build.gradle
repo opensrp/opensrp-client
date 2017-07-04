@@ -4,27 +4,6 @@ apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
 
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebug']) {
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-    getReports().getXml().setDestination(file("$buildDir/../reports/jacoco/merged.xml"))
-    getReports().getHtml().setDestination(file("$buildDir/../reports/jacoco/html"))
-
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*','**/*$ViewBinder*.*']
-    def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
-    def mainSrc = "$project.projectDir/src/main/java"
-
-    sourceDirectories = files([mainSrc])
-    classDirectories = files([debugTree])
-    executionData = fileTree(dir: project.buildDir, includes: [
-            'jacoco/testDebug.exec', 'outputs/code-coverage/connected/*coverage.ec'
-    ])
-}
-
 buildscript {
     repositories {
         jcenter()
@@ -59,10 +38,13 @@ android {
         versionCode 7
         versionName "1.2.1"
         multiDexEnabled true
-        dexOptions {
-            javaMaxHeapSize "4g"
-        }
     }
+
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -138,7 +120,7 @@ dependencies {
     compile ('junit:junit:4.12'){
 
     }
-    compile ('org.robolectric:robolectric:3.4-rc3'){
+    testCompile ('org.robolectric:robolectric:3.4-rc3'){
 
         exclude group: 'com.google.guava', module: 'guava'
         exclude group: 'org.apache.maven', module: 'maven-model'
@@ -171,4 +153,27 @@ dependencies {
     testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
 
 
+
+}
+
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebug']) {
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    getReports().getXml().setDestination(file("$buildDir/../reports/jacoco/merged.xml"))
+    getReports().getHtml().setDestination(file("$buildDir/../reports/jacoco/html"))
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*','**/*$ViewBinder*.*']
+    def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
+    def mainSrc = "$project.projectDir/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: project.buildDir, includes: [
+            'jacoco/testDebug.exec', 'outputs/code-coverage/connected/*coverage.ec'
+    ])
 }

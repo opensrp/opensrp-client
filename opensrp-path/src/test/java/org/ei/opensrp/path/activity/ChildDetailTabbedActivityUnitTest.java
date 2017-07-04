@@ -536,6 +536,20 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
     }
 
+    @Test
+    public void shouldReturnTrueOnOptionsMenuCaseRecurringServices() {
+        MenuItemTestVersion menuItem = new MenuItemTestVersion();
+        menuItem.setItemId(R.id.recurring_services_data);
+        activity.onOptionsItemSelected(menuItem);
+
+        boolean result = activity.onOptionsItemSelected(menuItem);
+
+        //Testing whether function call returned true
+        assertTrue(result);
+
+
+    }
+
 
     @Test
     public void getViewPagerAdapterShouldNotReturnNull() {

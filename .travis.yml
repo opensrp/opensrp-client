@@ -51,7 +51,7 @@ script:
   #- ./gradlew connectedAndroidTest
   # - ./gradlew opensrp-mcare:connectedAndroidTest -i --stacktrace
   #Run All tests Unit and Instrumentation
- # - travis_wait 300 ./gradlew opensrp-path:jacocoTestReport coveralls -i --stacktrace
+  - travis_wait ./gradlew opensrp-path:jacocoTestReport coveralls -i --stacktrace
 
 after_failure:
 #- pandoc opensrp-mcare/build/reports/androidTests/connected/index.html -t plain

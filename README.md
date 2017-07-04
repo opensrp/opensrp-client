@@ -25,13 +25,22 @@ Check app.properties file in "drishti-app/asset/" folder to change the demo serv
 
 Tests
 ==========================
-* Drone
+* Travis Builds
 
-[![Build Status](http://drone.onalabs.org/api/badges/OpenSRP/opensrp-client/status.svg)](http://drone.onalabs.org/OpenSRP/opensrp-client)
+- Client
+[![Build Status](https://travis-ci.org/OpenSRP/opensrp-client.svg?branch=master)](https://travis-ci.org/OpenSRP/opensrp-client)
+
+- Server
+[![Build Status](https://travis-ci.org/OpenSRP/opensrp-server.svg?branch=master)](https://travis-ci.org/OpenSRP/opensrp-client)
+
+*Server
 
 Code Coverage
 ====================================
 * Coveralls
 
+- Client
 [![Coverage Status](https://coveralls.io/repos/github/OpenSRP/opensrp-client/badge.svg?branch=master)](https://coveralls.io/github/OpenSRP/opensrp-client?branch=master)
 
+- Server
+[![Coverage Status](https://coveralls.io/repos/github/OpenSRP/opensrp-server/badge.svg?branch=master)](https://coveralls.io/github/OpenSRP/opensrp-server?branch=master)
