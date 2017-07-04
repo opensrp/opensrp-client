@@ -2,6 +2,7 @@ package org.ei.opensrp.path.activity;
 
 import android.app.FragmentTransaction;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -19,6 +20,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -633,27 +635,10 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         if (requestCode == REQUEST_CODE_GET_JSON) {
             if (resultCode == RESULT_OK) {
 
-                try {
-                    String jsonString = data.getStringExtra("json");
-                    Log.d("JSONResult", jsonString);
 
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-                    AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
+                String jsonString = data.getStringExtra("json");
+                confirmReportDeceased(jsonString);
 
-                    JSONObject form = new JSONObject(jsonString);
-                    if (form.getString("encounter_type").equals("Death")) {
-                        JsonFormUtils.saveReportDeceased(this, getOpenSRPContext(), jsonString, allSharedPreferences.fetchRegisteredANM(), location_name, childDetails.entityId());
-                    } else if (form.getString("encounter_type").equals("Birth Registration")) {
-                        JsonFormUtils.editsave(this, getOpenSRPContext(), jsonString, allSharedPreferences.fetchRegisteredANM(), "Child_Photo", "child", "mother");
-                    } else if (form.getString("encounter_type").equals("AEFI")) {
-                        JsonFormUtils.saveAdverseEvent(jsonString, location_name,
-                                childDetails.entityId(), allSharedPreferences.fetchRegisteredANM());
-                    }
-                    childDataFragment.childDetails = childDetails;
-                    childDataFragment.loadData();
-                } catch (Exception e) {
-                    Log.e(TAG, e.getMessage());
-                }
             }
         } else if (requestCode == REQUEST_TAKE_PHOTO) {
             if (resultCode == RESULT_OK) {
@@ -665,6 +650,53 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                 updateProfilePicture(gender);
             }
         }
+    }
+
+    private void saveReportDeceasedJson(String jsonString) throws JSONException {
+
+
+        Log.d("JSONResult", jsonString);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
+
+        JSONObject form = new JSONObject(jsonString);
+        if (form.getString("encounter_type").equals("Death")) {
+            JsonFormUtils.saveReportDeceased(this, getOpenSRPContext(), jsonString, allSharedPreferences.fetchRegisteredANM(), location_name, childDetails.entityId());
+        } else if (form.getString("encounter_type").equals("Birth Registration")) {
+            JsonFormUtils.editsave(this, getOpenSRPContext(), jsonString, allSharedPreferences.fetchRegisteredANM(), "Child_Photo", "child", "mother");
+        } else if (form.getString("encounter_type").equals("AEFI")) {
+            JsonFormUtils.saveAdverseEvent(jsonString, location_name,
+                    childDetails.entityId(), allSharedPreferences.fetchRegisteredANM());
+        }
+        childDataFragment.childDetails = childDetails;
+        childDataFragment.loadData();
+    }
+
+    private void confirmReportDeceased(final String json) {
+
+
+        AlertDialog dialog = new AlertDialog.Builder(this, R.style.PathAlertDialog)
+                .setMessage(childDetails.getColumnmaps().get("first_name") + " " + childDetails.getColumnmaps().get("last_name") + " marked as deceased")
+                .setCancelable(false)
+                .setPositiveButton(R.string.confirm_button_label,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                try {
+                                    saveReportDeceasedJson(json);
+                                } catch (JSONException e) {
+                                    Log.e(TAG, e.getMessage());
+                                }
+                            }
+                        })
+                .setNegativeButton(org.ei.opensrp.path.R.string.undo,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                            }
+                        }).create();
+
+        dialog.show();
     }
 
     @Override
