@@ -630,7 +630,6 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     }
 
     public void startFormActivity(String formName, String entityId, String metaData) {
-        Context context = getOpenSRPContext();
 
         Intent intent = new Intent(getApplicationContext(), PathJsonFormActivity.class);
 

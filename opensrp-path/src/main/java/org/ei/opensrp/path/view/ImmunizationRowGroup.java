@@ -66,7 +66,7 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
         IN_FUTURE
     }
 
-    public ImmunizationRowGroup(Context context,boolean editmode) {
+    public ImmunizationRowGroup(Context context, boolean editmode) {
         super(context);
         this.editmode = editmode;
         init(context);
@@ -128,6 +128,7 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
         this.alertList = alerts;
         updateViews();
     }
+
     public void setVaccineList(List<Vaccine> vaccineList) {
         this.vaccineList = vaccineList;
     }
@@ -152,7 +153,7 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
      */
     public void updateViews(ArrayList<VaccineWrapper> vaccinesToUpdate) {
         this.state = State.IN_PAST;
-        if (this.vaccineData != null && vaccinesToUpdate != null) {
+        if (this.vaccineData != null) {
             String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
             DateTime dateTime = new DateTime(dobString);
             Date dob = dateTime.toDate();
@@ -172,7 +173,9 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
                 this.state = State.CURRENT;
             }
             updateStatusViews();
-            updateVaccineCards(vaccinesToUpdate);
+            if (vaccinesToUpdate != null) {
+                updateVaccineCards(vaccinesToUpdate);
+            }
         }
     }
 
@@ -205,7 +208,7 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
     private void updateVaccineCards(ArrayList<VaccineWrapper> vaccinesToUpdate) {
         if (vaccineCardAdapter == null) {
             try {
-                vaccineCardAdapter = new ImmunizationRowAdapter(context, this,editmode);
+                vaccineCardAdapter = new ImmunizationRowAdapter(context, this, editmode);
                 vaccinesGV.setAdapter(vaccineCardAdapter);
             } catch (JSONException e) {
                 Log.e(TAG, Log.getStackTraceString(e));
@@ -217,6 +220,7 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
             toggleRecordAllTV();
         }
     }
+
     public boolean isModalOpen() {
         return modalOpen;
     }
@@ -289,9 +293,11 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
         }
         return new ArrayList<VaccineWrapper>();
     }
+
     public List<Alert> getAlertList() {
         return alertList;
     }
+
     public void updateWrapperStatus(VaccineWrapper tag) {
         List<Vaccine> vaccineList = getVaccineList();
 
@@ -309,6 +315,7 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
             }
         }
     }
+
     public void updateWrapperStatus(ArrayList<VaccineWrapper> tags) {
         if (tags == null) {
             return;
@@ -318,6 +325,7 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
             updateWrapperStatus(tag);
         }
     }
+
     public void updateWrapper(VaccineWrapper tag) {
         List<Vaccine> vaccineList = getVaccineList();
 
