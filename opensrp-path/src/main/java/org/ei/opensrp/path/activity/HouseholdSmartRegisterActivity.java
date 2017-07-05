@@ -1,6 +1,7 @@
 package org.ei.opensrp.path.activity;
 
 import android.app.AlertDialog;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,6 +28,7 @@ import org.ei.opensrp.path.adapter.PathRegisterActivityPagerAdapter;
 import org.ei.opensrp.path.fragment.AdvancedSearchFragment;
 import org.ei.opensrp.path.fragment.BaseSmartRegisterFragment;
 import org.ei.opensrp.path.fragment.ChildSmartRegisterFragment;
+import org.ei.opensrp.path.fragment.HouseholdMemberAddFragment;
 import org.ei.opensrp.path.fragment.HouseholdSmartRegisterFragment;
 import org.ei.opensrp.path.receiver.ServiceReceiver;
 import org.ei.opensrp.path.view.LocationPickerView;
@@ -206,7 +208,15 @@ public class HouseholdSmartRegisterActivity extends BaseRegisterActivity {
                 try {
                     form = new JSONObject(jsonString);
                     if (form.getString("encounter_type").equals("Household Registration")) {
-                       startFormActivity("woman_member_registration", null, null);
+                        FragmentTransaction ft = this.getFragmentManager().beginTransaction();
+                        android.app.Fragment prev = this.getFragmentManager().findFragmentByTag(HouseholdMemberAddFragment.DIALOG_TAG);
+                        if (prev != null) {
+                            ft.remove(prev);
+                        }
+                        ft.addToBackStack(null);
+                        HouseholdMemberAddFragment editWeightDialogFragment = HouseholdMemberAddFragment.newInstance(this);
+                        editWeightDialogFragment.show(ft, HouseholdMemberAddFragment.DIALOG_TAG);
+//                       startFormActivity("woman_member_registration", null, null);
 
                     }
                 } catch (JSONException e) {
