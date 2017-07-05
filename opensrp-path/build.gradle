@@ -136,7 +136,6 @@ dependencies {
         exclude group: 'com.android.support',module: 'support-annotations'
         exclude group: 'junit',module: 'junit'
     }
-
     // PowerMock
     def powerMockVersion =  '1.6.4'
     testCompile "org.powermock:powermock-module-junit4:$powerMockVersion"

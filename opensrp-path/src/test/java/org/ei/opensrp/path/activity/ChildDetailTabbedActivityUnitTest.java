@@ -60,19 +60,14 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
     @Mock
     private org.ei.opensrp.Context context_;
-
     private ActivityController<ChildDetailTabbedActivityTestVersion> controller;
-
     private Map<String, String> details;
 
     @Before
     public void setUp() {
-
         details = new HashMap<>();
-
         Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivityTestVersion.class);
         intent.putExtra("location_name", "Nairobi");
-
         controller = Robolectric.buildActivity(ChildDetailTabbedActivityTestVersion.class, intent);
         activity = controller.get();
 
