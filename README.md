@@ -1,9 +1,6 @@
-[![Coverage Status](https://coveralls.io/repos/github/OpenSRP/opensrp-client/badge.svg?branch=master)](https://coveralls.io/github/OpenSRP/opensrp-client?branch=master) [![Build Status](https://travis-ci.org/OpenSRP/opensrp-client.svg?branch=master)](https://travis-ci.org/OpenSRP/opensrp-client)
+[![Build Status](https://travis-ci.org/OpenSRP/opensrp-client.svg?branch=master)](https://travis-ci.org/OpenSRP/opensrp-client) [![Coverage Status](https://coveralls.io/repos/github/OpenSRP/opensrp-client/badge.svg?branch=master)](https://coveralls.io/github/OpenSRP/opensrp-client?branch=master)
 
 [![Dristhi](opensrp-app/res/drawable-mdpi/login_logo.png)](https://smartregister.atlassian.net/wiki/dashboard.action)
-
-To run this project, you need to do this:
-========================================
 
 To run this project, you need to do this:
 ========================================
