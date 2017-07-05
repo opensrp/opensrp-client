@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vijay.jsonwizard.R;
 import com.vijay.jsonwizard.activities.JsonFormActivity;
 import com.vijay.jsonwizard.customviews.RadioButton;
@@ -289,15 +290,17 @@ public class JsonFormFragment extends MvpFragment<JsonFormFragmentPresenter, Jso
 
     @Override
     public void scrollToView(final View view) {
-        mScrollView.post(new Runnable() {
-            @Override
-            public void run() {
-                int y = view.getBottom() - 200;
-                if (y < 0) y = 0;
-                mScrollView.scrollTo(0, y);
-                view.requestFocus();
-            }
-        });
+        view.requestFocus();
+        if (!(view instanceof MaterialEditText)) {
+            mScrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    int y = view.getBottom() - view.getHeight();
+                    if (y < 0) y = 0;
+                    mScrollView.scrollTo(0, y);
+                }
+            });
+        }
     }
 
     @Override

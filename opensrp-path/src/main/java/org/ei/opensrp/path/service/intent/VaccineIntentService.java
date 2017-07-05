@@ -26,6 +26,7 @@ import util.VaccinatorUtils;
 public class VaccineIntentService extends IntentService {
     private static final String TAG = VaccineIntentService.class.getCanonicalName();
     public static final String EVENT_TYPE = "Vaccination";
+    public static final String EVENT_TYPE_OUT_OF_CATCHMENT = "Out of Area Service - Vaccination";
     public static final String ENTITY_TYPE = "vaccination";
     private VaccineRepository vaccineRepository;
     private JSONArray availableVaccines;
@@ -70,17 +71,25 @@ public class VaccineIntentService extends IntentService {
                     jsonObject.put(JsonFormUtils.VALUE, formattedDate);
                     jsonArray.put(jsonObject);
 
-                    if (vaccine.getCalculation() != null && vaccine.getCalculation().intValue() >= 0) {
-                        jsonObject = new JSONObject();
-                        jsonObject.put(JsonFormUtils.KEY, vaccineName + "_dose");
-                        jsonObject.put(JsonFormUtils.OPENMRS_ENTITY, concept);
-                        jsonObject.put(JsonFormUtils.OPENMRS_ENTITY_ID, calId);
-                        jsonObject.put(JsonFormUtils.OPENMRS_ENTITY_PARENT, getParentId(vaccine.getName()));
-                        jsonObject.put(JsonFormUtils.OPENMRS_DATA_TYPE, calculationDataType);
-                        jsonObject.put(JsonFormUtils.VALUE, vaccine.getCalculation());
-                        jsonArray.put(jsonObject);
+                    if (vaccine.getCalculation() == null || vaccine.getCalculation() < 0) {
+                        vaccine.setCalculation(1);
                     }
+
+                    jsonObject = new JSONObject();
+                    jsonObject.put(JsonFormUtils.KEY, vaccineName + "_dose");
+                    jsonObject.put(JsonFormUtils.OPENMRS_ENTITY, concept);
+                    jsonObject.put(JsonFormUtils.OPENMRS_ENTITY_ID, calId);
+                    jsonObject.put(JsonFormUtils.OPENMRS_ENTITY_PARENT, getParentId(vaccine.getName()));
+                    jsonObject.put(JsonFormUtils.OPENMRS_DATA_TYPE, calculationDataType);
+                    jsonObject.put(JsonFormUtils.VALUE, vaccine.getCalculation());
+                    jsonArray.put(jsonObject);
+
                     JsonFormUtils.createVaccineEvent(getApplicationContext(), vaccine, EVENT_TYPE, ENTITY_TYPE, jsonArray);
+                  //log out of catchment service since this is required in some of the hia2 report indicators
+                    if (vaccine.getBaseEntityId() == null || vaccine.getBaseEntityId().isEmpty()) {
+                        JsonFormUtils.createVaccineEvent(getApplicationContext(), vaccine, EVENT_TYPE_OUT_OF_CATCHMENT, ENTITY_TYPE, jsonArray);
+
+                    }
                     vaccineRepository.close(vaccine.getId());
                 }
             }
@@ -90,7 +99,7 @@ public class VaccineIntentService extends IntentService {
     }
 
     private String getParentId(String name) {
-        String parentEntityId="";
+        String parentEntityId = "";
         try {
 
             for (int i = 0; i < availableVaccines.length(); i++) {
@@ -99,7 +108,7 @@ public class VaccineIntentService extends IntentService {
                 for (int j = 0; j < vaccines.length(); j++) {
                     JSONObject vaccine = vaccines.getJSONObject(j);
                     if (StringUtils.containsIgnoreCase(vaccine.getString("name"), name)) {
-                         parentEntityId = vaccine.getJSONObject("openmrs_date").getString("parent_entity");
+                        parentEntityId = vaccine.getJSONObject("openmrs_date").getString("parent_entity");
                         if (parentEntityId.contains("/")) {
                             String[] parentEntityArray = parentEntityId.split("/");
                             if (StringUtils.containsIgnoreCase(name, "measles")) {

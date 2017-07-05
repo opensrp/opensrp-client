@@ -1,14 +1,17 @@
 package org.ei.opensrp.service;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.os.Build;
 import android.security.KeyPairGeneratorSpec;
 import android.util.Base64;
 import android.util.Log;
 
+import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.DristhiConfiguration;
 import org.ei.opensrp.domain.LoginResponse;
 import org.ei.opensrp.domain.Response;
+import org.ei.opensrp.domain.TimeStatus;
 import org.ei.opensrp.repository.AllSettings;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.repository.Repository;
@@ -30,8 +33,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
@@ -47,6 +53,7 @@ public class UserService {
     private static final String CIPHER = "RSA/ECB/PKCS1Padding";
     private static final String CIPHER_PROVIDER = "AndroidOpenSSL";
     private static final String CIPHER_TEXT_CHARACTER_CODE = "UTF-8";
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private final Repository repository;
     private final AllSettings allSettings;
     private final AllSharedPreferences allSharedPreferences;
@@ -86,13 +93,108 @@ public class UserService {
         }
     }
 
+    public TimeStatus validateStoredServerTimeZone() {
+        TimeStatus result = TimeStatus.ERROR;
+        try {
+            String serverTimeZoneId = allSharedPreferences.fetchServerTimeZone();
+            if (serverTimeZoneId != null) {
+                TimeZone serverTimeZone = TimeZone.getTimeZone(serverTimeZoneId);
+                TimeZone deviceTimeZone = TimeZone.getDefault();
+                if (serverTimeZone != null && deviceTimeZone != null
+                        && serverTimeZone.getRawOffset() == deviceTimeZone.getRawOffset()) {
+                    result = TimeStatus.OK;
+                } else {
+                    result = TimeStatus.TIMEZONE_MISMATCH;
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
+
+        if (!result.equals(TimeStatus.OK)) {
+            forceRemoteLogin();
+        }
+
+        return result;
+    }
+
+    private void saveServerTimeZone(String userInfo) {
+        TimeZone serverTimeZone = getServerTimeZone(userInfo);
+        String timeZoneId = null;
+        if (serverTimeZone != null) {
+            timeZoneId = serverTimeZone.getID();
+        }
+
+        allSharedPreferences.saveServerTimeZone(timeZoneId);
+    }
+
+    public TimeStatus validateDeviceTime(String userInfo, long serverTimeThreshold) {
+        TimeZone serverTimeZone = getServerTimeZone(userInfo);
+        TimeZone deviceTimeZone = getDeviceTimeZone();
+        Date serverTime = getServerTime(userInfo);
+        Date deviceTime = getDeviceTime();
+
+        if (serverTimeZone != null && deviceTimeZone != null
+                && serverTime != null && deviceTime != null) {
+            if (serverTimeZone.getRawOffset() == deviceTimeZone.getRawOffset()) {
+                long timeDiff = Math.abs(serverTime.getTime() - deviceTime.getTime());
+                if (timeDiff <= serverTimeThreshold) {
+                    return TimeStatus.OK;
+                } else {
+                    return TimeStatus.TIME_MISMATCH;
+                }
+            } else {
+                return TimeStatus.TIMEZONE_MISMATCH;
+            }
+        }
+
+        return TimeStatus.ERROR;
+    }
+
+    private static TimeZone getDeviceTimeZone() {
+        return TimeZone.getDefault();
+    }
+
+    private static Date getDeviceTime() {
+        Calendar.getInstance().getTime();
+        return Calendar.getInstance().getTime();
+    }
+
+    public static TimeZone getServerTimeZone(String userInfo) {
+        if (userInfo != null) {
+            try {
+                JSONObject userInfoData = new JSONObject(userInfo);
+                TimeZone timeZone = TimeZone.getTimeZone(userInfoData.getJSONObject("time").getString("timeZone"));
+                return timeZone;
+            } catch (Exception e) {
+                Log.e(TAG, Log.getStackTraceString(e));
+            }
+        }
+
+        return null;
+    }
+
+    private static Date getServerTime(String userInfo) {
+        if (userInfo != null) {
+            try {
+                JSONObject userInfoData = new JSONObject(userInfo);
+                return DATE_FORMAT.parse(userInfoData.getJSONObject("time").getString("time"));
+            } catch (Exception e) {
+                Log.e(TAG, Log.getStackTraceString(e));
+            }
+        }
+
+        return null;
+    }
+
     public boolean isValidLocalLogin(String userName, String password) {
-        return allSharedPreferences.fetchRegisteredANM().equals(userName) && repository.canUseThisPassword(password);
+        return allSharedPreferences.fetchRegisteredANM().equals(userName) && repository.canUseThisPassword(password) && !allSharedPreferences.fetchForceRemoteLogin();
     }
 
     public boolean isUserInValidGroup(final String userName, final String password) {
-        // Check if user's keypair exists
-        if (keyStore != null && userName != null && password != null) {
+        // Check if everything OK for local login
+        if (keyStore != null && userName != null && password != null
+                && !allSharedPreferences.fetchForceRemoteLogin()) {
             try {
                 KeyStore.PrivateKeyEntry privateKeyEntry = getUserKeyPair(userName);
                 if (privateKeyEntry != null) {
@@ -231,10 +333,16 @@ public class UserService {
     }
 
     public void remoteLogin(String userName, String password, String userInfo) {
+        allSharedPreferences.saveForceRemoteLogin(false);
         loginWith(userName, password);
         saveAnmLocation(getUserLocation(userInfo));
         saveUserInfo(getUserData(userInfo));
         saveDefaultLocationId(userName, getUserDefaultLocationId(userInfo));
+        saveServerTimeZone(userInfo);
+    }
+
+    public void forceRemoteLogin() {
+        allSharedPreferences.saveForceRemoteLogin(true);
     }
 
     public String getUserData(String userInfo) {

@@ -1,36 +1,38 @@
 package org.ei.opensrp.path.fragment;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.vijay.jsonwizard.customviews.CheckBox;
+import com.vijay.jsonwizard.customviews.RadioButton;
 import com.vijay.jsonwizard.utils.DatePickerUtils;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ei.opensrp.Context;
 import org.ei.opensrp.clientandeventmodel.DateUtil;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
+import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.ChildImmunizationActivity;
@@ -39,8 +41,6 @@ import org.ei.opensrp.path.adapter.AdvancedSearchPaginatedCursorAdapter;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.RegisterClickables;
 import org.ei.opensrp.path.provider.AdvancedSearchClientsProvider;
-import org.ei.opensrp.path.sync.ECSyncUpdater;
-import org.ei.opensrp.path.sync.PathClientProcessor;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,13 +58,15 @@ import java.util.Map;
 import util.GlobalSearchUtils;
 import util.JsonFormUtils;
 import util.MoveToMyCatchmentUtils;
+import util.PathConstants;
 import util.Utils;
 
 public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     private View mView;
     private final ClientActionHandler clientActionHandler = new ClientActionHandler();
     private Button search;
-    private RadioGroup searchLimits;
+    private RadioButton outsideInside;
+    private RadioButton myCatchment;
     private CheckBox active;
     private CheckBox inactive;
     private CheckBox lostToFollowUp;
@@ -83,6 +85,8 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     private View advancedSearchForm;
 
     private TextView filterCount;
+
+    private ProgressDialog progressDialog;
 
     //private List<Integer> editedList = new ArrayList<>();
     private Map<String, String> editMap = new HashMap<>();
@@ -103,6 +107,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     private static final String CONTACT_PHONE_NUMBER = "contact_phone_number";
     private static final String BIRTH_DATE = "birth_date";
 
+    private static final String MOTHER_BASE_ENTITY_ID = "mother_base_entity_id";
     private static final String MOTHER_GUARDIAN_FIRST_NAME = "mother_first_name";
     private static final String MOTHER_GUARDIAN_LAST_NAME = "mother_last_name";
     private static final String MOTHER_GUARDIAN_NRC_NUMBER = "mother_nrc_number";
@@ -183,6 +188,8 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
         backButton.setVisibility(View.VISIBLE);
 
         populateFormViews(view);
+
+        initializeProgressDialog();
     }
 
     @Override
@@ -229,14 +236,17 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
                     break;
 
                 case R.id.record_vaccination:
-                    if (client == null) {
-                        if (view.getTag() != null && view.getTag() instanceof String) {
-                            String entityId = view.getTag().toString();
-                            moveToMyCatchmentArea(entityId);
-                        }
-                    } else {
+                    if (client != null) {
                         registerClickables.setRecordAll(true);
                         ChildImmunizationActivity.launchActivity(getActivity(), client, registerClickables);
+                    }
+                    break;
+                case R.id.move_to_catchment:
+                    if (client == null) {
+                        if (view.getTag() != null && view.getTag() instanceof List) {
+                            List<String> ids = (List<String>) view.getTag();
+                            moveToMyCatchmentArea(ids);
+                        }
                     }
                     break;
             }
@@ -247,11 +257,67 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
         searchCriteria = (TextView) view.findViewById(R.id.search_criteria);
         matchingResults = (TextView) view.findViewById(R.id.matching_results);
         search = (Button) view.findViewById(R.id.search);
-        searchLimits = (RadioGroup) view.findViewById(R.id.search_limits);
+
+        outsideInside = (RadioButton) view.findViewById(R.id.out_and_inside);
+        myCatchment = (RadioButton) view.findViewById(R.id.my_catchment);
+
+        outsideInside.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                myCatchment.setChecked(!isChecked);
+            }
+        });
+
+        myCatchment.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                outsideInside.setChecked(!isChecked);
+            }
+        });
+
+        View outsideInsideLayout = view.findViewById(R.id.out_and_inside_layout);
+        outsideInsideLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                outsideInside.performClick();
+            }
+        });
+
+        View mycatchmentLayout = view.findViewById(R.id.my_catchment_layout);
+        mycatchmentLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myCatchment.performClick();
+            }
+        });
 
         active = (CheckBox) view.findViewById(R.id.active);
         inactive = (CheckBox) view.findViewById(R.id.inactive);
         lostToFollowUp = (CheckBox) view.findViewById(R.id.lost_to_follow_up);
+
+        View activeLayout = view.findViewById(R.id.active_layout);
+        activeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                active.performClick();
+            }
+        });
+
+        View inactiveLayout = view.findViewById(R.id.inactive_layout);
+        inactiveLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inactive.performClick();
+            }
+        });
+
+        View lostToFollowUpLayout = view.findViewById(R.id.lost_to_follow_up_layout);
+        lostToFollowUpLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lostToFollowUp.performClick();
+            }
+        });
 
         zeirId = (MaterialEditText) view.findViewById(R.id.zeir_id);
         firstName = (MaterialEditText) view.findViewById(R.id.first_name);
@@ -295,13 +361,14 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     }
 
     private void updateSeachLimits() {
-        if (searchLimits != null) {
-            if (Utils.isConnectedToNetwork(getActivity())) {
-                searchLimits.check(R.id.out_and_inside);
-            } else {
-                searchLimits.check(R.id.my_catchment);
-            }
+        if (Utils.isConnectedToNetwork(getActivity())) {
+            outsideInside.setChecked(true);
+            myCatchment.setChecked(false);
+        } else {
+            myCatchment.setChecked(true);
+            outsideInside.setChecked(false);
         }
+
     }
 
     public void search(final View view) {
@@ -314,17 +381,17 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
             return;
         }
 
-        String tableName = "ec_child";
-        String parentTableName = "ec_mother";
+        String tableName = PathConstants.CHILD_TABLE_NAME;
+        String parentTableName = PathConstants.MOTHER_TABLE_NAME;
 
         editMap.clear();
 
         String searchCriteriaString = "Search criteria: Include: ";
 
-        if (searchLimits.getCheckedRadioButtonId() == R.id.out_and_inside) {
+        if (outsideInside.isChecked()) {
             outOfArea = true;
             searchCriteriaString += " \"Outside and Inside My Catchment Area\", ";
-        } else {
+        } else if (myCatchment.isChecked()) {
             outOfArea = false;
             searchCriteriaString += " \"My Catchment Area\", ";
         }
@@ -359,7 +426,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
         }
 
         if (isActive || isInactive || isLostToFollowUp) {
-            String statusString = " \" ";
+            String statusString = " \"";
             if (isActive) {
                 statusString += "Active";
             }
@@ -524,11 +591,11 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     private void initListMode() {
         switchViews(true);
 
-        String tableName = "ec_child";
+        String tableName = PathConstants.CHILD_TABLE_NAME;
         setTablename(tableName);
         AdvancedSearchClientsProvider hhscp = new AdvancedSearchClientsProvider(getActivity(),
                 clientActionHandler, context().alertService(), VaccinatorApplication.getInstance().vaccineRepository(), VaccinatorApplication.getInstance().weightRepository(), commonRepository());
-        clientAdapter = new AdvancedSearchPaginatedCursorAdapter(getActivity(), null, hhscp, Context.getInstance().commonrepository(tableName));
+        clientAdapter = new AdvancedSearchPaginatedCursorAdapter(getActivity(), null, hhscp, context().commonrepository(tableName));
         clientsView.setAdapter(clientAdapter);
 
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
@@ -571,7 +638,9 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
             editMap.put(BIRTH_DATE, bDate);
         }
 
-        GlobalSearchUtils.backgroundSearch(editMap, listener, clientsProgressView);
+        progressDialog.setTitle(getString(R.string.searching_dialog_title));
+        progressDialog.setMessage(getString(R.string.searching_dialog_message));
+        GlobalSearchUtils.backgroundSearch(editMap, listener, progressDialog);
     }
 
     @Override
@@ -644,9 +713,9 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     }
 
     private String sortByStatus() {
-        return " CASE WHEN ec_child.inactive  != 'true' is null and ec_child.lost_to_follow_up != 'true' THEN 1 "
-                + " WHEN ec_child.inactive = 'true' THEN 2 "
-                + " WHEN ec_child.lost_to_follow_up = 'true' THEN 3 END ";
+        return " CASE WHEN " + PathConstants.CHILD_TABLE_NAME + ".inactive  != 'true' is null and " + PathConstants.CHILD_TABLE_NAME + ".lost_to_follow_up != 'true' THEN 1 "
+                + " WHEN " + PathConstants.CHILD_TABLE_NAME + ".inactive = 'true' THEN 2 "
+                + " WHEN " + PathConstants.CHILD_TABLE_NAME + ".lost_to_follow_up = 'true' THEN 3 END ";
     }
 
     @Override
@@ -712,26 +781,21 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
             String key = entry.getKey();
             String value = entry.getValue();
             if (key.contains(ACTIVE) || key.contains(INACTIVE) || key.contains(LOST_TO_FOLLOW_UP)) {
-                if (key.contains(ACTIVE) && !key.contains(INACTIVE)) {
-                    key = tableName + "." + INACTIVE;
-                    boolean v = !Boolean.valueOf(value);
-                    value = Boolean.toString(v);
-                }
 
                 if (StringUtils.isBlank(statusConditionString)) {
-                    if (value.equalsIgnoreCase(Boolean.TRUE.toString())) {
-                        statusConditionString += " " + key + " = '" + value + "'";
+                    if (key.contains(ACTIVE) && !key.contains(INACTIVE)) {
+                        statusConditionString += " (" + tableName + "." + INACTIVE + " != '" + Boolean.TRUE.toString() + "' AND " + tableName + "." + LOST_TO_FOLLOW_UP + " != '" + Boolean.TRUE.toString() + "') ";
                     } else {
-                        value = Boolean.TRUE.toString();
-                        statusConditionString += " " + key + " != '" + value + "'";
+                        statusConditionString += " " + key + " = '" + value + "'";
                     }
                 } else {
-                    if (value.equalsIgnoreCase(Boolean.TRUE.toString())) {
-                        statusConditionString += " OR " + key + " = '" + value + "'";
+                    if (key.contains(ACTIVE) && !key.contains(INACTIVE)) {
+                        statusConditionString += " OR (" + tableName + "." + INACTIVE + " != '" + Boolean.TRUE.toString() + "' AND " + tableName + "." + LOST_TO_FOLLOW_UP + " != '" + Boolean.TRUE.toString() + "') ";
+
                     } else {
-                        value = Boolean.TRUE.toString();
-                        statusConditionString += " OR " + key + " != '" + value + "'";
+                        statusConditionString += " OR " + key + " = '" + value + "'";
                     }
+
                 }
             }
         }
@@ -753,7 +817,6 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
             advancedSearchForm.setVisibility(View.GONE);
             listViewLayout.setVisibility(View.VISIBLE);
             clientsView.setVisibility(View.VISIBLE);
-            clientsProgressView.setVisibility(View.INVISIBLE);
 
             updateMatchingResults(0);
             showProgressView();
@@ -763,7 +826,6 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
             advancedSearchForm.setVisibility(View.VISIBLE);
             listViewLayout.setVisibility(View.GONE);
             clientsView.setVisibility(View.INVISIBLE);
-            clientsProgressView.setVisibility(View.VISIBLE);
             listMode = false;
         }
     }
@@ -779,7 +841,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
                 int mMonth = mcurrentDate.get(Calendar.MONTH);
                 int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog mDatePicker = new DatePickerDialog(getActivity(), AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog mDatePicker = new DatePickerDialog(getActivity(), android.app.AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                         Calendar calendar = Calendar.getInstance();
                         calendar.set(Calendar.YEAR, selectedyear);
@@ -958,34 +1020,42 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
         }
     }
 
-    private void moveToMyCatchmentArea(final String entityId) {
-        new AlertDialog.Builder(getActivity())
+    private void refreshBaseRegister() {
+        ((ChildSmartRegisterActivity) getActivity()).refreshList(FetchStatus.fetched);
+    }
+
+    private void moveToMyCatchmentArea(final List<String> ids) {
+        AlertDialog dialog = new AlertDialog.Builder(getActivity(), R.style.PathAlertDialog)
                 .setMessage(R.string.move_to_catchment_confirm_dialog_message)
                 .setTitle(R.string.move_to_catchment_confirm_dialog_title)
                 .setCancelable(false)
-                .setPositiveButton(org.ei.opensrp.path.R.string.yes_button_label,
+                .setPositiveButton(org.ei.opensrp.path.R.string.no_button_label,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                MoveToMyCatchmentUtils.moveToMyCatchment(entityId, moveToMyCatchmentListener, clientsProgressView);
+
                             }
                         })
-                .setNegativeButton(org.ei.opensrp.path.R.string.no_button_label,
+                .setNegativeButton(org.ei.opensrp.path.R.string.yes_button_label,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
+                                progressDialog.setTitle(getString(R.string.move_to_catchment_dialog_title));
+                                progressDialog.setMessage(getString(R.string.move_to_catchment_dialog_message));
+                                MoveToMyCatchmentUtils.moveToMyCatchment(ids, moveToMyCatchmentListener, progressDialog);
                             }
-                        })
-                .show();
+                        }).create();
+
+        dialog.show();
     }
 
     private String bold(String textToBold) {
-        return "<b>" + textToBold + "</b> ";
+        return "<b>" + textToBold + "</b>";
     }
 
     final Listener<JSONArray> listener = new Listener<JSONArray>() {
         public void onEvent(final JSONArray jsonArray) {
 
 
-            String[] columns = new String[]{"_id", "relationalid", FIRST_NAME, "middle_name", LAST_NAME, "gender", "dob", ZEIR_ID, "epi_card_number", MOTHER_GUARDIAN_FIRST_NAME, MOTHER_GUARDIAN_LAST_NAME, "inactive", "lost_to_follow_up"};
+            String[] columns = new String[]{"_id", "relationalid", FIRST_NAME, "middle_name", LAST_NAME, "gender", "dob", ZEIR_ID, "epi_card_number", MOTHER_BASE_ENTITY_ID, MOTHER_GUARDIAN_FIRST_NAME, MOTHER_GUARDIAN_LAST_NAME, "inactive", "lost_to_follow_up"};
             matrixCursor = new AdvancedMatrixCursor(columns);
 
             if (jsonArray != null) {
@@ -1080,6 +1150,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
                     }
 
 
+                    String motherBaseEntityId = "";
                     String motherFirstName = "";
                     String motherLastName = "";
 
@@ -1087,9 +1158,10 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
                         JSONObject mother = getJsonObject(client, "mother");
                         motherFirstName = getJsonString(mother, "firstName");
                         motherLastName = getJsonString(mother, "lastName");
+                        motherBaseEntityId = getJsonString(mother, "baseEntityId");
                     }
 
-                    matrixCursor.addRow(new Object[]{entityId, null, firstName, middleName, lastName, gender, dob, zeirId, epiCardNumber, motherFirstName, motherLastName, inactive, lostToFollowUp});
+                    matrixCursor.addRow(new Object[]{entityId, null, firstName, middleName, lastName, gender, dob, zeirId, epiCardNumber, motherBaseEntityId, motherFirstName, motherLastName, inactive, lostToFollowUp});
                 }
             }
 
@@ -1113,35 +1185,32 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     final Listener<JSONObject> moveToMyCatchmentListener = new Listener<JSONObject>() {
         public void onEvent(final JSONObject jsonObject) {
             if (jsonObject != null) {
-                try {
-                    ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(getActivity());
-                    int eventsCount = jsonObject.has("no_of_events") ? jsonObject.getInt("no_of_events") : 0;
-                    if (eventsCount == 0) {
-                        return;
-                    }
-
-                    JSONArray events = jsonObject.has("events") ? jsonObject.getJSONArray("events") : new JSONArray();
-                    JSONArray clients = jsonObject.has("clients") ? jsonObject.getJSONArray("clients") : new JSONArray();
-
-                    ecUpdater.batchSave(events, clients);
-
-                    String baseEntityId = "";
-                    if (events != null && events.length() > 0 && events.get(0) instanceof JSONObject) {
-                        JSONObject jo = (JSONObject) events.get(0);
-                        if (jo.has("baseEntityId")) {
-                            baseEntityId = jo.getString("baseEntityId");
-                        }
-                    }
-
-                    PathClientProcessor.getInstance(getActivity()).processClient(ecUpdater.getEventsByBaseEnityId(baseEntityId));
+                if (MoveToMyCatchmentUtils.processMoveToCatchment(getActivity(), context().allSharedPreferences(), jsonObject)) {
                     clientAdapter.notifyDataSetChanged();
-
-                } catch (Exception e) {
-                    Log.e(getClass().getName(), "Exception", e);
+                    refreshBaseRegister();
+                } else {
+                    Toast.makeText(getActivity(), "Error Processing Records", Toast.LENGTH_SHORT).show();
                 }
-
+            } else {
+                Toast.makeText(getActivity(), "Unable to Move to My Catchment", Toast.LENGTH_SHORT).show();
             }
         }
     };
 
+    private void initializeProgressDialog() {
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setCancelable(false);
+    }
+
+    @Override
+    public void showProgressView() {
+        progressDialog.setTitle(getString(R.string.searching_dialog_title));
+        progressDialog.setMessage(getString(R.string.searching_dialog_message));
+        progressDialog.show();
+    }
+
+    @Override
+    public void hideProgressView() {
+        progressDialog.hide();
+    }
 }

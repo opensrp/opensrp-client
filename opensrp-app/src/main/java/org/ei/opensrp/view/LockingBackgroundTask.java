@@ -3,6 +3,7 @@ package org.ei.opensrp.view;
 import android.annotation.TargetApi;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
 
 import java.util.concurrent.locks.ReentrantLock;
 

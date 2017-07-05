@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -214,7 +216,7 @@ public class VaccineGroup extends LinearLayout implements View.OnClickListener,
             }
         }
 
-        if (vaccineCardAdapter != null) {
+        if (vaccineCardAdapter != null && vaccinesToUpdate != null) {
             vaccineCardAdapter.update(vaccinesToUpdate);
             toggleRecordAllTV();
         }
@@ -265,23 +267,31 @@ public class VaccineGroup extends LinearLayout implements View.OnClickListener,
         this.onVaccineClickedListener = onVaccineClickedListener;
     }
 
-    public static interface OnRecordAllClickListener {
-        void onClick(VaccineGroup vaccineGroup, ArrayList<VaccineWrapper> dueVaccines);
-    }
+public static interface OnRecordAllClickListener {
+    void onClick(VaccineGroup vaccineGroup, ArrayList<VaccineWrapper> dueVaccines);
+}
 
-    public static interface OnVaccineClickedListener {
-        void onClick(VaccineGroup vaccineGroup, VaccineWrapper vaccine);
-    }
+public static interface OnVaccineClickedListener {
+    void onClick(VaccineGroup vaccineGroup, VaccineWrapper vaccine);
+}
 
-    public static interface OnVaccineUndoClickListener {
-        void onUndoClick(VaccineGroup vaccineGroup, VaccineWrapper vaccine);
-    }
+public static interface OnVaccineUndoClickListener {
+    void onUndoClick(VaccineGroup vaccineGroup, VaccineWrapper vaccine);
+
+}
 
     public ArrayList<VaccineWrapper> getDueVaccines() {
         if (vaccineCardAdapter != null) {
             return vaccineCardAdapter.getDueVaccines();
         }
         return new ArrayList<VaccineWrapper>();
+    }
+
+    public ArrayList<VaccineWrapper> getAllVaccineWrappers() {
+        if (vaccineCardAdapter != null) {
+            return vaccineCardAdapter.getAllVaccineWrappers();
+        }
+        return new ArrayList<>();
     }
 
     public boolean isModalOpen() {
@@ -305,9 +315,16 @@ public class VaccineGroup extends LinearLayout implements View.OnClickListener,
         for (Map<String, Object> m : sch) {
             VaccineRepo.Vaccine vaccine = (VaccineRepo.Vaccine) m.get("vaccine");
             if (tag.getName().toLowerCase().contains(vaccine.display().toLowerCase())) {
+                if (vaccine.equals(VaccineRepo.Vaccine.measles2)
+                        || vaccine.equals(VaccineRepo.Vaccine.mr2)
+                        || vaccine.equals(VaccineRepo.Vaccine.measles1)
+                        || vaccine.equals(VaccineRepo.Vaccine.mr1)) {
+                    if (tag.getAlert() != null && tag.getStatus() != null) {
+                        break;
+                    }
+                }
                 tag.setStatus(m.get("status").toString());
                 tag.setAlert((Alert) m.get("alert"));
-
             }
         }
     }
@@ -339,9 +356,9 @@ public class VaccineGroup extends LinearLayout implements View.OnClickListener,
                     if (tag.getName().contains("/")) {
                         String[] array = tag.getName().split("/");
 
-                        if((array[0]).toLowerCase().contains(vaccine.getName().toLowerCase())){
+                        if ((array[0]).toLowerCase().contains(vaccine.getName().toLowerCase())) {
                             tag.setName(array[0]);
-                        } else if((array[1]).toLowerCase().contains(vaccine.getName().toLowerCase())){
+                        } else if ((array[1]).toLowerCase().contains(vaccine.getName().toLowerCase())) {
 
                             tag.setName(array[1]);
                         }

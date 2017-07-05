@@ -38,7 +38,8 @@ public class ClientProcessor {
     private static ClientProcessor instance;
     private CloudantDataHandler mCloudantDataHandler;
     private static final String TAG = "ClientProcessor";
-    private static final String baseEntityIdJSONKey = "baseEntityId";
+    protected static final String baseEntityIdJSONKey = "baseEntityId";
+    protected static final String providerIdJSONKey = "providerId";
 
     private static final String detailsUpdated = "detailsUpdated";
 
@@ -799,6 +800,11 @@ public class ClientProcessor {
     public void closeCase(String tableName, String baseEntityId) {
         CommonRepository cr = org.ei.opensrp.Context.getInstance().commonrepository(tableName);
         cr.closeCase(baseEntityId, tableName);
+    }
+
+    public boolean deleteCase(String tableName, String baseEntityId) {
+        CommonRepository cr = org.ei.opensrp.Context.getInstance().commonrepository(tableName);
+        return cr.deleteCase(baseEntityId, tableName);
     }
 
     public void executeInsertAlert(ContentValues contentValues) {

@@ -1,42 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    >
+    android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/textView3"
+            style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
             android:text="LAST 5 WEIGHTS"
-            android:id="@+id/textView3"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/text_black" />
 
         <TextView
+            android:id="@+id/see_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="See All"
-            android:id="@+id/see_all"
-            android:textColor="#0A84D9"
             android:layout_marginLeft="10dp"
+            android:text="See All"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#0A84D9"
             android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
         android:id="@+id/weightvalues"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="150dp">
+        android:layout_marginRight="150dp"
+        android:orientation="vertical"></LinearLayout>
 
-
-
-    </LinearLayout>
 </LinearLayout>
