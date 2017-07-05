@@ -155,7 +155,7 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
         this.state = State.IN_PAST;
         if (this.vaccineData != null) {
             String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
-            DateTime dateTime = new DateTime(dobString);
+            DateTime dateTime = !dobString.isEmpty() ? new DateTime(dobString) : new DateTime();
             Date dob = dateTime.toDate();
             Calendar today = Calendar.getInstance();
             today.set(Calendar.HOUR, 0);
@@ -173,7 +173,7 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
                 this.state = State.CURRENT;
             }
             updateStatusViews();
-            if (vaccinesToUpdate != null) {
+            if (vaccinesToUpdate != null) {//Throws exception when null
                 updateVaccineCards(vaccinesToUpdate);
             }
         }
