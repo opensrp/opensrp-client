@@ -14,7 +14,7 @@ env:
 
 android:
   components:
-    #tools required
+    # tools required
     - tools
     # The BuildTools version used by your project
     - build-tools-23.0.2
@@ -54,8 +54,8 @@ script:
   - travis_wait ./gradlew opensrp-path:jacocoTestReport coveralls -i --stacktrace
 
 after_failure:
-#- pandoc opensrp-mcare/build/reports/androidTests/connected/index.html -t plain
-#- pandoc opensrp-path/build/reports/tests/connected/index.html -t plain
+ - pandoc opensrp-mcare/build/reports/androidTests/connected/index.html -t plain
+ - pandoc opensrp-path/build/reports/tests/index.html -t plain
 
 
 notifications:

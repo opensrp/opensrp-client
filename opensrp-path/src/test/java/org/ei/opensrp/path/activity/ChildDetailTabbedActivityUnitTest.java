@@ -49,13 +49,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @PrepareForTest({org.ei.opensrp.Context.class, ImageUtils.class})
 public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
-
-    // @Rule
-    // public PowerMockRule rule = new PowerMockRule();
-
     @InjectMocks
     private ChildDetailTabbedActivityTestVersion activity;
-
 
     @Mock
     private CommonPersonObjectClient childDetails;
@@ -68,7 +63,6 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
     private ActivityController<ChildDetailTabbedActivityTestVersion> controller;
 
-
     private Map<String, String> details;
 
     @Before
@@ -79,7 +73,6 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
         Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivityTestVersion.class);
         intent.putExtra("location_name", "Nairobi");
 
-
         controller = Robolectric.buildActivity(ChildDetailTabbedActivityTestVersion.class, intent);
         activity = controller.get();
 
@@ -88,7 +81,6 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
         PowerMockito.mockStatic(VaccinatorApplication.class);
 
         PowerMockito.mockStatic(org.ei.opensrp.Context.class);
-
 
         Whitebox.setInternalState(org.ei.opensrp.Context.class, "context", context_);
 

@@ -1,4 +1,9 @@
+[![Coverage Status](https://coveralls.io/repos/github/OpenSRP/opensrp-client/badge.svg?branch=master)](https://coveralls.io/github/OpenSRP/opensrp-client?branch=master) [![Build Status](https://travis-ci.org/OpenSRP/opensrp-client.svg?branch=master)](https://travis-ci.org/OpenSRP/opensrp-client)
+
 [![Dristhi](opensrp-app/res/drawable-mdpi/login_logo.png)](https://smartregister.atlassian.net/wiki/dashboard.action)
+
+To run this project, you need to do this:
+========================================
 
 To run this project, you need to do this:
 ========================================
@@ -21,26 +26,4 @@ Login (for demo server):
 login-username - demotest,
 login-password - Demot123
 
-Check app.properties file in "drishti-app/asset/" folder to change the demo server url to your own instance of opensrp server. 
-
-Tests
-==========================
-* Travis Builds
-
-- Client
-[![Build Status](https://travis-ci.org/OpenSRP/opensrp-client.svg?branch=master)](https://travis-ci.org/OpenSRP/opensrp-client)
-
-- Server
-[![Build Status](https://travis-ci.org/OpenSRP/opensrp-server.svg?branch=master)](https://travis-ci.org/OpenSRP/opensrp-client)
-
-*Server
-
-Code Coverage
-====================================
-* Coveralls
-
-- Client
-[![Coverage Status](https://coveralls.io/repos/github/OpenSRP/opensrp-client/badge.svg?branch=master)](https://coveralls.io/github/OpenSRP/opensrp-client?branch=master)
-
-- Server
-[![Coverage Status](https://coveralls.io/repos/github/OpenSRP/opensrp-server/badge.svg?branch=master)](https://coveralls.io/github/OpenSRP/opensrp-server?branch=master)
+Check app.properties file in "drishti-app/asset/" folder to change the demo server url to your own instance of opensrp server.

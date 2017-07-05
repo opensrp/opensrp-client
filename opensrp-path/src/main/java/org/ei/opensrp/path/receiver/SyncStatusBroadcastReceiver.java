@@ -40,7 +40,7 @@ public class SyncStatusBroadcastReceiver extends BroadcastReceiver {
                 context.unregisterReceiver(singleton);
             }
         } catch (IllegalArgumentException e) {
-            logError("Error on destroys: " + e);
+            logError("Error on destroy: " + e);
         }
     }
 

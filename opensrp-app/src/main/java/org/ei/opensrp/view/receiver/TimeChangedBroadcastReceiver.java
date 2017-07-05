@@ -42,7 +42,7 @@ public class TimeChangedBroadcastReceiver extends BroadcastReceiver {
             }
 
         } catch (IllegalArgumentException e) {
-            logError("Error on destroys: " + e);
+            logError("Error on destroy: " + e);
         }
     }
 
