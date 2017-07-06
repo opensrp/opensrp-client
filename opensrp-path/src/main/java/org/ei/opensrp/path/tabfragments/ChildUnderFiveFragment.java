@@ -98,7 +98,8 @@ public class ChildUnderFiveFragment extends Fragment {
 
         alertService = Context.getInstance().alertService();
 
-        DetailsRepository detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
+        DetailsRepository detailsRepository = ((ChildDetailTabbedActivity) getActivity()).getDetailsRepository();
+        childDetails = childDetails != null ? childDetails : ((ChildDetailTabbedActivity) getActivity()).getChildDetails();
         Detailsmap = detailsRepository.getAllDetailsForClient(childDetails.entityId());
 
         loadView(false, false, false);
@@ -252,8 +253,8 @@ public class ChildUnderFiveFragment extends Fragment {
 
         List<ServiceRecord> serviceRecords = new ArrayList<>();
 
-        RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
-        RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
+        RecurringServiceTypeRepository recurringServiceTypeRepository = ((ChildDetailTabbedActivity)getActivity()).getVaccinatorApplicationInstance().recurringServiceTypeRepository();
+        RecurringServiceRecordRepository recurringServiceRecordRepository = ((ChildDetailTabbedActivity)getActivity()).getVaccinatorApplicationInstance().recurringServiceRecordRepository();
 
         if (recurringServiceRecordRepository != null) {
             serviceRecords = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());

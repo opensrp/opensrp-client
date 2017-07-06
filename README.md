@@ -1,4 +1,6 @@
-[![Dristhi](opensrp-app/res/drawable-mdpi/login_logo.png)] (https://smartregister.atlassian.net/wiki/dashboard.action)
+[![Build Status](https://travis-ci.org/OpenSRP/opensrp-client.svg?branch=master)](https://travis-ci.org/OpenSRP/opensrp-client) [![Coverage Status](https://coveralls.io/repos/github/OpenSRP/opensrp-client/badge.svg?branch=master)](https://coveralls.io/github/OpenSRP/opensrp-client?branch=master)
+
+[![Dristhi](opensrp-app/res/drawable-mdpi/login_logo.png)](https://smartregister.atlassian.net/wiki/dashboard.action)
 
 To run this project, you need to do this:
 ========================================
@@ -21,4 +23,4 @@ Login (for demo server):
 login-username - demotest,
 login-password - Demot123
 
-Check app.properties file in "drishti-app/asset/" folder to change the demo server url to your own instance of opensrp server. 
+Check app.properties file in "drishti-app/asset/" folder to change the demo server url to your own instance of opensrp server.
