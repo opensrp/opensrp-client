@@ -202,11 +202,11 @@ public class JsonFormUtils {
             Event se = null;
             if (lookUpEntityId.equals("mother") && StringUtils.isNotBlank(lookUpBaseEntityId)) {
                 Client ss = new Client(lookUpBaseEntityId);
-                addRelationship(context, ss, c);
+                addRelationship(context, ss, c,"mother");
             } else {
 
                 if (StringUtils.isNotBlank(subBindType)) {
-                    s = JsonFormUtils.createSubformClient(context, fields, c, subBindType, null);
+                    s = JsonFormUtils.createSubformClient(context, fields, c, subBindType, null,"mother");
                 }
 
                 if (s != null && e != null) {
@@ -413,11 +413,11 @@ public class JsonFormUtils {
 
             if (lookUpEntityId.equals("mother") && StringUtils.isNotBlank(lookUpBaseEntityId)) {
                 Client ss = new Client(lookUpBaseEntityId);
-                addRelationship(context, ss, baseClient);
+                addRelationship(context, ss, baseClient,"mother");
             }
 
             if (StringUtils.isNotBlank(subBindType)) {
-                subFormClient = JsonFormUtils.createSubformClient(context, fields, baseClient, subBindType, relationalId);
+                subFormClient = JsonFormUtils.createSubformClient(context, fields, baseClient, subBindType, relationalId,"mother");
             }
             Event se = null;
             if (subFormClient != null && e != null) {
@@ -1233,7 +1233,7 @@ public class JsonFormUtils {
         }
     }
 
-    public static Client createSubformClient(Context context, JSONArray fields, Client parent, String bindType, String relationalId) throws ParseException {
+    public static Client createSubformClient(Context context, JSONArray fields, Client parent, String bindType, String relationalId , String relationship) throws ParseException {
 
         if (StringUtils.isBlank(bindType)) {
             return null;
@@ -1297,7 +1297,7 @@ public class JsonFormUtils {
             c.withAddresses(parent.getAddresses());
         }
 
-        addRelationship(context, c, parent);
+        addRelationship(context, c, parent ,relationship);
 
         return c;
     }
@@ -1413,7 +1413,7 @@ public class JsonFormUtils {
     }
 
 
-    private static void addRelationship(Context context, Client parent, Client child) {
+    private static void addRelationship(Context context, Client parent, Client child, String relationshipname) {
         try {
             String relationships = AssetHandler.readFileFromAssetsFolder(FormUtils.ecClientRelationships, context);
             JSONArray jsonArray = null;
@@ -1422,7 +1422,7 @@ public class JsonFormUtils {
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject rObject = jsonArray.getJSONObject(i);
-                if (rObject.has("field") && getString(rObject, "field").equals(ENTITY_ID)) {
+                if (rObject.has("field") && getString(rObject, "field").equals(ENTITY_ID) && relationshipname.equalsIgnoreCase(getString(rObject, "client_relationship"))) {
                     child.addRelationship(rObject.getString("client_relationship"), parent.getBaseEntityId());
                 } else {
                     //TODO how to add other kind of relationships
