@@ -29,7 +29,7 @@ repositories {
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "26.0.0"
 
     defaultConfig {
         applicationId "org.ei.opensrp.path"
