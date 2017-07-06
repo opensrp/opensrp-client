@@ -27,6 +27,7 @@ import org.powermock.reflect.Whitebox;
 import org.robolectric.Robolectric;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
+import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,7 +35,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import shared.BaseUnitTest;
-import util.ImageUtils;
+import shared.customshadows.ImageUtilsShadow;
+import shared.customshadows.ImmunizationRowAdapterShadow;
+import shared.customshadows.ImmunizationRowCardShadow;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -46,7 +49,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 /**
  * created by onadev on 07/06/2017.
  */
-@PrepareForTest({org.ei.opensrp.Context.class, ImageUtils.class})
+@PrepareForTest({org.ei.opensrp.Context.class})
+@Config(shadows = {ImageUtilsShadow.class, ImmunizationRowAdapterShadow.class, ImmunizationRowCardShadow.class})
 public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
 
     @InjectMocks

@@ -28,7 +28,6 @@ import shared.customshadows.FontTextViewShadow;
 public abstract class BaseUnitTest {
 
 
-
     public void resetWindowManager() {
 
         try {

@@ -173,9 +173,8 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
                 this.state = State.CURRENT;
             }
             updateStatusViews();
-            if (vaccinesToUpdate != null) {//Throws exception when null
-                updateVaccineCards(vaccinesToUpdate);
-            }
+            updateVaccineCards(vaccinesToUpdate);
+
         }
     }
 
@@ -304,7 +303,8 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
         List<Alert> alertList = getAlertList();
         Map<String, Date> recievedVaccines = receivedVaccines(vaccineList);
         String dobString = Utils.getValue(getChildDetails().getColumnmaps(), "dob", false);
-        List<Map<String, Object>> sch = generateScheduleList("child", new DateTime(dobString), recievedVaccines, alertList);
+        DateTime dateTime = !dobString.isEmpty() ? new DateTime(dobString) : new DateTime();
+        List<Map<String, Object>> sch = generateScheduleList("child", dateTime, recievedVaccines, alertList);
 
         for (Map<String, Object> m : sch) {
             VaccineRepo.Vaccine vaccine = (VaccineRepo.Vaccine) m.get("vaccine");
