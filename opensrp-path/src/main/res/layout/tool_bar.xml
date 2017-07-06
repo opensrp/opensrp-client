@@ -8,38 +8,53 @@
     android:focusableInTouchMode="true"
     tools:showIn="@layout/smart_register_nav_bar_customized">
 
-    <LinearLayout
-        android:id="@+id/btn_back_to_home"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/back_btn_layout"
+        android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_centerVertical="true">
 
-        <TextView
-            android:id="@+id/name_inits"
-            android:layout_width="47dp"
-            android:layout_height="47dp"
-            android:layout_margin="1dp"
-            android:background="@drawable/name_inits_bg"
-            android:gravity="center"
-            android:text="RW"
-            android:textAllCaps="true"
-            android:textColor="@color/actionbar"
-            android:textSize="25sp" />
-
-        <ImageView
-            android:id="@+id/back_button"
+        <LinearLayout
+            android:id="@+id/btn_back_to_home"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha"
-            android:visibility="gone" />
-    </LinearLayout>
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:id="@+id/name_inits"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:layout_margin="1dp"
+                android:background="@drawable/name_inits_bg"
+                android:gravity="center"
+                android:text="RW"
+                android:textAllCaps="true"
+                android:textColor="@color/actionbar"
+                android:textSize="25sp" />
+
+            <ImageView
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/sync_progress_bar"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:indeterminate="true" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/title_layout"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_toRightOf="@id/btn_back_to_home"
+        android:layout_toRightOf="@id/back_btn_layout"
         android:background="@android:color/transparent"
         android:orientation="horizontal"
         android:paddingLeft="2.5dp"

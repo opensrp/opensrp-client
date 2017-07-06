@@ -1,138 +1,108 @@
 package org.ei.opensrp.path.domain;
 
+import org.joda.time.DateTime;
+
+import java.util.Date;
+
 /**
- * Created by muhammad.ahmed@ihsinformatics.com on 19-Nov-15.
+ * Created by raihan@mpower-social.com on 18-May-17.
  */
 public class Stock {
-    private int id ;
-    private int vId;
-    private int wasted ;
-    private int received ;
-    private int balanced;
-    private int used;
-    private String eventDate;
-    private int typeReport ;
-    private int target ;
-    private Vaccine vaccine;
-    private ReportType reportType;
+    private Long id ;
+    private String vaccine_type_id;
+    private String transaction_type ;
+    private String providerid ;
+    private int value;
+    private Long  date_created;
+    private String to_from;
+    private String sync_status ;
+    private Long date_updated ;
 
+    public static String issued = "issued";
+    public static String received = "received";
+    public static String loss_adjustment = "loss_adjustment";
 
-
-    /**
-     * default constructor
-     */
-    public Stock(){}
-
-    /**
-     *
-     * @param id as integer
-     * @param vId as integer
-     */
-    public Stock(int id , int vId ){
-        this.id=id;
-        this.vId=vId;
+    public Stock(Long id, String transaction_type, String providerid, int value, Long date_created, String to_from, String sync_status, Long date_updated, String vaccine_type_id) {
+        this.id = id;
+        this.transaction_type = transaction_type;
+        this.providerid = providerid;
+        this.value = value;
+        this.date_created = date_created;
+        this.to_from = to_from;
+        this.sync_status = sync_status;
+        this.date_updated = date_updated;
+        this.vaccine_type_id = vaccine_type_id;
     }
 
-    public Stock(int id , int vId , int wasted, int received , int balanced , int used ,String eventDate, int reportId, int target){
-
-        this.id=id;
-        this.vId=vId;
-        this.wasted=wasted;
-        this.received=received;
-        this.balanced=balanced;
-        this.used=used;
-        this.eventDate=eventDate;
-        this.typeReport=reportId;
-        this.target=target;
-    }
-
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getvId() {
-        return vId;
+    public String getVaccine_type_id() {
+        return vaccine_type_id;
     }
 
-    public void setvId(int vId) {
-        this.vId = vId;
+    public void setVaccine_type_id(String vaccine_type_id) {
+        this.vaccine_type_id = vaccine_type_id;
     }
 
-
-    public int getWasted() {
-        return wasted;
+    public String getTransaction_type() {
+        return transaction_type;
     }
 
-    public void setWasted(int wasted) {
-        this.wasted = wasted;
+    public void setTransaction_type(String transaction_type) {
+        this.transaction_type = transaction_type;
     }
 
-    public int getReceived() {
-        return received;
+    public int getValue() {
+        return value;
     }
 
-    public int getTarget() {
-        return target;
+    public void setValue(int value) {
+        this.value = value;
     }
 
-    public void setTarget(int target) {
-        this.target = target;
+    public Long  getDate_created() {
+        return date_created;
     }
 
-    public void setReceived(int received) {
-        this.received = received;
+    public void setDate_created(Long date_created) {
+        this.date_created = date_created;
     }
 
-    public int getBalanced() {
-        return balanced;
+    public String getTo_from() {
+        return to_from;
     }
 
-    public void setBalanced(int balanced) {
-        this.balanced = balanced;
+    public void setTo_from(String to_from) {
+        this.to_from = to_from;
     }
 
-    public int getUsed() {
-        return used;
+    public Long getUpdatedAt() {
+        return date_updated;
     }
 
-    public void setUsed(int used) {
-        this.used = used;
+    public void setUpdatedAt(Long date_updated) {
+        this.date_updated = date_updated;
     }
 
-    public int getTypeReport() {
-        return typeReport;
+    public String getSyncStatus() {
+        return sync_status;
     }
 
-    public void setTypeReport(int typeReport) {
-        this.typeReport = typeReport;
+    public void setSyncStatus(String sync_status) {
+        this.sync_status = sync_status;
     }
 
-    public Vaccine getVaccine() {
-        return vaccine;
+    public String getProviderid() {
+        return providerid;
     }
 
-    public void setVaccine(Vaccine vaccine) {
-        this.vaccine = vaccine;
-    }
-
-    public ReportType getReportType() {
-        return reportType;
-    }
-
-    public void setReportType(ReportType reportType) {
-        this.reportType = reportType;
-    }
-
-    public String getEventDate() {
-        return eventDate;
-    }
-
-    public void setEventDate(String eventDate) {
-        this.eventDate = eventDate;
+    public void setProviderid(String providerid) {
+        this.providerid = providerid;
     }
 }

@@ -3,6 +3,7 @@ package org.ei.opensrp.path.interactors;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.interactors.JsonFormInteractor;
 
+import org.ei.opensrp.path.widgets.PathCalculateLabelFactory;
 import org.ei.opensrp.path.widgets.PathDatePickerFactory;
 import org.ei.opensrp.path.widgets.PathEditTextFactory;
 
@@ -22,6 +23,7 @@ public class PathJsonFormInteractor extends JsonFormInteractor {
         super.registerWidgets();
         map.put(JsonFormConstants.EDIT_TEXT, new PathEditTextFactory());
         map.put(JsonFormConstants.DATE_PICKER, new PathDatePickerFactory());
+//        map.put(JsonFormConstants.LABEL, new PathCalculateLabelFactory());
     }
 
     public static JsonFormInteractor getInstance() {

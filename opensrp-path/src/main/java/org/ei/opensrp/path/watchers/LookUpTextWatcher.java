@@ -25,11 +25,6 @@ import util.MotherLookUpUtils;
 public class LookUpTextWatcher implements TextWatcher {
     private static Map<String, EntityLookUp> lookUpMap;
 
-    static {
-        lookUpMap = new HashMap<>();
-
-    }
-
     private View mView;
     private JsonFormFragment formFragment;
     private String mEntityId;
@@ -39,6 +34,7 @@ public class LookUpTextWatcher implements TextWatcher {
         this.formFragment = formFragment;
         mView = view;
         mEntityId = entityId;
+        lookUpMap = new HashMap<>();
 
     }
 
@@ -57,10 +53,6 @@ public class LookUpTextWatcher implements TextWatcher {
         }
 
         String key = (String) mView.getTag(R.id.key);
-
-        if(text.isEmpty()){
-            return;
-        }
 
         boolean afterLookUp = (Boolean) mView.getTag(R.id.after_look_up);
         if (afterLookUp) {

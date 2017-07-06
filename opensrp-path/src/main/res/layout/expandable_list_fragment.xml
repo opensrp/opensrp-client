@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ExpandableListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/expandable_list_view"
+    style="@style/Widget.AppCompat.ListView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:cacheColorHint="@null"
+    android:childDivider="#00000000"
+    android:clipToPadding="false"
+    android:divider="#00000000"
+    android:fadingEdge="none"
+    android:groupIndicator="@null"
+    android:overScrollMode="ifContentScrolls"
+    android:scrollbars="vertical" />

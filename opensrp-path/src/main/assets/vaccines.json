@@ -17,6 +17,20 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 0
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+0d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+13d"
+            }
+          ]
         }
       },
       {
@@ -32,6 +46,20 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 1
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+0d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+1y"
+            }
+          ]
         }
       }
     ]
@@ -54,6 +82,20 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 1
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+42d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+4y,10m"
+            }
+          ]
         }
       },
       {
@@ -69,6 +111,20 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 1
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+42d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+4y,10m"
+            }
+          ]
         }
       },
       {
@@ -84,6 +140,20 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 1
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+42d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+4y,10m"
+            }
+          ]
         }
       },
       {
@@ -99,6 +169,20 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 1
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+42d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+7m"
+            }
+          ]
         }
       }
     ]
@@ -121,6 +205,21 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 2
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "prerequisite",
+              "prerequisite": "OPV 1",
+              "offset": "+28d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+4y,11m"
+            }
+          ]
         }
       },
       {
@@ -136,6 +235,21 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 2
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "prerequisite",
+              "prerequisite": "Penta 1",
+              "offset": "+28d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+4y,11m"
+            }
+          ]
         }
       },
       {
@@ -151,6 +265,21 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 2
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "prerequisite",
+              "prerequisite": "PCV 1",
+              "offset": "+28d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+4y,11m"
+            }
+          ]
         }
       },
       {
@@ -166,6 +295,21 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 2
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "prerequisite",
+              "prerequisite": "Rota 1",
+              "offset": "+28d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+8m"
+            }
+          ]
         }
       }
     ]
@@ -188,6 +332,21 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 3
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "prerequisite",
+              "prerequisite": "OPV 2",
+              "offset": "+28d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+5y"
+            }
+          ]
         }
       },
       {
@@ -203,6 +362,21 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 3
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "prerequisite",
+              "prerequisite": "Penta 2",
+              "offset": "+28d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+5y"
+            }
+          ]
         }
       },
       {
@@ -218,6 +392,21 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 3
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "prerequisite",
+              "prerequisite": "PCV 2",
+              "offset": "+28d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+5y"
+            }
+          ]
         }
       }
     ]
@@ -230,7 +419,7 @@
       {
         "name": "Measles 1 / MR 1",
         "type": "Measles / MR",
-        "vaccine_separator":" / ",
+        "vaccine_separator": " / ",
         "openmrs_date": {
           "parent_entity": "36AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/162586AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "entity": "concept",
@@ -241,6 +430,36 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 1
+        },
+        "schedule": {
+          "Measles 1": {
+            "due": [
+              {
+                "reference": "dob",
+                "offset": "+9m"
+              }
+            ],
+            "conditions": [
+              {
+                "type": "not_given",
+                "vaccine": "MR 1"
+              }
+            ]
+          },
+          "MR 1": {
+            "due": [
+              {
+                "reference": "dob",
+                "offset": "+9m"
+              }
+            ],
+            "conditions": [
+              {
+                "type": "not_given",
+                "vaccine": "Measles 1"
+              }
+            ]
+          }
         }
       },
       {
@@ -256,6 +475,32 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 4
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+9m"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+5y"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "not_given",
+              "vaccine": "OPV 0"
+            },
+            {
+              "type": "given",
+              "vaccine": "OPV 3",
+              "comparison": "at_least",
+              "value": "-28d"
+            }
+          ]
         }
       }
     ]
@@ -268,7 +513,7 @@
       {
         "name": "Measles 2 / MR 2",
         "type": "Measles / MR",
-        "vaccine_separator":" / ",
+        "vaccine_separator": " / ",
         "openmrs_date": {
           "parent_entity": "36AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/162586AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "entity": "concept",
@@ -279,6 +524,48 @@
           "entity": "concept",
           "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 2
+        },
+        "schedule": {
+          "Measles 2": {
+            "due": [
+              {
+                "reference": "prerequisite",
+                "prerequisite": "Measles 1",
+                "offset": "+9m"
+              },
+              {
+                "reference": "prerequisite",
+                "prerequisite": "MR 1",
+                "offset": "+9m"
+              }
+            ],
+            "conditions": [
+              {
+                "type": "not_given",
+                "vaccine": "MR 2"
+              }
+            ]
+          },
+          "MR 2": {
+            "due": [
+              {
+                "reference": "prerequisite",
+                "prerequisite": "MR 1",
+                "offset": "+9m"
+              },
+              {
+                "reference": "prerequisite",
+                "prerequisite": "Measles 1",
+                "offset": "+9m"
+              }
+            ],
+            "conditions": [
+              {
+                "type": "not_given",
+                "vaccine": "Measles 2"
+              }
+            ]
+          }
         }
       }
     ]

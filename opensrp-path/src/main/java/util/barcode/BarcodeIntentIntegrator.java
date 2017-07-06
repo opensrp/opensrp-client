@@ -17,7 +17,6 @@
 package util.barcode;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,8 +24,10 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+import org.ei.opensrp.path.R;
 import org.ei.opensrp.view.activity.SecuredActivity;
 import org.ei.opensrp.view.fragment.SecuredFragment;
 
@@ -342,7 +343,7 @@ public class BarcodeIntentIntegrator
 
 	private AlertDialog showDownloadDialog ()
 	{
-		AlertDialog.Builder downloadDialog = new AlertDialog.Builder (fragment!=null?fragment.getActivity():activity);
+		AlertDialog.Builder downloadDialog = new AlertDialog.Builder (fragment!=null?fragment.getActivity():activity, R.style.PathAlertDialog);
 		downloadDialog.setTitle (title);
 		downloadDialog.setMessage (message);
 		downloadDialog.setPositiveButton (buttonYes, new DialogInterface.OnClickListener ()

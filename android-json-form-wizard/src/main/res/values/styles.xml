@@ -23,4 +23,10 @@
         <item name="cbd_height">36dp</item>
         <item name="cbd_boxSize">28dp</item>
     </style>
+
+    <style name="AppThemeAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/opensrp_primary</item>
+        <item name="colorPrimaryDark">@color/opensrp_primary_dark</item>
+        <item name="colorAccent">@color/opensrp_accent</item>
+    </style>
 </resources>

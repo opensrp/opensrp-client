@@ -103,8 +103,13 @@ public class VaccineCardAdapter extends BaseAdapter {
                 vaccineCard.setVaccineWrapper(vaccineWrapper);
 
                 vaccineCards.put(vaccineName, vaccineCard);
+            }
+
+            //If last position, toggle RecordAll
+            if (position == (getCount() - 1)) {
                 vaccineGroup.toggleRecordAllTV();
             }
+
 
             return vaccineCards.get(vaccineName);
         } catch (JSONException e) {
@@ -123,7 +128,7 @@ public class VaccineCardAdapter extends BaseAdapter {
             } else {// Update just the vaccines specified
                 for (VaccineWrapper currWrapper : vaccinesToUpdate) {
                     if (vaccineCards.containsKey(currWrapper.getName())) {
-                        vaccineCards.get(currWrapper.getName()).updateState();
+                        vaccineCards.get(currWrapper.getName()).setVaccineWrapper(currWrapper);
                     }
                 }
             }
@@ -142,6 +147,15 @@ public class VaccineCardAdapter extends BaseAdapter {
         }
 
         return dueVaccines;
+    }
+
+    public ArrayList<VaccineWrapper> getAllVaccineWrappers() {
+        ArrayList<VaccineWrapper> allWrappers = new ArrayList<>();
+        for (VaccineCard curCard : vaccineCards.values()) {
+            allWrappers.add(curCard.getVaccineWrapper());
+        }
+
+        return allWrappers;
     }
 
 }

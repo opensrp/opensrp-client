@@ -21,12 +21,15 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vijay.jsonwizard.utils.DatePickerUtils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.db.VaccineRepo;
+import org.ei.opensrp.path.domain.VaccineSchedule;
 import org.ei.opensrp.path.domain.VaccineWrapper;
 import org.ei.opensrp.path.listener.VaccinationActionListener;
 import org.ei.opensrp.util.OpenSRPImageLoader;
@@ -35,6 +38,7 @@ import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import util.ImageUtils;
@@ -45,19 +49,25 @@ public class VaccinationEditDialogFragment extends DialogFragment {
     private final ArrayList<VaccineWrapper> tags;
     private final View viewGroup;
     private VaccinationActionListener listener;
+    private Date dateOfBirth;
+    private List<Vaccine> issuedVaccines;
     public static final String DIALOG_TAG = "VaccinationEditDialogFragment";
 
-    private VaccinationEditDialogFragment(Context context,
+    private VaccinationEditDialogFragment(Context context, Date dateOfBirth,
+                                          List<Vaccine> issuedVaccines,
                                           List<VaccineWrapper> tags, View viewGroup) {
         this.context = context;
+        this.dateOfBirth = dateOfBirth;
+        this.issuedVaccines = issuedVaccines;
         this.tags = new ArrayList<>(tags);
         this.viewGroup = viewGroup;
     }
 
     public static VaccinationEditDialogFragment newInstance(
-            Context context,
+            Context context, Date dateOfBirth,
+            List<Vaccine> issuedVaccines,
             List<VaccineWrapper> tags, View viewGroup) {
-        return new VaccinationEditDialogFragment(context, tags, viewGroup);
+        return new VaccinationEditDialogFragment(context, dateOfBirth, issuedVaccines, tags, viewGroup);
     }
 
     @Override
@@ -157,7 +167,13 @@ public class VaccinationEditDialogFragment extends DialogFragment {
                 DateTime dateTime = new DateTime(calendar.getTime());
 
                 if (tags.size() == 1) {
-                    tags.get(0).setUpdatedVaccineDate(dateTime, true);
+                    if (validateVaccinationDate(tags.get(0), dateTime.toDate())) {
+                        tags.get(0).setUpdatedVaccineDate(dateTime, true);
+                    } else {
+                        Toast.makeText(getActivity(),
+                                String.format(getString(R.string.cannot_record_vaccine),
+                                        tags.get(0).getName()), Toast.LENGTH_LONG).show();
+                    }
                 } else
                     for (int i = 0; i < vaccinationNameLayout.getChildCount(); i++) {
                         View chilView = vaccinationNameLayout.getChildAt(i);
@@ -167,7 +183,13 @@ public class VaccinationEditDialogFragment extends DialogFragment {
                             String checkedName = childVaccineView.getText().toString();
                             VaccineWrapper tag = searchWrapperByName(checkedName);
                             if (tag != null) {
-                                tag.setUpdatedVaccineDate(dateTime, false);
+                                if (validateVaccinationDate(tag, dateTime.toDate())) {
+                                    tag.setUpdatedVaccineDate(dateTime, false);
+                                } else {
+                                    Toast.makeText(getActivity(),
+                                            String.format(getString(R.string.cannot_record_vaccine),
+                                                    tag.getName()), Toast.LENGTH_LONG).show();
+                                }
                             }
                         }
                     }
@@ -254,8 +276,139 @@ public class VaccinationEditDialogFragment extends DialogFragment {
             });
         }
 
+        updateDateRanges(earlierDatePicker, set);
+
 
         return dialogView;
+    }
+
+    private boolean validateVaccinationDate(VaccineWrapper vaccine, Date date) {
+        // Assuming that the vaccine wrapper provided to this method isn't one where there's more than one vaccine in a wrapper
+        Date minDate = getMinVaccineDate(vaccine.getName());
+        Date maxDate = getMaxVaccineDate(vaccine.getName());
+        Calendar vaccineDate = Calendar.getInstance();
+        vaccineDate.setTime(date);
+        VaccineSchedule.standardiseCalendarDate(vaccineDate);
+        boolean result = true;
+
+        // A null min date means the vaccine is not due (probably because the prerequisite hasn't been done yet)
+        result = result && minDate != null;
+
+        // Check if vaccination was done before min date
+        if (minDate != null) {
+            Calendar min = Calendar.getInstance();
+            min.setTime(minDate);
+            VaccineSchedule.standardiseCalendarDate(min);
+
+            result = result && min.getTimeInMillis() <= vaccineDate.getTimeInMillis();
+        }
+
+        // A null max date means the vaccine doesn't have a max date check
+        //Check if vaccination was done after the max date
+        if (maxDate != null) {
+            Calendar max = Calendar.getInstance();
+            max.setTime(maxDate);
+            VaccineSchedule.standardiseCalendarDate(max);
+
+            result = result && vaccineDate.getTimeInMillis() <= max.getTimeInMillis();
+        }
+
+        return result;
+    }
+
+    /**
+     * This method updates the allowed date ranges in the views
+     *
+     * @param datePicker Date picker for selecting a previous date for a vaccine
+     */
+    private void updateDateRanges(DatePicker datePicker, Button set) {
+        Calendar today = Calendar.getInstance();
+        VaccineSchedule.standardiseCalendarDate(today);
+        Calendar minDate = null;
+        Calendar maxDate = null;
+
+        for (VaccineWrapper curVaccine : tags) {
+            if (!curVaccine.getName().contains("/")) {
+                minDate = updateMinVaccineDate(minDate, curVaccine.getName());
+                maxDate = updateMaxVaccineDate(maxDate, curVaccine.getName());
+            } else {
+                String[] sisterVaccines = curVaccine.getName().split(" / ");
+                for (int i = 0; i < sisterVaccines.length; i++){
+                    minDate = updateMinVaccineDate(minDate, sisterVaccines[i]);
+                    maxDate = updateMaxVaccineDate(maxDate, sisterVaccines[i]);
+                }
+            }
+        }
+
+        VaccineSchedule.standardiseCalendarDate(minDate);
+        VaccineSchedule.standardiseCalendarDate(maxDate);
+
+        if (maxDate.getTimeInMillis() >= minDate.getTimeInMillis()) {
+            set.setVisibility(View.INVISIBLE);
+            datePicker.setMinDate(minDate.getTimeInMillis());
+            datePicker.setMaxDate(maxDate.getTimeInMillis());
+        } else {
+            set.setVisibility(View.INVISIBLE);
+            Toast.makeText(getActivity(), R.string.problem_applying_vaccine_constraints, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private Calendar updateMinVaccineDate(Calendar minDate, String vaccineName) {
+        Date dueDate = getMinVaccineDate(vaccineName);
+        if (dueDate == null
+                || dueDate.getTime() < dateOfBirth.getTime()) {
+            dueDate = dateOfBirth;
+        }
+
+        if (minDate == null) {
+            minDate = Calendar.getInstance();
+            minDate.setTime(dueDate);
+        } else if (dueDate.getTime() > minDate.getTimeInMillis()) {
+            minDate.setTime(dueDate);
+        }
+
+        return minDate;
+    }
+
+    private Calendar updateMaxVaccineDate(Calendar maxDate, String vaccineName) {
+        Date expiryDate = getMaxVaccineDate(vaccineName);
+        if (expiryDate == null
+                || expiryDate.getTime() > Calendar.getInstance().getTimeInMillis()) {
+            expiryDate = Calendar.getInstance().getTime();
+        }
+
+        if (maxDate == null) {
+            maxDate = Calendar.getInstance();
+            maxDate.setTime(expiryDate);
+        } else if (expiryDate.getTime() < maxDate.getTimeInMillis()) {
+            maxDate.setTime(expiryDate);
+        }
+
+        return maxDate;
+    }
+
+    private Date getMinVaccineDate(String vaccineName) {
+        VaccineSchedule curVaccineSchedule = VaccineSchedule.getVaccineSchedule("child",
+                vaccineName);
+        Date minDate = null;
+
+        if (curVaccineSchedule != null) {
+            minDate = curVaccineSchedule.getDueDate(issuedVaccines, dateOfBirth);
+        }
+
+        return minDate;
+    }
+
+    private Date getMaxVaccineDate(String vaccineName) {
+        VaccineSchedule curVaccineSchedule = VaccineSchedule.getVaccineSchedule("child",
+                vaccineName);
+        Date maxDate = null;
+
+        if (curVaccineSchedule != null) {
+            maxDate = curVaccineSchedule.getExpiryDate(issuedVaccines, dateOfBirth);
+        }
+
+        return maxDate;
     }
 
     @Override

@@ -2,8 +2,7 @@
 
     <!-- Base application theme. -->
 
-    <style name="PathAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-    </style>
+    <style name="PathAppTheme" parent="Theme.AppCompat.Light.DarkActionBar"></style>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
@@ -116,12 +115,15 @@
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/dark_grey</item>
     </style>
+
     <style name="AppThemeNoActionBarAndTitleWithEditButton" parent="AppThemeNoTitle.NoActionBar">
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
     </style>
+
     <style name="OverflowMenuButton" parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">
         <item name="android:src">@drawable/ic_icon_edit</item>
     </style>
+
     <style name="Material.Drawable.CheckBox.Dialog" parent="Material.Drawable.CheckBox">
         <item name="cbd_width">40dp</item>
         <item name="cbd_height">40dp</item>
@@ -132,7 +134,32 @@
         <item name="cbd_boxSize">25dp</item>
     </style>
 
+    <style name="Material.Drawable.RadioButton.AdvancedSearch" parent="Material.Drawable.RadioButton">
+        <item name="rbd_width">40dp</item>
+        <item name="rbd_height">40dp</item>
+        <item name="rbd_strokeSize">2dp</item>
+        <item name="rbd_radius">15dp</item>
+        <item name="rbd_innerRadius">10dp</item>
+        <item name="rbd_strokeColor">@drawable/advanced_search_rdb_stoke_color_list</item>
+    </style>
+
+    <style name="Material.Drawable.CheckBox.AdvancedSearch" parent="Material.Drawable.CheckBox">
+        <item name="cbd_width">40dp</item>
+        <item name="cbd_height">40dp</item>
+        <item name="cbd_tickColor">@color/white</item>
+        <item name="cbd_strokeColor">@drawable/advanced_search_cbd_stoke_color_list</item>
+        <item name="cbd_cornerRadius">0dp</item>
+        <item name="cbd_strokeSize">3dp</item>
+        <item name="cbd_boxSize">25dp</item>
+    </style>
+
     <style name="PathDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+    </style>
+
+    <style name="PathAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>

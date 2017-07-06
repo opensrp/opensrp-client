@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.NavigationView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_view"
+    android:layout_width="450dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="#2c2c2c"
+    android:fitsSystemWindows="true"
+    app:itemBackground="@drawable/drawer_item_background"
+    app:itemIconTint="@android:color/white"
+    app:itemTextColor="@android:color/white"
+    app:theme="@style/AppThemeNoTitle.NoActionBar.NavigationDrawerStyle">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/nav_header_base" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/smart_register_client_divider_height"
+            android:src="#474747"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/nav_register"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+            <ImageView
+                android:layout_width="@dimen/custom_navigation_icon_size"
+                android:layout_height="@dimen/custom_navigation_icon_size"
+                android:id="@+id/addchildImageview"
+                android:src="@drawable/ic_action_add"
+                android:layout_gravity="center_vertical"
+                android:paddingTop="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
+                android:text="Add new child"
+                android:id="@+id/addchildtextview"
+                android:textColor="@color/white"
+                android:textSize="@dimen/table_contents_text_size"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/nav_record_vaccination_out_catchment"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:layout_width="@dimen/custom_navigation_icon_size"
+                android:layout_height="@dimen/custom_navigation_icon_size"
+                android:id="@+id/outofareaImageview"
+                android:src="@drawable/ic_action_out_catchment"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
+                android:text="Record out of catchment vaccination"
+                android:id="@+id/outofareatextview"
+                android:textColor="@color/white"
+                android:textSize="@dimen/table_contents_text_size"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/nav_sync"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:layout_width="@dimen/custom_navigation_icon_size"
+                android:layout_height="@dimen/custom_navigation_icon_size"
+                android:id="@+id/nav_syncImageview"
+                android:src="@drawable/ic_action_sync"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp" />
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
+                android:text="Sync"
+                android:id="@+id/nav_synctextview"
+                android:textColor="@color/white"
+                android:textSize="@dimen/table_contents_text_size"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#373737">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/child_register"
+                android:layout_marginTop="5dp">
+
+                <ImageView
+                    android:layout_width="@dimen/registerlinkwidth"
+                    android:layout_height="@dimen/registerlinkheight"
+                    android:id="@+id/child_registerImageview"
+                    android:src="@drawable/zeirbig"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_margin="5dp" />
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
+                    android:text="ZEIR"
+                    android:id="@+id/child_registertextview"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/label_text_size"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/hia2reports"
+                android:layout_marginTop="5dp">
+
+                <ImageView
+                    android:layout_width="@dimen/registerlinkwidth"
+                    android:layout_height="@dimen/registerlinkheight"
+                    android:id="@+id/hia2reportsImageview"
+                    android:src="@drawable/hia_big"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_margin="5dp" />
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
+                    android:id="@+id/hia2reportstextview"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/label_text_size"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:text="HIA 2 Reports" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/stockcontrol"
+                android:layout_marginTop="5dp">
+
+                <ImageView
+                    android:layout_width="@dimen/registerlinkwidth"
+                    android:layout_height="@dimen/registerlinkheight"
+                    android:id="@+id/stockcontrolImageview"
+                    android:src="@drawable/stockreg"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="7dp" />
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
+                    android:id="@+id/stockcontroltextview"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/label_text_size"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:text="Stock Control" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+    </android.support.design.widget.NavigationView>

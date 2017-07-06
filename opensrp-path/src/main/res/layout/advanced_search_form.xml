@@ -19,14 +19,14 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-
             android:orientation="vertical">
 
             <org.ei.opensrp.view.customControls.CustomFontTextView
-                style="@style/CustomFontTextViewStyle.ClientList.Light"
+                style="@style/CustomFontTextViewStyle.ClientList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:paddingLeft="0dp"
                 android:text="@string/search_limits"
                 android:textColor="@color/client_list_grey"
                 android:textSize="@dimen/advanced_search_label_size" />
@@ -35,50 +35,84 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="2">
 
-                <RadioGroup
-                    android:id="@+id/search_limits"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
+                <RelativeLayout
+                    android:id="@+id/out_and_inside_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="1.5dp"
+                    android:layout_weight="1">
 
-                    <RadioButton
+                    <com.vijay.jsonwizard.customviews.RadioButton
                         android:id="@+id/out_and_inside"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="3dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/white"
-                        android:buttonTint="@color/light_blue"
-                        android:gravity="top|left"
-                        android:text="@string/out_and_inside"
-                        android:textAppearance="?android:textAppearanceSmall"
-                        android:textColor="@color/dark_grey"
-                        android:textSize="@dimen/advanced_search_label_size" />
+                        style="@style/Material.Drawable.RadioButton.AdvancedSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true" />
 
-                    <RadioButton
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/out_and_inside"
+                        android:orientation="vertical">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="2"
+                            android:text="@string/out_and_inside"
+                            android:textColor="@color/client_list_grey"
+                            android:textSize="@dimen/advanced_search_label_size" />
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/requires_internet_connection"
+                            android:textColor="@color/client_list_grey"
+                            android:textSize="@dimen/advanced_search_label_small_size" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/my_catchment_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1.5dp"
+                    android:layout_weight="1">
+
+                    <com.vijay.jsonwizard.customviews.RadioButton
                         android:id="@+id/my_catchment"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="3dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/white"
-                        android:buttonTint="@color/light_blue"
-                        android:gravity="top|left"
+                        style="@style/Material.Drawable.RadioButton.AdvancedSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true" />
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/my_catchment"
+                        android:maxLines="2"
                         android:text="@string/my_catchment_area"
-                        android:textAppearance="?android:textAppearanceSmall"
-                        android:textColor="@color/dark_grey"
+                        android:textColor="@color/client_list_grey"
                         android:textSize="@dimen/advanced_search_label_size" />
-                </RadioGroup>
+                </RelativeLayout>
             </LinearLayout>
 
+
             <org.ei.opensrp.view.customControls.CustomFontTextView
-                style="@style/CustomFontTextViewStyle.ClientList.Light"
+                style="@style/CustomFontTextViewStyle.ClientList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:paddingLeft="0dp"
                 android:text="@string/client_status"
                 android:textColor="@color/client_list_grey"
                 android:textSize="@dimen/advanced_search_label_size" />
@@ -86,46 +120,88 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:weightSum="3">
 
-                <CheckBox
-                    android:id="@+id/active"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.85"
-                    android:backgroundTint="@color/white"
-                    android:buttonTint="@color/light_blue"
-                    android:text="@string/active"
-                    android:textAppearance="?android:textAppearanceSmall"
-                    android:textColor="@color/dark_grey"
-                    android:textSize="@dimen/advanced_search_label_size" />
 
-                <CheckBox
-                    android:id="@+id/inactive"
+                <RelativeLayout
+                    android:id="@+id/active_layout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.85"
-                    android:backgroundTint="@color/white"
-                    android:buttonTint="@color/light_blue"
-                    android:text="@string/inactive"
-                    android:textAppearance="?android:textAppearanceSmall"
-                    android:textColor="@color/dark_grey"
-                    android:textSize="@dimen/advanced_search_label_size" />
+                    android:layout_weight="0.85">
 
-                <CheckBox
-                    android:id="@+id/lost_to_follow_up"
+                    <com.vijay.jsonwizard.customviews.CheckBox
+                        android:id="@+id/active"
+                        style="@style/Material.Drawable.CheckBox.AdvancedSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true" />
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@id/active"
+                        android:gravity="center_vertical"
+                        android:text="@string/active"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="@dimen/advanced_search_label_size" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/inactive_layout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.3"
-                    android:backgroundTint="@color/white"
-                    android:buttonTint="@color/light_blue"
-                    android:text="@string/lost_to_follow_up"
-                    android:textAppearance="?android:textAppearanceSmall"
-                    android:textColor="@color/dark_grey"
-                    android:textSize="@dimen/advanced_search_label_size" />
+                    android:layout_weight="0.85">
+
+                    <com.vijay.jsonwizard.customviews.CheckBox
+                        android:id="@+id/inactive"
+                        style="@style/Material.Drawable.CheckBox.AdvancedSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true" />
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@id/inactive"
+                        android:gravity="center_vertical"
+                        android:text="@string/inactive"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="@dimen/advanced_search_label_size" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/lost_to_follow_up_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.3">
+
+                    <com.vijay.jsonwizard.customviews.CheckBox
+                        android:id="@+id/lost_to_follow_up"
+                        style="@style/Material.Drawable.CheckBox.AdvancedSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentLeft="true" />
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@id/lost_to_follow_up"
+                        android:gravity="center_vertical"
+                        android:text="@string/lost_to_follow_up"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="@dimen/advanced_search_label_size" />
+
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -162,6 +238,7 @@
                     android:hint="@string/first_name_hint"
                     android:imeOptions="actionNext"
                     android:inputType="text"
+                    android:paddingLeft="@dimen/advanced_search_label_padding"
                     android:textColor="@color/client_list_grey"
                     android:textColorHint="@color/light_grey"
                     android:textSize="@dimen/advanced_search_text_size"
@@ -184,6 +261,7 @@
                     android:hint="@string/last_name_hint"
                     android:imeOptions="actionNext"
                     android:inputType="text"
+                    android:paddingLeft="@dimen/advanced_search_label_padding"
                     android:textColor="@color/client_list_grey"
                     android:textColorHint="@color/light_grey"
                     android:textSize="@dimen/advanced_search_text_size"
@@ -206,6 +284,7 @@
                     android:hint="@string/mother_guardian_name_hint"
                     android:imeOptions="actionNext"
                     android:inputType="text"
+                    android:paddingLeft="@dimen/advanced_search_label_padding"
                     android:textColor="@color/client_list_grey"
                     android:textColorHint="@color/light_grey"
                     android:textSize="@dimen/advanced_search_text_size"
@@ -228,6 +307,7 @@
                     android:hint="@string/mother_guardian_nrc_hint"
                     android:imeOptions="actionNext"
                     android:inputType="text"
+                    android:paddingLeft="@dimen/advanced_search_label_padding"
                     android:textColor="@color/client_list_grey"
                     android:textColorHint="@color/light_grey"
                     android:textSize="@dimen/advanced_search_text_size"
@@ -250,6 +330,7 @@
                     android:hint="@string/mother_guardian_phone_number_hint"
                     android:imeOptions="actionNext"
                     android:inputType="text"
+                    android:paddingLeft="@dimen/advanced_search_label_padding"
                     android:textColor="@color/client_list_grey"
                     android:textColorHint="@color/light_grey"
                     android:textSize="@dimen/advanced_search_text_size"
@@ -346,7 +427,7 @@
             android:textAllCaps="false"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="@color/white"
-            android:textSize="22sp" />
+            android:textSize="28sp" />
     </LinearLayout>
 
 
