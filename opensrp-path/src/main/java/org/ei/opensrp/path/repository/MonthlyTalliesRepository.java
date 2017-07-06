@@ -69,6 +69,9 @@ public class MonthlyTalliesRepository extends BaseRepository {
     private static final String INDEX_DATE_SENT = "CREATE INDEX " + TABLE_NAME + "_" + COLUMN_DATE_SENT + "_index" +
             " ON " + TABLE_NAME + "(" + COLUMN_DATE_SENT + ");";
 
+    public static final String INDEX_UNIQUE = "CREATE UNIQUE INDEX " + TABLE_NAME + "_" + COLUMN_INDICATOR_ID + "_" + COLUMN_MONTH + "_index" +
+            " ON " + TABLE_NAME + "(" + COLUMN_INDICATOR_ID + "," + COLUMN_MONTH + ");";
+
     public MonthlyTalliesRepository(PathRepository pathRepository) {
         super(pathRepository);
     }
@@ -164,7 +167,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
 
             if (monthlyTallies.size() == 0) {// No tallies generated yet
                 Map<Long, List<DailyTally>> dailyTallies = VaccinatorApplication.getInstance()
-                        .dailyTalliesRepository().findTalliesInMonth(month);
+                        .dailyTalliesRepository().findTalliesInMonth(MONTH_FORMAT.parse(month));
                 for (List<DailyTally> curList : dailyTallies.values()) {
                     MonthlyTally curTally = addUpDailyTallies(curList);
                     if (curTally != null) {
@@ -242,8 +245,6 @@ public class MonthlyTalliesRepository extends BaseRepository {
         SQLiteDatabase database = getPathRepository().getWritableDatabase();
         try {
             if (tally != null) {
-                Long id = checkIfExists(tally.getIndicator().getId(), MONTH_FORMAT.format(tally.getMonth()));
-
                 ContentValues cv = new ContentValues();
                 cv.put(COLUMN_INDICATOR_ID, tally.getIndicator().getId());
                 cv.put(COLUMN_VALUE, tally.getValue());
@@ -252,14 +253,8 @@ public class MonthlyTalliesRepository extends BaseRepository {
                 cv.put(COLUMN_DATE_SENT,
                         tally.getDateSent() == null ? null : tally.getDateSent().getTime());
                 cv.put(COLUMN_EDITED, tally.isEdited() ? 1 : 0);
-
-                if (id != null) {
-                    database.update(TABLE_NAME, cv, COLUMN_ID + " = ?",
-                            new String[]{id.toString()});
-                } else {
-                    cv.put(COLUMN_CREATED_AT, Calendar.getInstance().getTimeInMillis());
-                    database.insert(TABLE_NAME, null, cv);
-                }
+                cv.put(COLUMN_CREATED_AT, Calendar.getInstance().getTimeInMillis());
+                database.insert(TABLE_NAME, null, cv);
 
                 return true;
             }
@@ -288,7 +283,6 @@ public class MonthlyTalliesRepository extends BaseRepository {
                 String userName = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
 
                 for (String key : draftFormValues.keySet()) {
-                    Long id = checkIfExists(Integer.valueOf(key), MONTH_FORMAT.format(month));
                     String value = draftFormValues.get(key);
                     ContentValues cv = new ContentValues();
                     cv.put(COLUMN_INDICATOR_ID, Integer.valueOf(key));
@@ -296,17 +290,9 @@ public class MonthlyTalliesRepository extends BaseRepository {
                     cv.put(COLUMN_MONTH, MONTH_FORMAT.format(month));
                     cv.put(COLUMN_EDITED, 1);
                     cv.put(COLUMN_PROVIDER_ID, userName);
-
-                    if (id != null) {
-                        database.update(TABLE_NAME, cv, COLUMN_ID + " = ?",
-                                new String[]{id.toString()});
-                    } else {
-                        cv.put(COLUMN_CREATED_AT, Calendar.getInstance().getTimeInMillis());
-                        database.insert(TABLE_NAME, null, cv);
-                    }
+                    cv.put(COLUMN_CREATED_AT, Calendar.getInstance().getTimeInMillis());
+                    database.insert(TABLE_NAME, null, cv);
                 }
-
-
             }
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
@@ -424,24 +410,6 @@ public class MonthlyTalliesRepository extends BaseRepository {
         }
 
         return tallies;
-    }
-
-    private Long checkIfExists(long indicatorId, String month) {
-        Cursor mCursor = null;
-        try {
-            String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME +
-                    " WHERE " + COLUMN_INDICATOR_ID + " = " + String.valueOf(indicatorId)
-                    + " and " + COLUMN_MONTH + " = '" + month + "'";
-            mCursor = getPathRepository().getWritableDatabase().rawQuery(query, null);
-            if (mCursor != null && mCursor.moveToFirst()) {
-                return mCursor.getLong(0);
-            }
-        } catch (Exception e) {
-            Log.e(TAG, e.toString(), e);
-        } finally {
-            if (mCursor != null) mCursor.close();
-        }
-        return null;
     }
 
 }

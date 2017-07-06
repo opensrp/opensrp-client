@@ -39,6 +39,9 @@ public class DraftMonthlyFragment extends Fragment {
     private Button startNewReportEnabled;
     private Button startNewReportDisabled;
     private AlertDialog alertDialog;
+    private DraftsAdapter draftsAdapter;
+    private ListView listView;
+    private TextView noDraftsText;
 
     public static DraftMonthlyFragment newInstance() {
         DraftMonthlyFragment fragment = new DraftMonthlyFragment();
@@ -53,11 +56,18 @@ public class DraftMonthlyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View fragmentview = inflater.inflate(R.layout.sent_monthly_fragment, container, false);
 
+        listView = (ListView) fragmentview.findViewById(R.id.list);
+        noDraftsText = (TextView) fragmentview.findViewById(R.id.empty_view);
         startNewReportEnabled = (Button) fragmentview.findViewById(R.id.start_new_report_enabled);
         startNewReportDisabled = (Button) fragmentview.findViewById(R.id.start_new_report_disabled);
-        setupSaveDraftReportsView(fragmentview);
 
         return fragmentview;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setupSaveDraftReportsView();
     }
 
     @Override
@@ -99,27 +109,21 @@ public class DraftMonthlyFragment extends Fragment {
     }
 
     private void updateStartNewReportButton(final List<Date> dates) {
-
         boolean hia2ReportsReady = dates != null && !dates.isEmpty();
-        ((HIA2ReportsActivity) getActivity()).refreshDraftMonthlyTitle();
 
         startNewReportEnabled.setVisibility(View.GONE);
         startNewReportDisabled.setVisibility(View.GONE);
 
         if (hia2ReportsReady) {
-
             startNewReportEnabled.setVisibility(View.VISIBLE);
             startNewReportEnabled.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     updateResults(dates, monthClickListener);
-
                 }
             });
 
         } else {
-
             startNewReportDisabled.setVisibility(View.VISIBLE);
             startNewReportDisabled.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -130,73 +134,36 @@ public class DraftMonthlyFragment extends Fragment {
         }
     }
 
-    private void setupSaveDraftReportsView(View inflatedView) {
-        final ListView listView = (ListView) inflatedView.findViewById(R.id.list);
-        final TextView noDraftsText = (TextView) inflatedView.findViewById(R.id.empty_view);
+    private void setupSaveDraftReportsView() {
+        ((HIA2ReportsActivity) getActivity()).refreshDraftMonthlyTitle();
 
         Utils.startAsyncTask(new HIA2ReportsActivity.FetchEditedMonthlyTalliesTask(new HIA2ReportsActivity.FetchEditedMonthlyTalliesTask.TaskListener() {
             @Override
             public void onPreExecute() {
-
             }
 
             @Override
             public void onPostExecute(List<MonthlyTally> monthlyTallies) {
-                if (monthlyTallies != null && !monthlyTallies.isEmpty()) {
-                    noDraftsText.setVisibility(View.GONE);
-                    updateDraftsReportListView(listView, monthlyTallies);
-                }
+                updateDraftsReportListView(monthlyTallies);
             }
         }), null);
-
-
     }
 
-    private void updateDraftsReportListView(final ListView listView, final List<MonthlyTally> list) {
-        final SimpleDateFormat df = new SimpleDateFormat("MMM yyyy");
-        BaseAdapter baseAdapter = new BaseAdapter() {
-            @Override
-            public int getCount() {
-                return list.size();
+    private void updateDraftsReportListView(final List<MonthlyTally> monthlyTallies) {
+        if (monthlyTallies != null && !monthlyTallies.isEmpty()) {
+            noDraftsText.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+            if (draftsAdapter == null) {
+                draftsAdapter = new DraftsAdapter(monthlyTallies);
+                listView.setAdapter(draftsAdapter);
+            } else {
+                draftsAdapter.setList(monthlyTallies);
+                draftsAdapter.notifyDataSetChanged();
             }
-
-            @Override
-            public Object getItem(int position) {
-                return list.get(position);
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return position;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                if (convertView == null) {
-                    LayoutInflater inflater = (LayoutInflater)
-                            getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-
-                    convertView = inflater.inflate(R.layout.month_draft_item, null);
-                }
-
-                TextView tv = (TextView) convertView.findViewById(R.id.tv);
-                TextView startedAt = (TextView) convertView.findViewById(R.id.month_draft_started_at);
-                MonthlyTally date = list.get(position);
-                String text = df.format(date.getMonth());
-                String startedat = MonthlyTalliesRepository.dfddmmyy.format(date.getCreatedAt());
-                String started = getActivity().getString(R.string.started);
-                tv.setText(text);
-                tv.setTag(text);
-                startedAt.setText(started + " " + startedat);
-
-                convertView.setOnClickListener(monthDraftsClickListener);
-                convertView.setTag(date.getMonth());
-
-                return convertView;
-            }
-        };
-        listView.setVisibility(View.VISIBLE);
-        listView.setAdapter(baseAdapter);
+        } else {
+            noDraftsText.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.GONE);
+        }
     }
 
     private void updateResults(final List<Date> list, final View.OnClickListener clickListener) {
@@ -280,9 +247,6 @@ public class DraftMonthlyFragment extends Fragment {
     View.OnClickListener monthDraftsClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
-            //alertDialog.dismiss();
-
             Object tag = v.getTag();
             if (tag != null && tag instanceof Date) {
                 startMonthlyReportForm((Date) tag);
@@ -310,6 +274,59 @@ public class DraftMonthlyFragment extends Fragment {
 
     protected void startMonthlyReportForm(Date date) {
         ((HIA2ReportsActivity) getActivity()).startMonthlyReportForm("hia2_monthly_report", date);
+    }
+
+    private class DraftsAdapter extends BaseAdapter {
+        private List<MonthlyTally> list;
+
+        public DraftsAdapter(List<MonthlyTally> list) {
+            this.list = list;
+        }
+
+        public void setList(List<MonthlyTally> list) {
+            this.list = list;
+        }
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return list.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            SimpleDateFormat df = new SimpleDateFormat("MMM yyyy");
+            if (convertView == null) {
+                LayoutInflater inflater = (LayoutInflater)
+                        getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
+                convertView = inflater.inflate(R.layout.month_draft_item, null);
+            }
+
+            TextView tv = (TextView) convertView.findViewById(R.id.tv);
+            TextView startedAt = (TextView) convertView.findViewById(R.id.month_draft_started_at);
+            MonthlyTally date = list.get(position);
+            String text = df.format(date.getMonth());
+            String startedat = MonthlyTalliesRepository.dfddmmyy.format(date.getCreatedAt());
+            String started = getActivity().getString(R.string.started);
+            tv.setText(text);
+            tv.setTag(text);
+            startedAt.setText(started + " " + startedat);
+
+            convertView.setOnClickListener(monthDraftsClickListener);
+            convertView.setTag(date.getMonth());
+
+            return convertView;
+        }
     }
 }
 

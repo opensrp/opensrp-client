@@ -186,8 +186,10 @@ public class HIA2ReportsActivity extends BaseActivity {
             Fragment currentFragment = currentFragment();
 
             if (currentFragment instanceof DraftMonthlyFragment) {
-                MonthlyTalliesRepository monthlyTalliesRepository = VaccinatorApplication.getInstance().monthlyTalliesRepository();
-                List<MonthlyTally> monthlyTallies = monthlyTalliesRepository.findDrafts(MonthlyTalliesRepository.MONTH_FORMAT.format(date));
+                MonthlyTalliesRepository monthlyTalliesRepository = VaccinatorApplication
+                        .getInstance().monthlyTalliesRepository();
+                List<MonthlyTally> monthlyTallies = monthlyTalliesRepository
+                        .findDrafts(MonthlyTalliesRepository.MONTH_FORMAT.format(date));
 
                 HIA2IndicatorsRepository hIA2IndicatorsRepository = VaccinatorApplication.getInstance().hIA2IndicatorsRepository();
                 List<Hia2Indicator> hia2Indicators = hIA2IndicatorsRepository.fetchAll();
@@ -211,11 +213,15 @@ public class HIA2ReportsActivity extends BaseActivity {
                     if (hia2Indicator.getLabel() == null) {
                         hia2Indicator.setLabel("");
                     }
-                    String label = hia2Indicator.getLabel();
+                    String label = hia2Indicator.getLabel() + " *";
+                    JSONObject vRequired = new JSONObject();
+                    vRequired.put("value", "true");
+                    vRequired.put("err", "Specify: "+hia2Indicator.getLabel());
                     jsonObject.put("key", hia2Indicator.getId());
                     jsonObject.put("type", "edit_text");
                     jsonObject.put("hint", label);
                     jsonObject.put("value", retrieveValue(monthlyTallies, hia2Indicator));
+                    jsonObject.put("v_required", vRequired);
                     jsonObject.put("openmrs_entity_parent", "");
                     jsonObject.put("openmrs_entity", "");
                     jsonObject.put("openmrs_entity_id", "");
@@ -256,7 +262,6 @@ public class HIA2ReportsActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_GET_JSON) {
             if (resultCode == RESULT_OK) {
-
                 try {
                     showFragment = true;
                     String jsonString = data.getStringExtra("json");

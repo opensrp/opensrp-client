@@ -163,15 +163,35 @@ public class DailyTalliesRepository extends BaseRepository {
         return new ArrayList<>();
     }
 
-    public Map<Long, List<DailyTally>> findTalliesInMonth(String monthString) {
+    public Map<Long, List<DailyTally>> findTalliesInMonth(Date month) {
         Map<Long, List<DailyTally>> talliesFromMonth = new HashMap<>();
         Cursor cursor = null;
         try {
             HashMap<Long, Hia2Indicator> indicatorMap = VaccinatorApplication.getInstance()
                     .hIA2IndicatorsRepository().findAll();
 
+            Calendar startDate = Calendar.getInstance();
+            startDate.setTime(month);
+            startDate.set(Calendar.DAY_OF_MONTH, 1);
+            startDate.set(Calendar.HOUR_OF_DAY, 0);
+            startDate.set(Calendar.MINUTE, 0);
+            startDate.set(Calendar.SECOND, 0);
+            startDate.set(Calendar.MILLISECOND, 0);
+
+            Calendar endDate = Calendar.getInstance();
+            endDate.setTime(month);
+            endDate.add(Calendar.MONTH, 1);
+            endDate.set(Calendar.DAY_OF_MONTH, 1);
+            endDate.set(Calendar.HOUR_OF_DAY, 23);
+            endDate.set(Calendar.MINUTE, 59);
+            endDate.set(Calendar.SECOND, 59);
+            endDate.set(Calendar.MILLISECOND, 999);
+            endDate.add(Calendar.DATE, -1);
+
+
             cursor = getPathRepository().getReadableDatabase().query(TABLE_NAME, TABLE_COLUMNS,
-                    "strftime('%Y-%m', " + COLUMN_DAY + ") = '" + monthString+ "'",
+                    COLUMN_DAY + " >= " + startDate.getTimeInMillis() +
+                            " AND " + COLUMN_DAY + " <= " + endDate.getTimeInMillis(),
                     null, null, null, null, null);
             if (cursor != null && cursor.getCount() > 0) {
                 for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
