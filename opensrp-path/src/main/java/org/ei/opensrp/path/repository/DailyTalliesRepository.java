@@ -140,15 +140,14 @@ public class DailyTalliesRepository extends BaseRepository {
             cursor = getPathRepository().getReadableDatabase().query(true, TABLE_NAME,
                     new String[]{COLUMN_DAY},
                     selectionArgs, null, null, null, null, null);
-            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+            if (cursor != null && cursor.getCount() > 0) {
                 List<String> months = new ArrayList<>();
-                while (!cursor.isAfterLast()) {
+                for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                     Date curMonth = new Date(cursor.getLong(0));
                     String month = dateFormat.format(curMonth);
                     if (!months.contains(month)) {
                         months.add(month);
                     }
-                    cursor.moveToNext();
                 }
 
                 return months;
@@ -174,8 +173,8 @@ public class DailyTalliesRepository extends BaseRepository {
             cursor = getPathRepository().getReadableDatabase().query(TABLE_NAME, TABLE_COLUMNS,
                     "strftime('%Y-%m', " + COLUMN_DAY + ") = '" + monthString+ "'",
                     null, null, null, null, null);
-            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
-                while (!cursor.isAfterLast()) {
+            if (cursor != null && cursor.getCount() > 0) {
+                for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                     DailyTally curTally = extractDailyTally(indicatorMap, cursor);
                     if (curTally != null) {
                         if (!talliesFromMonth.containsKey(curTally.getIndicator().getId())) {
@@ -186,7 +185,6 @@ public class DailyTalliesRepository extends BaseRepository {
 
                         talliesFromMonth.get(curTally.getIndicator().getId()).add(curTally);
                     }
-                    cursor.moveToNext();
                 }
             }
         } catch (Exception e) {
@@ -224,8 +222,8 @@ public class DailyTalliesRepository extends BaseRepository {
                             COLUMN_DAY + " >= " + minDate.getTime() + " AND " +
                             COLUMN_DAY + " <= " + maxDate.getTime(),
                             null, null, null, COLUMN_DAY+" DESC", null);
-            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
-                while (!cursor.isAfterLast()) {
+            if (cursor != null && cursor.getCount() > 0) {
+                for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                     DailyTally curTally = extractDailyTally(indicatorMap, cursor);
                     if (curTally != null) {
                         if (!tallies.containsKey(dateFormat.format(curTally.getDay()))) {
@@ -235,7 +233,6 @@ public class DailyTalliesRepository extends BaseRepository {
 
                         tallies.get(dateFormat.format(curTally.getDay())).add(curTally);
                     }
-                    cursor.moveToNext();
                 }
             }
         } catch (Exception e) {
@@ -254,14 +251,12 @@ public class DailyTalliesRepository extends BaseRepository {
         try {
             HashMap<Long, Hia2Indicator> indicatorMap = VaccinatorApplication.getInstance()
                     .hIA2IndicatorsRepository().findAll();
-            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
-                while (!cursor.isAfterLast()) {
+            if (cursor != null && cursor.getCount() > 0) {
+                for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                     DailyTally curTally = extractDailyTally(indicatorMap, cursor);
                     if (curTally != null) {
                         tallies.add(curTally);
                     }
-
-                    cursor.moveToNext();
                 }
             }
         } catch (Exception e) {

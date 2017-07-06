@@ -36,7 +36,6 @@ import util.Utils;
  * Created by coder on 6/7/17.
  */
 public class DraftMonthlyFragment extends Fragment {
-    private static final int MONTH_SUGGESTION_LIMIT = 3;
     private Button startNewReportEnabled;
     private Button startNewReportDisabled;
     private AlertDialog alertDialog;
@@ -77,7 +76,7 @@ public class DraftMonthlyFragment extends Fragment {
                     startDate.set(Calendar.MINUTE, 0);
                     startDate.set(Calendar.SECOND, 0);
                     startDate.set(Calendar.MILLISECOND, 0);
-                    startDate.add(Calendar.MONTH, -1 * MONTH_SUGGESTION_LIMIT);
+                    startDate.add(Calendar.MONTH, -1 * HIA2ReportsActivity.MONTH_SUGGESTION_LIMIT);
 
                     Calendar endDate = Calendar.getInstance();
                     endDate.set(Calendar.DAY_OF_MONTH, 1);// Set date to first day of this month
@@ -102,7 +101,7 @@ public class DraftMonthlyFragment extends Fragment {
     private void updateStartNewReportButton(final List<Date> dates) {
 
         boolean hia2ReportsReady = dates != null && !dates.isEmpty();
-        refreshDraftMonthyTitle(dates == null ? 0 : dates.size());
+        ((HIA2ReportsActivity) getActivity()).refreshDraftMonthlyTitle();
 
         startNewReportEnabled.setVisibility(View.GONE);
         startNewReportDisabled.setVisibility(View.GONE);
@@ -134,23 +133,21 @@ public class DraftMonthlyFragment extends Fragment {
     private void setupSaveDraftReportsView(View inflatedView) {
         final ListView listView = (ListView) inflatedView.findViewById(R.id.list);
         final TextView noDraftsText = (TextView) inflatedView.findViewById(R.id.empty_view);
-        //hide empty_view
-        Utils.startAsyncTask(new AsyncTask<Void, Void, List<MonthlyTally>>() {
+
+        Utils.startAsyncTask(new HIA2ReportsActivity.FetchEditedMonthlyTalliesTask(new HIA2ReportsActivity.FetchEditedMonthlyTalliesTask.TaskListener() {
             @Override
-            protected List<MonthlyTally> doInBackground(Void... params) {
-                MonthlyTalliesRepository monthlyTalliesRepository = VaccinatorApplication.getInstance().monthlyTalliesRepository();
-                List<MonthlyTally> tallies = monthlyTalliesRepository.findAllEditedUnsentMonths();
-                return tallies;
+            public void onPreExecute() {
+
             }
 
             @Override
-            protected void onPostExecute(List<MonthlyTally> dates) {
-                if (!dates.isEmpty()) {
+            public void onPostExecute(List<MonthlyTally> monthlyTallies) {
+                if (monthlyTallies != null && !monthlyTallies.isEmpty()) {
                     noDraftsText.setVisibility(View.GONE);
-                    updateDraftsReportListView(listView, dates);
+                    updateDraftsReportListView(listView, monthlyTallies);
                 }
             }
-        }, null);
+        }), null);
 
 
     }
@@ -313,11 +310,6 @@ public class DraftMonthlyFragment extends Fragment {
 
     protected void startMonthlyReportForm(Date date) {
         ((HIA2ReportsActivity) getActivity()).startMonthlyReportForm("hia2_monthly_report", date);
-    }
-
-    private void refreshDraftMonthyTitle(int count) {
-        ((HIA2ReportsActivity) getActivity()).refreshDraftMonthlyTitle(count);
-
     }
 }
 

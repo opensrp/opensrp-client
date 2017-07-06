@@ -113,11 +113,10 @@ public class MonthlyTalliesRepository extends BaseRepository {
                         " AND " + COLUMN_MONTH + " IN(" + monthsString + ")";
                 cursor = getPathRepository().getReadableDatabase().rawQuery(query, null);
 
-                if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
-                    while (!cursor.isAfterLast()) {
+                if (cursor != null && cursor.getCount() > 0) {
+                    for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                         String curMonth = cursor.getString(cursor.getColumnIndex(COLUMN_MONTH));
                         allTallyMonths.remove(curMonth);
-                        cursor.moveToNext();
                     }
                 }
 
@@ -144,55 +143,6 @@ public class MonthlyTalliesRepository extends BaseRepository {
         }
 
         return new ArrayList<>();
-    }
-
-    /**
-     * Returns a list of dates for monthly reports that have been edited, but not sent
-     *
-     * @param startDate The earliest date for the monthly reports. Set argument to null if you
-     *                  don't want this enforced
-     * @param endDate   The latest date for the monthly reports. Set argument to null if you
-     *                  don't want this enforced
-     * @return The list of monthly reports that have been edited, but not sent
-     */
-    public List<Date> findAllDraftEditedMonths(Date startDate, Date endDate) {
-        Cursor cursor = null;
-        List<Date> unsentMonths = new ArrayList<>();
-        try {
-            String query = "SELECT " + COLUMN_MONTH +
-                    " FROM " + TABLE_NAME +
-                    " WHERE " + COLUMN_DATE_SENT + " IS NULL";
-            cursor = getPathRepository().getReadableDatabase().rawQuery(query, null);
-
-            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
-                List<String> dateStrings = new ArrayList<>();
-                while (!cursor.isAfterLast()) {
-                    String curMonthString = cursor.getString(cursor.getColumnIndex(COLUMN_MONTH));
-                    if (!dateStrings.contains(curMonthString)) {
-                        dateStrings.add(curMonthString);
-                        Date curMonth = MONTH_FORMAT.parse(curMonthString);
-                        if (startDate != null && curMonth.getTime() < startDate.getTime()) {
-                            cursor.moveToNext();
-                            continue;
-                        }
-                        if (endDate != null && curMonth.getTime() > endDate.getTime()) {
-                            cursor.moveToNext();
-                            continue;
-                        }
-                        unsentMonths.add(curMonth);
-                    }
-                    cursor.moveToNext();
-                }
-            }
-        } catch (Exception e) {
-            Log.e(TAG, Log.getStackTraceString(e));
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-
-        return unsentMonths;
     }
 
     /**
@@ -264,8 +214,8 @@ public class MonthlyTalliesRepository extends BaseRepository {
             cursor = getPathRepository().getReadableDatabase()
                     .query(TABLE_NAME, TABLE_COLUMNS,
                             COLUMN_DATE_SENT + " IS NOT NULL", null, null, null, null, null);
-            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
-                while (!cursor.isAfterLast()) {
+            if (cursor != null && cursor.getCount() > 0) {
+                for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                     MonthlyTally curTally = extractMonthlyTally(indicatorMap, cursor);
                     if (curTally != null) {
                         if (!tallies.containsKey(dateFormat.format(curTally.getMonth()))) {
@@ -275,7 +225,6 @@ public class MonthlyTalliesRepository extends BaseRepository {
 
                         tallies.get(dateFormat.format(curTally.getMonth())).add(curTally);
                     }
-                    cursor.moveToNext();
                 }
             }
         } catch (Exception e) {
@@ -377,13 +326,11 @@ public class MonthlyTalliesRepository extends BaseRepository {
 
         try {
             if (cursor != null && cursor.getCount() > 0) {
-                while (cursor.moveToNext()) {
+                for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                     MonthlyTally curTally = extractMonthlyTally(indicatorMap, cursor);
                     if (curTally != null) {
                         tallies.add(curTally);
                     }
-
-                    cursor.moveToNext();
                 }
             }
         } catch (Exception e) {
@@ -426,33 +373,48 @@ public class MonthlyTalliesRepository extends BaseRepository {
     }
 
     /**
-     * @return
+     * Returns a list of dates for monthly reports that have been edited, but not sent
+     *
+     * @param startDate The earliest date for the monthly reports. Set argument to null if you
+     *                  don't want this enforced
+     * @param endDate   The latest date for the monthly reports. Set argument to null if you
+     *                  don't want this enforced
+     * @return The list of monthly reports that have been edited, but not sent
      */
-    public List<MonthlyTally> findAllEditedUnsentMonths() {
+    public List<MonthlyTally> findAllEditedUnsentMonths(Date startDate, Date endDate) {
         Cursor cursor = null;
         List<MonthlyTally> tallies = new ArrayList<>();
 
         try {
-
-            String query = "SELECT DISTINCT " + COLUMN_MONTH + "," + COLUMN_CREATED_AT +
+            String query = "SELECT " + COLUMN_MONTH + "," + COLUMN_CREATED_AT +
                     " FROM " + TABLE_NAME +
-                    " WHERE " + COLUMN_DATE_SENT + " IS NULL" + " AND " + COLUMN_EDITED + " =1 " +
+                    " WHERE " + COLUMN_DATE_SENT + " IS NULL" + " AND " + COLUMN_EDITED + " = 1 " +
                     " GROUP BY  " + COLUMN_MONTH;
             cursor = getPathRepository().getReadableDatabase().rawQuery(query, null);
 
             if (cursor != null && cursor.getCount() > 0) {
-                while (cursor.moveToNext()) {
+                for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                     String curMonth = cursor.getString(cursor.getColumnIndex(COLUMN_MONTH));
+                    Date month = MONTH_FORMAT.parse(curMonth);
+
+                    if (startDate != null) {
+                        if (month.getTime() < startDate.getTime()) {
+                            continue;
+                        }
+                    }
+                    if (endDate != null) {
+                        if (month.getTime() > endDate.getTime()) {
+                            continue;
+                        }
+                    }
+
                     Long dateStarted = cursor.getLong(cursor.getColumnIndex(COLUMN_CREATED_AT));
-
-                        MonthlyTally tally = new MonthlyTally();
-                        tally.setMonth(MONTH_FORMAT.parse(curMonth));
-                        tally.setCreatedAt(new Date(dateStarted));
-                        tallies.add(tally);
+                    MonthlyTally tally = new MonthlyTally();
+                    tally.setMonth(month);
+                    tally.setCreatedAt(new Date(dateStarted));
+                    tallies.add(tally);
                 }
-
             }
-
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
         } finally {

@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 
@@ -52,6 +51,7 @@ import util.Utils;
 public class HIA2ReportsActivity extends BaseActivity {
     private static String TAG = HIA2ReportsActivity.class.getCanonicalName();
     private static final int REQUEST_CODE_GET_JSON = 3432;
+    public static final int MONTH_SUGGESTION_LIMIT = 3;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -103,28 +103,7 @@ public class HIA2ReportsActivity extends BaseActivity {
         });
 
         // Update Draft Monthly Title
-        Utils.startAsyncTask(new AsyncTask<Void, Void, List<Date>>() {
-            @Override
-            protected List<Date> doInBackground(Void... params) {
-                MonthlyTalliesRepository monthlyTalliesRepository = VaccinatorApplication
-                        .getInstance().monthlyTalliesRepository();
-                Calendar lastMonth = Calendar.getInstance();
-                lastMonth.set(Calendar.DAY_OF_MONTH, 1);// Set date to first day of this month
-                lastMonth.set(Calendar.HOUR_OF_DAY, 23);
-                lastMonth.set(Calendar.MINUTE, 59);
-                lastMonth.set(Calendar.SECOND, 59);
-                lastMonth.set(Calendar.MILLISECOND, 999);
-                lastMonth.add(Calendar.DATE, -1);// Move the date to last day of last month
-
-                return monthlyTalliesRepository.findAllDraftEditedMonths(null, lastMonth.getTime());
-            }
-
-            @Override
-            protected void onPostExecute(List<Date> dates) {
-                super.onPostExecute(dates);
-                refreshDraftMonthlyTitle(dates == null ? 0 : dates.size());
-            }
-        }, null);
+        refreshDraftMonthlyTitle();
     }
 
     @Override
@@ -337,19 +316,31 @@ public class HIA2ReportsActivity extends BaseActivity {
         return null;
     }
 
-    public void refreshDraftMonthlyTitle(final int count) {
-        tabLayout.post(new Runnable() {
+    public void refreshDraftMonthlyTitle() {
+        Utils.startAsyncTask(new FetchEditedMonthlyTalliesTask(new FetchEditedMonthlyTalliesTask.TaskListener() {
             @Override
-            public void run() {
-                for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-                    TabLayout.Tab tab = tabLayout.getTabAt(i);
-                    if (tab != null && tab.getText() != null && tab.getText().toString().contains(getString(R.string.hia2_draft_monthly))) {
-                        tab.setText(String.format(getString(R.string.hia2_draft_monthly_with_count), count));
-                    }
-                }
-            }
-        });
+            public void onPreExecute() {
 
+            }
+
+            @Override
+            public void onPostExecute(final List<MonthlyTally> monthlyTallies) {
+                tabLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+                            TabLayout.Tab tab = tabLayout.getTabAt(i);
+                            if (tab != null && tab.getText() != null && tab.getText().toString()
+                                    .contains(getString(R.string.hia2_draft_monthly))) {
+                                tab.setText(String.format(
+                                        getString(R.string.hia2_draft_monthly_with_count),
+                                        monthlyTallies == null ? 0 : monthlyTallies.size()));
+                            }
+                        }
+                    }
+                });
+            }
+        }), null);
     }
 
     private String retrieveValue(List<MonthlyTally> monthlyTallies, Hia2Indicator hia2Indicator) {
@@ -365,5 +356,46 @@ public class HIA2ReportsActivity extends BaseActivity {
             }
         }
         return "";
+    }
+
+    public static class FetchEditedMonthlyTalliesTask extends AsyncTask<Void, Void, List<MonthlyTally>> {
+        private final TaskListener taskListener;
+
+        public FetchEditedMonthlyTalliesTask(TaskListener taskListener) {
+            this.taskListener = taskListener;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            taskListener.onPreExecute();
+        }
+
+        @Override
+        protected List<MonthlyTally> doInBackground(Void... params) {
+            MonthlyTalliesRepository monthlyTalliesRepository = VaccinatorApplication
+                    .getInstance().monthlyTalliesRepository();
+            Calendar endDate = Calendar.getInstance();
+            endDate.set(Calendar.DAY_OF_MONTH, 1);// Set date to first day of this month
+            endDate.set(Calendar.HOUR_OF_DAY, 23);
+            endDate.set(Calendar.MINUTE, 59);
+            endDate.set(Calendar.SECOND, 59);
+            endDate.set(Calendar.MILLISECOND, 999);
+            endDate.add(Calendar.DATE, -1);// Move the date to last day of last month
+
+            return monthlyTalliesRepository.findAllEditedUnsentMonths(null, endDate.getTime());
+        }
+
+        @Override
+        protected void onPostExecute(List<MonthlyTally> monthlyTallies) {
+            super.onPostExecute(monthlyTallies);
+            taskListener.onPostExecute(monthlyTallies);
+        }
+
+        public static interface TaskListener {
+            void onPreExecute();
+
+            void onPostExecute(List<MonthlyTally> monthlyTallies);
+        }
     }
 }

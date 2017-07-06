@@ -40,7 +40,6 @@ import util.Utils;
  */
 public class DailyTalliesFragment extends Fragment {
     private static final String TAG = DailyTalliesFragment.class.getCanonicalName();
-    private static final int MONTH_SUGGESTION_LIMIT = 3;
     private static final SimpleDateFormat DAY_FORMAT = new SimpleDateFormat("dd MMMM yyyy");
     private ExpandableListView expandableListView;
     private HashMap<String, ArrayList<DailyTally>> dailyTallies;
@@ -196,10 +195,15 @@ public class DailyTalliesFragment extends Fragment {
 
         @Override
         protected HashMap<String, ArrayList<DailyTally>> doInBackground(Void... params) {
-            Calendar minDate = Calendar.getInstance();
-            minDate.add(Calendar.MONTH, -1 * MONTH_SUGGESTION_LIMIT);
+            Calendar startDate = Calendar.getInstance();
+            startDate.set(Calendar.DAY_OF_MONTH, 1);
+            startDate.set(Calendar.HOUR_OF_DAY, 0);
+            startDate.set(Calendar.MINUTE, 0);
+            startDate.set(Calendar.SECOND, 0);
+            startDate.set(Calendar.MILLISECOND, 0);
+            startDate.add(Calendar.MONTH, -1 * HIA2ReportsActivity.MONTH_SUGGESTION_LIMIT);
             return VaccinatorApplication.getInstance().dailyTalliesRepository()
-                    .findAll(DAY_FORMAT, minDate.getTime(), Calendar.getInstance().getTime());
+                    .findAll(DAY_FORMAT, startDate.getTime(), Calendar.getInstance().getTime());
         }
 
         @Override
