@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 
@@ -36,6 +37,7 @@ import org.ei.opensrp.util.FormUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -100,48 +102,41 @@ public class HIA2ReportsActivity extends BaseActivity {
             }
         });
 
-//        syncProgressBar = (ProgressBar) findViewById(R.id.sync_progress_bar);
-//        Circle circle = new Circle();
-//        syncProgressBar.setIndeterminateDrawable(circle);
-//        refreshSyncStatusViews();
-
-        //Update Draft Monthly Title
+        // Update Draft Monthly Title
         Utils.startAsyncTask(new AsyncTask<Void, Void, List<Date>>() {
             @Override
             protected List<Date> doInBackground(Void... params) {
-                MonthlyTalliesRepository monthlyTalliesRepository = VaccinatorApplication.getInstance().monthlyTalliesRepository();
-                return monthlyTalliesRepository.findAllUnsentMonths();
+                MonthlyTalliesRepository monthlyTalliesRepository = VaccinatorApplication
+                        .getInstance().monthlyTalliesRepository();
+                Calendar lastMonth = Calendar.getInstance();
+                lastMonth.set(Calendar.DAY_OF_MONTH, 1);// Set date to first day of this month
+                lastMonth.set(Calendar.HOUR_OF_DAY, 23);
+                lastMonth.set(Calendar.MINUTE, 59);
+                lastMonth.set(Calendar.SECOND, 59);
+                lastMonth.set(Calendar.MILLISECOND, 999);
+                lastMonth.add(Calendar.DATE, -1);// Move the date to last day of last month
+
+                return monthlyTalliesRepository.findAllDraftEditedMonths(null, lastMonth.getTime());
             }
 
             @Override
             protected void onPostExecute(List<Date> dates) {
+                super.onPostExecute(dates);
                 refreshDraftMonthlyTitle(dates == null ? 0 : dates.size());
             }
         }, null);
     }
 
-//    private void refreshSyncStatusViews() {
-//        TextView initialsTV = (TextView) findViewById(R.id.name_inits);
-//        if (SyncStatusBroadcastReceiver.getInstance().isSyncing()) {
-//            syncProgressBar.setVisibility(View.VISIBLE);
-//            initialsTV.setVisibility(View.GONE);
-//        } else {
-//            initialsTV.setVisibility(View.VISIBLE);
-//            syncProgressBar.setVisibility(View.GONE);
-//        }
-//    }
-
     @Override
     public void onSyncStart() {
         super.onSyncStart();
-        // refreshSyncStatusViews();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        //this should go to the base class?
+        // TODO: This should go to the base class?
         LinearLayout hia2 = (LinearLayout) drawer.findViewById(R.id.hia2reports);
         hia2.setBackgroundColor(getResources().getColor(R.color.tintcolor));
     }
@@ -149,7 +144,6 @@ public class HIA2ReportsActivity extends BaseActivity {
     @Override
     public void onSyncComplete(FetchStatus fetchStatus) {
         super.onSyncComplete(fetchStatus);
-        //refreshSyncStatusViews();
     }
 
     /**
@@ -227,14 +221,11 @@ public class HIA2ReportsActivity extends BaseActivity {
                 String title = MonthlyTalliesRepository.MONTH_FORMAT.format(date).concat(" Draft");
                 step1.put("title", title);
 
-//                JSONArray fields1 = new JSONArray();
-//                JSONArray fields2 = new JSONArray();
-//                JSONArray fields3 = new JSONArray();
-
                 JSONArray sections = step1.getJSONArray(JsonFormConstants.SECTIONS);
 
                 String indicatorCategory = "";
-                //this map holds each category as key and all the fields for that category as the value (jsonarray)
+                // This map holds each category as key and all the fields for that category as the
+                // value (jsonarray)
                 LinkedHashMap<String, JSONArray> fieldsMap = new LinkedHashMap<>();
                 for (Hia2Indicator hia2Indicator : hia2Indicators) {
                     JSONObject jsonObject = new JSONObject();
@@ -260,7 +251,7 @@ public class HIA2ReportsActivity extends BaseActivity {
                     fieldsMap.put(indicatorCategory, fields);
 
                 }
-                //build sections in the form based on categories, each key is a category
+                // Build sections in the form based on categories, each key is a category
                 for (String key : fieldsMap.keySet()) {
                     JSONObject section = new JSONObject();
                     section.put(JsonFormConstants.NAME, key);
@@ -308,11 +299,10 @@ public class HIA2ReportsActivity extends BaseActivity {
         if (showFragment) {
             //showDialog("");
         }
-        showFragment=false;
+        showFragment = false;
     }
 
     void showDialog(String date) {
-
         // DialogFragment.show() will take care of adding the fragment
         // in a transaction.  We also want to remove any currently showing
         // dialog, so make our own transaction and take care of that here.
@@ -376,5 +366,4 @@ public class HIA2ReportsActivity extends BaseActivity {
         }
         return "";
     }
-
 }

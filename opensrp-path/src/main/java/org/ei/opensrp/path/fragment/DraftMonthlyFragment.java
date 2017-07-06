@@ -26,6 +26,7 @@ import org.ei.opensrp.view.customControls.CustomFontTextView;
 import org.ei.opensrp.view.customControls.FontVariant;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +36,7 @@ import util.Utils;
  * Created by coder on 6/7/17.
  */
 public class DraftMonthlyFragment extends Fragment {
-
+    private static final int MONTH_SUGGESTION_LIMIT = 3;
     private Button startNewReportEnabled;
     private Button startNewReportDisabled;
     private AlertDialog alertDialog;
@@ -68,8 +69,26 @@ public class DraftMonthlyFragment extends Fragment {
             Utils.startAsyncTask(new AsyncTask<Void, Void, List<Date>>() {
                 @Override
                 protected List<Date> doInBackground(Void... params) {
-                    MonthlyTalliesRepository monthlyTalliesRepository = VaccinatorApplication.getInstance().monthlyTalliesRepository();
-                    return monthlyTalliesRepository.findAllUnsentMonths();
+                    MonthlyTalliesRepository monthlyTalliesRepository = VaccinatorApplication
+                            .getInstance().monthlyTalliesRepository();
+                    Calendar startDate = Calendar.getInstance();
+                    startDate.set(Calendar.DAY_OF_MONTH, 1);
+                    startDate.set(Calendar.HOUR_OF_DAY, 0);
+                    startDate.set(Calendar.MINUTE, 0);
+                    startDate.set(Calendar.SECOND, 0);
+                    startDate.set(Calendar.MILLISECOND, 0);
+                    startDate.add(Calendar.MONTH, -1 * MONTH_SUGGESTION_LIMIT);
+
+                    Calendar endDate = Calendar.getInstance();
+                    endDate.set(Calendar.DAY_OF_MONTH, 1);// Set date to first day of this month
+                    endDate.set(Calendar.HOUR_OF_DAY, 23);
+                    endDate.set(Calendar.MINUTE, 59);
+                    endDate.set(Calendar.SECOND, 59);
+                    endDate.set(Calendar.MILLISECOND, 999);
+                    endDate.add(Calendar.DATE, -1);// Move the date to last day of last month
+
+                    return monthlyTalliesRepository.findAllUnsentMonths(startDate.getTime(),
+                            endDate.getTime());
                 }
 
                 @Override
@@ -113,8 +132,8 @@ public class DraftMonthlyFragment extends Fragment {
     }
 
     private void setupSaveDraftReportsView(View inflatedView) {
-       final ListView listView = (ListView) inflatedView.findViewById(R.id.list);
-       final TextView noDraftsText = (TextView) inflatedView.findViewById(R.id.empty_view);
+        final ListView listView = (ListView) inflatedView.findViewById(R.id.list);
+        final TextView noDraftsText = (TextView) inflatedView.findViewById(R.id.empty_view);
         //hide empty_view
         Utils.startAsyncTask(new AsyncTask<Void, Void, List<MonthlyTally>>() {
             @Override
@@ -126,7 +145,7 @@ public class DraftMonthlyFragment extends Fragment {
 
             @Override
             protected void onPostExecute(List<MonthlyTally> dates) {
-                if(!dates.isEmpty()) {
+                if (!dates.isEmpty()) {
                     noDraftsText.setVisibility(View.GONE);
                     updateDraftsReportListView(listView, dates);
                 }
@@ -135,8 +154,9 @@ public class DraftMonthlyFragment extends Fragment {
 
 
     }
-    private void updateDraftsReportListView(final ListView listView, final List<MonthlyTally> list){
-        final SimpleDateFormat df= new SimpleDateFormat("MMM yyyy");
+
+    private void updateDraftsReportListView(final ListView listView, final List<MonthlyTally> list) {
+        final SimpleDateFormat df = new SimpleDateFormat("MMM yyyy");
         BaseAdapter baseAdapter = new BaseAdapter() {
             @Override
             public int getCount() {
@@ -170,7 +190,7 @@ public class DraftMonthlyFragment extends Fragment {
                 String started = getActivity().getString(R.string.started);
                 tv.setText(text);
                 tv.setTag(text);
-                startedAt.setText(started+" "+startedat);
+                startedAt.setText(started + " " + startedat);
 
                 convertView.setOnClickListener(monthDraftsClickListener);
                 convertView.setTag(date.getMonth());

@@ -22,6 +22,7 @@ import org.ei.opensrp.path.domain.MonthlyTally;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -39,6 +40,7 @@ import util.Utils;
  */
 public class DailyTalliesFragment extends Fragment {
     private static final String TAG = DailyTalliesFragment.class.getCanonicalName();
+    private static final int MONTH_SUGGESTION_LIMIT = 3;
     private static final SimpleDateFormat DAY_FORMAT = new SimpleDateFormat("dd MMMM yyyy");
     private ExpandableListView expandableListView;
     private HashMap<String, ArrayList<DailyTally>> dailyTallies;
@@ -194,7 +196,10 @@ public class DailyTalliesFragment extends Fragment {
 
         @Override
         protected HashMap<String, ArrayList<DailyTally>> doInBackground(Void... params) {
-            return VaccinatorApplication.getInstance().dailyTalliesRepository().findAll(DAY_FORMAT);
+            Calendar minDate = Calendar.getInstance();
+            minDate.add(Calendar.MONTH, -1 * MONTH_SUGGESTION_LIMIT);
+            return VaccinatorApplication.getInstance().dailyTalliesRepository()
+                    .findAll(DAY_FORMAT, minDate.getTime(), Calendar.getInstance().getTime());
         }
 
         @Override

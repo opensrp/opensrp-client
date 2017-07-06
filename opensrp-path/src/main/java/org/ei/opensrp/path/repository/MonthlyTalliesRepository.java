@@ -86,11 +86,15 @@ public class MonthlyTalliesRepository extends BaseRepository {
     /**
      * Returns a list of all months that have corresponding daily tallies by unsent monthly tallies
      *
+     * @param startDate The earliest date for the draft reports' month. Set argument to null if you
+     *                  don't want this enforced
+     * @param endDate   The latest date for the draft reports' month. Set argument to null if you
+     *                  don't want this enforced
      * @return List of months with unsent monthly tallies
      */
-    public List<Date> findAllUnsentMonths() {
+    public List<Date> findAllUnsentMonths(Date startDate, Date endDate) {
         List<String> allTallyMonths = VaccinatorApplication.getInstance().dailyTalliesRepository()
-                .findAllDistinctMonths(MONTH_FORMAT);
+                .findAllDistinctMonths(MONTH_FORMAT, startDate, endDate);
         Cursor cursor = null;
         try {
             if (allTallyMonths != null) {
@@ -103,7 +107,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
                     monthsString = monthsString + "'" + curMonthString + "'";
                 }
 
-                String query = "SELECT DISTINCT " + COLUMN_MONTH +
+                String query = "SELECT " + COLUMN_MONTH +
                         " FROM " + TABLE_NAME +
                         " WHERE " + COLUMN_DATE_SENT + " IS NOT NULL" +
                         " AND " + COLUMN_MONTH + " IN(" + monthsString + ")";
@@ -113,12 +117,20 @@ public class MonthlyTalliesRepository extends BaseRepository {
                     while (!cursor.isAfterLast()) {
                         String curMonth = cursor.getString(cursor.getColumnIndex(COLUMN_MONTH));
                         allTallyMonths.remove(curMonth);
+                        cursor.moveToNext();
                     }
                 }
 
                 List<Date> unsentMonths = new ArrayList<>();
                 for (String curMonthString : allTallyMonths) {
-                    unsentMonths.add(MONTH_FORMAT.parse(curMonthString));
+                    Date curMonth = MONTH_FORMAT.parse(curMonthString);
+                    if (startDate != null && curMonth.getTime() < startDate.getTime()) {
+                        continue;
+                    }
+                    if (endDate != null && curMonth.getTime() > endDate.getTime()) {
+                        continue;
+                    }
+                    unsentMonths.add(curMonth);
                 }
 
                 return unsentMonths;
@@ -132,6 +144,55 @@ public class MonthlyTalliesRepository extends BaseRepository {
         }
 
         return new ArrayList<>();
+    }
+
+    /**
+     * Returns a list of dates for monthly reports that have been edited, but not sent
+     *
+     * @param startDate The earliest date for the monthly reports. Set argument to null if you
+     *                  don't want this enforced
+     * @param endDate   The latest date for the monthly reports. Set argument to null if you
+     *                  don't want this enforced
+     * @return The list of monthly reports that have been edited, but not sent
+     */
+    public List<Date> findAllDraftEditedMonths(Date startDate, Date endDate) {
+        Cursor cursor = null;
+        List<Date> unsentMonths = new ArrayList<>();
+        try {
+            String query = "SELECT " + COLUMN_MONTH +
+                    " FROM " + TABLE_NAME +
+                    " WHERE " + COLUMN_DATE_SENT + " IS NULL";
+            cursor = getPathRepository().getReadableDatabase().rawQuery(query, null);
+
+            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                List<String> dateStrings = new ArrayList<>();
+                while (!cursor.isAfterLast()) {
+                    String curMonthString = cursor.getString(cursor.getColumnIndex(COLUMN_MONTH));
+                    if (!dateStrings.contains(curMonthString)) {
+                        dateStrings.add(curMonthString);
+                        Date curMonth = MONTH_FORMAT.parse(curMonthString);
+                        if (startDate != null && curMonth.getTime() < startDate.getTime()) {
+                            cursor.moveToNext();
+                            continue;
+                        }
+                        if (endDate != null && curMonth.getTime() > endDate.getTime()) {
+                            cursor.moveToNext();
+                            continue;
+                        }
+                        unsentMonths.add(curMonth);
+                    }
+                    cursor.moveToNext();
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return unsentMonths;
     }
 
     /**

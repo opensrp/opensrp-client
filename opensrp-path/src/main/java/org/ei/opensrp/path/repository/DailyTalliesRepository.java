@@ -3,6 +3,7 @@ package org.ei.opensrp.path.repository;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.text.TextUtils;
 import android.util.Log;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -113,15 +114,32 @@ public class DailyTalliesRepository extends BaseRepository {
     /**
      * Returns a list of dates for distinct months with daily tallies
      *
-     * @param dateFormat The format to use to format the months' dates
+     * @param dateFormat    The format to use to format the months' dates
+     * @param startDate     The first date to consider. Set argument to null if you
+     *                      don't want this enforced
+     * @param endDate       The last date to consider. Set argument to null if you
+     *                      don't want this enforced
      * @return A list of months that have daily tallies
      */
-    public List<String> findAllDistinctMonths(SimpleDateFormat dateFormat) {
+    public List<String> findAllDistinctMonths(SimpleDateFormat dateFormat, Date startDate, Date endDate) {
         Cursor cursor = null;
         try {
+            String selectionArgs = "";
+            if (startDate != null) {
+                selectionArgs = COLUMN_DAY + " >= " + startDate.getTime();
+            }
+
+            if (endDate != null) {
+                if (!TextUtils.isEmpty(selectionArgs)) {
+                    selectionArgs = selectionArgs + " AND ";
+                }
+
+                selectionArgs = selectionArgs + COLUMN_DAY + " <= " + endDate.getTime();
+            }
+
             cursor = getPathRepository().getReadableDatabase().query(true, TABLE_NAME,
                     new String[]{COLUMN_DAY},
-                    null, null, null, null, null, null);
+                    selectionArgs, null, null, null, null, null);
             if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
                 List<String> months = new ArrayList<>();
                 while (!cursor.isAfterLast()) {
@@ -195,14 +213,17 @@ public class DailyTalliesRepository extends BaseRepository {
         return tallies;
     }
 
-    public HashMap<String, ArrayList<DailyTally>> findAll(SimpleDateFormat dateFormat) {
+    public HashMap<String, ArrayList<DailyTally>> findAll(SimpleDateFormat dateFormat, Date minDate, Date maxDate) {
         HashMap<String, ArrayList<DailyTally>> tallies = new HashMap<>();
         Cursor cursor = null;
         try {
             HashMap<Long, Hia2Indicator> indicatorMap = VaccinatorApplication.getInstance()
                     .hIA2IndicatorsRepository().findAll();
             cursor = getPathRepository().getReadableDatabase()
-                    .query(TABLE_NAME, TABLE_COLUMNS, null, null, null, null, null, null);
+                    .query(TABLE_NAME, TABLE_COLUMNS,
+                            COLUMN_DAY + " >= " + minDate.getTime() + " AND " +
+                            COLUMN_DAY + " <= " + maxDate.getTime(),
+                            null, null, null, COLUMN_DAY+" DESC", null);
             if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
                     DailyTally curTally = extractDailyTally(indicatorMap, cursor);
