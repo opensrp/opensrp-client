@@ -47,8 +47,8 @@
     },
     "encounter_location": "",
     "look_up": {
-        "entity_id":"",
-        "value":""
+        "entity_id":"household",
+        "value":"3bd53be6-48d6-4809-a39c-4bcd6aafbae8"
     }
   },
   "step1": {

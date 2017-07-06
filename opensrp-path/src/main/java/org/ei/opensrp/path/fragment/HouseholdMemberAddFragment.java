@@ -34,9 +34,11 @@ import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.WeightWrapper;
 import org.ei.opensrp.path.listener.WeightActionListener;
 import org.ei.opensrp.path.repository.WeightRepository;
+import org.ei.opensrp.util.FormUtils;
 import org.ei.opensrp.util.OpenSRPImageLoader;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.joda.time.DateTime;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -86,6 +88,13 @@ public class HouseholdMemberAddFragment extends DialogFragment {
         addWoman.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                try {
+                    JSONObject form = FormUtils.getInstance(getActivity().getApplicationContext()).getFormJson("woman_member_registration");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 ((HouseholdSmartRegisterActivity) getActivity()).startFormActivity("woman_member_registration", null, null);
             }
         });
