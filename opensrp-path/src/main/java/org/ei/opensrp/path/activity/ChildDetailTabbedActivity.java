@@ -128,7 +128,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
     private ChildRegistrationDataFragment childDataFragment;
     private ChildUnderFiveFragment childUnderFiveFragment;
-    private static final String DIALOG_TAG = "ChildDetailActivity_DIALOG_TAG";
+    public static final String DIALOG_TAG = "ChildDetailActivity_DIALOG_TAG";
 
     private File currentfile;
     public String location_name = "";
@@ -138,28 +138,42 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         return childDetails;
     }
 
+    private ViewPagerAdapter adapter;
+
+    public ViewPagerAdapter getViewPagerAdapter() {
+        return adapter;
+    }
+
     // Data
     private CommonPersonObjectClient childDetails;
     private Map<String, String> detailmaps;
     AllSharedPreferences allSharedPreferences;
     ////////////////////////////////////////////////
-    DetailsRepository detailsRepository;
+    public DetailsRepository detailsRepository;
+
+    public DetailsRepository getDetailsRepository() {
+        return detailsRepository;
+    }
+
     Map<String, String> details;
-    private static final String inactive = "inactive";
-    private static final String lostToFollowUp = "lost_to_follow_up";
+    public static final String inactive = "inactive";
+    public static final String lostToFollowUp = "lost_to_follow_up";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle extras = this.getIntent().getExtras();
-        location_name = extras.getString("location_name");
         if (extras != null) {
             Serializable serializable = extras.getSerializable(EXTRA_CHILD_DETAILS);
             if (serializable != null && serializable instanceof CommonPersonObjectClient) {
                 childDetails = (CommonPersonObjectClient) serializable;
             }
         }
-        detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
+
+
+        location_name = extras.getString("location_name");
+        detailsRepository = detailsRepository == null ? this.getOpenSRPContext().detailsRepository() : detailsRepository;
         details = detailsRepository.getAllDetailsForClient(childDetails.entityId());
         details.putAll(childDetails.getColumnmaps());
 
@@ -252,7 +266,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
 
     private void initiallization() {
 
-        DetailsRepository detailsRepository = getOpenSRPContext().detailsRepository();
+        detailsRepository = detailsRepository == null ? this.getOpenSRPContext().detailsRepository() : detailsRepository;
         detailmaps = detailsRepository.getAllDetailsForClient(childDetails.entityId());
         profileWidget();
         ((TextView) detailtoolbar.findViewById(R.id.title)).setText(updateActivityTitle());
@@ -265,7 +279,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
 
         getMenuInflater().inflate(R.menu.menu_child_detail_settings, menu);
         overflow = menu;
-        VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
+        VaccineRepository vaccineRepository = getVaccinatorApplicationInstance().vaccineRepository();
         List<Vaccine> vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
 
         ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(ChildDetailTabbedActivity.this);
@@ -281,17 +295,20 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         }
 
         if (!show_vaccine_list) {
+
             overflow.findItem(R.id.immunization_data).setEnabled(false);
         }
 
         boolean showServiceList = false;
-        RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
+
+        RecurringServiceRecordRepository recurringServiceRecordRepository = getVaccinatorApplicationInstance().recurringServiceRecordRepository();
         List<ServiceRecord> serviceRecordList = recurringServiceRecordRepository.findByEntityId(childDetails.entityId());
         for (ServiceRecord serviceRecord : serviceRecordList) {
             boolean check = showVaccineListCheck(serviceRecord.getEventId(), serviceRecord.getFormSubmissionId());
             if (check) {
                 showServiceList = true;
                 break;
+
             }
         }
 
@@ -299,7 +316,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
             overflow.findItem(R.id.recurring_services_data).setEnabled(false);
         }
 
-        WeightRepository wp = VaccinatorApplication.getInstance().weightRepository();
+        WeightRepository wp = getVaccinatorApplicationInstance().weightRepository();
         List<Weight> weightlist = wp.findLast5(childDetails.entityId());
         boolean show_weight_edit = false;
         for (int i = 0; i < weightlist.size(); i++) {
@@ -615,7 +632,6 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     }
 
     public void startFormActivity(String formName, String entityId, String metaData) {
-        Context context = getOpenSRPContext();
 
         Intent intent = new Intent(getApplicationContext(), PathJsonFormActivity.class);
 
@@ -827,7 +843,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         adapter.addFragment(childDataFragment, "Registration Data");
         adapter.addFragment(childUnderFiveFragment, "Under Five History");
@@ -1026,7 +1042,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
             duration = DateUtils.getDuration(dateTime);
         }
 
-        Photo photo = ImageUtils.profilePhotoByClient(childDetails);
+        Photo photo = getProfilePhotoByClient();
 
         WeightWrapper weightWrapper = new WeightWrapper();
         weightWrapper.setId(childDetails.entityId());
@@ -1073,17 +1089,19 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
             duration = DateUtils.getDuration(dateTime);
         }
 
-        Photo photo = ImageUtils.profilePhotoByClient(childDetails);
+        Photo photo = getProfilePhotoByClient();
 
         WeightWrapper weightWrapper = new WeightWrapper();
         weightWrapper.setId(childDetails.entityId());
-        WeightRepository wp = VaccinatorApplication.getInstance().weightRepository();
+        WeightRepository wp = getVaccinatorApplicationInstance().weightRepository();
         List<Weight> weightlist = wp.findLast5(childDetails.entityId());
 //        if (weightlist.size() > i) {
-        weightWrapper.setWeight(weightlist.get(i).getKg());
-        weightWrapper.setUpdatedWeightDate(new DateTime(weightlist.get(i).getDate()), false);
+        if (!weightlist.isEmpty()) {
+            weightWrapper.setWeight(weightlist.get(i).getKg());
+            weightWrapper.setUpdatedWeightDate(new DateTime(weightlist.get(i).getDate()), false);
 //            weightWrapper.setWeight(weight.getKg());
-        weightWrapper.setDbKey(weightlist.get(i).getId());
+            weightWrapper.setDbKey(weightlist.get(i).getId());
+        }
 //        }
         weightWrapper.setGender(gender.toString());
         weightWrapper.setPatientName(childName);
@@ -1095,6 +1113,10 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         EditWeightDialogFragment editWeightDialogFragment = EditWeightDialogFragment.newInstance(this, weightWrapper);
         editWeightDialogFragment.show(ft, DIALOG_TAG);
 
+    }
+
+    protected Photo getProfilePhotoByClient() {
+        return ImageUtils.profilePhotoByClient(childDetails);
     }
 
 
@@ -1352,7 +1374,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     public void updateClientAttribute(String attributeName, Object attributeValue) {
         try {
             Date date = new Date();
-            PathRepository db = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+            PathRepository db = (PathRepository) getVaccinatorApplicationInstance().getRepository();
             ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(this);
 
             JSONObject client = db.getClientByBaseEntityId(childDetails.entityId());
@@ -1586,6 +1608,11 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         }
 
         return false;
+    }
+
+
+    public VaccinatorApplication getVaccinatorApplicationInstance() {
+        return (VaccinatorApplication) this.getApplication();
     }
 
 }

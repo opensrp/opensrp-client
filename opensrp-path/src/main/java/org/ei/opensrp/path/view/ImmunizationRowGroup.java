@@ -66,7 +66,7 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
         IN_FUTURE
     }
 
-    public ImmunizationRowGroup(Context context,boolean editmode) {
+    public ImmunizationRowGroup(Context context, boolean editmode) {
         super(context);
         this.editmode = editmode;
         init(context);
@@ -128,6 +128,7 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
         this.alertList = alerts;
         updateViews();
     }
+
     public void setVaccineList(List<Vaccine> vaccineList) {
         this.vaccineList = vaccineList;
     }
@@ -154,7 +155,7 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
         this.state = State.IN_PAST;
         if (this.vaccineData != null) {
             String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
-            DateTime dateTime = new DateTime(dobString);
+            DateTime dateTime = !dobString.isEmpty() ? new DateTime(dobString) : new DateTime();
             Date dob = dateTime.toDate();
             Calendar today = Calendar.getInstance();
             today.set(Calendar.HOUR, 0);
@@ -173,6 +174,7 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
             }
             updateStatusViews();
             updateVaccineCards(vaccinesToUpdate);
+
         }
     }
 
@@ -205,7 +207,7 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
     private void updateVaccineCards(ArrayList<VaccineWrapper> vaccinesToUpdate) {
         if (vaccineCardAdapter == null) {
             try {
-                vaccineCardAdapter = new ImmunizationRowAdapter(context, this,editmode);
+                vaccineCardAdapter = new ImmunizationRowAdapter(context, this, editmode);
                 vaccinesGV.setAdapter(vaccineCardAdapter);
             } catch (JSONException e) {
                 Log.e(TAG, Log.getStackTraceString(e));
@@ -217,6 +219,7 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
             toggleRecordAllTV();
         }
     }
+
     public boolean isModalOpen() {
         return modalOpen;
     }
@@ -289,16 +292,19 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
         }
         return new ArrayList<VaccineWrapper>();
     }
+
     public List<Alert> getAlertList() {
         return alertList;
     }
+
     public void updateWrapperStatus(VaccineWrapper tag) {
         List<Vaccine> vaccineList = getVaccineList();
 
         List<Alert> alertList = getAlertList();
         Map<String, Date> recievedVaccines = receivedVaccines(vaccineList);
         String dobString = Utils.getValue(getChildDetails().getColumnmaps(), "dob", false);
-        List<Map<String, Object>> sch = generateScheduleList("child", new DateTime(dobString), recievedVaccines, alertList);
+        DateTime dateTime = !dobString.isEmpty() ? new DateTime(dobString) : new DateTime();
+        List<Map<String, Object>> sch = generateScheduleList("child", dateTime, recievedVaccines, alertList);
 
         for (Map<String, Object> m : sch) {
             VaccineRepo.Vaccine vaccine = (VaccineRepo.Vaccine) m.get("vaccine");
@@ -309,6 +315,7 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
             }
         }
     }
+
     public void updateWrapperStatus(ArrayList<VaccineWrapper> tags) {
         if (tags == null) {
             return;
@@ -318,6 +325,7 @@ public class ImmunizationRowGroup extends LinearLayout implements View.OnClickLi
             updateWrapperStatus(tag);
         }
     }
+
     public void updateWrapper(VaccineWrapper tag) {
         List<Vaccine> vaccineList = getVaccineList();
 

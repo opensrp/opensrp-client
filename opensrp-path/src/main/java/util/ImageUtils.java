@@ -5,7 +5,6 @@ import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.domain.ProfileImage;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.domain.Photo;
-import org.ei.opensrp.repository.ImageRepository;
 import org.opensrp.api.constants.Gender;
 
 import static util.Utils.getValue;
@@ -41,7 +40,7 @@ public class ImageUtils {
 
     public static Photo profilePhotoByClient(CommonPersonObjectClient client) {
         Photo photo = new Photo();
-        ProfileImage profileImage = ((ImageRepository) org.ei.opensrp.Context.getInstance().imageRepository()).findByEntityId(client.entityId());
+        ProfileImage profileImage = org.ei.opensrp.Context.getInstance().imageRepository().findByEntityId(client.entityId());
         if (profileImage != null) {
             photo.setFilePath(profileImage.getFilepath());
         } else {

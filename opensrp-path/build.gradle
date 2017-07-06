@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
+
 
 buildscript {
     repositories {
@@ -11,7 +14,12 @@ buildscript {
         classpath 'org.apache.commons:commons-lang3:3.3.2'
         classpath 'org.robolectric:robolectric-gradle-plugin:1.1.0'
         classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0'
     }
+}
+
+coveralls {
+    jacocoReportPath = "$buildDir/../reports/jacoco/merged.xml"
 }
 
 repositories {
@@ -21,7 +29,7 @@ repositories {
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "26.0.0"
 
     defaultConfig {
         applicationId "org.ei.opensrp.path"
@@ -30,10 +38,13 @@ android {
         versionCode 7
         versionName "1.2.1"
         multiDexEnabled true
-        dexOptions {
-            javaMaxHeapSize "4g"
-        }
     }
+
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -61,6 +72,7 @@ android {
             buildConfigField "int", "DATABASE_VERSION", '7'
             buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
             buildConfigField "boolean", "TIME_CHECK", "false"
+            testCoverageEnabled true
         }
     }
     packagingOptions {
@@ -74,6 +86,12 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
+        exclude 'LICENSE.txt'
+    }
+
+
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
 }
 
@@ -98,4 +116,56 @@ dependencies {
     compile 'com.github.ybq:Android-SpinKit:1.1.0'
     compile group: 'org.apache.commons', name: 'commons-csv', version: '1.4'
     compile 'com.github.lecho:hellocharts-android:v1.5.8'
+    compile 'junit:junit:4.12'
+
+    testCompile ('org.robolectric:robolectric:3.4-rc3') {
+
+        exclude group: 'com.google.guava', module: 'guava'
+        exclude group: 'org.apache.maven', module: 'maven-model'
+        exclude group: 'org.apache.maven', module:'maven-ant-tasks'
+        exclude group: 'com.android.support'
+        exclude group: 'com.thoughtworks.xstream', module: 'xstream'
+    }
+
+    testCompile ("org.robolectric:shadows-multidex:3.4-rc2") {
+        exclude group: 'com.google.guava', module: 'guava'
+    }
+
+    androidTestCompile( 'com.android.support.test.espresso:espresso-core:2.+') {
+
+        exclude group: 'com.android.support',module: 'support-annotations'
+        exclude group: 'junit',module: 'junit'
+    }
+    // PowerMock
+    def powerMockVersion =  '1.6.4'
+    testCompile "org.powermock:powermock-module-junit4:$powerMockVersion"
+    testCompile "org.powermock:powermock-module-junit4-rule:$powerMockVersion"
+    testCompile "org.powermock:powermock-api-mockito:$powerMockVersion"
+    testCompile ("org.powermock:powermock-classloading-xstream:$powerMockVersion") {
+
+        exclude group: 'com.thoughtworks.xstream', module: 'xstream'
+    }
+
+    testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebug']) {
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    getReports().getXml().setDestination(file("$buildDir/../reports/jacoco/merged.xml"))
+    getReports().getHtml().setDestination(file("$buildDir/../reports/jacoco/html"))
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*','**/*$ViewBinder*.*']
+    def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
+    def mainSrc = "$project.projectDir/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: project.buildDir, includes: [
+            'jacoco/testDebug.exec', 'outputs/code-coverage/connected/*coverage.ec'
+    ])
 }
