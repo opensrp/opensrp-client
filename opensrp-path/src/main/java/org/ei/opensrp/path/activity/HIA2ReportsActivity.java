@@ -191,7 +191,8 @@ public class HIA2ReportsActivity extends BaseActivity {
                 List<MonthlyTally> monthlyTallies = monthlyTalliesRepository
                         .findDrafts(MonthlyTalliesRepository.MONTH_FORMAT.format(date));
 
-                HIA2IndicatorsRepository hIA2IndicatorsRepository = VaccinatorApplication.getInstance().hIA2IndicatorsRepository();
+                HIA2IndicatorsRepository hIA2IndicatorsRepository = VaccinatorApplication
+                        .getInstance().hIA2IndicatorsRepository();
                 List<Hia2Indicator> hia2Indicators = hIA2IndicatorsRepository.fetchAll();
                 if (hia2Indicators == null || hia2Indicators.isEmpty()) {
                     return;
@@ -388,7 +389,7 @@ public class HIA2ReportsActivity extends BaseActivity {
             endDate.set(Calendar.MILLISECOND, 999);
             endDate.add(Calendar.DATE, -1);// Move the date to last day of last month
 
-            return monthlyTalliesRepository.findAllEditedUnsentMonths(null, endDate.getTime());
+            return monthlyTalliesRepository.findEditedDraftMonths(null, endDate.getTime());
         }
 
         @Override

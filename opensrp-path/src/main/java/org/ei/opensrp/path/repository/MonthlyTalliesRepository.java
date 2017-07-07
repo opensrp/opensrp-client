@@ -95,7 +95,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
      *                  don't want this enforced
      * @return List of months with unsent monthly tallies
      */
-    public List<Date> findAllUnsentMonths(Date startDate, Date endDate) {
+    public List<Date> findUneditedDraftMonths(Date startDate, Date endDate) {
         List<String> allTallyMonths = VaccinatorApplication.getInstance().dailyTalliesRepository()
                 .findAllDistinctMonths(MONTH_FORMAT, startDate, endDate);
         Cursor cursor = null;
@@ -112,8 +112,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
 
                 String query = "SELECT " + COLUMN_MONTH +
                         " FROM " + TABLE_NAME +
-                        " WHERE " + COLUMN_DATE_SENT + " IS NOT NULL" +
-                        " AND " + COLUMN_MONTH + " IN(" + monthsString + ")";
+                        " WHERE " + COLUMN_MONTH + " IN(" + monthsString + ")";
                 cursor = getPathRepository().getReadableDatabase().rawQuery(query, null);
 
                 if (cursor != null && cursor.getCount() > 0) {
@@ -163,9 +162,11 @@ public class MonthlyTalliesRepository extends BaseRepository {
                     COLUMN_MONTH + " = '" + month +
                             "' AND " + COLUMN_DATE_SENT + " IS NULL",
                     null, null, null, null, null);
-             monthlyTallies = readAllDataElements(cursor);
+            monthlyTallies = readAllDataElements(cursor);
+            Log.e(TAG, "Number of monthly tallies " + monthlyTallies.size());
 
             if (monthlyTallies.size() == 0) {// No tallies generated yet
+                Log.e(TAG, "Using daily tallies instead of monthly");
                 Map<Long, List<DailyTally>> dailyTallies = VaccinatorApplication.getInstance()
                         .dailyTalliesRepository().findTalliesInMonth(MONTH_FORMAT.parse(month));
                 for (List<DailyTally> curList : dailyTallies.values()) {
@@ -254,7 +255,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
                         tally.getDateSent() == null ? null : tally.getDateSent().getTime());
                 cv.put(COLUMN_EDITED, tally.isEdited() ? 1 : 0);
                 cv.put(COLUMN_CREATED_AT, Calendar.getInstance().getTimeInMillis());
-                database.insert(TABLE_NAME, null, cv);
+                database.insertWithOnConflict(TABLE_NAME, null, cv, SQLiteDatabase.CONFLICT_REPLACE);
 
                 return true;
             }
@@ -276,6 +277,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
      * @return
      */
     public boolean save(Map<String, String> draftFormValues, Date month) {
+        Log.e(TAG, draftFormValues.toString());
         SQLiteDatabase database = getPathRepository().getWritableDatabase();
         try {
             database.beginTransaction();
@@ -291,7 +293,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
                     cv.put(COLUMN_EDITED, 1);
                     cv.put(COLUMN_PROVIDER_ID, userName);
                     cv.put(COLUMN_CREATED_AT, Calendar.getInstance().getTimeInMillis());
-                    database.insert(TABLE_NAME, null, cv);
+                    database.insertWithOnConflict(TABLE_NAME, null, cv, SQLiteDatabase.CONFLICT_REPLACE);
                 }
             }
         } catch (Exception e) {
@@ -367,7 +369,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
      *                  don't want this enforced
      * @return The list of monthly reports that have been edited, but not sent
      */
-    public List<MonthlyTally> findAllEditedUnsentMonths(Date startDate, Date endDate) {
+    public List<MonthlyTally> findEditedDraftMonths(Date startDate, Date endDate) {
         Cursor cursor = null;
         List<MonthlyTally> tallies = new ArrayList<>();
 
@@ -411,5 +413,4 @@ public class MonthlyTalliesRepository extends BaseRepository {
 
         return tallies;
     }
-
 }

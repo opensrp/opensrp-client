@@ -188,7 +188,6 @@ public class DailyTalliesRepository extends BaseRepository {
             endDate.set(Calendar.MILLISECOND, 999);
             endDate.add(Calendar.DATE, -1);
 
-
             cursor = getPathRepository().getReadableDatabase().query(TABLE_NAME, TABLE_COLUMNS,
                     COLUMN_DAY + " >= " + startDate.getTimeInMillis() +
                             " AND " + COLUMN_DAY + " <= " + endDate.getTimeInMillis(),
@@ -228,6 +227,7 @@ public class DailyTalliesRepository extends BaseRepository {
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
         }
+
         return tallies;
     }
 

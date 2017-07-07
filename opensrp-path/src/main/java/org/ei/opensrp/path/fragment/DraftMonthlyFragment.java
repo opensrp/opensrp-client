@@ -1,6 +1,7 @@
 package org.ei.opensrp.path.fragment;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,6 +28,8 @@ import org.ei.opensrp.view.customControls.FontVariant;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -67,45 +70,8 @@ public class DraftMonthlyFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setupSaveDraftReportsView();
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-
-            Utils.startAsyncTask(new AsyncTask<Void, Void, List<Date>>() {
-                @Override
-                protected List<Date> doInBackground(Void... params) {
-                    MonthlyTalliesRepository monthlyTalliesRepository = VaccinatorApplication
-                            .getInstance().monthlyTalliesRepository();
-                    Calendar startDate = Calendar.getInstance();
-                    startDate.set(Calendar.DAY_OF_MONTH, 1);
-                    startDate.set(Calendar.HOUR_OF_DAY, 0);
-                    startDate.set(Calendar.MINUTE, 0);
-                    startDate.set(Calendar.SECOND, 0);
-                    startDate.set(Calendar.MILLISECOND, 0);
-                    startDate.add(Calendar.MONTH, -1 * HIA2ReportsActivity.MONTH_SUGGESTION_LIMIT);
-
-                    Calendar endDate = Calendar.getInstance();
-                    endDate.set(Calendar.DAY_OF_MONTH, 1);// Set date to first day of this month
-                    endDate.set(Calendar.HOUR_OF_DAY, 23);
-                    endDate.set(Calendar.MINUTE, 59);
-                    endDate.set(Calendar.SECOND, 59);
-                    endDate.set(Calendar.MILLISECOND, 999);
-                    endDate.add(Calendar.DATE, -1);// Move the date to last day of last month
-
-                    return monthlyTalliesRepository.findAllUnsentMonths(startDate.getTime(),
-                            endDate.getTime());
-                }
-
-                @Override
-                protected void onPostExecute(List<Date> dates) {
-                    updateStartNewReportButton(dates);
-                }
-            }, null);
-        }
+        setupEditedDraftsView();
+        setupUneditedDraftsView();
     }
 
     private void updateStartNewReportButton(final List<Date> dates) {
@@ -115,6 +81,12 @@ public class DraftMonthlyFragment extends Fragment {
         startNewReportDisabled.setVisibility(View.GONE);
 
         if (hia2ReportsReady) {
+            Collections.sort(dates, new Comparator<Date>() {
+                @Override
+                public int compare(Date lhs, Date rhs) {
+                    return rhs.compareTo(lhs);
+                }
+            });
             startNewReportEnabled.setVisibility(View.VISIBLE);
             startNewReportEnabled.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -134,7 +106,40 @@ public class DraftMonthlyFragment extends Fragment {
         }
     }
 
-    private void setupSaveDraftReportsView() {
+    private void setupUneditedDraftsView() {
+        Utils.startAsyncTask(new AsyncTask<Void, Void, List<Date>>() {
+            @Override
+            protected List<Date> doInBackground(Void... params) {
+                MonthlyTalliesRepository monthlyTalliesRepository = VaccinatorApplication
+                        .getInstance().monthlyTalliesRepository();
+                Calendar startDate = Calendar.getInstance();
+                startDate.set(Calendar.DAY_OF_MONTH, 1);
+                startDate.set(Calendar.HOUR_OF_DAY, 0);
+                startDate.set(Calendar.MINUTE, 0);
+                startDate.set(Calendar.SECOND, 0);
+                startDate.set(Calendar.MILLISECOND, 0);
+                startDate.add(Calendar.MONTH, -1 * HIA2ReportsActivity.MONTH_SUGGESTION_LIMIT);
+
+                Calendar endDate = Calendar.getInstance();
+                endDate.set(Calendar.DAY_OF_MONTH, 1);// Set date to first day of this month
+                endDate.set(Calendar.HOUR_OF_DAY, 23);
+                endDate.set(Calendar.MINUTE, 59);
+                endDate.set(Calendar.SECOND, 59);
+                endDate.set(Calendar.MILLISECOND, 999);
+                endDate.add(Calendar.DATE, -1);// Move the date to last day of last month
+
+                return monthlyTalliesRepository.findUneditedDraftMonths(startDate.getTime(),
+                        endDate.getTime());
+            }
+
+            @Override
+            protected void onPostExecute(List<Date> dates) {
+                updateStartNewReportButton(dates);
+            }
+        }, null);
+    }
+
+    private void setupEditedDraftsView() {
         ((HIA2ReportsActivity) getActivity()).refreshDraftMonthlyTitle();
 
         Utils.startAsyncTask(new HIA2ReportsActivity.FetchEditedMonthlyTalliesTask(new HIA2ReportsActivity.FetchEditedMonthlyTalliesTask.TaskListener() {
@@ -187,7 +192,6 @@ public class DraftMonthlyFragment extends Fragment {
 
         alertDialog = builder.create();
 
-
         BaseAdapter baseAdapter = new BaseAdapter() {
             @Override
             public int getCount() {
@@ -234,7 +238,6 @@ public class DraftMonthlyFragment extends Fragment {
     View.OnClickListener monthClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
             alertDialog.dismiss();
 
             Object tag = v.getTag();
@@ -280,11 +283,19 @@ public class DraftMonthlyFragment extends Fragment {
         private List<MonthlyTally> list;
 
         public DraftsAdapter(List<MonthlyTally> list) {
-            this.list = list;
+            setList(list);
         }
 
         public void setList(List<MonthlyTally> list) {
             this.list = list;
+            if (this.list != null) {
+                Collections.sort(list, new Comparator<MonthlyTally>() {
+                    @Override
+                    public int compare(MonthlyTally lhs, MonthlyTally rhs) {
+                        return rhs.getMonth().compareTo(lhs.getMonth());
+                    }
+                });
+            }
         }
 
         @Override
@@ -319,6 +330,7 @@ public class DraftMonthlyFragment extends Fragment {
             String startedat = MonthlyTalliesRepository.dfddmmyy.format(date.getCreatedAt());
             String started = getActivity().getString(R.string.started);
             tv.setText(text);
+            tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
             tv.setTag(text);
             startedAt.setText(started + " " + startedat);
 
