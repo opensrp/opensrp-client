@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -25,12 +26,16 @@ import org.ei.opensrp.event.Event;
 import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.adapter.PathRegisterActivityPagerAdapter;
+import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.domain.Stock;
 import org.ei.opensrp.path.fragment.AdvancedSearchFragment;
 import org.ei.opensrp.path.fragment.BaseSmartRegisterFragment;
 import org.ei.opensrp.path.fragment.ChildSmartRegisterFragment;
 import org.ei.opensrp.path.fragment.HouseholdMemberAddFragment;
 import org.ei.opensrp.path.fragment.HouseholdSmartRegisterFragment;
 import org.ei.opensrp.path.receiver.ServiceReceiver;
+import org.ei.opensrp.path.repository.PathRepository;
+import org.ei.opensrp.path.repository.StockRepository;
 import org.ei.opensrp.path.view.LocationPickerView;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.repository.AllSharedPreferences;
@@ -215,8 +220,24 @@ public class HouseholdSmartRegisterActivity extends BaseRegisterActivity {
                             ft.remove(prev);
                         }
                         ft.addToBackStack(null);
-                        HouseholdMemberAddFragment editWeightDialogFragment = HouseholdMemberAddFragment.newInstance(this);
-                        editWeightDialogFragment.show(ft, HouseholdMemberAddFragment.DIALOG_TAG);
+                        PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+                        net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
+                        Cursor c = db.rawQuery("SELECT base_entity_id FROM ec_household WHERE last_interacted_with=(SELECT MAX(last_interacted_with) FROM ec_household)", null);
+                        String householdid = "";
+                        if(c.getCount()>0) {
+                            c.moveToFirst();
+                            if(c.getString(0)!=null && !StringUtils.isBlank(c.getString(0)))
+                                householdid = c.getString(0);
+                            c.close();
+                        }else{
+                            c.close();
+                        }
+
+
+                        LocationPickerView locationPickerView = ((HouseholdSmartRegisterFragment) mBaseFragment).getLocationPickerView();
+                        String locationId = JsonFormUtils.getOpenMrsLocationId(context(), locationPickerView.getSelectedItem());
+                        HouseholdMemberAddFragment addmemberFragment = HouseholdMemberAddFragment.newInstance(this,locationId,householdid,context());
+                        addmemberFragment.show(ft, HouseholdMemberAddFragment.DIALOG_TAG);
 //                       startFormActivity("woman_member_registration", null, null);
 
                     }
