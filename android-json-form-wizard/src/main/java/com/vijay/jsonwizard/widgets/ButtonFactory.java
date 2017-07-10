@@ -4,6 +4,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.rey.material.util.ViewUtil;
@@ -41,6 +43,12 @@ public class ButtonFactory implements FormWidgetFactory {
         List<View> views = new ArrayList<>(1);
         JSONArray canvasIds = new JSONArray();
         Button button = new Button(context);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.bottomMargin = context.getResources()
+                .getDimensionPixelSize(R.dimen.extra_bottom_margin);
+        button.setLayoutParams(layoutParams);
         button.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources()
                 .getDimension(R.dimen.button_text_size));
         button.setTextColor(context.getResources().getColor(android.R.color.white));

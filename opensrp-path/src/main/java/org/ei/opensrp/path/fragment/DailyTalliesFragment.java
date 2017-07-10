@@ -19,6 +19,7 @@ import org.ei.opensrp.path.adapter.ExpandedListAdapter;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.DailyTally;
 import org.ei.opensrp.path.domain.MonthlyTally;
+import org.ei.opensrp.path.receiver.Hia2ServiceBroadcastReceiver;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,7 +39,8 @@ import util.Utils;
 /**
  * Created by coder on 6/7/17.
  */
-public class DailyTalliesFragment extends Fragment {
+public class DailyTalliesFragment extends Fragment
+        implements Hia2ServiceBroadcastReceiver.Hia2ServiceListener {
     private static final String TAG = DailyTalliesFragment.class.getCanonicalName();
     private static final SimpleDateFormat DAY_FORMAT = new SimpleDateFormat("dd MMMM yyyy");
     private ExpandableListView expandableListView;
@@ -57,6 +59,18 @@ public class DailyTalliesFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Utils.startAsyncTask(new GetAllTalliesTask(), null);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Hia2ServiceBroadcastReceiver.getInstance().addHia2ServiceListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Hia2ServiceBroadcastReceiver.getInstance().removeHia2ServiceListener(this);
     }
 
     @Nullable
@@ -182,6 +196,13 @@ public class DailyTalliesFragment extends Fragment {
             }
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
+        }
+    }
+
+    @Override
+    public void onServiceFinish(String actionType) {
+        if (Hia2ServiceBroadcastReceiver.TYPE_GENERATE_DAILY_INDICATORS.equals(actionType)) {
+            Utils.startAsyncTask(new GetAllTalliesTask(), null);
         }
     }
 

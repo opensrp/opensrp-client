@@ -22,6 +22,7 @@ import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.HIA2ReportsActivity;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.MonthlyTally;
+import org.ei.opensrp.path.receiver.Hia2ServiceBroadcastReceiver;
 import org.ei.opensrp.path.repository.MonthlyTalliesRepository;
 import org.ei.opensrp.view.customControls.CustomFontTextView;
 import org.ei.opensrp.view.customControls.FontVariant;
@@ -38,7 +39,8 @@ import util.Utils;
 /**
  * Created by coder on 6/7/17.
  */
-public class DraftMonthlyFragment extends Fragment {
+public class DraftMonthlyFragment extends Fragment
+        implements Hia2ServiceBroadcastReceiver.Hia2ServiceListener {
     private Button startNewReportEnabled;
     private Button startNewReportDisabled;
     private AlertDialog alertDialog;
@@ -72,6 +74,13 @@ public class DraftMonthlyFragment extends Fragment {
         super.onResume();
         setupEditedDraftsView();
         setupUneditedDraftsView();
+        Hia2ServiceBroadcastReceiver.getInstance().addHia2ServiceListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Hia2ServiceBroadcastReceiver.getInstance().removeHia2ServiceListener(this);
     }
 
     private void updateStartNewReportButton(final List<Date> dates) {
@@ -277,6 +286,14 @@ public class DraftMonthlyFragment extends Fragment {
 
     protected void startMonthlyReportForm(Date date) {
         ((HIA2ReportsActivity) getActivity()).startMonthlyReportForm("hia2_monthly_report", date);
+    }
+
+    @Override
+    public void onServiceFinish(String actionType) {
+        if (Hia2ServiceBroadcastReceiver.TYPE_GENERATE_MONTHLY_REPORT.equals(actionType)) {
+            setupEditedDraftsView();
+            setupUneditedDraftsView();
+        }
     }
 
     private class DraftsAdapter extends BaseAdapter {

@@ -221,4 +221,6 @@
     <string name="searching_dialog_message">Please wait</string>
     <string name="move_to_catchment_dialog_title">Moving…</string>
     <string name="move_to_catchment_dialog_message">Please wait</string>
+    <string name="send_report_warning">Send report?\n\tDate: %1$s\n\tUser: %2$s</string>
+    <string name="send">Send</string>
 </resources>

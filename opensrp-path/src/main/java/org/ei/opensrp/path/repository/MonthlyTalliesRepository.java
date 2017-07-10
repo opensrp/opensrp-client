@@ -163,10 +163,9 @@ public class MonthlyTalliesRepository extends BaseRepository {
                             "' AND " + COLUMN_DATE_SENT + " IS NULL",
                     null, null, null, null, null);
             monthlyTallies = readAllDataElements(cursor);
-            Log.e(TAG, "Number of monthly tallies " + monthlyTallies.size());
 
             if (monthlyTallies.size() == 0) {// No tallies generated yet
-                Log.e(TAG, "Using daily tallies instead of monthly");
+                Log.w(TAG, "Using daily tallies instead of monthly");
                 Map<Long, List<DailyTally>> dailyTallies = VaccinatorApplication.getInstance()
                         .dailyTalliesRepository().findTalliesInMonth(MONTH_FORMAT.parse(month));
                 for (List<DailyTally> curList : dailyTallies.values()) {
@@ -176,6 +175,32 @@ public class MonthlyTalliesRepository extends BaseRepository {
                     }
                 }
             }
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return monthlyTallies;
+    }
+
+    /**
+     * Returns a list of all monthly tallies corresponding to the provided month
+     *
+     * @param month The month to get the draft tallies for
+     * @return
+     */
+    public List<MonthlyTally> find(String month) {
+        // Check if there exists any sent tally in the database for the month provided
+        Cursor cursor = null;
+        List<MonthlyTally> monthlyTallies = new ArrayList<>();
+        try {
+            cursor = getPathRepository().getReadableDatabase().query(TABLE_NAME, TABLE_COLUMNS,
+                    COLUMN_MONTH + " = '" + month,
+                    null, null, null, null, null);
+            monthlyTallies = readAllDataElements(cursor);
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
         } finally {
@@ -277,7 +302,6 @@ public class MonthlyTalliesRepository extends BaseRepository {
      * @return
      */
     public boolean save(Map<String, String> draftFormValues, Date month) {
-        Log.e(TAG, draftFormValues.toString());
         SQLiteDatabase database = getPathRepository().getWritableDatabase();
         try {
             database.beginTransaction();
