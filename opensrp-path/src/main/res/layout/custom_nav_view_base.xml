@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/smart_register_client_divider_height"
             android:src="#474747"/>
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -107,99 +108,159 @@
                 android:layout_gravity="center_vertical" />
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="vertical"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#373737">
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/child_register"
-                android:layout_marginTop="5dp">
-
-                <ImageView
-                    android:layout_width="@dimen/registerlinkwidth"
-                    android:layout_height="@dimen/registerlinkheight"
-                    android:id="@+id/child_registerImageview"
-                    android:src="@drawable/zeirbig"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_margin="5dp" />
-                <org.ei.opensrp.view.customControls.CustomFontTextView
-                    android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="#373737">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
-                    android:text="ZEIR"
-                    android:id="@+id/child_registertextview"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/label_text_size"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_vertical" />
-            </LinearLayout>
+                    android:id="@+id/household_register"
+                    android:layout_marginTop="5dp">
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/hia2reports"
-                android:layout_marginTop="5dp">
-
-                <ImageView
-                    android:layout_width="@dimen/registerlinkwidth"
-                    android:layout_height="@dimen/registerlinkheight"
-                    android:id="@+id/hia2reportsImageview"
-                    android:src="@drawable/hia_big"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_margin="5dp" />
-                <org.ei.opensrp.view.customControls.CustomFontTextView
-                    android:layout_width="wrap_content"
+                    <ImageView
+                        android:layout_width="@dimen/registerlinkwidth"
+                        android:layout_height="@dimen/registerlinkheight"
+                        android:id="@+id/household_registerImageview"
+                        android:src="@drawable/housholdnavigation"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingRight="10dp"
+                        android:layout_margin="5dp" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
+                        android:text="Household Register"
+                        android:id="@+id/household_registertextview"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/label_text_size"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
-                    android:id="@+id/hia2reportstextview"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/label_text_size"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_vertical"
-                    android:text="HIA 2 Reports" />
-            </LinearLayout>
+                    android:id="@+id/woman_register"
+                    android:layout_marginTop="5dp">
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/stockcontrol"
-                android:layout_marginTop="5dp">
+                    <ImageView
+                        android:layout_width="@dimen/registerlinkwidth"
+                        android:layout_height="@dimen/registerlinkheight"
+                        android:id="@+id/woman_registerImageview"
+                        android:src="@drawable/woman"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingRight="10dp"
+                        android:layout_margin="5dp" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
+                        android:text="Woman Register"
+                        android:id="@+id/woman_registertextview"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/label_text_size"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical" />
+                </LinearLayout>
 
-                <ImageView
-                    android:layout_width="@dimen/registerlinkwidth"
-                    android:layout_height="@dimen/registerlinkheight"
-                    android:id="@+id/stockcontrolImageview"
-                    android:src="@drawable/stockreg"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="7dp" />
-                <org.ei.opensrp.view.customControls.CustomFontTextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
-                    android:id="@+id/stockcontroltextview"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/label_text_size"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_vertical"
-                    android:text="Stock Control" />
+                    android:id="@+id/child_register"
+                    android:layout_marginTop="5dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/registerlinkwidth"
+                        android:layout_height="@dimen/registerlinkheight"
+                        android:id="@+id/child_registerImageview"
+                        android:src="@drawable/zeirbig"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingRight="10dp"
+                        android:layout_margin="5dp" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
+                        android:text="ZEIR"
+                        android:id="@+id/child_registertextview"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/label_text_size"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/hia2reports"
+                    android:layout_marginTop="5dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/registerlinkwidth"
+                        android:layout_height="@dimen/registerlinkheight"
+                        android:id="@+id/hia2reportsImageview"
+                        android:src="@drawable/hia_big"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingRight="10dp"
+                        android:layout_margin="5dp" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
+                        android:id="@+id/hia2reportstextview"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/label_text_size"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:text="HIA 2 Reports" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/stockcontrol"
+                    android:layout_marginTop="5dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/registerlinkwidth"
+                        android:layout_height="@dimen/registerlinkheight"
+                        android:id="@+id/stockcontrolImageview"
+                        android:src="@drawable/stockreg"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="7dp" />
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
+                        android:id="@+id/stockcontroltextview"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/label_text_size"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:text="Stock Control" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+        </ScrollView>
 
 
     </LinearLayout>
