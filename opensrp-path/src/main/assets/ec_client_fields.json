@@ -54,6 +54,13 @@
             "field": "obs.fieldCode",
             "formSubmissionField": "BLOCK"
           }
+        },
+        {
+          "column_name": "last_interacted_with",
+          "type": "Event",
+          "json_mapping": {
+            "field": "version"
+          }
         }
       ]
     },
@@ -102,6 +109,13 @@
           "type": "Client",
           "json_mapping": {
             "field": "birthdate"
+          }
+        },
+        {
+          "column_name": "relational_id",
+          "type": "Client",
+          "json_mapping": {
+            "field": "relationships.household"
           }
         },
         {

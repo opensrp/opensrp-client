@@ -122,9 +122,111 @@ public class JsonFormUtils {
                 saveBirthRegistration(context, openSrpContext, jsonString, providerId, "Child_Photo", "child", "mother");
             }else if (form.getString("encounter_type").equals("Household Registration")) {
                 saveHouseholdRegistration(context, openSrpContext, jsonString, providerId, "household_Photo", "household");
+            }else if (form.getString("encounter_type").equals("New Woman Member Registration")) {
+                saveWomanRegistration(context, openSrpContext, jsonString, providerId, "woman_photo", "mother","household");
             }
         } catch (JSONException e) {
             Log.e(TAG, Log.getStackTraceString(e));
+        }
+    }
+
+    private static void saveWomanRegistration(Context context, org.ei.opensrp.Context openSrpContext,
+                                              String jsonString, String providerId, String imageKey, String bindType,
+                                              String subBindType) {
+        if (context == null || openSrpContext == null || StringUtils.isBlank(providerId)
+                || StringUtils.isBlank(jsonString)) {
+            return;
+        }
+
+        try {
+            ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(context);
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
+
+            JSONObject jsonForm = new JSONObject(jsonString);
+
+            String entityId = getString(jsonForm, ENTITY_ID);
+            if (StringUtils.isBlank(entityId)) {
+                entityId = generateRandomUUIDString();
+            }
+
+            JSONArray fields = fields(jsonForm);
+            if (fields == null) {
+                return;
+            }
+
+            String encounterType = getString(jsonForm, ENCOUNTER_TYPE);
+
+            JSONObject metadata = getJSONObject(jsonForm, METADATA);
+
+            // Replace values for location questions with their corresponding location IDs
+            for (int i = 0; i < fields.length(); i++) {
+                String key = fields.getJSONObject(i).getString("key");
+                if (key.equals("Home_Facility")
+                        || key.equals("Birth_Facility_Name")
+                        || key.equals("Residential_Area")) {
+                    try {
+                        String rawValue = fields.getJSONObject(i).getString("value");
+                        JSONArray valueArray = new JSONArray(rawValue);
+                        if (valueArray.length() > 0) {
+                            String lastLocationName = valueArray.getString(valueArray.length() - 1);
+                            String lastLocationId = getOpenMrsLocationId(openSrpContext, lastLocationName);
+                            fields.getJSONObject(i).put("value", lastLocationId);
+                        }
+                    } catch (Exception e) {
+                        Log.e(TAG, Log.getStackTraceString(e));
+                    }
+                } else if (key.equals("Mother_Guardian_Date_Birth")) {
+                    if (TextUtils.isEmpty(fields.getJSONObject(i).optString("value"))) {
+                        fields.getJSONObject(i).put("value", MOTHER_DEFAULT_DOB);
+                    }
+                }
+            }
+
+            JSONObject lookUpJSONObject = getJSONObject(metadata, "look_up");
+            String lookUpEntityId = "";
+            String lookUpBaseEntityId = "";
+            if (lookUpJSONObject != null) {
+                lookUpEntityId = getString(lookUpJSONObject, "entity_id");
+                lookUpBaseEntityId = getString(lookUpJSONObject, "value");
+            }
+
+            Client c = JsonFormUtils.createBaseClient(fields, entityId);
+            Event e = JsonFormUtils.createEvent(openSrpContext, fields, metadata, entityId, encounterType, providerId, bindType);
+
+            Client s = null;
+            Event se = null;
+            if (lookUpEntityId.equals("household") && StringUtils.isNotBlank(lookUpBaseEntityId)) {
+                Client ss = new Client(lookUpBaseEntityId);
+                addRelationship(context, ss, c,"household");
+            }
+
+
+
+            if (c != null) {
+                JSONObject clientJson = new JSONObject(gson.toJson(c));
+
+                ecUpdater.addClient(c.getBaseEntityId(), clientJson);
+
+            }
+
+            if (e != null) {
+                JSONObject eventJson = new JSONObject(gson.toJson(e));
+                ecUpdater.addEvent(e.getBaseEntityId(), eventJson);
+            }
+
+
+
+            String imageLocation = getFieldValue(fields, imageKey);
+            saveImage(context, providerId, entityId, imageLocation);
+
+            long lastSyncTimeStamp = allSharedPreferences.fetchLastUpdatedAtDate(0);
+            Date lastSyncDate = new Date(lastSyncTimeStamp);
+            PathClientProcessor.getInstance(context).processClient(ecUpdater.getEvents(lastSyncDate, BaseRepository.TYPE_Unsynced));
+            allSharedPreferences.saveLastUpdatedAtDate(lastSyncDate.getTime());
+
+        } catch (Exception e) {
+            Log.e(TAG, "", e);
         }
     }
 

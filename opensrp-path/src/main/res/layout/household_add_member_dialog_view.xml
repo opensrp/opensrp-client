@@ -11,7 +11,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/dialog_shape">
+        android:background="@drawable/dialog_shape"
+        android:layout_margin="30dp">
 
 
         <LinearLayout
@@ -45,23 +46,24 @@
                         android:textColor="@color/black"
                         android:textSize="26sp"
                         android:textStyle="bold"
-                        android:password="false" />
+                        android:password="false"
+                        android:layout_gravity="center_horizontal" />
 
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <org.ei.opensrp.view.customControls.CustomFontTextView
                             android:id="@+id/secondary_text"
                             style="@style/CustomFontTextViewStyle.ClientList.Light"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
                             android:text="Age"
                             android:textColor="@color/client_list_grey"
-                            android:textSize="22sp" />
+                            android:textSize="22sp"
+                            android:layout_gravity="center_horizontal" />
                     </LinearLayout>
 
                     <org.ei.opensrp.view.customControls.CustomFontTextView
@@ -71,7 +73,8 @@
                         android:layout_height="wrap_content"
                         android:text="pmtct_status"
                         android:textColor="@color/client_list_grey"
-                        android:textSize="22sp" />
+                        android:textSize="22sp"
+                        android:layout_gravity="center_horizontal" />
 
                 </LinearLayout>
 

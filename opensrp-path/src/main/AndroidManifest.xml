@@ -53,6 +53,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBarAndTitleWithEditButton" />
         <activity
+            android:name=".activity.MotherSmartRegisterActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarAndTitle" />
+        <activity
             android:name=".activity.FieldMonitorSmartRegisterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape"

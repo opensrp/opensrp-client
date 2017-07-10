@@ -403,6 +403,7 @@ public class LoginActivity extends Activity {
     private void goToHome(boolean remote) {
         if (!remote) startZScoreIntentService();
         VaccinatorApplication.setCrashlyticsUser(context);
+        //Intent intent = new Intent(this, MotherSmartRegisterActivity.class);
         Intent intent = new Intent(this, HouseholdSmartRegisterActivity.class);
         intent.putExtra(BaseRegisterActivity.IS_REMOTE_LOGIN, remote);
         startActivity(intent);

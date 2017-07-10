@@ -1,12 +1,10 @@
 package org.ei.opensrp.path.activity;
 
 import android.app.AlertDialog;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,16 +24,10 @@ import org.ei.opensrp.event.Event;
 import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.adapter.PathRegisterActivityPagerAdapter;
-import org.ei.opensrp.path.application.VaccinatorApplication;
-import org.ei.opensrp.path.domain.Stock;
 import org.ei.opensrp.path.fragment.AdvancedSearchFragment;
 import org.ei.opensrp.path.fragment.BaseSmartRegisterFragment;
-import org.ei.opensrp.path.fragment.ChildSmartRegisterFragment;
-import org.ei.opensrp.path.fragment.HouseholdMemberAddFragment;
-import org.ei.opensrp.path.fragment.HouseholdSmartRegisterFragment;
+import org.ei.opensrp.path.fragment.MotherSmartRegisterFragment;
 import org.ei.opensrp.path.receiver.ServiceReceiver;
-import org.ei.opensrp.path.repository.PathRepository;
-import org.ei.opensrp.path.repository.StockRepository;
 import org.ei.opensrp.path.view.LocationPickerView;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.repository.AllSharedPreferences;
@@ -44,7 +36,6 @@ import org.ei.opensrp.service.ZiggyService;
 import org.ei.opensrp.util.FormUtils;
 import org.ei.opensrp.view.dialog.DialogOptionModel;
 import org.ei.opensrp.view.viewpager.OpenSRPViewPager;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.Bind;
@@ -59,8 +50,8 @@ import static android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS;
 /**
  * Created by Ahmed on 13-Oct-15.
  */
-public class HouseholdSmartRegisterActivity extends BaseRegisterActivity {
-    private static String TAG = HouseholdSmartRegisterActivity.class.getCanonicalName();
+public class MotherSmartRegisterActivity extends BaseRegisterActivity {
+    private static String TAG = MotherSmartRegisterActivity.class.getCanonicalName();
 
     @Bind(R.id.view_pager)
     OpenSRPViewPager mPager;
@@ -84,7 +75,7 @@ public class HouseholdSmartRegisterActivity extends BaseRegisterActivity {
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        mBaseFragment = new HouseholdSmartRegisterFragment();
+        mBaseFragment = new MotherSmartRegisterFragment();
         advancedSearchFragment = new AdvancedSearchFragment();
         Fragment[] otherFragments = {new AdvancedSearchFragment()};
 
@@ -157,10 +148,9 @@ public class HouseholdSmartRegisterActivity extends BaseRegisterActivity {
 
     @Override
     public void startFormActivity(String formName, String entityId, String metaData) {
-        Log.d("-------------",formName);
         try {
-            if (mBaseFragment instanceof HouseholdSmartRegisterFragment) {
-                LocationPickerView locationPickerView = ((HouseholdSmartRegisterFragment) mBaseFragment).getLocationPickerView();
+            if (mBaseFragment instanceof MotherSmartRegisterFragment) {
+                LocationPickerView locationPickerView = ((MotherSmartRegisterFragment) mBaseFragment).getLocationPickerView();
                 String locationId = JsonFormUtils.getOpenMrsLocationId(context(), locationPickerView.getSelectedItem());
                 JsonFormUtils.startForm(this, context(), REQUEST_CODE_GET_JSON, formName, entityId,
                         metaData, locationId);
@@ -214,34 +204,15 @@ public class HouseholdSmartRegisterActivity extends BaseRegisterActivity {
                 try {
                     form = new JSONObject(jsonString);
                     if (form.getString("encounter_type").equals("Household Registration")) {
-                        FragmentTransaction ft = this.getFragmentManager().beginTransaction();
-                        android.app.Fragment prev = this.getFragmentManager().findFragmentByTag(HouseholdMemberAddFragment.DIALOG_TAG);
-                        if (prev != null) {
-                            ft.remove(prev);
-                        }
-                        ft.addToBackStack(null);
-                        PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
-                        net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
-                        Cursor c = db.rawQuery("SELECT base_entity_id FROM ec_household WHERE last_interacted_with=(SELECT MAX(last_interacted_with) FROM ec_household)", null);
-                        String householdid = "";
-                        if(c.getCount()>0) {
-                            c.moveToFirst();
-                            if(c.getString(0)!=null && !StringUtils.isBlank(c.getString(0)))
-                                householdid = c.getString(0);
-                            c.close();
-                        }else{
-                            c.close();
-                        }
+                        form = FormUtils.getInstance(this).getFormJson("woman_member_registration");
 
-
-                        LocationPickerView locationPickerView = ((HouseholdSmartRegisterFragment) mBaseFragment).getLocationPickerView();
-                        String locationId = JsonFormUtils.getOpenMrsLocationId(context(), locationPickerView.getSelectedItem());
-                        HouseholdMemberAddFragment addmemberFragment = HouseholdMemberAddFragment.newInstance(this,locationId,householdid,context());
-                        addmemberFragment.show(ft, HouseholdMemberAddFragment.DIALOG_TAG);
-//                       startFormActivity("woman_member_registration", null, null);
+                        JsonFormUtils.addHouseholdRegLocHierarchyQuestions(form, Context.getInstance());
+                        Intent intent = new Intent(this, PathJsonFormActivity.class);
+                        intent.putExtra("json", form.toString());
+                        startActivityForResult(intent, REQUEST_CODE_GET_JSON);
 
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -341,8 +312,8 @@ public class HouseholdSmartRegisterActivity extends BaseRegisterActivity {
         if(currentPage != 0){
             switchToBaseFragment(null);
             BaseSmartRegisterFragment registerFragment = (BaseSmartRegisterFragment) findFragmentByPosition(0);
-            if (registerFragment != null && registerFragment instanceof ChildSmartRegisterFragment) {
-                ((ChildSmartRegisterFragment)registerFragment).triggerFilterSelection();
+            if (registerFragment != null && registerFragment instanceof MotherSmartRegisterFragment) {
+                ((MotherSmartRegisterFragment)registerFragment).triggerFilterSelection();
             }
         }
     }
