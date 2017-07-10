@@ -47,10 +47,10 @@ import java.util.Map;
 public class JsonFormFragment extends MvpFragment<JsonFormFragmentPresenter, JsonFormFragmentViewState> implements
         CommonListener, JsonFormFragmentView<JsonFormFragmentViewState> {
     private static final String TAG = "JsonFormFragment";
-    private LinearLayout        mMainView;
-    private ScrollView          mScrollView;
-    private Menu                mMenu;
-    private JsonApi             mJsonApi;
+    private LinearLayout mMainView;
+    private ScrollView mScrollView;
+    private Menu mMenu;
+    private JsonApi mJsonApi;
     private Map<String, List<View>> lookUpMap = new HashMap<>();
 
     @Override
@@ -107,13 +107,33 @@ public class JsonFormFragment extends MvpFragment<JsonFormFragmentPresenter, Jso
             presenter.onBackClick();
             return true;
         } else if (item.getItemId() == R.id.action_next) {
-            presenter.onNextClick(mMainView);
-            return true;
+            return next();
         } else if (item.getItemId() == R.id.action_save) {
-            presenter.onSaveClick(mMainView);
-            return true;
+            return save();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean save() {
+        try {
+            presenter.onSaveClick(mMainView);
+            return true;
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
+
+        return false;
+    }
+
+    public boolean next() {
+        try {
+            presenter.onNextClick(mMainView);
+            return true;
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
+
+        return false;
     }
 
     @Override
@@ -330,6 +350,10 @@ public class JsonFormFragment extends MvpFragment<JsonFormFragmentPresenter, Jso
         bundle.putString("stepName", stepName);
         jsonFormFragment.setArguments(bundle);
         return jsonFormFragment;
+    }
+
+    public Menu getMenu() {
+        return mMenu;
     }
 
     public JsonApi getJsonApi() {
