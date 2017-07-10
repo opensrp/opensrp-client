@@ -129,4 +129,8 @@
     <dimen name="registerlinkwidth">85dp</dimen>
     <dimen name="registerlinkheight">85dp</dimen>
     <dimen name="custom_navigation_icon_size">35dp</dimen>
+
+    <dimen name="illustration_report_empty_state_size">175dp</dimen>
+
+
 </resources>

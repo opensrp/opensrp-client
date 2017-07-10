@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.ei.opensrp.path.R;
@@ -46,7 +47,7 @@ public class DraftMonthlyFragment extends Fragment
     private AlertDialog alertDialog;
     private DraftsAdapter draftsAdapter;
     private ListView listView;
-    private TextView noDraftsText;
+    private View noDraftsView;
 
     public static DraftMonthlyFragment newInstance() {
         DraftMonthlyFragment fragment = new DraftMonthlyFragment();
@@ -62,7 +63,7 @@ public class DraftMonthlyFragment extends Fragment
         final View fragmentview = inflater.inflate(R.layout.sent_monthly_fragment, container, false);
 
         listView = (ListView) fragmentview.findViewById(R.id.list);
-        noDraftsText = (TextView) fragmentview.findViewById(R.id.empty_view);
+        noDraftsView =  fragmentview.findViewById(R.id.empty_view);
         startNewReportEnabled = (Button) fragmentview.findViewById(R.id.start_new_report_enabled);
         startNewReportDisabled = (Button) fragmentview.findViewById(R.id.start_new_report_disabled);
 
@@ -165,7 +166,7 @@ public class DraftMonthlyFragment extends Fragment
 
     private void updateDraftsReportListView(final List<MonthlyTally> monthlyTallies) {
         if (monthlyTallies != null && !monthlyTallies.isEmpty()) {
-            noDraftsText.setVisibility(View.GONE);
+            noDraftsView.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
             if (draftsAdapter == null) {
                 draftsAdapter = new DraftsAdapter(monthlyTallies);
@@ -175,7 +176,7 @@ public class DraftMonthlyFragment extends Fragment
                 draftsAdapter.notifyDataSetChanged();
             }
         } else {
-            noDraftsText.setVisibility(View.VISIBLE);
+            noDraftsView.setVisibility(View.VISIBLE);
             listView.setVisibility(View.GONE);
         }
     }
