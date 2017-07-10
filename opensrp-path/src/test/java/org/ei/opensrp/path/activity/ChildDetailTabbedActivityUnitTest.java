@@ -101,7 +101,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     }
 
 
-    /*@Test
+    @Test
     public void shouldRenderAvatarImageView() {
 
         ImageView logoImageView = (ImageView) activity.findViewById(R.id.profile_image_iv);
@@ -569,7 +569,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     public void onReturnSelectItemOptionsShouldReturnTrue() {
         assertTrue(activity.onPrepareOptionsMenu(null));
 
-    }*/
+    }
 
     public void onBackPressShouldFinishActivity() {
         activity.onBackPressed();
@@ -578,7 +578,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     }
 
 
-    /*@Test
+    @Test
     public void getVaccinatorApplicationInstanceShouldNotReturnNull() {
 
         assertNotNull(activity.getVaccinatorApplicationInstance());
@@ -765,7 +765,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
         assertTrue(statusTextView.getVisibility() == View.VISIBLE);
         assertEquals("Lost to\nFollow-Up", statusTextView.getText().toString());
 
-    }*/
+    }
 
     private DetailsRepository getDetailsRepository() {
 
