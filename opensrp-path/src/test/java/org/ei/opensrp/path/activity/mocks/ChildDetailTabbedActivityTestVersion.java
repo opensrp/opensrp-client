@@ -13,7 +13,7 @@ import org.ei.opensrp.path.domain.Photo;
 public class ChildDetailTabbedActivityTestVersion extends ChildDetailTabbedActivity {
 
 
-    /*@Override
+    @Override
     public void onCreate(Bundle bundle) {
         setTheme(R.style.AppTheme); //we need this here
         super.onCreate(bundle);
@@ -54,6 +54,6 @@ public class ChildDetailTabbedActivityTestVersion extends ChildDetailTabbedActiv
     @Override
     protected void onDestroy() {
         super.onDestroy();
-    }*/
+    }
 
 }

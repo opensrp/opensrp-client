@@ -101,7 +101,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
     }
 
 
-    @Test
+    /*@Test
     public void shouldRenderAvatarImageView() {
 
         ImageView logoImageView = (ImageView) activity.findViewById(R.id.profile_image_iv);
@@ -365,7 +365,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
                 View.FIND_VIEWS_WITH_TEXT);
         assertTrue(!outViews.isEmpty());
 
-    }
+    }*/
 
     @Test
     public void shouldRenderChildsResidentialAreaRow() {
