@@ -43,4 +43,8 @@ public class PathConstants extends AllConstants {
     }
 
 
+    public static final class EventType {
+
+        public static final String DEATH = "Death";
+    }
 }

@@ -39,6 +39,7 @@ import org.ei.opensrp.path.sync.ECSyncUpdater;
 import org.ei.opensrp.path.sync.PathClientProcessor;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.repository.ImageRepository;
+import org.ei.opensrp.sync.ClientProcessor;
 import org.ei.opensrp.util.AssetHandler;
 import org.ei.opensrp.util.FormUtils;
 import org.ei.opensrp.view.activity.DrishtiApplication;
@@ -2127,6 +2128,7 @@ public class JsonFormUtils {
                 }
             }
 
+
             if (metadata != null) {
                 Iterator<?> keys = metadata.keys();
 
@@ -2156,7 +2158,25 @@ public class JsonFormUtils {
 
 
             if (event != null) {
+
                 JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(event));
+
+                //After saving, Unsync(remove) this event's details
+                List<JSONObject> jsonEvents = new ArrayList<>();
+                jsonEvents.add(eventJson);
+                PathClientProcessor.getInstance(context).processClient(jsonEvents);
+
+                //Update client to deceased
+
+                JSONObject client = db.getClientByBaseEntityId(eventJson.getString(ClientProcessor.baseEntityIdJSONKey));
+                JSONObject attributes = client.getJSONObject(JsonFormUtils.attributes);
+                attributes.put("deathdate", encounterDate);
+                attributes.put("deathdateApprox", false);
+                client.remove(JsonFormUtils.attributes);
+                client.put(JsonFormUtils.attributes, attributes);
+                db.addorUpdateClient(entityId, client);
+
+                //Add Death Event for child to flag for Server delete
                 db.addEvent(event.getBaseEntityId(), eventJson);
 
             }
