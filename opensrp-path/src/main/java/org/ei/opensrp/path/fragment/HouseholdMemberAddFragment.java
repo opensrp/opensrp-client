@@ -32,6 +32,7 @@ import org.ei.opensrp.clientandeventmodel.Event;
 import org.ei.opensrp.clientandeventmodel.Obs;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.BaseRegisterActivity;
+import org.ei.opensrp.path.activity.ChildSmartRegisterActivity;
 import org.ei.opensrp.path.activity.HouseholdSmartRegisterActivity;
 import org.ei.opensrp.path.activity.PathJsonFormActivity;
 import org.ei.opensrp.path.activity.WomanSmartRegisterActivity;
@@ -98,12 +99,13 @@ public class HouseholdMemberAddFragment extends DialogFragment {
 
         Button addChild = (Button) dialogView.findViewById(R.id.add_child);
         Button addWoman = (Button) dialogView.findViewById(R.id.add_woman);
-
+        Button cancel = (Button) dialogView.findViewById(R.id.cancel);
 
         addChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("------------","addChild");
+                ((ChildSmartRegisterActivity) getActivity()).startFormActivity("child_enrollment", null, null);
             }
         });
 
@@ -122,6 +124,12 @@ public class HouseholdMemberAddFragment extends DialogFragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
             }
         });
 
