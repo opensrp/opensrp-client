@@ -554,7 +554,7 @@ public class PathJsonFormActivity extends JsonFormActivity {
 //                                    balancetextview.setErrorColor(getResources().getColor(R.color.dark_grey));
 //                                    balancetextview.setError("New balance : " + displaybalance);
 //                                }
-                                pathJsonFormFragment.getLabelViewFromTag("Balance","New balance : " + displaybalance);
+                                pathJsonFormFragment.getLabelViewFromTag("Balance","New balance: " + displaybalance);
 
                             }else{
                                 pathJsonFormFragment.getLabelViewFromTag("Balance","");
@@ -615,7 +615,7 @@ public class PathJsonFormActivity extends JsonFormActivity {
 //                                    balancetextview.setErrorColor(Color.BLACK);
 //                                    balancetextview.setError("New balance : " + displaybalance);
 //                                }
-                                pathJsonFormFragment.getLabelViewFromTag("Balance","New balance : " + displaybalance);
+                                pathJsonFormFragment.getLabelViewFromTag("Balance","New balance: " + displaybalance);
 
                             }else{
                                 pathJsonFormFragment.getLabelViewFromTag("Balance","");
