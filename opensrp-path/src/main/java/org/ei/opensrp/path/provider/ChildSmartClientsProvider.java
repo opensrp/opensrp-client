@@ -140,7 +140,7 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
         Weight weight = weightRepository.findUnSyncedByEntityId(pc.entityId());
         if (weight != null) {
             TextView recordWeightText = (TextView) convertView.findViewById(R.id.record_weight_text);
-            recordWeightText.setText(weight.getKg().toString() + " kg");
+            recordWeightText.setText(String.format("%s kg", weight.getKg()));
 
             ImageView recordWeightCheck = (ImageView) convertView.findViewById(R.id.record_weight_check);
             recordWeightCheck.setVisibility(View.VISIBLE);
