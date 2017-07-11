@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import org.ei.opensrp.path.R;
-import org.ei.opensrp.path.activity.HIA2ReportsActivity;
 import org.ei.opensrp.path.activity.ReportSummaryActivity;
 import org.ei.opensrp.path.adapter.ExpandedListAdapter;
 import org.ei.opensrp.path.application.VaccinatorApplication;
@@ -38,7 +37,7 @@ import util.Utils;
  * Created by coder on 6/7/17.
  */
 public class SentMonthlyFragment extends Fragment
-        implements Hia2ServiceBroadcastReceiver.Hia2ServiceListener  {
+        implements Hia2ServiceBroadcastReceiver.Hia2ServiceListener {
     private static final String TAG = SentMonthlyFragment.class.getCanonicalName();
     private static final SimpleDateFormat MONTH_YEAR_FORMAT = new SimpleDateFormat("MMMM yyyy");
     private ExpandableListView expandableListView;
@@ -93,7 +92,6 @@ public class SentMonthlyFragment extends Fragment
     }
 
     /**
-     *
      * @param map
      */
     @SuppressWarnings("unchecked")
@@ -137,7 +135,8 @@ public class SentMonthlyFragment extends Fragment
         expandableListAdapter.notifyDataSetChanged();
     }
 
-    private LinkedHashMap<String, List<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>> formatListData() {
+    private LinkedHashMap<String,
+            List<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>> formatListData() {
         Map<String, List<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>> map = new HashMap<>();
         SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
         SimpleDateFormat dateSentFormat = new SimpleDateFormat("M/d/yy");
@@ -175,7 +174,7 @@ public class SentMonthlyFragment extends Fragment
             Collections.sort(list, new Comparator<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>() {
                 @Override
                 public int compare(ExpandedListAdapter.ItemData<Pair<String, String>, Date> lhs, ExpandedListAdapter.ItemData<Pair<String, String>, Date> rhs) {
-                    return lhs.getTagData().compareTo(rhs.getTagData());
+                    return rhs.getTagData().compareTo(lhs.getTagData());
                 }
             });
             sortedMap.put(sortMap.get(curKey), list);

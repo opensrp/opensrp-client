@@ -14,14 +14,17 @@ import org.ei.opensrp.view.customControls.CustomFontTextView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class ReportSummaryActivity extends BaseActivity {
     private static final String TAG = ReportSummaryActivity.class.getName();
     public static final String EXTRA_TALLIES = "tallies";
     public static final String EXTRA_SUB_TITLE = "sub_title";
     public static final String EXTRA_TITLE = "title";
-    private HashMap<String, ArrayList<Tally>> tallies;
+    private LinkedHashMap<String, ArrayList<Tally>> tallies;
     private String subTitle;
     private SimpleToolbar toolbar;
 
@@ -66,7 +69,7 @@ public class ReportSummaryActivity extends BaseActivity {
         CustomFontTextView submittedBy = (CustomFontTextView) findViewById(R.id.submitted_by);
         if (!TextUtils.isEmpty(this.subTitle)) {
             submittedBy.setVisibility(View.VISIBLE);
-            submittedBy.setText(String.format(getString(R.string.submitted_by_), this.subTitle));
+            submittedBy.setText(this.subTitle);
         } else {
             submittedBy.setVisibility(View.GONE);
         }
@@ -98,7 +101,16 @@ public class ReportSummaryActivity extends BaseActivity {
     }
 
     private void setTallies(ArrayList<Tally> tallies, boolean refreshViews) {
-        this.tallies = new HashMap<>();
+        this.tallies = new LinkedHashMap<>();
+        Collections.sort(tallies, new Comparator<Tally>() {
+            @Override
+            public int compare(Tally lhs, Tally rhs) {
+                long lhsId = lhs.getIndicator().getId();
+                long rhsId = rhs.getIndicator().getId();
+                return (int) (lhsId - rhsId);
+            }
+        });
+
         for (Tally curTally : tallies) {
             if (curTally != null && !TextUtils.isEmpty(curTally.getIndicator().getCategory())) {
                 if (!this.tallies.containsKey(curTally.getIndicator().getCategory())
