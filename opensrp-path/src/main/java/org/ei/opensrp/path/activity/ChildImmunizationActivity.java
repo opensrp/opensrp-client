@@ -246,7 +246,6 @@ public class ChildImmunizationActivity extends BaseActivity
         updateViewTask.setRecurringServiceTypeRepository(recurringServiceTypeRepository);
         updateViewTask.setRecurringServiceRecordRepository(recurringServiceRecordRepository);
         updateViewTask.setAlertService(alertService);
-        updateViewTask.setRegisterClickables(registerClickables);
         Utils.startAsyncTask(updateViewTask, null);
     }
 
@@ -793,7 +792,7 @@ public class ChildImmunizationActivity extends BaseActivity
         serviceDialogFragment.show(ft, DIALOG_TAG);
     }
 
-    public void performRegisterActions(RegisterClickables registerClickables) {
+    public void performRegisterActions() {
         if (registerClickables != null) {
             if (registerClickables.isRecordWeight()) {
                 final View recordWeight = findViewById(R.id.record_weight);
@@ -806,6 +805,10 @@ public class ChildImmunizationActivity extends BaseActivity
             } else if (registerClickables.isRecordAll()) {
                 performRecordAllClick(0);
             }
+
+            //Reset register actions
+            registerClickables.setRecordAll(false);
+            registerClickables.setRecordWeight(false);
         }
     }
 
@@ -1082,7 +1085,6 @@ public class ChildImmunizationActivity extends BaseActivity
         private RecurringServiceTypeRepository recurringServiceTypeRepository;
         private RecurringServiceRecordRepository recurringServiceRecordRepository;
         private AlertService alertService;
-        private RegisterClickables registerClickables;
 
         public void setVaccineRepository(VaccineRepository vaccineRepository) {
             this.vaccineRepository = vaccineRepository;
@@ -1104,9 +1106,6 @@ public class ChildImmunizationActivity extends BaseActivity
             this.alertService = alertService;
         }
 
-        public void setRegisterClickables(RegisterClickables registerClickables) {
-            this.registerClickables = registerClickables;
-        }
 
         @Override
         protected void onPreExecute() {
@@ -1169,7 +1168,7 @@ public class ChildImmunizationActivity extends BaseActivity
             updateWeightViews(weight);
             updateServiceViews(serviceTypeMap, serviceRecords, alertList);
             updateVaccinationViews(vaccineList, alertList);
-            performRegisterActions(registerClickables);
+            performRegisterActions();
         }
 
         @Override
@@ -1575,7 +1574,7 @@ public class ChildImmunizationActivity extends BaseActivity
                     DateTime dateTime = new DateTime(dobString);
                     Double birthWeight = Double.valueOf(Utils.getValue(childDetails.getColumnmaps(), "Birth_Weight", false));
 
-                    Weight weight = new Weight(-1l, null, (float) birthWeight.doubleValue(), dateTime.toDate(), null, null, null, Calendar.getInstance().getTimeInMillis(), null, null,0);
+                    Weight weight = new Weight(-1l, null, (float) birthWeight.doubleValue(), dateTime.toDate(), null, null, null, Calendar.getInstance().getTimeInMillis(), null, null, 0);
                     allWeights.add(weight);
                 }
             } catch (Exception e) {
