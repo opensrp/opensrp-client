@@ -173,7 +173,8 @@ public class SentMonthlyFragment extends Fragment
             List<ExpandedListAdapter.ItemData<Pair<String, String>, Date>> list = map.get(sortMap.get(curKey));
             Collections.sort(list, new Comparator<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>() {
                 @Override
-                public int compare(ExpandedListAdapter.ItemData<Pair<String, String>, Date> lhs, ExpandedListAdapter.ItemData<Pair<String, String>, Date> rhs) {
+                public int compare(ExpandedListAdapter.ItemData<Pair<String, String>, Date> lhs,
+                                   ExpandedListAdapter.ItemData<Pair<String, String>, Date> rhs) {
                     return rhs.getTagData().compareTo(lhs.getTagData());
                 }
             });
