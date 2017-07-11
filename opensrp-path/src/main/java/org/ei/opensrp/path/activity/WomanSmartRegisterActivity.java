@@ -58,7 +58,7 @@ import util.barcode.BarcodeIntentResult;
 import static android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS;
 
 /**
- * Created by Ahmed on 13-Oct-15.
+ * Created by Raihan Ahmed on 13-July-17.
  */
 public class WomanSmartRegisterActivity extends BaseRegisterActivity {
     private static String TAG = HouseholdSmartRegisterActivity.class.getCanonicalName();

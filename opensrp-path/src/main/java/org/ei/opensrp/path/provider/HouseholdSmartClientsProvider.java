@@ -1,5 +1,7 @@
 package org.ei.opensrp.path.provider;
 
+import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
@@ -18,9 +20,14 @@ import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.domain.Weight;
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.activity.HouseholdSmartRegisterActivity;
 import org.ei.opensrp.path.db.VaccineRepo;
+import org.ei.opensrp.path.fragment.HouseholdMemberAddFragment;
+import org.ei.opensrp.path.fragment.HouseholdSmartRegisterFragment;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.repository.WeightRepository;
+import org.ei.opensrp.path.view.LocationPickerView;
+import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.util.OpenSRPImageLoader;
 import org.ei.opensrp.view.activity.DrishtiApplication;
@@ -31,6 +38,7 @@ import org.ei.opensrp.view.dialog.ServiceModeOption;
 import org.ei.opensrp.view.dialog.SortOption;
 import org.ei.opensrp.view.viewHolder.OnClickFormLauncher;
 import org.joda.time.DateTime;
+import org.json.JSONException;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -41,9 +49,11 @@ import java.util.concurrent.TimeUnit;
 
 import util.DateUtils;
 import util.ImageUtils;
+import util.JsonFormUtils;
 import util.VaccinateActionUtils;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static org.ei.opensrp.path.fragment.HouseholdMemberAddFragment.startForm;
 import static util.Utils.fillValue;
 import static util.Utils.getName;
 import static util.Utils.getValue;
@@ -63,30 +73,66 @@ public class HouseholdSmartClientsProvider implements SmartRegisterCLientsProvid
     WeightRepository weightRepository;
     private final AbsListView.LayoutParams clientViewLayoutParams;
     private static final String VACCINES_FILE = "vaccines.json";
+    String locationId = "";
+    private HouseholdSmartRegisterFragment mBaseFragment;
+    private static final int REQUEST_CODE_GET_JSON = 3432;
 
     public HouseholdSmartClientsProvider(Context context, View.OnClickListener onClickListener,
-                                         AlertService alertService, VaccineRepository vaccineRepository, WeightRepository weightRepository) {
+                                         AlertService alertService, VaccineRepository vaccineRepository, WeightRepository weightRepository,HouseholdSmartRegisterFragment mBaseFragment) {
         this.onClickListener = onClickListener;
         this.context = context;
         this.alertService = alertService;
         this.vaccineRepository = vaccineRepository;
         this.weightRepository = weightRepository;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.mBaseFragment = mBaseFragment;
 
         clientViewLayoutParams = new AbsListView.LayoutParams(MATCH_PARENT, (int) context.getResources().getDimension(org.ei.opensrp.R.dimen.list_item_height));
     }
 
     @Override
-    public void getView(SmartRegisterClient client, View convertView) {
+    public void getView(SmartRegisterClient client, final View convertView) {
         convertView.setLayoutParams(clientViewLayoutParams);
-        CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
+        final CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
 //
         fillValue((TextView) convertView.findViewById(R.id.id), getValue(pc.getColumnmaps(), "HHID", false));
         fillValue((TextView) convertView.findViewById(R.id.registrationdate), getValue(pc.getColumnmaps(), "Date_Of_Reg", false));
-        fillValue((TextView) convertView.findViewById(R.id.address), getValue(pc.getColumnmaps(), "address1", false));
-        fillValue((TextView) convertView.findViewById(R.id.householdprimarytext), getValue(pc.getColumnmaps(), "block", false));
-        fillValue((TextView) convertView.findViewById(R.id.housholdsecondarytext), getValue(pc.getColumnmaps(), "address2", false));
+//        fillValue((TextView) convertView.findViewById(R.id.address), getValue(pc.getColumnmaps(), "address1", false));
+//        fillValue((TextView) convertView.findViewById(R.id.householdprimarytext), getValue(pc.getColumnmaps(), "block", false));
 
+
+        DetailsRepository detailsRepository;
+        detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
+        Map<String, String> details = detailsRepository.getAllDetailsForClient(pc.entityId());
+        fillValue((TextView) convertView.findViewById(R.id.householdprimarytext), getValue(details, "BLOCK", false));
+        fillValue((TextView) convertView.findViewById(R.id.housholdsecondarytext), getValue(details, "address2", false));
+        fillValue((TextView) convertView.findViewById(R.id.address), getValue(details, "address1", false));
+
+        Button addmember = (Button)convertView.findViewById(R.id.add_member);
+        LocationPickerView locationPickerView = ((HouseholdSmartRegisterFragment) mBaseFragment).getLocationPickerView();
+
+        try {
+            locationId = JsonFormUtils.getOpenMrsLocationId(context(), locationPickerView.getSelectedItem());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        addmember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction ft = ((HouseholdSmartRegisterActivity)context).getFragmentManager().beginTransaction();
+                android.app.Fragment prev = ((HouseholdSmartRegisterActivity)context).getFragmentManager().findFragmentByTag(HouseholdMemberAddFragment.DIALOG_TAG);
+                if (prev != null) {
+                    ft.remove(prev);
+                }
+                ft.addToBackStack(null);
+
+                HouseholdMemberAddFragment addmemberFragment = HouseholdMemberAddFragment.newInstance(context,locationId,pc.entityId(),context());
+                    addmemberFragment.show(ft, HouseholdMemberAddFragment.DIALOG_TAG);
+//
+
+            }
+        });
 //
 //        String firstName = getValue(pc.getColumnmaps(), "first_name", true);
 //        String lastName = getValue(pc.getColumnmaps(), "last_name", true);
@@ -159,5 +205,8 @@ public class HouseholdSmartClientsProvider implements SmartRegisterCLientsProvid
         WAITING,
         NO_ALERT,
         FULLY_IMMUNIZED
+    }
+    protected org.ei.opensrp.Context context() {
+        return org.ei.opensrp.Context.getInstance().updateApplicationContext(context);
     }
 }

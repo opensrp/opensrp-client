@@ -43,6 +43,7 @@ import org.ei.opensrp.path.option.BasicSearchOption;
 import org.ei.opensrp.path.option.DateSort;
 import org.ei.opensrp.path.option.StatusSort;
 import org.ei.opensrp.path.provider.ChildSmartClientsProvider;
+import org.ei.opensrp.path.provider.WomanSmartClientsProvider;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.servicemode.VaccinationServiceModeOption;
 import org.ei.opensrp.path.view.LocationPickerView;
@@ -290,7 +291,7 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
     public void initializeQueries() {
         String tableName = PathConstants.MOTHER_TABLE_NAME;
 
-        ChildSmartClientsProvider hhscp = new ChildSmartClientsProvider(getActivity(),
+        WomanSmartClientsProvider hhscp = new WomanSmartClientsProvider(getActivity(),
                 clientActionHandler, context().alertService(), VaccinatorApplication.getInstance().vaccineRepository(), VaccinatorApplication.getInstance().weightRepository());
         clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, hhscp, Context.getInstance().commonrepository(tableName));
         clientsView.setAdapter(clientAdapter);

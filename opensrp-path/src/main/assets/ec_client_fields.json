@@ -48,14 +48,6 @@
           }
         },
         {
-          "column_name": "block",
-          "type": "Event",
-          "json_mapping": {
-            "field": "obs.fieldCode",
-            "formSubmissionField": "BLOCK"
-          }
-        },
-        {
           "column_name": "last_interacted_with",
           "type": "Event",
           "json_mapping": {

@@ -105,7 +105,7 @@ public class HouseholdMemberAddFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 Log.d("------------","addChild");
-                ((ChildSmartRegisterActivity) getActivity()).startFormActivity("child_enrollment", null, null);
+                ((HouseholdSmartRegisterActivity) getActivity()).startFormActivity("child_enrollment", null, null);
             }
         });
 

@@ -269,7 +269,7 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
         String tableName = "ec_household";
 
         HouseholdSmartClientsProvider hhscp = new HouseholdSmartClientsProvider(getActivity(),
-                clientActionHandler, context().alertService(), VaccinatorApplication.getInstance().vaccineRepository(), VaccinatorApplication.getInstance().weightRepository());
+                clientActionHandler, context().alertService(), VaccinatorApplication.getInstance().vaccineRepository(), VaccinatorApplication.getInstance().weightRepository(),this);
         clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, hhscp, Context.getInstance().commonrepository(tableName));
         clientsView.setAdapter(clientAdapter);
 
