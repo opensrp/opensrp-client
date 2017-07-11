@@ -103,7 +103,20 @@ public class HouseHoldSmartClientsProvider implements SmartRegisterCLientsProvid
         viewHolder.follow_up.setTag(smartRegisterClient);
            viewHolder.profilelayout.setOnClickListener(onClickListener);
         viewHolder.profilelayout.setTag(smartRegisterClient);
-        CommonPersonObjectClient pc = (CommonPersonObjectClient) smartRegisterClient;
+
+        final CommonPersonObjectClient pc = (CommonPersonObjectClient) smartRegisterClient;
+
+
+        ((Button)convertView.findViewById(R.id.fingerbutton)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("-----------","user Name : " + pc.getColumnmaps().get("FWHOHFNAME"));
+                Toast.makeText(this,"Enrollment Started!!",Toast.LENGTH_LONG).show();
+                SimHelper simHelper = new SimHelper("4b725213-d5e8-4d70-a4cc-98edbd8bdcb1", "mPower");
+                Intent intent = simHelper.register("sohel");
+                startActivityForResult(intent, 1); // 1 is your requestCode for the callback
+            }
+        });
 
         List<Alert> alertlist_for_client = alertService.findByEntityIdAndAlertNames(pc.entityId(), "FW CENSUS");
 
@@ -236,6 +249,11 @@ public class HouseHoldSmartClientsProvider implements SmartRegisterCLientsProvid
         viewHolder.due_visit_date.setText(McareApplication.convertToEnglishDigits(viewHolder.due_visit_date.getText().toString()));
         convertView.setLayoutParams(clientViewLayoutParams);
 //        return convertView;
+
+
+
+
+
     }
 //    CommonPersonObjectController householdelcocontroller;
     private boolean getIfHouseholdHasElcoWithoutNationalID(CommonPersonObjectClient pc) {

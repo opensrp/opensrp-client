@@ -84,6 +84,14 @@
             android:layout_gravity="top"
             android:visibility="invisible"
             android:layout_margin="1dp" />
+        <Button
+            android:layout_width="25dp"
+            android:layout_height="20dp"
+            android:id="@+id/fingerbutton"
+            android:background="@mipmap/fingerprinticon"
+            android:layout_gravity="top"
+            android:visibility="visible"
+            android:layout_margin="1dp" />
 
     </LinearLayout>
 

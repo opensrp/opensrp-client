@@ -4,7 +4,7 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:1.2.3"
+        classpath 'com.android.tools.build:gradle:1.2.3'
         classpath 'org.apache.commons:commons-lang3:3.3.2'
         classpath 'org.robolectric:robolectric-gradle-plugin:1.1.0'
         classpath 'io.fabric.tools:gradle:1.+'
@@ -25,7 +25,6 @@ configurations.all {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':opensrp-app')
-
     compile 'com.android.support:support-annotations:21.0.3'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.1'
@@ -35,6 +34,7 @@ dependencies {
     }
 
 }
+
 android {
     compileSdkVersion androidCompileSdkVersion
     buildToolsVersion androidBuildToolsVersion
