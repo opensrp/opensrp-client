@@ -28,8 +28,8 @@ import java.util.Map;
 
 public class MonthlyTalliesRepository extends BaseRepository {
     private static final String TAG = MonthlyTalliesRepository.class.getCanonicalName();
-    public static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("yyyy-MM");
-    public static final SimpleDateFormat dfddmmyy = new SimpleDateFormat("dd/MM/yy");
+    public static final SimpleDateFormat DF_YYYYMM = new SimpleDateFormat("yyyy-MM");
+    public static final SimpleDateFormat DF_DDMMYY = new SimpleDateFormat("dd/MM/yy");
     public static final String TABLE_NAME = "monthly_tallies";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_PROVIDER_ID = "provider_id";
@@ -97,7 +97,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
      */
     public List<Date> findUneditedDraftMonths(Date startDate, Date endDate) {
         List<String> allTallyMonths = VaccinatorApplication.getInstance().dailyTalliesRepository()
-                .findAllDistinctMonths(MONTH_FORMAT, startDate, endDate);
+                .findAllDistinctMonths(DF_YYYYMM, startDate, endDate);
         Cursor cursor = null;
         try {
             if (allTallyMonths != null) {
@@ -124,7 +124,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
 
                 List<Date> unsentMonths = new ArrayList<>();
                 for (String curMonthString : allTallyMonths) {
-                    Date curMonth = MONTH_FORMAT.parse(curMonthString);
+                    Date curMonth = DF_YYYYMM.parse(curMonthString);
                     if (startDate != null && curMonth.getTime() < startDate.getTime()) {
                         continue;
                     }
@@ -167,7 +167,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
             if (monthlyTallies.size() == 0) {// No tallies generated yet
                 Log.w(TAG, "Using daily tallies instead of monthly");
                 Map<Long, List<DailyTally>> dailyTallies = VaccinatorApplication.getInstance()
-                        .dailyTalliesRepository().findTalliesInMonth(MONTH_FORMAT.parse(month));
+                        .dailyTalliesRepository().findTalliesInMonth(DF_YYYYMM.parse(month));
                 for (List<DailyTally> curList : dailyTallies.values()) {
                     MonthlyTally curTally = addUpDailyTallies(curList);
                     if (curTally != null) {
@@ -198,7 +198,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
         List<MonthlyTally> monthlyTallies = new ArrayList<>();
         try {
             cursor = getPathRepository().getReadableDatabase().query(TABLE_NAME, TABLE_COLUMNS,
-                    COLUMN_MONTH + " = '" + month,
+                    COLUMN_MONTH + " = '" + month + "'",
                     null, null, null, null, null);
             monthlyTallies = readAllDataElements(cursor);
         } catch (Exception e) {
@@ -270,24 +270,30 @@ public class MonthlyTalliesRepository extends BaseRepository {
     public boolean save(MonthlyTally tally) {
         SQLiteDatabase database = getPathRepository().getWritableDatabase();
         try {
+            database.beginTransaction();
             if (tally != null) {
                 ContentValues cv = new ContentValues();
                 cv.put(COLUMN_INDICATOR_ID, tally.getIndicator().getId());
                 cv.put(COLUMN_VALUE, tally.getValue());
                 cv.put(COLUMN_PROVIDER_ID, tally.getProviderId());
-                cv.put(COLUMN_MONTH, MONTH_FORMAT.format(tally.getMonth()));
+                cv.put(COLUMN_MONTH, DF_YYYYMM.format(tally.getMonth()));
                 cv.put(COLUMN_DATE_SENT,
                         tally.getDateSent() == null ? null : tally.getDateSent().getTime());
                 cv.put(COLUMN_EDITED, tally.isEdited() ? 1 : 0);
                 cv.put(COLUMN_CREATED_AT, Calendar.getInstance().getTimeInMillis());
                 database.insertWithOnConflict(TABLE_NAME, null, cv, SQLiteDatabase.CONFLICT_REPLACE);
+                database.setTransactionSuccessful();
 
                 return true;
             }
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
         } finally {
-            database.endTransaction();
+            try {
+                database.endTransaction();
+            } catch (Exception e) {
+                Log.e(TAG, Log.getStackTraceString(e));
+            }
         }
 
         return false;
@@ -313,22 +319,27 @@ public class MonthlyTalliesRepository extends BaseRepository {
                     ContentValues cv = new ContentValues();
                     cv.put(COLUMN_INDICATOR_ID, Integer.valueOf(key));
                     cv.put(COLUMN_VALUE, (value == null || value.isEmpty() ? 0 : Integer.valueOf(value)));
-                    cv.put(COLUMN_MONTH, MONTH_FORMAT.format(month));
+                    cv.put(COLUMN_MONTH, DF_YYYYMM.format(month));
                     cv.put(COLUMN_EDITED, 1);
                     cv.put(COLUMN_PROVIDER_ID, userName);
                     cv.put(COLUMN_CREATED_AT, Calendar.getInstance().getTimeInMillis());
                     database.insertWithOnConflict(TABLE_NAME, null, cv, SQLiteDatabase.CONFLICT_REPLACE);
                 }
+                database.setTransactionSuccessful();
+
+                return true;
             }
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
-            return false;
         } finally {
-            database.setTransactionSuccessful();
-            database.endTransaction();
+            try {
+                database.endTransaction();
+            } catch (Exception e) {
+                Log.e(TAG, Log.getStackTraceString(e));
+            }
         }
 
-        return true;
+        return false;
     }
 
     private List<MonthlyTally> readAllDataElements(Cursor cursor) {
@@ -365,7 +376,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
                     cursor.getString(cursor.getColumnIndex(COLUMN_PROVIDER_ID)));
             curTally.setIndicator(indicatorMap.get(indicatorId));
             curTally.setValue(cursor.getString(cursor.getColumnIndex(COLUMN_VALUE)));
-            curTally.setMonth(MONTH_FORMAT.parse(cursor.getString(cursor.getColumnIndex(COLUMN_MONTH))));
+            curTally.setMonth(DF_YYYYMM.parse(cursor.getString(cursor.getColumnIndex(COLUMN_MONTH))));
             curTally.setEdited(
                     cursor.getInt(cursor.getColumnIndex(COLUMN_EDITED)) == 0 ?
                             false : true
@@ -407,7 +418,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
             if (cursor != null && cursor.getCount() > 0) {
                 for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                     String curMonth = cursor.getString(cursor.getColumnIndex(COLUMN_MONTH));
-                    Date month = MONTH_FORMAT.parse(curMonth);
+                    Date month = DF_YYYYMM.parse(curMonth);
 
                     if (startDate != null) {
                         if (month.getTime() < startDate.getTime()) {

@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.ei.opensrp.path.R;
@@ -229,7 +228,7 @@ public class DraftMonthlyFragment extends Fragment
 
                 TextView tv = (TextView) convertView.findViewById(R.id.tv);
                 Date date = list.get(position);
-                String text = MonthlyTalliesRepository.MONTH_FORMAT.format(date);
+                String text = MonthlyTalliesRepository.DF_YYYYMM.format(date);
                 tv.setText(text);
                 tv.setTag(date);
 
@@ -345,7 +344,7 @@ public class DraftMonthlyFragment extends Fragment
             TextView startedAt = (TextView) convertView.findViewById(R.id.month_draft_started_at);
             MonthlyTally date = list.get(position);
             String text = df.format(date.getMonth());
-            String startedat = MonthlyTalliesRepository.dfddmmyy.format(date.getCreatedAt());
+            String startedat = MonthlyTalliesRepository.DF_DDMMYY.format(date.getCreatedAt());
             String started = getActivity().getString(R.string.started);
             tv.setText(text);
             tv.setTypeface(tv.getTypeface(), Typeface.BOLD);

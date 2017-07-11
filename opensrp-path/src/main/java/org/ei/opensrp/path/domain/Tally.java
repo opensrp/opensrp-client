@@ -1,5 +1,7 @@
 package org.ei.opensrp.path.domain;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -8,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -16,6 +19,7 @@ import java.util.Iterator;
  */
 
 public class Tally implements Serializable {
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     protected Hia2Indicator indicator;
     @JsonProperty
     protected long id;
@@ -72,6 +76,7 @@ public class Tally implements Serializable {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -81,9 +86,13 @@ public class Tally implements Serializable {
     }
 
     public JSONObject getJsonObject() throws JsonProcessingException, JSONException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JSONObject tally = new JSONObject(objectMapper.writeValueAsString(this));
-        JSONObject hia2Indicator = new JSONObject(objectMapper.writeValueAsString(indicator));
+        JSONObject tally = new JSONObject();
+        tally.put("id", id);
+        tally.put("value", value);
+        tally.put("providerId", providerId);
+        tally.put("updatedAt", DATE_FORMAT.format(updatedAt));
+
+        JSONObject hia2Indicator = indicator.getJsonObject();
 
         JSONObject combined = new JSONObject();
         Iterator hia2Iterator = hia2Indicator.keys();

@@ -5,8 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.ResultReceiver;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,7 +15,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
@@ -76,7 +73,7 @@ public class HIA2ReportsActivity extends BaseActivity {
     private ViewPager mViewPager;
     private TabLayout tabLayout;
     private LocationSwitcherToolbar toolbar;
-    private ProgressBar syncProgressBar;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -257,7 +254,7 @@ public class HIA2ReportsActivity extends BaseActivity {
             // Create and show the dialog.
             SendMonthlyDraftDialogFragment newFragment = SendMonthlyDraftDialogFragment
                     .newInstance(
-                            MonthlyTalliesRepository.dfddmmyy.format(Calendar.getInstance().getTime()),
+                            MonthlyTalliesRepository.DF_DDMMYY.format(Calendar.getInstance().getTime()),
                             new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
@@ -381,12 +378,11 @@ public class HIA2ReportsActivity extends BaseActivity {
     }
 
     public static class StartDraftMonthlyFormTask extends AsyncTask<Void, Void, Intent> {
-        private BaseActivity baseActivity;
+        private HIA2ReportsActivity baseActivity;
         private Date date;
         private String formName;
-        private ProgressDialog progressDialog;
 
-        public StartDraftMonthlyFormTask(BaseActivity baseActivity, Date date, String formName) {
+        public StartDraftMonthlyFormTask(HIA2ReportsActivity baseActivity, Date date, String formName) {
             this.baseActivity = baseActivity;
             this.date = date;
             this.formName = formName;
@@ -395,7 +391,7 @@ public class HIA2ReportsActivity extends BaseActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showProgressDialog();
+            baseActivity.showProgressDialog();
         }
 
         @Override
@@ -404,7 +400,7 @@ public class HIA2ReportsActivity extends BaseActivity {
                 MonthlyTalliesRepository monthlyTalliesRepository = VaccinatorApplication
                         .getInstance().monthlyTalliesRepository();
                 List<MonthlyTally> monthlyTallies = monthlyTalliesRepository
-                        .findDrafts(MonthlyTalliesRepository.MONTH_FORMAT.format(date));
+                        .findDrafts(MonthlyTalliesRepository.DF_YYYYMM.format(date));
 
                 HIA2IndicatorsRepository hIA2IndicatorsRepository = VaccinatorApplication
                         .getInstance().hIA2IndicatorsRepository();
@@ -415,7 +411,7 @@ public class HIA2ReportsActivity extends BaseActivity {
 
                 JSONObject form = FormUtils.getInstance(baseActivity).getFormJson(formName);
                 JSONObject step1 = form.getJSONObject("step1");
-                String title = MonthlyTalliesRepository.MONTH_FORMAT.format(date).concat(" Draft");
+                String title = MonthlyTalliesRepository.DF_YYYYMM.format(date).concat(" Draft");
                 step1.put("title", title);
 
                 JSONArray sections = step1.getJSONArray(JsonFormConstants.SECTIONS);
@@ -501,66 +497,39 @@ public class HIA2ReportsActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Intent intent) {
             super.onPostExecute(intent);
-            hideProgressDialog();
+            baseActivity.hideProgressDialog();
             if (intent != null) {
                 baseActivity.startActivityForResult(intent, REQUEST_CODE_GET_JSON);
             }
         }
+    }
 
-        private void initializeProgressDialog() {
-            progressDialog = new ProgressDialog(baseActivity);
-            progressDialog.setCancelable(false);
-            progressDialog.setTitle(baseActivity.getString(R.string.loading));
-            progressDialog.setMessage(baseActivity.getString(R.string.please_wait_message));
-        }
+    private void initializeProgressDialog() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle(getString(R.string.loading));
+        progressDialog.setMessage(getString(R.string.please_wait_message));
+    }
 
-        public void showProgressDialog() {
-            try {
-                if (progressDialog == null) {
-                    initializeProgressDialog();
-                }
-
-                progressDialog.show();
-            } catch (Exception e) {
-                Log.e(TAG, Log.getStackTraceString(e));
+    public void showProgressDialog() {
+        try {
+            if (progressDialog == null) {
+                initializeProgressDialog();
             }
-        }
 
-        public void hideProgressDialog() {
-            try {
-                if (progressDialog != null) {
-                    progressDialog.dismiss();
-                }
-            } catch (Exception e) {
-                Log.e(TAG, Log.getStackTraceString(e));
-            }
+            progressDialog.show();
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
         }
     }
 
-    private class Hia2ReportsServiceReceiver extends ResultReceiver {
-
-        HIA2ReportsActivity activity;
-
-        public Hia2ReportsServiceReceiver(Handler handler, HIA2ReportsActivity activity) {
-            super(handler);
-            this.activity = activity;
-        }
-
-        /**
-         * Create a new ResultReceive to receive results.  Your
-         * {@link #onReceiveResult} method will be called from the thread running
-         * <var>handler</var> if given, or from an arbitrary thread if null.
-         *
-         * @param handler
-         */
-        public Hia2ReportsServiceReceiver(Handler handler) {
-            super(handler);
-        }
-
-        @Override
-        protected void onReceiveResult(int resultCode, Bundle resultData) {
-            super.onReceiveResult(resultCode, resultData);
-
+    public void hideProgressDialog() {
+        try {
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+            }
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
         }
     }
 }

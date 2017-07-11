@@ -66,7 +66,7 @@ public class HIA2IntentService extends IntentService {
      */
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.e(TAG, "Started HIA2 service");
+        Log.i(TAG, "Started HIA2 service");
         try {
             generateReport = intent.getBooleanExtra(GENERATE_REPORT, false);
             if (!generateReport) {
@@ -89,7 +89,7 @@ public class HIA2IntentService extends IntentService {
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
         }
-        Log.e(TAG, "Finishing HIA2 service");
+        Log.i(TAG, "Finishing HIA2 service");
     }
 
     private void sendBroadcastMessage(String type) {
@@ -143,7 +143,7 @@ public class HIA2IntentService extends IntentService {
         try {
             if (month != null) {
                 List<MonthlyTally> tallies = monthlyTalliesRepository
-                        .find(MonthlyTalliesRepository.MONTH_FORMAT.format(month));
+                        .find(MonthlyTalliesRepository.DF_YYYYMM.format(month));
                 if (tallies != null) {
                     List<JSONObject> tallyReports = new ArrayList<>();
                     for (MonthlyTally curTally : tallies) {

@@ -80,8 +80,8 @@ public class DailyTalliesRepository extends BaseRepository {
     public void save(String day, Map<String, Object> hia2Report) {
         SQLiteDatabase database = getPathRepository().getWritableDatabase();
         try {
-            String userName = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
             database.beginTransaction();
+            String userName = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
             for (String indicatorCode : hia2Report.keySet()) {
                 Integer indicatorValue = (Integer) hia2Report.get(indicatorCode);
 
@@ -107,7 +107,11 @@ public class DailyTalliesRepository extends BaseRepository {
         } catch (ParseException e) {
             Log.e(TAG, e.getMessage(), e);
         } finally {
-            database.endTransaction();
+            try {
+                database.endTransaction();
+            } catch (Exception e) {
+                Log.e(TAG, Log.getStackTraceString(e));
+            }
         }
     }
 
@@ -310,23 +314,4 @@ public class DailyTalliesRepository extends BaseRepository {
 
         return null;
     }
-
-    private Long checkIfExists(long indicatorId, String day) {
-        Cursor mCursor = null;
-        try {
-            String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME +
-                    " WHERE " + COLUMN_INDICATOR_ID + " = " + String.valueOf(indicatorId)
-                    + " and " + COLUMN_DAY + "='" + day + "'";
-            mCursor = getPathRepository().getWritableDatabase().rawQuery(query, null);
-            if (mCursor != null && mCursor.moveToFirst()) {
-                return mCursor.getLong(0);
-            }
-        } catch (Exception e) {
-            Log.e(TAG, e.toString(), e);
-        } finally {
-            if (mCursor != null) mCursor.close();
-        }
-        return null;
-    }
-
 }
