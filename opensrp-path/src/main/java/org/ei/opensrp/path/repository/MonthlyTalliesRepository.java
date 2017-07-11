@@ -110,10 +110,10 @@ public class MonthlyTalliesRepository extends BaseRepository {
                     monthsString = monthsString + "'" + curMonthString + "'";
                 }
 
-                String query = "SELECT " + COLUMN_MONTH +
-                        " FROM " + TABLE_NAME +
-                        " WHERE " + COLUMN_MONTH + " IN(" + monthsString + ")";
-                cursor = getPathRepository().getReadableDatabase().rawQuery(query, null);
+                cursor = getPathRepository().getReadableDatabase().query(
+                        TABLE_NAME,
+                        new String[]{COLUMN_MONTH}, COLUMN_MONTH + " IN(" + monthsString + ")",
+                        null, null, null, null);
 
                 if (cursor != null && cursor.getCount() > 0) {
                     for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
@@ -409,11 +409,10 @@ public class MonthlyTalliesRepository extends BaseRepository {
         List<MonthlyTally> tallies = new ArrayList<>();
 
         try {
-            String query = "SELECT " + COLUMN_MONTH + "," + COLUMN_CREATED_AT +
-                    " FROM " + TABLE_NAME +
-                    " WHERE " + COLUMN_DATE_SENT + " IS NULL" + " AND " + COLUMN_EDITED + " = 1 " +
-                    " GROUP BY  " + COLUMN_MONTH;
-            cursor = getPathRepository().getReadableDatabase().rawQuery(query, null);
+            cursor = getPathRepository().getReadableDatabase().query(
+                    TABLE_NAME, new String[]{COLUMN_MONTH, COLUMN_CREATED_AT},
+                    COLUMN_DATE_SENT + " IS NULL AND " + COLUMN_EDITED + " = 1",
+                    null, COLUMN_MONTH, null, null);
 
             if (cursor != null && cursor.getCount() > 0) {
                 for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
