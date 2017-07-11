@@ -78,21 +78,6 @@ public class EditWeightDialogFragment extends DialogFragment {
             editWeight.setSelection(editWeight.getText().length());
         }
         //formatEditWeightView(editWeight, "");
-        editWeight.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().matches("^(\\d{1,3}(\\d{3})*|(\\d+))(\\.\\d)$")) {
-                    String userInput = "" + s.toString().replaceAll("[^\\d]", "");
-                    formatEditWeightView(editWeight, userInput);
-                }
-
-            }
-        });
 
         final DatePicker earlierDatePicker = (DatePicker) dialogView.findViewById(R.id.earlier_date_picker);
 
