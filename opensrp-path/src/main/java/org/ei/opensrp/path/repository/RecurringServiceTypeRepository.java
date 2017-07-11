@@ -89,7 +89,7 @@ public class RecurringServiceTypeRepository extends BaseRepository {
         type = addHyphen(type);
 
         SQLiteDatabase database = getPathRepository().getReadableDatabase();
-        Cursor cursor = database.query(TABLE_NAME, TABLE_COLUMNS, TYPE + " = ? ORDER BY " + UPDATED_AT_COLUMN, new String[]{type}, null, null, null, null);
+        Cursor cursor = database.query(TABLE_NAME, TABLE_COLUMNS, TYPE + " = ? " + COLLATE_NOCASE + " ORDER BY " + UPDATED_AT_COLUMN, new String[]{type}, null, null, null, null);
         return readAllServiceTypes(cursor);
     }
 
@@ -101,7 +101,7 @@ public class RecurringServiceTypeRepository extends BaseRepository {
 
 
         SQLiteDatabase database = getPathRepository().getReadableDatabase();
-        Cursor cursor = database.query(TABLE_NAME, TABLE_COLUMNS, NAME + " LIKE ? ORDER BY " + UPDATED_AT_COLUMN, new String[]{"%" + name + "%"}, null, null, null, null);
+        Cursor cursor = database.query(TABLE_NAME, TABLE_COLUMNS, NAME + " LIKE ? " + COLLATE_NOCASE + " ORDER BY " + UPDATED_AT_COLUMN, new String[]{"%" + name + "%"}, null, null, null, null);
         return readAllServiceTypes(cursor);
     }
 

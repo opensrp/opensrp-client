@@ -186,7 +186,7 @@ public class DailyTalliesRepository extends BaseRepository {
         List<DailyTally> tallies = new ArrayList<>();
         try {
             Cursor cursor = getPathRepository().getReadableDatabase().query(TABLE_NAME, TABLE_COLUMNS,
-                    COLUMN_DAY + " = Datetime(?) AND " + COLUMN_PROVIDER_ID + " = ?",
+                    COLUMN_DAY + " = Datetime(?) AND " + COLUMN_PROVIDER_ID + " = ? COLLATE NOCASE ",
                     new String[]{date, providerId}, null, null, null, null);
             tallies = readAllDataElements(cursor);
         } catch (Exception e) {
@@ -279,8 +279,8 @@ public class DailyTalliesRepository extends BaseRepository {
         Cursor mCursor = null;
         try {
             String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME +
-                    " WHERE " + COLUMN_INDICATOR_ID + " = " + String.valueOf(indicatorId)
-                    + " and " + COLUMN_DAY + "='" + day + "'";
+                    " WHERE " + COLUMN_INDICATOR_ID + " = " + String.valueOf(indicatorId) + " COLLATE NOCASE "
+                    + " AND " + COLUMN_DAY + "='" + day + "'";
             mCursor = getPathRepository().getWritableDatabase().rawQuery(query, null);
             if (mCursor != null && mCursor.moveToFirst()) {
                 return mCursor.getLong(0);

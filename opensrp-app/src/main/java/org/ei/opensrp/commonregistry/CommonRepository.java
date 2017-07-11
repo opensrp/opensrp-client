@@ -157,14 +157,14 @@ public class CommonRepository extends DrishtiRepository {
 
     public List<CommonPersonObject> findByRelationalIDs(String... caseIds) {
         SQLiteDatabase database = masterRepository.getReadableDatabase();
-        Cursor cursor = database.rawQuery(String.format("SELECT * FROM %s WHERE %s IN (%s)", TABLE_NAME, Relational_ID,
+        Cursor cursor = database.rawQuery(String.format("SELECT * FROM %s WHERE %s COLLATE NOCASE IN (%s)", TABLE_NAME, Relational_ID,
                 insertPlaceholdersForInClause(caseIds.length)), caseIds);
         return readAllcommon(cursor);
     }
 
     public List<CommonPersonObject> findByRelational_IDs(String... caseIds) {
         SQLiteDatabase database = masterRepository.getReadableDatabase();
-        Cursor cursor = database.rawQuery(String.format("SELECT * FROM %s WHERE %s IN (%s)", TABLE_NAME, Relational_Underscore_ID,
+        Cursor cursor = database.rawQuery(String.format("SELECT * FROM %s WHERE %s COLLATE NOCASE IN (%s)", TABLE_NAME, Relational_Underscore_ID,
                 insertPlaceholdersForInClause(caseIds.length)), caseIds);
         return readAllcommon(cursor);
     }
@@ -183,7 +183,7 @@ public class CommonRepository extends DrishtiRepository {
     public CommonPersonObject findByBaseEntityId(String baseEntityId) {
         try {
             SQLiteDatabase database = masterRepository.getReadableDatabase();
-            Cursor cursor = database.query(TABLE_NAME, common_TABLE_COLUMNS, BASE_ENTITY_ID_COLUMN + " = ?", new String[]{baseEntityId},
+            Cursor cursor = database.query(TABLE_NAME, common_TABLE_COLUMNS, BASE_ENTITY_ID_COLUMN + " = ? COLLATE NOCASE ", new String[]{baseEntityId},
                     null, null, null, null);
             List<CommonPersonObject> commons = readAllcommon(cursor);
             if (commons.isEmpty()) {
@@ -466,7 +466,7 @@ public class CommonRepository extends DrishtiRepository {
     public boolean deleteCase(String baseEntityId, String tableName) {
         try {
             SQLiteDatabase db = masterRepository.getWritableDatabase();
-            int afftectedRows = db.delete(tableName, BASE_ENTITY_ID_COLUMN + " = ?", new String[]{baseEntityId});
+            int afftectedRows = db.delete(tableName, BASE_ENTITY_ID_COLUMN + " = ? COLLATE NOCASE ", new String[]{baseEntityId});
             if(afftectedRows > 0){
                 return true;
             }

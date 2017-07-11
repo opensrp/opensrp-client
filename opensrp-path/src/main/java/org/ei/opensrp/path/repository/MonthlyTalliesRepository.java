@@ -407,7 +407,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
         Cursor mCursor = null;
         try {
             String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME +
-                    " WHERE " + COLUMN_INDICATOR_ID + " = " + String.valueOf(indicatorId)
+                    " WHERE " + COLUMN_INDICATOR_ID + " = " + String.valueOf(indicatorId) + " COLLATE NOCASE "
                     + " and " + COLUMN_MONTH + " = '" + month + "'";
             mCursor = getPathRepository().getWritableDatabase().rawQuery(query, null);
             if (mCursor != null && mCursor.moveToFirst()) {

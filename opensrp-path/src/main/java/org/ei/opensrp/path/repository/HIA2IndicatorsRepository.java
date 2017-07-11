@@ -83,7 +83,7 @@ public class HIA2IndicatorsRepository extends BaseRepository {
         Cursor cursor = null;
 
         try {
-            cursor = getPathRepository().getReadableDatabase().query(HIA2_INDICATORS_TABLE_NAME, HIA2_TABLE_COLUMNS, INDICATOR_CODE + " = ?", new String[]{indicatorCode}, null, null, null, null);
+            cursor = getPathRepository().getReadableDatabase().query(HIA2_INDICATORS_TABLE_NAME, HIA2_TABLE_COLUMNS, INDICATOR_CODE + " = ? COLLATE NOCASE ", new String[]{indicatorCode}, null, null, null, null);
             List<Hia2Indicator> hia2Indicators = readAllDataElements(cursor);
             if (hia2Indicators.size() == 1) {
                 return hia2Indicators.get(0);
@@ -182,7 +182,7 @@ public class HIA2IndicatorsRepository extends BaseRepository {
     private Long checkIfExists(SQLiteDatabase db, String indicatorCode) {
         Cursor mCursor = null;
         try {
-            String query = "SELECT " + ID_COLUMN + " FROM " + HIA2_INDICATORS_TABLE_NAME + " WHERE " + INDICATOR_CODE + " = '" + indicatorCode + "'";
+            String query = "SELECT " + ID_COLUMN + " FROM " + HIA2_INDICATORS_TABLE_NAME + " WHERE " + INDICATOR_CODE + " = '" + indicatorCode + "' COLLATE NOCASE ";
             mCursor = db.rawQuery(query, null);
             if (mCursor != null && mCursor.moveToFirst()) {
 

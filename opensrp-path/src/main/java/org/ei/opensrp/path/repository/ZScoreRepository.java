@@ -15,7 +15,7 @@ import java.util.List;
  * Stores child z-scores obtained from:
  * - http://www.who.int/childgrowth/standards/wfa_boys_0_5_zscores.txt
  * - http://www.who.int/childgrowth/standards/wfa_girls_0_5_zscores.txt
- * <p>
+ * <p/>
  * Created by Jason Rogena - jrogena@ona.io on 29/05/2017.
  */
 
@@ -86,7 +86,7 @@ public class ZScoreRepository extends BaseRepository {
             SQLiteDatabase database = getPathRepository().getReadableDatabase();
             cursor = database.query(TABLE_NAME,
                     null,
-                    COLUMN_SEX + " = ?",
+                    COLUMN_SEX + " = ? " + COLLATE_NOCASE,
                     new String[]{gender.name()}, null, null, null, null);
 
             if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
