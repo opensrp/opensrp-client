@@ -221,8 +221,11 @@ public class MonthlyTalliesRepository extends BaseRepository {
                 monthlyTally = new MonthlyTally();
                 monthlyTally.setIndicator(dailyTallies.get(i).getIndicator());
             }
-
-            value = value + Double.valueOf(dailyTallies.get(i).getValue());
+            try {
+                value = value + Double.valueOf(dailyTallies.get(i).getValue());
+            } catch (NumberFormatException e) {
+                Log.w(TAG, Log.getStackTraceString(e));
+            }
         }
 
         if (monthlyTally != null) {

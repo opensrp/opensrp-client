@@ -109,4 +109,15 @@ public class Tally implements Serializable {
 
         return combined;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o != null && o instanceof Tally) {
+            Tally tally = (Tally) o;
+            if (getIndicator().getDhisId().equals(tally.getIndicator().getDhisId())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -251,7 +251,7 @@ public class DraftMonthlyFragment extends Fragment
 
             Object tag = v.getTag();
             if (tag != null && tag instanceof Date) {
-                startMonthlyReportForm((Date) tag);
+                startMonthlyReportForm((Date) tag, true);
             }
 
         }
@@ -261,7 +261,7 @@ public class DraftMonthlyFragment extends Fragment
         public void onClick(View v) {
             Object tag = v.getTag();
             if (tag != null && tag instanceof Date) {
-                startMonthlyReportForm((Date) tag);
+                startMonthlyReportForm((Date) tag, false);
             }
 
         }
@@ -284,8 +284,8 @@ public class DraftMonthlyFragment extends Fragment
 
     }
 
-    protected void startMonthlyReportForm(Date date) {
-        ((HIA2ReportsActivity) getActivity()).startMonthlyReportForm("hia2_monthly_report", date);
+    protected void startMonthlyReportForm(Date date, boolean firstTimeEdit) {
+        ((HIA2ReportsActivity) getActivity()).startMonthlyReportForm("hia2_monthly_report", date, firstTimeEdit);
     }
 
     @Override

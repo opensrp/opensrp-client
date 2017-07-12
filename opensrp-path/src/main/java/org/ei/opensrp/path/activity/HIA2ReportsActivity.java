@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -28,6 +29,7 @@ import org.ei.opensrp.path.fragment.DailyTalliesFragment;
 import org.ei.opensrp.path.fragment.DraftMonthlyFragment;
 import org.ei.opensrp.path.fragment.SendMonthlyDraftDialogFragment;
 import org.ei.opensrp.path.fragment.SentMonthlyFragment;
+import org.ei.opensrp.path.repository.DailyTalliesRepository;
 import org.ei.opensrp.path.repository.HIA2IndicatorsRepository;
 import org.ei.opensrp.path.repository.MonthlyTalliesRepository;
 import org.ei.opensrp.path.service.HIA2Service;
@@ -182,11 +184,12 @@ public class HIA2ReportsActivity extends BaseActivity {
         return mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
     }
 
-    public void startMonthlyReportForm(String formName, Date date) {
+    public void startMonthlyReportForm(String formName, Date date, boolean firstTimeEdit) {
         try {
             Fragment currentFragment = currentFragment();
             if (currentFragment instanceof DraftMonthlyFragment) {
-                Utils.startAsyncTask(new StartDraftMonthlyFormTask(this, date, formName), null);
+                Utils.startAsyncTask(
+                        new StartDraftMonthlyFormTask(this, date, formName, firstTimeEdit), null);
             }
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
@@ -381,11 +384,14 @@ public class HIA2ReportsActivity extends BaseActivity {
         private HIA2ReportsActivity baseActivity;
         private Date date;
         private String formName;
+        private boolean firstTimeEdit;
 
-        public StartDraftMonthlyFormTask(HIA2ReportsActivity baseActivity, Date date, String formName) {
+        public StartDraftMonthlyFormTask(HIA2ReportsActivity baseActivity,
+                                         Date date, String formName, boolean firstTimeEdit) {
             this.baseActivity = baseActivity;
             this.date = date;
             this.formName = formName;
+            this.firstTimeEdit = firstTimeEdit;
         }
 
         @Override
@@ -438,6 +444,10 @@ public class HIA2ReportsActivity extends BaseActivity {
                     jsonObject.put("type", "edit_text");
                     jsonObject.put("hint", label);
                     jsonObject.put("value", retrieveValue(monthlyTallies, hia2Indicator));
+                    if (DailyTalliesRepository.IGNORED_INDICATOR_CODES
+                            .contains(hia2Indicator.getIndicatorCode()) && firstTimeEdit) {
+                        jsonObject.put("value", "");
+                    }
                     jsonObject.put("v_required", vRequired);
                     jsonObject.put("v_numeric", vNumeric);
                     jsonObject.put("openmrs_entity_parent", "");

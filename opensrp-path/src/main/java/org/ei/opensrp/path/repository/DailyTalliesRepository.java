@@ -12,7 +12,7 @@ import org.ei.opensrp.Context;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.DailyTally;
 import org.ei.opensrp.path.domain.Hia2Indicator;
-import org.ei.opensrp.path.domain.MonthlyTally;
+import org.ei.opensrp.path.service.HIA2Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -54,7 +54,14 @@ public class DailyTalliesRepository extends BaseRepository {
             " ON " + TABLE_NAME + "(" + COLUMN_DAY + ");";
     private static final String INDEX_UNIQUE = "CREATE UNIQUE INDEX " + TABLE_NAME + "_" + COLUMN_INDICATOR_ID + "_" + COLUMN_DAY + "_index" +
             " ON " + TABLE_NAME + "(" + COLUMN_INDICATOR_ID + "," + COLUMN_DAY + ");";
+    public static final ArrayList<String> IGNORED_INDICATOR_CODES;
 
+    static {
+        IGNORED_INDICATOR_CODES = new ArrayList<>();
+        IGNORED_INDICATOR_CODES.add(HIA2Service.CHN3_027);
+        IGNORED_INDICATOR_CODES.add(HIA2Service.CHN3_027_O);
+        IGNORED_INDICATOR_CODES.add(HIA2Service.CHN3_090);
+    }
 
     public DailyTalliesRepository(PathRepository pathRepository) {
         super(pathRepository);
@@ -118,11 +125,11 @@ public class DailyTalliesRepository extends BaseRepository {
     /**
      * Returns a list of dates for distinct months with daily tallies
      *
-     * @param dateFormat    The format to use to format the months' dates
-     * @param startDate     The first date to consider. Set argument to null if you
-     *                      don't want this enforced
-     * @param endDate       The last date to consider. Set argument to null if you
-     *                      don't want this enforced
+     * @param dateFormat The format to use to format the months' dates
+     * @param startDate  The first date to consider. Set argument to null if you
+     *                   don't want this enforced
+     * @param endDate    The last date to consider. Set argument to null if you
+     *                   don't want this enforced
      * @return A list of months that have daily tallies
      */
     public List<String> findAllDistinctMonths(SimpleDateFormat dateFormat, Date startDate, Date endDate) {
@@ -244,8 +251,8 @@ public class DailyTalliesRepository extends BaseRepository {
             cursor = getPathRepository().getReadableDatabase()
                     .query(TABLE_NAME, TABLE_COLUMNS,
                             COLUMN_DAY + " >= " + minDate.getTime() + " AND " +
-                            COLUMN_DAY + " <= " + maxDate.getTime(),
-                            null, null, null, COLUMN_DAY+" DESC", null);
+                                    COLUMN_DAY + " <= " + maxDate.getTime(),
+                            null, null, null, COLUMN_DAY + " DESC", null);
             if (cursor != null && cursor.getCount() > 0) {
                 for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                     DailyTally curTally = extractDailyTally(indicatorMap, cursor);
@@ -297,19 +304,22 @@ public class DailyTalliesRepository extends BaseRepository {
     private DailyTally extractDailyTally(HashMap<Long, Hia2Indicator> indicatorMap, Cursor cursor) {
         long indicatorId = cursor.getLong(cursor.getColumnIndex(COLUMN_INDICATOR_ID));
         if (indicatorMap.containsKey(indicatorId)) {
-            DailyTally curTally = new DailyTally();
-            curTally.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
-            curTally.setProviderId(
-                    cursor.getString(cursor.getColumnIndex(COLUMN_PROVIDER_ID)));
-            curTally.setIndicator(indicatorMap.get(indicatorId));
-            curTally.setValue(cursor.getString(cursor.getColumnIndex(COLUMN_VALUE)));
-            curTally.setDay(
-                    new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_DAY))));
-            curTally.setUpdatedAt(
-                    new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATED_AT)))
-            );
+            Hia2Indicator indicator = indicatorMap.get(indicatorId);
+            if (!IGNORED_INDICATOR_CODES.contains(indicator.getIndicatorCode())) {
+                DailyTally curTally = new DailyTally();
+                curTally.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
+                curTally.setProviderId(
+                        cursor.getString(cursor.getColumnIndex(COLUMN_PROVIDER_ID)));
+                curTally.setIndicator(indicator);
+                curTally.setValue(cursor.getString(cursor.getColumnIndex(COLUMN_VALUE)));
+                curTally.setDay(
+                        new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_DAY))));
+                curTally.setUpdatedAt(
+                        new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_UPDATED_AT)))
+                );
 
-            return curTally;
+                return curTally;
+            }
         }
 
         return null;
