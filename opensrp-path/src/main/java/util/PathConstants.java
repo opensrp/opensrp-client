@@ -47,4 +47,9 @@ public class PathConstants extends AllConstants {
 
         public static final String DEATH = "Death";
     }
+
+    public static final class EntityType {
+
+        public static final String CHILD = "child";
+    }
 }

@@ -16,11 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.github.ybq.android.spinkit.style.ChasingDots;
 import com.github.ybq.android.spinkit.style.Circle;
-import com.github.ybq.android.spinkit.style.DoubleBounce;
-import com.github.ybq.android.spinkit.style.RotatingCircle;
-import com.github.ybq.android.spinkit.style.WanderingCubes;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
@@ -294,7 +290,8 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
         setTablename(tableName);
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
         countqueryBUilder.SelectInitiateMainTableCounts(tableName);
-        countSelect = countqueryBUilder.mainCondition("");
+        countqueryBUilder.mainCondition("");
+        countSelect = countqueryBUilder.addCondition(" WHERE " + getTablename() + ".deathdate IS NULL ");
         mainCondition = "";
         super.CountExecute();
         countOverDue();
@@ -328,7 +325,8 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
                 tableName + ".lost_to_follow_up"
         });
         queryBUilder.customJoin("LEFT JOIN " + parentTableName + " ON  " + tableName + ".relational_id =  " + parentTableName + ".id");
-        mainSelect = queryBUilder.mainCondition("");
+        queryBUilder.mainCondition("");
+        mainSelect = queryBUilder.addCondition(" WHERE " + getTablename() + ".deathdate IS NULL ");
         Sortqueries = ((CursorSortOption) getDefaultOptionsProvider().sortOption()).sort();
 
         currentlimit = 20;

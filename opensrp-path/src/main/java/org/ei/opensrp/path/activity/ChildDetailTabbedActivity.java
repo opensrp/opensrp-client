@@ -1431,7 +1431,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                     .withEventType(JsonFormUtils.encounterType)
                     .withLocationId(allSharedPreferences.fetchCurrentLocality())
                     .withProviderId(allSharedPreferences.fetchRegisteredANM())
-                    .withEntityType("child")
+                    .withEntityType(PathConstants.EntityType.CHILD)
                     .withFormSubmissionId(JsonFormUtils.generateRandomUUIDString())
                     .withDateCreated(new Date());
 

@@ -2096,15 +2096,17 @@ public class JsonFormUtils {
                 return;
             }
 
-            String bindType = "child";
             String encounterDateField = getFieldValue(fields, "Date_of_Death");
 
             String encounterType = getString(jsonForm, ENCOUNTER_TYPE);
             JSONObject metadata = getJSONObject(jsonForm, METADATA);
 
             Date encounterDate = new Date();
+            String encounterDateTimeString = null;
             if (StringUtils.isNotBlank(encounterDateField)) {
-                Date dateTime = formatDate(encounterDateField, false);
+
+                encounterDateTimeString = formatDate(encounterDateField);
+                Date dateTime = formatDate(encounterDateField,false);
                 if (dateTime != null) {
                     encounterDate = dateTime;
                 }
@@ -2116,7 +2118,7 @@ public class JsonFormUtils {
                     .withEventType(encounterType)
                     .withLocationId(locationId)
                     .withProviderId(providerId)
-                    .withEntityType(bindType)
+                    .withEntityType(PathConstants.EntityType.CHILD)
                     .withFormSubmissionId(generateRandomUUIDString())
                     .withDateCreated(new Date());
 
@@ -2162,22 +2164,32 @@ public class JsonFormUtils {
                 JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(event));
 
                 //After saving, Unsync(remove) this event's details
-                List<JSONObject> jsonEvents = new ArrayList<>();
-                jsonEvents.add(eventJson);
-                PathClientProcessor.getInstance(context).processClient(jsonEvents);
+                //List<JSONObject> jsonEvents = new ArrayList<>();
+                ///jsonEvents.add(eventJson);
 
                 //Update client to deceased
-
                 JSONObject client = db.getClientByBaseEntityId(eventJson.getString(ClientProcessor.baseEntityIdJSONKey));
-                JSONObject attributes = client.getJSONObject(JsonFormUtils.attributes);
-                attributes.put("deathdate", encounterDate);
-                attributes.put("deathdateApprox", false);
-                client.remove(JsonFormUtils.attributes);
-                client.put(JsonFormUtils.attributes, attributes);
+                client.put("deathdate", encounterDateTimeString);
+                client.put("deathdateApprox", false);
                 db.addorUpdateClient(entityId, client);
 
                 //Add Death Event for child to flag for Server delete
                 db.addEvent(event.getBaseEntityId(), eventJson);
+
+                //Update Child Entity to include death date
+                Event updateChildDetailsEvent = (Event) new Event()
+                        .withBaseEntityId(entityId) //should be different for main and subform
+                        .withEventDate(encounterDate)
+                        .withEventType(JsonFormUtils.encounterType)
+                        .withLocationId(locationId)
+                        .withProviderId(providerId)
+                        .withEntityType(PathConstants.EntityType.CHILD)
+                        .withFormSubmissionId(generateRandomUUIDString())
+                        .withDateCreated(new Date());
+                JsonFormUtils.addMetaData(context, updateChildDetailsEvent, new Date());
+                JSONObject eventJsonUpdateChildEvent = new JSONObject(JsonFormUtils.gson.toJson(updateChildDetailsEvent));
+
+                db.addEvent(entityId, eventJsonUpdateChildEvent);//Add event to flag server update
 
             }
 
@@ -2539,5 +2551,12 @@ public class JsonFormUtils {
             Log.e(TAG, Log.getStackTraceString(e));
             return null;
         }
+    }
+
+
+    public static String formatDate(String date) throws ParseException {
+        Date inputDate = dd_MM_yyyy.parse(date);
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
+        return fmt.format(inputDate);
     }
 }
