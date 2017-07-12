@@ -155,7 +155,7 @@ public class WeightRepository extends BaseRepository {
         Cursor cursor = null;
         try {
 
-            cursor = getPathRepository().getReadableDatabase().query(WEIGHT_TABLE_NAME, WEIGHT_TABLE_COLUMNS, BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE + " AND " + SYNC_STATUS + " = ? " + COLLATE_NOCASE, new String[]{entityId, TYPE_Unsynced}, null, null, UPDATED_AT_COLUMN + COLLATE_NOCASE + " DESC", null);
+            cursor = getPathRepository().getReadableDatabase().query(WEIGHT_TABLE_NAME, WEIGHT_TABLE_COLUMNS, BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE + " AND " + SYNC_STATUS + " = ? ", new String[]{entityId, TYPE_Unsynced}, null, null, UPDATED_AT_COLUMN + COLLATE_NOCASE + " DESC", null);
             List<Weight> weights = readAllWeights(cursor);
             if (!weights.isEmpty()) {
                 weight = weights.get(0);
@@ -273,7 +273,7 @@ public class WeightRepository extends BaseRepository {
 
     public void delete(String entityID) {
         try {
-            getPathRepository().getWritableDatabase().delete(WEIGHT_TABLE_NAME, BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE + " AND " + SYNC_STATUS + " = ? " + COLLATE_NOCASE, new String[]{entityID, TYPE_Unsynced});
+            getPathRepository().getWritableDatabase().delete(WEIGHT_TABLE_NAME, BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE + " AND " + SYNC_STATUS + " = ? ", new String[]{entityID, TYPE_Unsynced});
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
         }
