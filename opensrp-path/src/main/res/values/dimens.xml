@@ -107,7 +107,7 @@
     <dimen name="indicator_table_divider_height">1.5dp</dimen>
     <dimen name="max_indicator_name_width">350dp</dimen>
     <dimen name="table_row_side_margin">20dp</dimen>
-    <dimen name="table_row_middle_margin">10dp</dimen>
+    <dimen name="table_row_middle_margin">15dp</dimen>
     <dimen name="indicator_table_contents_text_size">18sp</dimen>
     <dimen name="registerlinkwidth">85dp</dimen>
     <dimen name="registerlinkheight">85dp</dimen>
