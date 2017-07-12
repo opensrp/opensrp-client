@@ -40,4 +40,19 @@ public class FormInstance {
         return ToStringBuilder.reflectionToString(this);
     }
 
+    public FormData getForm() {
+        return form;
+    }
+
+    public void setForm(FormData form) {
+        this.form = form;
+    }
+
+    public String getForm_data_definition_version() {
+        return form_data_definition_version;
+    }
+
+    public void setForm_data_definition_version(String form_data_definition_version) {
+        this.form_data_definition_version = form_data_definition_version;
+    }
 }

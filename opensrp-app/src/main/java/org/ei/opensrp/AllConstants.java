@@ -3,7 +3,7 @@ package org.ei.opensrp;
 public class AllConstants {
     public static final String DRISHTI_BASE_URL = "DRISHTI_BASE_URL";
     public static final String PROFILE_IMAGES_DOWNLOAD_PATH = "/multimedia/profileimage";
-    public static final String PROFILE_IMAGES_UPLOAD_PATH = "/multimedia-file";
+    public static final String PROFILE_IMAGES_UPLOAD_PATH = "/multimedia/upload";
 
 
     public static final String REPORT_CATEGORY = "reportCategory";
@@ -14,8 +14,18 @@ public class AllConstants {
     public static final String INDICATOR = "indicator";
     public static final String CASE_ID = "caseId";
     public static final String APP_NAME_INDONESIA = "OpenSRPIndonesia";
+    public static final String DATABASE_NAME="drishti.db";
+    public static final int DATABASE_VERSION=1;
 
+    public static final long MAX_SERVER_TIME_DIFFERENCE = 300000l;// Maximum time difference between server and client time in milliseconds
+    public static final String SERVER_TIMEZONE = "server_timezone";
+    public static final String FORCE_REMOTE_LOGIN = "force_remote_login";
+    public static final String ENCRYPTED_PASSWORD_PREFIX = "crptPw-";
+    public static final String ENCRYPTED_GROUP_ID_PREFIX = "crptGrp-";
+    public static final String DEFAULT_LOCALITY_ID_PREFIX = "dfltLoc-";
+    public static final String PIONEER_USER = "pioneerUser";
     public static final String LANGUAGE_PREFERENCE_KEY = "locale";
+    public static final String CURRENT_LOCALITY = "current_locality";
     public static final String ENGLISH_LOCALE = "en";
     public static final String KANNADA_LOCALE = "kn";
     public static final String DEFAULT_LOCALE = ENGLISH_LOCALE;
@@ -323,6 +333,36 @@ public class AllConstants {
         public static final String DELIVERY_FACILITY_SDH_VALUE = "sdh";
         public static final String DELIVERY_FACILITY_DH_VALUE = "dh";
     }
+
+    public static final String DATASTORE_MANAGER_DIR = "data";
+
+    public static class CloudantSync {
+
+        public static final String ACTION_DATABASE_CREATED = "org.ei.opensrp.DATABASE_CREATED_ACTION";
+        public static final String ACTION_REPLICATION_ERROR = "org.ei.opensrp.REPLICATION_ERROR_ACTION";
+        public static final String ACTION_REPLICATION_COMPLETED = "org.ei.opensrp.REPLICATION_COMPLETED_ACTION";
+        public static final String REPLICATION_ERROR = "REPLICATION_ERROR";
+        public static final String DOCUMENTS_REPLICATED = "DOCUMENTS_REPLICATED";
+        public static final String BATCHES_REPLICATED = "BATCHES_REPLICATED";
+        public static final String COUCHDB_PORT = "5984";
+        public static final String COUCH_DATABASE_NAME = "opensrp";
+        public static final String COUCH_DATABASE_USER = "rootuser";
+        public static final String COUCH_DATABASE_PASS = "adminpass";
+
+
+
+    }
+    public static class SyncFilters {
+        // These pull filters must be defined in your couchDB server for them to work
+        // Filters
+        public static final String FILTER_LOCATION_ID = "locationId";
+        public static final String FILTER_PROVIDER = "providerId";
+
+        //filter by team e.g. team = user1,user2,user3
+        public static final String FILTER_TEAM = "team";
+
+    }
+
     public static final int ANIMATION_FADE_IN_TIME = 250;
 
     public  final class ImageCache {
@@ -330,5 +370,6 @@ public class AllConstants {
         public static final float MEM_CACHE_PERCENT = 0.05f; // Default memory cache size as a percent of device memory class
         public static final int MEM_CACHE_MAX_SIZE = 10 * 1024; // in kilobytes (value calculated using MEM_CACHE_PERCENT should not exceed this maximum 10MB)
         public static final String DISK_CACHE_DIR = "opensrp-images";
+
     }
 }

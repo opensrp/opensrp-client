@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="0"
+        android:endColor="@color/vaccine_blue_bg_end"
+        android:startColor="@color/vaccine_blue_bg_st" />
+    <stroke
+        android:width="0.3dp"
+        android:color="@color/vaccine_blue_bg_stk" />
+    <corners android:radius="5dp" />
+</shape>

@@ -255,4 +255,7 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+    <style name="CustomFontTextViewStyle.ListView.Small.Bold" parent="CustomFontTextViewStyle">
+        <item name="fontVariant">bold</item>
+    </style>
 </resources>

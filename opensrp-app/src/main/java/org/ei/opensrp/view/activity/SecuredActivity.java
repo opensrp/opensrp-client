@@ -1,24 +1,29 @@
 package org.ei.opensrp.view.activity;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.R;
+import org.ei.opensrp.broadcastreceivers.OpenSRPClientBroadCastReceiver;
+import org.ei.opensrp.sync.CloudantSyncHandler;
 import org.ei.opensrp.event.Listener;
+import org.ei.opensrp.service.ZiggyService;
 import org.ei.opensrp.view.controller.ANMController;
 import org.ei.opensrp.view.controller.FormController;
 import org.ei.opensrp.view.controller.NavigationController;
-import android.support.v7.app.ActionBarActivity;
 
 import java.util.Map;
 
@@ -34,10 +39,16 @@ public abstract class SecuredActivity extends ActionBarActivity {
     protected NavigationController navigationController;
     protected final int MENU_ITEM_LOGOUT = 2312;
     private String metaData;
+    private OpenSRPClientBroadCastReceiver openSRPClientBroadCastReceiver;
+    protected ZiggyService ziggyService;
+
+    public static final String LOG_TAG = "SecuredActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ziggyService = context().ziggyService();
 
         logoutListener = new Listener<Boolean>() {
             public void onEvent(Boolean data) {
@@ -56,6 +67,10 @@ public abstract class SecuredActivity extends ActionBarActivity {
         anmController = context().anmController();
         navigationController = new NavigationController(this, anmController);
         onCreation();
+        
+
+       // Intent replicationServiceIntent = new Intent(this, ReplicationIntentService.class);
+        //startService(replicationServiceIntent);
     }
 
     @Override
@@ -68,6 +83,7 @@ public abstract class SecuredActivity extends ActionBarActivity {
         }
 
         onResumption();
+        setupReplicationBroadcastReceiver();
     }
 
     @Override
@@ -103,6 +119,13 @@ public abstract class SecuredActivity extends ActionBarActivity {
         inflater.inflate(R.menu.main_menu, menu);
         attachLogoutMenuItem(menu);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(openSRPClientBroadCastReceiver);
+
     }
 
     protected abstract void onCreation();
@@ -159,6 +182,41 @@ public abstract class SecuredActivity extends ActionBarActivity {
 
     private boolean hasMetadata() {
         return this.metaData != null && !this.metaData.equalsIgnoreCase("undefined");
+    }
+
+    /**
+     * Called by CloudantSyncHandler when it receives a replication complete callback.
+     * CloudantSyncHandler takes care of calling this on the main thread.
+     */
+    public void replicationComplete() {
+        //Toast.makeText(getApplicationContext(), "Replication Complete", Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Called by TasksModel when it receives a replication error callback.
+     * TasksModel takes care of calling this on the main thread.
+     */
+    public void replicationError() {
+        Log.e(LOG_TAG, "error()");
+        //Toast.makeText(getApplicationContext(), "Replication Error", Toast.LENGTH_LONG).show();
+    }
+
+    private void setupReplicationBroadcastReceiver() {
+        // The filter's action is BROADCAST_ACTION
+        IntentFilter opensrpClientIntentFilter = new IntentFilter(CloudantSync.ACTION_DATABASE_CREATED);
+        opensrpClientIntentFilter.addAction(CloudantSync.ACTION_REPLICATION_COMPLETED);
+        opensrpClientIntentFilter.addAction(CloudantSync.ACTION_REPLICATION_ERROR);
+        opensrpClientIntentFilter.addAction("android.intent.action.TIMEZONE_CHANGED");
+        opensrpClientIntentFilter.addAction("android.intent.action.TIME_SET");
+
+        openSRPClientBroadCastReceiver = new OpenSRPClientBroadCastReceiver(this);
+        // Registers the OpenSRPClientBroadCastReceiver and its intent filters
+        LocalBroadcastManager.getInstance(this).registerReceiver(openSRPClientBroadCastReceiver, opensrpClientIntentFilter);
+    }
+
+
+    public void showToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
 
     protected Context context() {

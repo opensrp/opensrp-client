@@ -1,0 +1,9 @@
+<resources>
+    <!-- Large (10 inch) devices in portrait mode -->
+    <dimen name="noti_button_text_size">20sp</dimen>
+    <dimen name="noti_message_text_size">26sp</dimen>
+    <dimen name="vaccine_card_width">300dp</dimen>
+    <dimen name="vaccine_horizontal_spacing">40dp</dimen>
+    <dimen name="loc_picker_text_max_width">300dp</dimen>
+    <dimen name="title_label_text_max_width">250dp</dimen>
+</resources>

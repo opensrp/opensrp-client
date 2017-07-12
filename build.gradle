@@ -16,7 +16,7 @@ subprojects {
     group = 'org.ei.opensrp'
 
     ext.androidToolsBuildGradle     = '21.1.2'
-    ext.androidBuildToolsVersion    = '21.1.2'
+    ext.androidBuildToolsVersion    = '26.0.0'
     ext.androidMinSdkVersion        = 16
     ext.androidCompileSdkVersion    = 21
     ext.androidTargetSdkVersion     = 21
@@ -25,12 +25,15 @@ subprojects {
     ext.androidAnnotationsAPIVersion = '3.0.1';
 
     repositories {
+        jcenter()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
         maven { url "${projectDir}/libs/" }
         maven { url "http://nexus.motechproject.org/content/repositories/drishti" }
         maven { url "http://nexus.motechproject.org/content/repositories/snapshots" }
         maven { url "http://acra.googlecode.com/svn/repository/releases" }
         maven { url "http://repo.maven.apache.org/maven2" }
+        maven { url "http://cloudant.github.io/cloudant-sync-eap/repository" }
         maven {
             url "${projectDir}/opensrp-app/../libs/"
         }

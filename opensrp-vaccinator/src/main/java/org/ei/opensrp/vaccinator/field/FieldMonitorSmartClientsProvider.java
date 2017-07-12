@@ -134,29 +134,29 @@ public class FieldMonitorSmartClientsProvider implements SmartRegisterClientsPro
                 String endDate = year + "-" + month + "-" + cal.get(Calendar.DAY_OF_MONTH);
 
                 String sqlWoman = "select (" +
-                        "select count(*) c from pkwoman where tt1 between  '" + startDate + "' and '" + endDate + "') tt1," +
-                        "(select count(*) c from pkwoman where tt2 between '" + startDate + "' and '" + endDate + "') tt2," +
-                        "(select count(*) c from pkwoman where tt3 between '" + startDate + "' and '" + endDate + "') tt3," +
-                        "(select count(*) c from pkwoman where tt4 between '" + startDate + "' and '" + endDate + "') tt4," +
-                        "(select count(*) c from pkwoman where tt5 between '" + startDate + "' and '" + endDate + "') tt5 " +
-                        "from pkwoman limit 1; ";
+                        "select count(*) c from ec_woman where tt1 between  '" + startDate + "' and '" + endDate + "') tt1," +
+                        "(select count(*) c from ec_woman where tt2 between '" + startDate + "' and '" + endDate + "') tt2," +
+                        "(select count(*) c from ec_woman where tt3 between '" + startDate + "' and '" + endDate + "') tt3," +
+                        "(select count(*) c from ec_woman where tt4 between '" + startDate + "' and '" + endDate + "') tt4," +
+                        "(select count(*) c from ec_woman where tt5 between '" + startDate + "' and '" + endDate + "') tt5 " +
+                        "from ec_woman limit 1; ";
 
 
                 String sqlChild = "select (" +
-                        "select count(*) c from pkchild where bcg between '" + startDate + "' and '" + endDate + "') bcg," +
-                        "(select count(*) c from pkchild where opv_0 between '" + startDate + "' and '" + endDate + "') opv_0," +
-                        "(select count(*) c from pkchild where opv_1 between '" + startDate + "' and '" + endDate + "') opv_1," +
-                        "(select count(*) c from pkchild where opv_2 between '" + startDate + "' and '" + endDate + "') opv_2," +
-                        "(select count(*) c from pkchild where opv_3 between '" + startDate + "' and '" + endDate + "') opv_3, " +
-                        "(select count(*) c from pkchild where pcv_1 between '" + startDate + "' and '" + endDate + "') pcv_1," +
-                        "(select count(*) c from pkchild where pcv_2 between '" + startDate + "' and '" + endDate + "') pcv_2," +
-                        "(select count(*) c from pkchild where pcv_3 between '" + startDate + "' and '" + endDate + "') pcv_3, " +
-                        "(select count(*) c from pkchild where measles_1 between '" + startDate + "' and '" + endDate + "') measles_1, " +
-                        "(select count(*) c from pkchild where measles_2 between '" + startDate + "' and '" + endDate + "') measles_2," +
-                        "(select count(*) c from pkchild where pentavalent_1 between '" + startDate + "' and '" + endDate + "') pentavalent_1," +
-                        "(select count(*) c from pkchild where pentavalent_2 between '" + startDate + "' and '" + endDate + "') pentavalent_2," +
-                        "(select count(*) c from pkchild where pentavalent_3 between '" + startDate + "' and '" + endDate + "') pentavalent_3 " +
-                        "from pkchild limit 1 ;";
+                        "select count(*) c from ec_child where bcg between '" + startDate + "' and '" + endDate + "') bcg," +
+                        "(select count(*) c from ec_child where opv_0 between '" + startDate + "' and '" + endDate + "') opv_0," +
+                        "(select count(*) c from ec_child where opv_1 between '" + startDate + "' and '" + endDate + "') opv_1," +
+                        "(select count(*) c from ec_child where opv_2 between '" + startDate + "' and '" + endDate + "') opv_2," +
+                        "(select count(*) c from ec_child where opv_3 between '" + startDate + "' and '" + endDate + "') opv_3, " +
+                        "(select count(*) c from ec_child where pcv_1 between '" + startDate + "' and '" + endDate + "') pcv_1," +
+                        "(select count(*) c from ec_child where pcv_2 between '" + startDate + "' and '" + endDate + "') pcv_2," +
+                        "(select count(*) c from ec_child where pcv_3 between '" + startDate + "' and '" + endDate + "') pcv_3, " +
+                        "(select count(*) c from ec_child where measles_1 between '" + startDate + "' and '" + endDate + "') measles_1, " +
+                        "(select count(*) c from ec_child where measles_2 between '" + startDate + "' and '" + endDate + "') measles_2," +
+                        "(select count(*) c from ec_child where pentavalent_1 between '" + startDate + "' and '" + endDate + "') pentavalent_1," +
+                        "(select count(*) c from ec_child where pentavalent_2 between '" + startDate + "' and '" + endDate + "') pentavalent_2," +
+                        "(select count(*) c from ec_child where pentavalent_3 between '" + startDate + "' and '" + endDate + "') pentavalent_3 " +
+                        "from ec_child limit 1 ;";
 
                 String sqlWasted = "select sum (total_wasted)as total_wasted from field where date between '" + startDate + "' and '" + endDate + "'";
                 List<CommonPersonObject> ttVaccinesUsed = null;
@@ -169,8 +169,8 @@ public class FieldMonitorSmartClientsProvider implements SmartRegisterClientsPro
                 if (context1 != null) {
 
 
-                    ttVaccinesUsed = context1.allCommonsRepositoryobjects("pkwoman").customQuery(sqlWoman, new String[]{}, "pkwoman");
-                    childVaccinesUsed = context1.allCommonsRepositoryobjects("pkchild").customQuery(sqlChild, new String[]{}, "pkchild");
+                    ttVaccinesUsed = context1.allCommonsRepositoryobjects("ec_woman").customQuery(sqlWoman, new String[]{}, "ec_woman");
+                    childVaccinesUsed = context1.allCommonsRepositoryobjects("ec_child").customQuery(sqlChild, new String[]{}, "ec_child");
                     wastedVaccines = context1.allCommonsRepositoryobjects("field").customQuery(sqlWasted, new String[]{}, "field");
                     Map<String, Integer> usedmap = new HashMap<String, Integer>();
                     Map<String, Integer> wastedmap = new HashMap<String, Integer>();
@@ -312,29 +312,29 @@ public class FieldMonitorSmartClientsProvider implements SmartRegisterClientsPro
             viewHolder.dateTextView.setText(date);
 
             String sqlWomanforDaily = "select (" +
-                    "select count(*) c from pkwoman where tt1 =  '" + date + "') tt1," +
-                    "(select count(*) c from pkwoman where tt2 = '" + date + "') tt2," +
-                    "(select count(*) c from pkwoman where tt3 = '" + date + "') tt3," +
-                    "(select count(*) c from pkwoman where tt4 = '" + date + "') tt4," +
-                    "(select count(*) c from pkwoman where tt5 = '" + date + "') tt5 " +
-                    "from pkwoman limit 1; ";
+                    "select count(*) c from ec_woman where tt1 =  '" + date + "') tt1," +
+                    "(select count(*) c from ec_woman where tt2 = '" + date + "') tt2," +
+                    "(select count(*) c from ec_woman where tt3 = '" + date + "') tt3," +
+                    "(select count(*) c from ec_woman where tt4 = '" + date + "') tt4," +
+                    "(select count(*) c from ec_woman where tt5 = '" + date + "') tt5 " +
+                    "from ec_woman limit 1; ";
 
 
             String sqlChildforDaily = "select (" +
-                    "select count(*) c from pkchild where bcg like '" + date + "') bcg," +
-                    "(select count(*) c from pkchild where opv_0 like '" + date + "') opv_0," +
-                    "(select count(*) c from pkchild where opv_1 like '" + date + "') opv_1," +
-                    "(select count(*) c from pkchild where opv_2 like '" + date + "') opv_2," +
-                    "(select count(*) c from pkchild where opv_3 like '" + date + "') opv_3, " +
-                    "(select count(*) c from pkchild where pcv_1 like '" + date + "') pcv_1," +
-                    "(select count(*) c from pkchild where pcv_2 like '" + date + "') pcv_2," +
-                    "(select count(*) c from pkchild where pcv_3 like '" + date + "') pcv_3, " +
-                    "(select count(*) c from pkchild where measles_1 like '" + date + "') measles_1, " +
-                    "(select count(*) c from pkchild where measles_2 like '" + date + "') measles_2," +
-                    "(select count(*) c from pkchild where pentavalent_1 like '" + date + "') pentavalent_1," +
-                    "(select count(*) c from pkchild where pentavalent_2 like '" + date + "') pentavalent_2," +
-                    "(select count(*) c from pkchild where pentavalent_3 like '" + date + "') pentavalent_3 " +
-                    "from pkchild limit 1 ;";
+                    "select count(*) c from ec_child where bcg like '" + date + "') bcg," +
+                    "(select count(*) c from ec_child where opv_0 like '" + date + "') opv_0," +
+                    "(select count(*) c from ec_child where opv_1 like '" + date + "') opv_1," +
+                    "(select count(*) c from ec_child where opv_2 like '" + date + "') opv_2," +
+                    "(select count(*) c from ec_child where opv_3 like '" + date + "') opv_3, " +
+                    "(select count(*) c from ec_child where pcv_1 like '" + date + "') pcv_1," +
+                    "(select count(*) c from ec_child where pcv_2 like '" + date + "') pcv_2," +
+                    "(select count(*) c from ec_child where pcv_3 like '" + date + "') pcv_3, " +
+                    "(select count(*) c from ec_child where measles_1 like '" + date + "') measles_1, " +
+                    "(select count(*) c from ec_child where measles_2 like '" + date + "') measles_2," +
+                    "(select count(*) c from ec_child where pentavalent_1 like '" + date + "') pentavalent_1," +
+                    "(select count(*) c from ec_child where pentavalent_2 like '" + date + "') pentavalent_2," +
+                    "(select count(*) c from ec_child where pentavalent_3 like '" + date + "') pentavalent_3 " +
+                    "from ec_child limit 1 ;";
 
             List<CommonPersonObject> ttVaccinesUsed = null;
             List<CommonPersonObject> childVaccinesUsed = null;
@@ -342,8 +342,8 @@ public class FieldMonitorSmartClientsProvider implements SmartRegisterClientsPro
 
             int totalTTUsed = 0;
             int totalChildVaccinesUsed = 0;
-            ttVaccinesUsed = context1.allCommonsRepositoryobjects("pkwoman").customQuery(sqlWomanforDaily, new String[]{}, "pkwoman");
-            childVaccinesUsed = context1.allCommonsRepositoryobjects("pkchild").customQuery(sqlChildforDaily, new String[]{}, "pkchild");
+            ttVaccinesUsed = context1.allCommonsRepositoryobjects("ec_woman").customQuery(sqlWomanforDaily, new String[]{}, "ec_woman");
+            childVaccinesUsed = context1.allCommonsRepositoryobjects("ec_child").customQuery(sqlChildforDaily, new String[]{}, "ec_child");
 
             //Log.d("TT Vaccines",  ttVaccinesUsed.size() +"tt vaccines used");
             //Log.d("child Vaccines",  childVaccinesUsed.size() +"tt vaccines used");
@@ -437,20 +437,20 @@ public class FieldMonitorSmartClientsProvider implements SmartRegisterClientsPro
 
     private int calculateVaccineUsed(String date) {
         int totalUsed = 0;
-        String sql = "select * from pkchild where date like  ?";
+        String sql = "select * from ec_child where date like  ?";
         //    List<CommonPersonObject> used=null;
 
         // Log.d("Vaccinator", "Context is not null");
 
         Log.d("Vaccinator", "Pk child repo not null");
-        List<CommonPersonObject> used = context1.allCommonsRepositoryobjects("pkchild").customQuery(sql, new String[]{date + "%"}, "pkchild");
+        List<CommonPersonObject> used = context1.allCommonsRepositoryobjects("ec_child").customQuery(sql, new String[]{date + "%"}, "ec_child");
 
         for (CommonPersonObject o : used) {
             totalUsed += Integer.parseInt(o.getColumnmaps().get("total_used"));
 
         }
-        String sql1 = "select * from pkwoman where date like  ?";
-        List<CommonPersonObject> used1 = context1.allCommonsRepositoryobjects("pkwoman").customQuery(sql1, new String[]{date + "%"}, "pkwoman");
+        String sql1 = "select * from ec_woman where date like  ?";
+        List<CommonPersonObject> used1 = context1.allCommonsRepositoryobjects("ec_woman").customQuery(sql1, new String[]{date + "%"}, "ec_woman");
 
         for (CommonPersonObject o : used1) {
             totalUsed += Integer.parseInt(o.getColumnmaps().get("total_used"));

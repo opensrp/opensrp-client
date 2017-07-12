@@ -119,7 +119,7 @@ public class ChildService {
             }
         }
 
-        allCommonsRepository.update("pkchild", contentValues, submission.entityId());
+        allCommonsRepository.update("ec_child", contentValues, submission.entityId());
 
 
         //another map for adding other details for timelineevent repository .

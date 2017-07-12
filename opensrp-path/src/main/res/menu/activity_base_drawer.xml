@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_register"
+            android:icon="@drawable/ic_action_add"
+            android:title="Register" />
+        <item
+            android:id="@+id/nav_record_vaccination_out_catchment"
+            android:icon="@drawable/ic_action_out_catchment"
+            android:title="Record out of catchment vaccination" />
+        <item
+            android:id="@+id/stock"
+            android:icon="@drawable/stockreg"
+            android:title="Stocks" />
+        <!--item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_action_settings"
+            android:title="Settings" /-->
+        <item
+            android:id="@+id/nav_sync"
+            android:icon="@drawable/ic_action_sync"
+            android:title="" />
+        <item
+            android:id="@+id/nav_hia2"
+            android:icon="@drawable/ic_action_out_catchment"
+            android:title="@string/side_nav_hia2" />
+    </group>
+
+</menu>

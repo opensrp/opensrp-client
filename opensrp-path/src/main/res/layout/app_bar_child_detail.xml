@@ -1,0 +1,153 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:background="#FAFAFA">
+
+
+        <include layout="@layout/toolbar_child_details" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/immun_child_card_height"
+                android:layout_margin="20dp"
+                android:background="@drawable/border">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="@dimen/immun_child_card_height"
+                        android:layout_height="@dimen/immun_child_card_height"
+                        android:id="@+id/profile_image_iv"
+                        android:src="@drawable/child_boy_infant"
+                        android:scaleType="centerCrop"
+                        android:adjustViewBounds="true" />
+
+                    <ImageView
+                        android:layout_width="@dimen/navigation_icon_size"
+                        android:layout_height="@dimen/navigation_icon_size"
+                        android:id="@+id/imageView2"
+                        android:src="@drawable/ic_icon_edit"
+                        android:layout_gravity="left|top" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp">
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                        android:text="Joyce Mwansa"
+                        android:id="@+id/name"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/activity_title_size" />
+
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:id="@+id/idforclient"
+                            android:textColor="@color/dark_grey"
+                            android:textSize="@dimen/activity_sub_title_size"
+                            android:text="ZEIR: 5425428" />
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:text="Age: 6w 4d"
+                            android:id="@+id/ageforclient"
+                            android:textColor="@color/dark_grey"
+                            android:textSize="@dimen/activity_sub_title_size"
+                            android:layout_marginLeft="5dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/statusview">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/statusimage"
+                        android:src="@drawable/ic_icon_status_active"
+                        android:layout_gravity="center_horizontal"
+                        android:tint="@color/alert_completed"
+                        android:scaleType="fitCenter" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Active"
+                        android:id="@+id/statusname"
+                        android:textColor="#31B404"
+                        android:layout_gravity="center_horizontal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="status"
+                        android:id="@+id/status"
+                        android:singleLine="false"
+                        android:gravity="center"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/dark_grey"
+                        android:textAlignment="center" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/female_dark_pink"
+            app:tabIndicatorColor="@color/female_dark_pink"
+            app:tabTextAppearance="@style/CustomFontTextViewStyle.tabIndicator"
+            app:tabIndicatorHeight="4dp"
+            app:tabMaxWidth="0dp"
+            app:tabGravity="fill"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:textAlignment="center" />
+
+    <include layout="@layout/notification_base" />
+
+</android.support.design.widget.CoordinatorLayout>

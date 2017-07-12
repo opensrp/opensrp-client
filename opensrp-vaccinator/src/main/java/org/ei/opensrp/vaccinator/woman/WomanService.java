@@ -60,7 +60,7 @@ public class WomanService {
             }
         }
 
-        allCommonsRepository.update("pkwoman", contentValues, submission.entityId());
+        allCommonsRepository.update("ec_woman", contentValues, submission.entityId());
 
         //another map for adding other details for timelineevent repository .
         HashMap<String, String> mapOther = new HashMap<String, String>();

@@ -2,6 +2,8 @@ package org.ei.opensrp.repository;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
+
 import net.sqlcipher.database.SQLiteDatabase;
 
 public class SettingsRepository extends DrishtiRepository {
@@ -32,40 +34,46 @@ public class SettingsRepository extends DrishtiRepository {
     }
 
     public String querySetting(String key, String defaultValue) {
-        Cursor cursor = getCursor(key);
-        if (cursor == null) {
-            return defaultValue;
+        Cursor cursor = null;
+        String value = defaultValue;
+        try {
+            SQLiteDatabase database = masterRepository.getReadableDatabase();
+            cursor = database.query(SETTINGS_TABLE_NAME, new String[]{SETTINGS_VALUE_COLUMN}, SETTINGS_KEY_COLUMN + " = ?", new String[]{key}, null, null, null, "1");
+            if(cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                value = cursor.getString(0);
+            }
+        }catch (Exception e){
+            Log.e(getClass().getName(), e.toString(), e);
+        }finally {
+            if(cursor != null){
+                cursor.close();
+            }
         }
-
-        String value = cursor.getString(0);
-        cursor.close();
         return value;
     }
 
     public byte[] queryBLOB(String key) {
-        Cursor cursor = getCursor(key);
-        if (cursor == null) {
-            return null;
+        byte[] value = null;
+        Cursor cursor = null;
+        try {
+            SQLiteDatabase database = masterRepository.getReadableDatabase();
+            cursor = database.query(SETTINGS_TABLE_NAME, new String[]{SETTINGS_VALUE_COLUMN}, SETTINGS_KEY_COLUMN + " = ?", new String[]{key}, null, null, null, "1");
+            if(cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+                value = cursor.getBlob(0);
+            }
+        }catch (Exception e){
+            Log.e(getClass().getName(), e.toString(), e);
         }
-
-        byte[] value = cursor.getBlob(0);
-        cursor.close();
+        finally {
+            if(cursor != null){
+                cursor.close();
+            }
+        }
         return value;
     }
 
     private void replace(ContentValues values) {
         SQLiteDatabase database = masterRepository.getWritableDatabase();
         database.replace(SETTINGS_TABLE_NAME, null, values);
-    }
-
-    private Cursor getCursor(String key) {
-        SQLiteDatabase database = masterRepository.getReadableDatabase();
-        Cursor cursor = database.query(SETTINGS_TABLE_NAME, new String[]{SETTINGS_VALUE_COLUMN}, SETTINGS_KEY_COLUMN + " = ?", new String[]{key}, null, null, null, "1");
-        cursor.moveToFirst();
-        if (cursor.isAfterLast()) {
-            cursor.close();
-            return null;
-        }
-        return cursor;
     }
 }

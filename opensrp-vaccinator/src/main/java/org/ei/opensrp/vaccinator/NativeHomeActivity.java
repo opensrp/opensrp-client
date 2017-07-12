@@ -164,14 +164,14 @@ public class NativeHomeActivity extends SecuredActivity {
 
     private void updateRegisterCounts(HomeContext homeContext) {
         CommonPersonObjectController childController = new CommonPersonObjectController(
-                context().allCommonsRepositoryobjects("pkchild"),
+                context().allCommonsRepositoryobjects("ec_child"),
                 context().allBeneficiaries(), context().listCache(),
-                context().personObjectClientsCache(), "first_name", "pkchild", "child_reg_date",
+                context().personObjectClientsCache(), "first_name", "ec_child", "child_reg_date",
                 CommonPersonObjectController.ByColumnAndByDetails.byDetails );
         CommonPersonObjectController womanController = new CommonPersonObjectController(
-                context().allCommonsRepositoryobjects("pkwoman"),
+                context().allCommonsRepositoryobjects("ec_woman"),
                 context().allBeneficiaries(), context().listCache(),
-                context().personObjectClientsCache(), "first_name", "pkwoman", "client_reg_date",
+                context().personObjectClientsCache(), "first_name", "ec_woman", "client_reg_date",
                 CommonPersonObjectController.ByColumnAndByDetails.byDetails.byDetails );
 
         CommonPersonObjectController fieldController = new CommonPersonObjectController(

@@ -34,6 +34,10 @@ public class AllCommonsRepository {
         return personRepository.findByCaseID(caseId);
     }
 
+    public CommonPersonObject findHHByGOBHHID(String gobhhid) {
+        return personRepository.findHHByGOBHHID(gobhhid);
+    }
+
     public long count() {
         return personRepository.count();
     }
@@ -47,6 +51,10 @@ public class AllCommonsRepository {
 
     public List<CommonPersonObject> findByRelationalIDs(List<String> RelationalID) {
         return personRepository.findByRelationalIDs(RelationalID.toArray(new String[RelationalID.size()]));
+    }
+
+    public List<CommonPersonObject> findByRelational_IDs(List<String> RelationalID) {
+        return personRepository.findByRelational_IDs(RelationalID.toArray(new String[RelationalID.size()]));
     }
 
     public void close(String entityId) {
@@ -120,4 +128,13 @@ public class AllCommonsRepository {
         return personRepository.populateSearchValues(caseId, field, value, listToRemove);
 
     }
+
+    public boolean deleteSearchRecord(String caseId) {
+        if(StringUtils.isBlank(caseId)){
+            return false;
+        }
+
+        return personRepository.deleteSearchRecord(caseId);
+    }
+
 }

@@ -3,7 +3,7 @@
     <application android:allowBackup="true"
         android:label="@string/app_name"
         android:name=".application.BidanApplication"
-        >
+        android:icon="@drawable/opensrp_logo">
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="b74c58c94d8965151212e8ecf1f4fdfbf5b7f4e4" />
@@ -67,6 +67,8 @@
             android:name=".child.AnakDetailActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppThemeNoTitle"/>
+        <activity android:name="org.ei.opensrp.view.activity.SettingsActivity"
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>

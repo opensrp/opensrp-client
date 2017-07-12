@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:id="@+id/tablerowcontainer">
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                style="@style/CustomFontTextViewStyle.ClientList.Light"
+                android:textColor="@color/dark_grey"
+                android:text="Catchment area"
+                android:id="@+id/label"
+                android:layout_weight="1"/>
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                style="@style/CustomFontTextViewStyle.ClientList"
+                android:text="Linda"
+                android:id="@+id/value"
+                android:layout_weight="1"
+                android:textColor="@color/text_black" />
+        </TableRow>
+
+
+    </TableLayout>
+</LinearLayout>

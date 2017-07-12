@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,7 +21,7 @@ import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.mcare.R;
 import org.ei.opensrp.mcare.application.McareApplication;
 import org.ei.opensrp.mcare.household.HouseHoldDetailActivity;
-import org.ei.opensrp.provider.SmartRegisterClientsProvider;
+import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.util.DateUtil;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
@@ -32,7 +31,6 @@ import org.ei.opensrp.view.dialog.FilterOption;
 import org.ei.opensrp.view.dialog.ServiceModeOption;
 import org.ei.opensrp.view.dialog.SortOption;
 import org.ei.opensrp.view.viewHolder.OnClickFormLauncher;
-import org.joda.time.LocalDate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,6 +38,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static org.ei.opensrp.util.StringUtil.humanize;
@@ -77,7 +76,7 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
 //        itemView = (ViewGroup) inflater().inflate(R.layout.smart_register_mcare_anc_client, null);
         LinearLayout profileinfolayout = (LinearLayout)itemView.findViewById(R.id.profile_info_layout);
 
-//        ImageView profilepic = (ImageView)itemView.findViewById(R.id.profilepic);
+        ImageView profilepic = (ImageView)itemView.findViewById(R.id.profilepic);
         TextView name = (TextView)itemView.findViewById(R.id.name);
         TextView spousename = (TextView)itemView.findViewById(R.id.spousename);
         TextView gobhhid = (TextView)itemView.findViewById(R.id.gobhhid);
@@ -101,29 +100,44 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
 
         final CommonPersonObjectClient pc = (CommonPersonObjectClient) smartRegisterClient;
 
-//        if(pc.getDetails().get("profilepic")!=null){
-//            HouseHoldDetailActivity.setImagetoHolder((Activity) context, pc.getDetails().get("profilepic"), profilepic, R.mipmap.woman_placeholder);
-//        }
-//
 //        id.setText(pc.getDetails().get("case_id")!=null?pc.getCaseId():"");
+        AllCommonsRepository allancRepository =  org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_mcaremother");
+        CommonPersonObject ancobject = allancRepository.findByCaseID(pc.entityId());
+
+        DetailsRepository detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
+        Map<String, String> details =  detailsRepository.getAllDetailsForClient(pc.entityId());
+        details.putAll(ancobject.getColumnmaps());
+
+        if(pc.getDetails() != null) {
+            pc.getDetails().putAll(details);
+        }else{
+            pc.setDetails(details);
+        }
+
+        if(pc.getDetails().get("profilepic")!=null){
+            HouseHoldDetailActivity.setImagetoHolder((Activity) context, pc.getDetails().get("profilepic"), profilepic, R.mipmap.woman_placeholder);
+        }
+
+        if(pc.getDetails().get("FWWOMFNAME").equalsIgnoreCase("Eisha")){
+            name.setText(humanize(pc.getColumnmaps().get("FWWOMFNAME")!=null?pc.getColumnmaps().get("FWWOMFNAME"):""));
+        }
         name.setText(humanize(pc.getColumnmaps().get("FWWOMFNAME")!=null?pc.getColumnmaps().get("FWWOMFNAME"):""));
-        spousename.setText(humanize(pc.getDetails().get("FWHUSNAME")!=null?pc.getDetails().get("FWHUSNAME"):""));
+        spousename.setText(humanize(pc.getDetails().get("FWHUSNAME") != null ? pc.getDetails().get("FWHUSNAME") : ""));
         gobhhid.setText(" "+(pc.getColumnmaps().get("GOBHHID")!=null?pc.getColumnmaps().get("GOBHHID"):""));
-        jivitahhid.setText((pc.getColumnmaps().get("JiVitAHHID")!=null?pc.getColumnmaps().get("JiVitAHHID"):""));
+        jivitahhid.setText((pc.getColumnmaps().get("JiVitAHHID") != null ? pc.getColumnmaps().get("JiVitAHHID") : ""));
         village.setText(humanize((pc.getDetails().get("mauza") != null ? pc.getDetails().get("mauza") : "").replace("+", "_")));
-        age.setText("("+(pc.getDetails().get("FWWOMAGE")!=null?pc.getDetails().get("FWWOMAGE"):"")+") ");
+        age.setText("(" + (pc.getDetails().get("FWWOMAGE") != null ? pc.getDetails().get("FWWOMAGE") : "") + ") ");
 
         DateUtil.setDefaultDateFormat("yyyy-MM-dd");
-        AllCommonsRepository allmotherRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("mcaremother");
-        CommonPersonObject childobject = allmotherRepository.findByCaseID(smartRegisterClient.entityId());
-        AllCommonsRepository elcorep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("elco");
-        final CommonPersonObject elcoObject = elcorep.findByCaseID(childobject.getRelationalId());
-        try {
-            int days = DateUtil.dayDifference(DateUtil.getLocalDate((elcoObject.getDetails().get("FWBIRTHDATE") != null ?  elcoObject.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
-            int calc_age = days / 365;
-            age.setText("("+calc_age+") ");
-        }catch (Exception e){
-            Log.e(getClass().getName(), "Exception", e);
+
+        if(pc.getDetails().get("FWBIRTHDATE") != null) {
+            try {
+                int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("FWBIRTHDATE") != null ? pc.getDetails().get("FWBIRTHDATE") : "")), DateUtil.today());
+                int calc_age = days / 365;
+                age.setText("(" + calc_age + ") ");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         if(pc.getDetails().get("FWWOMNID").length()>0) {
@@ -138,8 +152,13 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
         }
 
 //        Log.v("brid tag",pc.getDetails().get("FWWOMBID"));
+        AllCommonsRepository householdrep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_household");
+        CommonPersonObject householdparent = householdrep.findByCaseID(pc.getDetails().get("relational_id"));
 
-
+        if (householdparent.getColumnmaps().get("existing_Mauzapara") != null) {
+            String location = householdparent.getColumnmaps().get("existing_Mauzapara");
+            village.setText(humanize(location));
+        }
 
         if(pc.getDetails().get("FWGESTATIONALAGE")!=null){
             String GASourcestring = "GA: " + pc.getDetails().get("FWGESTATIONALAGE")+ " weeks" + " ";
@@ -149,14 +168,18 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Date edd_date = format.parse(pc.getColumnmaps().get("FWPSRLMP")!=null?pc.getColumnmaps().get("FWPSRLMP"):"");
-            GregorianCalendar calendar = new GregorianCalendar();
+            String lmpDate = pc.getColumnmaps().get("FWPSRLMP")!=null ? pc.getColumnmaps().get("FWPSRLMP") : "";
+            if(!lmpDate.isEmpty()) {
+                Date edd_date = format.parse(lmpDate);
+                GregorianCalendar calendar = new GregorianCalendar();
                 calendar.setTime(edd_date);
                 calendar.add(Calendar.DATE, 259);
                 edd_date.setTime(calendar.getTime().getTime());
-            String EDDSourcestring = "EDD: " +  format.format(edd_date)+ " ";
 
-            edd.setText(Html.fromHtml(EDDSourcestring));
+                String EDDSourcestring = "EDD: " + format.format(edd_date) + " ";
+
+                edd.setText(Html.fromHtml(EDDSourcestring));
+            }
         } catch (ParseException e) {
             Log.e(getClass().getName(), "Exception", e);
         }
@@ -206,15 +229,26 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
 
 
     private void checkAnc1StatusAndform(ImageView anc1tick, TextView anc1text, CommonPersonObjectClient pc) {
+        List<Alert> alertlist = org.ei.opensrp.Context.getInstance().alertService().findByEntityIdAndAlertNames(pc.entityId(), "ancrv_1");
+        String alertstate = "";
+        String alertDate = "";
+        if(alertlist.size()!=0){
+            for(int i = 0;i<alertlist.size();i++){
+                alertstate = alertlist.get(i).status().value();
+//                    alertDate = alertlist.get(i).startDate();
+                alertDate = ancdate((pc.getColumnmaps().get("FWPSRLMP")!=null?pc.getColumnmaps().get("FWPSRLMP"):""),51);
+            }              ;
+        }
+
         if(pc.getDetails().get("FWANC1DATE")!=null){
             anc1text.setText("ANC1: "+pc.getDetails().get("FWANC1DATE"));
-            if(pc.getDetails().get("anc1_current_formStatus")!=null){
-                if(pc.getDetails().get("anc1_current_formStatus").equalsIgnoreCase("upcoming")){
+            if(!alertstate.isEmpty()){
+                if (alertstate.equalsIgnoreCase("upcoming")){
 //                    anc1tick.setTextColor(context.getResources().getColor(R.color.alert_complete_green));
                     anc1tick.setImageResource(R.mipmap.doneintime);
                     anc1tick.setVisibility(View.VISIBLE);
                     anc1text.setVisibility(View.VISIBLE);
-                }else if(pc.getDetails().get("anc1_current_formStatus").equalsIgnoreCase("urgent")){
+                }else if (alertstate.equalsIgnoreCase("urgent")){
 //                    anc1tick.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
 //                    anc1text.setText("urgent");
                     anc1tick.setImageResource(R.mipmap.notdoneintime);
@@ -223,16 +257,7 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
                 }
             }
         }else{
-            List<Alert> alertlist = org.ei.opensrp.Context.getInstance().alertService().findByEntityIdAndAlertNames(pc.entityId(), "ancrv_1");
-            String alertstate = "";
-            String alertDate = "";
-            if(alertlist.size()!=0){
-                for(int i = 0;i<alertlist.size();i++){
-                    alertstate = alertlist.get(i).status().value();
-//                    alertDate = alertlist.get(i).startDate();
-                    alertDate = ancdate((pc.getColumnmaps().get("FWPSRLMP")!=null?pc.getColumnmaps().get("FWPSRLMP"):""),51);
-                }              ;
-            }
+
             if(alertstate != null && !(alertstate.trim().equalsIgnoreCase(""))){
                 if(alertstate.equalsIgnoreCase("expired")){
                     anc1tick.setImageResource(R.mipmap.cross);
@@ -278,16 +303,27 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
 
 
     private void checkAnc2StatusAndform(ImageView anc2tick, TextView anc2text, CommonPersonObjectClient pc) {
+        List<Alert> alertlist = org.ei.opensrp.Context.getInstance().alertService().findByEntityIdAndAlertNames(pc.entityId(), "ancrv_2");
+        String alertstate = "";
+        String alertDate = "";
+        if(alertlist.size()!=0){
+            for(int i = 0;i<alertlist.size();i++){
+                alertstate = alertlist.get(i).status().value();
+                alertDate = alertlist.get(i).startDate();
+                alertDate = ancdate((pc.getColumnmaps().get("FWPSRLMP") != null ? pc.getColumnmaps().get("FWPSRLMP") : ""), 163);
+            }              ;
+        }
+
         if(pc.getDetails().get("FWANC2DATE")!=null){
             anc2text.setText("ANC2: "+pc.getDetails().get("FWANC2DATE"));
-            if(pc.getDetails().get("ANC2_current_formStatus")!=null){
-                if(pc.getDetails().get("ANC2_current_formStatus").equalsIgnoreCase("upcoming")){
+            if(!alertstate.isEmpty()){
+                if (alertstate.equalsIgnoreCase("upcoming")){
                     anc2tick.setImageResource(R.mipmap.doneintime);
 //                    anc2tick.setTextColor(context.getResources().getColor(R.color.alert_complete_green));
                     anc2tick.setVisibility(View.VISIBLE);
                     anc2text.setVisibility(View.VISIBLE);
 
-                }else if(pc.getDetails().get("ANC2_current_formStatus").equalsIgnoreCase("urgent")){
+                }else if (alertstate.equalsIgnoreCase("urgent")){
 //                    anc2tick.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
                     anc2tick.setImageResource(R.mipmap.notdoneintime);
                     anc2tick.setVisibility(View.VISIBLE);
@@ -295,16 +331,7 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
                 }
             }
         }else{
-            List<Alert> alertlist = org.ei.opensrp.Context.getInstance().alertService().findByEntityIdAndAlertNames(pc.entityId(), "ancrv_2");
-            String alertstate = "";
-            String alertDate = "";
-            if(alertlist.size()!=0){
-                for(int i = 0;i<alertlist.size();i++){
-                    alertstate = alertlist.get(i).status().value();
-                    alertDate = alertlist.get(i).startDate();
-                    alertDate = ancdate((pc.getColumnmaps().get("FWPSRLMP") != null ? pc.getColumnmaps().get("FWPSRLMP") : ""), 163);
-                }              ;
-            }
+
             if(alertstate != null && !(alertstate.trim().equalsIgnoreCase(""))){
                 if(alertstate.equalsIgnoreCase("expired")){
                     anc2tick.setImageResource(R.mipmap.cross);
@@ -345,15 +372,26 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
         }
     }
     private void checkAnc3StatusAndform(ImageView anc3tick, TextView anc3text, CommonPersonObjectClient pc) {
+        List<Alert> alertlist = org.ei.opensrp.Context.getInstance().alertService().findByEntityIdAndAlertNames(pc.entityId(), "ancrv_3");
+        String alertstate = "";
+        String alertDate = "";
+        if(alertlist.size()!=0){
+            for(int i = 0;i<alertlist.size();i++){
+                alertstate = alertlist.get(i).status().value();
+                alertDate = alertlist.get(i).startDate();
+                alertDate = ancdate((pc.getColumnmaps().get("FWPSRLMP") != null ? pc.getColumnmaps().get("FWPSRLMP") : ""), 219);
+            }              ;
+        }
+
         if(pc.getDetails().get("FWANC3DATE")!=null){
             anc3text.setText("ANC3: "+pc.getDetails().get("FWANC3DATE"));
-            if(pc.getDetails().get("ANC3_current_formStatus")!=null){
-                if(pc.getDetails().get("ANC3_current_formStatus").equalsIgnoreCase("upcoming")){
+            if(!alertstate.isEmpty()){
+                if (alertstate.equalsIgnoreCase("upcoming")){
                     anc3tick.setImageResource(R.mipmap.doneintime);
 //                    anc3tick.setTextColor(context.getResources().getColor(R.color.alert_complete_green));
                     anc3tick.setVisibility(View.VISIBLE);
                     anc3text.setVisibility(View.VISIBLE);
-                }else if(pc.getDetails().get("ANC3_current_formStatus").equalsIgnoreCase("urgent")){
+                }else if (alertstate.equalsIgnoreCase("urgent")){
                     anc3tick.setImageResource(R.mipmap.notdoneintime);
 //                    anc3tick.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
                     anc3tick.setVisibility(View.VISIBLE);
@@ -361,16 +399,7 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
                 }
             }
         }else{
-            List<Alert> alertlist = org.ei.opensrp.Context.getInstance().alertService().findByEntityIdAndAlertNames(pc.entityId(), "ancrv_3");
-            String alertstate = "";
-            String alertDate = "";
-            if(alertlist.size()!=0){
-                for(int i = 0;i<alertlist.size();i++){
-                    alertstate = alertlist.get(i).status().value();
-                    alertDate = alertlist.get(i).startDate();
-                    alertDate = ancdate((pc.getColumnmaps().get("FWPSRLMP") != null ? pc.getColumnmaps().get("FWPSRLMP") : ""), 219);
-                }              ;
-            }
+
             if(alertstate != null && !(alertstate.trim().equalsIgnoreCase(""))){
                 if(alertstate.equalsIgnoreCase("expired")){
                     anc3tick.setImageResource(R.mipmap.cross);
@@ -411,15 +440,26 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
         }
     }
     private void checkAnc4StatusAndform(ImageView anc4tick, TextView anc4text, CommonPersonObjectClient pc) {
+        List<Alert> alertlist = org.ei.opensrp.Context.getInstance().alertService().findByEntityIdAndAlertNames(pc.entityId(), "ancrv_4");
+        String alertstate = "";
+        String alertDate = "";
+        if(alertlist.size()!=0){
+            for(int i = 0;i<alertlist.size();i++){
+                alertstate = alertlist.get(i).status().value();
+                alertDate = alertlist.get(i).startDate();
+                alertDate = ancdate((pc.getColumnmaps().get("FWPSRLMP")!=null?pc.getColumnmaps().get("FWPSRLMP"):""),247);
+            }              ;
+        }
+
         if(pc.getDetails().get("FWANC4DATE")!=null){
             anc4text.setText("ANC4: "+pc.getDetails().get("FWANC4DATE"));
-            if(pc.getDetails().get("ANC4_current_formStatus")!=null){
-                if(pc.getDetails().get("ANC4_current_formStatus").equalsIgnoreCase("upcoming")){
+            if(!alertstate.isEmpty()){
+                if (alertstate.equalsIgnoreCase("upcoming")){
                     anc4tick.setImageResource(R.mipmap.doneintime);
 //                    anc4tick.setTextColor(context.getResources().getColor(R.color.alert_complete_green));
                     anc4tick.setVisibility(View.VISIBLE);
                     anc4text.setVisibility(View.VISIBLE);
-                }else if(pc.getDetails().get("ANC4_current_formStatus").equalsIgnoreCase("urgent")){
+                }else if (alertstate.equalsIgnoreCase("urgent")){
                     anc4tick.setImageResource(R.mipmap.notdoneintime);
 //                    anc4tick.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
                     anc4tick.setVisibility(View.VISIBLE);
@@ -427,16 +467,7 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
                 }
             }
         }else{
-            List<Alert> alertlist = org.ei.opensrp.Context.getInstance().alertService().findByEntityIdAndAlertNames(pc.entityId(), "ancrv_4");
-            String alertstate = "";
-            String alertDate = "";
-            if(alertlist.size()!=0){
-                for(int i = 0;i<alertlist.size();i++){
-                    alertstate = alertlist.get(i).status().value();
-                    alertDate = alertlist.get(i).startDate();
-                    alertDate = ancdate((pc.getColumnmaps().get("FWPSRLMP")!=null?pc.getColumnmaps().get("FWPSRLMP"):""),247);
-                }              ;
-            }
+
             if(alertstate != null && !(alertstate.trim().equalsIgnoreCase(""))){
                 if(alertstate.equalsIgnoreCase("expired")){
                     anc4tick.setImageResource(R.mipmap.cross);
@@ -589,9 +620,9 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
     }
 
     private void constructRiskFlagView(CommonPersonObjectClient pc, View itemView) {
-//        AllCommonsRepository allancRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("mcaremother");
+//        AllCommonsRepository allancRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_mcaremother");
 //        CommonPersonObject ancobject = allancRepository.findByCaseID(pc.entityId());
-//        AllCommonsRepository allelcorep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("elco");
+//        AllCommonsRepository allelcorep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_elco");
 //        CommonPersonObject elcoparent = allelcorep.findByCaseID(ancobject.getRelationalId());
 
         ImageView hrp = (ImageView)itemView.findViewById(R.id.hrp);

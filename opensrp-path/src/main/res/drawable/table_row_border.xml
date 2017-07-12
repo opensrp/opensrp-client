@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="0dp"
+    android:shape="rectangle">
+    <stroke
+        android:width="0.5dp"
+        android:color="@color/client_list_header_dark_grey" />
+    <corners android:radius="1dp" />
+</shape>

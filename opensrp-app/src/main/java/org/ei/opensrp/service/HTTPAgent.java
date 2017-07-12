@@ -229,4 +229,11 @@ public class HTTPAgent {
         }
         return responseString;
     }
+
+    private String nullToLiteral(String s){
+        if(s == null)
+            return "";
+        return s;
+
+    }
 }

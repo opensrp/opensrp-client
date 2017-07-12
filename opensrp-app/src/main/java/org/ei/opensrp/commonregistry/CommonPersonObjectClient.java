@@ -2,12 +2,13 @@ package org.ei.opensrp.commonregistry;
 
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
  * Created by Raihan Ahmed on 2/12/15.
  */
-public class CommonPersonObjectClient implements SmartRegisterClient {
+public class CommonPersonObjectClient implements SmartRegisterClient,Serializable {
     private String caseId;
     private Map<String, String> details;
     public String name = "";

@@ -1,0 +1,45 @@
+{
+  "name": "vaccines",
+  "columns": [
+    {
+      "column_name": "base_entity_id",
+      "json_mapping": {
+        "field": "baseEntityId"
+      }
+    },
+    {
+      "column_name": "name",
+      "json_mapping": {
+        "field": "obs.fieldCode",
+        "concept": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "value_field": "formSubmissionField"
+      }
+    },
+    {
+      "column_name": "calculation",
+      "json_mapping": {
+        "field": "obs.fieldCode",
+        "concept": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      }
+    },
+    {
+      "column_name": "date",
+      "json_mapping": {
+        "field": "obs.fieldCode",
+        "concept": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      }
+    },
+    {
+      "column_name": "anmid",
+      "json_mapping": {
+        "field": "providerId"
+      }
+    },
+    {
+      "column_name": "location_id",
+      "json_mapping": {
+        "field": "locationId"
+      }
+    }
+  ]
+}

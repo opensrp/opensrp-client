@@ -139,7 +139,7 @@ public class OpenSRPImageLoader extends ImageLoader {
      * @return ImageContainer that will contain either the specified default bitmap or the loaded bitmap. If the default was returned, the
      * {@link OpenSRPImageLoader} will be invoked when the request is fulfilled.
      */
-    public void getImageByClientId(final String entityId, final OpenSRPImageListener opensrpImageListener) {
+    public void getImageByClientId(String entityId, OpenSRPImageListener opensrpImageListener) {
 
         try {
             if (entityId == null || entityId.isEmpty()) {
@@ -154,15 +154,10 @@ public class OpenSRPImageLoader extends ImageLoader {
 
             } else {
                 //get image record from the db
-                ImageRepository imageRepo = (ImageRepository)org.ei.opensrp.Context.imageRepository();
-                ProfileImage imageRecord = imageRepo.findByEntityId(entityId);
-                if(imageRecord!=null) {
-                    get(imageRecord, opensrpImageListener);
-                }else{
-                    String url= FileUtilities.getImageUrl(entityId);
-                    get(url,opensrpImageListener);
+                opensrpImageListener.setEntityId(entityId);
+                LoadProfileImageTask loadProfileImageTask = new LoadProfileImageTask(this, opensrpImageListener, entityId);
+                startAsyncTask(loadProfileImageTask, null);
 
-                }
             }
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
@@ -182,8 +177,9 @@ public class OpenSRPImageLoader extends ImageLoader {
             }
             opensrpImageListener.setAbsoluteFileName(image.getFilepath());
 
+            String[] filePathArray = { image.getFilepath() };
             LoadBitmapFromDiskTask loadBitmap = new LoadBitmapFromDiskTask(opensrpImageListener, image, this);
-            loadBitmap.execute(image.getFilepath());
+            startAsyncTask(loadBitmap, filePathArray);
 
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
@@ -275,6 +271,36 @@ public class OpenSRPImageLoader extends ImageLoader {
 
             }
 
+        }
+    }
+
+    private class LoadProfileImageTask extends AsyncTask<Void, Void, ProfileImage>{
+        private OpenSRPImageLoader openSRPImageLoader;
+        private OpenSRPImageListener opensrpImageListener;
+        private String entityId;
+
+        public LoadProfileImageTask(OpenSRPImageLoader openSRPImageLoader, OpenSRPImageListener opensrpImageListener, String entityId){
+            this.openSRPImageLoader = openSRPImageLoader;
+            this.opensrpImageListener = opensrpImageListener;
+            this.entityId = entityId;
+        }
+
+        @Override
+        protected ProfileImage doInBackground(Void... params) {
+            ImageRepository imageRepo = org.ei.opensrp.Context.getInstance().imageRepository();
+            ProfileImage imageRecord = imageRepo.findByEntityId(entityId);
+            return imageRecord;
+        }
+
+        @Override
+        protected void onPostExecute(ProfileImage imageRecord) {
+            if (imageRecord != null) {
+                openSRPImageLoader.get(imageRecord, opensrpImageListener);
+            } else {
+                String url = FileUtilities.getImageUrl(entityId);
+                openSRPImageLoader.get(url, opensrpImageListener);
+
+            }
         }
     }
 
@@ -458,21 +484,44 @@ public class OpenSRPImageLoader extends ImageLoader {
      * @param defaultImageResId Default image resource ID to use, or 0 if it doesn't exist.
      * @param errorImageResId   Error image resource ID to use, or 0 if it doesn't exist.
      */
-    public static OpenSRPImageListener getStaticImageListener(final ImageView view, final int defaultImageResId, final int errorImageResId) {
+    public static OpenSRPImageListener getStaticImageListener(ImageView view, int defaultImageResId, int errorImageResId) {
 
         return new OpenSRPImageListener(view, defaultImageResId, errorImageResId) {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (errorImageResId != 0) {
-                    view.setImageResource(errorImageResId);
+                if (this.getErrorImageResId() != 0 && this.getImageView() != null) {
+                    final int errorImageResId = this.getErrorImageResId();
+                    final ImageView imageView = this.getImageView();
+                    imageView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            imageView.setImageResource(errorImageResId);
+                        }
+                    });
                 }
             }
 
             @Override
             public void onResponse(final ImageContainer response, final boolean isImmediate) {
+                final ImageView imageView = this.getImageView();
+                if(imageView == null){
+                    return;
+                }
                 if (response.getBitmap() != null) {
-                    view.setImageBitmap(response.getBitmap());
+                    String entityId = this.getEntityId();
+                    String taggedEntityId= imageView.getTag(R.id.entity_id).toString();
+
+                    if(!entityId.equals(taggedEntityId)) {
+                        return;
+                    }
+
+                    imageView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            imageView.setImageBitmap(response.getBitmap());
+                        }
+                    });
 
                     // perform I/O on non UI thread
                     if (!isImmediate) {
@@ -480,12 +529,18 @@ public class OpenSRPImageLoader extends ImageLoader {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                OpenSRPImageLoader.saveStaticImageToDisk(view.getTag(R.id.entity_id).toString(), response.getBitmap());
+                                OpenSRPImageLoader.saveStaticImageToDisk(imageView.getTag(R.id.entity_id).toString(), response.getBitmap());
                             }
                         }).start();
                     }
-                } else if (defaultImageResId != 0) {
-                    view.setImageResource(defaultImageResId);
+                } else if (this.getDefaultImageResId() != 0) {
+                    final int defaultImageResId = this.getDefaultImageResId();
+                    imageView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            imageView.setImageResource(defaultImageResId);
+                        }
+                    });
                 }
             }
         };
@@ -534,7 +589,7 @@ public class OpenSRPImageLoader extends ImageLoader {
                     profileImage.setFilepath(absoluteFileName);
                     profileImage.setFilecategory("profilepic");
                     profileImage.setSyncStatus(ImageRepository.TYPE_Synced);
-                    ImageRepository imageRepo = (ImageRepository) org.ei.opensrp.Context.imageRepository();
+                    ImageRepository imageRepo = (ImageRepository) org.ei.opensrp.Context.getInstance().imageRepository();
                     imageRepo.add(profileImage);
                 }
 
@@ -549,6 +604,20 @@ public class OpenSRPImageLoader extends ImageLoader {
                     }
                 }
             }
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    protected <T> void  startAsyncTask(AsyncTask<T, ?, ?> asyncTask, T[] params) {
+        if (params == null) {
+            @SuppressWarnings("unchecked")
+            T[] arr = (T[]) new Void[0];
+            params = arr;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
+        } else {
+            asyncTask.execute(params);
         }
     }
 

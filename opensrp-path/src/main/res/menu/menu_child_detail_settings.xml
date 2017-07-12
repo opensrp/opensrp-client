@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/change_status" android:title="@string/change_status"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/registration_data" android:title="@string/edit_registration_data"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/weight_data" android:title="@string/edit_weight_data"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/immunization_data" android:title="@string/edit_immunization_data"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/recurring_services_data" android:title="@string/edit_recurring_services_data"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/report_deceased" android:title="@string/report_deceased"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/report_adverse_event" android:title="@string/report_adverse_event"
+        android:orderInCategory="100" app:showAsAction="never" />
+</menu>

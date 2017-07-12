@@ -72,7 +72,7 @@ public abstract class SecuredNativeSmartRegisterCursorAdapterFragment extends Se
     public String countSelect;
     public String joinTable="";
 
-    private static final int LOADER_ID = 0;
+    protected static final int LOADER_ID = 0;
     private static final String INIT_LOADER = "init";
 
 
@@ -150,7 +150,9 @@ public abstract class SecuredNativeSmartRegisterCursorAdapterFragment extends Se
 
     protected void setupViews(View view) {
         setupNavBarViews(view);
-        populateClientListHeaderView(getDefaultOptionsProvider().serviceMode().getHeaderProvider(), view);
+        if(getDefaultOptionsProvider() != null) {
+            populateClientListHeaderView(getDefaultOptionsProvider().serviceMode().getHeaderProvider(), view);
+        }
 
         clientsProgressView = (ProgressBar) view.findViewById(R.id.client_list_progress);
         clientsView = (ListView) view.findViewById(R.id.list);
@@ -265,14 +267,16 @@ public abstract class SecuredNativeSmartRegisterCursorAdapterFragment extends Se
 
     private void updateDefaultOptions() {
         currentSearchFilter = new ECSearchOption(null);
-        currentVillageFilter = getDefaultOptionsProvider().villageFilter();
-        currentServiceModeOption = getDefaultOptionsProvider().serviceMode();
-        currentSortOption = getDefaultOptionsProvider().sortOption();
+        if(getDefaultOptionsProvider() != null) {
+            currentVillageFilter = getDefaultOptionsProvider().villageFilter();
+            currentServiceModeOption = getDefaultOptionsProvider().serviceMode();
+            currentSortOption = getDefaultOptionsProvider().sortOption();
 
-        appliedSortView.setText(currentSortOption.name());
-        appliedVillageFilterView.setText(currentVillageFilter.name());
-        serviceModeView.setText(currentServiceModeOption.name());
-        titleLabelView.setText(getDefaultOptionsProvider().nameInShortFormForTitle());
+            appliedSortView.setText(currentSortOption.name());
+            appliedVillageFilterView.setText(currentVillageFilter.name());
+            serviceModeView.setText(currentServiceModeOption.name());
+            titleLabelView.setText(getDefaultOptionsProvider().nameInShortFormForTitle());
+        }
     }
 
     private void populateClientListHeaderView(SecuredNativeSmartRegisterActivity.ClientsHeaderProvider headerProvider, View view) {
@@ -324,7 +328,7 @@ public abstract class SecuredNativeSmartRegisterCursorAdapterFragment extends Se
     }
 
 
-    private void goBack() {
+    protected void goBack() {
         getActivity().finish();
     }
 
@@ -489,13 +493,12 @@ public abstract class SecuredNativeSmartRegisterCursorAdapterFragment extends Se
 
     public void initialFilterandSortExecute() {
         Loader<Cursor> loader = getLoaderManager().getLoader(LOADER_ID);
-        if(loader != null) {
-            return;
-        }
-
         showProgressView();
-
-        getLoaderManager().initLoader(LOADER_ID, null, this);
+        if(loader != null) {
+            filterandSortExecute();
+        }else {
+            getLoaderManager().initLoader(LOADER_ID, null, this);
+        }
     }
 
     public void filterandSortExecute() {
@@ -514,12 +517,21 @@ public abstract class SecuredNativeSmartRegisterCursorAdapterFragment extends Se
         }
     }
 
+    public void hideProgressView(){
+        if(clientsProgressView.getVisibility() == VISIBLE) {
+            clientsProgressView.setVisibility(INVISIBLE);
+        }
+        if(clientsView.getVisibility() == INVISIBLE) {
+            clientsView.setVisibility(VISIBLE);
+        }
+    }
+
     private String filterandSortQuery(){
         SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);
 
         String query = "";
         try{
-            if(commonRepository().isFts() && (filters != null && !StringUtils.containsIgnoreCase(filters, "like"))){
+            if(isValidFilterForFts(commonRepository())){
                 String sql = sqb.searchQueryFts(tablename, joinTable, mainCondition, filters, Sortqueries, currentlimit, currentoffset);
                 List<String> ids = commonRepository().findSearchIds(sql);
                 query = sqb.toStringFts(ids, tablename + "." + CommonRepository.ID_COLUMN, Sortqueries);
@@ -543,7 +555,7 @@ public abstract class SecuredNativeSmartRegisterCursorAdapterFragment extends Se
         try {
             SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(countSelect);
             String query = "";
-            if (commonRepository().isFts() && (filters != null && !StringUtils.containsIgnoreCase(filters, "like"))) {
+            if (isValidFilterForFts(commonRepository())) {
                 String sql = sqb.countQueryFts(tablename, joinTable, mainCondition, filters);
                 List<String> ids = commonRepository().findSearchIds(sql);
                 query = sqb.toStringFts(ids, tablename + "." + CommonRepository.ID_COLUMN);
@@ -569,6 +581,12 @@ public abstract class SecuredNativeSmartRegisterCursorAdapterFragment extends Se
                 c.close();
             }
         }
+    }
+
+    protected boolean isValidFilterForFts(CommonRepository commonRepository){
+        return commonRepository.isFts() && filters != null
+                && !StringUtils.containsIgnoreCase(filters, "like")
+                && !StringUtils.startsWithIgnoreCase(filters.trim(), "and ");
     }
 
     public class NavBarActionsHandler implements View.OnClickListener {
@@ -620,12 +638,7 @@ public abstract class SecuredNativeSmartRegisterCursorAdapterFragment extends Se
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if(clientsProgressView.getVisibility() == VISIBLE) {
-                                    clientsProgressView.setVisibility(INVISIBLE);
-                                }
-                                if(clientsView.getVisibility() == INVISIBLE) {
-                                    clientsView.setVisibility(VISIBLE);
-                                }
+                                hideProgressView();
                             };
                         });
 

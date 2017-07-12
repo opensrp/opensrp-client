@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.ei.drishti.dto.AlertStatus.*;
+import static  org.ei.opensrp.domain.AlertStatus.*;
 
 public class AlertRepositoryTest extends AndroidTestCase {
     private AlertRepository alertRepository;

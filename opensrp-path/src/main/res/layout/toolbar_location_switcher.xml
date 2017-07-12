@@ -1,0 +1,32 @@
+<android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:theme="@style/AppThemeNoTitle.AppBarOverlay">
+
+    <org.ei.opensrp.path.toolbar.LocationSwitcherToolbar
+        android:id="@+id/location_switching_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:id="@+id/title"
+                style="@style/CustomFontTextViewStyle.NavBar.Black"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent" />
+
+            <View
+                android:id="@+id/separator_v"
+                android:layout_width="@dimen/smart_register_nav_bar_separator"
+                android:layout_height="match_parent"
+                android:layout_gravity="right|center_vertical"
+                android:background="@drawable/vertical_separator_male"
+                android:scaleType="fitXY" />
+        </FrameLayout>
+    </org.ei.opensrp.path.toolbar.LocationSwitcherToolbar>
+
+</android.support.design.widget.AppBarLayout>

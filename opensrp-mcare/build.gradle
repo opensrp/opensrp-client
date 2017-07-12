@@ -25,8 +25,9 @@ configurations.all {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':opensrp-app')
-
+    compile 'com.simprints:LibSimprints:1.0.11'
     compile 'com.android.support:support-annotations:21.0.3'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.0'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.1'
@@ -44,8 +45,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 21
 
-        versionCode 39
-        versionName "40.00"
+        versionCode 37
+        versionName "38.00"
 
 
         multiDexEnabled true

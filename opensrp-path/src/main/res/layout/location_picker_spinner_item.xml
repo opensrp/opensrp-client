@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.ei.opensrp.view.customControls.CustomFontTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_text"
+    style="@style/CustomFontTextViewStyle.NavBar.Black"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    android:gravity="center"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+    android:textAlignment="center"/>

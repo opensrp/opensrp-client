@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:background="@color/transparent"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/dialog_shape">
+
+        <FrameLayout
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:background="@color/white">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:layout_margin="20dp">
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:id="@+id/child_name"
+                    style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="Child Status"
+                    android:textColor="@color/black"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    android:password="false" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/activelayout">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/active_check"
+                        android:src="@drawable/ic_checked"
+                        android:scaleType="fitXY"
+                        android:layout_marginLeft="5dp" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:id="@+id/child_active"
+                            style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:text="Active"
+                            android:textColor="@color/black"
+                            android:textSize="22sp"
+                            android:password="false" />
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:id="@+id/active_description"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Notifications on."
+                            android:textColor="@color/client_list_grey"
+                            android:textSize="22sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/inactivelayout">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/inactive_check"
+                        android:src="@drawable/ic_checked"
+                        android:scaleType="fitXY"
+                        android:layout_marginLeft="5dp" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:id="@+id/child_inactive"
+                            style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:text="Inactive"
+                            android:textColor="@color/black"
+                            android:textSize="22sp"
+                            android:password="false" />
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:id="@+id/inactive_description"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Notifications off. Child away for a period of time."
+                            android:singleLine="false"
+                            android:textColor="@color/client_list_grey"
+                            android:textSize="22sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/losttofollowuplayout">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/lost_to_followup_check"
+                        android:src="@drawable/ic_checked"
+                        android:scaleType="fitXY"
+                        android:layout_marginLeft="5dp" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:id="@+id/lost_to_followup"
+                            style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:text="Lost to Follow-Up"
+                            android:textColor="@color/black"
+                            android:textSize="22sp"
+                            android:password="false" />
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:id="@+id/lost_to_followup_description"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Notifications off. Child cannot be located or contacted."
+                            android:singleLine="false"
+                            android:textColor="@color/client_list_grey"
+                            android:textSize="22sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </FrameLayout>
+    </FrameLayout>
+
+</FrameLayout>

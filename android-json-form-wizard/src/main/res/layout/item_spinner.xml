@@ -1,0 +1,15 @@
+<com.vijay.jsonwizard.customviews.MaterialSpinner
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:textSize="@dimen/default_text_size"
+    app:ms_dropDownHintView="@layout/simple_list_item_1"
+    app:ms_hintView="@layout/simple_list_item_1"
+    app:ms_multiline="true"
+    app:ms_arrowColor="?colorPrimaryDark"
+    app:ms_arrowSize="16dp"
+    app:ms_alignLabels="false"
+    app:ms_floatingLabelColor="@color/secondary_text"
+    app:ms_baseColor="@color/secondary_text" />

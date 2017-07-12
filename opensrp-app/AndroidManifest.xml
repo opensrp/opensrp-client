@@ -22,7 +22,6 @@
 
     <application
             android:label="@string/app_name"
-            android:icon="@drawable/opensrp_logo"
             android:clearTaskOnLaunch="true"
             android:largeHeap="true">
         <service android:enabled="true" android:name=".service.ImageUploadSyncService"></service>
@@ -128,9 +127,6 @@
         <activity android:name=".view.activity.NativeHomeActivity"
                   android:screenOrientation="landscape">
         </activity>
-        <activity android:name=".view.activity.SettingsActivity"
-            android:screenOrientation="landscape">
-        </activity>
 
         <receiver android:name=".view.receiver.SyncBroadcastReceiver"/>
         <receiver android:name=".view.receiver.ConnectivityChangeReceiver">
@@ -138,5 +134,12 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
+        <receiver android:name=".view.receiver.TimeChangedBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_SET"></action>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"></action>
+            </intent-filter>
+        </receiver>
+        <service android:name=".service.intentservices.ReplicationIntentService"/>
     </application>
 </manifest>

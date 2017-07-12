@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="2"
+    >
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:paddingTop="10dp"
+        android:layout_height="match_parent" android:orientation="horizontal">
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/woman_vaccine_table"
+        android:layout_marginLeft="7.5dp"
+        android:layout_marginRight="7.5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center_horizontal"
+        android:padding="2dp" android:background="@drawable/listview_background_rounded"
+        android:textAlignment="center">
+
+        <TableRow android:background="@color/status_bar_text_almost_white">
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Vaccination Summary"
+                android:layout_margin="5dp"
+                android:textSize="20sp"
+                android:textColor="@color/text_black" />
+        </TableRow>
+
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/woman_pregnancy_table"
+        android:layout_margin="1dp"
+        android:layout_gravity="center_horizontal"
+        android:padding="2dp"  android:background="@drawable/listview_background_rounded">
+        <TableRow android:background="@color/status_bar_text_almost_white">
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Pregnancy Details"
+                android:layout_margin="5dp"
+                android:textSize="20sp"
+                android:textColor="@color/text_black" />
+        </TableRow>
+    </TableLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

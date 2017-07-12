@@ -133,10 +133,6 @@
       {
         "name": "mis_elco_current_formStatus",
         "bind": "/model/instance/MIS_ELCO/current_formStatus"
-      },
-      {
-        "name": "user_type",
-        "bind": "/model/instance/MIS_ELCO/user_type"
       }
     ]
   }

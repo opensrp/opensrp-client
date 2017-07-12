@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="silver">#A9A9A9</color>
+    <color name="light_grey">#CCCCCC</color>
+    <color name="dark_grey">#999999</color>
+    <color name="transparent_dark_grey">#EE999999</color>
+    <color name="inactive_grey">#B5B5B5</color>
+
+    <!-- Gender identity colors -->
+    <color name="gender_neutral_dark_green">#219e05</color>
+    <color name="gender_neutral_green">#29C606</color>
+    <color name="gender_neutral_light_green">#b8f5b2</color>
+    <color name="male_dark_blue">#2b84c1</color>
+    <color name="male_blue">#35a6e2</color>
+    <color name="male_light_blue">#d4edfa</color>
+    <color name="female_dark_pink">#b73bb6</color>
+    <color name="female_pink">#de47dc</color>
+    <color name="female_light_pink">#f7dbf7</color>
+
+    <color name="alert_na">#ECECEC</color>
+    <color name="alert_upcoming">#D3EAF4</color>
+    <color name="alert_normal">#389CCA</color>
+    <color name="alert_urgent">#D13F3F</color>
+    <color name="alert_completed">#4fb45b</color>
+    <color name="alert_expired">#ECECEC</color>
+    <color name="primary">#358CB7</color>
+    <color name="primary_background">#ddf0fa</color>
+    <color name="primary_dark">#276C91</color>
+    <color name="accent">#358CB7</color>
+    <color name="text_color_primary">#737373</color>
+
+    <color name="record_weight_bg_grey">#F2F2F2</color>
+    <color name="record_weight_grey">#A3A3A3</color>
+
+    <color name="due_vaccine_red">#C52929</color>
+    <color name="due_vaccine_blue">#3597C1</color>
+
+    <color name="status_bar_bg_dark_grey">#494949</color>
+    <color name="search_edit_bg_grey">#616161</color>
+
+    <color name="scan_qr_code_bg_st_grey">#585858</color>
+    <color name="scan_qr_code_bg_end_grey">#3e3e3e</color>
+    <color name="scan_qr_code_bg_stk_grey">#212121</color>
+
+    <color name="actionbar">#208CC5</color>
+
+    <color name="vaccinate_popup_light_grey">#F0F0F0</color>
+    <color name="client_list_grey">#737373</color>
+
+    <color name="vaccine_red_bg_stk">#a82525</color>
+    <color name="vaccine_red_bg_st">#cd2c2c</color>
+    <color name="vaccine_red_bg_end">#be2727</color>
+
+    <color name="vaccine_blue_bg_stk">#267ea5</color>
+    <color name="vaccine_blue_bg_st">#389cc8</color>
+    <color name="vaccine_blue_bg_end">#3495bf</color>
+
+    <color name="vaccine_light_blue_bg_stk">#b2d9ea</color>
+    <color name="vaccine_light_blue_bg_st">#e4f1f6</color>
+    <color name="vaccine_light_blue_bg_end">#e3f0f5</color>
+
+    <color name="vaccine_na_bg_stk">#D4D4D4</color>
+    <color name="vaccine_na_bg_st">#EFEFEF</color>
+    <color name="vaccine_na_bg_end">#ECECEC</color>
+
+    <color name="record_weight_grey_bg_stk">#d8d8d8</color>
+    <color name="record_weight_grey_bg_st">#f4f4f4</color>
+    <color name="record_weight_grey_bg_end">#ebebeb</color>
+
+    <color name="transparent_dark_blue">#ff196d99</color>
+
+    <color name="snackbar_background_yellow">#FFED18</color>
+    <color name="bluetext">#3D9EC9</color>
+    <color name="z_score_0">#227532</color>
+    <color name="z_score_2">#b1312c</color>
+    <color name="z_score_3">#222539</color>
+    <color name="growth_today_color">#008be6</color>
+
+    <color name="translucent_client_list_grey">#aa737373</color>
+    <color name="toolbar_grey">#494949</color>
+    <color name="snackbar_action_color">#eeff1c</color>
+</resources>

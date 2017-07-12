@@ -5,20 +5,24 @@ import android.content.res.Configuration;
 import android.util.Pair;
 
 import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
+
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonFtsObject;
 import org.ei.opensrp.mcare.LoginActivity;
+import org.ei.opensrp.repository.Repository;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.ei.opensrp.view.receiver.SyncBroadcastReceiver;
-import static org.ei.opensrp.util.Log.logInfo;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import io.fabric.sdk.android.Fabric;
+
+import static org.ei.opensrp.util.Log.logInfo;
 
 /**
  * Created by koros on 1/22/16.
@@ -46,12 +50,13 @@ public class McareApplication extends DrishtiApplication {
         context = Context.getInstance();
         context.updateApplicationContext(getApplicationContext());
         context.updateCommonFtsObject(createCommonFtsObject());
+        context.updateCustomHumanReadableConceptResponse(getHumanReadableConceptResponse());
         applyUserLanguagePreference();
         cleanUpSyncState();
     }
 
     @Override
-    public void logoutCurrentUser(){
+    public void logoutCurrentUser() {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplicationContext().startActivity(intent);
@@ -86,76 +91,85 @@ public class McareApplication extends DrishtiApplication {
         getBaseContext().getResources().updateConfiguration(config,
                 getBaseContext().getResources().getDisplayMetrics());
     }
-    public static String convertToEnglishDigits(String value)
-    {
+
+    public static String convertToEnglishDigits(String value) {
 //        ০১২৩৪৫৬৭৮৯
         String newValue = value.replace("১", "1").replace("২", "2").replace("৩", "3").replace("৪", "4").replace("৫", "5")
                 .replace("৬", "6").replace("৭", "7").replace("৮", "8").replace("৯", "9").replace("০", "0");
 
         return newValue;
     }
-    public static String convertToBengaliDigits(String value)
-    {
+
+    public static String convertToBengaliDigits(String value) {
 //        ০১২৩৪৫৬৭৮৯
-        String newValue = value.replace("1","১").replace( "2","২").replace( "3","৩").replace( "4","৪").replace( "5","৫")
-                .replace( "6","৬").replace( "7","৭").replace( "8","৮").replace( "9","৯").replace( "0","০");
+        String newValue = value.replace("1", "১").replace("2", "২").replace("3", "৩").replace("4", "৪").replace("5", "৫")
+                .replace("6", "৬").replace("7", "৭").replace("8", "৮").replace("9", "৯").replace("0", "০");
 
         return newValue;
     }
 
-    private String[] getFtsSearchFields(String tableName){
-        if(tableName.equals("household")){
-            String[] ftsSearchFields =  { "FWHOHFNAME", "FWGOBHHID", "FWJIVHHID" };
+    private String[] getFtsSearchFields(String tableName) {
+        if (tableName.equals("ec_household")) {
+            String[] ftsSearchFields = {"FWHOHFNAME", "FWGOBHHID", "FWJIVHHID"};
             return ftsSearchFields;
-        } else if(tableName.equals("elco")){
-            String[] ftsSearchFields =  { "FWWOMFNAME", "GOBHHID", "JiVitAHHID" };
+        } else if (tableName.equals("ec_elco")) {
+            String[] ftsSearchFields = {"FWWOMFNAME", "GOBHHID", "JiVitAHHID"};
             return ftsSearchFields;
-        } else if (tableName.equals("mcaremother")){
-            String[] ftsSearchFields =  { "FWWOMFNAME", "GOBHHID", "JiVitAHHID", "Is_PNC", "alerts.visitCode" };
+        } else if (tableName.equals("ec_mcaremother")) {
+            String[] ftsSearchFields = {"FWWOMFNAME", "GOBHHID", "JiVitAHHID", "alerts.visitCode"};
             return ftsSearchFields;
-        } else if (tableName.equals("mcarechild")){
-            String[] ftsSearchFields =  { "FWWOMFNAME", "GOBHHID", "JiVitAHHID", "alerts.visitCode" };
+        } else if (tableName.equals("ec_pnc")) {
+            String[] ftsSearchFields = {"FWWOMFNAME", "GOBHHID", "JiVitAHHID", "alerts.visitCode"};
+            return ftsSearchFields;
+        } else if (tableName.equals("ec_mcarechild")) {
+            String[] ftsSearchFields = {"FWWOMFNAME", "GOBHHID", "JiVitAHHID", "alerts.visitCode"};
             return ftsSearchFields;
         }
         return null;
     }
 
-    private String[] getFtsSortFields(String tableName){
-        if(tableName.equals("household")) {
+    private String[] getFtsSortFields(String tableName) {
+        if (tableName.equals("ec_household")) {
             String[] sortFields = {"FWHOHFNAME", "FWGOBHHID", "FWJIVHHID", "alerts.FW_CENSUS"};
             return sortFields;
-        } else if(tableName.equals("elco")){
+        } else if (tableName.equals("ec_elco")) {
             String[] sortFields = {"FWWOMFNAME", "GOBHHID", "JiVitAHHID", "alerts.ELCO_PSRF"};
             return sortFields;
-        } else if(tableName.equals("mcaremother")){
-            String[] sortFields = {"FWWOMFNAME", "GOBHHID", "JiVitAHHID", "FWPSRLMP", "FWBNFDTOO", "FWSORTVALUE", "FWBNFSTS", "alerts.Ante_Natal_Care_Reminder_Visit", "alerts.BirthNotificationPregnancyStatusFollowUp", "alerts.Post_Natal_Care_Reminder_Visit"};
+        } else if (tableName.equals("ec_mcaremother")) {
+            String[] sortFields = {"FWWOMFNAME", "GOBHHID", "JiVitAHHID", "FWPSRLMP", "alerts.Ante_Natal_Care_Reminder_Visit", "alerts.BirthNotificationPregnancyStatusFollowUp"};
             return sortFields;
-        } else if(tableName.equals("mcarechild")){
-            String[] sortFields = {"FWWOMFNAME", "GOBHHID", "JiVitAHHID", "FWSORTVALUE", "alerts.Essential_Newborn_Care_Checklist"};
+        } else if (tableName.equals("ec_pnc")) {
+            String[] sortFields = {"FWWOMFNAME", "GOBHHID", "JiVitAHHID", "FWBNFDTOO", "alerts.Post_Natal_Care_Reminder_Visit"};
+            return sortFields;
+        } else if (tableName.equals("ec_mcarechild")) {
+            String[] sortFields = {"FWWOMFNAME", "GOBHHID", "JiVitAHHID", "alerts.Essential_Newborn_Care_Checklist"};
             return sortFields;
         }
         return null;
     }
 
-    private String[] getFtsMainConditions(String tableName){
-        if(tableName.equals("household")) {
-            String[] mainConditions = {"FWHOHFNAME", "details"};
+    private String[] getFtsMainConditions(String tableName) {
+        if (tableName.equals("ec_household")) {
+            String[] mainConditions = {"FWHOHFNAME"};
             return mainConditions;
-        } else if(tableName.equals("elco")){
-            String[] mainConditions = {"FWWOMFNAME", "details"};
+        } else if (tableName.equals("ec_elco")) {
+            String[] mainConditions = {"FWWOMFNAME", "is_closed"};
             return mainConditions;
-        } else if(tableName.equals("mcaremother")){
-            String[] mainConditions = {"FWWOMFNAME", "Is_PNC", "details"};
+        } else if (tableName.equals("ec_mcaremother")) {
+            String[] mainConditions = {"FWWOMFNAME", "is_closed"};
             return mainConditions;
-        } else if(tableName.equals("mcarechild")){
-            String[] mainConditions = {"FWBNFGEN",  "details"};
+        } else if (tableName.equals("ec_pnc")) {
+            String[] mainConditions = {"is_closed"};
+            return mainConditions;
+        } else if (tableName.equals("ec_mcarechild")) {
+            String[] mainConditions = {"FWBNFGEN"};
             return mainConditions;
         }
         return null;
     }
 
-    private String[] getFtsTables(){
-        String[] ftsTables = { "household", "elco", "mcaremother", "mcarechild" };
+    private String[] getFtsTables() {
+        String[] ftsTables = {"ec_household", "ec_elco", "ec_mcaremother", "ec_pnc", "ec_mcarechild"};
         return ftsTables;
     }
 
@@ -165,12 +179,12 @@ public class McareApplication extends DrishtiApplication {
      */
     private Map<String, Pair<String, Boolean>> getAlertScheduleMap(){
         Map<String, Pair<String, Boolean>> map = new HashMap<String, Pair<String, Boolean>>();
-        map.put("FW CENSUS", Pair.create("household", false));
-        map.put("ELCO PSRF", Pair.create("elco", false));
-        map.put("Ante Natal Care Reminder Visit", Pair.create("mcaremother", true));
-        map.put("BirthNotificationPregnancyStatusFollowUp",  Pair.create("mcaremother", false));
-        map.put("Post Natal Care Reminder Visit", Pair.create("mcaremother", true));
-        map.put("Essential Newborn Care Checklist", Pair.create("mcarechild", true));
+        map.put("FW CENSUS", Pair.create("ec_household", false));
+        map.put("ELCO PSRF", Pair.create("ec_elco", false));
+        map.put("Ante Natal Care Reminder Visit", Pair.create("ec_mcaremother", true));
+        map.put("BirthNotificationPregnancyStatusFollowUp",  Pair.create("ec_mcaremother", false));
+        map.put("Post Natal Care Reminder Visit", Pair.create("ec_pnc", true));
+        map.put("Essential Newborn Care Checklist", Pair.create("ec_mcarechild", true));
 
         return map;
     }
@@ -182,7 +196,7 @@ public class McareApplication extends DrishtiApplication {
 
     private CommonFtsObject createCommonFtsObject(){
         CommonFtsObject commonFtsObject = new CommonFtsObject(getFtsTables());
-        for(String ftsTable: commonFtsObject.getTables()){
+        for (String ftsTable : commonFtsObject.getTables()) {
             commonFtsObject.updateSearchFields(ftsTable, getFtsSearchFields(ftsTable));
             commonFtsObject.updateSortFields(ftsTable, getFtsSortFields(ftsTable));
             commonFtsObject.updateMainConditions(ftsTable, getFtsMainConditions(ftsTable));
@@ -198,4 +212,21 @@ public class McareApplication extends DrishtiApplication {
                    }
            }
 
+    /**
+     * Map linking generated Concepts with human readable values
+     * @return
+     */
+    private Map<String, String> getHumanReadableConceptResponse(){
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "1");
+        map.put("1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "0");
+        return map;
+    }
+    @Override
+    public Repository getRepository() {
+        if (repository == null) {
+            repository = new Repository(getInstance().getApplicationContext(), context.session(), createCommonFtsObject(), context.sharedRepositoriesArray());
+        }
+        return repository;
+    }
 }

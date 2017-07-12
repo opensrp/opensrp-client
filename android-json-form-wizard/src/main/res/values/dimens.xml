@@ -1,0 +1,21 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="default_left_margin">36dp</dimen>
+    <dimen name="default_right_margin">36dp</dimen>
+    <integer name="navigationAnimTime">300</integer>
+
+    <dimen name="default_text_size">28dp</dimen>
+    <dimen name="button_text_size">21sp</dimen>
+    <dimen name="button_padding">15dp</dimen>
+    <dimen name="label_text_size">28dp</dimen>
+    <dimen name="tree_widget_text_size">18dp</dimen>
+    <dimen name="default_text_top_bottom_padding">8sp</dimen>
+    <dimen name="default_bottom_margin">8dp</dimen>
+    <dimen name="extra_bottom_margin">16dp</dimen>
+    <dimen name="error_label_spacing">25dp</dimen>
+    <dimen name="bottom_text_size">28dp</dimen>
+    <dimen name="right_left_spinner_padding">25dp</dimen>
+    <dimen name="spinner_error_left_margin">25dp</dimen>
+
+    <dimen name="section_header_text_size">32sp</dimen>
+</resources>

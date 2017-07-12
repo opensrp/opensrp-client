@@ -26,7 +26,7 @@ public class ImageUploadSyncService extends IntentService {
      */
     public ImageUploadSyncService() {
         super("ImageUploadSyncService");
-        imageRepo=(ImageRepository)org.ei.opensrp.Context.imageRepository();
+        imageRepo=(ImageRepository) org.ei.opensrp.Context.getInstance().imageRepository();
     }
 
     @Override

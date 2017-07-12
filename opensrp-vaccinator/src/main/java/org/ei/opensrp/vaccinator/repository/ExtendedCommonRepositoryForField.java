@@ -40,7 +40,7 @@ public class ExtendedCommonRepositoryForField extends DrishtiRepository {
 
     public void calculateTotalUsedByMonth(String monthYear){
         SQLiteDatabase database=masterRepository.getReadableDatabase();
-        Cursor cursor=database.rawQuery("select * from pkchild where date like "+monthYear+"%",null);
+        Cursor cursor=database.rawQuery("select * from ec_child where date like "+monthYear+"%",null);
 
         if(cursor.isAfterLast())
         {

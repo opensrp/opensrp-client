@@ -124,10 +124,6 @@
       {
         "name": "mis_census_current_formStatus",
         "bind": "/model/instance/MIS_Census/current_formStatus"
-      },
-      {
-        "name": "user_type",
-        "bind": "/model/instance/MIS_Census/user_type"
       }
     ]
   }

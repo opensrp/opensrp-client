@@ -1,6 +1,9 @@
 package org.ei.opensrp.view;
 
+import android.annotation.TargetApi;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.util.Log;
 
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -15,7 +18,7 @@ public class LockingBackgroundTask {
     }
 
     public <T> void doActionInBackground(final BackgroundAction<T> backgroundAction) {
-        new AsyncTask<Void, Void, T>() {
+        startAsyncTask(new AsyncTask<Void, Void, T>() {
             @Override
             protected T doInBackground(Void... params) {
                 if (!lock.tryLock()) {
@@ -42,6 +45,20 @@ public class LockingBackgroundTask {
                 backgroundAction.postExecuteInUIThread(result);
                 indicator.setInvisible();
             }
-        }.execute((Void) null);
+        }, null);
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    protected <T> void  startAsyncTask(AsyncTask<T, ?, ?> asyncTask, T[] params) {
+        if (params == null) {
+            @SuppressWarnings("unchecked")
+            T[] arr = (T[]) new Void[0];
+            params = arr;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
+        } else {
+            asyncTask.execute(params);
+        }
     }
 }

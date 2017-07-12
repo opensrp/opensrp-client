@@ -3,7 +3,7 @@ package org.ei.opensrp.repository;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 import org.ei.opensrp.domain.*;
-import org.ei.drishti.dto.AlertStatus;
+import org.ei.opensrp.domain.AlertStatus;
 import org.ei.opensrp.util.Session;
 
 import java.util.*;

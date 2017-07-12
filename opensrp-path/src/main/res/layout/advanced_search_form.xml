@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:orientation="vertical">
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                style="@style/CustomFontTextViewStyle.ClientList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="0dp"
+                android:text="@string/search_limits"
+                android:textColor="@color/client_list_grey"
+                android:textSize="@dimen/advanced_search_label_size" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <RelativeLayout
+                    android:id="@+id/out_and_inside_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="1.5dp"
+                    android:layout_weight="1">
+
+                    <com.vijay.jsonwizard.customviews.RadioButton
+                        android:id="@+id/out_and_inside"
+                        style="@style/Material.Drawable.RadioButton.AdvancedSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/out_and_inside"
+                        android:orientation="vertical">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="2"
+                            android:text="@string/out_and_inside"
+                            android:textColor="@color/client_list_grey"
+                            android:textSize="@dimen/advanced_search_label_size" />
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/requires_internet_connection"
+                            android:textColor="@color/client_list_grey"
+                            android:textSize="@dimen/advanced_search_label_small_size" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/my_catchment_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1.5dp"
+                    android:layout_weight="1">
+
+                    <com.vijay.jsonwizard.customviews.RadioButton
+                        android:id="@+id/my_catchment"
+                        style="@style/Material.Drawable.RadioButton.AdvancedSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true" />
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/my_catchment"
+                        android:maxLines="2"
+                        android:text="@string/my_catchment_area"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="@dimen/advanced_search_label_size" />
+                </RelativeLayout>
+            </LinearLayout>
+
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                style="@style/CustomFontTextViewStyle.ClientList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="0dp"
+                android:text="@string/client_status"
+                android:textColor="@color/client_list_grey"
+                android:textSize="@dimen/advanced_search_label_size" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+
+                <RelativeLayout
+                    android:id="@+id/active_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.85">
+
+                    <com.vijay.jsonwizard.customviews.CheckBox
+                        android:id="@+id/active"
+                        style="@style/Material.Drawable.CheckBox.AdvancedSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true" />
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@id/active"
+                        android:gravity="center_vertical"
+                        android:text="@string/active"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="@dimen/advanced_search_label_size" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/inactive_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.85">
+
+                    <com.vijay.jsonwizard.customviews.CheckBox
+                        android:id="@+id/inactive"
+                        style="@style/Material.Drawable.CheckBox.AdvancedSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true" />
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@id/inactive"
+                        android:gravity="center_vertical"
+                        android:text="@string/inactive"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="@dimen/advanced_search_label_size" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/lost_to_follow_up_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.3">
+
+                    <com.vijay.jsonwizard.customviews.CheckBox
+                        android:id="@+id/lost_to_follow_up"
+                        style="@style/Material.Drawable.CheckBox.AdvancedSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentLeft="true" />
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        style="@style/CustomFontTextViewStyle.ClientList.Light"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@id/lost_to_follow_up"
+                        android:gravity="center_vertical"
+                        android:text="@string/lost_to_follow_up"
+                        android:textColor="@color/client_list_grey"
+                        android:textSize="@dimen/advanced_search_label_size" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/zeir_id"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/zeir_id_hint"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:textColor="@color/client_list_grey"
+                    android:textColorHint="@color/light_grey"
+                    android:textSize="@dimen/advanced_search_text_size"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelText="@string/zeir_id"
+                    app:met_floatingLabelTextSize="@dimen/advanced_search_text_size"
+                    app:met_primaryColor="@color/light_blue"
+                    app:met_singleLineEllipsis="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/first_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/first_name_hint"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:paddingLeft="@dimen/advanced_search_label_padding"
+                    android:textColor="@color/client_list_grey"
+                    android:textColorHint="@color/light_grey"
+                    android:textSize="@dimen/advanced_search_text_size"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelText="@string/first_name"
+                    app:met_floatingLabelTextSize="@dimen/advanced_search_text_size"
+                    app:met_primaryColor="@color/light_blue"
+                    app:met_singleLineEllipsis="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/last_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/last_name_hint"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:paddingLeft="@dimen/advanced_search_label_padding"
+                    android:textColor="@color/client_list_grey"
+                    android:textColorHint="@color/light_grey"
+                    android:textSize="@dimen/advanced_search_text_size"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelText="@string/last_name"
+                    app:met_floatingLabelTextSize="@dimen/advanced_search_text_size"
+                    app:met_primaryColor="@color/light_blue"
+                    app:met_singleLineEllipsis="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/mother_guardian_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/mother_guardian_name_hint"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:paddingLeft="@dimen/advanced_search_label_padding"
+                    android:textColor="@color/client_list_grey"
+                    android:textColorHint="@color/light_grey"
+                    android:textSize="@dimen/advanced_search_text_size"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelText="@string/mother_guardian_name"
+                    app:met_floatingLabelTextSize="@dimen/advanced_search_text_size"
+                    app:met_primaryColor="@color/light_blue"
+                    app:met_singleLineEllipsis="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/mother_guardian_nrc"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/mother_guardian_nrc_hint"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:paddingLeft="@dimen/advanced_search_label_padding"
+                    android:textColor="@color/client_list_grey"
+                    android:textColorHint="@color/light_grey"
+                    android:textSize="@dimen/advanced_search_text_size"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelText="@string/mother_guardian_nrc"
+                    app:met_floatingLabelTextSize="@dimen/advanced_search_text_size"
+                    app:met_primaryColor="@color/light_blue"
+                    app:met_singleLineEllipsis="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/mother_guardian_phone_number"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/mother_guardian_phone_number_hint"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:paddingLeft="@dimen/advanced_search_label_padding"
+                    android:textColor="@color/client_list_grey"
+                    android:textColorHint="@color/light_grey"
+                    android:textSize="@dimen/advanced_search_text_size"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelText="@string/mother_guardian_phone_number"
+                    app:met_floatingLabelTextSize="@dimen/advanced_search_text_size"
+                    app:met_primaryColor="@color/light_blue"
+                    app:met_singleLineEllipsis="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="@string/date_birth_range"
+                    android:textAppearance="?android:textAppearanceSmall"
+                    android:textColor="@color/light_blue"
+                    android:textSize="@dimen/advanced_search_text_size" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <EditText
+                        android:id="@+id/start_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:focusable="false"
+                        android:hint="@string/start_date_hint"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:textColor="@color/client_list_grey"
+                        android:textColorHint="@color/light_grey"
+                        android:textSize="@dimen/advanced_search_text_size" />
+
+                    <EditText
+                        android:id="@+id/end_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:focusable="false"
+                        android:hint="@string/end_date_hint"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:textColor="@color/client_list_grey"
+                        android:textColorHint="@color/light_grey"
+                        android:textSize="@dimen/advanced_search_text_size" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/adv_search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/light_grey_background"
+        android:elevation="2dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/smart_register_client_divider_height"
+            android:src="@color/smart_register_client_divider_color" />
+
+        <Button
+            android:id="@+id/search"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/advanced_search_bg"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:text="@string/search"
+            android:textAllCaps="false"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@color/white"
+            android:textSize="28sp" />
+    </LinearLayout>
+
+
+</LinearLayout>

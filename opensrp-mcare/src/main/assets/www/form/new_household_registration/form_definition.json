@@ -3,6 +3,7 @@
   "form": {
     "default_bind_path": "/model/instance/FWNewHH",
     "bind_type": "household",
+    "ec_bind_type": "ec_household",
     "fields": [
       {
         "name": "id"
@@ -152,6 +153,7 @@
       {
         "name": "elco_registration",
         "bind_type": "elco",
+        "ec_bind_type": "ec_elco",
         "default_bind_path": "/model/instance/FWNewHH/woman",
         "fields": [
           {
@@ -159,6 +161,10 @@
           },
           {
             "name": "relationalid"
+          },
+          {
+            "name": "injectedBaseEntityId",
+            "shouldLoadValue": true
           },
           {
             "name": "WomanREGDATE",
@@ -295,6 +301,11 @@
           {
             "name": "FWWOMGPS",
             "bind": "/model/instance/FWNewHH/woman/eligible/FWWOMGPS"
+          },
+          {
+            "name": "household_head_entity_id",
+            "source": "household.id",
+            "shouldLoadValue": true
           }
         ]
       }

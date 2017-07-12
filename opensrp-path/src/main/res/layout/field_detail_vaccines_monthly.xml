@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="2">
+
+
+    <LinearLayout android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            style="@style/CustomFontTextViewStyle.ListView.Medium"
+            android:text="Monthly Stock Position Summary - "
+            android:textAlignment="center"
+            android:textColor="@color/text_black"
+            android:layout_gravity="center_horizontal" />
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/reporting_period"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            style="@style/CustomFontTextViewStyle.ListView.Medium"
+            android:text="Month"
+            android:textColor="@color/text_black"/>
+
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/stock_vaccine_table"
+        android:layout_margin="1dp"
+        android:padding="1dp" android:background="#eeeeee"
+        android:stretchColumns="*">
+
+        <TableRow android:background="@color/status_bar_text_almost_white">
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Item"
+                android:textColor="@color/text_black"/>
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Received"
+                android:textColor="@color/text_black"/>
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Used"
+                android:textColor="@color/text_black"/>
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Wasted"
+                android:textColor="@color/text_black"/>
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/CustomFontTextViewStyle.ListView.Medium"
+                android:text="Balance in Hand"
+                android:textColor="@color/text_black"/>
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

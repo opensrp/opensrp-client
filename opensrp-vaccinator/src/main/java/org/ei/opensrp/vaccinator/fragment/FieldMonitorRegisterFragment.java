@@ -183,7 +183,7 @@ public class FieldMonitorRegisterFragment extends SecuredNativeSmartRegisterFrag
                     , "date",
                     CommonPersonObjectController.ByColumnAndByDetails.byColumn);
         }
-        // context.formSubmissionRouter().getHandlerMap().put("woman_followup_form", new ChildFollowupHandler(new ChildService(context.allBeneficiaries(), context.allTimelineEvents(), context.allCommonsRepositoryobjects("pkchild"), context.alertService())));
+        // context.formSubmissionRouter().getHandlerMap().put("woman_followup_form", new ChildFollowupHandler(new ChildService(context.allBeneficiaries(), context.allTimelineEvents(), context.allCommonsRepositoryobjects("ec_child"), context.alertService())));
         dialogOptionMapper = new DialogOptionMapper();
     }
 

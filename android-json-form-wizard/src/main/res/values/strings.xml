@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">jsonwizard</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="badly_formed_date">Badly formed date</string>
+    <string name="ic_check_circle_blank">&#xe03e;</string>
+    <string name="ic_keyboard_arrow_down">&#xe0c5;</string>
+    <string name="ic_keyboard_arrow_left">&#xe0c6;</string>
+    <string name="ic_keyboard_arrow_right">&#xe0c7;</string>
+    <string name="ic_keyboard_arrow_up">&#xe0c8;</string>
+    <string name="confirm_form_close">Confirm form close</string>
+    <string name="confirm_form_close_explanation">Are you sure you want to go back? All data you have entered in this form will be cleared.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+</resources>

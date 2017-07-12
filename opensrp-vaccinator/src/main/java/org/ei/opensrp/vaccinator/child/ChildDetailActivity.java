@@ -148,7 +148,7 @@ public class ChildDetailActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                bindobject = "pkchild";
+                bindobject = "ec_child";
                 entityid = childclient.entityId();
                 dispatchTakePictureIntent(childview);
 

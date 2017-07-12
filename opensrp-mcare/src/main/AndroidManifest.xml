@@ -3,7 +3,7 @@
     <application android:allowBackup="true"
         android:label="@string/app_name"
         android:name=".application.McareApplication"
-         >
+        android:icon="@drawable/opensrp_logo">
 
         <activity
             android:name=".LoginActivity"
@@ -65,6 +65,8 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".child.ChildDetailActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
+            android:screenOrientation="landscape"/>
+        <activity android:name="org.ei.opensrp.view.activity.SettingsActivity"
             android:screenOrientation="landscape"/>
 
         <meta-data

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <TableRow
+            android:id="@+id/tablerowcontainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp">
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:id="@+id/label"
+                style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:text="Catchment area"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/dark_grey" />
+
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:id="@+id/value"
+                style="@style/CustomFontTextViewStyle.ClientList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:text="Linda"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text_black" />
+
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/undo_background"
+                    android:text="Edit"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:visibility="invisible" />
+
+            </FrameLayout>
+        </TableRow>
+
+
+    </TableLayout>
+</LinearLayout>

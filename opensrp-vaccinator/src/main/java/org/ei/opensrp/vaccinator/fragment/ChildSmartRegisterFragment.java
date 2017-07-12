@@ -149,16 +149,16 @@ public class ChildSmartRegisterFragment extends SecuredNativeSmartRegisterFragme
     protected void onInitialization() {
         if (controller == null) {
             controller = new CommonPersonObjectController(
-                    context().allCommonsRepositoryobjects("pkchild"),
+                    context().allCommonsRepositoryobjects("ec_child"),
                     context().allBeneficiaries(), context().listCache(),
-                    context().personObjectClientsCache(), "first_name", "pkchild", "child_reg_date",
+                    context().personObjectClientsCache(), "first_name", "ec_child", "child_reg_date",
                     CommonPersonObjectController.ByColumnAndByDetails.byDetails.byDetails);
 
         }
         context().formSubmissionRouter().getHandlerMap().put("child_followup_form", new
                 ChildFollowupHandler(new ChildService(context().allBeneficiaries(),
                 context().allTimelineEvents(),
-                context().allCommonsRepositoryobjects("pkchild"),
+                context().allCommonsRepositoryobjects("ec_child"),
                 context().alertService())));
         dialogOptionMapper = new DialogOptionMapper();
     }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="@color/client_list_header_dark_grey">
+
+    <include layout="@layout/detail_nav_bar"/>
+
+    <include
+        layout="@layout/child_detail_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/smart_register_client_divider_height"
+        android:src="@color/smart_register_client_divider_color"
+        android:id="@+id/imageView3" />
+
+    <LinearLayout
+            android:id="@+id/clients_header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_header_height"
+            android:layout_marginLeft="@dimen/list_view_margin_left_and_right"
+            android:layout_marginRight="@dimen/list_view_margin_left_and_right"
+            android:orientation="horizontal">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/vaccination_summary"
+            android:id="@+id/childdetail_vaccination_summary"
+            style="@style/CustomFontTextViewStyle.ListView.Medium"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/text_black"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+    <include layout="@layout/childdetail_vaccine_detail"  />
+</LinearLayout>

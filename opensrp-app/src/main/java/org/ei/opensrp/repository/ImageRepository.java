@@ -2,6 +2,7 @@ package org.ei.opensrp.repository;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
@@ -11,8 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImageRepository extends DrishtiRepository {
+    private static final String TAG=ImageRepository.class.getCanonicalName();
     private static final String Image_SQL = "CREATE TABLE ImageList(imageid VARCHAR PRIMARY KEY, anmId VARCHAR, entityID VARCHAR, contenttype VARCHAR, filepath VARCHAR, syncStatus VARCHAR, filecategory VARCHAR)";
-     public static final String Image_TABLE_NAME = "ImageList";
+    public static final String Image_TABLE_NAME = "ImageList";
     public static final String ID_COLUMN = "imageid";
     public static final String anm_ID_COLUMN = "anmId";
     public static final String entityID_COLUMN = "entityID";
@@ -20,7 +22,7 @@ public class ImageRepository extends DrishtiRepository {
     public static final String filepath_COLUMN = "filepath";
     public static final String syncStatus_COLUMN = "syncStatus";
     public static final String filecategory_COLUMN = "filecategory";
-    public static final String[] Image_TABLE_COLUMNS = {ID_COLUMN, anm_ID_COLUMN, entityID_COLUMN, contenttype_COLUMN, filepath_COLUMN, syncStatus_COLUMN,filecategory_COLUMN};
+    public static final String[] Image_TABLE_COLUMNS = {ID_COLUMN, anm_ID_COLUMN, entityID_COLUMN, contenttype_COLUMN, filepath_COLUMN, syncStatus_COLUMN, filecategory_COLUMN};
 
     public static final String TYPE_ANC = "ANC";
     public static final String TYPE_PNC = "PNC";
@@ -28,15 +30,19 @@ public class ImageRepository extends DrishtiRepository {
     public static String TYPE_Unsynced = "Unsynced";
     public static String TYPE_Synced = "Synced";
 
+    private static final String ENTITY_ID_INDEX = "CREATE INDEX " + Image_TABLE_NAME + "_" + entityID_COLUMN + "_index ON " + Image_TABLE_NAME + "(" + entityID_COLUMN + " COLLATE NOCASE);";
+
+
     @Override
     protected void onCreate(SQLiteDatabase database) {
         database.execSQL(Image_SQL);
+        database.execSQL(ENTITY_ID_INDEX);
     }
 
     public void add(ProfileImage Image) {
         SQLiteDatabase database = masterRepository.getWritableDatabase();
         database.insert(Image_TABLE_NAME, null, createValuesFor(Image, TYPE_ANC));
-        database.close();
+        //database.close();
     }
 
     public List<ProfileImage> allProfileImages() {
@@ -48,7 +54,8 @@ public class ImageRepository extends DrishtiRepository {
     public ProfileImage findByEntityId(String entityId) {
         SQLiteDatabase database = masterRepository.getReadableDatabase();
         Cursor cursor = database.query(Image_TABLE_NAME, Image_TABLE_COLUMNS, entityID_COLUMN + " = ?", new String[]{entityId}, null, null, null, null);
-        return readAll(cursor).isEmpty()?null:readAll(cursor).get(0);
+        List<ProfileImage> profileImages = readAll(cursor);
+        return profileImages.isEmpty() ? null : profileImages.get(0);
     }
 
     public List<ProfileImage> findAllUnSynced() {
@@ -59,7 +66,7 @@ public class ImageRepository extends DrishtiRepository {
 
     public void close(String caseId) {
         ContentValues values = new ContentValues();
-        values.put(syncStatus_COLUMN,TYPE_Synced);
+        values.put(syncStatus_COLUMN, TYPE_Synced);
         masterRepository.getWritableDatabase().update(Image_TABLE_NAME, values, ID_COLUMN + " = ?", new String[]{caseId});
     }
 
@@ -76,26 +83,27 @@ public class ImageRepository extends DrishtiRepository {
     }
 
     private List<ProfileImage> readAll(Cursor cursor) {
-        List<ProfileImage> ProfileImages = new ArrayList<ProfileImage>();
+        List<ProfileImage> profileImages = new ArrayList<ProfileImage>();
 
         try {
-            cursor.moveToFirst();
-            while (cursor.getCount() > 0 && !cursor.isAfterLast()) {
+            if (cursor != null && cursor.getCount()>0 && cursor.moveToFirst()) {
+                while (cursor.getCount() > 0 && !cursor.isAfterLast()) {
 
-                ProfileImages.add(new ProfileImage(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6)));
+                    profileImages.add(new ProfileImage(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6)));
 
-                cursor.moveToNext();
+                    cursor.moveToNext();
+                }
             }
-            cursor.close();
-        }catch(Exception e){
 
+        } catch (Exception e) {
+            Log.e(TAG,e.getMessage());
+        } finally {
+            if(cursor != null) {
+                cursor.close();
+            }
         }
-        return ProfileImages;
+        return profileImages;
     }
-
-
-
-
 
 
 //    public void update(Mother mother) {

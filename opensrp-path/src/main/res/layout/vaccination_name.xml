@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <com.vijay.jsonwizard.customviews.CheckBox
+        android:id="@+id/select"
+        style="@style/Material.Drawable.CheckBox.Dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="3dp"
+        android:checked="true"
+        android:clickable="true" />
+
+    <com.vijay.jsonwizard.customviews.RadioButton
+        android:id="@+id/radio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="3dp"
+        android:backgroundTint="@color/white"
+        android:buttonTint="@color/light_blue"
+        android:checked="true"
+        android:clickable="true"
+        android:visibility="gone" />
+
+    <org.ei.opensrp.view.customControls.CustomFontTextView
+        android:id="@+id/vaccine"
+        style="@style/CustomFontTextViewStyle.ClientList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="vaccine"
+        android:textColor="@color/text_black"
+        android:textSize="30sp" />
+</LinearLayout>

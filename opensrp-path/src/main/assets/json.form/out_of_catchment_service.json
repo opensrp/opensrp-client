@@ -1,0 +1,101 @@
+{
+  "count": "1",
+  "encounter_type": "Out of Catchment Service",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location":""
+  },
+  "step1": {
+    "title": "Record out of catchment area service",
+    "fields": [
+      {
+        "key": "ZEIR_ID",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "type": "barcode",
+        "barcode_type": "qrcode",
+        "hint": "ZEIR ID *",
+        "scanButtonText": "Scan QR Code",
+        "read_only": true,
+        "value": "",
+        "v_required": {
+          "value": "true",
+          "err": "Enter the child's ZEIR ID"
+        }
+      },
+      {
+        "key": "OA_Service_Date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "encounter",
+        "openmrs_entity_id": "encounter_date",
+        "type": "date_picker",
+        "hint": "Service date *",
+        "expanded": false,
+        "max_date": "today",
+        "v_required": {
+          "value": "true",
+          "err": "Enter the service date"
+        }
+      },
+      {
+        "key": "Weight_Kg",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "Child's weight (kg)",
+        "v_min": {
+          "value": "0.1",
+          "err": "Weight must be greater than 0"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid weight"
+        }
+      }
+    ]
+  }
+}

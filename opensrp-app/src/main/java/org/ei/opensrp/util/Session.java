@@ -1,12 +1,14 @@
 package org.ei.opensrp.util;
 
+import org.ei.opensrp.AllConstants;
+
 import java.util.Date;
 
 import static org.joda.time.DateTimeConstants.*;
 
 public class Session {
     private String password;
-    private String repositoryName = "drishti.db";
+    private String repositoryName = AllConstants.DATABASE_NAME;
     private long sessionExpiryTime = 0;
 
     public long lengthInMilliseconds() {

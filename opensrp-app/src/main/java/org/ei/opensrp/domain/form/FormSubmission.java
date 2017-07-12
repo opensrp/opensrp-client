@@ -99,6 +99,14 @@ public class FormSubmission {
         return ToStringBuilder.reflectionToString(this);
     }
 
+    public FormInstance getFormInstance() {
+        return formInstance;
+    }
+
+    public void setFormInstance(FormInstance formInstance) {
+        this.formInstance = formInstance;
+    }
+
     public FormData getForm(){
         return formInstance.form();
     }

@@ -1,0 +1,150 @@
+{
+  "count": "1",
+  "encounter_type": "AEFI",
+  "entity_id": "",
+  "metadata": {
+    "start": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "start",
+      "openmrs_entity_id": "163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "end": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "end",
+      "openmrs_entity_id": "163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "today": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "encounter",
+      "openmrs_entity_id": "encounter_date"
+    },
+    "deviceid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "deviceid",
+      "openmrs_entity_id": "163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "subscriberid": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "subscriberid",
+      "openmrs_entity_id": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "simserial": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "simserial",
+      "openmrs_entity_id": "163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "phonenumber": {
+      "openmrs_entity_parent": "",
+      "openmrs_entity": "concept",
+      "openmrs_data_type": "phonenumber",
+      "openmrs_entity_id": "163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "encounter_location": ""
+  },
+  "step1": {
+    "title": "Report an adverse event",
+    "fields": [
+      {
+        "key": "Reaction_Vaccine",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "6042AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "Vaccine that caused the reaction *",
+        "values": [
+          "BCG",
+          "OPV",
+          "Penta",
+          "PCV",
+          "Rota",
+          "Measles",
+          "MR"
+        ],
+        "openmrs_choice_ids": {
+          "BCG": "149310AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "OPV": "129578AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Penta": "162265AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "PCV": "162266AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Rota": "162272AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "Measles": "149286AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "MR": "149286AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "v_required": {
+          "value": true,
+          "err": "Please enter the vaccine that caused the reaction"
+        }
+      },
+      {
+        "key": "Date_Reaction",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "1730AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "date_picker",
+        "hint": "Date that the child started experiencing the reaction *",
+        "expanded": false,
+        "max_date": "today",
+        "v_required": {
+          "value": "true",
+          "err": "Please enter the date child started experiencing reaction"
+        }
+      },
+      {
+        "key": "Reaction_Description",
+        "openmrs_entity_parent": "111172AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "Describe the reaction *",
+        "v_required": {
+          "value": "true",
+          "err": "Please describe the reaction"
+        }
+      },
+      {
+        "key": "Reaction_Referred",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "1648AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_data_type": "boolean",
+        "type": "spinner",
+        "hint": "Child referred? *",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_choice_ids": {
+          "Yes": "true",
+          "No": "false"
+        },
+        "v_required": {
+          "value": true,
+          "err": "Please specify if child was referred"
+        }
+      },
+      {
+        "key": "AEFI_Form_Completed",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "163340AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_data_type": "select one",
+        "type": "spinner",
+        "hint": "AEFI form completed?",
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "openmrs_choice_ids": {
+          "Yes": "1267AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "No": "163339AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        }
+      }
+    ]
+  }
+}

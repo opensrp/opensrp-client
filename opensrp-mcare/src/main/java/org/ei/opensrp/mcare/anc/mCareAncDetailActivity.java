@@ -107,18 +107,15 @@ public class mCareAncDetailActivity extends Activity {
         age.setText(Html.fromHtml(getString(R.string.elco_age_label)+" " + (ancclient.getDetails().get("FWWOMAGE") != null ? ancclient.getDetails().get("FWWOMAGE") : "")));
 
 
-        DateUtil.setDefaultDateFormat("yyyy-MM-dd");
-        AllCommonsRepository allmotherRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("mcaremother");
-        CommonPersonObject childobject = allmotherRepository.findByCaseID(ancclient.entityId());
-        AllCommonsRepository elcorep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("elco");
-        final CommonPersonObject elcoObject = elcorep.findByCaseID(childobject.getRelationalId());
-        try {
-            int days = DateUtil.dayDifference(DateUtil.getLocalDate((elcoObject.getDetails().get("FWBIRTHDATE") != null ?  elcoObject.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
-            Log.v("days",""+days);
-            int calc_age = days / 365;
-            age.setText(Html.fromHtml(getString(R.string.elco_age_label)+" " + calc_age));
-        }catch (Exception e){
-            e.printStackTrace();
+        if(ancclient.getDetails().get("FWBIRTHDATE") != null) {
+            try {
+                int days = DateUtil.dayDifference(DateUtil.getLocalDate((ancclient.getDetails().get("FWBIRTHDATE") != null ? ancclient.getDetails().get("FWBIRTHDATE") : "")), DateUtil.today());
+                Log.v("days", "" + days);
+                int calc_age = days / 365;
+                age.setText(Html.fromHtml(getString(R.string.elco_age_label) + " " + calc_age));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -128,22 +125,25 @@ public class mCareAncDetailActivity extends Activity {
 
 
         village.setText(Html.fromHtml(getString(R.string.elco_details_mauza) + " " + humanize(ancclient.getDetails().get("mauza") != null ? ancclient.getDetails().get("mauza") : "")));
-            /////from househld
-        AllCommonsRepository allancRepository = Context.getInstance().allCommonsRepositoryobjects("mcaremother");
-        CommonPersonObject ancobject = allancRepository.findByCaseID(ancclient.entityId());
-        AllCommonsRepository allelcorep = Context.getInstance().allCommonsRepositoryobjects("elco");
-        CommonPersonObject elcoparent = allelcorep.findByCaseID(ancobject.getRelationalId());
+        AllCommonsRepository householdrep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_household");
+        CommonPersonObject householdparent = householdrep.findByCaseID(ancclient.getDetails().get("relational_id"));
 
-//
+        if(householdparent.getColumnmaps().get("existing_Mauzapara") != null) {
+            String location = householdparent.getColumnmaps().get("existing_Mauzapara");
+            village.setText(humanize(getString(R.string.elco_details_mauza) + " " +location));
+        }
+            /////from househld
+ //
+
         checkAnc1view(ancclient);
         checkAnc2view(ancclient);
         checkAnc3view(ancclient);
         checkAnc4view(ancclient);
-        numberofChildrenView(elcoparent);
-        numberofstillbirthview(elcoparent);
-        historyofmr(elcoparent);
-        historyofsb(elcoparent);
-        pregnancyin2years(elcoparent);
+        numberofChildrenView(ancclient);
+        numberofstillbirthview(ancclient);
+        historyofmr(ancclient);
+        historyofsb(ancclient);
+        pregnancyin2years(ancclient);
         eddlay(ancclient);
 
 
@@ -197,36 +197,35 @@ public class mCareAncDetailActivity extends Activity {
 
     }
 
-    private void pregnancyin2years(CommonPersonObject ecclient) {
+    private void pregnancyin2years(CommonPersonObjectClient ecclient) {
         String text = ecclient.getDetails().get("FWPSRPREGTWYRS")!=null?ecclient.getDetails().get("FWPSRPREGTWYRS"):"N/A";
         TextView stillbirth = (TextView)findViewById(R.id.number_of_pregnancy);
         stillbirth.setText(text);
     }
 
-    private void historyofsb(CommonPersonObject ecclient) {
+    private void historyofsb(CommonPersonObjectClient ecclient) {
         String text = ecclient.getDetails().get("FWPSRPRSB")!=null?ecclient.getDetails().get("FWPSRPRSB"):"N/A";
         TextView stillbirth = (TextView)findViewById(R.id.history_of_sb);
         stillbirth.setText(text);
     }
 
-    private void historyofmr(CommonPersonObject ecclient) {
+    private void historyofmr(CommonPersonObjectClient ecclient) {
         String text = ecclient.getDetails().get("FWPSRPRMC")!=null?ecclient.getDetails().get("FWPSRPRMC"):"N/A";
         TextView stillbirth = (TextView)findViewById(R.id.history_of_mr);
         stillbirth.setText(text);
 
     }
 
-    private void numberofstillbirthview(CommonPersonObject ecclient) {
+    private void numberofstillbirthview(CommonPersonObjectClient ecclient) {
         String text = ecclient.getDetails().get("FWPSRNBDTH")!=null?ecclient.getDetails().get("FWPSRNBDTH"):"N/A";
         TextView stillbirth = (TextView)findViewById(R.id.stillbirths);
         stillbirth.setText(text);
     }
 
-    private void numberofChildrenView(CommonPersonObject ecclient) {
+    private void numberofChildrenView(CommonPersonObjectClient ecclient) {
         String text = ecclient.getDetails().get("FWPSRTOTBIRTH")!=null?ecclient.getDetails().get("FWPSRTOTBIRTH"):"N/A";
         TextView numberofChildren = (TextView)findViewById(R.id.livechildren);
         numberofChildren.setText(text);
-
     }
     private void checkAnc4view(CommonPersonObjectClient ecclient) {
         LinearLayout anc1layout = (LinearLayout)findViewById(R.id.anc4_layout);
@@ -408,4 +407,5 @@ public class mCareAncDetailActivity extends Activity {
 //        Bitmap bitmap = BitmapFactory.decodeFile(file, options);
 //        view.setImageBitmap(bitmap);
     }
+
 }

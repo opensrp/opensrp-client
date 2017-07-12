@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff" >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:weightSum="10"
+        >
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:id="@+id/woman_profilepic"
+            android:src="@drawable/pk_woman_avtar"
+            android:layout_margin="5dp"
+            android:scaleType="fitCenter" />
+
+        <TableLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:id="@+id/woman_detail_info_table1"
+            android:background="@drawable/listview_background_rounded"
+            android:layout_margin="20dp"
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp">
+        </TableLayout>
+
+        <TableLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:id="@+id/woman_detail_info_table2"
+            android:background="@drawable/listview_background_rounded"
+            android:layout_margin="20dp"
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp">
+        </TableLayout>
+
+        <Button
+            android:id="@+id/woman_edit_btn"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/edit"
+            android:textColor="@color/white"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/edit_button_background"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

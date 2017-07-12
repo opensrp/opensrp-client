@@ -40,7 +40,6 @@
             android:layout_height="wrap_content"
             app:iconText="@string/ic_keyboard_arrow_right"
             app:iconColor="#12558C"
-            app:iconFont="font/material-icon-font.ttf"
             app:iconSize="16dp" />
 
         <View

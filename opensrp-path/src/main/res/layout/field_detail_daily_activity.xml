@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/client_list_header_dark_grey">
+
+    <include layout="@layout/detail_nav_bar"/>
+
+    <include
+        layout="@layout/field_detail_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"  />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/smart_register_client_divider_height"
+        android:src="@color/smart_register_client_divider_color"
+        android:id="@+id/imageView3" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/smart_register_client_divider_height"
+        android:src="@color/smart_register_client_divider_color"/>
+
+    <include layout="@layout/field_detail_vaccines_daily"
+        />
+</LinearLayout>

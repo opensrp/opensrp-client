@@ -1,0 +1,27 @@
+<org.ei.opensrp.path.toolbar.ChildDetailsToolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/child_detail_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/title"
+            style="@style/CustomFontTextViewStyle.NavBar.Black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent" />
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CustomFontTextViewStyle.NavBar.Black"
+            android:text="SAVE"
+            android:id="@+id/save"
+            android:textSize="@dimen/activity_title_size"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="25dp" />
+    </FrameLayout>
+
+</org.ei.opensrp.path.toolbar.ChildDetailsToolbar>

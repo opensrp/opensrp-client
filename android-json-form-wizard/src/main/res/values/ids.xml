@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="label"/>
+    <item type="id" name="key"/>
+    <item type="id" name="address"/>
+    <item type="id" name="type"/>
+    <item type="id" name="childKey"/>
+    <item type="id" name="imagePath"/>
+    <item type="id" name="raw_value"/>
+    <item type="id" name="canvas_ids"/>
+    <item type="id" name="after_look_up"/>
+
+    <item type="id" name="v_required"/>
+    <item type="id" name="error"/>
+    <item type='id' name="openmrs_entity_parent"/>
+    <item type='id' name="openmrs_entity"/>
+    <item type='id' name="openmrs_entity_id"/>
+    <item type="id" name="relevance" />
+    <item type="id" name="constraints" />
+</resources>

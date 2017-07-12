@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/stock_detail_holder"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#e0e0e0">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="#ffffff">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Month, (Year)"
+            android:id="@+id/month"
+            style="@style/CustomFontTextViewStyle.ListView.Small.Bold"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="#ffffff">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="20000"
+            android:id="@+id/monthly_target"
+            style="@style/CustomFontTextViewStyle.ListView.Small"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="#ffffff">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="20000"
+            android:id="@+id/total_received"
+            style="@style/CustomFontTextViewStyle.ListView.Small"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="#ffffff">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="20000"
+            android:id="@+id/total_used"
+            style="@style/CustomFontTextViewStyle.ListView.Small"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="#ffffff">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="20000"
+            android:id="@+id/total_wasted"
+            style="@style/CustomFontTextViewStyle.ListView.Small"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp" android:paddingTop="10dp" android:paddingBottom="10dp" android:background="#ffffff">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="20000"
+            android:id="@+id/total_balance_in_hand"
+            style="@style/CustomFontTextViewStyle.ListView.Small"/>
+    </LinearLayout>
+</LinearLayout>

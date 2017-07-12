@@ -161,16 +161,16 @@ public class WomanSmartRegisterFragment extends SecuredNativeSmartRegisterFragme
     protected void onInitialization() {
         if (controller == null) {
             controller = new CommonPersonObjectController(context().allCommonsRepositoryobjects
-                    ("pkwoman"),
+                    ("ec_woman"),
                     context().allBeneficiaries(), context().listCache(),
-                    context().personObjectClientsCache(), "first_name", "pkwoman",
+                    context().personObjectClientsCache(), "first_name", "ec_woman",
                     "client_reg_date",
                     CommonPersonObjectController.ByColumnAndByDetails.byDetails.byDetails);
 
         }
         context().formSubmissionRouter().getHandlerMap().put("woman_followup_form",
                 new WomanFollowupHandler(new WomanService(context().allTimelineEvents(), context()
-                        .allCommonsRepositoryobjects("pkwoman"), context().alertService())));
+                        .allCommonsRepositoryobjects("ec_woman"), context().alertService())));
         dialogOptionMapper = new DialogOptionMapper();
     }//end of method
 

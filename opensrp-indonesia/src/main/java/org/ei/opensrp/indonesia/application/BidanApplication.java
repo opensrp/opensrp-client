@@ -2,20 +2,19 @@ package org.ei.opensrp.indonesia.application;
 import android.content.Intent;
 import android.content.res.Configuration;
 
-import org.acra.ACRA;
-import org.acra.ReportingInteractionMode;
-import org.acra.annotation.ReportsCrashes;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonFtsObject;
 import org.ei.opensrp.indonesia.LoginActivity;
 import org.ei.opensrp.indonesia.lib.ErrorReportingFacade;
 import org.ei.opensrp.indonesia.lib.FlurryFacade;
+import org.ei.opensrp.repository.Repository;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.ei.opensrp.view.receiver.SyncBroadcastReceiver;
-import static org.ei.opensrp.util.Log.logInfo;
 
 import java.util.Locale;
+
+import static org.ei.opensrp.util.Log.logInfo;
 
 
 public class BidanApplication extends DrishtiApplication {
@@ -142,4 +141,11 @@ public class BidanApplication extends DrishtiApplication {
         return commonFtsObject;
     }
 
+    @Override
+    public Repository getRepository() {
+        if (repository == null) {
+            repository = new Repository(getInstance().getApplicationContext(), context.session(), createCommonFtsObject(), context.sharedRepositoriesArray());
+        }
+        return repository;
+    }
 }

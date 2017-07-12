@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="18dp"
+    android:paddingTop="18dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/name_tv"
+            style="@style/CustomFontTextViewStyle.ClientList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Birth"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/activity_sub_title_size" />
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/record_all_tv"
+            style="@style/CustomFontTextViewStyle.ClientList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="@string/record_all"
+            android:textColor="@color/light_blue"
+            android:textSize="@dimen/activity_sub_title_size" />
+    </RelativeLayout>
+
+    <org.ei.opensrp.path.view.ExpandableHeightGridView
+        android:id="@+id/vaccines_gv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnWidth="@dimen/vaccine_card_width"
+        android:gravity="center"
+        android:horizontalSpacing="20dp"
+        android:isScrollContainer="false"
+        android:numColumns="1"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="15dp" />
+</LinearLayout>

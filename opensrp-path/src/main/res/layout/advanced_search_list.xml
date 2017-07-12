@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/search_criteria"
+            style="@style/CustomFontTextViewStyle.ClientList.Light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:lines="3"
+            android:maxLines="5"
+            android:minLines="1"
+            android:singleLine="false"
+            android:text="Search criteria: Include"
+            android:textColor="@color/client_list_grey"
+            android:textSize="20sp" />
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/matching_results"
+            style="@style/CustomFontTextViewStyle.ClientList.Light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:inputType="textMultiLine"
+            android:text="0 matching results found"
+            android:textColor="@color/client_list_grey"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/smart_register_client_divider_height"
+        android:src="@color/smart_register_client_divider_color" />
+
+    <FrameLayout
+        android:id="@+id/list_view_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/listview_background_rounded">
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:divider="@color/smart_register_client_divider_color"
+            android:dividerHeight="@dimen/smart_register_client_divider_height"
+            android:visibility="invisible" />
+
+        <ProgressBar
+            android:id="@+id/client_list_progress"
+            style="@android:style/Widget.Holo.Light.ProgressBar.Large.Inverse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="32dp"
+            android:text="@string/no_record"
+            android:visibility="gone" />
+
+    </FrameLayout>
+</LinearLayout>

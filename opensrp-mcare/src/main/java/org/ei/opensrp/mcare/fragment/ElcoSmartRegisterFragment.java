@@ -2,6 +2,7 @@ package org.ei.opensrp.mcare.fragment;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -20,6 +21,7 @@ import org.ei.opensrp.cursoradapter.SmartRegisterPaginatedCursorAdapter;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.mcare.LoginActivity;
 import org.ei.opensrp.mcare.R;
+import org.ei.opensrp.mcare.elco.EcElcoSmartClientsProvider;
 import org.ei.opensrp.mcare.elco.ElcoDetailActivity;
 import org.ei.opensrp.mcare.elco.ElcoMauzaCommonObjectFilterOption;
 import org.ei.opensrp.mcare.elco.ElcoPSRFDueDateSort;
@@ -47,6 +49,7 @@ import org.opensrp.api.util.LocationTree;
 import org.opensrp.api.util.TreeNode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import static android.view.View.INVISIBLE;
@@ -229,8 +232,6 @@ public class ElcoSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
                 case R.id.profile_info_layout:
                     ElcoDetailActivity.Elcoclient = (CommonPersonObjectClient)view.getTag();
                     ((ElcoSmartRegisterActivity)getActivity()).showProfileView();
-//                    Intent intent = new Intent(getActivity(), ElcoDetailActivity.class);
-//                    startActivity(intent);
                     break;
                 case R.id.psrf_due_date:
                     showFragmentDialog(new EditDialogOptionModel((CommonPersonObjectClient) view.getTag()), view.getTag());
@@ -299,7 +300,7 @@ public class ElcoSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
                     filters = cs.toString();
                 }
                 joinTable = "";
-                mainCondition = " FWWOMFNAME != \"\"  and  FWWOMFNAME is not null  and details LIKE '%\"FWELIGIBLE\":\"1\"%' ";
+                mainCondition = " FWWOMFNAME is not null and is_closed=0 ";
 
                 getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
                 CountExecute();
@@ -329,7 +330,7 @@ public class ElcoSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
                     filters = cs.toString();
                 }
                 joinTable = "";
-                mainCondition = " FWWOMFNAME != \"\"  and  FWWOMFNAME is not null  and details LIKE '%\"FWELIGIBLE\":\"1\"%' ";
+                mainCondition = " FWWOMFNAME is not null and is_closed=0 ";
 
                 getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
                 filterandSortExecute();
@@ -351,27 +352,27 @@ public class ElcoSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
             }else{
                 StringUtil.humanize(entry.getValue().getLabel());
                 String name = StringUtil.humanize(entry.getValue().getLabel());
-                dialogOptionslist.add(new ElcoMauzaCommonObjectFilterOption(name,"location_name",name));
+                dialogOptionslist.add(new ElcoMauzaCommonObjectFilterOption(name,"location_name",name,"ec_elco"));
 
             }
         }
     }
-    public void initializeQueries(){
-        ElcoSmartClientsProvider hhscp = new ElcoSmartClientsProvider(getActivity(),
-                clientActionHandler,context().alertService());
-        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, hhscp, new CommonRepository("elco",new String []{ "FWWOMFNAME", "JiVitAHHID", "GOBHHID"}));
+    private void initializeQueries(){
+        EcElcoSmartClientsProvider hhscp = new EcElcoSmartClientsProvider(getActivity(),clientActionHandler,context().alertService());
+        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, hhscp, new CommonRepository("ec_elco",new String []{ "FWWOMFNAME","relational_id", "JiVitAHHID", "GOBHHID"}));
         clientsView.setAdapter(clientAdapter);
 
-        setTablename("elco");
+        setTablename("ec_elco");
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
-        countqueryBUilder.SelectInitiateMainTableCounts("elco");
-        countSelect = countqueryBUilder.mainCondition(" FWWOMFNAME != \"\"  and  FWWOMFNAME is not null  and details LIKE '%\"FWELIGIBLE\":\"1\"%' ");
-        mainCondition = " FWWOMFNAME != \"\"  and  FWWOMFNAME is not null  and details LIKE '%\"FWELIGIBLE\":\"1\"%' ";
+        countqueryBUilder.SelectInitiateMainTableCounts("ec_elco");
+        mainCondition = " FWWOMFNAME is not null and is_closed=0 ";
+        countSelect = countqueryBUilder.mainCondition(mainCondition);
+
         super.CountExecute();
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
-        queryBUilder.SelectInitiateMainTable("elco", new String[]{"relationalid", "details", "FWWOMFNAME", "JiVitAHHID", "GOBHHID"});
-        mainSelect = queryBUilder.mainCondition(" FWWOMFNAME != \"\"  and FWWOMFNAME is not null  and details LIKE '%\"FWELIGIBLE\":\"1\"%' ");
+        queryBUilder.SelectInitiateMainTable("ec_elco", new String[]{"relationalid", "relational_id", "details", "FWWOMFNAME", "JiVitAHHID", "GOBHHID", "base_entity_id", "FWHUSNAME", "FWWOMAGE", "FWWOMNID", "FWWOMBID", "FWPSRDATE", "FWPSRPREGSTS"});
+        mainSelect = queryBUilder.mainCondition(mainCondition);
         Sortqueries = sortByAlertmethod();
 
         currentlimit = 20;
@@ -384,9 +385,9 @@ public class ElcoSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
         refresh();
 
     }
+
     private String sortByAlertmethod() {
-        return " CASE When (details LIKE '%\"psrf_schedule_logic\":\"0\"%') THEN '7' \n"+
-                " WHEN ELCO_PSRF = 'urgent' THEN '1'\n" +
+        return " CASE WHEN ELCO_PSRF = 'urgent' THEN '1'\n" +
                 "WHEN ELCO_PSRF = 'upcoming' THEN '2'\n" +
                 "WHEN ELCO_PSRF = 'normal' THEN '3'\n" +
                 "WHEN ELCO_PSRF = 'expired' THEN '4'\n" +
@@ -401,15 +402,6 @@ public class ElcoSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
      */
     @Override
     public void onFilterSelection(FilterOption filter) {
-        appliedVillageFilterView.setText(filter.name());
-        filters = ((CursorFilterOption)filter).filter();
-        mainCondition = " FWWOMFNAME != \"\"  and  FWWOMFNAME is not null  and details LIKE '%\"FWELIGIBLE\":\"1\"%' ";
-
-        if(StringUtils.isNotBlank(filters) && filters.contains(" and details LIKE ")){
-            mainCondition += filters;
-            filters = "";
-        }
-        CountExecute();
-        filterandSortExecute();
+        super.onFilterSelection(filter);
     }
 }

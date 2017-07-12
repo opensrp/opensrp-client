@@ -32,6 +32,8 @@ public class DrishtiService {
             actions = new Gson().fromJson(response.payload(), collectionType);
         } catch (JsonSyntaxException e) {
             return new Response<List<Action>>(failure, new ArrayList<Action>());
+        } catch (Exception e){
+            return new Response<List<Action>>(failure, new ArrayList<Action>());
         }
 
         return new Response<List<Action>>(response.status(), actions == null ? new ArrayList<Action>() : actions);

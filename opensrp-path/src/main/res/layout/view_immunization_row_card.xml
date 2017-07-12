@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@null">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/name_tv"
+            style="@style/CustomFontTextViewStyle.ClientList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:paddingRight="10dp"
+            android:textColor="@color/text_black"
+            android:textSize="16sp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/status_iv"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="5dp"
+            android:background="@null"
+            android:src="@drawable/ic_action_check" />
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/status_text_tv"
+            style="@style/CustomFontTextViewStyle.ClientList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:paddingRight="10dp"
+            android:text=""
+            android:textColor="@color/text_black"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="0.5"
+            android:gravity="center_vertical" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/undo_b"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/undo_background"
+        android:text="Edit"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

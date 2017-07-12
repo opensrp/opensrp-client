@@ -1,0 +1,456 @@
+[
+  {
+    "type": "Vit A",
+    "service_logic": "",
+    "units": "UI",
+    "openmrs_service_name": {
+      "parent_entity": "",
+      "entity": "concept",
+      "entity_id": "161534AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "openmrs_date": {
+      "parent_entity": "",
+      "entity": "encounter",
+      "entity_id": "encounter_date"
+    },
+    "services": [
+      {
+        "id": "10",
+        "name": "Vit A IFC 2",
+        "dose": "50000",
+        "schedule": {
+          "due": {
+            "reference": "dob",
+            "offset": "+0d"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+6m"
+          }
+        }
+      },
+      {
+        "id": "11",
+        "name": "Vit A 1",
+        "dose": "100000",
+        "schedule": {
+          "due": {
+            "reference": "multiple",
+            "multiple": {
+              "condition": "OR",
+              "prerequisites": [
+                "Vit A IFC 2",
+                "dob"
+              ]
+            },
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "12",
+        "name": "Vit A 2",
+        "dose": "200000",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Vit A 1",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "13",
+        "name": "Vit A 3",
+        "dose": "200000",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Vit A 2",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "14",
+        "name": "Vit A 4",
+        "dose": "200000",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Vit A 3",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "15",
+        "name": "Vit A 5",
+        "dose": "200000",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Vit A 4",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "16",
+        "name": "Vit A 6",
+        "dose": "200000",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Vit A 5",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "17",
+        "name": "Vit A 7",
+        "dose": "200000",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Vit A 6",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "18",
+        "name": "Vit A 8",
+        "dose": "200000",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Vit A 7",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "19",
+        "name": "Vit A 9",
+        "dose": "200000",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Vit A 8",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "20",
+        "name": "Vit A 10",
+        "dose": "200000",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Vit A 9",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "Deworming",
+    "service_logic": "",
+    "units": "mg",
+    "openmrs_service_name": {
+      "parent_entity": "",
+      "entity": "concept",
+      "entity_id": "159922AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "openmrs_date": {
+      "parent_entity": "",
+      "entity": "encounter",
+      "entity_id": "encounter_date"
+    },
+    "services": [
+      {
+        "id": "1",
+        "name": "Deworming 1",
+        "dose": "500",
+        "schedule": {
+          "due": {
+            "reference": "dob",
+            "offset": "+12m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "2",
+        "name": "Deworming 2",
+        "dose": "500",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Deworming 1",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "3",
+        "name": "Deworming 3",
+        "dose": "500",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Deworming 2",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "4",
+        "name": "Deworming 4",
+        "dose": "500",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Deworming 3",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "5",
+        "name": "Deworming 5",
+        "dose": "500",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Deworming 4",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "6",
+        "name": "Deworming 6",
+        "dose": "500",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Deworming 5",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "7",
+        "name": "Deworming 7",
+        "dose": "500",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Deworming 6",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "8",
+        "name": "Deworming 8",
+        "dose": "500",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Deworming 7",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "9",
+        "name": "Deworming 9",
+        "dose": "500",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "Deworming 8",
+            "offset": "+6m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "ITN",
+    "service_logic": "",
+    "units": "",
+    "openmrs_service_name": {
+      "parent_entity": "",
+      "entity": "concept",
+      "entity_id": "159855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "openmrs_date": {
+      "parent_entity": "",
+      "entity": "date",
+      "entity_id": "159432AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "services": [
+      {
+        "id": "21",
+        "name": "ITN 1",
+        "dose": "",
+        "schedule": {
+          "due": {
+            "reference": "dob",
+            "offset": "+0d"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "22",
+        "name": "ITN 2",
+        "dose": "",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "ITN 1",
+            "offset": "+12m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "23",
+        "name": "ITN 3",
+        "dose": "",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "ITN 2",
+            "offset": "+12m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "24",
+        "name": "ITN 4",
+        "dose": "",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "ITN 3",
+            "offset": "+12m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      },
+      {
+        "id": "25",
+        "name": "ITN 5",
+        "dose": "",
+        "schedule": {
+          "due": {
+            "reference": "prerequisite",
+            "prerequisite": "ITN 4",
+            "offset": "+12m"
+          },
+          "expiry": {
+            "reference": "dob",
+            "offset": "+5y"
+          }
+        }
+      }
+    ]
+  }
+]

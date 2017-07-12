@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/selectableItemBackground"
+    android:minHeight="48dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="2dp">
+
+    <CheckBox
+        android:id="@+id/node_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/picture_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="28dp"
+        android:layout_toRightOf="@id/node_selector"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/top_line"
+            android:layout_width="1dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/primary"/>
+
+        <com.github.johnkil.print.PrintView
+            android:id="@+id/arrowview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:iconColor="@color/primary"
+            app:iconSize="16dp"
+            app:iconText="@string/ic_keyboard_arrow_right"/>
+
+        <View
+            android:id="@+id/bot_line"
+            android:layout_width="1dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/primary"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/node_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/picture_wrapper"
+        android:textSize="@dimen/default_text_size"/>
+</RelativeLayout>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/abc_control_padding_material"
+    android:background="@drawable/table_row_border">
+
+    <RelativeLayout
+        android:id="@+id/vacc_status_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="0.45"
+        android:gravity="center_vertical">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@id/vaccine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            style="@style/CustomFontTextViewStyle.ClientList.Light"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="20dp"
+            android:text="@string/opv"
+            android:textColor="@color/dark_grey"
+            />
+
+        <Button
+            android:id="@+id/status"
+            android:layout_width="12.5dp"
+            android:layout_height="12.5dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/silver" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="0.55"
+        android:gravity="center_vertical">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            style="@style/CustomFontTextViewStyle.ClientList"
+            android:paddingLeft="13dp"
+            android:text="@string/done_today"
+            android:textColor="@color/text_black" />
+
+        <Button
+            android:id="@+id/undo"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="1dp"
+            android:background="@color/light_blue"
+            android:gravity="center"
+            android:minHeight="0dp"
+            android:text="@string/undo"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+
+    </FrameLayout>
+
+
+</TableRow>

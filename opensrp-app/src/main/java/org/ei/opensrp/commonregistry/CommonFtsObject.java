@@ -24,7 +24,10 @@ public class CommonFtsObject {
     private Map<String, Pair<String, Boolean>> alertsScheduleMap;
     public static final String idColumn = "object_id";
     public static final String relationalIdColumn = "object_relational_id";
-    public static final String phraseColumnName = "phrase";
+    public static final String phraseColumn = "phrase";
+    public static final String isClosedColumn = "is_closed TINYINT DEFAULT 0";
+    public static final String isClosedColumnName = "is_closed";
+
 
     public CommonFtsObject(String[] tables) {
         this.tables = tables;
@@ -92,6 +95,12 @@ public class CommonFtsObject {
         if(StringUtils.isBlank(schedule)){
             return null;
         }
+
+        for(String key: alertsScheduleMap.keySet()){
+            if(key.equalsIgnoreCase(schedule)){
+                schedule = key;
+            }
+        }
         Pair<String, Boolean> pair =  alertsScheduleMap.get(schedule);
         if(pair == null){
             return null;
@@ -110,6 +119,20 @@ public class CommonFtsObject {
         }
 
         return pair.second;
+    }
+
+    public String getAlertScheduleName(String vaccineName) {
+        if (StringUtils.isBlank(vaccineName)) {
+            return null;
+        }
+
+        for (String key : alertsScheduleMap.keySet()) {
+            if (key.equalsIgnoreCase(vaccineName)) {
+                return key;
+            }
+        }
+
+        return null;
     }
 
     public String[] getAlertFilterVisitCodes(){

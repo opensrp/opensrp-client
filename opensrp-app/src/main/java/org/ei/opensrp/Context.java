@@ -20,6 +20,7 @@ import org.ei.opensrp.repository.AllSettings;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.repository.AllTimelineEvents;
 import org.ei.opensrp.repository.ChildRepository;
+import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.repository.DrishtiRepository;
 import org.ei.opensrp.repository.EligibleCoupleRepository;
 import org.ei.opensrp.repository.FormDataRepository;
@@ -78,6 +79,7 @@ import org.ei.opensrp.sync.SaveANMLocationTask;
 import org.ei.opensrp.sync.SaveUserInfoTask;
 import org.ei.opensrp.util.Cache;
 import org.ei.opensrp.util.Session;
+import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.ei.opensrp.view.contract.ANCClients;
 import org.ei.opensrp.view.contract.ECClients;
 import org.ei.opensrp.view.contract.FPClients;
@@ -103,12 +105,14 @@ import static android.preference.PreferenceManager.setDefaultValues;
 public class Context {
     private android.content.Context applicationContext;
     private static Context context = new Context();
+    private static final String TAG = "Context";
 
     private Repository repository;
     private EligibleCoupleRepository eligibleCoupleRepository;
     private AlertRepository alertRepository;
     private SettingsRepository settingsRepository;
     private ChildRepository childRepository;
+    private DetailsRepository detailsRepository;
     private MotherRepository motherRepository;
     private TimelineEventRepository timelineEventRepository;
     private ReportRepository reportRepository;
@@ -125,7 +129,7 @@ public class Context {
     private AllReports allReports;
     private AllServicesProvided allServicesProvided;
     private AllCommonsRepository allCommonPersonObjectsRepository;
-    private static ImageRepository imageRepository;
+    private ImageRepository imageRepository;
 
 
     private DrishtiService drishtiService;
@@ -194,6 +198,8 @@ public class Context {
     protected DristhiConfiguration configuration;
 
     private CommonFtsObject commonFtsObject;
+
+    private Map<String, String> customHumanReadableConceptResponse;
 
     ///////////////////common bindtypes///////////////
     public static ArrayList<CommonRepositoryInformationHolder> bindtypes;
@@ -482,35 +488,44 @@ public class Context {
         return httpAgent;
     }
 
-    protected Repository initRepository() {
+    public Repository initRepository() {
         if(configuration().appName().equals(AllConstants.APP_NAME_INDONESIA)) {
             return null;
         }
         if (repository == null) {
-            assignbindtypes();
-            ArrayList<DrishtiRepository> drishtireposotorylist = new ArrayList<DrishtiRepository>();
-            drishtireposotorylist.add(settingsRepository());
-            drishtireposotorylist.add(alertRepository());
-            drishtireposotorylist.add(eligibleCoupleRepository());
-            drishtireposotorylist.add(childRepository());
-            drishtireposotorylist.add(timelineEventRepository());
-            drishtireposotorylist.add(motherRepository());
-            drishtireposotorylist.add(reportRepository());
-            drishtireposotorylist.add(formDataRepository());
-            drishtireposotorylist.add(serviceProvidedRepository());
-            drishtireposotorylist.add(formsVersionRepository());
-            drishtireposotorylist.add(imageRepository());
-            for(int i = 0;i < bindtypes.size();i++){
-                drishtireposotorylist.add(commonrepository(bindtypes.get(i).getBindtypename()));
-            }
-            DrishtiRepository[] drishtireposotoryarray = drishtireposotorylist.toArray(new DrishtiRepository[drishtireposotorylist.size()]);
-            if(commonFtsObject != null){
-                repository = new Repository(this.applicationContext, session(), this.commonFtsObject, drishtireposotoryarray);
-            }else {
-                repository = new Repository(this.applicationContext, session(), drishtireposotoryarray);
-            }
+                repository = DrishtiApplication.getInstance().getRepository();
         }
         return repository;
+    }
+
+
+
+    public ArrayList<DrishtiRepository> sharedRepositories(){
+        assignbindtypes();
+        ArrayList<DrishtiRepository> drishtireposotorylist = new ArrayList<DrishtiRepository>();
+        drishtireposotorylist.add(settingsRepository());
+        drishtireposotorylist.add(alertRepository());
+        drishtireposotorylist.add(eligibleCoupleRepository());
+        drishtireposotorylist.add(childRepository());
+        drishtireposotorylist.add(timelineEventRepository());
+        drishtireposotorylist.add(motherRepository());
+        drishtireposotorylist.add(reportRepository());
+        drishtireposotorylist.add(formDataRepository());
+        drishtireposotorylist.add(serviceProvidedRepository());
+        drishtireposotorylist.add(formsVersionRepository());
+        drishtireposotorylist.add(imageRepository());
+        drishtireposotorylist.add(detailsRepository());
+        for(int i = 0;i < bindtypes.size();i++){
+            drishtireposotorylist.add(commonrepository(bindtypes.get(i).getBindtypename()));
+        }
+        return drishtireposotorylist;
+
+    }
+
+    public DrishtiRepository[] sharedRepositoriesArray(){
+        ArrayList<DrishtiRepository> drishtiRepositories = sharedRepositories();
+        DrishtiRepository[] drishtireposotoryarray = drishtiRepositories.toArray(new DrishtiRepository[drishtiRepositories.size()]);
+        return drishtireposotoryarray;
     }
 
     public AllEligibleCouples allEligibleCouples() {
@@ -605,6 +620,13 @@ public class Context {
         return childRepository;
     }
 
+    public DetailsRepository detailsRepository(){
+        if (detailsRepository == null){
+            detailsRepository = new DetailsRepository();
+        }
+        return detailsRepository;
+    }
+
     private MotherRepository motherRepository() {
         if (motherRepository == null) {
             motherRepository = new MotherRepository();
@@ -646,7 +668,7 @@ public class Context {
         }
         return formsVersionRepository;
     }
-    public static DrishtiRepository imageRepository() {
+    public ImageRepository imageRepository() {
         if (imageRepository == null) {
             imageRepository = new ImageRepository();
         }
@@ -655,8 +677,8 @@ public class Context {
 
     public UserService userService() {
         if (userService == null) {
-            Repository repo = initRepository();
-            userService = new UserService(repo, allSettings(), allSharedPreferences(), httpAgent(), session(), configuration(), saveANMLocationTask(),saveUserInfoTask());
+            repository = initRepository();
+            userService = new UserService(repository, allSettings(), allSharedPreferences(), httpAgent(), session(), configuration(), saveANMLocationTask(),saveUserInfoTask());
         }
         return userService;
     }
@@ -869,25 +891,27 @@ public class Context {
             MapOfCommonRepository = new HashMap<String, CommonRepository>();
         }
         if(MapOfCommonRepository.get(tablename) == null){
-            int index = 0;
-            for(int i = 0;i<bindtypes.size();i++){
-                if(bindtypes.get(i).getBindtypename().equalsIgnoreCase(tablename)){
-                    index = i;
+            for(CommonRepositoryInformationHolder bindType: bindtypes){
+                if(bindType.getBindtypename().equalsIgnoreCase(tablename)){
+                    if(commonFtsObject != null && commonFtsObject.containsTable(tablename)){
+                        MapOfCommonRepository.put(bindType.getBindtypename(), new CommonRepository(commonFtsObject, bindType.getBindtypename(), bindType.getColumnNames()));
+                        break;
+                    } else {
+                        MapOfCommonRepository.put(bindType.getBindtypename(), new CommonRepository(bindType.getBindtypename(), bindType.getColumnNames()));
+                        break;
+                    }
                 }
             }
-            if(commonFtsObject != null && commonFtsObject.containsTable(tablename)){
-                MapOfCommonRepository.put(bindtypes.get(index).getBindtypename(), new CommonRepository(commonFtsObject, bindtypes.get(index).getBindtypename(), bindtypes.get(index).getColumnNames()));
-            } else {
-                MapOfCommonRepository.put(bindtypes.get(index).getBindtypename(), new CommonRepository(bindtypes.get(index).getBindtypename(), bindtypes.get(index).getColumnNames()));
-            }
-        }
 
+        }
         return  MapOfCommonRepository.get(tablename);
     }
+
     public void assignbindtypes(){
         bindtypes = new ArrayList<CommonRepositoryInformationHolder>();
         AssetManager assetManager = getInstance().applicationContext().getAssets();
-
+        // create common repository definition for the ec models
+        getEcBindtypes();
         try {
             String str = ReadFromfile("bindtypes.json",getInstance().applicationContext);
             JSONObject jsonObject = new JSONObject(str);
@@ -903,11 +927,35 @@ public class Context {
                 Log.v("bind type logs",bindtypeObjects.getJSONObject(i).getString("name"));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+             Log.e(TAG, e.toString(), e);
+        }
+    }
+
+    public void getEcBindtypes(){
+        try {
+            AssetManager assetManager = getInstance().applicationContext().getAssets();
+            String str = ReadFromfile("ec_client_fields.json", getInstance().applicationContext);
+            JSONObject jsonObject = new JSONObject(str);
+            JSONArray bindtypeObjects = jsonObject.getJSONArray("bindobjects");
+
+            for(int i = 0 ; i < bindtypeObjects.length(); i++){
+                JSONObject columnDefinitionObject = bindtypeObjects.getJSONObject(i);
+                String bindname = columnDefinitionObject.getString("name");
+                JSONArray columnsJsonArray = columnDefinitionObject.getJSONArray("columns");
+                String [] columnNames = new String[columnsJsonArray.length()];
+                for(int j = 0 ; j < columnNames.length; j++){
+                    JSONObject columnObject = columnsJsonArray.getJSONObject(j);
+                    columnNames[j] =  columnObject.getString("column_name");
+                }
+                bindtypes.add(new CommonRepositoryInformationHolder(bindname, columnNames));
+                Log.v("bind type logs", bindname);
+            }
+        }catch (Exception e){
+            Log.e(TAG, e.toString(), e);
         }
 
-
     }
+
     public String ReadFromfile(String fileName, android.content.Context context) {
         StringBuilder returnString = new StringBuilder();
         InputStream fIn = null;
@@ -960,8 +1008,30 @@ public class Context {
         return this;
     }
 
+    public Context updateRepository(Repository repository){
+        this.repository = repository;
+        return this;
+    }
+
     public CommonFtsObject commonFtsObject() {
         return commonFtsObject;
+    }
+
+    /**
+     * Linking generated concept with human readable values
+     * @param customHumanReadableConceptResponse
+     * @return
+     */
+    public Context updateCustomHumanReadableConceptResponse(Map<String, String> customHumanReadableConceptResponse) {
+        this.customHumanReadableConceptResponse = customHumanReadableConceptResponse;
+        return this;
+    }
+
+    public Map<String, String> customHumanReadableConceptResponse() {
+        if (customHumanReadableConceptResponse == null) {
+            return new HashMap<>();
+        }
+        return customHumanReadableConceptResponse;
     }
 
     public Map<String, AllCommonsRepository> allCommonsRepositoryMap() {
@@ -973,5 +1043,8 @@ public class Context {
         return allCommonsRepositoryMap;
     }
 
+    public void setDetailsRepository(DetailsRepository _detailsRepository){
+        detailsRepository = _detailsRepository;
+    }
     ///////////////////////////////////////////////////////////////////////////////
 }

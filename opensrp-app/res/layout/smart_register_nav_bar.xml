@@ -53,37 +53,56 @@
     </LinearLayout>
 
     <LinearLayout
-            android:id="@+id/search_layout"
+        android:id="@+id/search_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal">
+
+        <LinearLayout
             android:layout_width="@dimen/ec_main_header_search_layout_width"
             android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="5dp"
-            android:paddingLeft="15dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/rounded_edit_text_normal"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="15dp">
 
-        <EditText
+            <EditText
                 android:id="@+id/edt_search"
                 android:layout_width="@dimen/ec_main_header_search_box_width"
                 android:layout_height="fill_parent"
-                android:hint="@string/str_ec_search_hint"
-                android:textSize="17sp"
-                android:singleLine="true"
+                android:background="@android:color/transparent"
                 android:ellipsize="end"
-                android:background="@android:color/transparent"/>
+                android:hint="@string/str_ec_search_hint"
+                android:singleLine="true"
+                android:textSize="17sp" />
 
-        <ImageButton
+            <ImageButton
                 android:id="@+id/btn_search_cancel"
                 android:layout_width="@dimen/ec_main_header_search_cancel_button_width"
                 android:layout_height="fill_parent"
-                android:paddingRight="40dp"
-                android:paddingLeft="15dp"
-                android:src="@drawable/ic_cross"
                 android:background="@android:color/transparent"
-                android:visibility="invisible"/>
+                android:paddingLeft="15dp"
+                android:paddingRight="40dp"
+                android:src="@drawable/ic_cross"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/global_search"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:drawableRight="@drawable/abc_ic_search_api_mtrl_alpha"
+            android:gravity="center"
+            android:text="@string/string_global"
+            android:textAllCaps="false"
+            android:textColor="@color/status_bar_text_almost_white"
+            android:textSize="17sp"
+            android:visibility="gone" />
     </LinearLayout>
 
     <ImageButton

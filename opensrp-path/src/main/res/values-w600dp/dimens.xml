@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="login_horizontal_margin">100dp</dimen>
+    <dimen name="activity_title_size">26sp</dimen>
+    <dimen name="activity_sub_title_size">20sp</dimen>
+    <dimen name="card_category_horizontal_margin">15dp</dimen>
+    <dimen name="card_category_vertical_margin">15dp</dimen>
+    <dimen name="card_category_vertical_half_margin">5dp</dimen>
+    <dimen name="login_logo_height">180dp</dimen>
+    <dimen name="login_opensrp_logo_height">18dp</dimen>
+    <dimen name="login_opensrp_logo_width">100dp</dimen>
+</resources>

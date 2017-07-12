@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="60dp">
+
+    <TextView
+        android:id="@+id/duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="180dp"
+        android:layout_marginTop="35dp"
+        android:textSize="@dimen/default_text_size" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:textSize="@dimen/default_text_size"
+        app:met_floatingLabelTextSize="@dimen/default_text_size"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelText=""
+        app:met_primaryColor="?colorAccent"
+        app:met_singleLineEllipsis="true" />
+</RelativeLayout>
