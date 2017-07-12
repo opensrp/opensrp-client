@@ -18,6 +18,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.simprints.libsimprints.Constants;
+import com.simprints.libsimprints.Identification;
+import com.simprints.libsimprints.Registration;
+import com.simprints.libsimprints.SimHelper;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
@@ -174,6 +180,40 @@ public class ChildImmunizationActivity extends BaseActivity
 
         toolbar.init(this);
         setLastModified(false);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Here we check the request + result code
+        // We can pull the unique ID from LibSimprints by creating a registration
+        // object from the returned Intent data, and retrieving the GUID.
+        if (requestCode==1) {
+            Registration registration =
+                    data.getParcelableExtra(Constants.SIMPRINTS_REGISTRATION);
+            String uniqueId = registration.getGuid();
+            Toast.makeText(this, uniqueId, Toast.LENGTH_LONG).show();
+            //etEnrollmentStatus.setText(uniqueId);
+            Log.i("onActivityResult", uniqueId);
+        } else if (requestCode==2){
+            // We can create a list of Identifications from LibSimprints by creating
+            // a Identification object from the returned Intent data.
+            ArrayList<Identification> identifications = data.getParcelableArrayListExtra(Constants.SIMPRINTS_IDENTIFICATIONS);
+            for (Identification id : identifications) {
+                Toast.makeText(this,  id.getGuid(), Toast.LENGTH_LONG).show();
+                Log.i("MainActivity,id:",id.getGuid()+"|Confidence:"+id.getConfidence()+"|Tier:"+id.getTier());
+                id.getGuid();
+                id.getConfidence();
+                id.getTier();
+            }
+        }
+    }
+
+    public void enrollClient(View view){
+        //Toast.makeText(this,"Enrollment Started!!",Toast.LENGTH_LONG).show();
+        Log.i("enrollClient","Enrollment Started");
+        SimHelper simHelper = new SimHelper("4b725213-d5e8-4d70-a4cc-98edbd8bdcb1", "mPower");
+        Intent intent = simHelper.register("opensrp");
+        startActivityForResult(intent, 1); // 1 is your requestCode for the callback
     }
 
     @Override

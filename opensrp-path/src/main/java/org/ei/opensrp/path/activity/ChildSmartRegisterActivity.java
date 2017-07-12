@@ -16,7 +16,6 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
-
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
 import org.ei.opensrp.domain.FetchStatus;
@@ -38,7 +37,6 @@ import org.ei.opensrp.util.FormUtils;
 import org.ei.opensrp.view.dialog.DialogOptionModel;
 import org.ei.opensrp.view.viewpager.OpenSRPViewPager;
 import org.json.JSONObject;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import util.JsonFormUtils;
@@ -184,6 +182,8 @@ public class ChildSmartRegisterActivity extends BaseRegisterActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+
         if (requestCode == REQUEST_CODE_GET_JSON) {
             if (resultCode == RESULT_OK) {
 

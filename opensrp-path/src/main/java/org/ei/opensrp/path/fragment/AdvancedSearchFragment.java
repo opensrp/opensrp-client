@@ -3,6 +3,7 @@ package org.ei.opensrp.path.fragment;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -24,6 +25,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.simprints.libsimprints.Constants;
+import com.simprints.libsimprints.Identification;
+import com.simprints.libsimprints.Registration;
+import com.simprints.libsimprints.SimHelper;
 import com.vijay.jsonwizard.customviews.CheckBox;
 import com.vijay.jsonwizard.customviews.RadioButton;
 import com.vijay.jsonwizard.utils.DatePickerUtils;
@@ -41,6 +46,7 @@ import org.ei.opensrp.path.adapter.AdvancedSearchPaginatedCursorAdapter;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.RegisterClickables;
 import org.ei.opensrp.path.provider.AdvancedSearchClientsProvider;
+import org.ei.opensrp.repository.AllSharedPreferences;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,12 +60,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import util.GlobalSearchUtils;
 import util.JsonFormUtils;
 import util.MoveToMyCatchmentUtils;
 import util.PathConstants;
 import util.Utils;
+
 
 public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     private View mView;
@@ -127,6 +133,15 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
         mView = view;
         setupViews(view);
         onResumption();
+        ((Button)view.findViewById(R.id.btnidentify)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("identifyClient","identifyClient Started");
+                SimHelper simHelper = new SimHelper("4b725213-d5e8-4d70-a4cc-98edbd8bdcb1", "mPower");
+                Intent intent = simHelper.identify("opensrp");
+                startActivityForResult(intent, 2);
+            }
+        });
         return view;
     }
 
@@ -199,6 +214,34 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     @Override
     protected void startRegistration() {
         ((ChildSmartRegisterActivity) getActivity()).startFormActivity("child_enrollment", null, null);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Here we check the request + result code
+        // We can pull the unique ID from LibSimprints by creating a registration
+        // object from the returned Intent data, and retrieving the GUID.
+        //super.onActivityResult(requestCode,resultCode,data);
+
+        Log.d("---------------","onAcitivity fired");
+        if (requestCode==1) {
+            Registration registration =
+                    data.getParcelableExtra(Constants.SIMPRINTS_REGISTRATION);
+            String uniqueId = registration.getGuid();
+            //etEnrollmentStatus.setText(uniqueId);
+            Log.d("onActivityResult", uniqueId);
+        } else if (requestCode==2){
+            // We can create a list of Identifications from LibSimprints by creating
+            // a Identification object from the returned Intent data.
+            ArrayList<Identification> identifications = data.getParcelableArrayListExtra(Constants.SIMPRINTS_IDENTIFICATIONS);
+            for (Identification id : identifications) {
+                Log.d("MainActivity,id:",id.getGuid()+"|Confidence:"+id.getConfidence()+"|Tier:"+id.getTier());
+                id.getGuid();
+                id.getConfidence();
+                id.getTier();
+            }
+        }
     }
 
     private class ClientActionHandler implements View.OnClickListener {
