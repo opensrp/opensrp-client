@@ -21,4 +21,17 @@ public class JsonFormConstants {
     public static final String FIELDS = "fields";
     public static final String NAME = "name";
     public static final String TYPE = "type";
+    public static final String READ_ONLY = "read_only";
+    public static final String BEHAVIOUR_FINISH_FORM = "finish_form";
+    public static final String BEHAVIOUR_NEXT_STEP = "next_step";
+    public static final String HINT = "hint";
+    public static final String KEY = "key";
+    public static final String ACTION = "action";
+    public static final String BEHAVIOUR = "behaviour";
+    public static final String RESULT = "result";
+    public static final String VALUE = "value";
+    public static final String OPENMRS_ENTITY_PARENT = "openmrs_entity_parent";
+    public static final String OPENMRS_ENTITY = "openmrs_entity";
+    public static final String OPENMRS_ENTITY_ID = "openmrs_entity_id";
+    public static final String RELEVANCE = "relevance";
 }
