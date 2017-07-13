@@ -114,11 +114,7 @@ public class DailyTalliesRepository extends BaseRepository {
         } catch (ParseException e) {
             Log.e(TAG, e.getMessage(), e);
         } finally {
-            try {
-                database.endTransaction();
-            } catch (Exception e) {
-                Log.e(TAG, Log.getStackTraceString(e));
-            }
+            database.endTransaction();
         }
     }
 
@@ -163,7 +159,7 @@ public class DailyTalliesRepository extends BaseRepository {
 
                 return months;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             Log.e(TAG, Log.getStackTraceString(e));
         } finally {
             if (cursor != null) {
@@ -217,7 +213,7 @@ public class DailyTalliesRepository extends BaseRepository {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             Log.e(TAG, Log.getStackTraceString(e));
         } finally {
             if (cursor != null) {
@@ -235,7 +231,7 @@ public class DailyTalliesRepository extends BaseRepository {
                     COLUMN_DAY + " = Datetime(?) AND " + COLUMN_PROVIDER_ID + " = ?",
                     new String[]{date, providerId}, null, null, null, null);
             tallies = readAllDataElements(cursor);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             Log.e(TAG, Log.getStackTraceString(e));
         }
 
@@ -266,7 +262,7 @@ public class DailyTalliesRepository extends BaseRepository {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             Log.e(TAG, e.getMessage(), e);
         } finally {
             if (cursor != null) {
@@ -290,7 +286,7 @@ public class DailyTalliesRepository extends BaseRepository {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             Log.e(TAG, e.getMessage());
         } finally {
             if (cursor != null) {
