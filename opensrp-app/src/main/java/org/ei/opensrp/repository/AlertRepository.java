@@ -96,7 +96,7 @@ public class AlertRepository extends DrishtiRepository {
 
     public void deleteAllAlertsForEntity(String caseId) {
         SQLiteDatabase database = masterRepository.getWritableDatabase();
-        database.delete(ALERTS_TABLE_NAME, ALERTS_CASEID_COLUMN + "= ?", new String[]{caseId});
+        database.delete(ALERTS_TABLE_NAME, ALERTS_CASEID_COLUMN + "= ?  COLLATE NOCASE ", new String[]{caseId});
     }
 
     public void deleteOfflineAlertsForEntity(String caseId) {
@@ -105,7 +105,7 @@ public class AlertRepository extends DrishtiRepository {
     }
 
     public void deleteOfflineAlertsForEntity(String caseId, String... names) {
-        String whereClause = format(" %s = ? AND %s = 1 AND %s IN (%s)",
+        String whereClause = format(" %s = ? COLLATE NOCASE AND %s = 1 AND %s IN (%s)",
                 ALERTS_CASEID_COLUMN, ALERTS_OFFLINE_COLUMN, ALERTS_VISIT_CODE_COLUMN,
                 insertPlaceholdersForInClause(names.length));
         SQLiteDatabase database = masterRepository.getWritableDatabase();
