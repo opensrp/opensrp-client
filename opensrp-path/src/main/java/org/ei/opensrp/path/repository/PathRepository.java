@@ -102,6 +102,9 @@ public class PathRepository extends Repository {
                     upgradeToVersion7Stock(db);
                     upgradeToVersion7Hia2(db);
                     break;
+                case 8:
+                    upgradeToVersion8(db);
+                    break;
 
                 default:
                     break;
@@ -1221,7 +1224,6 @@ public class PathRepository extends Repository {
         dateVoided(ColumnAttribute.Type.date, false, false),
         voider(ColumnAttribute.Type.text, false, false),
         voidReason(ColumnAttribute.Type.text, false, false),
-
         baseEntityId(ColumnAttribute.Type.text, true, true),
         syncStatus(ColumnAttribute.Type.text, false, true),
         json(ColumnAttribute.Type.text, false, false),
@@ -1584,6 +1586,14 @@ public class PathRepository extends Repository {
 
         } catch (Exception e) {
             Log.e(TAG, "upgradeToVersion7Hia2 " + e.getMessage());
+        }
+    }
+
+    private void upgradeToVersion8(SQLiteDatabase db) {
+        try {
+            db.execSQL( "ALTER TABLE ec_child ADD COLUMN fingerprint_guid VARCHAR");
+        } catch (Exception e) {
+            Log.e(TAG, "upgradeToVersion8" + Log.getStackTraceString(e));
         }
     }
 
