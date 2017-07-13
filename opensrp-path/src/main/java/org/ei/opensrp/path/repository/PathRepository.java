@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import net.sqlcipher.SQLException;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.apache.commons.lang3.StringUtils;
@@ -1570,20 +1571,7 @@ public class PathRepository extends Repository {
             HIA2IndicatorsRepository.createTable(db);
             db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_HIA2_STATUS_COL);
 
-            //csv column no to table column names
-            Map<Integer, String> columnMappings = new HashMap<>();
-            columnMappings.put(0, HIA2IndicatorsRepository.ID_COLUMN);
-            columnMappings.put(1, HIA2IndicatorsRepository.INDICATOR_CODE);
-            columnMappings.put(2, HIA2IndicatorsRepository.LABEL);
-            columnMappings.put(3, HIA2IndicatorsRepository.DHIS_ID);
-            columnMappings.put(4, HIA2IndicatorsRepository.DESCRIPTION);
-            columnMappings.put(999, HIA2IndicatorsRepository.CATEGORY);//999 means nothing really, just to hold the column name for categories since category is a row in the hia2 csv
-
-            List<Map<String, String>> csvData = Utils.populateTableFromCSV(context, HIA2IndicatorsRepository.INDICATORS_CSV_FILE, columnMappings);
-            HIA2IndicatorsRepository hIA2IndicatorsRepository = VaccinatorApplication.getInstance().hIA2IndicatorsRepository();
-            hIA2IndicatorsRepository.save(db, csvData);
-
-
+            dumpHIA2IndicatorsCSV(db);
         } catch (Exception e) {
             Log.e(TAG, "upgradeToVersion7Hia2 " + e.getMessage());
         }
@@ -1592,9 +1580,20 @@ public class PathRepository extends Repository {
     private void upgradeToVersion8(SQLiteDatabase db) {
         try {
             db.execSQL(MonthlyTalliesRepository.INDEX_UNIQUE);
-        } catch (Exception e) {
+            dumpHIA2IndicatorsCSV(db);
+        } catch (SQLException e) {
             Log.e(TAG, Log.getStackTraceString(e));
         }
+    }
+
+    private void dumpHIA2IndicatorsCSV(SQLiteDatabase db) {
+        List<Map<String, String>> csvData = Utils.populateTableFromCSV(
+                context,
+                HIA2IndicatorsRepository.INDICATORS_CSV_FILE,
+                HIA2IndicatorsRepository.CSV_COLUMN_MAPPING);
+        HIA2IndicatorsRepository hIA2IndicatorsRepository = VaccinatorApplication.getInstance()
+                .hIA2IndicatorsRepository();
+        hIA2IndicatorsRepository.save(db, csvData);
     }
 
 }
