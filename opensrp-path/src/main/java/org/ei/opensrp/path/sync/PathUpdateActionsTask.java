@@ -185,6 +185,7 @@ public class PathUpdateActionsTask {
         pushECToServer();
         pushReportsToServer();
     }
+
     public void pushECToServer() {
         boolean keepSyncing = true;
         int limit = 50;
