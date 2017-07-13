@@ -55,7 +55,7 @@ public interface JsonApi {
 
     ArrayList<View> getFormDataViews();
 
-    JSONObject getObjectUsingAddress(String[] address) throws Exception;
+    JSONObject getObjectUsingAddress(String[] address) throws JSONException;
 
     void refreshConstraints(String parentKey, String childKey);
 
