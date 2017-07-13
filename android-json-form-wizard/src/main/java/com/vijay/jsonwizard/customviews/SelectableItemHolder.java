@@ -36,7 +36,6 @@ public class SelectableItemHolder extends TreeNode.BaseNodeViewHolder<String> {
 
         this.context = context;
         this.levelLabel = levelLabel;
-
     }
 
     @Override

@@ -486,7 +486,8 @@ public class JsonFormActivity extends AppCompatActivity implements JsonApi {
         return result;
     }
 
-    private JSONObject getObjectUsingAddress(String[] address) throws Exception {
+    @Override
+    public JSONObject getObjectUsingAddress(String[] address) throws JSONException {
         if (address != null && address.length == 2) {
             JSONArray fields = fetchFields(mJSONObject.getJSONObject(address[0]));
             for (int i = 0; i < fields.length(); i++) {

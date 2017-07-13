@@ -14,11 +14,11 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import org.ei.opensrp.path.R;
-import org.ei.opensrp.path.activity.HIA2ReportsActivity;
 import org.ei.opensrp.path.activity.ReportSummaryActivity;
 import org.ei.opensrp.path.adapter.ExpandedListAdapter;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.MonthlyTally;
+import org.ei.opensrp.path.receiver.Hia2ServiceBroadcastReceiver;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,7 +36,8 @@ import util.Utils;
 /**
  * Created by coder on 6/7/17.
  */
-public class SentMonthlyFragment extends Fragment {
+public class SentMonthlyFragment extends Fragment
+        implements Hia2ServiceBroadcastReceiver.Hia2ServiceListener {
     private static final String TAG = SentMonthlyFragment.class.getCanonicalName();
     private static final SimpleDateFormat MONTH_YEAR_FORMAT = new SimpleDateFormat("MMMM yyyy");
     private ExpandableListView expandableListView;
@@ -54,7 +55,19 @@ public class SentMonthlyFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         Utils.startAsyncTask(new GetSentTalliesTask(), null);
+        Hia2ServiceBroadcastReceiver.getInstance().addHia2ServiceListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Hia2ServiceBroadcastReceiver.getInstance().removeHia2ServiceListener(this);
     }
 
     @Nullable
@@ -79,7 +92,6 @@ public class SentMonthlyFragment extends Fragment {
     }
 
     /**
-     *
      * @param map
      */
     @SuppressWarnings("unchecked")
@@ -123,7 +135,8 @@ public class SentMonthlyFragment extends Fragment {
         expandableListAdapter.notifyDataSetChanged();
     }
 
-    private LinkedHashMap<String, List<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>> formatListData() {
+    private LinkedHashMap<String,
+            List<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>> formatListData() {
         Map<String, List<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>> map = new HashMap<>();
         SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
         SimpleDateFormat dateSentFormat = new SimpleDateFormat("M/d/yy");
@@ -160,8 +173,9 @@ public class SentMonthlyFragment extends Fragment {
             List<ExpandedListAdapter.ItemData<Pair<String, String>, Date>> list = map.get(sortMap.get(curKey));
             Collections.sort(list, new Comparator<ExpandedListAdapter.ItemData<Pair<String, String>, Date>>() {
                 @Override
-                public int compare(ExpandedListAdapter.ItemData<Pair<String, String>, Date> lhs, ExpandedListAdapter.ItemData<Pair<String, String>, Date> rhs) {
-                    return lhs.getTagData().compareTo(rhs.getTagData());
+                public int compare(ExpandedListAdapter.ItemData<Pair<String, String>, Date> lhs,
+                                   ExpandedListAdapter.ItemData<Pair<String, String>, Date> rhs) {
+                    return rhs.getTagData().compareTo(lhs.getTagData());
                 }
             });
             sortedMap.put(sortMap.get(curKey), list);
@@ -197,6 +211,13 @@ public class SentMonthlyFragment extends Fragment {
             }
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
+        }
+    }
+
+    @Override
+    public void onServiceFinish(String actionType) {
+        if (Hia2ServiceBroadcastReceiver.TYPE_GENERATE_MONTHLY_REPORT.equals(actionType)) {
+            Utils.startAsyncTask(new GetSentTalliesTask(), null);
         }
     }
 
