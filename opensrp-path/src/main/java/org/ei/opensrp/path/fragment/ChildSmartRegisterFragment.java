@@ -279,6 +279,9 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
     }
 
     public void initializeQueries() {
+
+        (new PathRepository(getActivity())).getClientByBaseEntityId("4a5e6964-c074-4fa7-acd2-e305efcf6a65")
+
         String tableName = PathConstants.CHILD_TABLE_NAME;
         String parentTableName = PathConstants.MOTHER_TABLE_NAME;
 
