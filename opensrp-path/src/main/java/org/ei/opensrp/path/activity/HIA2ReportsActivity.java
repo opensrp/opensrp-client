@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -214,11 +213,7 @@ public class HIA2ReportsActivity extends BaseActivity {
                     Map<String, String> result = JsonFormUtils.sectionFields(monthlyDraftForm);
                     boolean saveClicked = false;
                     if (result.containsKey(FORM_KEY_CONFIRM)) {
-                        try {
-                            saveClicked = Boolean.valueOf(result.get(FORM_KEY_CONFIRM));
-                        } catch (Exception e) {
-                            Log.e(TAG, Log.getStackTraceString(e));
-                        }
+                        saveClicked = Boolean.valueOf(result.get(FORM_KEY_CONFIRM));
                         result.remove(FORM_KEY_CONFIRM);
                     }
                     VaccinatorApplication.getInstance().monthlyTalliesRepository()
@@ -522,24 +517,16 @@ public class HIA2ReportsActivity extends BaseActivity {
     }
 
     public void showProgressDialog() {
-        try {
-            if (progressDialog == null) {
-                initializeProgressDialog();
-            }
-
-            progressDialog.show();
-        } catch (Exception e) {
-            Log.e(TAG, Log.getStackTraceString(e));
+        if (progressDialog == null) {
+            initializeProgressDialog();
         }
+
+        progressDialog.show();
     }
 
     public void hideProgressDialog() {
-        try {
-            if (progressDialog != null) {
-                progressDialog.dismiss();
-            }
-        } catch (Exception e) {
-            Log.e(TAG, Log.getStackTraceString(e));
+        if (progressDialog != null) {
+            progressDialog.dismiss();
         }
     }
 }
