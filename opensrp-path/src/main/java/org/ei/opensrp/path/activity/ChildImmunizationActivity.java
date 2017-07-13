@@ -571,9 +571,8 @@ public class ChildImmunizationActivity extends BaseActivity
 
         recordWeight.setBackground(getResources().getDrawable(R.drawable.record_weight_bg));
         if (weightWrapper.getDbKey() != null && weightWrapper.getWeight() != null) {
-            String weight = weightWrapper.getWeight().toString();
             TextView recordWeightText = (TextView) findViewById(R.id.record_weight_text);
-            recordWeightText.setText(weight.trim() + " kg");
+            recordWeightText.setText(Utils.kgStringSuffix(weightWrapper.getWeight()));
 
             ImageView recordWeightCheck = (ImageView) findViewById(R.id.record_weight_check);
             recordWeightCheck.setVisibility(View.VISIBLE);

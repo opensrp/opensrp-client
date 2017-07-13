@@ -56,7 +56,7 @@ public class WidgetFactory {
         int i = 0;
         for (Map.Entry<Long, Pair<String, String>> entry : last_five_weight_map.entrySet()) {
             Pair<String, String> pair = entry.getValue();
-            View view = createTableRowForWeight(inflater, tableLayout, "" + pair.first, "" + pair.second, editenabled.get(i), listeners.get(i));
+            View view = createTableRowForWeight(inflater, tableLayout, pair.first, pair.second, editenabled.get(i), listeners.get(i));
 
             tableLayout.addView(view);
             i++;

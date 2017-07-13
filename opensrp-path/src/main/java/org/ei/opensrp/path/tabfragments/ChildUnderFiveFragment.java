@@ -144,7 +144,7 @@ public class ChildUnderFiveFragment extends Fragment {
                 }
             }
             if (!formattedAge.equalsIgnoreCase("0d")) {
-                weightmap.put(weight.getId(), Pair.create(formattedAge, weightlist.get(i).getKg() + " kg"));
+                weightmap.put(weight.getId(), Pair.create(formattedAge, Utils.kgStringSuffix(weight.getKg())));
 
                 ////////////////////////check 3 months///////////////////////////////
                 boolean less_than_three_months_event_created = false;
