@@ -196,8 +196,7 @@ public class DailyTalliesRepository extends BaseRepository {
             endDate.add(Calendar.DATE, -1);
 
             cursor = getPathRepository().getReadableDatabase().query(TABLE_NAME, TABLE_COLUMNS,
-                    COLUMN_DAY + " >= " + startDate.getTimeInMillis() +
-                            " AND " + COLUMN_DAY + " <= " + endDate.getTimeInMillis(),
+                    getDayBetweenDatesSelection(startDate.getTime(), endDate.getTime()),
                     null, null, null, null, null);
             if (cursor != null && cursor.getCount() > 0) {
                 for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
@@ -224,18 +223,9 @@ public class DailyTalliesRepository extends BaseRepository {
         return talliesFromMonth;
     }
 
-    public List<DailyTally> findByProviderIdAndDay(String providerId, String date) {
-        List<DailyTally> tallies = new ArrayList<>();
-        try {
-            Cursor cursor = getPathRepository().getReadableDatabase().query(TABLE_NAME, TABLE_COLUMNS,
-                    COLUMN_DAY + " = Datetime(?) AND " + COLUMN_PROVIDER_ID + " = ?",
-                    new String[]{date, providerId}, null, null, null, null);
-            tallies = readAllDataElements(cursor);
-        } catch (SQLException e) {
-            Log.e(TAG, Log.getStackTraceString(e));
-        }
-
-        return tallies;
+    private String getDayBetweenDatesSelection(Date startDate, Date endDate) {
+        return COLUMN_DAY + " >= " + String.valueOf(startDate.getTime()) +
+                " AND " + COLUMN_DAY + " <= " + String.valueOf(endDate.getTime());
     }
 
     public HashMap<String, ArrayList<DailyTally>> findAll(SimpleDateFormat dateFormat, Date minDate, Date maxDate) {
@@ -246,8 +236,7 @@ public class DailyTalliesRepository extends BaseRepository {
                     .hIA2IndicatorsRepository().findAll();
             cursor = getPathRepository().getReadableDatabase()
                     .query(TABLE_NAME, TABLE_COLUMNS,
-                            COLUMN_DAY + " >= " + minDate.getTime() + " AND " +
-                                    COLUMN_DAY + " <= " + maxDate.getTime(),
+                            getDayBetweenDatesSelection(minDate, maxDate),
                             null, null, null, COLUMN_DAY + " DESC", null);
             if (cursor != null && cursor.getCount() > 0) {
                 for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {

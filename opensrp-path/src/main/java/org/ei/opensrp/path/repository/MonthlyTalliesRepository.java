@@ -126,10 +126,8 @@ public class MonthlyTalliesRepository extends BaseRepository {
                 List<Date> unsentMonths = new ArrayList<>();
                 for (String curMonthString : allTallyMonths) {
                     Date curMonth = DF_YYYYMM.parse(curMonthString);
-                    if (startDate != null && curMonth.getTime() < startDate.getTime()) {
-                        continue;
-                    }
-                    if (endDate != null && curMonth.getTime() > endDate.getTime()) {
+                    if ((startDate != null && curMonth.getTime() < startDate.getTime())
+                            || (endDate != null && curMonth.getTime() > endDate.getTime())) {
                         continue;
                     }
                     unsentMonths.add(curMonth);
@@ -431,15 +429,9 @@ public class MonthlyTalliesRepository extends BaseRepository {
                     String curMonth = cursor.getString(cursor.getColumnIndex(COLUMN_MONTH));
                     Date month = DF_YYYYMM.parse(curMonth);
 
-                    if (startDate != null) {
-                        if (month.getTime() < startDate.getTime()) {
-                            continue;
-                        }
-                    }
-                    if (endDate != null) {
-                        if (month.getTime() > endDate.getTime()) {
-                            continue;
-                        }
+                    if ((startDate != null && month.getTime() < startDate.getTime())
+                            || (endDate != null && month.getTime() > endDate.getTime())) {
+                        continue;
                     }
 
                     Long dateStarted = cursor.getLong(cursor.getColumnIndex(COLUMN_CREATED_AT));
