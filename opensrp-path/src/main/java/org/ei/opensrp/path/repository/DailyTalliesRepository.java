@@ -147,18 +147,8 @@ public class DailyTalliesRepository extends BaseRepository {
             cursor = getPathRepository().getReadableDatabase().query(true, TABLE_NAME,
                     new String[]{COLUMN_DAY},
                     selectionArgs, null, null, null, null, null);
-            if (cursor != null && cursor.getCount() > 0) {
-                List<String> months = new ArrayList<>();
-                for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                    Date curMonth = new Date(cursor.getLong(0));
-                    String month = dateFormat.format(curMonth);
-                    if (!months.contains(month)) {
-                        months.add(month);
-                    }
-                }
 
-                return months;
-            }
+            return getUniqueMonths(dateFormat, cursor);
         } catch (SQLException e) {
             Log.e(TAG, Log.getStackTraceString(e));
         } finally {
@@ -168,6 +158,28 @@ public class DailyTalliesRepository extends BaseRepository {
         }
 
         return new ArrayList<>();
+    }
+
+    /**
+     * Returns a list of unique months formatted in the provided {@link SimpleDateFormat}
+     *
+     * @param dateFormat    The date format to format the months
+     * @param cursor        Cursor to get the dates from
+     * @return
+     */
+    private List<String> getUniqueMonths(SimpleDateFormat dateFormat, Cursor cursor) {
+        List<String> months = new ArrayList<>();
+        if (cursor != null && cursor.getCount() > 0) {
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                Date curMonth = new Date(cursor.getLong(0));
+                String month = dateFormat.format(curMonth);
+                if (!months.contains(month)) {
+                    months.add(month);
+                }
+            }
+        }
+
+        return months;
     }
 
     public Map<Long, List<DailyTally>> findTalliesInMonth(Date month) {
