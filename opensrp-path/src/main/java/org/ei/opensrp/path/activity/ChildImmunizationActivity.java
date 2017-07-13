@@ -25,6 +25,8 @@ import com.simprints.libsimprints.Identification;
 import com.simprints.libsimprints.Registration;
 import com.simprints.libsimprints.SimHelper;
 
+import net.sqlcipher.database.SQLiteDatabase;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.ei.opensrp.commonregistry.AllCommonsRepository;
@@ -118,6 +120,7 @@ public class ChildImmunizationActivity extends BaseActivity
     private static final HashMap<String, String> COMBINED_VACCINES_MAP;
     private boolean bcgScarNotificationShown;
     private boolean weightNotificationShown;
+    private String guID="";
 
     static {
         COMBINED_VACCINES = new ArrayList<>();
@@ -192,30 +195,26 @@ public class ChildImmunizationActivity extends BaseActivity
                     data.getParcelableExtra(Constants.SIMPRINTS_REGISTRATION);
             String uniqueId = registration.getGuid();
             Toast.makeText(this, uniqueId, Toast.LENGTH_LONG).show();
-            //etEnrollmentStatus.setText(uniqueId);
-            Log.i("onActivityResult", uniqueId);
-        } else if (requestCode==2){
-            // We can create a list of Identifications from LibSimprints by creating
-            // a Identification object from the returned Intent data.
-            ArrayList<Identification> identifications = data.getParcelableArrayListExtra(Constants.SIMPRINTS_IDENTIFICATIONS);
-            for (Identification id : identifications) {
-                Toast.makeText(this,  id.getGuid(), Toast.LENGTH_LONG).show();
-                Log.i("MainActivity,id:",id.getGuid()+"|Confidence:"+id.getConfidence()+"|Tier:"+id.getTier());
-                id.getGuid();
-                id.getConfidence();
-                id.getTier();
-            }
+            Log.d(TAG, uniqueId);
+            guID=uniqueId;
+
         }
     }
 
     public void enrollClient(View view){
         //Toast.makeText(this,"Enrollment Started!!",Toast.LENGTH_LONG).show();
-        Log.i("enrollClient","Enrollment Started");
+        Log.d("enrollClient","Enrollment Started");
         SimHelper simHelper = new SimHelper("4b725213-d5e8-4d70-a4cc-98edbd8bdcb1", "mPower");
         Intent intent = simHelper.register("opensrp");
         startActivityForResult(intent, 1); // 1 is your requestCode for the callback
+        Log.d(TAG,"guid:" + guID + ", entityid:" + childDetails.entityId() );
+        updateFingerPrintGuid(guID,childDetails.entityId());
     }
 
+    public void  updateFingerPrintGuid(String guid, String entityid){
+        final WeightRepository weightRepository = VaccinatorApplication.getInstance().weightRepository();
+        weightRepository.updateFingerPrintGuId(guid, entityid);
+    }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

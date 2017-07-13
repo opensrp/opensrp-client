@@ -227,7 +227,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/advanced_search_bg"
+                    android:background="@mipmap/ic_fingerprint"
                     android:paddingBottom="15dp"
                     android:paddingTop="15dp"
                     android:text="Identify"

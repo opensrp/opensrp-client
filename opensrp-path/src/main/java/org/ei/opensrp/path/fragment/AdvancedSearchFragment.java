@@ -120,6 +120,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     private static final String MOTHER_GUARDIAN_PHONE_NUMBER = "mother_contact_phone_number";
     private static final String START_DATE = "start_date";
     private static final String END_DATE = "end_date";
+    private static String FINGER_PRINT_GUID = "";
 
     AdvancedSearchPaginatedCursorAdapter clientAdapter;
 
@@ -140,6 +141,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
                 SimHelper simHelper = new SimHelper("4b725213-d5e8-4d70-a4cc-98edbd8bdcb1", "mPower");
                 Intent intent = simHelper.identify("opensrp");
                 startActivityForResult(intent, 2);
+                search(view);
             }
         });
         return view;
@@ -223,8 +225,9 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
         // We can pull the unique ID from LibSimprints by creating a registration
         // object from the returned Intent data, and retrieving the GUID.
         //super.onActivityResult(requestCode,resultCode,data);
+        double confidence=0.0 ;
 
-        Log.d("---------------","onAcitivity fired");
+        Log.d("AdvancedSearchFragment","onAcitivity fired");
         if (requestCode==1) {
             Registration registration =
                     data.getParcelableExtra(Constants.SIMPRINTS_REGISTRATION);
@@ -236,10 +239,14 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
             // a Identification object from the returned Intent data.
             ArrayList<Identification> identifications = data.getParcelableArrayListExtra(Constants.SIMPRINTS_IDENTIFICATIONS);
             for (Identification id : identifications) {
-                Log.d("MainActivity,id:",id.getGuid()+"|Confidence:"+id.getConfidence()+"|Tier:"+id.getTier());
+                Log.d("AdvancedSearchFragment","guid:"+id.getGuid()+"|Confidence:"+id.getConfidence()+"|Tier:"+id.getTier());
                 id.getGuid();
                 id.getConfidence();
                 id.getTier();
+                if(id.getConfidence()>confidence){
+                    confidence = id.getConfidence();
+                    FINGER_PRINT_GUID = id.getGuid();
+                }
             }
         }
     }
@@ -415,6 +422,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
     }
 
     public void search(final View view) {
+        Log.d(getClass().getName(), "search started:"+ FINGER_PRINT_GUID);
         android.util.Log.i(getClass().getName(), "Hiding Keyboard " + DateTime.now().toString());
         ((ChildSmartRegisterActivity) getActivity()).hideKeyboard();
         view.setClickable(false);
@@ -518,6 +526,16 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
                 editMap.remove(tableName + "." + LOST_TO_FOLLOW_UP);
             }
 
+        }
+
+        if (StringUtils.isNotBlank(FINGER_PRINT_GUID))
+        {
+            searchCriteriaString += " FINGER_PRINT_GUID: \"" + bold(FINGER_PRINT_GUID) + "\",";
+            String key = "fingerprint_guid";
+            if (!outOfArea) {
+                key = tableName + "." + "fingerprint_guid";
+            }
+            editMap.put(key, FINGER_PRINT_GUID.trim());
         }
 
         String zeirIdString = zeirId.getText().toString();
@@ -977,6 +995,8 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
         } else if (StringUtils.isNotEmpty(startDate.getText().toString())) {
             hasSearchParams = true;
         } else if (StringUtils.isNotEmpty(endDate.getText().toString())) {
+            hasSearchParams = true;
+        }else if (StringUtils.isNotEmpty(FINGER_PRINT_GUID.toString())) {
             hasSearchParams = true;
         }
         return hasSearchParams;

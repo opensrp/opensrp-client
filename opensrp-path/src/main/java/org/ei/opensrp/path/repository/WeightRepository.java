@@ -111,6 +111,20 @@ public class WeightRepository extends BaseRepository {
         }
     }
 
+    public void updateFingerPrintGuId( String guid, String id) {
+        if (guid == null) {
+            return;
+        }
+        try {
+            SQLiteDatabase database = getPathRepository().getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("fingerprint_guid", guid);
+            database.update("ec_child", values, " id = ?", new String[]{id});
+            Log.d(TAG,"saved successfully guid:" + guid + ", entityid:" + id );
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
+    }
     public void update(SQLiteDatabase database, Weight weight) {
         if (weight == null || weight.getId() == null) {
             return;
