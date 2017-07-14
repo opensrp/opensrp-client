@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by coder on 6/6/17.
  */
-public class Report{
+public class Report {
 
     @JsonProperty
     private String baseEntityId;
@@ -37,17 +37,17 @@ public class Report{
     private Long version;
 
     @JsonProperty
-    private int duration=0;
+    private int duration = 0;
 
     @JsonProperty
-    private List<JSONObject> hia2Indicators;
+    private List<ReportHia2Indicator> hia2Indicators;
 
     public Report() {
     }
 
     public Report(String baseEntityId, String locationId, DateTime reportDate, String reportType, String formSubmissionId,
-                  String providerId, String status, long version, int duration, List<JSONObject> hia2Indicators) {
-        this.baseEntityId=baseEntityId;
+                  String providerId, String status, long version, int duration, List<ReportHia2Indicator> hia2Indicators) {
+        this.baseEntityId = baseEntityId;
         this.locationId = locationId;
         this.reportDate = reportDate;
         this.reportType = reportType;
@@ -139,14 +139,15 @@ public class Report{
     }
 
 
-    public List<JSONObject> getHia2Indicators() {
+    public List<ReportHia2Indicator> getHia2Indicators() {
         return hia2Indicators;
     }
 
 
-    public void setHia2Indicators(List<JSONObject> hia2Indicators) {
+    public void setHia2Indicators(List<ReportHia2Indicator> hia2Indicators) {
         this.hia2Indicators = hia2Indicators;
     }
+
     public String getBaseEntityId() {
         return baseEntityId;
     }
