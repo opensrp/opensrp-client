@@ -86,8 +86,7 @@ public class StockRepository extends BaseRepository {
         if (stock.getId() == null) {
             stock.setId(database.insert(stock_TABLE_NAME, null, createValuesFor(stock)));
         } else {
-            //mark the vaccine as unsynced for processing as an updated event
-            stock.setSyncStatus(TYPE_Unsynced);
+            //mark the vaccine as unsynced for processing as an updated stock
             String idSelection = ID_COLUMN + " = ?";
             database.update(stock_TABLE_NAME, createValuesFor(stock), idSelection, new String[]{stock.getId().toString()});
         }

@@ -314,7 +314,7 @@ public class PathUpdateActionsTask {
                             stockobject.getInt("value"),
                             stockobject.getLong("date_created"),
                             stockobject.getString("to_from"),
-                            stockobject.has("sync_status") ? stockcontainer.getString("sync_status") : BaseRepository.TYPE_Synced,
+                            BaseRepository.TYPE_Synced,
                             stockobject.getLong("date_updated"),
                             stockobject.getString("vaccine_type_id"));
                     Stock_arrayList.add(stock);
