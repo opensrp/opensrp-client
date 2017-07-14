@@ -612,10 +612,10 @@ public class Utils {
 
         try {
             header = header.contains("\"") ? header.replaceAll("\"", "") : header;
-            int length = header.length()-1;
+            int length = header.length() - 1;
             for (int i = length; i > 0; i--) {
                 if (header.charAt(i) != ',') {
-                    header=header.substring(0,i+1);
+                    header = header.substring(0, i + 1);
                     break;
                 }
             }
@@ -623,5 +623,13 @@ public class Utils {
         } catch (Exception ex) {
             return header;
         }
+    }
+
+    public static String kgStringSuffix(Float weight) {
+        return String.format("%s kg", weight);
+    }
+
+    public static String kgStringSuffix(String weight) {
+        return String.format("%s kg", weight);
     }
 }

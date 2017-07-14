@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,7 +118,7 @@ public class ChildUnderFiveFragment extends Fragment {
     }
 
     private void createWeightLayout(LinearLayout fragmentContainer, boolean editmode) {
-        LinkedHashMap<String, String> weightmap = new LinkedHashMap<>();
+        LinkedHashMap<Long, Pair<String, String>> weightmap = new LinkedHashMap<>();
         ArrayList<Boolean> weighteditmode = new ArrayList<Boolean>();
         ArrayList<View.OnClickListener> listeners = new ArrayList<View.OnClickListener>();
 
@@ -127,13 +128,11 @@ public class ChildUnderFiveFragment extends Fragment {
 
 
         for (int i = 0; i < weightlist.size(); i++) {
-//            String formattedDob = "";
+            Weight weight = weightlist.get(i);
             String formattedAge = "";
-            if (weightlist.get(i).getDate() != null) {
+            if (weight.getDate() != null) {
 
-                Date weighttaken = weightlist.get(i).getDate();
-                ;
-//                formattedDob = DATE_FORMAT.format(weighttaken);
+                Date weighttaken = weight.getDate();
                 String birthdate = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
                 DateTime birthday = new DateTime(birthdate);
                 Date birth = birthday.toDate();
@@ -145,11 +144,11 @@ public class ChildUnderFiveFragment extends Fragment {
                 }
             }
             if (!formattedAge.equalsIgnoreCase("0d")) {
-                weightmap.put(formattedAge, weightlist.get(i).getKg() + " kg");
+                weightmap.put(weight.getId(), Pair.create(formattedAge, Utils.kgStringSuffix(weight.getKg())));
 
                 ////////////////////////check 3 months///////////////////////////////
                 boolean less_than_three_months_event_created = false;
-                Weight weight = weightlist.get(i);
+
                 org.ei.opensrp.path.db.Event event = null;
                 PathRepository db = (PathRepository) VaccinatorApplication.getInstance().getRepository();
                 if (weight.getEventId() != null) {
@@ -185,7 +184,7 @@ public class ChildUnderFiveFragment extends Fragment {
 
         }
         if (weightmap.size() < 5) {
-            weightmap.put(DateUtils.getDuration(0), Utils.getValue(Detailsmap, "Birth_Weight", true) + " kg");
+            weightmap.put(0l, Pair.create(DateUtils.getDuration(0), Utils.getValue(Detailsmap, "Birth_Weight", true) + " kg"));
             weighteditmode.add(false);
             listeners.add(null);
         }

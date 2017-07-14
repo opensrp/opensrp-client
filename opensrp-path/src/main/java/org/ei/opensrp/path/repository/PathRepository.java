@@ -1581,8 +1581,12 @@ public class PathRepository extends Repository {
         try {
             db.execSQL(MonthlyTalliesRepository.INDEX_UNIQUE);
             dumpHIA2IndicatorsCSV(db);
+
+            // Recurring service json changed. update
+            RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
+            DatabaseUtils.populateRecurringServices(context, db, recurringServiceTypeRepository);
         } catch (SQLException e) {
-            Log.e(TAG, Log.getStackTraceString(e));
+            Log.e(TAG, "upgradeToVersion8 " + Log.getStackTraceString(e));
         }
     }
 

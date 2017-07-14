@@ -1,23 +1,18 @@
 package org.ei.opensrp.path.viewComponents;
 
-import android.util.TypedValue;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
-import org.ei.opensrp.Context;
-import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.path.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -53,15 +48,15 @@ public class WidgetFactory {
         return rows;
     }
 
-    public void createWeightWidget(LayoutInflater inflater, LinearLayout fragmentContainer, HashMap<String, String> last_five_weight_map, ArrayList<View.OnClickListener> listeners, ArrayList<Boolean> editenabled) {
+    public void createWeightWidget(LayoutInflater inflater, LinearLayout fragmentContainer, HashMap<Long, Pair<String, String>> last_five_weight_map, ArrayList<View.OnClickListener> listeners, ArrayList<Boolean> editenabled) {
 
         LinearLayout tableLayout = (LinearLayout) fragmentContainer.findViewById(R.id.weightvalues);
         tableLayout.removeAllViews();
-        ViewGroup.LayoutParams weightvaluesparams = tableLayout.getLayoutParams();
 
         int i = 0;
-        for (Map.Entry<String, String> entry : last_five_weight_map.entrySet()) {
-            View view = createTableRowForWeight(inflater, tableLayout, "" + entry.getKey(), "" + entry.getValue(), editenabled.get(i), listeners.get(i));
+        for (Map.Entry<Long, Pair<String, String>> entry : last_five_weight_map.entrySet()) {
+            Pair<String, String> pair = entry.getValue();
+            View view = createTableRowForWeight(inflater, tableLayout, pair.first, pair.second, editenabled.get(i), listeners.get(i));
 
             tableLayout.addView(view);
             i++;

@@ -987,53 +987,6 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         }
     }
 
-    private void showWeightDialog() {
-        FragmentTransaction ft = this.getFragmentManager().beginTransaction();
-        android.app.Fragment prev = this.getFragmentManager().findFragmentByTag(DIALOG_TAG);
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.addToBackStack(null);
-
-
-        String childName = constructChildName();
-        String gender = getValue(childDetails.getColumnmaps(), "gender", true) + " " + getValue(childDetails, "gender", true);
-        String motherFirstName = getValue(childDetails.getColumnmaps(), "mother_first_name", true);
-        if (StringUtils.isBlank(childName) && StringUtils.isNotBlank(motherFirstName)) {
-            childName = "B/o " + motherFirstName.trim();
-        }
-        String zeirId = getValue(childDetails.getColumnmaps(), "zeir_id", false);
-        String duration = "";
-        String dobString = getValue(childDetails.getColumnmaps(), "dob", false);
-        if (StringUtils.isNotBlank(dobString)) {
-            DateTime dateTime = new DateTime(getValue(childDetails.getColumnmaps(), "dob", false));
-            duration = DateUtils.getDuration(dateTime);
-        }
-
-        Photo photo = getProfilePhotoByClient();
-
-        WeightWrapper weightWrapper = new WeightWrapper();
-        weightWrapper.setId(childDetails.entityId());
-        WeightRepository wp = VaccinatorApplication.getInstance().weightRepository();
-        List<Weight> weightlist = wp.findLast5(childDetails.entityId());
-        if (weightlist.size() > 0) {
-            weightWrapper.setWeight(weightlist.get(0).getKg());
-            weightWrapper.setUpdatedWeightDate(new DateTime(weightlist.get(0).getDate()), false);
-//            weightWrapper.setWeight(weight.getKg());
-            weightWrapper.setDbKey(weightlist.get(0).getId());
-        }
-        weightWrapper.setGender(gender.toString());
-        weightWrapper.setPatientName(childName);
-        weightWrapper.setPatientNumber(zeirId);
-        weightWrapper.setPatientAge(duration);
-        weightWrapper.setPhoto(photo);
-        weightWrapper.setPmtctStatus(getValue(childDetails.getColumnmaps(), "pmtct_status", false));
-
-        EditWeightDialogFragment editWeightDialogFragment = EditWeightDialogFragment.newInstance(this, weightWrapper);
-        editWeightDialogFragment.show(ft, DIALOG_TAG);
-
-    }
-
     public void showWeightDialog(int i) {
         FragmentTransaction ft = this.getFragmentManager().beginTransaction();
         android.app.Fragment prev = this.getFragmentManager().findFragmentByTag(DIALOG_TAG);
@@ -1044,7 +997,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
 
 
         String childName = constructChildName();
-        String gender = getValue(childDetails.getColumnmaps(), "gender", true) + " " + getValue(childDetails, "gender", true);
+        String gender = getValue(childDetails.getColumnmaps(), "gender", true);
         String motherFirstName = getValue(childDetails.getColumnmaps(), "mother_first_name", true);
         if (StringUtils.isBlank(childName) && StringUtils.isNotBlank(motherFirstName)) {
             childName = "B/o " + motherFirstName.trim();
@@ -1063,15 +1016,13 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         weightWrapper.setId(childDetails.entityId());
         WeightRepository wp = getVaccinatorApplicationInstance().weightRepository();
         List<Weight> weightlist = wp.findLast5(childDetails.entityId());
-//        if (weightlist.size() > i) {
         if (!weightlist.isEmpty()) {
             weightWrapper.setWeight(weightlist.get(i).getKg());
             weightWrapper.setUpdatedWeightDate(new DateTime(weightlist.get(i).getDate()), false);
-//            weightWrapper.setWeight(weight.getKg());
             weightWrapper.setDbKey(weightlist.get(i).getId());
         }
-//        }
-        weightWrapper.setGender(gender.toString());
+
+        weightWrapper.setGender(gender);
         weightWrapper.setPatientName(childName);
         weightWrapper.setPatientNumber(zeirId);
         weightWrapper.setPatientAge(duration);
@@ -1150,7 +1101,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                     for (int i = 0; i < fields.length(); i++) {
                         if (fields.getJSONObject(i).getString("key").equals("Reaction_Vaccine")) {
                             boolean result = insertVaccinesGivenAsOptions(fields.getJSONObject(i));
-                            if (result == false) {
+                            if (!result) {
                                 return null;
                             }
                         }
