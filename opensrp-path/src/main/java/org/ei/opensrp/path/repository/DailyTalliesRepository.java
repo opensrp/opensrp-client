@@ -254,7 +254,8 @@ public class DailyTalliesRepository extends BaseRepository {
                 for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                     DailyTally curTally = extractDailyTally(indicatorMap, cursor);
                     if (curTally != null) {
-                        if (!tallies.containsKey(dateFormat.format(curTally.getDay()))) {
+                        if (!tallies.containsKey(dateFormat.format(curTally.getDay())) ||
+                                tallies.get(dateFormat.format(curTally.getDay())) == null) {
                             tallies.put(dateFormat.format(curTally.getDay()),
                                     new ArrayList<DailyTally>());
                         }
