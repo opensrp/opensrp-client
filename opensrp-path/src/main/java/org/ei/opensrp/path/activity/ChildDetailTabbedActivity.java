@@ -19,11 +19,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -648,7 +651,6 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_GET_JSON) {
             if (resultCode == RESULT_OK) {
-
                 try {
                     String jsonString = data.getStringExtra("json");
                     Log.d("JSONResult", jsonString);
@@ -658,7 +660,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
 
                     JSONObject form = new JSONObject(jsonString);
                     if (form.getString("encounter_type").equals("Death")) {
-                        JsonFormUtils.saveReportDeceased(this, getOpenSRPContext(), jsonString, allSharedPreferences.fetchRegisteredANM(), location_name, childDetails.entityId());
+                        confirmReportDeceased(jsonString, allSharedPreferences);
                     } else if (form.getString("encounter_type").equals("Birth Registration")) {
                         JsonFormUtils.editsave(this, getOpenSRPContext(), jsonString, allSharedPreferences.fetchRegisteredANM(), "Child_Photo", "child", "mother");
                     } else if (form.getString("encounter_type").equals("AEFI")) {
@@ -681,6 +683,66 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                 updateProfilePicture(gender);
             }
         }
+    }
+
+    private void saveReportDeceasedJson(String jsonString, AllSharedPreferences allSharedPreferences) {
+
+        JsonFormUtils.saveReportDeceased(this, getOpenSRPContext(), jsonString, allSharedPreferences.fetchRegisteredANM(), location_name, childDetails.entityId());
+
+    }
+
+    private void confirmReportDeceased(final String json, final AllSharedPreferences allSharedPreferences) {
+
+        final AlertDialog builder = new AlertDialog.Builder(this).setCancelable(false).create();
+
+        LayoutInflater inflater = getLayoutInflater();
+        View notificationsLayout = inflater.inflate(R.layout.notification_base, null);
+        notificationsLayout.setVisibility(View.VISIBLE);
+
+        ImageView notificationIcon = (ImageView) notificationsLayout.findViewById(R.id.noti_icon);
+        notificationIcon.setTag("confirm_deceased_icon");
+        notificationIcon.setImageResource(R.drawable.ic_deceased);
+
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) notificationIcon.getLayoutParams();
+        params.setMargins(30, params.topMargin, params.rightMargin, params.bottomMargin);
+        notificationIcon.setLayoutParams(params);
+
+        TextView notificationMessage = (TextView) notificationsLayout.findViewById(R.id.noti_message);
+        notificationMessage.setText(childDetails.getColumnmaps().get("first_name") + " " + childDetails.getColumnmaps().get("last_name") + " marked as deceased");
+        notificationMessage.setTextColor(getResources().getColor(R.color.black));
+
+        Button positiveButton = (Button) notificationsLayout.findViewById(R.id.noti_positive_button);
+        positiveButton.setVisibility(View.VISIBLE);
+        positiveButton.setText(getResources().getString(R.string.undo));
+        positiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                builder.dismiss();
+
+            }
+        });
+
+        Button negativeButton = (Button) notificationsLayout.findViewById(R.id.noti_negative_button);
+        negativeButton.setVisibility(View.VISIBLE);
+        negativeButton.setText(getResources().getString(R.string.confirm_button_label));
+        negativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                saveReportDeceasedJson(json, allSharedPreferences);
+                builder.dismiss();
+
+                Intent intent = new Intent(getApplicationContext(), ChildSmartRegisterActivity.class);
+                intent.putExtra(BaseRegisterActivity.IS_REMOTE_LOGIN, false);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+
+        builder.setView(notificationsLayout);
+        builder.show();
     }
 
     @Override
@@ -1317,7 +1379,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                     .withEventType(JsonFormUtils.encounterType)
                     .withLocationId(allSharedPreferences.fetchCurrentLocality())
                     .withProviderId(allSharedPreferences.fetchRegisteredANM())
-                    .withEntityType("child")
+                    .withEntityType(PathConstants.EntityType.CHILD)
                     .withFormSubmissionId(JsonFormUtils.generateRandomUUIDString())
                     .withDateCreated(new Date());
 

@@ -171,6 +171,7 @@ public class VaccinatorApplication extends DrishtiApplication
             names.add("last_interacted_with");
             names.add("inactive");
             names.add("lost_to_follow_up");
+            names.add(PathConstants.EC_CHILD_TABLE.DOD);
 
             for (VaccineRepo.Vaccine vaccine : vaccines) {
                 names.add("alerts." + VaccinateActionUtils.addHyphen(vaccine.display()));

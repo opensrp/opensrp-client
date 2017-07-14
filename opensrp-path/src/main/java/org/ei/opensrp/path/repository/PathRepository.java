@@ -19,7 +19,6 @@ import org.ei.opensrp.path.db.Client;
 import org.ei.opensrp.path.db.Column;
 import org.ei.opensrp.path.db.ColumnAttribute;
 import org.ei.opensrp.path.db.Event;
-import org.ei.opensrp.path.domain.Vaccine_names;
 import org.ei.opensrp.repository.AlertRepository;
 import org.ei.opensrp.repository.Repository;
 import org.joda.time.DateTime;
@@ -104,7 +103,8 @@ public class PathRepository extends Repository {
                     upgradeToVersion7Hia2(db);
                     break;
                 case 8:
-                    upgradeToVersion8(db);
+                    upgradeToVersion8RecurringServiceUpdate(db);
+                    upgradeToVersion8ReportDeceased(db);
                     break;
                 default:
                     break;
@@ -1431,84 +1431,14 @@ public class PathRepository extends Repository {
      * @param database
      */
     private void upgradeToVersion2(SQLiteDatabase database) {
-        // Create the new ec_child table
         try {
-            String newTableNameSuffix = "_v2";
-            String originalTableName = PathConstants.CHILD_TABLE_NAME;
-
-            Set<String> searchColumns = new LinkedHashSet<String>();
-            searchColumns.add(CommonFtsObject.idColumn);
-            searchColumns.add(CommonFtsObject.relationalIdColumn);
-            searchColumns.add(CommonFtsObject.phraseColumn);
-            searchColumns.add(CommonFtsObject.isClosedColumn);
-
-            String[] mainConditions = this.commonFtsObject.getMainConditions(originalTableName);
-            if (mainConditions != null)
-                for (String mainCondition : mainConditions) {
-                    if (!mainCondition.equals(CommonFtsObject.isClosedColumnName))
-                        searchColumns.add(mainCondition);
-                }
-
-            String[] sortFields = this.commonFtsObject.getSortFields(originalTableName);
-            if (sortFields != null) {
-                for (String sortValue : sortFields) {
-                    if (sortValue.startsWith("alerts.")) {
-                        sortValue = sortValue.split("\\.")[1];
-                    }
-                    searchColumns.add(sortValue);
-                }
-            }
-
-            String joinedSearchColumns = StringUtils.join(searchColumns, ",");
-
-            String searchSql = "create virtual table "
-                    + CommonFtsObject.searchTableName(originalTableName) + newTableNameSuffix
-                    + " using fts4 (" + joinedSearchColumns + ");";
-            Log.d(TAG, "Create query is\n---------------------------\n" + searchSql);
-
-            database.execSQL(searchSql);
-
             // Run insert query
             ArrayList<String> newlyAddedFields = new ArrayList<>();
             newlyAddedFields.add("BCG_2");
             newlyAddedFields.add("inactive");
             newlyAddedFields.add("lost_to_follow_up");
-            ArrayList<String> oldFields = new ArrayList<>();
 
-            for (String curColumn : searchColumns) {
-                curColumn = curColumn.trim();
-                if (curColumn.contains(" ")) {
-                    String[] curColumnParts = curColumn.split(" ");
-                    curColumn = curColumnParts[0];
-                }
-
-                if (!newlyAddedFields.contains(curColumn)) {
-                    oldFields.add(curColumn);
-                } else {
-                    Log.d(TAG, "Skipping field " + curColumn + " from the select query");
-                }
-            }
-
-            String insertQuery = "insert into "
-                    + CommonFtsObject.searchTableName(originalTableName) + newTableNameSuffix
-                    + " (" + StringUtils.join(oldFields, ", ") + ")"
-                    + " select " + StringUtils.join(oldFields, ", ") + " from "
-                    + CommonFtsObject.searchTableName(originalTableName);
-
-            Log.d(TAG, "Insert query is\n---------------------------\n" + insertQuery);
-            database.execSQL(insertQuery);
-
-            // Run the drop query
-            String dropQuery = "drop table " + CommonFtsObject.searchTableName(originalTableName);
-            Log.d(TAG, "Drop query is\n---------------------------\n" + dropQuery);
-            database.execSQL(dropQuery);
-
-            // Run rename query
-            String renameQuery = "alter table "
-                    + CommonFtsObject.searchTableName(originalTableName) + newTableNameSuffix
-                    + " rename to " + CommonFtsObject.searchTableName(originalTableName);
-            Log.d(TAG, "Rename query is\n---------------------------\n" + renameQuery);
-            database.execSQL(renameQuery);
+            addFieldsToFTSTable(database, PathConstants.CHILD_TABLE_NAME, newlyAddedFields);
         } catch (Exception e) {
             Log.e(TAG, "upgradeToVersion2 " + Log.getStackTraceString(e));
         }
@@ -1577,7 +1507,7 @@ public class PathRepository extends Repository {
         }
     }
 
-    private void upgradeToVersion8(SQLiteDatabase db) {
+    private void upgradeToVersion8RecurringServiceUpdate(SQLiteDatabase db) {
         try {
             db.execSQL(MonthlyTalliesRepository.INDEX_UNIQUE);
             dumpHIA2IndicatorsCSV(db);
@@ -1585,9 +1515,102 @@ public class PathRepository extends Repository {
             // Recurring service json changed. update
             RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
             DatabaseUtils.populateRecurringServices(context, db, recurringServiceTypeRepository);
-        } catch (SQLException e) {
-            Log.e(TAG, "upgradeToVersion8 " + Log.getStackTraceString(e));
+
+        } catch (Exception e) {
+            Log.e(TAG, "upgradeToVersion8RecurringServiceUpdate " + Log.getStackTraceString(e));
         }
+    }
+
+    private void upgradeToVersion8ReportDeceased(SQLiteDatabase database) {
+        try {
+
+            String ALTER_ADD_DEATHDATE_COLUMN = "ALTER TABLE " + PathConstants.CHILD_TABLE_NAME + " ADD COLUMN " + PathConstants.EC_CHILD_TABLE.DOD + " VARCHAR";
+            database.execSQL(ALTER_ADD_DEATHDATE_COLUMN);
+
+            ArrayList<String> newlyAddedFields = new ArrayList<>();
+            newlyAddedFields.add(PathConstants.EC_CHILD_TABLE.DOD);
+
+            addFieldsToFTSTable(database, PathConstants.CHILD_TABLE_NAME, newlyAddedFields);
+        } catch (Exception e) {
+            Log.e(TAG, "upgradeToVersion8ReportDeceased " + e.getMessage());
+        }
+    }
+
+    private void addFieldsToFTSTable(SQLiteDatabase database, String originalTableName, List<String> newlyAddedFields) {
+
+        // Create the new ec_child table
+
+        String newTableNameSuffix = "_v2";
+
+        Set<String> searchColumns = new LinkedHashSet<String>();
+        searchColumns.add(CommonFtsObject.idColumn);
+        searchColumns.add(CommonFtsObject.relationalIdColumn);
+        searchColumns.add(CommonFtsObject.phraseColumn);
+        searchColumns.add(CommonFtsObject.isClosedColumn);
+
+        String[] mainConditions = this.commonFtsObject.getMainConditions(originalTableName);
+        if (mainConditions != null)
+            for (String mainCondition : mainConditions) {
+                if (!mainCondition.equals(CommonFtsObject.isClosedColumnName))
+                    searchColumns.add(mainCondition);
+            }
+
+        String[] sortFields = this.commonFtsObject.getSortFields(originalTableName);
+        if (sortFields != null) {
+            for (String sortValue : sortFields) {
+                if (sortValue.startsWith("alerts.")) {
+                    sortValue = sortValue.split("\\.")[1];
+                }
+                searchColumns.add(sortValue);
+            }
+        }
+
+        String joinedSearchColumns = StringUtils.join(searchColumns, ",");
+
+        String searchSql = "create virtual table "
+                + CommonFtsObject.searchTableName(originalTableName) + newTableNameSuffix
+                + " using fts4 (" + joinedSearchColumns + ");";
+        Log.d(TAG, "Create query is\n---------------------------\n" + searchSql);
+
+        database.execSQL(searchSql);
+
+        ArrayList<String> oldFields = new ArrayList<>();
+
+        for (String curColumn : searchColumns) {
+            curColumn = curColumn.trim();
+            if (curColumn.contains(" ")) {
+                String[] curColumnParts = curColumn.split(" ");
+                curColumn = curColumnParts[0];
+            }
+
+            if (!newlyAddedFields.contains(curColumn)) {
+                oldFields.add(curColumn);
+            } else {
+                Log.d(TAG, "Skipping field " + curColumn + " from the select query");
+            }
+        }
+
+        String insertQuery = "insert into "
+                + CommonFtsObject.searchTableName(originalTableName) + newTableNameSuffix
+                + " (" + StringUtils.join(oldFields, ", ") + ")"
+                + " select " + StringUtils.join(oldFields, ", ") + " from "
+                + CommonFtsObject.searchTableName(originalTableName);
+
+        Log.d(TAG, "Insert query is\n---------------------------\n" + insertQuery);
+        database.execSQL(insertQuery);
+
+        // Run the drop query
+        String dropQuery = "drop table " + CommonFtsObject.searchTableName(originalTableName);
+        Log.d(TAG, "Drop query is\n---------------------------\n" + dropQuery);
+        database.execSQL(dropQuery);
+
+        // Run rename query
+        String renameQuery = "alter table "
+                + CommonFtsObject.searchTableName(originalTableName) + newTableNameSuffix
+                + " rename to " + CommonFtsObject.searchTableName(originalTableName);
+        Log.d(TAG, "Rename query is\n---------------------------\n" + renameQuery);
+        database.execSQL(renameQuery);
+
     }
 
     private void dumpHIA2IndicatorsCSV(SQLiteDatabase db) {

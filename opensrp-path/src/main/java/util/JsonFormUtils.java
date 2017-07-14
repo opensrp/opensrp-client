@@ -1,6 +1,7 @@
 package util;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +24,7 @@ import org.ei.opensrp.clientandeventmodel.DateUtil;
 import org.ei.opensrp.clientandeventmodel.Event;
 import org.ei.opensrp.clientandeventmodel.FormEntityConstants;
 import org.ei.opensrp.clientandeventmodel.Obs;
+import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.domain.ProfileImage;
 import org.ei.opensrp.domain.ServiceRecord;
 import org.ei.opensrp.domain.Vaccine;
@@ -39,6 +41,7 @@ import org.ei.opensrp.path.sync.ECSyncUpdater;
 import org.ei.opensrp.path.sync.PathClientProcessor;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.repository.ImageRepository;
+import org.ei.opensrp.sync.ClientProcessor;
 import org.ei.opensrp.util.AssetHandler;
 import org.ei.opensrp.util.FormUtils;
 import org.ei.opensrp.view.activity.DrishtiApplication;
@@ -2095,14 +2098,15 @@ public class JsonFormUtils {
                 return;
             }
 
-            String bindType = "child";
             String encounterDateField = getFieldValue(fields, "Date_of_Death");
 
             String encounterType = getString(jsonForm, ENCOUNTER_TYPE);
             JSONObject metadata = getJSONObject(jsonForm, METADATA);
 
             Date encounterDate = new Date();
+            String encounterDateTimeString = null;
             if (StringUtils.isNotBlank(encounterDateField)) {
+                encounterDateTimeString = formatDate(encounterDateField);
                 Date dateTime = formatDate(encounterDateField, false);
                 if (dateTime != null) {
                     encounterDate = dateTime;
@@ -2115,7 +2119,7 @@ public class JsonFormUtils {
                     .withEventType(encounterType)
                     .withLocationId(locationId)
                     .withProviderId(providerId)
-                    .withEntityType(bindType)
+                    .withEntityType(PathConstants.EntityType.CHILD)
                     .withFormSubmissionId(generateRandomUUIDString())
                     .withDateCreated(new Date());
 
@@ -2157,8 +2161,44 @@ public class JsonFormUtils {
 
             if (event != null) {
                 JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(event));
+
+                //After saving, Unsync(remove) this event's details
+                //List<JSONObject> jsonEvents = new ArrayList<>();
+                ///jsonEvents.add(eventJson);
+
+                //Update client to deceased
+                JSONObject client = db.getClientByBaseEntityId(eventJson.getString(ClientProcessor.baseEntityIdJSONKey));
+                client.put("deathdate", encounterDateTimeString);
+                client.put("deathdateApprox", false);
+                db.addorUpdateClient(entityId, client);
+
+                //Add Death Event for child to flag for Server delete
                 db.addEvent(event.getBaseEntityId(), eventJson);
 
+                //Update Child Entity to include death date
+                Event updateChildDetailsEvent = (Event) new Event()
+                        .withBaseEntityId(entityId) //should be different for main and subform
+                        .withEventDate(encounterDate)
+                        .withEventType(JsonFormUtils.encounterType)
+                        .withLocationId(locationId)
+                        .withProviderId(providerId)
+                        .withEntityType(PathConstants.EntityType.CHILD)
+                        .withFormSubmissionId(generateRandomUUIDString())
+                        .withDateCreated(new Date());
+                JsonFormUtils.addMetaData(context, updateChildDetailsEvent, new Date());
+                JSONObject eventJsonUpdateChildEvent = new JSONObject(JsonFormUtils.gson.toJson(updateChildDetailsEvent));
+
+                db.addEvent(entityId, eventJsonUpdateChildEvent);//Add event to flag server update
+
+                //Update REGISTER and FTS Tables
+                String tableName = PathConstants.CHILD_TABLE_NAME;
+                AllCommonsRepository allCommonsRepository = openSrpContext.allCommonsRepositoryobjects(tableName);
+                if (allCommonsRepository != null) {
+                    ContentValues values = new ContentValues();
+                    values.put(PathConstants.EC_CHILD_TABLE.DOD, PathConstants.DEFAULT_DATE_STRING);
+                    allCommonsRepository.update(tableName, values, entityId);
+                    allCommonsRepository.updateSearch(entityId);
+                }
             }
 
         } catch (Exception e) {
@@ -2519,5 +2559,10 @@ public class JsonFormUtils {
             Log.e(TAG, Log.getStackTraceString(e));
             return null;
         }
+    }
+    public static String formatDate(String date) throws ParseException {
+        Date inputDate = dd_MM_yyyy.parse(date);
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
+        return fmt.format(inputDate);
     }
 }
