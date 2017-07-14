@@ -14,6 +14,7 @@ import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Stock;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
 import org.ei.opensrp.path.receiver.VaccinatorAlarmReceiver;
+import org.ei.opensrp.path.repository.BaseRepository;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.StockRepository;
 import org.ei.opensrp.path.service.intent.PullUniqueIdsIntentService;
@@ -181,6 +182,7 @@ public class PathUpdateActionsTask {
         }
 
     }
+
     public void pushToServer() {
         pushECToServer();
         pushReportsToServer();
@@ -247,29 +249,29 @@ public class PathUpdateActionsTask {
         }
 
         while (true) {
-            long timestamp = preferences.getLong("last_stock_sync",0);
+            long timestamp = preferences.getLong("last_stock_sync", 0);
             String uri = format("{0}/{1}?providerid={2}&timestamp={3}",
                     baseUrl,
                     STOCK_SYNC_PATH,
                     anmId,
                     timestamp
-                    );
+            );
             Response<String> response = httpAgent.fetch(uri);
             if (response.isFailure()) {
                 logError(format("Form submissions pull failed."));
-                return ;
+                return;
             }
             String jsonPayload = response.payload();
-            ArrayList <Stock> Stock_arrayList = getStockFromPayload(jsonPayload);
+            ArrayList<Stock> Stock_arrayList = getStockFromPayload(jsonPayload);
             Long highestTimestamp = getHighestTimestampFromStockPayLoad(jsonPayload);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putLong("last_stock_sync", highestTimestamp);
             editor.commit();
             if (Stock_arrayList.isEmpty()) {
-                return ;
+                return;
             } else {
-                StockRepository stockRepository = new StockRepository(db,VaccinatorApplication.createCommonFtsObject(), org.ei.opensrp.Context.getInstance().alertService());
-                for(int j = 0;j<Stock_arrayList.size();j++){
+                StockRepository stockRepository = new StockRepository(db, VaccinatorApplication.createCommonFtsObject(), org.ei.opensrp.Context.getInstance().alertService());
+                for (int j = 0; j < Stock_arrayList.size(); j++) {
                     stockRepository.add(Stock_arrayList.get(j));
                 }
 
@@ -283,42 +285,42 @@ public class PathUpdateActionsTask {
             JSONObject stockcontainer = new JSONObject(jsonPayload);
             if (stockcontainer.has("stocks")) {
                 JSONArray stockArray = stockcontainer.getJSONArray("stocks");
-                for(int i = 0;i<stockArray.length();i++){
+                for (int i = 0; i < stockArray.length(); i++) {
 
                     JSONObject stockobject = stockArray.getJSONObject(i);
-                    if(stockobject.getLong("serverVersion")>toreturn){
+                    if (stockobject.getLong("serverVersion") > toreturn) {
                         toreturn = stockobject.getLong("serverVersion");
                     }
 
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         return toreturn;
     }
 
     private ArrayList<Stock> getStockFromPayload(String jsonPayload) {
-        ArrayList <Stock> Stock_arrayList = new ArrayList<Stock>();
+        ArrayList<Stock> Stock_arrayList = new ArrayList<Stock>();
         try {
             JSONObject stockcontainer = new JSONObject(jsonPayload);
             if (stockcontainer.has("stocks")) {
                 JSONArray stockArray = stockcontainer.getJSONArray("stocks");
-                for(int i = 0;i<stockArray.length();i++){
+                for (int i = 0; i < stockArray.length(); i++) {
                     JSONObject stockobject = stockArray.getJSONObject(i);
                     Stock stock = new Stock(stockobject.getLong("identifier"),
-                                            stockobject.getString("transaction_type"),
-                                            stockobject.getString("providerid"),
-                                            stockobject.getInt("value"),
-                                            stockobject.getLong("date_created"),
-                                            stockobject.getString("to_from"),
-                                            stockobject.getString("sync_status"),
-                                            stockobject.getLong("date_updated"),
-                                            stockobject.getString("vaccine_type_id"));
+                            stockobject.getString("transaction_type"),
+                            stockobject.getString("providerid"),
+                            stockobject.getInt("value"),
+                            stockobject.getLong("date_created"),
+                            stockobject.getString("to_from"),
+                            stockobject.has("sync_status") ? stockcontainer.getString("sync_status") : BaseRepository.TYPE_Synced,
+                            stockobject.getLong("date_updated"),
+                            stockobject.getString("vaccine_type_id"));
                     Stock_arrayList.add(stock);
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         return Stock_arrayList;
@@ -331,7 +333,7 @@ public class PathUpdateActionsTask {
         try {
 
             while (keepSyncing) {
-                StockRepository stockRepository = new StockRepository(db,VaccinatorApplication.createCommonFtsObject(), org.ei.opensrp.Context.getInstance().alertService());
+                StockRepository stockRepository = new StockRepository(db, VaccinatorApplication.createCommonFtsObject(), org.ei.opensrp.Context.getInstance().alertService());
                 ArrayList<Stock> stocks = (ArrayList<Stock>) stockRepository.findUnSyncedWithLimit(limit);
                 JSONArray stocksarray = createJsonArrayFromStockArray(stocks);
                 if (stocks.isEmpty()) {
@@ -367,18 +369,17 @@ public class PathUpdateActionsTask {
 
     private JSONArray createJsonArrayFromStockArray(ArrayList<Stock> stocks) {
         JSONArray array = new JSONArray();
-        for(int i = 0;i<stocks.size();i++){
+        for (int i = 0; i < stocks.size(); i++) {
             JSONObject stock = new JSONObject();
             try {
-                stock.put("identifier",stocks.get(i).getId());
-                stock.put("vaccine_type_id",stocks.get(i).getVaccine_type_id());
-                stock.put("transaction_type",stocks.get(i).getTransaction_type());
-                stock.put("providerid",stocks.get(i).getProviderid());
-                stock.put("date_created",stocks.get(i).getDate_created());
-                stock.put("value",stocks.get(i).getValue());
-                stock.put("to_from",stocks.get(i).getTo_from());
-                stock.put("sync_status",stocks.get(i).getSyncStatus());
-                stock.put("date_updated",stocks.get(i).getUpdatedAt());
+                stock.put("identifier", stocks.get(i).getId());
+                stock.put("vaccine_type_id", stocks.get(i).getVaccine_type_id());
+                stock.put("transaction_type", stocks.get(i).getTransaction_type());
+                stock.put("providerid", stocks.get(i).getProviderid());
+                stock.put("date_created", stocks.get(i).getDate_created());
+                stock.put("value", stocks.get(i).getValue());
+                stock.put("to_from", stocks.get(i).getTo_from());
+                stock.put("date_updated", stocks.get(i).getUpdatedAt());
                 array.put(stock);
             } catch (JSONException e) {
                 e.printStackTrace();
