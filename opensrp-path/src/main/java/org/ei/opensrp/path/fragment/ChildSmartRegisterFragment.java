@@ -279,9 +279,6 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
     }
 
     public void initializeQueries() {
-
-        (new PathRepository(getActivity())).getClientByBaseEntityId("4a5e6964-c074-4fa7-acd2-e305efcf6a65")
-
         String tableName = PathConstants.CHILD_TABLE_NAME;
         String parentTableName = PathConstants.MOTHER_TABLE_NAME;
 
@@ -293,9 +290,8 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
         setTablename(tableName);
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
         countqueryBUilder.SelectInitiateMainTableCounts(tableName);
-        countqueryBUilder.mainCondition("");
-        countSelect = countqueryBUilder.addCondition(" WHERE " + getTablename() + ".deathdate IS NULL ");
-        mainCondition = "";
+        mainCondition = " " + getTablename() + ".dod IS NULL ";
+        countSelect = countqueryBUilder.mainCondition(mainCondition);
         super.CountExecute();
         countOverDue();
         countDueOverDue();
@@ -328,8 +324,7 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
                 tableName + ".lost_to_follow_up"
         });
         queryBUilder.customJoin("LEFT JOIN " + parentTableName + " ON  " + tableName + ".relational_id =  " + parentTableName + ".id");
-        queryBUilder.mainCondition("");
-        mainSelect = queryBUilder.addCondition(" WHERE " + getTablename() + ".deathdate IS NULL ");
+        mainSelect = queryBUilder.mainCondition(mainCondition);
         Sortqueries = ((CursorSortOption) getDefaultOptionsProvider().sortOption()).sort();
 
         currentlimit = 20;

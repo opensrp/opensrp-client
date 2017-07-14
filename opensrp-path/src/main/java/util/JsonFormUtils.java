@@ -1,6 +1,7 @@
 package util;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +24,7 @@ import org.ei.opensrp.clientandeventmodel.DateUtil;
 import org.ei.opensrp.clientandeventmodel.Event;
 import org.ei.opensrp.clientandeventmodel.FormEntityConstants;
 import org.ei.opensrp.clientandeventmodel.Obs;
+import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.domain.ProfileImage;
 import org.ei.opensrp.domain.ServiceRecord;
 import org.ei.opensrp.domain.Vaccine;
@@ -2106,7 +2108,7 @@ public class JsonFormUtils {
             if (StringUtils.isNotBlank(encounterDateField)) {
 
                 encounterDateTimeString = formatDate(encounterDateField);
-                Date dateTime = formatDate(encounterDateField,false);
+                Date dateTime = formatDate(encounterDateField, false);
                 if (dateTime != null) {
                     encounterDate = dateTime;
                 }
@@ -2190,6 +2192,16 @@ public class JsonFormUtils {
                 JSONObject eventJsonUpdateChildEvent = new JSONObject(JsonFormUtils.gson.toJson(updateChildDetailsEvent));
 
                 db.addEvent(entityId, eventJsonUpdateChildEvent);//Add event to flag server update
+
+                //Update REGISTER and FTS Tables
+                String tableName = PathConstants.CHILD_TABLE_NAME;
+                AllCommonsRepository allCommonsRepository = openSrpContext.allCommonsRepositoryobjects(tableName);
+                if (allCommonsRepository != null) {
+                    ContentValues values = new ContentValues();
+                    values.put(PathConstants.EC_CHILD_TABLE.DOD, PathConstants.DEFAULT_DATE_STRING);
+                    allCommonsRepository.update(tableName, values, entityId);
+                    allCommonsRepository.updateSearch(entityId);
+                }
 
             }
 

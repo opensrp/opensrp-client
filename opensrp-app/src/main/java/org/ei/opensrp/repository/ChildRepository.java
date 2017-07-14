@@ -36,6 +36,7 @@ public class ChildRepository extends DrishtiRepository {
     public static final String[] CHILD_TABLE_COLUMNS = {ID_COLUMN, MOTHER_ID_COLUMN, THAYI_CARD_COLUMN, DATE_OF_BIRTH_COLUMN, GENDER_COLUMN, DETAILS_COLUMN, IS_CLOSED_COLUMN, PHOTO_PATH_COLUMN};
     public static final String NOT_CLOSED = "false";
 
+
     @Override
     protected void onCreate(SQLiteDatabase database) {
         database.execSQL(CHILD_SQL);

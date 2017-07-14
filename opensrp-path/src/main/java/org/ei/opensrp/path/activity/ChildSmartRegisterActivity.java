@@ -29,7 +29,6 @@ import org.ei.opensrp.path.fragment.AdvancedSearchFragment;
 import org.ei.opensrp.path.fragment.BaseSmartRegisterFragment;
 import org.ei.opensrp.path.fragment.ChildSmartRegisterFragment;
 import org.ei.opensrp.path.receiver.ServiceReceiver;
-import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.view.LocationPickerView;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.repository.AllSharedPreferences;
@@ -120,7 +119,7 @@ public class ChildSmartRegisterActivity extends BaseRegisterActivity {
     protected void onResumption() {
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         LinearLayout childregister = (LinearLayout) drawer.findViewById(R.id.child_register);
-        childregister.setBackgroundColor(getResources().getColor(R.color.tintcolor));(new PathRepository(this)).getClientByBaseEntityId("4a5e6964-c074-4fa7-acd2-e305efcf6a65")
+        childregister.setBackgroundColor(getResources().getColor(R.color.tintcolor));
 
     }
 
