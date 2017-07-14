@@ -85,29 +85,14 @@ public class Tally implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public JSONObject getJsonObject() throws JsonProcessingException, JSONException {
-        JSONObject tally = new JSONObject();
-        tally.put("id", id);
-        tally.put("value", value);
-        tally.put("providerId", providerId);
-        tally.put("updatedAt", DATE_FORMAT.format(updatedAt));
-
-        JSONObject hia2Indicator = indicator.getJsonObject();
-
-        JSONObject combined = new JSONObject();
-        Iterator hia2Iterator = hia2Indicator.keys();
-        while (hia2Iterator.hasNext()) {
-            String curKey = (String) hia2Iterator.next();
-            combined.put(curKey, hia2Indicator.get(curKey));
-        }
-
-        Iterator tallyIterator = tally.keys();
-        while (tallyIterator.hasNext()) {
-            String curKey = (String) tallyIterator.next();
-            combined.put(curKey, tally.get(curKey));
-        }
-
-        return combined;
+    public ReportHia2Indicator getReportHia2Indicator() throws Exception {
+        ReportHia2Indicator reportHia2Indicator = new ReportHia2Indicator();
+        reportHia2Indicator.setValue(value);
+        reportHia2Indicator.setProviderId(providerId);
+        reportHia2Indicator.setCreatedAt(createdAt != null ? DATE_FORMAT.format(createdAt) : null);
+        reportHia2Indicator.setUpdatedAt(updatedAt != null ? DATE_FORMAT.format(updatedAt) : null);
+        reportHia2Indicator.setHia2Indicator(indicator);
+        return reportHia2Indicator;
     }
 
     @Override

@@ -14,6 +14,7 @@ import org.ei.opensrp.commonregistry.CommonRepository;
 import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.MonthlyTally;
+import org.ei.opensrp.path.domain.ReportHia2Indicator;
 import org.ei.opensrp.path.domain.VaccineSchedule;
 import org.ei.opensrp.path.provider.MotherLookUpSmartClientsProvider;
 import org.ei.opensrp.path.receiver.Hia2ServiceBroadcastReceiver;
@@ -145,9 +146,9 @@ public class HIA2IntentService extends IntentService {
                 List<MonthlyTally> tallies = monthlyTalliesRepository
                         .find(MonthlyTalliesRepository.DF_YYYYMM.format(month));
                 if (tallies != null) {
-                    List<JSONObject> tallyReports = new ArrayList<>();
+                    List<ReportHia2Indicator> tallyReports = new ArrayList<>();
                     for (MonthlyTally curTally : tallies) {
-                        tallyReports.add(curTally.getJsonObject());
+                        tallyReports.add(curTally.getReportHia2Indicator());
                     }
 
                     ReportUtils.createReport(this, tallyReports, HIA2Service.REPORT_NAME);

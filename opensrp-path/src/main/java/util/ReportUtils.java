@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import org.ei.opensrp.path.domain.Report;
+import org.ei.opensrp.path.domain.ReportHia2Indicator;
 import org.ei.opensrp.path.sync.ECSyncUpdater;
 import org.joda.time.DateTime;
 import org.json.JSONObject;
@@ -17,7 +18,7 @@ public class ReportUtils {
     private static final String TAG = ReportUtils.class.getCanonicalName();
 
 
-    public static void createReport(Context context, List<JSONObject> hia2Indicators, String reportType) {
+    public static void createReport(Context context, List<ReportHia2Indicator> hia2Indicators, String reportType) {
         try {
             ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(context);
 
