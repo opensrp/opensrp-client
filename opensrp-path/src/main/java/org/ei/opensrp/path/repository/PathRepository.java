@@ -1541,7 +1541,7 @@ public class PathRepository extends Repository {
 
             addFieldsToFTSTable(database, PathConstants.CHILD_TABLE_NAME, newlyAddedFields);
         } catch (Exception e) {
-            Log.e(TAG, "upgradeToVersion8ReportDeceased " + Log.getStackTraceString(e));
+            Log.e(TAG, "upgradeToVersion8ReportDeceased " + e.getMessage());
         }
     }
 

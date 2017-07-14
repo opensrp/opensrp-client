@@ -290,7 +290,7 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
         setTablename(tableName);
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
         countqueryBUilder.SelectInitiateMainTableCounts(tableName);
-        mainCondition = " " + getTablename() + ".dod IS NULL ";
+        mainCondition = " dod is NULL OR dod = '' ";
         countSelect = countqueryBUilder.mainCondition(mainCondition);
         super.CountExecute();
         countOverDue();
