@@ -129,7 +129,7 @@ public class ChildRegistrationDataFragment extends Fragment {
                 }
             }
             layout.addView(wd.createTableRow(inflater, container, "Date first seen", dateString));
-            layout.addView(wd.createTableRow(inflater, container, "Birth weight", Utils.getValue(detailsMap, "Birth_Weight", true) + " kg"));
+            layout.addView(wd.createTableRow(inflater, container, "Birth weight", Utils.kgStringSuffix(Utils.getValue(detailsMap, "Birth_Weight", true))));
 
             layout.addView(wd.createTableRow(inflater, container, "Mother/guardian first name", (Utils.getValue(childDetails.getColumnmaps(), "mother_first_name", true).isEmpty() ? Utils.getValue(childDetails.getDetails(), "mother_first_name", true) : Utils.getValue(childDetails.getColumnmaps(), "mother_first_name", true))));
             layout.addView(wd.createTableRow(inflater, container, "Mother/guardian last name", (Utils.getValue(childDetails.getColumnmaps(), "mother_last_name", true).isEmpty() ? Utils.getValue(childDetails.getDetails(), "mother_last_name", true) : Utils.getValue(childDetails.getColumnmaps(), "mother_last_name", true))));

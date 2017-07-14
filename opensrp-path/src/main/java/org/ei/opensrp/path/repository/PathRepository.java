@@ -102,7 +102,9 @@ public class PathRepository extends Repository {
                     upgradeToVersion7Stock(db);
                     upgradeToVersion7Hia2(db);
                     break;
-
+                case 8:
+                    upgradeToVersion8(db);
+                    break;
                 default:
                     break;
             }
@@ -1587,5 +1589,15 @@ public class PathRepository extends Repository {
         }
     }
 
+    private void upgradeToVersion8(SQLiteDatabase db) {
+        try {
+
+            // Recurring service json changed. update
+            RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
+            DatabaseUtils.populateRecurringServices(context, db, recurringServiceTypeRepository);
+        } catch (Exception e) {
+            Log.e(TAG, "upgradeToVersion8 " + Log.getStackTraceString(e));
+        }
+    }
 
 }

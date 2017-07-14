@@ -41,6 +41,7 @@ import java.util.concurrent.TimeUnit;
 
 import util.DateUtils;
 import util.ImageUtils;
+import util.Utils;
 import util.VaccinateActionUtils;
 import widget.FlowIndicator;
 
@@ -140,7 +141,7 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
         Weight weight = weightRepository.findUnSyncedByEntityId(pc.entityId());
         if (weight != null) {
             TextView recordWeightText = (TextView) convertView.findViewById(R.id.record_weight_text);
-            recordWeightText.setText(weight.getKg().toString() + " kg");
+            recordWeightText.setText(Utils.kgStringSuffix(weight.getKg()));
 
             ImageView recordWeightCheck = (ImageView) convertView.findViewById(R.id.record_weight_check);
             recordWeightCheck.setVisibility(View.VISIBLE);

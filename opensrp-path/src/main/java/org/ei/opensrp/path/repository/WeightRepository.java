@@ -155,7 +155,7 @@ public class WeightRepository extends BaseRepository {
         Cursor cursor = null;
         try {
 
-            cursor = getPathRepository().getReadableDatabase().query(WEIGHT_TABLE_NAME, WEIGHT_TABLE_COLUMNS, BASE_ENTITY_ID + " = ? AND " + SYNC_STATUS + " = ?", new String[]{entityId, TYPE_Unsynced}, null, null, null, null);
+            cursor = getPathRepository().getReadableDatabase().query(WEIGHT_TABLE_NAME, WEIGHT_TABLE_COLUMNS, BASE_ENTITY_ID + " = ? AND " + SYNC_STATUS + " = ?", new String[]{entityId, TYPE_Unsynced}, null, null, UPDATED_AT_COLUMN + " DESC", null);
             List<Weight> weights = readAllWeights(cursor);
             if (!weights.isEmpty()) {
                 weight = weights.get(0);
