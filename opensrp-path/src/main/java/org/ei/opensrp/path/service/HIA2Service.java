@@ -82,8 +82,8 @@ public class HIA2Service {
     public static String CHN3_070_O = "CHN3-070-O";
     public static String CHN3_075 = "CHN3-075";
     public static String CHN3_075_O = "CHN3-075-O";
-    public static String CHN3_80 = "CHN3-80";
-    public static String CHN3_80_O = "CHN3-80-O";
+    public static String CHN3_080 = "CHN3-080";
+    public static String CHN3_080_O = "CHN3-080-O";
     public static String CHN3_085 = "CHN3-085";
     public static String CHN3_085_O = "CHN3-085-O";
     public static String CHN3_090 = "CHN3-090";
@@ -165,8 +165,8 @@ public class HIA2Service {
         getCHN3_070_O();
         getCHN3_075();
         getCHN3_075_O();
-        getCHN3_80();
-        getCHN3_80_O();
+        getCHN3_080();
+        getCHN3_080_O();
         getCHN3_085();
         getCHN3_085_O();
         getCHN3_090();
@@ -991,12 +991,12 @@ public class HIA2Service {
      * Number of children < one year who have received the complete BCG, OPV series, DPT-Hib+Hep1 series, PCV series , RV series and measles/MR 1 within 10 days of each antigen being due at this facility
      * <p/>
      */
-    private void getCHN3_80() {
+    private void getCHN3_080() {
         try {
             int count = getVaccineCountWithH1A2Status("<12", false);
-            hia2Report.put(CHN3_80, count);
+            hia2Report.put(CHN3_080, count);
         } catch (Exception e) {
-            Log.logError(TAG, "CHN3_80 " + e.getMessage());
+            Log.logError(TAG, "CHN3_080 " + e.getMessage());
         }
     }
 
@@ -1004,12 +1004,12 @@ public class HIA2Service {
      * Number of children < one year who have received the complete BCG, OPV series, DPT-Hib+Hep1 series, PCV series , RV series and measles/MR 1 within 10 days of each antigen being due at outreach conducyed by this facility
      * <p/>
      */
-    private void getCHN3_80_O() {
+    private void getCHN3_080_O() {
         try {
             int count = getVaccineCountWithH1A2Status("<12", true);
-            hia2Report.put(CHN3_80_O, count);
+            hia2Report.put(CHN3_080_O, count);
         } catch (Exception e) {
-            Log.logError(TAG, "CHN3_80_O " + e.getMessage());
+            Log.logError(TAG, "CHN3_080_O " + e.getMessage());
         }
     }
 
