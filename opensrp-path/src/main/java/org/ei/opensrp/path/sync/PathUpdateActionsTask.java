@@ -53,7 +53,7 @@ import static org.ei.opensrp.util.Log.logInfo;
 
 public class PathUpdateActionsTask {
     private static final String EVENTS_SYNC_PATH = "/rest/event/add";
-    private static final String REPORTS_SYNC_PATH = "/rest/reports/add";
+    private static final String REPORTS_SYNC_PATH = "/rest/report/add";
     private static final String STOCK_Add_PATH = "/rest/stock/add/";
     private static final String STOCK_SYNC_PATH = "/rest/stock/sync/";
     private final LockingBackgroundTask task;
