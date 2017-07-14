@@ -2106,7 +2106,6 @@ public class JsonFormUtils {
             Date encounterDate = new Date();
             String encounterDateTimeString = null;
             if (StringUtils.isNotBlank(encounterDateField)) {
-
                 encounterDateTimeString = formatDate(encounterDateField);
                 Date dateTime = formatDate(encounterDateField, false);
                 if (dateTime != null) {
@@ -2131,7 +2130,6 @@ public class JsonFormUtils {
                     addObservation(event, jsonObject);
                 }
             }
-
 
             if (metadata != null) {
                 Iterator<?> keys = metadata.keys();
@@ -2162,7 +2160,6 @@ public class JsonFormUtils {
 
 
             if (event != null) {
-
                 JSONObject eventJson = new JSONObject(JsonFormUtils.gson.toJson(event));
 
                 //After saving, Unsync(remove) this event's details
@@ -2202,7 +2199,6 @@ public class JsonFormUtils {
                     allCommonsRepository.update(tableName, values, entityId);
                     allCommonsRepository.updateSearch(entityId);
                 }
-
             }
 
         } catch (Exception e) {
@@ -2564,8 +2560,6 @@ public class JsonFormUtils {
             return null;
         }
     }
-
-
     public static String formatDate(String date) throws ParseException {
         Date inputDate = dd_MM_yyyy.parse(date);
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");

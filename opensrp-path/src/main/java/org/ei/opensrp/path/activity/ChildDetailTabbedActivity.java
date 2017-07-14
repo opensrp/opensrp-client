@@ -672,8 +672,6 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage());
                 }
-
-
             }
         } else if (requestCode == REQUEST_TAKE_PHOTO) {
             if (resultCode == RESULT_OK) {
@@ -739,7 +737,6 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                 intent.putExtra(BaseRegisterActivity.IS_REMOTE_LOGIN, false);
                 startActivity(intent);
                 finish();
-
 
             }
         });
