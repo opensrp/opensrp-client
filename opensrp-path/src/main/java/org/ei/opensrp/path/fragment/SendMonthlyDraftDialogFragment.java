@@ -22,15 +22,22 @@ public class SendMonthlyDraftDialogFragment extends DialogFragment {
     View.OnClickListener onSendClickedListener;
 
     public static SendMonthlyDraftDialogFragment newInstance(String month, View.OnClickListener onSendClickedListener) {
-        SendMonthlyDraftDialogFragment f = new SendMonthlyDraftDialogFragment(month,
-                onSendClickedListener);
+        SendMonthlyDraftDialogFragment f = new SendMonthlyDraftDialogFragment();
+        f.setDate(month);
+        f.setOnSendClickedListener(onSendClickedListener);
 
         return f;
     }
 
-    public SendMonthlyDraftDialogFragment(String date,
-                                          View.OnClickListener onSendClickedListener) {
+    public SendMonthlyDraftDialogFragment() {
+        super();
+    }
+
+    public void setDate(String date) {
         this.date = date;
+    }
+
+    public void setOnSendClickedListener(View.OnClickListener onSendClickedListener) {
         this.onSendClickedListener = onSendClickedListener;
     }
 
