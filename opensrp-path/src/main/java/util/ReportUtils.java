@@ -9,6 +9,7 @@ import org.ei.opensrp.path.sync.ECSyncUpdater;
 import org.joda.time.DateTime;
 import org.json.JSONObject;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public class ReportUtils {
     private static final String TAG = ReportUtils.class.getCanonicalName();
 
 
-    public static void createReport(Context context, List<ReportHia2Indicator> hia2Indicators, String reportType) {
+    public static void createReport(Context context, List<ReportHia2Indicator> hia2Indicators, Date month, String reportType) {
         try {
             ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(context);
 
@@ -29,7 +30,7 @@ public class ReportUtils {
             report.setHia2Indicators(hia2Indicators);
             report.setLocationId(locationId);
             report.setProviderId(providerId);
-            report.setReportDate(new DateTime());
+            report.setReportDate(new DateTime(month));
             report.setReportType(reportType);
             JSONObject reportJson = new JSONObject(JsonFormUtils.gson.toJson(report));
             ecUpdater.addReport(reportJson);

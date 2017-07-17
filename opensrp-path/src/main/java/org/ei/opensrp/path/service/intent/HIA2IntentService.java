@@ -151,7 +151,7 @@ public class HIA2IntentService extends IntentService {
                         tallyReports.add(curTally.getReportHia2Indicator());
                     }
 
-                    ReportUtils.createReport(this, tallyReports, HIA2Service.REPORT_NAME);
+                    ReportUtils.createReport(this, tallyReports, month, HIA2Service.REPORT_NAME);
 
                     for (MonthlyTally curTally : tallies) {
                         curTally.setDateSent(Calendar.getInstance().getTime());
