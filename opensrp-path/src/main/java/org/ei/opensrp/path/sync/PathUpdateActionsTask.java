@@ -54,8 +54,8 @@ import static org.ei.opensrp.util.Log.logInfo;
 public class PathUpdateActionsTask {
     private static final String EVENTS_SYNC_PATH = "/rest/event/add";
     private static final String REPORTS_SYNC_PATH = "/rest/report/add";
-    private static final String STOCK_Add_PATH = "/rest/stock/add/";
-    private static final String STOCK_SYNC_PATH = "/rest/stock/sync/";
+    private static final String STOCK_Add_PATH = "/rest/stockresource/add/";
+    private static final String STOCK_SYNC_PATH = "rest/stockresource/sync/";
     private final LockingBackgroundTask task;
     private ActionService actionService;
     private Context context;
@@ -77,6 +77,7 @@ public class PathUpdateActionsTask {
         task = new LockingBackgroundTask(progressIndicator);
         this.db = (PathRepository) VaccinatorApplication.getInstance().getRepository();
         this.httpAgent = org.ei.opensrp.Context.getInstance().getHttpAgent();
+
     }
 
     public void setAdditionalSyncService(AdditionalSyncService additionalSyncService) {
@@ -166,7 +167,6 @@ public class PathUpdateActionsTask {
                 Log.i(getClass().getName(), "!!!!! Sync count:  " + eCount);
                 pathAfterFetchListener.partialFetch(fetched);
             }
-            pushStockToServer();
             pullStockFromServer();
 
             if (totalCount == 0) {
@@ -186,6 +186,7 @@ public class PathUpdateActionsTask {
     public void pushToServer() {
         pushECToServer();
         pushReportsToServer();
+        pushStockToServer();
     }
 
     public void pushECToServer() {
@@ -238,8 +239,6 @@ public class PathUpdateActionsTask {
     }
 
     private void pullStockFromServer() {
-        boolean keepSyncing = true;
-        int limit = 50;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
         String anmId = allSharedPreferences.fetchRegisteredANM();
@@ -258,7 +257,7 @@ public class PathUpdateActionsTask {
             );
             Response<String> response = httpAgent.fetch(uri);
             if (response.isFailure()) {
-                logError(format("Form submissions pull failed."));
+                logError(format("Stock pull failed."));
                 return;
             }
             String jsonPayload = response.payload();
@@ -272,7 +271,15 @@ public class PathUpdateActionsTask {
             } else {
                 StockRepository stockRepository = new StockRepository(db, VaccinatorApplication.createCommonFtsObject(), org.ei.opensrp.Context.getInstance().alertService());
                 for (int j = 0; j < Stock_arrayList.size(); j++) {
-                    stockRepository.add(Stock_arrayList.get(j));
+                    Stock fromServer = Stock_arrayList.get(j);
+                    List<Stock> existingStock = stockRepository.findUniqueStock(fromServer.getVaccine_type_id(),fromServer.getTransaction_type(),fromServer.getProviderid(),
+                            String.valueOf(fromServer.getValue()),String.valueOf(fromServer.getDate_created()),fromServer.getTo_from());
+                    if(!existingStock.isEmpty()){
+                        for(Stock stock: existingStock) {
+                            fromServer.setId(stock.getId());
+                        }
+                    }
+                    stockRepository.add(fromServer);
                 }
 
             }
@@ -282,14 +289,14 @@ public class PathUpdateActionsTask {
     private Long getHighestTimestampFromStockPayLoad(String jsonPayload) {
         Long toreturn = 0l;
         try {
-            JSONObject stockcontainer = new JSONObject(jsonPayload);
-            if (stockcontainer.has("stocks")) {
-                JSONArray stockArray = stockcontainer.getJSONArray("stocks");
+            JSONObject stockContainer = new JSONObject(jsonPayload);
+            if (stockContainer.has("stocks")) {
+                JSONArray stockArray = stockContainer.getJSONArray("stocks");
                 for (int i = 0; i < stockArray.length(); i++) {
 
-                    JSONObject stockobject = stockArray.getJSONObject(i);
-                    if (stockobject.getLong("serverVersion") > toreturn) {
-                        toreturn = stockobject.getLong("serverVersion");
+                    JSONObject stockObject = stockArray.getJSONObject(i);
+                    if (stockObject.getLong("serverVersion") > toreturn) {
+                        toreturn = stockObject.getLong("serverVersion");
                     }
 
                 }
@@ -301,22 +308,22 @@ public class PathUpdateActionsTask {
     }
 
     private ArrayList<Stock> getStockFromPayload(String jsonPayload) {
-        ArrayList<Stock> Stock_arrayList = new ArrayList<Stock>();
+        ArrayList<Stock> Stock_arrayList = new ArrayList<>();
         try {
             JSONObject stockcontainer = new JSONObject(jsonPayload);
             if (stockcontainer.has("stocks")) {
                 JSONArray stockArray = stockcontainer.getJSONArray("stocks");
                 for (int i = 0; i < stockArray.length(); i++) {
-                    JSONObject stockobject = stockArray.getJSONObject(i);
-                    Stock stock = new Stock(stockobject.getLong("identifier"),
-                            stockobject.getString("transaction_type"),
-                            stockobject.getString("providerid"),
-                            stockobject.getInt("value"),
-                            stockobject.getLong("date_created"),
-                            stockobject.getString("to_from"),
+                    JSONObject stockObject = stockArray.getJSONObject(i);
+                    Stock stock = new Stock(null,
+                            stockObject.getString("transaction_type"),
+                            stockObject.getString("providerid"),
+                            stockObject.getInt("value"),
+                            stockObject.getLong("date_created"),
+                            stockObject.getString("to_from"),
                             BaseRepository.TYPE_Synced,
-                            stockobject.getLong("date_updated"),
-                            stockobject.getString("vaccine_type_id"));
+                            stockObject.getLong("date_updated"),
+                            stockObject.getString("vaccine_type_id"));
                     Stock_arrayList.add(stock);
                 }
             }
@@ -346,7 +353,6 @@ public class PathUpdateActionsTask {
                 }
                 // create request body
                 JSONObject request = new JSONObject();
-
                 request.put("stocks", stocksarray);
 
                 String jsonPayload = request.toString();
@@ -356,11 +362,11 @@ public class PathUpdateActionsTask {
                                 STOCK_Add_PATH),
                         jsonPayload);
                 if (response.isFailure()) {
-                    Log.e(getClass().getName(), "Events sync failed.");
+                    Log.e(getClass().getName(), "Stocks sync failed.");
                     return;
                 }
                 stockRepository.markEventsAsSynced(stocks);
-                Log.i(getClass().getName(), "Events synced successfully.");
+                Log.i(getClass().getName(), "Stocks synced successfully.");
             }
         } catch (JSONException e) {
             Log.e(getClass().getName(), e.getMessage());

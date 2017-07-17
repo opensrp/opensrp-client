@@ -145,6 +145,23 @@ public class StockRepository extends BaseRepository {
         return stocks;
     }
 
+    public List<Stock> findUniqueStock(String vaccine_type_id, String transaction_type, String providerid, String value, String date_created, String to_from) {
+        List<Stock> stocks = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            cursor = getPathRepository().getReadableDatabase().query(stock_TABLE_NAME, stock_TABLE_COLUMNS, VACCINE_TYPE_ID+ " = ? AND " + TRANSACTION_TYPE + " = ? AND " + PROVIDER_ID + " = ? AND " + VALUE + " = ? AND " + DATE_CREATED + " = ? AND " + TO_FROM + " = ?", new String[]{vaccine_type_id, transaction_type, providerid, value, date_created, to_from}, null, null, null, null);
+            stocks = readAllstocks(cursor);
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return stocks;
+    }
+
     public Stock readAllStockforCursorAdapter(Cursor cursor) {
 
 
