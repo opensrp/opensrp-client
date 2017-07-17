@@ -163,8 +163,8 @@ public class DailyTalliesRepository extends BaseRepository {
     /**
      * Returns a list of unique months formatted in the provided {@link SimpleDateFormat}
      *
-     * @param dateFormat    The date format to format the months
-     * @param cursor        Cursor to get the dates from
+     * @param dateFormat The date format to format the months
+     * @param cursor     Cursor to get the dates from
      * @return
      */
     private List<String> getUniqueMonths(SimpleDateFormat dateFormat, Cursor cursor) {
@@ -254,18 +254,24 @@ public class DailyTalliesRepository extends BaseRepository {
                 for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                     DailyTally curTally = extractDailyTally(indicatorMap, cursor);
                     if (curTally != null) {
-                        if (!tallies.containsKey(dateFormat.format(curTally.getDay())) ||
-                                tallies.get(dateFormat.format(curTally.getDay())) == null) {
-                            tallies.put(dateFormat.format(curTally.getDay()),
-                                    new ArrayList<DailyTally>());
-                        }
+                        final String dayString = dateFormat.format(curTally.getDay());
+                        if (!TextUtils.isEmpty(dayString)) {
+                            if (!tallies.containsKey(dayString) ||
+                                    tallies.get(dayString) == null) {
+                                tallies.put(dayString, new ArrayList<DailyTally>());
+                            }
 
-                        tallies.get(dateFormat.format(curTally.getDay())).add(curTally);
+                            tallies.get(dayString).add(curTally);
+                        } else {
+                            Log.w(TAG, "There appears to be a daily tally with a null date");
+                        }
                     }
                 }
             }
         } catch (SQLException e) {
-            Log.e(TAG, e.getMessage(), e);
+            Log.e(TAG, Log.getStackTraceString(e));
+        } catch (NullPointerException e) {
+            Log.e(TAG, Log.getStackTraceString(e));
         } finally {
             if (cursor != null) {
                 cursor.close();
