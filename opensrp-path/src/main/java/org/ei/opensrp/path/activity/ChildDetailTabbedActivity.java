@@ -22,6 +22,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -702,18 +703,21 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         ImageView notificationIcon = (ImageView) notificationsLayout.findViewById(R.id.noti_icon);
         notificationIcon.setTag("confirm_deceased_icon");
         notificationIcon.setImageResource(R.drawable.ic_deceased);
+        notificationIcon.getLayoutParams().height = 165;
 
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) notificationIcon.getLayoutParams();
-        params.setMargins(30, params.topMargin, params.rightMargin, params.bottomMargin);
+        params.setMargins(55, params.topMargin, params.rightMargin, params.bottomMargin);
         notificationIcon.setLayoutParams(params);
 
         TextView notificationMessage = (TextView) notificationsLayout.findViewById(R.id.noti_message);
         notificationMessage.setText(childDetails.getColumnmaps().get("first_name") + " " + childDetails.getColumnmaps().get("last_name") + " marked as deceased");
         notificationMessage.setTextColor(getResources().getColor(R.color.black));
+        notificationMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP,25);
 
         Button positiveButton = (Button) notificationsLayout.findViewById(R.id.noti_positive_button);
         positiveButton.setVisibility(View.VISIBLE);
         positiveButton.setText(getResources().getString(R.string.undo));
+        positiveButton.setTextSize(TypedValue.COMPLEX_UNIT_SP,22);
         positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -726,6 +730,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         Button negativeButton = (Button) notificationsLayout.findViewById(R.id.noti_negative_button);
         negativeButton.setVisibility(View.VISIBLE);
         negativeButton.setText(getResources().getString(R.string.confirm_button_label));
+        negativeButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
         negativeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
