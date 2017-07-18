@@ -133,7 +133,7 @@ public class RecurringServiceRecordRepository extends BaseRepository {
         SQLiteDatabase database = getPathRepository().getReadableDatabase();
         String sql = " SELECT " + TABLE_NAME + ".*, " + RecurringServiceTypeRepository.TABLE_NAME + ".name, " + RecurringServiceTypeRepository.TABLE_NAME + ".type FROM " + TABLE_NAME + " LEFT JOIN " + RecurringServiceTypeRepository.TABLE_NAME +
                 " ON " + TABLE_NAME + "." + RECURRING_SERVICE_ID + " = " + RecurringServiceTypeRepository.TABLE_NAME + "." + RecurringServiceTypeRepository.ID_COLUMN +
-                " WHERE " + TABLE_NAME + "." + BASE_ENTITY_ID + " = ? ORDER BY " + TABLE_NAME + "." + UPDATED_AT_COLUMN;
+                " WHERE " + TABLE_NAME + "." + BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE + " ORDER BY " + TABLE_NAME + "." + UPDATED_AT_COLUMN;
         Cursor cursor = database.rawQuery(sql, new String[]{entityId});
         return readAllServiceRecords(cursor);
     }
@@ -171,13 +171,13 @@ public class RecurringServiceRecordRepository extends BaseRepository {
             String selection = null;
             String[] selectionArgs = null;
             if (StringUtils.isNotBlank(serviceRecord.getFormSubmissionId()) && StringUtils.isNotBlank(serviceRecord.getEventId())) {
-                selection = FORMSUBMISSION_ID + " = ? OR " + EVENT_ID + " = ? ";
+                selection = FORMSUBMISSION_ID + " = ? " + COLLATE_NOCASE + " OR " + EVENT_ID + " = ? " + COLLATE_NOCASE;
                 selectionArgs = new String[]{serviceRecord.getFormSubmissionId(), serviceRecord.getEventId()};
             } else if (StringUtils.isNotBlank(serviceRecord.getEventId())) {
-                selection = EVENT_ID + " = ? ";
+                selection = EVENT_ID + " = ? " + COLLATE_NOCASE;
                 selectionArgs = new String[]{serviceRecord.getEventId()};
             } else if (StringUtils.isNotBlank(serviceRecord.getFormSubmissionId())) {
-                selection = FORMSUBMISSION_ID + " = ? ";
+                selection = FORMSUBMISSION_ID + " = ? " + COLLATE_NOCASE;
                 selectionArgs = new String[]{serviceRecord.getFormSubmissionId()};
             }
 

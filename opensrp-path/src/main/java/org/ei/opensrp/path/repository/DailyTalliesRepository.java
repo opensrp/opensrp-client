@@ -240,6 +240,19 @@ public class DailyTalliesRepository extends BaseRepository {
                 " AND " + COLUMN_DAY + " <= " + String.valueOf(endDate.getTime());
     }
 
+    public List<DailyTally> findByProviderIdAndDay(String providerId, String date) {
+        List<DailyTally> tallies = new ArrayList<>();
+        try {
+            Cursor cursor = getPathRepository().getReadableDatabase().query(TABLE_NAME, TABLE_COLUMNS,
+                    COLUMN_DAY + " = Datetime(?) AND " + COLUMN_PROVIDER_ID + " = ? COLLATE NOCASE ",
+                    new String[]{date, providerId}, null, null, null, null);
+            tallies = readAllDataElements(cursor);
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
+        return tallies;
+    }
+
     public HashMap<String, ArrayList<DailyTally>> findAll(SimpleDateFormat dateFormat, Date minDate, Date maxDate) {
         HashMap<String, ArrayList<DailyTally>> tallies = new HashMap<>();
         Cursor cursor = null;
@@ -326,6 +339,24 @@ public class DailyTalliesRepository extends BaseRepository {
             }
         }
 
+        return null;
+    }
+
+    private Long checkIfExists(long indicatorId, String day) {
+        Cursor mCursor = null;
+        try {
+            String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME +
+                    " WHERE " + COLUMN_INDICATOR_ID + " = " + String.valueOf(indicatorId) + " COLLATE NOCASE "
+                    + " AND " + COLUMN_DAY + "='" + day + "'";
+            mCursor = getPathRepository().getWritableDatabase().rawQuery(query, null);
+            if (mCursor != null && mCursor.moveToFirst()) {
+                return mCursor.getLong(0);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.toString(), e);
+        } finally {
+            if (mCursor != null) mCursor.close();
+        }
         return null;
     }
 }

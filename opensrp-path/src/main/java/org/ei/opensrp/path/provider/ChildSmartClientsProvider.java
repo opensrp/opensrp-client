@@ -2,12 +2,12 @@ package org.ei.opensrp.path.provider;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,18 +32,19 @@ import org.ei.opensrp.view.dialog.SortOption;
 import org.ei.opensrp.view.viewHolder.OnClickFormLauncher;
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import util.DateUtils;
 import util.ImageUtils;
 import util.Utils;
 import util.VaccinateActionUtils;
-import widget.FlowIndicator;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static util.Utils.fillValue;
@@ -79,7 +80,7 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
     }
 
     @Override
-    public void getView(SmartRegisterClient client, View convertView) {
+    public void getView(SmartRegisterClient client, final View convertView) {
         CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
 
         fillValue((TextView) convertView.findViewById(R.id.child_zeir_id), getValue(pc.getColumnmaps(), "zeir_id", false));
@@ -136,9 +137,29 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
         recordWeight.setBackground(context.getResources().getDrawable(R.drawable.record_weight_bg));
         recordWeight.setTag(client);
         recordWeight.setOnClickListener(onClickListener);
+        recordWeight.setVisibility(View.INVISIBLE);
+
+        View recordVaccination = convertView.findViewById(R.id.record_vaccination);
+        recordVaccination.setTag(client);
+        recordVaccination.setOnClickListener(onClickListener);
+        recordVaccination.setVisibility(View.INVISIBLE);
+
+        String lostToFollowUp = getValue(pc.getColumnmaps(), "lost_to_follow_up", false);
+        String inactive = getValue(pc.getColumnmaps(), "inactive", false);
+
+        try {
+            Utils.startAsyncTask(new WeightAsyncTask(convertView, pc.entityId(), lostToFollowUp, inactive), null);
+            Utils.startAsyncTask(new VaccinationAsyncTask(convertView, pc.entityId(), dobString, lostToFollowUp, inactive), null);
+        } catch (Exception e) {
+            Log.e(getClass().getName(), e.getMessage(), e);
+        }
+
+    }
+
+    private void updateRecordWeight(View convertView, Weight weight, String lostToFollowUp, String inactive) {
+        View recordWeight = convertView.findViewById(R.id.record_weight);
         recordWeight.setVisibility(View.VISIBLE);
 
-        Weight weight = weightRepository.findUnSyncedByEntityId(pc.entityId());
         if (weight != null) {
             TextView recordWeightText = (TextView) convertView.findViewById(R.id.record_weight_text);
             recordWeightText.setText(Utils.kgStringSuffix(weight.getKg()));
@@ -158,9 +179,16 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
             recordWeight.setClickable(true);
         }
 
-        View recordVaccination =  convertView.findViewById(R.id.record_vaccination);
-        recordVaccination.setTag(client);
-        recordVaccination.setOnClickListener(onClickListener);
+        // Update active/inactive/lostToFollowup status
+        if (lostToFollowUp.equals(Boolean.TRUE.toString()) || inactive.equals(Boolean.TRUE.toString())) {
+            recordWeight.setVisibility(View.INVISIBLE);
+        }
+
+    }
+
+    private void updateRecordVaccination(View convertView, List<Vaccine> vaccines, List<Alert> alertList, String dobString, String lostToFollowUp, String inactive) {
+        View recordVaccination = convertView.findViewById(R.id.record_vaccination);
+        recordVaccination.setVisibility(View.VISIBLE);
 
         TextView recordVaccinationText = (TextView) convertView.findViewById(R.id.record_vaccination_text);
         ImageView recordVaccinationCheck = (ImageView) convertView.findViewById(R.id.record_vaccination_check);
@@ -169,11 +197,7 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
         convertView.setLayoutParams(clientViewLayoutParams);
 
         // Alerts
-        List<Vaccine> vaccines = vaccineRepository.findByEntityId(pc.entityId());
         Map<String, Date> recievedVaccines = receivedVaccines(vaccines);
-
-        List<Alert> alertList = alertService.findByEntityIdAndAlertNames(pc.entityId(),
-                VaccinateActionUtils.allAlertNames("child"));
 
         List<Map<String, Object>> sch = generateScheduleList("child", new DateTime(dobString), recievedVaccines, alertList);
 
@@ -227,12 +251,10 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
 
 
         // Update active/inactive/lostToFollowup status
-        String lostToFollowUp = getValue(pc.getColumnmaps(), "lost_to_follow_up", false);
         if (lostToFollowUp.equals(Boolean.TRUE.toString())) {
             state = State.LOST_TO_FOLLOW_UP;
         }
 
-        String inactive = getValue(pc.getColumnmaps(), "inactive", false);
         if (inactive.equals(Boolean.TRUE.toString())) {
             state = State.INACTIVE;
         }
@@ -250,14 +272,14 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
         } else if (state.equals(State.INACTIVE)) {
             recordVaccinationText.setText("Inactive");
             recordVaccinationText.setTextColor(context.getResources().getColor(R.color.client_list_grey));
-            
+
             recordVaccinationCheck.setImageResource(R.drawable.ic_icon_status_inactive);
             recordVaccinationCheck.setVisibility(View.VISIBLE);
 
             recordVaccination.setBackgroundColor(context.getResources().getColor(R.color.white));
             recordVaccination.setEnabled(false);
 
-            recordWeight.setVisibility(View.INVISIBLE);
+
         } else if (state.equals(State.LOST_TO_FOLLOW_UP)) {
             recordVaccinationText.setText("Lost to\nFollow-Up");
             recordVaccinationText.setTextColor(context.getResources().getColor(R.color.client_list_grey));
@@ -268,7 +290,6 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
             recordVaccination.setBackgroundColor(context.getResources().getColor(R.color.white));
             recordVaccination.setEnabled(false);
 
-            recordWeight.setVisibility(View.INVISIBLE);
         } else if (state.equals(State.WAITING)) {
             recordVaccinationText.setText("Waiting");
             recordVaccinationText.setTextColor(context.getResources().getColor(R.color.client_list_grey));
@@ -330,7 +351,6 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
             recordVaccination.setBackgroundColor(context.getResources().getColor(R.color.white));
             recordVaccination.setEnabled(false);
         }
-
     }
 
     @Override
@@ -371,5 +391,72 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
         WAITING,
         NO_ALERT,
         FULLY_IMMUNIZED
+    }
+
+    private class WeightAsyncTask extends AsyncTask<Void, Void, Void> {
+        private View convertView;
+        private String entityId;
+        private String lostToFollowUp;
+        private String inactive;
+        private Weight weight;
+
+        public WeightAsyncTask(View convertView,
+                               String entityId,
+                               String lostToFollowUp,
+                               String inactive) {
+            this.convertView = convertView;
+            this.entityId = entityId;
+            this.lostToFollowUp = lostToFollowUp;
+            this.inactive = inactive;
+        }
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            weight = weightRepository.findUnSyncedByEntityId(entityId);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void param) {
+            updateRecordWeight(convertView, weight, lostToFollowUp, inactive);
+
+        }
+    }
+
+    private class VaccinationAsyncTask extends AsyncTask<Void, Void, Void> {
+        private View convertView;
+        private String entityId;
+        private String dobString;
+        private String lostToFollowUp;
+        private String inactive;
+        private List<Vaccine> vaccines = new ArrayList<>();
+        private List<Alert> alerts = new ArrayList<>();
+
+        public VaccinationAsyncTask(View convertView,
+                                    String entityId,
+                                    String dobString,
+                                    String lostToFollowUp,
+                                    String inactive) {
+            this.convertView = convertView;
+            this.entityId = entityId;
+            this.dobString = dobString;
+            this.lostToFollowUp = lostToFollowUp;
+            this.inactive = inactive;
+        }
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            vaccines = vaccineRepository.findByEntityId(entityId);
+            alerts = alertService.findByEntityIdAndAlertNames(entityId, VaccinateActionUtils.allAlertNames("child"));
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void param) {
+            updateRecordVaccination(convertView, vaccines, alerts, dobString, lostToFollowUp, inactive);
+
+        }
     }
 }

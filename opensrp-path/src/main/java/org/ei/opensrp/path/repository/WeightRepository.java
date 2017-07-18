@@ -37,7 +37,7 @@ public class WeightRepository extends BaseRepository {
     public static final double DEFAULT_Z_SCORE = 999999d;
     public static final String[] WEIGHT_TABLE_COLUMNS = {
             ID_COLUMN, BASE_ENTITY_ID, PROGRAM_CLIENT_ID, KG, DATE, ANMID, LOCATIONID, SYNC_STATUS,
-            UPDATED_AT_COLUMN, EVENT_ID, FORMSUBMISSION_ID, Z_SCORE,OUT_OF_AREA};
+            UPDATED_AT_COLUMN, EVENT_ID, FORMSUBMISSION_ID, Z_SCORE, OUT_OF_AREA};
 
     private static final String BASE_ENTITY_ID_INDEX = "CREATE INDEX " + WEIGHT_TABLE_NAME + "_" + BASE_ENTITY_ID + "_index ON " + WEIGHT_TABLE_NAME + "(" + BASE_ENTITY_ID + " COLLATE NOCASE);";
     private static final String SYNC_STATUS_INDEX = "CREATE INDEX " + WEIGHT_TABLE_NAME + "_" + SYNC_STATUS + "_index ON " + WEIGHT_TABLE_NAME + "(" + SYNC_STATUS + " COLLATE NOCASE);";
@@ -46,7 +46,7 @@ public class WeightRepository extends BaseRepository {
     public static final String EVENT_ID_INDEX = "CREATE INDEX " + WEIGHT_TABLE_NAME + "_" + EVENT_ID + "_index ON " + WEIGHT_TABLE_NAME + "(" + EVENT_ID + " COLLATE NOCASE);";
     public static final String UPDATE_TABLE_ADD_FORMSUBMISSION_ID_COL = "ALTER TABLE " + WEIGHT_TABLE_NAME + " ADD COLUMN " + FORMSUBMISSION_ID + " VARCHAR;";
     public static final String FORMSUBMISSION_INDEX = "CREATE INDEX " + WEIGHT_TABLE_NAME + "_" + FORMSUBMISSION_ID + "_index ON " + WEIGHT_TABLE_NAME + "(" + FORMSUBMISSION_ID + " COLLATE NOCASE);";
-    public static final String UPDATE_TABLE_ADD_OUT_OF_AREA_COL = "ALTER TABLE "+ WEIGHT_TABLE_NAME +" ADD COLUMN "+OUT_OF_AREA+" VARCHAR;";
+    public static final String UPDATE_TABLE_ADD_OUT_OF_AREA_COL = "ALTER TABLE " + WEIGHT_TABLE_NAME + " ADD COLUMN " + OUT_OF_AREA + " VARCHAR;";
     public static final String UPDATE_TABLE_ADD_OUT_OF_AREA_COL_INDEX = "CREATE INDEX " + WEIGHT_TABLE_NAME + "_" + OUT_OF_AREA + "_index ON " + WEIGHT_TABLE_NAME + "(" + OUT_OF_AREA + " COLLATE NOCASE);";
 
     public static final String ALTER_ADD_Z_SCORE_COLUMN = "ALTER TABLE " + WEIGHT_TABLE_NAME + " ADD COLUMN " + Z_SCORE + " REAL NOT NULL DEFAULT " + String.valueOf(DEFAULT_Z_SCORE);
@@ -138,7 +138,7 @@ public class WeightRepository extends BaseRepository {
 
             Long time = calendar.getTimeInMillis();
 
-            cursor = getPathRepository().getReadableDatabase().query(WEIGHT_TABLE_NAME, WEIGHT_TABLE_COLUMNS, UPDATED_AT_COLUMN + " < ? AND " + SYNC_STATUS + " = ?", new String[]{time.toString(), TYPE_Unsynced}, null, null, null, null);
+            cursor = getPathRepository().getReadableDatabase().query(WEIGHT_TABLE_NAME, WEIGHT_TABLE_COLUMNS, UPDATED_AT_COLUMN + " < ? " + COLLATE_NOCASE + " AND " + SYNC_STATUS + " = ? " + COLLATE_NOCASE, new String[]{time.toString(), TYPE_Unsynced}, null, null, null, null);
             weights = readAllWeights(cursor);
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
@@ -155,7 +155,7 @@ public class WeightRepository extends BaseRepository {
         Cursor cursor = null;
         try {
 
-            cursor = getPathRepository().getReadableDatabase().query(WEIGHT_TABLE_NAME, WEIGHT_TABLE_COLUMNS, BASE_ENTITY_ID + " = ? AND " + SYNC_STATUS + " = ?", new String[]{entityId, TYPE_Unsynced}, null, null, UPDATED_AT_COLUMN + " DESC", null);
+            cursor = getPathRepository().getReadableDatabase().query(WEIGHT_TABLE_NAME, WEIGHT_TABLE_COLUMNS, BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE + " AND " + SYNC_STATUS + " = ? ", new String[]{entityId, TYPE_Unsynced}, null, null, UPDATED_AT_COLUMN + COLLATE_NOCASE + " DESC", null);
             List<Weight> weights = readAllWeights(cursor);
             if (!weights.isEmpty()) {
                 weight = weights.get(0);
@@ -174,7 +174,7 @@ public class WeightRepository extends BaseRepository {
         List<Weight> weights = null;
         Cursor cursor = null;
         try {
-            cursor = getPathRepository().getReadableDatabase().query(WEIGHT_TABLE_NAME, WEIGHT_TABLE_COLUMNS, BASE_ENTITY_ID + " = ? ", new String[]{entityId}, null, null, null, null);
+            cursor = getPathRepository().getReadableDatabase().query(WEIGHT_TABLE_NAME, WEIGHT_TABLE_COLUMNS, BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE, new String[]{entityId}, null, null, null, null);
             weights = readAllWeights(cursor);
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
@@ -225,7 +225,8 @@ public class WeightRepository extends BaseRepository {
     }
 
     public List<Weight> findLast5(String entityid) {
-        Cursor cursor = getPathRepository().getReadableDatabase().query(WEIGHT_TABLE_NAME, WEIGHT_TABLE_COLUMNS, BASE_ENTITY_ID + " = ?", new String[]{entityid}, null, null, UPDATED_AT_COLUMN + " DESC", null);
+        Cursor cursor = getPathRepository().getReadableDatabase().query(WEIGHT_TABLE_NAME, WEIGHT_TABLE_COLUMNS, BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE, new String[]{entityid}, null, null, UPDATED_AT_COLUMN + COLLATE_NOCASE + " DESC", null);
+
         List<Weight> weights = readAllWeights(cursor);
 //        if (!weights.isEmpty()) {
         return weights;
@@ -248,13 +249,13 @@ public class WeightRepository extends BaseRepository {
             String selection = null;
             String[] selectionArgs = null;
             if (StringUtils.isNotBlank(weight.getFormSubmissionId()) && StringUtils.isNotBlank(weight.getEventId())) {
-                selection = FORMSUBMISSION_ID + " = ? OR " + EVENT_ID + " = ? ";
+                selection = FORMSUBMISSION_ID + " = ? " + COLLATE_NOCASE + " OR " + EVENT_ID + " = ? " + COLLATE_NOCASE;
                 selectionArgs = new String[]{weight.getFormSubmissionId(), weight.getEventId()};
             } else if (StringUtils.isNotBlank(weight.getEventId())) {
-                selection = EVENT_ID + " = ? ";
+                selection = EVENT_ID + " = ? " + COLLATE_NOCASE;
                 selectionArgs = new String[]{weight.getEventId()};
             } else if (StringUtils.isNotBlank(weight.getFormSubmissionId())) {
-                selection = FORMSUBMISSION_ID + " = ? ";
+                selection = FORMSUBMISSION_ID + " = ? " + COLLATE_NOCASE;
                 selectionArgs = new String[]{weight.getFormSubmissionId()};
             }
 
@@ -272,7 +273,7 @@ public class WeightRepository extends BaseRepository {
 
     public void delete(String entityID) {
         try {
-            getPathRepository().getWritableDatabase().delete(WEIGHT_TABLE_NAME, BASE_ENTITY_ID + " = ? AND " + SYNC_STATUS + " = ?", new String[]{entityID, TYPE_Unsynced});
+            getPathRepository().getWritableDatabase().delete(WEIGHT_TABLE_NAME, BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE + " AND " + SYNC_STATUS + " = ? ", new String[]{entityID, TYPE_Unsynced});
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
         }
@@ -307,7 +308,7 @@ public class WeightRepository extends BaseRepository {
                                     cursor.getString(cursor.getColumnIndex(ANMID)),
                                     cursor.getString(cursor.getColumnIndex(LOCATIONID)),
                                     cursor.getString(cursor.getColumnIndex(SYNC_STATUS)),
-                                    cursor.getLong(cursor.getColumnIndex(UPDATED_AT_COLUMN)),cursor.getString(cursor.getColumnIndex(EVENT_ID)),cursor.getString(cursor.getColumnIndex(FORMSUBMISSION_ID)),zScore,cursor.getInt(cursor.getColumnIndex(OUT_OF_AREA))
+                                    cursor.getLong(cursor.getColumnIndex(UPDATED_AT_COLUMN)), cursor.getString(cursor.getColumnIndex(EVENT_ID)), cursor.getString(cursor.getColumnIndex(FORMSUBMISSION_ID)), zScore, cursor.getInt(cursor.getColumnIndex(OUT_OF_AREA))
 
                             ));
 

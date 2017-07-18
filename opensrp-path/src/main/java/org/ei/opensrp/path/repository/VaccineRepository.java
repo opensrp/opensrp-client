@@ -53,9 +53,6 @@ public class VaccineRepository extends BaseRepository {
 
     public static final String UPDATE_TABLE_ADD_HIA2_STATUS_COL = "ALTER TABLE " + VACCINE_TABLE_NAME + " ADD COLUMN " + HIA2_STATUS + " VARCHAR;";
 
-    public static String TYPE_Unsynced = "Unsynced";
-    public static String TYPE_Synced = "Synced";
-
     public static String HIA2_Within = "Within";
     public static String HIA2_Overdue = "Overdue";
 
@@ -147,7 +144,7 @@ public class VaccineRepository extends BaseRepository {
 
             Long time = calendar.getTimeInMillis();
 
-            cursor = getPathRepository().getReadableDatabase().query(VACCINE_TABLE_NAME, VACCINE_TABLE_COLUMNS, UPDATED_AT_COLUMN + " < ? AND " + SYNC_STATUS + " = ?", new String[]{time.toString(), TYPE_Unsynced}, null, null, null, null);
+            cursor = getPathRepository().getReadableDatabase().query(VACCINE_TABLE_NAME, VACCINE_TABLE_COLUMNS, UPDATED_AT_COLUMN + " < ? AND " + SYNC_STATUS + " = ? ", new String[]{time.toString(), TYPE_Unsynced}, null, null, null, null);
             vaccines = readAllVaccines(cursor);
         } catch (Exception e) {
             Log.e(TAG, Log.getStackTraceString(e));
@@ -162,7 +159,7 @@ public class VaccineRepository extends BaseRepository {
 
     public List<Vaccine> findByEntityId(String entityId) {
         SQLiteDatabase database = getPathRepository().getReadableDatabase();
-        Cursor cursor = database.query(VACCINE_TABLE_NAME, VACCINE_TABLE_COLUMNS, BASE_ENTITY_ID + " = ? ORDER BY " + UPDATED_AT_COLUMN, new String[]{entityId}, null, null, null, null);
+        Cursor cursor = database.query(VACCINE_TABLE_NAME, VACCINE_TABLE_COLUMNS, BASE_ENTITY_ID + " = ? " + COLLATE_NOCASE + " ORDER BY " + UPDATED_AT_COLUMN, new String[]{entityId}, null, null, null, null);
         return readAllVaccines(cursor);
     }
 
@@ -198,13 +195,13 @@ public class VaccineRepository extends BaseRepository {
             String selection = null;
             String[] selectionArgs = null;
             if (StringUtils.isNotBlank(vaccine.getFormSubmissionId()) && StringUtils.isNotBlank(vaccine.getEventId())) {
-                selection = FORMSUBMISSION_ID + " = ? OR " + EVENT_ID + " = ? ";
+                selection = FORMSUBMISSION_ID + " = ? " + COLLATE_NOCASE + " OR " + EVENT_ID + " = ? " + COLLATE_NOCASE;
                 selectionArgs = new String[]{vaccine.getFormSubmissionId(), vaccine.getEventId()};
             } else if (StringUtils.isNotBlank(vaccine.getEventId())) {
-                selection = EVENT_ID + " = ? ";
+                selection = EVENT_ID + " = ? " + COLLATE_NOCASE;
                 selectionArgs = new String[]{vaccine.getEventId()};
             } else if (StringUtils.isNotBlank(vaccine.getFormSubmissionId())) {
-                selection = FORMSUBMISSION_ID + " = ? ";
+                selection = FORMSUBMISSION_ID + " = ? " + COLLATE_NOCASE;
                 selectionArgs = new String[]{vaccine.getFormSubmissionId()};
             }
 

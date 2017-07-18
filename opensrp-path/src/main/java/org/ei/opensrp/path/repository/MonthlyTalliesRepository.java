@@ -453,4 +453,23 @@ public class MonthlyTalliesRepository extends BaseRepository {
 
         return tallies;
     }
+
+    private Long checkIfExists(long indicatorId, String month) {
+        Cursor mCursor = null;
+        try {
+            String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME +
+                    " WHERE " + COLUMN_INDICATOR_ID + " = " + String.valueOf(indicatorId) + " COLLATE NOCASE "
+                    + " and " + COLUMN_MONTH + " = '" + month + "'";
+            mCursor = getPathRepository().getWritableDatabase().rawQuery(query, null);
+            if (mCursor != null && mCursor.moveToFirst()) {
+                return mCursor.getLong(0);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.toString(), e);
+        } finally {
+            if (mCursor != null) mCursor.close();
+        }
+        return null;
+    }
+
 }

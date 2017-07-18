@@ -8,6 +8,7 @@ import java.util.UUID;
 public class BaseRepository {
     public static String TYPE_Unsynced = "Unsynced";
     public static String TYPE_Synced = "Synced";
+    public static String COLLATE_NOCASE = " COLLATE NOCASE ";
 
     private PathRepository pathRepository;
 
