@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/client_list_header_dark_grey"
+    android:orientation="horizontal"
+    android:weightSum="10">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="1dp"
+        android:layout_weight="3">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/woman_pic"
+            style="@style/CustomFontTextViewStyle.ClientList.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/woman_profile"
+            android:textAllCaps="true"
+            android:textColor="@color/client_list_grey"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="1dp"
+        android:layout_weight="3">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/woman_unique_ids"
+            style="@style/CustomFontTextViewStyle.ClientList.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/unique_id"
+            android:textAllCaps="true"
+            android:textColor="@color/client_list_grey"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="1dp"
+        android:layout_weight="2">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/woman_vaccines"
+            style="@style/CustomFontTextViewStyle.ClientList.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/woman_next_vaacine"
+            android:textAllCaps="true"
+            android:textColor="@color/client_list_grey"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/woman_nbnf"
+            style="@style/CustomFontTextViewStyle.ClientList.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/woman_nbnf"
+            android:textAllCaps="true"
+            android:textColor="@color/client_list_grey"
+            android:textSize="16sp" />
+    </RelativeLayout>
+</LinearLayout>
