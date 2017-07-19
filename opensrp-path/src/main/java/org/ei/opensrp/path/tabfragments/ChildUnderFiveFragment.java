@@ -118,7 +118,7 @@ public class ChildUnderFiveFragment extends Fragment {
     }
 
     private void createWeightLayout(LinearLayout fragmentContainer, boolean editmode) {
-        LinkedHashMap<Long, Pair<String, String>> weightmap = new LinkedHashMap<>();
+        LinkedHashMap<Long, Pair<Long, String>> weightmap = new LinkedHashMap<>();
         ArrayList<Boolean> weighteditmode = new ArrayList<Boolean>();
         ArrayList<View.OnClickListener> listeners = new ArrayList<View.OnClickListener>();
 
@@ -130,13 +130,14 @@ public class ChildUnderFiveFragment extends Fragment {
         for (int i = 0; i < weightlist.size(); i++) {
             Weight weight = weightlist.get(i);
             String formattedAge = "";
+            long timeDiff = 0l;
             if (weight.getDate() != null) {
 
                 Date weighttaken = weight.getDate();
                 String birthdate = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
                 DateTime birthday = new DateTime(birthdate);
                 Date birth = birthday.toDate();
-                long timeDiff = weighttaken.getTime() - birth.getTime();
+                timeDiff = weighttaken.getTime() - birth.getTime();
                 Log.v("timeDiff is ", timeDiff + "");
                 if (timeDiff >= 0) {
                     formattedAge = DateUtils.getDuration(timeDiff);
@@ -144,7 +145,7 @@ public class ChildUnderFiveFragment extends Fragment {
                 }
             }
             if (!formattedAge.equalsIgnoreCase("0d")) {
-                weightmap.put(weight.getId(), Pair.create(formattedAge, Utils.kgStringSuffix(weight.getKg())));
+                weightmap.put(weight.getId(), Pair.create(timeDiff, Utils.kgStringSuffix(weight.getKg())));
 
                 ////////////////////////check 3 months///////////////////////////////
                 boolean less_than_three_months_event_created = false;
@@ -184,7 +185,7 @@ public class ChildUnderFiveFragment extends Fragment {
 
         }
         if (weightmap.size() < 5) {
-            weightmap.put(0l, Pair.create(DateUtils.getDuration(0), Utils.getValue(Detailsmap, "Birth_Weight", true) + " kg"));
+            weightmap.put(0l, Pair.create(0l, Utils.getValue(Detailsmap, "Birth_Weight", true) + " kg"));
             weighteditmode.add(false);
             listeners.add(null);
         }

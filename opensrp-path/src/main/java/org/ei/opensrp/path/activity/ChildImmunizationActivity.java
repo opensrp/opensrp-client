@@ -724,8 +724,12 @@ public class ChildImmunizationActivity extends BaseActivity
             tag.setDbKey(weight.getId());
             updateRecordWeightViews(tag);
             setLastModified(true);
+            checkForWeightGainCalc(dob,gender,weight);
+
         }
     }
+
+
 
     @Override
     public void onVaccinateToday(ArrayList<VaccineWrapper> tags, View v) {
@@ -1598,5 +1602,26 @@ public class ChildImmunizationActivity extends BaseActivity
             GrowthDialogFragment growthDialogFragment = GrowthDialogFragment.newInstance(childDetails, allWeights);
             growthDialogFragment.show(ft, DIALOG_TAG);
         }
+    }
+
+
+    private void checkForWeightGainCalc(Date dob, Gender gender, Weight weight) {
+        String dobString = "";
+        String formattedAge = "";
+        String formattedDob = "";
+
+        WeightRepository wp = VaccinatorApplication.getInstance().weightRepository();
+        List<Weight> weightlist = wp.findLast5(childDetails.entityId());
+
+
+
+        formattedDob = DATE_FORMAT.format(dob);
+        long timeDiff = Calendar.getInstance().getTimeInMillis() - dob.getTime();
+
+        int age_in_months = (int) Math.floor((float) timeDiff /
+                TimeUnit.MILLISECONDS.convert(30, TimeUnit.DAYS));
+
+
+
     }
 }
