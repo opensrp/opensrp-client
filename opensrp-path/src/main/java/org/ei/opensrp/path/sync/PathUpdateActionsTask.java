@@ -239,6 +239,7 @@ public class PathUpdateActionsTask {
     }
 
     private void pullStockFromServer() {
+        final String LAST_STOCK_SYNC = "last_stock_sync";
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
         String anmId = allSharedPreferences.fetchRegisteredANM();
@@ -248,12 +249,13 @@ public class PathUpdateActionsTask {
         }
 
         while (true) {
-            long timestamp = preferences.getLong("last_stock_sync", 0);
-            String uri = format("{0}/{1}?providerid={2}&timestamp={3}",
+            long timestamp = preferences.getLong(LAST_STOCK_SYNC, 0);
+            String timeStampString = String.valueOf(timestamp);
+            String uri = format("{0}/{1}?providerid={2}&serverVersion={3}",
                     baseUrl,
                     STOCK_SYNC_PATH,
                     anmId,
-                    timestamp
+                    timeStampString
             );
             Response<String> response = httpAgent.fetch(uri);
             if (response.isFailure()) {
@@ -264,7 +266,7 @@ public class PathUpdateActionsTask {
             ArrayList<Stock> Stock_arrayList = getStockFromPayload(jsonPayload);
             Long highestTimestamp = getHighestTimestampFromStockPayLoad(jsonPayload);
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putLong("last_stock_sync", highestTimestamp);
+            editor.putLong(LAST_STOCK_SYNC, highestTimestamp);
             editor.commit();
             if (Stock_arrayList.isEmpty()) {
                 return;
@@ -272,10 +274,10 @@ public class PathUpdateActionsTask {
                 StockRepository stockRepository = new StockRepository(db, VaccinatorApplication.createCommonFtsObject(), org.ei.opensrp.Context.getInstance().alertService());
                 for (int j = 0; j < Stock_arrayList.size(); j++) {
                     Stock fromServer = Stock_arrayList.get(j);
-                    List<Stock> existingStock = stockRepository.findUniqueStock(fromServer.getVaccine_type_id(),fromServer.getTransaction_type(),fromServer.getProviderid(),
-                            String.valueOf(fromServer.getValue()),String.valueOf(fromServer.getDate_created()),fromServer.getTo_from());
-                    if(!existingStock.isEmpty()){
-                        for(Stock stock: existingStock) {
+                    List<Stock> existingStock = stockRepository.findUniqueStock(fromServer.getVaccine_type_id(), fromServer.getTransaction_type(), fromServer.getProviderid(),
+                            String.valueOf(fromServer.getValue()), String.valueOf(fromServer.getDate_created()), fromServer.getTo_from());
+                    if (!existingStock.isEmpty()) {
+                        for (Stock stock : existingStock) {
                             fromServer.setId(stock.getId());
                         }
                     }

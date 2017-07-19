@@ -9,6 +9,7 @@ import org.ei.opensrp.path.sync.ECSyncUpdater;
 import org.joda.time.DateTime;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +31,13 @@ public class ReportUtils {
             report.setHia2Indicators(hia2Indicators);
             report.setLocationId(locationId);
             report.setProviderId(providerId);
-            report.setReportDate(new DateTime(month));
+
+            // Get the second last day of the month
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(month);
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - 2);
+
+            report.setReportDate(new DateTime(calendar.getTime()));
             report.setReportType(reportType);
             JSONObject reportJson = new JSONObject(JsonFormUtils.gson.toJson(report));
             ecUpdater.addReport(reportJson);
