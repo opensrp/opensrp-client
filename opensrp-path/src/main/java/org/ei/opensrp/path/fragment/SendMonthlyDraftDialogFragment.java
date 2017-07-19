@@ -1,85 +1,100 @@
 package org.ei.opensrp.path.fragment;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
+import android.app.DialogFragment;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
+import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
+import org.ei.opensrp.Context;
 import org.ei.opensrp.path.R;
 
 /**
  * Created by coder on 6/28/17.
  */
 public class SendMonthlyDraftDialogFragment extends DialogFragment {
-    String month;
+    String date;
+    View.OnClickListener onSendClickedListener;
 
-
-    public static SendMonthlyDraftDialogFragment newInstance(String month) {
+    public static SendMonthlyDraftDialogFragment newInstance(String month, View.OnClickListener onSendClickedListener) {
         SendMonthlyDraftDialogFragment f = new SendMonthlyDraftDialogFragment();
-
-        // Supply num input as an argument.
-        Bundle args = new Bundle();
-        args.putString("month", month);
-        f.setArguments(args);
+        f.setDate(month);
+        f.setOnSendClickedListener(onSendClickedListener);
 
         return f;
+    }
+
+    public SendMonthlyDraftDialogFragment() {
+        super();
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setOnSendClickedListener(View.OnClickListener onSendClickedListener) {
+        this.onSendClickedListener = onSendClickedListener;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Light_Dialog);
     }
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-  //                           Bundle savedInstanceState) {
- //       View v = inflater.inflate(R.layout.dialog_fragment_send_monthly, container, false);
-//        View tv = v.findViewById(R.id.text);
-//        ((TextView)tv).setText("Dialog #" + mNum + ": using style "
-//                + getNameForNum(mNum));
-//
-//        // Watch for button clicks.
-//        Button button = (Button)v.findViewById(R.id.show);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                // When button is clicked, call up to owning activity.
-//                ((FragmentDialog)getActivity()).showDialog();
-//            }
-//        });
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        String provider = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
+        View view = inflater.inflate(
+                R.layout.dialog_fragment_send_monthly,
+                container, false);
+        TextView tvSendMonthlyDraft = (TextView) view.findViewById(R.id.tv_send_monthly_draft);
+        tvSendMonthlyDraft.setText(String.format(
+                getString(R.string.send_report_warning),
+                date,
+                provider));
 
-//        return v;
-//    }
+        Button cancelButton = (Button) view.findViewById(R.id.button_cancel);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SendMonthlyDraftDialogFragment.this.dismiss();
+            }
+        });
+
+        Button sendButton = (Button) view.findViewById(R.id.button_send);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SendMonthlyDraftDialogFragment.this.dismiss();
+                if (onSendClickedListener != null) {
+                    onSendClickedListener.onClick(v);
+                }
+            }
+        });
+
+        return view;
+    }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-        // request a window without the title
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        AlertDialog.Builder b=  new  AlertDialog.Builder(getActivity())
-                .setPositiveButton("Send",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                // do something...
-                            }
-                        }
-                )
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.dismiss();
-                            }
-                        }
-                );
-
-        LayoutInflater i = getActivity().getLayoutInflater();
-
-        View v = i.inflate(R.layout.dialog_fragment_send_monthly,null);
-        b.setView(v);
-        return dialog;
+    public void onStart() {
+        super.onStart();
+        // without a handler, the window sizes itself correctly
+        // but the keyboard does not show up
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                getDialog().getWindow().setLayout(FrameLayout.LayoutParams.MATCH_PARENT,
+                        FrameLayout.LayoutParams.WRAP_CONTENT);
+            }
+        });
     }
 }

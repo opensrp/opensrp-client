@@ -2,7 +2,7 @@
   {
     "type": "Vit A",
     "service_logic": "",
-    "units": "UI",
+    "units": "IU",
     "openmrs_service_name": {
       "parent_entity": "",
       "entity": "concept",
@@ -17,7 +17,7 @@
       {
         "id": "10",
         "name": "Vit A IFC 2",
-        "dose": "50000",
+        "dose": "50,000",
         "schedule": {
           "due": {
             "reference": "dob",
@@ -32,7 +32,7 @@
       {
         "id": "11",
         "name": "Vit A 1",
-        "dose": "100000",
+        "dose": "100,000",
         "schedule": {
           "due": {
             "reference": "multiple",
@@ -54,7 +54,7 @@
       {
         "id": "12",
         "name": "Vit A 2",
-        "dose": "200000",
+        "dose": "200,000",
         "schedule": {
           "due": {
             "reference": "prerequisite",
@@ -70,7 +70,7 @@
       {
         "id": "13",
         "name": "Vit A 3",
-        "dose": "200000",
+        "dose": "200,000",
         "schedule": {
           "due": {
             "reference": "prerequisite",
@@ -86,7 +86,7 @@
       {
         "id": "14",
         "name": "Vit A 4",
-        "dose": "200000",
+        "dose": "200,000",
         "schedule": {
           "due": {
             "reference": "prerequisite",
@@ -102,7 +102,7 @@
       {
         "id": "15",
         "name": "Vit A 5",
-        "dose": "200000",
+        "dose": "200,000",
         "schedule": {
           "due": {
             "reference": "prerequisite",
@@ -118,7 +118,7 @@
       {
         "id": "16",
         "name": "Vit A 6",
-        "dose": "200000",
+        "dose": "200,000",
         "schedule": {
           "due": {
             "reference": "prerequisite",
@@ -134,7 +134,7 @@
       {
         "id": "17",
         "name": "Vit A 7",
-        "dose": "200000",
+        "dose": "200,000",
         "schedule": {
           "due": {
             "reference": "prerequisite",
@@ -150,7 +150,7 @@
       {
         "id": "18",
         "name": "Vit A 8",
-        "dose": "200000",
+        "dose": "200,000",
         "schedule": {
           "due": {
             "reference": "prerequisite",
@@ -166,7 +166,7 @@
       {
         "id": "19",
         "name": "Vit A 9",
-        "dose": "200000",
+        "dose": "200,000",
         "schedule": {
           "due": {
             "reference": "prerequisite",
@@ -182,7 +182,7 @@
       {
         "id": "20",
         "name": "Vit A 10",
-        "dose": "200000",
+        "dose": "200,000",
         "schedule": {
           "due": {
             "reference": "prerequisite",

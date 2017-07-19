@@ -64,7 +64,7 @@ public class AlertRepository extends DrishtiRepository {
 
     public List<Alert> allActiveAlertsForCase(String caseId) {
         SQLiteDatabase database = masterRepository.getReadableDatabase();
-        Cursor cursor = database.query(ALERTS_TABLE_NAME, ALERTS_TABLE_COLUMNS, ALERTS_CASEID_COLUMN + " = ?", new String[]{caseId}, null, null, null, null);
+        Cursor cursor = database.query(ALERTS_TABLE_NAME, ALERTS_TABLE_COLUMNS, ALERTS_CASEID_COLUMN + " = ?  COLLATE NOCASE ", new String[]{caseId}, null, null, null, null);
         return filterActiveAlerts(readAllAlerts(cursor));
     }
 
@@ -72,7 +72,7 @@ public class AlertRepository extends DrishtiRepository {
         SQLiteDatabase database = masterRepository.getWritableDatabase();
         String[] caseAndScheduleNameColumnValues = {alert.caseId(), alert.scheduleName()};
 
-        String caseAndScheduleNameColumnSelections = ALERTS_CASEID_COLUMN + " = ? AND " + ALERTS_SCHEDULE_NAME_COLUMN + " = ?";
+        String caseAndScheduleNameColumnSelections = ALERTS_CASEID_COLUMN + " = ?  COLLATE NOCASE AND " + ALERTS_SCHEDULE_NAME_COLUMN + " = ?";
         Cursor cursor = database.query(ALERTS_TABLE_NAME, ALERTS_TABLE_COLUMNS, caseAndScheduleNameColumnSelections, caseAndScheduleNameColumnValues, null, null, null, null);
         List<Alert> existingAlerts = readAllAlerts(cursor);
 
@@ -96,16 +96,16 @@ public class AlertRepository extends DrishtiRepository {
 
     public void deleteAllAlertsForEntity(String caseId) {
         SQLiteDatabase database = masterRepository.getWritableDatabase();
-        database.delete(ALERTS_TABLE_NAME, ALERTS_CASEID_COLUMN + "= ?", new String[]{caseId});
+        database.delete(ALERTS_TABLE_NAME, ALERTS_CASEID_COLUMN + "= ?  COLLATE NOCASE ", new String[]{caseId});
     }
 
     public void deleteOfflineAlertsForEntity(String caseId) {
         SQLiteDatabase database = masterRepository.getWritableDatabase();
-        database.delete(ALERTS_TABLE_NAME, ALERTS_CASEID_COLUMN + "= ? AND " + ALERTS_OFFLINE_COLUMN + " = 1", new String[]{caseId});
+        database.delete(ALERTS_TABLE_NAME, ALERTS_CASEID_COLUMN + "= ?  COLLATE NOCASE AND " + ALERTS_OFFLINE_COLUMN + " = 1", new String[]{caseId});
     }
 
     public void deleteOfflineAlertsForEntity(String caseId, String... names) {
-        String whereClause = format(" %s = ? AND %s = 1 AND %s IN (%s)",
+        String whereClause = format(" %s = ? COLLATE NOCASE AND %s = 1 AND %s IN (%s)",
                 ALERTS_CASEID_COLUMN, ALERTS_OFFLINE_COLUMN, ALERTS_VISIT_CODE_COLUMN,
                 insertPlaceholdersForInClause(names.length));
         SQLiteDatabase database = masterRepository.getWritableDatabase();
@@ -162,14 +162,14 @@ public class AlertRepository extends DrishtiRepository {
 
     public List<Alert> findByEntityId(String entityId) {
         SQLiteDatabase database = masterRepository.getReadableDatabase();
-        Cursor cursor = database.rawQuery(format("SELECT * FROM %s WHERE %s = ? ORDER BY DATE(%s)",
+        Cursor cursor = database.rawQuery(format("SELECT * FROM %s WHERE %s = ? COLLATE NOCASE ORDER BY DATE(%s)",
                 ALERTS_TABLE_NAME, ALERTS_CASEID_COLUMN, ALERTS_STARTDATE_COLUMN), new String[]{entityId});
         return readAllAlerts(cursor);
     }
 
     public List<Alert> findByEntityIdAndAlertNames(String entityId, String... names) {
         SQLiteDatabase database = masterRepository.getReadableDatabase();
-        Cursor cursor = database.rawQuery(format("SELECT * FROM %s WHERE %s = ? AND %s IN (%s) ORDER BY DATE(%s)",
+        Cursor cursor = database.rawQuery(format("SELECT * FROM %s WHERE %s = ? COLLATE NOCASE AND %s IN (%s) ORDER BY DATE(%s)",
                 ALERTS_TABLE_NAME, ALERTS_CASEID_COLUMN, ALERTS_VISIT_CODE_COLUMN,
                 insertPlaceholdersForInClause(names.length), ALERTS_STARTDATE_COLUMN), addAll(new String[]{entityId}, names));
         return readAllAlerts(cursor);
@@ -177,7 +177,7 @@ public class AlertRepository extends DrishtiRepository {
 
     public List<Alert> findOfflineByEntityIdAndName(String entityId, String... names) {
         SQLiteDatabase database = masterRepository.getReadableDatabase();
-        Cursor cursor = database.rawQuery(format("SELECT * FROM %s WHERE %s = ? AND %s = 1 AND %s IN (%s) ORDER BY DATE(%s)",
+        Cursor cursor = database.rawQuery(format("SELECT * FROM %s WHERE %s = ? COLLATE NOCASE AND %s = 1 AND %s IN (%s) ORDER BY DATE(%s)",
                 ALERTS_TABLE_NAME, ALERTS_CASEID_COLUMN, ALERTS_OFFLINE_COLUMN,
                 ALERTS_VISIT_CODE_COLUMN, insertPlaceholdersForInClause(names.length), ALERTS_STARTDATE_COLUMN),
                 addAll(new String[]{entityId}, names));
@@ -189,7 +189,7 @@ public class AlertRepository extends DrishtiRepository {
         SQLiteDatabase database = masterRepository.getReadableDatabase();
         String[] caseAndScheduleNameColumnValues = {entityId, scheduleName};
 
-        String caseAndScheduleNameColumnSelections = ALERTS_CASEID_COLUMN + " = ? AND " + ALERTS_SCHEDULE_NAME_COLUMN + " = ?";
+        String caseAndScheduleNameColumnSelections = ALERTS_CASEID_COLUMN + " = ? COLLATE NOCASE AND " + ALERTS_SCHEDULE_NAME_COLUMN + " = ? ";
 
         Cursor cursor = database.query(ALERTS_TABLE_NAME, ALERTS_TABLE_COLUMNS, caseAndScheduleNameColumnSelections, caseAndScheduleNameColumnValues, null, null, null, null);
         List<Alert> alertList = readAllAlerts(cursor);

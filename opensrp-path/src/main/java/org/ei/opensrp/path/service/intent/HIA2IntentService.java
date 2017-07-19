@@ -2,6 +2,7 @@ package org.ei.opensrp.path.service.intent;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -12,10 +13,13 @@ import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonRepository;
 import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.path.application.VaccinatorApplication;
-import org.ei.opensrp.path.domain.DailyTally;
+import org.ei.opensrp.path.domain.MonthlyTally;
+import org.ei.opensrp.path.domain.ReportHia2Indicator;
 import org.ei.opensrp.path.domain.VaccineSchedule;
 import org.ei.opensrp.path.provider.MotherLookUpSmartClientsProvider;
+import org.ei.opensrp.path.receiver.Hia2ServiceBroadcastReceiver;
 import org.ei.opensrp.path.repository.DailyTalliesRepository;
+import org.ei.opensrp.path.repository.MonthlyTalliesRepository;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.service.HIA2Service;
@@ -23,6 +27,7 @@ import org.joda.time.DateTime;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +45,9 @@ import util.Utils;
 public class HIA2IntentService extends IntentService {
     private static final String TAG = HIA2IntentService.class.getCanonicalName();
     public static final String GENERATE_REPORT = "GENERATE_REPORT";
+    public static final String REPORT_MONTH = "REPORT_MONTH";
     private DailyTalliesRepository dailyTalliesRepository;
+    private MonthlyTalliesRepository monthlyTalliesRepository;
     private PathRepository pathRepository;
     private HIA2Service hia2Service;
     private boolean generateReport;
@@ -60,24 +67,43 @@ public class HIA2IntentService extends IntentService {
      */
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.e(TAG, "Started HIA2 service");
+        Log.i(TAG, "Started HIA2 service");
         try {
             generateReport = intent.getBooleanExtra(GENERATE_REPORT, false);
+            if (!generateReport) {
+                //Update H1A2 status (Within or Overdue)
+                updateVaccineHIA2Status();
 
-            //Update H1A2 status (Within or Overdue)
-            updateVaccineHIA2Status();
+                // Generate daily HIA2 indicators
+                generateDailyHia2Indicators();
 
-            // Generate HIA2 report (daily, monthly tallies)
-            generateReport();
+                // Send broadcast message
+                sendBroadcastMessage(Hia2ServiceBroadcastReceiver.TYPE_GENERATE_DAILY_INDICATORS);
+            } else {
+                String monthString = intent.getStringExtra(REPORT_MONTH);
+                if (!TextUtils.isEmpty(monthString)) {
+                    Date month = HIA2Service.dfyymm.parse(monthString);
+                    generateMonthlyReport(month);
+                    sendBroadcastMessage(Hia2ServiceBroadcastReceiver.TYPE_GENERATE_MONTHLY_REPORT);
+                }
+            }
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
         }
-        Log.e(TAG, "Finishing HIA2 service");
+        Log.i(TAG, "Finishing HIA2 service");
+    }
+
+    private void sendBroadcastMessage(String type) {
+        Intent intent = new Intent();
+        intent.setAction(Hia2ServiceBroadcastReceiver.ACTION_SERVICE_DONE);
+        intent.putExtra(Hia2ServiceBroadcastReceiver.TYPE, type);
+        sendBroadcast(intent);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         dailyTalliesRepository = VaccinatorApplication.getInstance().dailyTalliesRepository();
+        monthlyTalliesRepository = VaccinatorApplication.getInstance().monthlyTalliesRepository();
         pathRepository = (PathRepository) VaccinatorApplication.getInstance().getRepository();
         hia2Service = new HIA2Service();
 
@@ -86,7 +112,7 @@ public class HIA2IntentService extends IntentService {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void generateReport() {
+    private void generateDailyHia2Indicators() {
         try {
 
             SQLiteDatabase db = VaccinatorApplication.getInstance().getRepository().getWritableDatabase();
@@ -106,20 +132,36 @@ public class HIA2IntentService extends IntentService {
 
                 Map<String, Object> hia2Report = hia2Service.generateIndicators(db, date);
                 dailyTalliesRepository.save(date, hia2Report);
-                if (generateReport) {
-                    List<DailyTally> tallies = dailyTalliesRepository.findByProviderIdAndDay(userName, date);
-                    List<JSONObject> tallyReports = new ArrayList<>();
-                    for (DailyTally curTally : tallies) {
-                        tallyReports.add(curTally.getJsonObject());
-                    }
-                    ReportUtils.createReport(this, tallyReports, HIA2Service.REPORT_NAME);
-                }
                 Context.getInstance().allSharedPreferences().savePreference(HIA2Service.HIA2_LAST_PROCESSED_DATE, updatedAt);
             }
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
         }
 
+    }
+
+    private void generateMonthlyReport(Date month) {
+        try {
+            if (month != null) {
+                List<MonthlyTally> tallies = monthlyTalliesRepository
+                        .find(MonthlyTalliesRepository.DF_YYYYMM.format(month));
+                if (tallies != null) {
+                    List<ReportHia2Indicator> tallyReports = new ArrayList<>();
+                    for (MonthlyTally curTally : tallies) {
+                        tallyReports.add(curTally.getReportHia2Indicator());
+                    }
+
+                    ReportUtils.createReport(this, tallyReports, month, HIA2Service.REPORT_NAME);
+
+                    for (MonthlyTally curTally : tallies) {
+                        curTally.setDateSent(Calendar.getInstance().getTime());
+                        monthlyTalliesRepository.save(curTally);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
     }
 
     private void updateVaccineHIA2Status() {

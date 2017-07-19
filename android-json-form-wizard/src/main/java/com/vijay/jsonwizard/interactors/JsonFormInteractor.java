@@ -18,6 +18,7 @@ import com.vijay.jsonwizard.fragments.JsonFormFragment;
 import com.vijay.jsonwizard.interfaces.CommonListener;
 import com.vijay.jsonwizard.interfaces.FormWidgetFactory;
 import com.vijay.jsonwizard.widgets.BarcodeFactory;
+import com.vijay.jsonwizard.widgets.ButtonFactory;
 import com.vijay.jsonwizard.widgets.CheckBoxFactory;
 import com.vijay.jsonwizard.widgets.DatePickerFactory;
 import com.vijay.jsonwizard.widgets.EditTextFactory;
@@ -52,6 +53,7 @@ public class JsonFormInteractor {
         map.put(JsonFormConstants.DATE_PICKER, new DatePickerFactory());
         map.put(JsonFormConstants.TREE, new TreeViewFactory());
         map.put(JsonFormConstants.BARCODE, new BarcodeFactory());
+        map.put(JsonFormConstants.BUTTON, new ButtonFactory());
     }
 
     public List<View> fetchFormElements(String stepName, JsonFormFragment formFragment,

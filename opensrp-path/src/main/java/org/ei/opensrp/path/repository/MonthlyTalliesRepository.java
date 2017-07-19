@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.text.TextUtils;
 import android.util.Log;
 
+import net.sqlcipher.SQLException;
 import net.sqlcipher.database.SQLiteDatabase;
 
 import org.ei.opensrp.Context;
@@ -28,8 +29,8 @@ import java.util.Map;
 
 public class MonthlyTalliesRepository extends BaseRepository {
     private static final String TAG = MonthlyTalliesRepository.class.getCanonicalName();
-    public static final SimpleDateFormat MONTH_FORMAT = new SimpleDateFormat("yyyy-MM");
-    public static final SimpleDateFormat dfddmmyy = new SimpleDateFormat("dd/MM/yy");
+    public static final SimpleDateFormat DF_YYYYMM = new SimpleDateFormat("yyyy-MM");
+    public static final SimpleDateFormat DF_DDMMYY = new SimpleDateFormat("dd/MM/yy");
     public static final String TABLE_NAME = "monthly_tallies";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_PROVIDER_ID = "provider_id";
@@ -69,6 +70,9 @@ public class MonthlyTalliesRepository extends BaseRepository {
     private static final String INDEX_DATE_SENT = "CREATE INDEX " + TABLE_NAME + "_" + COLUMN_DATE_SENT + "_index" +
             " ON " + TABLE_NAME + "(" + COLUMN_DATE_SENT + ");";
 
+    public static final String INDEX_UNIQUE = "CREATE UNIQUE INDEX " + TABLE_NAME + "_" + COLUMN_INDICATOR_ID + "_" + COLUMN_MONTH + "_index" +
+            " ON " + TABLE_NAME + "(" + COLUMN_INDICATOR_ID + "," + COLUMN_MONTH + ");";
+
     public MonthlyTalliesRepository(PathRepository pathRepository) {
         super(pathRepository);
     }
@@ -86,11 +90,15 @@ public class MonthlyTalliesRepository extends BaseRepository {
     /**
      * Returns a list of all months that have corresponding daily tallies by unsent monthly tallies
      *
+     * @param startDate The earliest date for the draft reports' month. Set argument to null if you
+     *                  don't want this enforced
+     * @param endDate   The latest date for the draft reports' month. Set argument to null if you
+     *                  don't want this enforced
      * @return List of months with unsent monthly tallies
      */
-    public List<Date> findAllUnsentMonths() {
+    public List<Date> findUneditedDraftMonths(Date startDate, Date endDate) {
         List<String> allTallyMonths = VaccinatorApplication.getInstance().dailyTalliesRepository()
-                .findAllDistinctMonths(MONTH_FORMAT);
+                .findAllDistinctMonths(DF_YYYYMM, startDate, endDate);
         Cursor cursor = null;
         try {
             if (allTallyMonths != null) {
@@ -103,14 +111,13 @@ public class MonthlyTalliesRepository extends BaseRepository {
                     monthsString = monthsString + "'" + curMonthString + "'";
                 }
 
-                String query = "SELECT DISTINCT " + COLUMN_MONTH +
-                        " FROM " + TABLE_NAME +
-                        " WHERE " + COLUMN_DATE_SENT + " IS NOT NULL" +
-                        " AND " + COLUMN_MONTH + " IN(" + monthsString + ")";
-                cursor = getPathRepository().getReadableDatabase().rawQuery(query, null);
+                cursor = getPathRepository().getReadableDatabase().query(
+                        TABLE_NAME,
+                        new String[]{COLUMN_MONTH}, COLUMN_MONTH + " IN(" + monthsString + ")",
+                        null, null, null, null);
 
-                if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
-                    while (!cursor.isAfterLast()) {
+                if (cursor != null && cursor.getCount() > 0) {
+                    for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                         String curMonth = cursor.getString(cursor.getColumnIndex(COLUMN_MONTH));
                         allTallyMonths.remove(curMonth);
                     }
@@ -118,12 +125,19 @@ public class MonthlyTalliesRepository extends BaseRepository {
 
                 List<Date> unsentMonths = new ArrayList<>();
                 for (String curMonthString : allTallyMonths) {
-                    unsentMonths.add(MONTH_FORMAT.parse(curMonthString));
+                    Date curMonth = DF_YYYYMM.parse(curMonthString);
+                    if ((startDate != null && curMonth.getTime() < startDate.getTime())
+                            || (endDate != null && curMonth.getTime() > endDate.getTime())) {
+                        continue;
+                    }
+                    unsentMonths.add(curMonth);
                 }
 
                 return unsentMonths;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        } catch (ParseException e) {
             Log.e(TAG, Log.getStackTraceString(e));
         } finally {
             if (cursor != null) {
@@ -149,11 +163,12 @@ public class MonthlyTalliesRepository extends BaseRepository {
                     COLUMN_MONTH + " = '" + month +
                             "' AND " + COLUMN_DATE_SENT + " IS NULL",
                     null, null, null, null, null);
-             monthlyTallies = readAllDataElements(cursor);
+            monthlyTallies = readAllDataElements(cursor);
 
             if (monthlyTallies.size() == 0) {// No tallies generated yet
+                Log.w(TAG, "Using daily tallies instead of monthly");
                 Map<Long, List<DailyTally>> dailyTallies = VaccinatorApplication.getInstance()
-                        .dailyTalliesRepository().findTalliesInMonth(month);
+                        .dailyTalliesRepository().findTalliesInMonth(DF_YYYYMM.parse(month));
                 for (List<DailyTally> curList : dailyTallies.values()) {
                     MonthlyTally curTally = addUpDailyTallies(curList);
                     if (curTally != null) {
@@ -161,7 +176,35 @@ public class MonthlyTalliesRepository extends BaseRepository {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        } catch (ParseException e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return monthlyTallies;
+    }
+
+    /**
+     * Returns a list of all monthly tallies corresponding to the provided month
+     *
+     * @param month The month to get the draft tallies for
+     * @return
+     */
+    public List<MonthlyTally> find(String month) {
+        // Check if there exists any sent tally in the database for the month provided
+        Cursor cursor = null;
+        List<MonthlyTally> monthlyTallies = new ArrayList<>();
+        try {
+            cursor = getPathRepository().getReadableDatabase().query(TABLE_NAME, TABLE_COLUMNS,
+                    COLUMN_MONTH + " = '" + month + "'",
+                    null, null, null, null, null);
+            monthlyTallies = readAllDataElements(cursor);
+        } catch (SQLException e) {
             Log.e(TAG, Log.getStackTraceString(e));
         } finally {
             if (cursor != null) {
@@ -181,8 +224,11 @@ public class MonthlyTalliesRepository extends BaseRepository {
                 monthlyTally = new MonthlyTally();
                 monthlyTally.setIndicator(dailyTallies.get(i).getIndicator());
             }
-
-            value = value + Double.valueOf(dailyTallies.get(i).getValue());
+            try {
+                value = value + Double.valueOf(dailyTallies.get(i).getValue());
+            } catch (NumberFormatException e) {
+                Log.w(TAG, Log.getStackTraceString(e));
+            }
         }
 
         if (monthlyTally != null) {
@@ -203,8 +249,8 @@ public class MonthlyTalliesRepository extends BaseRepository {
             cursor = getPathRepository().getReadableDatabase()
                     .query(TABLE_NAME, TABLE_COLUMNS,
                             COLUMN_DATE_SENT + " IS NOT NULL", null, null, null, null, null);
-            if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
-                while (!cursor.isAfterLast()) {
+            if (cursor != null && cursor.getCount() > 0) {
+                for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                     MonthlyTally curTally = extractMonthlyTally(indicatorMap, cursor);
                     if (curTally != null) {
                         if (!tallies.containsKey(dateFormat.format(curTally.getMonth()))) {
@@ -214,11 +260,12 @@ public class MonthlyTalliesRepository extends BaseRepository {
 
                         tallies.get(dateFormat.format(curTally.getMonth())).add(curTally);
                     }
-                    cursor.moveToNext();
                 }
             }
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage(), e);
+        } catch (SQLException e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        } catch (ParseException e) {
+            Log.e(TAG, Log.getStackTraceString(e));
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -231,32 +278,30 @@ public class MonthlyTalliesRepository extends BaseRepository {
     public boolean save(MonthlyTally tally) {
         SQLiteDatabase database = getPathRepository().getWritableDatabase();
         try {
+            database.beginTransaction();
             if (tally != null) {
-                Long id = checkIfExists(tally.getIndicator().getId(), MONTH_FORMAT.format(tally.getMonth()));
-
                 ContentValues cv = new ContentValues();
                 cv.put(COLUMN_INDICATOR_ID, tally.getIndicator().getId());
                 cv.put(COLUMN_VALUE, tally.getValue());
                 cv.put(COLUMN_PROVIDER_ID, tally.getProviderId());
-                cv.put(COLUMN_MONTH, MONTH_FORMAT.format(tally.getMonth()));
+                cv.put(COLUMN_MONTH, DF_YYYYMM.format(tally.getMonth()));
                 cv.put(COLUMN_DATE_SENT,
                         tally.getDateSent() == null ? null : tally.getDateSent().getTime());
                 cv.put(COLUMN_EDITED, tally.isEdited() ? 1 : 0);
-
-                if (id != null) {
-                    database.update(TABLE_NAME, cv, COLUMN_ID + " = ?",
-                            new String[]{id.toString()});
-                } else {
-                    cv.put(COLUMN_CREATED_AT, Calendar.getInstance().getTimeInMillis());
-                    database.insert(TABLE_NAME, null, cv);
-                }
+                cv.put(COLUMN_CREATED_AT, Calendar.getInstance().getTimeInMillis());
+                database.insertWithOnConflict(TABLE_NAME, null, cv, SQLiteDatabase.CONFLICT_REPLACE);
+                database.setTransactionSuccessful();
 
                 return true;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             Log.e(TAG, Log.getStackTraceString(e));
         } finally {
-            database.endTransaction();
+            try {
+                database.endTransaction();
+            } catch (IllegalStateException e) {
+                Log.e(TAG, Log.getStackTraceString(e));
+            }
         }
 
         return false;
@@ -278,35 +323,31 @@ public class MonthlyTalliesRepository extends BaseRepository {
                 String userName = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
 
                 for (String key : draftFormValues.keySet()) {
-                    Long id = checkIfExists(Integer.valueOf(key), MONTH_FORMAT.format(month));
                     String value = draftFormValues.get(key);
                     ContentValues cv = new ContentValues();
                     cv.put(COLUMN_INDICATOR_ID, Integer.valueOf(key));
                     cv.put(COLUMN_VALUE, (value == null || value.isEmpty() ? 0 : Integer.valueOf(value)));
-                    cv.put(COLUMN_MONTH, MONTH_FORMAT.format(month));
+                    cv.put(COLUMN_MONTH, DF_YYYYMM.format(month));
                     cv.put(COLUMN_EDITED, 1);
                     cv.put(COLUMN_PROVIDER_ID, userName);
-
-                    if (id != null) {
-                        database.update(TABLE_NAME, cv, COLUMN_ID + " = ?",
-                                new String[]{id.toString()});
-                    } else {
-                        cv.put(COLUMN_CREATED_AT, Calendar.getInstance().getTimeInMillis());
-                        database.insert(TABLE_NAME, null, cv);
-                    }
+                    cv.put(COLUMN_CREATED_AT, Calendar.getInstance().getTimeInMillis());
+                    database.insertWithOnConflict(TABLE_NAME, null, cv, SQLiteDatabase.CONFLICT_REPLACE);
                 }
+                database.setTransactionSuccessful();
 
-
+                return true;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             Log.e(TAG, Log.getStackTraceString(e));
-            return false;
         } finally {
-            database.setTransactionSuccessful();
-            database.endTransaction();
+            try {
+                database.endTransaction();
+            } catch (IllegalStateException e) {
+                Log.e(TAG, Log.getStackTraceString(e));
+            }
         }
 
-        return true;
+        return false;
     }
 
     private List<MonthlyTally> readAllDataElements(Cursor cursor) {
@@ -316,17 +357,17 @@ public class MonthlyTalliesRepository extends BaseRepository {
 
         try {
             if (cursor != null && cursor.getCount() > 0) {
-                while (cursor.moveToNext()) {
+                for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                     MonthlyTally curTally = extractMonthlyTally(indicatorMap, cursor);
                     if (curTally != null) {
                         tallies.add(curTally);
                     }
-
-                    cursor.moveToNext();
                 }
             }
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
+        } catch (SQLException e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        } catch (ParseException e) {
+            Log.e(TAG, Log.getStackTraceString(e));
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -345,7 +386,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
                     cursor.getString(cursor.getColumnIndex(COLUMN_PROVIDER_ID)));
             curTally.setIndicator(indicatorMap.get(indicatorId));
             curTally.setValue(cursor.getString(cursor.getColumnIndex(COLUMN_VALUE)));
-            curTally.setMonth(MONTH_FORMAT.parse(cursor.getString(cursor.getColumnIndex(COLUMN_MONTH))));
+            curTally.setMonth(DF_YYYYMM.parse(cursor.getString(cursor.getColumnIndex(COLUMN_MONTH))));
             curTally.setEdited(
                     cursor.getInt(cursor.getColumnIndex(COLUMN_EDITED)) == 0 ?
                             false : true
@@ -365,34 +406,44 @@ public class MonthlyTalliesRepository extends BaseRepository {
     }
 
     /**
-     * @return
+     * Returns a list of dates for monthly reports that have been edited, but not sent
+     *
+     * @param startDate The earliest date for the monthly reports. Set argument to null if you
+     *                  don't want this enforced
+     * @param endDate   The latest date for the monthly reports. Set argument to null if you
+     *                  don't want this enforced
+     * @return The list of monthly reports that have been edited, but not sent
      */
-    public List<MonthlyTally> findAllEditedUnsentMonths() {
+    public List<MonthlyTally> findEditedDraftMonths(Date startDate, Date endDate) {
         Cursor cursor = null;
         List<MonthlyTally> tallies = new ArrayList<>();
 
         try {
-
-            String query = "SELECT DISTINCT " + COLUMN_MONTH + "," + COLUMN_CREATED_AT +
-                    " FROM " + TABLE_NAME +
-                    " WHERE " + COLUMN_DATE_SENT + " IS NULL" + " AND " + COLUMN_EDITED + " =1 " +
-                    " GROUP BY  " + COLUMN_MONTH;
-            cursor = getPathRepository().getReadableDatabase().rawQuery(query, null);
+            cursor = getPathRepository().getReadableDatabase().query(
+                    TABLE_NAME, new String[]{COLUMN_MONTH, COLUMN_CREATED_AT},
+                    COLUMN_DATE_SENT + " IS NULL AND " + COLUMN_EDITED + " = 1",
+                    null, COLUMN_MONTH, null, null);
 
             if (cursor != null && cursor.getCount() > 0) {
-                while (cursor.moveToNext()) {
+                for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                     String curMonth = cursor.getString(cursor.getColumnIndex(COLUMN_MONTH));
+                    Date month = DF_YYYYMM.parse(curMonth);
+
+                    if ((startDate != null && month.getTime() < startDate.getTime())
+                            || (endDate != null && month.getTime() > endDate.getTime())) {
+                        continue;
+                    }
+
                     Long dateStarted = cursor.getLong(cursor.getColumnIndex(COLUMN_CREATED_AT));
-
-                        MonthlyTally tally = new MonthlyTally();
-                        tally.setMonth(MONTH_FORMAT.parse(curMonth));
-                        tally.setCreatedAt(new Date(dateStarted));
-                        tallies.add(tally);
+                    MonthlyTally tally = new MonthlyTally();
+                    tally.setMonth(month);
+                    tally.setCreatedAt(new Date(dateStarted));
+                    tallies.add(tally);
                 }
-
             }
-
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        } catch (ParseException e) {
             Log.e(TAG, Log.getStackTraceString(e));
         } finally {
             if (cursor != null) {
@@ -407,7 +458,7 @@ public class MonthlyTalliesRepository extends BaseRepository {
         Cursor mCursor = null;
         try {
             String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME +
-                    " WHERE " + COLUMN_INDICATOR_ID + " = " + String.valueOf(indicatorId)
+                    " WHERE " + COLUMN_INDICATOR_ID + " = " + String.valueOf(indicatorId) + " COLLATE NOCASE "
                     + " and " + COLUMN_MONTH + " = '" + month + "'";
             mCursor = getPathRepository().getWritableDatabase().rawQuery(query, null);
             if (mCursor != null && mCursor.moveToFirst()) {

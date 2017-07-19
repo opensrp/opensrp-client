@@ -1,5 +1,7 @@
 package org.ei.opensrp.path.domain;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -98,5 +100,16 @@ public class Hia2Indicator implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public JSONObject getJsonObject() throws JSONException {
+        JSONObject object = new JSONObject();
+        object.put("indicatorCode", indicatorCode);
+        object.put("label", label);
+        object.put("dhisId", dhisId);
+        object.put("description", description);
+        object.put("category", category);
+
+        return object;
     }
 }

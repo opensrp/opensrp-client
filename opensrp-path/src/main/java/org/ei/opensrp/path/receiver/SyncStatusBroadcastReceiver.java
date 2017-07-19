@@ -10,6 +10,8 @@ import org.ei.opensrp.domain.FetchStatus;
 
 import java.util.ArrayList;
 
+import static org.ei.opensrp.util.Log.logError;
+
 /**
  * Created by Jason Rogena - jrogena@ona.io on 12/05/2017.
  */
@@ -33,8 +35,12 @@ public class SyncStatusBroadcastReceiver extends BroadcastReceiver {
     }
 
     public static void destroy(Context context) {
-        if (singleton != null) {
-            context.unregisterReceiver(singleton);
+        try {
+            if (singleton != null) {
+                context.unregisterReceiver(singleton);
+            }
+        } catch (IllegalArgumentException e) {
+            logError("Error on destroy: " + e);
         }
     }
 

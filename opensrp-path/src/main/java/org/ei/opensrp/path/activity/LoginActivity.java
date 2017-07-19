@@ -100,6 +100,7 @@ public class LoginActivity extends Activity {
             conf.locale = new Locale(preferredLocale);
             res.updateConfiguration(conf, dm);
         } catch (Exception e) {
+            logError("Error onCreate: " + e);
 
         }
 
@@ -110,7 +111,7 @@ public class LoginActivity extends Activity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(android.R.color.black));
         }
-        appContext=this;
+        appContext = this;
         context = Context.getInstance().updateApplicationContext(this.getApplicationContext());
         positionViews();
         initializeLoginFields();
@@ -211,7 +212,7 @@ public class LoginActivity extends Activity {
     private void localLogin(View view, String userName, String password) {
         view.setClickable(true);
         if (context.userService().isUserInValidGroup(userName, password)
-                && (!PathConstants.TIME_CHECK||TimeStatus.OK.equals(context.userService().validateStoredServerTimeZone()))) {
+                && (!PathConstants.TIME_CHECK || TimeStatus.OK.equals(context.userService().validateStoredServerTimeZone()))) {
             localLoginWith(userName, password);
         } else {
 
@@ -229,7 +230,7 @@ public class LoginActivity extends Activity {
                     if (context.userService().isUserInPioneerGroup(userName)) {
                         TimeStatus timeStatus = context.userService().validateDeviceTime(
                                 loginResponse.payload(), PathConstants.MAX_SERVER_TIME_DIFFERENCE);
-                        if (!PathConstants.TIME_CHECK||timeStatus.equals(TimeStatus.OK)) {
+                        if (!PathConstants.TIME_CHECK || timeStatus.equals(TimeStatus.OK)) {
                             remoteLoginWith(userName, password, loginResponse.payload());
                             Intent intent = new Intent(appContext, PullUniqueIdsIntentService.class);
                             appContext.startService(intent);
