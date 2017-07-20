@@ -5,11 +5,13 @@ import android.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
@@ -18,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
@@ -1620,8 +1623,119 @@ public class ChildImmunizationActivity extends BaseActivity
 
         int age_in_months = (int) Math.floor((float) timeDiff /
                 TimeUnit.MILLISECONDS.convert(30, TimeUnit.DAYS));
+        DateTime tempweighttime = null;
+        Map<String, String> detailsMap = detailsRepository.getAllDetailsForClient(childDetails.entityId());
+        Float birthweight = new Float(Utils.getValue(detailsMap, "Birth_Weight", true));
+        Weight previouseWeight = new Weight();
+        previouseWeight.setKg(birthweight);
+        previouseWeight.setDate(dob);
+        int monthLastWeightTaken = 0;
+        for(int j = 6;j>0;j--) {
+            DateTime weighttakentime = new DateTime(weight.getDate());
+            DateTime weighttakenA_month_back_time = weighttakentime.minusMonths(j);
+            for (int i = 0; i < weightlist.size(); i++) {
+                DateTime weighttime = new DateTime(weightlist.get(i).getDate());
+                if (weighttime.isBefore(weighttakenA_month_back_time)) {
+                    if (tempweighttime == null) {
+                        tempweighttime = weighttime;
+                        previouseWeight = weightlist.get(i);
+                        monthLastWeightTaken = j;
+                    } else if (weighttime.isAfter(tempweighttime)) {
+                        tempweighttime = weighttime;
+                        previouseWeight = weightlist.get(i);
+                        monthLastWeightTaken = j;
+                    }
+
+                }
+            }
+        }
+        long timeDiffwhenWeightwastaken =  weight.getDate().getTime() - dob.getTime();
+
+        int age_when_weight_taken = (int) Math.floor((float) timeDiffwhenWeightwastaken /
+                TimeUnit.MILLISECONDS.convert(30, TimeUnit.DAYS));
+
+       boolean check = checkWeighGainVelocity(weight,previouseWeight,age_when_weight_taken,monthLastWeightTaken,gender);
+       if(!check){
+//           Snackbar.make(,"not enough growth",Snackbar.LENGTH_LONG).show();
+           Toast.makeText(this,"not enough growth",Toast.LENGTH_LONG).show();
+       }
+//        net.sqlcipher.database.SQLiteDatabase db = wp.getPathRepository().getReadableDatabase();
 
 
+    }
 
+    private boolean checkWeighGainVelocity(Weight weight, Weight previouseWeight, int age_when_weight_taken, int monthLastWeightTaken, Gender gender) {
+        boolean check = true;
+        Float weightDifference = weight.getKg() - previouseWeight.getKg();
+        Float weightDifferenceInGrams = weightDifference*1000;
+        if(age_when_weight_taken == 1 && monthLastWeightTaken == 0 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 805){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 697){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 2 && monthLastWeightTaken == 0 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 1890){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 1604){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 2 && monthLastWeightTaken == 1 ){
+            if(gender.MALE == gender){
+                  if(weightDifferenceInGrams< 992){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 829){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 3 && monthLastWeightTaken == 0 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 2608){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 2247){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 3 && monthLastWeightTaken == 1 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 1701){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 1450){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 3 && monthLastWeightTaken == 2 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 658){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 571){
+                    check = false;
+                }
+            }
+        }
+
+
+        return check;
     }
 }
