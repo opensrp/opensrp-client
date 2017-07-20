@@ -85,7 +85,6 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-
             android:name="com.vijay.jsonwizard.activities.JsonFormActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
@@ -100,7 +99,7 @@
         <receiver android:name=".receiver.VaccinatorAlarmReceiver" />
         <receiver android:name=".receiver.OnBootReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
@@ -116,10 +115,12 @@
             android:name=".activity.HIA2ReportsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoTitle.NoActionBar" />
-        <activity android:name=".activity.ReportSummaryActivity"
+        <activity
+            android:name=".activity.ReportSummaryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoTitle.NoActionBar" />
-        <activity android:name=".activity.StockActivity"
+        <activity
+            android:name=".activity.StockActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoTitle.NoActionBar" />
 
@@ -148,9 +149,11 @@
         <activity
             android:name=".activity.StockControlActivity"
             android:label="@string/title_activity_stock_control"
-            android:theme="@style/AppThemeNoTitle.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppThemeNoTitle.NoActionBar"></activity>
+        <activity
+            android:name=".activity.HouseholdDetailActivity"
+            android:label="@string/title_activity_householddetail"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
