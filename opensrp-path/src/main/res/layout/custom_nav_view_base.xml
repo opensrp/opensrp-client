@@ -56,7 +56,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/nav_record_vaccination_out_catchment"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="@dimen/custom_navigation_icon_size"
@@ -124,7 +125,7 @@
                     android:layout_width="@dimen/registerlinkwidth"
                     android:layout_height="@dimen/registerlinkheight"
                     android:id="@+id/child_registerImageview"
-                    android:src="@drawable/zeirbig"
+                    android:src="@drawable/growplusogo"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:paddingRight="10dp"
@@ -133,7 +134,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
-                    android:text="ZEIR"
+                    android:text="Child Register"
                     android:id="@+id/child_registertextview"
                     android:textColor="@color/white"
                     android:textSize="@dimen/label_text_size"
@@ -146,7 +147,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/hia2reports"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="@dimen/registerlinkwidth"

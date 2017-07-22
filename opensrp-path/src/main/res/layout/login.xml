@@ -44,15 +44,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
 
             <ImageView
                 android:id="@+id/logoImage"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/login_opensrp_logo_width"
                 android:layout_height="@dimen/login_logo_height"
                 android:layout_gravity="center"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_logo" />
+                android:src="@drawable/growplusopeninglogo"
+                android:layout_marginTop="20dp" />
 
             <TextView
                 android:id="@+id/login_build"

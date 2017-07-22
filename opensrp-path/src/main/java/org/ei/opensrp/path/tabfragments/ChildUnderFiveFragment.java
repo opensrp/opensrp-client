@@ -109,11 +109,11 @@ public class ChildUnderFiveFragment extends Fragment {
 
     public void loadView(boolean editVaccineMode, boolean editServiceMode, boolean editWeightMode) {
         if (fragmentContainer != null) {
-            createPTCMTVIEW(fragmentContainer, "PMTCT: ", Utils.getValue(childDetails.getColumnmaps(), "pmtct_status", true));
+//            createPTCMTVIEW(fragmentContainer, "PMTCT: ", Utils.getValue(childDetails.getColumnmaps(), "pmtct_status", true));
             createWeightLayout(fragmentContainer, editWeightMode);
 
             updateVaccinationViews(fragmentContainer, editVaccineMode);
-            updateServiceViews(fragmentContainer, editServiceMode);
+//            updateServiceViews(fragmentContainer, editServiceMode);
         }
     }
 

@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -246,8 +247,8 @@ public class ChildImmunizationActivity extends BaseActivity
         UpdateViewTask updateViewTask = new UpdateViewTask();
         updateViewTask.setWeightRepository(weightRepository);
         updateViewTask.setVaccineRepository(vaccineRepository);
-        updateViewTask.setRecurringServiceTypeRepository(recurringServiceTypeRepository);
-        updateViewTask.setRecurringServiceRecordRepository(recurringServiceRecordRepository);
+//        updateViewTask.setRecurringServiceTypeRepository(recurringServiceTypeRepository);
+//        updateViewTask.setRecurringServiceRecordRepository(recurringServiceRecordRepository);
         updateViewTask.setAlertService(alertService);
         Utils.startAsyncTask(updateViewTask, null);
     }
@@ -276,7 +277,7 @@ public class ChildImmunizationActivity extends BaseActivity
         TextView nameTV = (TextView) findViewById(R.id.name_tv);
         nameTV.setText(name);
         TextView childIdTV = (TextView) findViewById(R.id.child_id_tv);
-        childIdTV.setText(String.format("%s: %s", getString(R.string.label_zeir), childId));
+        childIdTV.setText(String.format("%s: %s", "Unique ID", childId));
 
         Utils.startAsyncTask(new GetSiblingsTask(), null);
     }
@@ -1656,8 +1657,10 @@ public class ChildImmunizationActivity extends BaseActivity
 
        boolean check = checkWeighGainVelocity(weight,previouseWeight,age_when_weight_taken,monthLastWeightTaken,gender);
        if(!check){
-//           Snackbar.make(,"not enough growth",Snackbar.LENGTH_LONG).show();
-           Toast.makeText(this,"not enough growth",Toast.LENGTH_LONG).show();
+           Snackbar.make((CoordinatorLayout)findViewById(R.id.immunization_coordinator_layout),"not adequate growth",Snackbar.LENGTH_LONG).show();
+//           Toast.makeText(this,"not enough growth",Toast.LENGTH_LONG).show();
+       }else{
+           Snackbar.make((CoordinatorLayout)findViewById(R.id.immunization_coordinator_layout),"adequate growth",Snackbar.LENGTH_LONG).show();
        }
 //        net.sqlcipher.database.SQLiteDatabase db = wp.getPathRepository().getReadableDatabase();
 
@@ -1734,6 +1737,150 @@ public class ChildImmunizationActivity extends BaseActivity
                 }
             }
         }
+        if(age_when_weight_taken == 4 && monthLastWeightTaken == 0 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 3204){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 2806){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 4 && monthLastWeightTaken == 1 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 2214){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 1941){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 4 && monthLastWeightTaken == 2 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 1202){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 1088){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 4 && monthLastWeightTaken == 3 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 476){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 448){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 5 && monthLastWeightTaken <= 1 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 2706){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 2379){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 5 && monthLastWeightTaken == 2 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 1702){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 1545){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 5 && monthLastWeightTaken == 3 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 930){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 874){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 5 && monthLastWeightTaken == 4 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 383){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 355){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 6 && monthLastWeightTaken == 0 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 4072){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 3620){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 6 && monthLastWeightTaken == 2 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 2038){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 1883){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 6 && monthLastWeightTaken == 3 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 1307){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 1229){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 6 && monthLastWeightTaken == 4 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 738){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 695){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 6 && monthLastWeightTaken == 5 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 287){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 271){
+                    check = false;
+                }
+            }
+        }
+
 
 
         return check;

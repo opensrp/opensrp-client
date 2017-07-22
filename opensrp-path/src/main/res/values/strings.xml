@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ZEIR</string>
+    <string name="app_name">GROW PLUS</string>
     <string name="invalid_device_date">Device current datetime must be after last synced server datetime which was </string>
     <string name="home_women_label">Woman</string>
     <string name="home_field_monitor_label">Stock</string>
@@ -42,7 +42,7 @@
     <string name="woman_last_vaccine">LAST VACCINE</string>
     <string name="woman_next_vaacine">NEXT VACCINE DUE</string>
     <string name="woman_alphabetical_sort">Alphabetical (Name)</string>
-    <string name="id_sort">ZEIR ID </string>
+    <string name="id_sort">Unique ID </string>
     <string name="woman_details_title">Woman Profile</string>
     <string name="day">DAY\n</string>
     <string name="bcg">BCG\n</string>
@@ -116,14 +116,14 @@
     <string name="neutral_sex_id">his or her</string>
     <string name="female_sex_id">her</string>
     <string name="male_sex_id">his</string>
-    <string name="label_zeir">ZEIR</string>
+    <string name="label_zeir">GROW PLUS</string>
     <string name="label_immunization_records">IMMUNISATION &amp; SERVICES</string>
 
     <string name="str_search_hint">Search name or ID</string>
 
     <string name="scan_qr_code">Scan QR code</string>
 
-    <string name="zeir">ZEIR</string>
+    <string name="zeir">GROW PLUS</string>
 
     <string name="record_all">Record all</string>
     <string name="record_">Record %1$s</string>
@@ -175,8 +175,8 @@
     <string name="active">Active</string>
     <string name="inactive">Inactive</string>
     <string name="lost_to_follow_up">Lost to Follow-Up</string>
-    <string name="zeir_id">ZEIR ID</string>
-    <string name="zeir_id_hint">ZEIR ID number</string>
+    <string name="zeir_id">Unique ID</string>
+    <string name="zeir_id_hint">Unique ID number</string>
     <string name="first_name">First Name</string>
     <string name="first_name_hint">First name</string>
     <string name="last_name">Last Name</string>
