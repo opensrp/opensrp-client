@@ -17,6 +17,7 @@ import org.ei.opensrp.cursoradapter.SmartRegisterCLientsProviderForCursorAdapter
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.domain.Weight;
+import org.ei.opensrp.logger.Logger;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.repository.VaccineRepository;
@@ -80,8 +81,11 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
     @Override
     public void getView(SmartRegisterClient client, View convertView) {
         CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
+        Logger.largeLog("-----------",pc.getDetails().toString());
+        Logger.largeLog("-----------",pc.getColumnmaps().toString());
 
-
+        String name = pc.getDetails().get("first_name") + " " + pc.getDetails().get("last_name");
+        ((TextView) convertView.findViewById(R.id.name)).setText(name);
     }
 
     @Override

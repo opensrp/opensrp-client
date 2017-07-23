@@ -117,6 +117,9 @@ public class HouseholdSmartClientsProvider implements SmartRegisterCLientsProvid
             e.printStackTrace();
         }
 
+        convertView.findViewById(R.id.child_profile_info_layout).setTag(client);
+        convertView.findViewById(R.id.child_profile_info_layout).setOnClickListener(onClickListener);
+
         addmember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

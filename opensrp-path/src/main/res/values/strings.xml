@@ -28,7 +28,9 @@
     <string name="child_contact_number">WEIGHT</string>
     <string name="marital_status">Marital Status</string>
     <string name="woman_entries"></string>
+    <string name="woman_nbnf">NBNF</string>
     <string name="woman_register_title">Woman Register</string>
+    <string name="unique_id">UNIQUE_IDs</string>
     <string name="str_woman_search_hint">Search Woman Register</string>
     <string name="woman_profile">WOMAN PROFILE</string>
     <string name="woman_title">Woman</string>
@@ -225,4 +227,5 @@
     <string name="send">Send</string>
     <string name="n_a">"N/A"</string>
     <string name="confirm_button_label">Confirm</string>
+    <string name="title_activity_householddetail">HouseholddetailActivity</string>
 </resources>

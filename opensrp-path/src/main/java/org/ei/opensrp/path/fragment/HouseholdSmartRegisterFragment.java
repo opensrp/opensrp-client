@@ -1,5 +1,6 @@
 package org.ei.opensrp.path.fragment;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.ChildImmunizationActivity;
 import org.ei.opensrp.path.activity.ChildSmartRegisterActivity;
 import org.ei.opensrp.path.activity.HouseholdSmartRegisterActivity;
+import org.ei.opensrp.path.activity.HouseholdDetailActivity;
 import org.ei.opensrp.path.activity.LoginActivity;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.db.VaccineRepo;
@@ -34,7 +36,6 @@ import org.ei.opensrp.path.domain.RegisterClickables;
 import org.ei.opensrp.path.option.BasicSearchOption;
 import org.ei.opensrp.path.option.DateSort;
 import org.ei.opensrp.path.option.StatusSort;
-import org.ei.opensrp.path.provider.ChildSmartClientsProvider;
 import org.ei.opensrp.path.provider.HouseholdSmartClientsProvider;
 import org.ei.opensrp.path.servicemode.VaccinationServiceModeOption;
 import org.ei.opensrp.path.view.LocationPickerView;
@@ -55,6 +56,7 @@ import static android.view.View.INVISIBLE;
 
 public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
     private final ClientActionHandler clientActionHandler = new ClientActionHandler();
+    private static final String EXTRA_HOUSEHOLD_DETAILS = "household_details";
     private LocationPickerView clinicSelection;
     private static final long NO_RESULT_SHOW_DIALOG_DELAY = 1000l;
     private Handler showNoResultDialogHandler;
@@ -311,32 +313,15 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
             }
             RegisterClickables registerClickables = new RegisterClickables();
 
+
             switch (view.getId()) {
                 case R.id.child_profile_info_layout:
-
-                    ChildImmunizationActivity.launchActivity(getActivity(), client, null);
+                    Intent intent = new Intent(getActivity(), HouseholdDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(EXTRA_HOUSEHOLD_DETAILS, client);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                     break;
-                case R.id.record_weight:
-                    registerClickables.setRecordWeight(true);
-                    ChildImmunizationActivity.launchActivity(getActivity(), client, registerClickables);
-                    break;
-
-                case R.id.record_vaccination:
-                    registerClickables.setRecordAll(true);
-                    ChildImmunizationActivity.launchActivity(getActivity(), client, registerClickables);
-                    break;
-                case R.id.filter_selection:
-                    toggleFilterSelection();
-                    break;
-
-                case R.id.global_search:
-                    ((ChildSmartRegisterActivity) getActivity()).startAdvancedSearch();
-                    break;
-
-                case R.id.scan_qr_code:
-                    ((ChildSmartRegisterActivity) getActivity()).startQrCodeScanner();
-                    break;
-
             }
         }
     }
