@@ -157,7 +157,7 @@ public class VaccineGroup extends LinearLayout implements View.OnClickListener,
     public void updateViews(ArrayList<VaccineWrapper> vaccinesToUpdate) {
         this.state = State.IN_PAST;
         if (this.vaccineData != null) {
-            String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+            String dobString = Utils.getValue(childDetails.getColumnmaps(), "client_reg_date", false);
             DateTime dateTime = new DateTime(dobString);
             Date dob = dateTime.toDate();
             Calendar today = Calendar.getInstance();

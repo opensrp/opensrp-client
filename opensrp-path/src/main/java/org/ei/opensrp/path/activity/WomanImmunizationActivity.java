@@ -145,7 +145,7 @@ public class WomanImmunizationActivity extends BaseActivity
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(WomanImmunizationActivity.this, ChildSmartRegisterActivity.class);
+                Intent intent = new Intent(WomanImmunizationActivity.this, WomanSmartRegisterActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
@@ -234,17 +234,14 @@ public class WomanImmunizationActivity extends BaseActivity
 
         VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
 
-        RecurringServiceTypeRepository recurringServiceTypeRepository = VaccinatorApplication.getInstance().recurringServiceTypeRepository();
-
-        RecurringServiceRecordRepository recurringServiceRecordRepository = VaccinatorApplication.getInstance().recurringServiceRecordRepository();
 
         AlertService alertService = getOpenSRPContext().alertService();
 
         UpdateViewTask updateViewTask = new UpdateViewTask();
         updateViewTask.setWeightRepository(weightRepository);
         updateViewTask.setVaccineRepository(vaccineRepository);
-        updateViewTask.setRecurringServiceTypeRepository(recurringServiceTypeRepository);
-        updateViewTask.setRecurringServiceRecordRepository(recurringServiceRecordRepository);
+//        updateViewTask.setRecurringServiceTypeRepository(recurringServiceTypeRepository);
+//        updateViewTask.setRecurringServiceRecordRepository(recurringServiceRecordRepository);
         updateViewTask.setAlertService(alertService);
         Utils.startAsyncTask(updateViewTask, null);
     }
@@ -402,7 +399,7 @@ public class WomanImmunizationActivity extends BaseActivity
 
         if (vaccineGroups == null) {
             vaccineGroups = new ArrayList<>();
-            String supportedVaccinesString = VaccinatorUtils.getSupportedVaccines(this);
+            String supportedVaccinesString = VaccinatorUtils.getSupportedWomanVaccines(this);
 
             try {
                 JSONArray supportedVaccines = new JSONArray(supportedVaccinesString);

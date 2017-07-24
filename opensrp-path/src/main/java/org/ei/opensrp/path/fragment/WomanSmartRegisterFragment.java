@@ -35,6 +35,7 @@ import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.ChildImmunizationActivity;
 import org.ei.opensrp.path.activity.ChildSmartRegisterActivity;
 import org.ei.opensrp.path.activity.LoginActivity;
+import org.ei.opensrp.path.activity.WomanImmunizationActivity;
 import org.ei.opensrp.path.activity.WomanSmartRegisterActivity;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.db.VaccineRepo;
@@ -363,9 +364,8 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
             RegisterClickables registerClickables = new RegisterClickables();
 
             switch (view.getId()) {
-                case R.id.child_profile_info_layout:
-
-                    ChildImmunizationActivity.launchActivity(getActivity(), client, null);
+                case R.id.profile_info_layout:
+                    WomanImmunizationActivity.launchActivity(getActivity(), client, null);
                     break;
                 case R.id.record_weight:
                     registerClickables.setRecordWeight(true);

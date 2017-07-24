@@ -86,6 +86,9 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
 
         String name = pc.getDetails().get("first_name") + " " + pc.getDetails().get("last_name");
         ((TextView) convertView.findViewById(R.id.name)).setText(name);
+        View profileview = convertView.findViewById(R.id.profile_info_layout);
+        profileview.setTag(pc);
+        profileview.setOnClickListener(onClickListener);
     }
 
     @Override
