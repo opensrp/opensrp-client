@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="utf-8"?>
+<h:html xmlns="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:jr="http://openrosa.org/javarosa" xmlns:orx="http://openrosa.org/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <h:head>
+    <h:title>ویکسین اسٹاک پوزیشن - Monthly Vaccine Stock Position</h:title>
+    <model>
+      <itext>
+        <translation lang="Urdu">
+          <text id="/vaccine_stock_position/provider_location_note:label">
+            <value>شہر: <output value=" /vaccine_stock_position/provider_city "/> ; Town: <output value=" /vaccine_stock_position/provider_town "/> ; UC: <output value=" /vaccine_stock_position/provider_uc "/> ; Center Name: <output value=" /vaccine_stock_position/provider_location_name "/></value></text>
+          <text id="/vaccine_stock_position/safety_boxes_received:label">
+            <value>موصول ہونے والے کنٹینر کی تعداد [جو تیز اوزار کو ضائع کرنے کے لیے استعمال ہوتے ہیں]</value>
+          </text>
+          <text id="/vaccine_stock_position/bcg_received:hint">
+            <value>شیشیوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/total_received:label">
+            <value>موصول ہونے والی اشیاء کی مکمل تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/tt_received:label">
+            <value>موصول ہونے والی ٹی ٹی کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/date:label">
+            <value>مدت گوشوارہ</value>
+          </text>
+          <text id="/vaccine_stock_position/bcg_received:label">
+            <value>موصول ہونے والی بی سی جی کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/ipv_balance_in_hand:hint">
+            <value>شیشیوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/ipv_balance_in_hand:label">
+            <value>موجودہ آئی پی وی کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/report/monthly:label">
+            <value>ماہانہ رپورٹ</value>
+          </text>
+          <text id="/vaccine_stock_position/dilutants_balance_in_hand:label">
+            <value>انجیکشن کے لئے موجودہ جراثیم سے پاک پانی کی شیشیوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/center_name:label">
+            <value>سینٹر کا نام: {provider_location_name}$</value>
+          </text>
+          <text id="/vaccine_stock_position/tt_balance_in_hand:label">
+            <value>موجودہ ٹی ٹی کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/vaccinator_name:label">
+            <value><output value=" /vaccine_stock_position/provider_id "/></value>
+          </text>
+          <text id="/vaccine_stock_position/safety_boxes_balance_in_hand:label">
+            <value>موجودہ کنٹینر کی تعداد [جو تیز اوزار کو ضائع کرنے کے لیے استعمال ہوتے ہیں]</value>
+          </text>
+          <text id="/vaccine_stock_position/pcv_balance_in_hand:hint">
+            <value>شیشیوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/bcg_balance_in_hand:label">
+            <value>موجودہ بی سی جی کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/opv_balance_in_hand:hint">
+            <value>شیشیوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/Target_assigned_for_vaccination_at_each_month:label">
+            <value>ویکسین لگانے کا ماہانہ ہدف</value>
+          </text>
+          <text id="/vaccine_stock_position/pcv_balance_in_hand:label">
+            <value>موجودہ پی سی وی کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/measles_received:hint">
+            <value>شیشیوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/pcv_received:label">
+            <value>موصول ہونے والی پی سی وی کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/tt_received:hint">
+            <value>شیشیوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/Target_assigned_for_vaccination_at_each_month:hint">
+            <value>رواں مہینے کا</value>
+          </text>
+          <text id="/vaccine_stock_position/tt_balance_in_hand:hint">
+            <value>شیشیوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/ipv_received:hint">
+            <value>شیشیوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/dilutants_received:hint">
+            <value>شیشیوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/safety_boxes_received:hint">
+            <value>کنٹینر کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/measles_balance_in_hand:label">
+            <value>موجودہ خسرے کے ٹیکوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/safety_boxes_balance_in_hand:hint">
+            <value>کنٹینر کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/syringes_received:label">
+            <value>موصول ہونے والی سرنج کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/penta_balance_in_hand:hint">
+            <value>شیشیوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/ipv_received:label">
+            <value>موصول ہونے والی آئی پی وی کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/opv_received:label">
+            <value>موصول ہونے والی او پی وی کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/syringes_balance_in_hand:label">
+            <value>موجودہ سرنج کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/measles_received:label">
+            <value>موصول ہونے والے خسرے کے ٹیکوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/syringes_received:hint">
+            <value>سرنج کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/pcv_received:hint">
+            <value>شیشیوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/opv_received:hint">
+            <value>شیشیوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/penta_balance_in_hand:label">
+            <value>موجودہ پینٹاویلنٹ کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/dilutants_received:label">
+            <value>انجیکشن کے لئے موصول ہونے والا جراثیم سے پاک پانی کی شیشیوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/syringes_balance_in_hand:hint">
+            <value>سرنج کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/dilutants_balance_in_hand:hint">
+            <value>شیشیوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/measles_balance_in_hand:hint">
+            <value>شیشیوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/Target_assigned_for_vaccination_for_the_year:label">
+            <value>ویکسین لگانے کا سالانہ ہدف</value>
+          </text>
+          <text id="/vaccine_stock_position/total_balanceInHand:label">
+            <value>موجودہ اشیاء کی مکمل تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/bcg_balance_in_hand:hint">
+            <value>شیشیوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/opv_balance_in_hand:label">
+            <value>موجودہ او پی وی کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/penta_received:label">
+            <value>موصول ہونے والی پینٹاویلنٹ کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/penta_received:hint">
+            <value>شیشیوں کی تعداد</value>
+          </text>
+          <text id="/vaccine_stock_position/report:label">
+            <value>رپورٹ کی قسم</value>
+          </text>
+        </translation>
+        <translation default="true()" lang="English">
+          <text id="/vaccine_stock_position/provider_location_note:label">
+            <value>City: <output value=" /vaccine_stock_position/provider_city "/> ; Town: <output value=" /vaccine_stock_position/provider_town "/> ; UC: <output value=" /vaccine_stock_position/provider_uc "/> ; Center Name: <output value=" /vaccine_stock_position/provider_location_name "/></value></text>
+          <text id="/vaccine_stock_position/safety_boxes_received:label">
+            <value>Sharp disposal container received</value>
+          </text>
+          <text id="/vaccine_stock_position/bcg_received:hint">
+            <value>Number of vials</value>
+          </text>
+          <text id="/vaccine_stock_position/total_received:label">
+            <value>Total received</value>
+          </text>
+          <text id="/vaccine_stock_position/tt_received:label">
+            <value>TT received</value>
+          </text>
+          <text id="/vaccine_stock_position/date:label">
+            <value>Reporting period</value>
+          </text>
+          <text id="/vaccine_stock_position/bcg_received:label">
+            <value>BCG received</value>
+          </text>
+          <text id="/vaccine_stock_position/ipv_balance_in_hand:hint">
+            <value>Number of vials</value>
+          </text>
+          <text id="/vaccine_stock_position/ipv_balance_in_hand:label">
+            <value>IPV balance in hand</value>
+          </text>
+          <text id="/vaccine_stock_position/report/monthly:label">
+            <value>Monthly</value>
+          </text>
+          <text id="/vaccine_stock_position/dilutants_balance_in_hand:label">
+            <value>Dilutants balance in hand</value>
+          </text>
+          <text id="/vaccine_stock_position/center_name:label">
+            <value>Center Name: <output value=" /vaccine_stock_position/provider_location_name "/></value></text>
+          <text id="/vaccine_stock_position/tt_balance_in_hand:label">
+            <value>TT balance in hand</value>
+          </text>
+          <text id="/vaccine_stock_position/vaccinator_name:label">
+            <value><output value=" /vaccine_stock_position/provider_id "/></value>
+          </text>
+          <text id="/vaccine_stock_position/safety_boxes_balance_in_hand:label">
+            <value>Sharp disposal container balance in hand</value>
+          </text>
+          <text id="/vaccine_stock_position/pcv_balance_in_hand:hint">
+            <value>Number of vials</value>
+          </text>
+          <text id="/vaccine_stock_position/bcg_balance_in_hand:label">
+            <value>BCG balance in hand</value>
+          </text>
+          <text id="/vaccine_stock_position/opv_balance_in_hand:hint">
+            <value>Number of vials</value>
+          </text>
+          <text id="/vaccine_stock_position/Target_assigned_for_vaccination_at_each_month:label">
+            <value>Monthly Target</value>
+          </text>
+          <text id="/vaccine_stock_position/pcv_balance_in_hand:label">
+            <value>PCV balance in hand</value>
+          </text>
+          <text id="/vaccine_stock_position/measles_received:hint">
+            <value>Number of vials</value>
+          </text>
+          <text id="/vaccine_stock_position/pcv_received:label">
+            <value>PCV received</value>
+          </text>
+          <text id="/vaccine_stock_position/tt_received:hint">
+            <value>Number of vials</value>
+          </text>
+          <text id="/vaccine_stock_position/Target_assigned_for_vaccination_at_each_month:hint">
+            <value>for current month</value>
+          </text>
+          <text id="/vaccine_stock_position/tt_balance_in_hand:hint">
+            <value>Number of vials</value>
+          </text>
+          <text id="/vaccine_stock_position/ipv_received:hint">
+            <value>Number of vials</value>
+          </text>
+          <text id="/vaccine_stock_position/dilutants_received:hint">
+            <value>Number of vials</value>
+          </text>
+          <text id="/vaccine_stock_position/safety_boxes_received:hint">
+            <value>Number of containers</value>
+          </text>
+          <text id="/vaccine_stock_position/measles_balance_in_hand:label">
+            <value>Measles balance in hand</value>
+          </text>
+          <text id="/vaccine_stock_position/safety_boxes_balance_in_hand:hint">
+            <value>Number of containers</value>
+          </text>
+          <text id="/vaccine_stock_position/syringes_received:label">
+            <value>Syringes received</value>
+          </text>
+          <text id="/vaccine_stock_position/penta_balance_in_hand:hint">
+            <value>Number of vials</value>
+          </text>
+          <text id="/vaccine_stock_position/ipv_received:label">
+            <value>IPV received</value>
+          </text>
+          <text id="/vaccine_stock_position/opv_received:label">
+            <value>OPV received</value>
+          </text>
+          <text id="/vaccine_stock_position/syringes_balance_in_hand:label">
+            <value>Syringes balance in hand</value>
+          </text>
+          <text id="/vaccine_stock_position/measles_received:label">
+            <value>Measles received</value>
+          </text>
+          <text id="/vaccine_stock_position/syringes_received:hint">
+            <value>Number of syringes</value>
+          </text>
+          <text id="/vaccine_stock_position/pcv_received:hint">
+            <value>Number of vials</value>
+          </text>
+          <text id="/vaccine_stock_position/opv_received:hint">
+            <value>Number of vials</value>
+          </text>
+          <text id="/vaccine_stock_position/penta_balance_in_hand:label">
+            <value>Penta balance in hand</value>
+          </text>
+          <text id="/vaccine_stock_position/dilutants_received:label">
+            <value>Dilutants received</value>
+          </text>
+          <text id="/vaccine_stock_position/syringes_balance_in_hand:hint">
+            <value>Number of syringes</value>
+          </text>
+          <text id="/vaccine_stock_position/dilutants_balance_in_hand:hint">
+            <value>Number of vials</value>
+          </text>
+          <text id="/vaccine_stock_position/measles_balance_in_hand:hint">
+            <value>Number of vials</value>
+          </text>
+          <text id="/vaccine_stock_position/Target_assigned_for_vaccination_for_the_year:label">
+            <value>Yearly Target</value>
+          </text>
+          <text id="/vaccine_stock_position/total_balanceInHand:label">
+            <value>Total balance in hand</value>
+          </text>
+          <text id="/vaccine_stock_position/bcg_balance_in_hand:hint">
+            <value>Number of vials</value>
+          </text>
+          <text id="/vaccine_stock_position/opv_balance_in_hand:label">
+            <value>OPV balance in hand</value>
+          </text>
+          <text id="/vaccine_stock_position/penta_received:label">
+            <value>Penta received</value>
+          </text>
+          <text id="/vaccine_stock_position/penta_received:hint">
+            <value>Number of vials</value>
+          </text>
+          <text id="/vaccine_stock_position/report:label">
+            <value>Report Type</value>
+          </text>
+        </translation>
+        <translation lang="Roman Urdu">
+          <text id="/vaccine_stock_position/provider_location_note:label">
+            <value>Shehr: <output value=" /vaccine_stock_position/provider_city "/> ; Town: <output value=" /vaccine_stock_position/provider_town "/> ; UC: <output value=" /vaccine_stock_position/provider_uc "/> ; Center Name: <output value=" /vaccine_stock_position/provider_location_name "/></value></text>
+          <text id="/vaccine_stock_position/safety_boxes_received:label">
+            <value>Mausool honay walay container ki taadaad [jo taiz auzaar ko zaya karne ke liye istamaal hotay hain]</value>
+          </text>
+          <text id="/vaccine_stock_position/bcg_received:hint">
+            <value>Sheeshion ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/total_received:label">
+            <value>Mausool honay wali ashia ki mukammal taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/tt_received:label">
+            <value>Mausool honay wali TT ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/date:label">
+            <value>Muddat-e-goshwara</value>
+          </text>
+          <text id="/vaccine_stock_position/bcg_received:label">
+            <value>Mausool honay wali BCG ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/ipv_balance_in_hand:hint">
+            <value>Sheeshion ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/ipv_balance_in_hand:label">
+            <value>Maujooda IPV ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/report/monthly:label">
+            <value>Mahaana report</value>
+          </text>
+          <text id="/vaccine_stock_position/dilutants_balance_in_hand:label">
+            <value>Injection ke liye maujooda jaraseem se paak paani ki sheeshion ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/center_name:label">
+            <value>Center ka naam: <output value=" /vaccine_stock_position/provider_location_name "/></value></text>
+          <text id="/vaccine_stock_position/tt_balance_in_hand:label">
+            <value>Maujooda TT ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/vaccinator_name:label">
+            <value><output value=" /vaccine_stock_position/provider_id "/></value>
+          </text>
+          <text id="/vaccine_stock_position/safety_boxes_balance_in_hand:label">
+            <value>Maujooda container ki taadaad [jo taiz auzaar ko zaya karne ke liye istamaal hotay hain]</value>
+          </text>
+          <text id="/vaccine_stock_position/pcv_balance_in_hand:hint">
+            <value>Sheeshion ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/bcg_balance_in_hand:label">
+            <value>Maujooda BCG ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/opv_balance_in_hand:hint">
+            <value>Sheeshion ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/Target_assigned_for_vaccination_at_each_month:label">
+            <value>Vaccine laganay ka mahaana hadf</value>
+          </text>
+          <text id="/vaccine_stock_position/pcv_balance_in_hand:label">
+            <value>Maujooda PCV ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/measles_received:hint">
+            <value>Sheeshion ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/pcv_received:label">
+            <value>Mausool honay wali PCV ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/tt_received:hint">
+            <value>Sheeshion ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/Target_assigned_for_vaccination_at_each_month:hint">
+            <value>rawaan mahinay ka</value>
+          </text>
+          <text id="/vaccine_stock_position/tt_balance_in_hand:hint">
+            <value>Sheeshion ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/ipv_received:hint">
+            <value>Sheeshion ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/dilutants_received:hint">
+            <value>Sheeshion ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/safety_boxes_received:hint">
+            <value>Container ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/measles_balance_in_hand:label">
+            <value>Maujooda khasray ke teekon ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/safety_boxes_balance_in_hand:hint">
+            <value>Container ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/syringes_received:label">
+            <value>Mausool honay wali siranj ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/penta_balance_in_hand:hint">
+            <value>Sheeshion ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/ipv_received:label">
+            <value>Mausool honay wali IPV ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/opv_received:label">
+            <value>Mausool honay wali OPV ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/syringes_balance_in_hand:label">
+            <value>Maujooda siranj ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/measles_received:label">
+            <value>Mausool honay walay khasray ke teekay ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/syringes_received:hint">
+            <value>Syringe ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/pcv_received:hint">
+            <value>Sheeshion ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/opv_received:hint">
+            <value>Sheeshion ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/penta_balance_in_hand:label">
+            <value>Maujooda Pentavalent ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/dilutants_received:label">
+            <value>Injection ke liye mausool honay wala jaraseem se paak paani ki sheeshion ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/syringes_balance_in_hand:hint">
+            <value>Syringe ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/dilutants_balance_in_hand:hint">
+            <value>Sheeshion ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/measles_balance_in_hand:hint">
+            <value>Sheeshion ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/Target_assigned_for_vaccination_for_the_year:label">
+            <value>Vaccine laganay ka salaana hadf</value>
+          </text>
+          <text id="/vaccine_stock_position/total_balanceInHand:label">
+            <value>Maujooda ashia ki mukammal taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/bcg_balance_in_hand:hint">
+            <value>Sheeshion ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/opv_balance_in_hand:label">
+            <value>Maujooda OPV ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/penta_received:label">
+            <value>Mausool honay wali Pentavalent ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/penta_received:hint">
+            <value>Sheeshion ki taadaad</value>
+          </text>
+          <text id="/vaccine_stock_position/report:label">
+            <value>Report ki kism</value>
+          </text>
+        </translation>
+      </itext>
+      <instance>
+        <vaccine_stock_position bind_type="stock" encounter_type="Monthly vaccine stock position" id="vaccine_stock_position" version="201609270913">
+          <formhub>
+            <uuid/>
+          </formhub>
+          <provider_uc/>
+          <provider_town/>
+          <provider_city/>
+          <provider_province/>
+          <provider_id/>
+          <provider_location_id openmrs_entity="encounter" openmrs_entity_id="location_id"/>
+          <provider_location_name/>
+          <provider_location_note/>
+          <start openmrs_entity="concept" openmrs_entity_id="163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <end openmrs_entity="concept" openmrs_entity_id="163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <today openmrs_entity="concept" openmrs_entity_id="163286AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <deviceid openmrs_entity="concept" openmrs_entity_id="163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <subscriberid openmrs_entity="concept" openmrs_entity_id="163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <simserial openmrs_entity="concept" openmrs_entity_id="163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <phonenumber openmrs_entity="concept" openmrs_entity_id="163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <date openmrs_entity="encounter" openmrs_entity_id="encounter_date"/>
+          <vaccinator_name/>
+          <center_name/>
+          <report openmrs_entity="concept" openmrs_entity_id="163331AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">monthly</report>
+          <Target_assigned_for_vaccination_at_each_month openmrs_entity="concept" openmrs_entity_id="163174AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <Target_assigned_for_vaccination_for_the_year openmrs_entity="concept" openmrs_entity_id="163175AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <bcg_balance_in_hand openmrs_entity="concept" openmrs_entity_id="163173AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="886AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <bcg_received openmrs_entity="concept" openmrs_entity_id="163170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="886AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <opv_balance_in_hand openmrs_entity="concept" openmrs_entity_id="163173AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="783AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <opv_received openmrs_entity="concept" openmrs_entity_id="163170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="783AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <ipv_balance_in_hand openmrs_entity="concept" openmrs_entity_id="163173AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="1422AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <ipv_received openmrs_entity="concept" openmrs_entity_id="163170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="1422AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <pcv_balance_in_hand openmrs_entity="concept" openmrs_entity_id="163173AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="162342AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <pcv_received openmrs_entity="concept" openmrs_entity_id="163170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="162342AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <penta_balance_in_hand openmrs_entity="concept" openmrs_entity_id="163173AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="162339AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <penta_received openmrs_entity="concept" openmrs_entity_id="163170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="162339AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <measles_balance_in_hand openmrs_entity="concept" openmrs_entity_id="163173AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="79409AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <measles_received openmrs_entity="concept" openmrs_entity_id="163170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="79409AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <tt_balance_in_hand openmrs_entity="concept" openmrs_entity_id="163173AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="104528AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <tt_received openmrs_entity="concept" openmrs_entity_id="163170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="104528AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <dilutants_balance_in_hand openmrs_entity="concept" openmrs_entity_id="163173AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="163287AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <dilutants_received openmrs_entity="concept" openmrs_entity_id="163170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="163287AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <syringes_balance_in_hand openmrs_entity="concept" openmrs_entity_id="163173AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="162377AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <syringes_received openmrs_entity="concept" openmrs_entity_id="163170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="162377AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <safety_boxes_balance_in_hand openmrs_entity="concept" openmrs_entity_id="163173AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="163285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <safety_boxes_received openmrs_entity="concept" openmrs_entity_id="163170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="163285AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <total_received/>
+          <total_balanceInHand/>
+          <meta>
+            <instanceID/>
+          </meta>
+        </vaccine_stock_position>
+      </instance>
+      <bind nodeset="/vaccine_stock_position/provider_uc" type="string"/>
+      <bind nodeset="/vaccine_stock_position/provider_town" type="string"/>
+      <bind nodeset="/vaccine_stock_position/provider_city" type="string"/>
+      <bind nodeset="/vaccine_stock_position/provider_province" type="string"/>
+      <bind nodeset="/vaccine_stock_position/provider_id" type="string"/>
+      <bind nodeset="/vaccine_stock_position/provider_location_id" type="string"/>
+      <bind nodeset="/vaccine_stock_position/provider_location_name" type="string"/>
+      <bind nodeset="/vaccine_stock_position/provider_location_note" readonly="true()" type="string"/>
+      <bind jr:preload="timestamp" jr:preloadParams="start" nodeset="/vaccine_stock_position/start" type="dateTime"/>
+      <bind jr:preload="timestamp" jr:preloadParams="end" nodeset="/vaccine_stock_position/end" type="dateTime"/>
+      <bind jr:preload="date" jr:preloadParams="today" nodeset="/vaccine_stock_position/today" type="date"/>
+      <bind jr:preload="property" jr:preloadParams="deviceid" nodeset="/vaccine_stock_position/deviceid" type="string"/>
+      <bind jr:preload="property" jr:preloadParams="subscriberid" nodeset="/vaccine_stock_position/subscriberid" type="string"/>
+      <bind jr:preload="property" jr:preloadParams="simserial" nodeset="/vaccine_stock_position/simserial" type="string"/>
+      <bind jr:preload="property" jr:preloadParams="phonenumber" nodeset="/vaccine_stock_position/phonenumber" type="string"/>
+      <bind nodeset="/vaccine_stock_position/date" required="true()" type="date"/>
+      <bind nodeset="/vaccine_stock_position/vaccinator_name" readonly="true()" type="string"/>
+      <bind nodeset="/vaccine_stock_position/center_name" readonly="true()" type="string"/>
+      <bind nodeset="/vaccine_stock_position/report" readonly="true()" required="true()" type="select1"/>
+      <bind nodeset="/vaccine_stock_position/Target_assigned_for_vaccination_at_each_month" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/Target_assigned_for_vaccination_for_the_year" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/bcg_balance_in_hand" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/bcg_received" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/opv_balance_in_hand" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/opv_received" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/ipv_balance_in_hand" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/ipv_received" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/pcv_balance_in_hand" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/pcv_received" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/penta_balance_in_hand" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/penta_received" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/measles_balance_in_hand" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/measles_received" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/tt_balance_in_hand" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/tt_received" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/dilutants_balance_in_hand" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/dilutants_received" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/syringes_balance_in_hand" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/syringes_received" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/safety_boxes_balance_in_hand" required="true()" type="int"/>
+      <bind nodeset="/vaccine_stock_position/safety_boxes_received" required="true()" type="int"/>
+      <bind calculate=" /vaccine_stock_position/bcg_received + /vaccine_stock_position/opv_received + /vaccine_stock_position/ipv_received + /vaccine_stock_position/pcv_received + /vaccine_stock_position/penta_received + /vaccine_stock_position/measles_received + /vaccine_stock_position/tt_received + /vaccine_stock_position/dilutants_received + /vaccine_stock_position/syringes_received + /vaccine_stock_position/safety_boxes_received " nodeset="/vaccine_stock_position/total_received" type="string"/>
+      <bind calculate=" /vaccine_stock_position/bcg_balance_in_hand + /vaccine_stock_position/opv_balance_in_hand + /vaccine_stock_position/ipv_balance_in_hand + /vaccine_stock_position/pcv_balance_in_hand + /vaccine_stock_position/penta_balance_in_hand + /vaccine_stock_position/measles_balance_in_hand + /vaccine_stock_position/tt_balance_in_hand + /vaccine_stock_position/dilutants_balance_in_hand + /vaccine_stock_position/syringes_balance_in_hand + /vaccine_stock_position/safety_boxes_balance_in_hand " nodeset="/vaccine_stock_position/total_balanceInHand" type="string"/>
+      <bind calculate="concat('uuid:', uuid())" nodeset="/vaccine_stock_position/meta/instanceID" readonly="true()" type="string"/>
+      <bind calculate="'b4a9dc5c5e0046db9d507714ce83d732'" nodeset="/vaccine_stock_position/formhub/uuid" type="string"/>
+    </model>
+  </h:head>
+  <h:body>
+    <input ref="/vaccine_stock_position/provider_location_note">
+      <label ref="jr:itext('/vaccine_stock_position/provider_location_note:label')"/>
+    </input>
+    <input ref="/vaccine_stock_position/date">
+      <label ref="jr:itext('/vaccine_stock_position/date:label')"/>
+    </input>
+    <input ref="/vaccine_stock_position/vaccinator_name">
+      <label ref="jr:itext('/vaccine_stock_position/vaccinator_name:label')"/>
+    </input>
+    <input ref="/vaccine_stock_position/center_name">
+      <label ref="jr:itext('/vaccine_stock_position/center_name:label')"/>
+    </input>
+    <select1 appearance="minimal" ref="/vaccine_stock_position/report">
+      <label ref="jr:itext('/vaccine_stock_position/report:label')"/>
+      <item>
+        <label ref="jr:itext('/vaccine_stock_position/report/monthly:label')"/>
+        <value>monthly</value>
+      </item>
+    </select1>
+    <input ref="/vaccine_stock_position/Target_assigned_for_vaccination_at_each_month">
+      <label ref="jr:itext('/vaccine_stock_position/Target_assigned_for_vaccination_at_each_month:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/Target_assigned_for_vaccination_at_each_month:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/Target_assigned_for_vaccination_for_the_year">
+      <label ref="jr:itext('/vaccine_stock_position/Target_assigned_for_vaccination_for_the_year:label')"/>
+    </input>
+    <input ref="/vaccine_stock_position/bcg_balance_in_hand">
+      <label ref="jr:itext('/vaccine_stock_position/bcg_balance_in_hand:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/bcg_balance_in_hand:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/bcg_received">
+      <label ref="jr:itext('/vaccine_stock_position/bcg_received:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/bcg_received:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/opv_balance_in_hand">
+      <label ref="jr:itext('/vaccine_stock_position/opv_balance_in_hand:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/opv_balance_in_hand:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/opv_received">
+      <label ref="jr:itext('/vaccine_stock_position/opv_received:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/opv_received:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/ipv_balance_in_hand">
+      <label ref="jr:itext('/vaccine_stock_position/ipv_balance_in_hand:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/ipv_balance_in_hand:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/ipv_received">
+      <label ref="jr:itext('/vaccine_stock_position/ipv_received:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/ipv_received:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/pcv_balance_in_hand">
+      <label ref="jr:itext('/vaccine_stock_position/pcv_balance_in_hand:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/pcv_balance_in_hand:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/pcv_received">
+      <label ref="jr:itext('/vaccine_stock_position/pcv_received:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/pcv_received:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/penta_balance_in_hand">
+      <label ref="jr:itext('/vaccine_stock_position/penta_balance_in_hand:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/penta_balance_in_hand:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/penta_received">
+      <label ref="jr:itext('/vaccine_stock_position/penta_received:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/penta_received:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/measles_balance_in_hand">
+      <label ref="jr:itext('/vaccine_stock_position/measles_balance_in_hand:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/measles_balance_in_hand:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/measles_received">
+      <label ref="jr:itext('/vaccine_stock_position/measles_received:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/measles_received:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/tt_balance_in_hand">
+      <label ref="jr:itext('/vaccine_stock_position/tt_balance_in_hand:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/tt_balance_in_hand:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/tt_received">
+      <label ref="jr:itext('/vaccine_stock_position/tt_received:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/tt_received:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/dilutants_balance_in_hand">
+      <label ref="jr:itext('/vaccine_stock_position/dilutants_balance_in_hand:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/dilutants_balance_in_hand:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/dilutants_received">
+      <label ref="jr:itext('/vaccine_stock_position/dilutants_received:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/dilutants_received:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/syringes_balance_in_hand">
+      <label ref="jr:itext('/vaccine_stock_position/syringes_balance_in_hand:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/syringes_balance_in_hand:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/syringes_received">
+      <label ref="jr:itext('/vaccine_stock_position/syringes_received:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/syringes_received:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/safety_boxes_balance_in_hand">
+      <label ref="jr:itext('/vaccine_stock_position/safety_boxes_balance_in_hand:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/safety_boxes_balance_in_hand:hint')"/>
+    </input>
+    <input ref="/vaccine_stock_position/safety_boxes_received">
+      <label ref="jr:itext('/vaccine_stock_position/safety_boxes_received:label')"/>
+      <hint ref="jr:itext('/vaccine_stock_position/safety_boxes_received:hint')"/>
+    </input>
+  </h:body>
+</h:html>

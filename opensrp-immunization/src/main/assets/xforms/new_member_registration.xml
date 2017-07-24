@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="utf-8"?>
+<h:html xmlns="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:jr="http://openrosa.org/javarosa" xmlns:orx="http://openrosa.org/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <h:head>
+    <h:title>نئے فرد کے اندراج کا فارم - New Member Registration Form</h:title>
+    <model>
+      <itext>
+        <translation lang="Roman Urdu">
+          <text id="/new_member_registration/individual/household_member_id_note:label">
+            <value> Household Member ID : <output value=" /new_member_registration/individual/household_member_id "/> </value></text>
+          <text id="/new_member_registration/individual/gender/transgender:label">
+            <value>Khwaja sira</value>
+          </text>
+          <text id="/new_member_registration/address:label">
+            <value> Mojooda pata: <output value=" /new_member_registration/existing_full_address "/> </value></text>
+          <text id="/new_member_registration/individual/ethnicity/balochi:label">
+            <value>Balochi</value>
+          </text>
+          <text id="/new_member_registration/relationship/brother:label">
+            <value>Bhai</value>
+          </text>
+          <text id="/new_member_registration/individual/age_unit/1:label">
+            <value>Din</value>
+          </text>
+          <text id="/new_member_registration/relationship/grandchild:label">
+            <value>Nawasa/Pota/Nawasi/Poti</value>
+          </text>
+          <text id="/new_member_registration/relationship/mother_in_law:label">
+            <value>Saas</value>
+          </text>
+          <text id="/new_member_registration/individual/birth_date:jr:constraintMsg">
+            <value>Umr 0-160 saal kay darmiyan honi chahyay</value>
+          </text>
+          <text id="/new_member_registration/individual/gender:label">
+            <value>Jins</value>
+          </text>
+          <text id="/new_member_registration/relationship/sister:label">
+            <value>Behen</value>
+          </text>
+          <text id="/new_member_registration/relationship/brother_in_law:label">
+            <value>Saala/Bhenoi</value>
+          </text>
+          <text id="/new_member_registration/provider_location_note:label">
+            <value> Shehr: <output value=" /new_member_registration/provider_city "/> ; Town: <output value=" /new_member_registration/provider_town "/> ; UC: <output value=" /new_member_registration/provider_uc "/> ; Center ka naam: <output value=" /new_member_registration/provider_location_name "/> </value></text>
+          <text id="/new_member_registration/individual/ethnicity/other:label">
+            <value>Deegar</value>
+          </text>
+          <text id="/new_member_registration/individual/birth_date_known/no:label">
+            <value>Nahi</value>
+          </text>
+          <text id="/new_member_registration/relationship/other:label">
+            <value>Deegar</value>
+          </text>
+          <text id="/new_member_registration/individual/ethnicity_other:label">
+            <value>Wazaahat karain</value>
+          </text>
+          <text id="/new_member_registration/name_hhh:label">
+            <value> Khandan kay sarbarah k naam: <output value=" /new_member_registration/existing_full_name_hhh "/> </value></text>
+          <text id="/new_member_registration/relationship/maternal_grandfather:label">
+            <value>Daada</value>
+          </text>
+          <text id="/new_member_registration/household_id_note:label">
+            <value> Gharaane ki ID: <output value=" /new_member_registration/household_id "/> </value></text>
+          <text id="/new_member_registration/individual/birth_date:label">
+            <value>Tareekh-e-pedaaish</value>
+          </text>
+          <text id="/new_member_registration/relationship/daughter:label">
+            <value>Beti</value>
+          </text>
+          <text id="/new_member_registration/individual/birth_date_known/yes:label">
+            <value>Haan</value>
+          </text>
+          <text id="/new_member_registration/individual/gender/female:label">
+            <value>Aurat/larki</value>
+          </text>
+          <text id="/new_member_registration/individual:label">
+            <value>Fard ki tafseelat</value>
+          </text>
+          <text id="/new_member_registration/relationship/son:label">
+            <value>Beta</value>
+          </text>
+          <text id="/new_member_registration/client_reg_date:label">
+            <value>Indraj ki Tareekh</value>
+          </text>
+          <text id="/new_member_registration/relationship/sister_in_law:label">
+            <value>Saali/Bhaabi</value>
+          </text>
+          <text id="/new_member_registration/individual/first_name:jr:constraintMsg">
+            <value>Naam 3-30 huroof par mushtamil hona chahyay kisi makhsoo harf ki bagahir. Iskay ilawa sirf [. - space] hosaktay hen</value>
+          </text>
+          <text id="/new_member_registration/relationship_other:label">
+            <value>Wazaahat karain</value>
+          </text>
+          <text id="/new_member_registration/individual/gender/male:label">
+            <value>Mard/larka</value>
+          </text>
+          <text id="/new_member_registration/relationship/aunt:label">
+            <value>Maami/Khala/Phuppo/Chachi/Tai</value>
+          </text>
+          <text id="/new_member_registration/relationship/cousin:label">
+            <value>Cousin</value>
+          </text>
+          <text id="/new_member_registration/individual/age:jr:constraintMsg">
+            <value>Umr 0-160 saal kay darmiyan honi chahyay</value>
+          </text>
+          <text id="/new_member_registration/individual/ethnicity/muhajir:label">
+            <value>Muhajir</value>
+          </text>
+          <text id="/new_member_registration/individual/ethnicity/pushtuns:label">
+            <value>Pushtun</value>
+          </text>
+          <text id="/new_member_registration/individual/birth_date_note:label">
+            <value> Tareekh-e-pedaaish: <output value=" /new_member_registration/individual/dob "/> (<output value=" /new_member_registration/individual/calc_age "/> saal)  </value>
+          </text>
+          <text id="/new_member_registration/household_id:label">
+            <value>Gharaane ki ID</value>
+          </text>
+          <text id="/new_member_registration/comments:label">
+            <value>Tabsarah</value>
+          </text>
+          <text id="/new_member_registration/relationship/spouse:label">
+            <value>Shareek-e-hayaat</value>
+          </text>
+          <text id="/new_member_registration/individual/age_unit/7:label">
+            <value>Haftay</value>
+          </text>
+          <text id="/new_member_registration/individual/birth_date_known:label">
+            <value>Kya tareekh-e-pedaaish maloom hai?</value>
+          </text>
+          <text id="/new_member_registration/individual/ethnicity:label">
+            <value>Qomiat</value>
+          </text>
+          <text id="/new_member_registration/individual/program_client_id_note:label">
+            <value> Program Client ID: <output value=" /new_member_registration/household_id "/> </value></text>
+          <text id="/new_member_registration/relationship/maternal_grandmother:label">
+            <value>Naani</value>
+          </text>
+          <text id="/new_member_registration/relationship/nephew_or_niece:label">
+            <value>Bhateeja/Bhaanja/Bhateeji/Bhaanji</value>
+          </text>
+          <text id="/new_member_registration/individual/age:label">
+            <value>Umr</value>
+          </text>
+          <text id="/new_member_registration/note_child:label">
+            <value>Ziyada tawajjo-talb fard: Is bachay ki umar teen saal se kam hai</value>
+          </text>
+          <text id="/new_member_registration/relationship/father_in_law:label">
+            <value>Susar</value>
+          </text>
+          <text id="/new_member_registration/individual/first_name:label">
+            <value>Naam</value>
+          </text>
+          <text id="/new_member_registration/relationship/father:label">
+            <value>Waalid</value>
+          </text>
+          <text id="/new_member_registration/individual/ethnicity/sindhi:label">
+            <value>Sindhi</value>
+          </text>
+          <text id="/new_member_registration/individual/age_unit/30:label">
+            <value>Mahinay</value>
+          </text>
+          <text id="/new_member_registration/relationship/uncle:label">
+            <value>Maamoon/Khaaloo/Phuppa/Chacha/Taya</value>
+          </text>
+          <text id="/new_member_registration/relationship/paternal_grandfather:label">
+            <value>Naana</value>
+          </text>
+          <text id="/new_member_registration/relationship/mother:label">
+            <value>Waalda</value>
+          </text>
+          <text id="/new_member_registration/note_rep_women:label">
+            <value>Ziyada tawajjo-talb fard: Is aurat ki umar 15 se 49 ke darmiyaan hai</value>
+          </text>
+          <text id="/new_member_registration/relationship:label">
+            <value>Sarbarah ke saath rishta</value>
+          </text>
+          <text id="/new_member_registration/individual/age_unit/365:label">
+            <value>Saal</value>
+          </text>
+          <text id="/new_member_registration/individual/age_unit:label">
+            <value>Umr</value>
+          </text>
+          <text id="/new_member_registration/individual/ethnicity/saraiki:label">
+            <value>Saraiki</value>
+          </text>
+          <text id="/new_member_registration/individual/ethnicity/punjabi:label">
+            <value>Punjabi</value>
+          </text>
+          <text id="/new_member_registration/relationship/paternal_grandmother:label">
+            <value>Daadi</value>
+          </text>
+          <text id="/new_member_registration/individual/program_client_id:label">
+            <value>Program Client ID</value>
+          </text>
+          <text id="/new_member_registration/individual/contact_phone_number:jr:constraintMsg">
+            <value>Phone number 11 hindason par mushtamil aur mundarja zail shakal main hona chahiey: 03*********</value>
+          </text>
+          <text id="/new_member_registration/individual/contact_phone_number:label">
+            <value>Mobile phone number:</value>
+          </text>
+          <text id="/new_member_registration/relationship/son_or_daughter_in_law:label">
+            <value>Daamaad/Bahoo</value>
+          </text>
+        </translation>
+        <translation default="true()" lang="English">
+          <text id="/new_member_registration/individual/household_member_id_note:label">
+            <value> Household Member ID : <output value=" /new_member_registration/individual/household_member_id "/> </value></text>
+          <text id="/new_member_registration/individual/gender/transgender:label">
+            <value>Transgender</value>
+          </text>
+          <text id="/new_member_registration/address:label">
+            <value> Current Address: <output value=" /new_member_registration/existing_full_address "/> </value></text>
+          <text id="/new_member_registration/individual/ethnicity/balochi:label">
+            <value>Balochi</value>
+          </text>
+          <text id="/new_member_registration/relationship/brother:label">
+            <value>Brother</value>
+          </text>
+          <text id="/new_member_registration/individual/age_unit/1:label">
+            <value>Days</value>
+          </text>
+          <text id="/new_member_registration/relationship/grandchild:label">
+            <value>Grandchild</value>
+          </text>
+          <text id="/new_member_registration/relationship/mother_in_law:label">
+            <value>Mother-in-law</value>
+          </text>
+          <text id="/new_member_registration/individual/birth_date:jr:constraintMsg">
+            <value>Age must be between 0-160 years</value>
+          </text>
+          <text id="/new_member_registration/individual/gender:label">
+            <value>Gender</value>
+          </text>
+          <text id="/new_member_registration/relationship/sister:label">
+            <value>Sister</value>
+          </text>
+          <text id="/new_member_registration/relationship/brother_in_law:label">
+            <value>Brother-in-law</value>
+          </text>
+          <text id="/new_member_registration/provider_location_note:label">
+            <value> City: <output value=" /new_member_registration/provider_city "/> ; Town: <output value=" /new_member_registration/provider_town "/> ; UC: <output value=" /new_member_registration/provider_uc "/> ; Center Name: <output value=" /new_member_registration/provider_location_name "/> </value></text>
+          <text id="/new_member_registration/individual/ethnicity/other:label">
+            <value>Other</value>
+          </text>
+          <text id="/new_member_registration/individual/birth_date_known/no:label">
+            <value>No</value>
+          </text>
+          <text id="/new_member_registration/relationship/other:label">
+            <value>Other</value>
+          </text>
+          <text id="/new_member_registration/individual/ethnicity_other:label">
+            <value>Please specify:</value>
+          </text>
+          <text id="/new_member_registration/name_hhh:label">
+            <value> Household Head Name: <output value=" /new_member_registration/existing_full_name_hhh "/> </value></text>
+          <text id="/new_member_registration/relationship/maternal_grandfather:label">
+            <value>Maternal grandfather</value>
+          </text>
+          <text id="/new_member_registration/household_id_note:label">
+            <value> Household ID : <output value=" /new_member_registration/household_id "/> </value></text>
+          <text id="/new_member_registration/individual/birth_date:label">
+            <value>Birth date</value>
+          </text>
+          <text id="/new_member_registration/relationship/daughter:label">
+            <value>Daughter</value>
+          </text>
+          <text id="/new_member_registration/individual/birth_date_known/yes:label">
+            <value>Yes</value>
+          </text>
+          <text id="/new_member_registration/individual/gender/female:label">
+            <value>Female</value>
+          </text>
+          <text id="/new_member_registration/individual:label">
+            <value>Member details</value>
+          </text>
+          <text id="/new_member_registration/relationship/son:label">
+            <value>Son</value>
+          </text>
+          <text id="/new_member_registration/client_reg_date:label">
+            <value>Data Entry Date</value>
+          </text>
+          <text id="/new_member_registration/relationship/sister_in_law:label">
+            <value>Sister-in-law</value>
+          </text>
+          <text id="/new_member_registration/individual/first_name:jr:constraintMsg">
+            <value>Name should contain only 3-30 alphabets and no special characters. Only allowed [. - space]</value>
+          </text>
+          <text id="/new_member_registration/relationship_other:label">
+            <value>Please specify:</value>
+          </text>
+          <text id="/new_member_registration/individual/gender/male:label">
+            <value>Male</value>
+          </text>
+          <text id="/new_member_registration/relationship/aunt:label">
+            <value>Aunt</value>
+          </text>
+          <text id="/new_member_registration/relationship/cousin:label">
+            <value>Cousin</value>
+          </text>
+          <text id="/new_member_registration/individual/age:jr:constraintMsg">
+            <value>Age must be between 0-160 years</value>
+          </text>
+          <text id="/new_member_registration/individual/ethnicity/muhajir:label">
+            <value>Muhajir</value>
+          </text>
+          <text id="/new_member_registration/individual/ethnicity/pushtuns:label">
+            <value>Pushtun</value>
+          </text>
+          <text id="/new_member_registration/individual/birth_date_note:label">
+            <value> Date of Birth: <output value=" /new_member_registration/individual/dob "/> (<output value=" /new_member_registration/individual/calc_age "/> years)  </value>
+          </text>
+          <text id="/new_member_registration/household_id:label">
+            <value>Household ID</value>
+          </text>
+          <text id="/new_member_registration/comments:label">
+            <value>Comments</value>
+          </text>
+          <text id="/new_member_registration/relationship/spouse:label">
+            <value>Spouse</value>
+          </text>
+          <text id="/new_member_registration/individual/age_unit/7:label">
+            <value>Weeks</value>
+          </text>
+          <text id="/new_member_registration/individual/birth_date_known:label">
+            <value>Is birthdate known?</value>
+          </text>
+          <text id="/new_member_registration/individual/ethnicity:label">
+            <value>Ethnicity</value>
+          </text>
+          <text id="/new_member_registration/individual/program_client_id_note:label">
+            <value> Program Client ID: <output value=" /new_member_registration/individual/program_client_id "/> </value></text>
+          <text id="/new_member_registration/relationship/maternal_grandmother:label">
+            <value>Maternal grandmother</value>
+          </text>
+          <text id="/new_member_registration/relationship/nephew_or_niece:label">
+            <value>Nephew/Niece</value>
+          </text>
+          <text id="/new_member_registration/individual/age:label">
+            <value>Age</value>
+          </text>
+          <text id="/new_member_registration/note_child:label">
+            <value>Person requires extra attention: This child is less than 3 years old</value>
+          </text>
+          <text id="/new_member_registration/relationship/father_in_law:label">
+            <value>Father-in-law</value>
+          </text>
+          <text id="/new_member_registration/individual/first_name:label">
+            <value>Name</value>
+          </text>
+          <text id="/new_member_registration/relationship/father:label">
+            <value>Father</value>
+          </text>
+          <text id="/new_member_registration/individual/ethnicity/sindhi:label">
+            <value>Sindhi</value>
+          </text>
+          <text id="/new_member_registration/individual/age_unit/30:label">
+            <value>Months</value>
+          </text>
+          <text id="/new_member_registration/relationship/uncle:label">
+            <value>Uncle</value>
+          </text>
+          <text id="/new_member_registration/relationship/paternal_grandfather:label">
+            <value>Paternal grandfather</value>
+          </text>
+          <text id="/new_member_registration/relationship/mother:label">
+            <value>Mother</value>
+          </text>
+          <text id="/new_member_registration/note_rep_women:label">
+            <value>Person requires extra attention: This woman is of reproductive age</value>
+          </text>
+          <text id="/new_member_registration/relationship:label">
+            <value>Relationship with head of household</value>
+          </text>
+          <text id="/new_member_registration/individual/age_unit/365:label">
+            <value>Years</value>
+          </text>
+          <text id="/new_member_registration/individual/age_unit:label">
+            <value>Age</value>
+          </text>
+          <text id="/new_member_registration/individual/ethnicity/saraiki:label">
+            <value>Saraiki</value>
+          </text>
+          <text id="/new_member_registration/individual/ethnicity/punjabi:label">
+            <value>Punjabi</value>
+          </text>
+          <text id="/new_member_registration/relationship/paternal_grandmother:label">
+            <value>Paternal grandmother</value>
+          </text>
+          <text id="/new_member_registration/individual/program_client_id:label">
+            <value>Program Client ID</value>
+          </text>
+          <text id="/new_member_registration/individual/contact_phone_number:jr:constraintMsg">
+            <value>Phone number should be 11 digits in the following format: 03*********</value>
+          </text>
+          <text id="/new_member_registration/individual/contact_phone_number:label">
+            <value>Mobile phone number:</value>
+          </text>
+          <text id="/new_member_registration/relationship/son_or_daughter_in_law:label">
+            <value>Son-in-law/Daughter-in-law</value>
+          </text>
+        </translation>
+      </itext>
+      <instance>
+        <new_member_registration encounter_type="New Member Registration" id="new_member_registration" version="201707131648">
+          <formhub>
+            <uuid/>
+          </formhub>
+          <provider_uc/>
+          <provider_town/>
+          <provider_city/>
+          <provider_province/>
+          <provider_id/>
+          <provider_location_id openmrs_entity="encounter" openmrs_entity_id="location_id"/>
+          <provider_location_name/>
+          <existing_household_id/>
+          <existing_full_name_hhh/>
+          <existing_full_address/>
+          <existing_program_client_id/>
+          <existing_num_members/>
+          <existing_num_household_members/>
+          <provider_location_note/>
+          <province openmrs_entity="person_address" openmrs_entity_id="stateProvince" openmrs_entity_parent="usual_residence"/>
+          <city_village openmrs_entity="person_address" openmrs_entity_id="cityVillage" openmrs_entity_parent="usual_residence"/>
+          <town openmrs_entity="person_address" openmrs_entity_id="town" openmrs_entity_parent="usual_residence"/>
+          <union_council openmrs_entity="person_address" openmrs_entity_id="subTown" openmrs_entity_parent="usual_residence"/>
+          <address1 openmrs_entity="person_address" openmrs_entity_id="address1" openmrs_entity_parent="usual_residence"/>
+          <start openmrs_entity="concept" openmrs_entity_id="163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <end openmrs_entity="concept" openmrs_entity_id="163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <today/>
+          <deviceid openmrs_entity="concept" openmrs_entity_id="163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <subscriberid openmrs_entity="concept" openmrs_entity_id="163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <simserial openmrs_entity="concept" openmrs_entity_id="163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <phonenumber openmrs_entity="concept" openmrs_entity_id="163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <num_household_members openmrs_entity="concept" openmrs_entity_id="5611AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <client_reg_date openmrs_entity="encounter" openmrs_entity_id="encounter_date"/>
+          <household_id openmrs_entity="person_attribute" openmrs_entity_id="Household ID"/>
+          <household_role openmrs_entity="person_attribute" openmrs_entity_id="Household Role">Household Member</household_role>
+          <household_id_note/>
+          <name_hhh/>
+          <address/>
+          <individual>
+            <program_client_id openmrs_entity="person_identifier" openmrs_entity_id="Program Client ID"/>
+            <program_client_id_note/>
+            <first_name openmrs_entity="person" openmrs_entity_id="first_name"/>
+            <gender openmrs_entity="person" openmrs_entity_id="gender"/>
+            <birth_date_known>yes</birth_date_known>
+            <birth_date/>
+            <age/>
+            <age_unit/>
+            <calc_age openmrs_entity="concept" openmrs_entity_id="154384AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <calc_dob/>
+            <dob openmrs_entity="person" openmrs_entity_id="birthdate"/>
+            <dob_estimated openmrs_entity="person" openmrs_entity_id="birthdate_estimated"/>
+            <birth_date_note/>
+            <household_member_id openmrs_entity="person_identifier" openmrs_entity_id="Household Member ID"/>
+            <household_member_id_note/>
+            <contact_phone_number openmrs_entity="concept" openmrs_entity_id="159635AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <ethnicity openmrs_entity="concept" openmrs_entity_id="163153AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <ethnicity_other openmrs_entity="concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="163330AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          </individual>
+          <relationship openmrs_entity="concept" openmrs_entity_id="163354AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <relationship_other openmrs_entity="concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="163355AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <is_child/>
+          <note_child/>
+          <is_rep_woman/>
+          <note_rep_women/>
+          <comments openmrs_entity="concept" openmrs_entity_id="161011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+          <meta>
+            <instanceID/>
+          </meta>
+        </new_member_registration>
+      </instance>
+      <bind nodeset="/new_member_registration/provider_uc" type="string"/>
+      <bind nodeset="/new_member_registration/provider_town" type="string"/>
+      <bind nodeset="/new_member_registration/provider_city" type="string"/>
+      <bind nodeset="/new_member_registration/provider_province" type="string"/>
+      <bind nodeset="/new_member_registration/provider_id" type="string"/>
+      <bind nodeset="/new_member_registration/provider_location_id" type="string"/>
+      <bind nodeset="/new_member_registration/provider_location_name" type="string"/>
+      <bind nodeset="/new_member_registration/existing_household_id" type="string"/>
+      <bind nodeset="/new_member_registration/existing_full_name_hhh" type="string"/>
+      <bind nodeset="/new_member_registration/existing_full_address" type="string"/>
+      <bind nodeset="/new_member_registration/existing_program_client_id" type="string"/>
+      <bind nodeset="/new_member_registration/existing_num_members" type="string"/>
+      <bind nodeset="/new_member_registration/existing_num_household_members" type="string"/>
+      <bind nodeset="/new_member_registration/provider_location_note" readonly="true()" type="string"/>
+      <bind nodeset="/new_member_registration/province" type="string"/>
+      <bind nodeset="/new_member_registration/city_village" type="string"/>
+      <bind nodeset="/new_member_registration/town" type="string"/>
+      <bind nodeset="/new_member_registration/union_council" type="string"/>
+      <bind nodeset="/new_member_registration/address1" type="string"/>
+      <bind jr:preload="timestamp" jr:preloadParams="start" nodeset="/new_member_registration/start" type="dateTime"/>
+      <bind jr:preload="timestamp" jr:preloadParams="end" nodeset="/new_member_registration/end" type="dateTime"/>
+      <bind jr:preload="date" jr:preloadParams="today" nodeset="/new_member_registration/today" type="date"/>
+      <bind jr:preload="property" jr:preloadParams="deviceid" nodeset="/new_member_registration/deviceid" type="string"/>
+      <bind jr:preload="property" jr:preloadParams="subscriberid" nodeset="/new_member_registration/subscriberid" type="string"/>
+      <bind jr:preload="property" jr:preloadParams="simserial" nodeset="/new_member_registration/simserial" type="string"/>
+      <bind jr:preload="property" jr:preloadParams="phonenumber" nodeset="/new_member_registration/phonenumber" type="string"/>
+      <bind calculate="if( /new_member_registration/existing_num_household_members &gt; /new_member_registration/existing_num_members +1,  /new_member_registration/existing_num_household_members ,  /new_member_registration/existing_num_household_members +1)" nodeset="/new_member_registration/num_household_members" type="string"/>
+      <bind calculate=" /new_member_registration/today " nodeset="/new_member_registration/client_reg_date" type="string"/>
+      <bind calculate=" /new_member_registration/existing_household_id " nodeset="/new_member_registration/household_id" type="string"/>
+      <bind nodeset="/new_member_registration/household_role" type="string"/>
+      <bind nodeset="/new_member_registration/household_id_note" readonly="true()" type="string"/>
+      <bind nodeset="/new_member_registration/name_hhh" readonly="true()" type="string"/>
+      <bind nodeset="/new_member_registration/address" readonly="true()" type="string"/>
+      <bind calculate=" /new_member_registration/existing_program_client_id " nodeset="/new_member_registration/individual/program_client_id" relevant=" /new_member_registration/existing_program_client_id  != ''" type="string"/>
+      <bind nodeset="/new_member_registration/individual/program_client_id_note" readonly="true()" relevant=" /new_member_registration/existing_program_client_id  != ''" required="true()" type="string"/>
+      <bind constraint="regex(., '^[\s\.\-a-zA-Z]{3,30}$')" jr:constraintMsg="jr:itext('/new_member_registration/individual/first_name:jr:constraintMsg')" nodeset="/new_member_registration/individual/first_name" required="true()" type="string"/>
+      <bind nodeset="/new_member_registration/individual/gender" required="true()" type="select1"/>
+      <bind nodeset="/new_member_registration/individual/birth_date_known" required="true()" type="select1"/>
+      <bind constraint=".&lt;= /new_member_registration/today  and int(( /new_member_registration/today  - .) div 365) &lt; 160" jr:constraintMsg="jr:itext('/new_member_registration/individual/birth_date:jr:constraintMsg')" nodeset="/new_member_registration/individual/birth_date" relevant="selected( /new_member_registration/individual/birth_date_known , 'yes')" required="true()" type="date"/>
+      <bind constraint=".&lt;=160 and .&gt;=0" jr:constraintMsg="jr:itext('/new_member_registration/individual/age:jr:constraintMsg')" nodeset="/new_member_registration/individual/age" relevant="selected( /new_member_registration/individual/birth_date_known , 'no')" required="true()" type="int"/>
+      <bind nodeset="/new_member_registration/individual/age_unit" relevant="selected( /new_member_registration/individual/birth_date_known , 'no')" required="true()" type="select1"/>
+      <bind calculate="if(selected( /new_member_registration/individual/birth_date_known , 'yes'), int(( /new_member_registration/today  -  /new_member_registration/individual/birth_date ) div 365), int(( /new_member_registration/individual/age  *  /new_member_registration/individual/age_unit ) div 365))" nodeset="/new_member_registration/individual/calc_age" type="string"/>
+      <bind calculate="format-date (date( /new_member_registration/today  - int( /new_member_registration/individual/age  * 365.25)), '%Y-%m-%d')" nodeset="/new_member_registration/individual/calc_dob" type="string"/>
+      <bind calculate="if( /new_member_registration/individual/birth_date_known ='yes',  /new_member_registration/individual/birth_date ,  /new_member_registration/individual/calc_dob )" nodeset="/new_member_registration/individual/dob" type="string"/>
+      <bind calculate="if( /new_member_registration/individual/birth_date_known  = 'yes', '0', '1')" nodeset="/new_member_registration/individual/dob_estimated" type="string"/>
+      <bind nodeset="/new_member_registration/individual/birth_date_note" readonly="true()" type="string"/>
+      <bind calculate="if(string-length( /new_member_registration/existing_num_members )&gt;1,concat( /new_member_registration/household_id , /new_member_registration/existing_num_members +1),concat( /new_member_registration/household_id ,'0', /new_member_registration/existing_num_members +1))" nodeset="/new_member_registration/individual/household_member_id" type="string"/>
+      <bind nodeset="/new_member_registration/individual/household_member_id_note" readonly="true()" type="string"/>
+      <bind constraint="regex(., '^03[0-9]{9}$')" jr:constraintMsg="jr:itext('/new_member_registration/individual/contact_phone_number:jr:constraintMsg')" nodeset="/new_member_registration/individual/contact_phone_number" type="string"/>
+      <bind nodeset="/new_member_registration/individual/ethnicity" required="true()" type="select1"/>
+      <bind nodeset="/new_member_registration/individual/ethnicity_other" relevant="selected( /new_member_registration/individual/ethnicity , 'other')" required="true()" type="string"/>
+      <bind nodeset="/new_member_registration/relationship" required="true()" type="select1"/>
+      <bind nodeset="/new_member_registration/relationship_other" relevant="selected( /new_member_registration/relationship , 'other')" type="string"/>
+      <bind calculate="if( /new_member_registration/individual/calc_age &lt;=3, 'yes', 'no')" nodeset="/new_member_registration/is_child" type="string"/>
+      <bind nodeset="/new_member_registration/note_child" readonly="true()" relevant=" /new_member_registration/is_child ='yes'" type="string"/>
+      <bind calculate="if( /new_member_registration/individual/calc_age &gt;15 and  /new_member_registration/individual/calc_age &lt;45 and  /new_member_registration/individual/gender ='female', 'yes', 'no')" nodeset="/new_member_registration/is_rep_woman" type="string"/>
+      <bind nodeset="/new_member_registration/note_rep_women" readonly="true()" relevant=" /new_member_registration/is_rep_woman  = 'yes'" type="string"/>
+      <bind nodeset="/new_member_registration/comments" type="string"/>
+      <bind calculate="concat('uuid:', uuid())" nodeset="/new_member_registration/meta/instanceID" readonly="true()" type="string"/>
+      <bind calculate="'930096f4996d4427af86d24f63270a39'" nodeset="/new_member_registration/formhub/uuid" type="string"/>
+    </model>
+  </h:head>
+  <h:body>
+    <input ref="/new_member_registration/provider_location_note">
+      <label ref="jr:itext('/new_member_registration/provider_location_note:label')"/>
+    </input>
+    <input ref="/new_member_registration/household_id_note">
+      <label ref="jr:itext('/new_member_registration/household_id_note:label')"/>
+    </input>
+    <input ref="/new_member_registration/name_hhh">
+      <label ref="jr:itext('/new_member_registration/name_hhh:label')"/>
+    </input>
+    <input ref="/new_member_registration/address">
+      <label ref="jr:itext('/new_member_registration/address:label')"/>
+    </input>
+    <group ref="/new_member_registration/individual">
+      <label ref="jr:itext('/new_member_registration/individual:label')"/>
+      <input ref="/new_member_registration/individual/program_client_id_note">
+        <label ref="jr:itext('/new_member_registration/individual/program_client_id_note:label')"/>
+      </input>
+      <input ref="/new_member_registration/individual/first_name">
+        <label ref="jr:itext('/new_member_registration/individual/first_name:label')"/>
+      </input>
+      <select1 ref="/new_member_registration/individual/gender">
+        <label ref="jr:itext('/new_member_registration/individual/gender:label')"/>
+        <item>
+          <label ref="jr:itext('/new_member_registration/individual/gender/male:label')"/>
+          <value>male</value>
+        </item>
+        <item>
+          <label ref="jr:itext('/new_member_registration/individual/gender/female:label')"/>
+          <value>female</value>
+        </item>
+        <item>
+          <label ref="jr:itext('/new_member_registration/individual/gender/transgender:label')"/>
+          <value>transgender</value>
+        </item>
+      </select1>
+      <select1 ref="/new_member_registration/individual/birth_date_known">
+        <label ref="jr:itext('/new_member_registration/individual/birth_date_known:label')"/>
+        <item>
+          <label ref="jr:itext('/new_member_registration/individual/birth_date_known/yes:label')"/>
+          <value>yes</value>
+        </item>
+        <item>
+          <label ref="jr:itext('/new_member_registration/individual/birth_date_known/no:label')"/>
+          <value>no</value>
+        </item>
+      </select1>
+      <input ref="/new_member_registration/individual/birth_date">
+        <label ref="jr:itext('/new_member_registration/individual/birth_date:label')"/>
+      </input>
+      <input ref="/new_member_registration/individual/age">
+        <label ref="jr:itext('/new_member_registration/individual/age:label')"/>
+      </input>
+      <select1 ref="/new_member_registration/individual/age_unit">
+        <label ref="jr:itext('/new_member_registration/individual/age_unit:label')"/>
+        <item>
+          <label ref="jr:itext('/new_member_registration/individual/age_unit/365:label')"/>
+          <value>365</value>
+        </item>
+        <item>
+          <label ref="jr:itext('/new_member_registration/individual/age_unit/30:label')"/>
+          <value>30</value>
+        </item>
+        <item>
+          <label ref="jr:itext('/new_member_registration/individual/age_unit/7:label')"/>
+          <value>7</value>
+        </item>
+        <item>
+          <label ref="jr:itext('/new_member_registration/individual/age_unit/1:label')"/>
+          <value>1</value>
+        </item>
+      </select1>
+      <input ref="/new_member_registration/individual/birth_date_note">
+        <label ref="jr:itext('/new_member_registration/individual/birth_date_note:label')"/>
+      </input>
+      <input ref="/new_member_registration/individual/household_member_id_note">
+        <label ref="jr:itext('/new_member_registration/individual/household_member_id_note:label')"/>
+      </input>
+      <input ref="/new_member_registration/individual/contact_phone_number">
+        <label ref="jr:itext('/new_member_registration/individual/contact_phone_number:label')"/>
+      </input>
+      <select1 appearance="minimal" ref="/new_member_registration/individual/ethnicity">
+        <label ref="jr:itext('/new_member_registration/individual/ethnicity:label')"/>
+        <item>
+          <label ref="jr:itext('/new_member_registration/individual/ethnicity/sindhi:label')"/>
+          <value>sindhi</value>
+        </item>
+        <item>
+          <label ref="jr:itext('/new_member_registration/individual/ethnicity/muhajir:label')"/>
+          <value>muhajir</value>
+        </item>
+        <item>
+          <label ref="jr:itext('/new_member_registration/individual/ethnicity/punjabi:label')"/>
+          <value>punjabi</value>
+        </item>
+        <item>
+          <label ref="jr:itext('/new_member_registration/individual/ethnicity/pushtuns:label')"/>
+          <value>pushtuns</value>
+        </item>
+        <item>
+          <label ref="jr:itext('/new_member_registration/individual/ethnicity/saraiki:label')"/>
+          <value>saraiki</value>
+        </item>
+        <item>
+          <label ref="jr:itext('/new_member_registration/individual/ethnicity/balochi:label')"/>
+          <value>balochi</value>
+        </item>
+        <item>
+          <label ref="jr:itext('/new_member_registration/individual/ethnicity/other:label')"/>
+          <value>other</value>
+        </item>
+      </select1>
+      <input ref="/new_member_registration/individual/ethnicity_other">
+        <label ref="jr:itext('/new_member_registration/individual/ethnicity_other:label')"/>
+      </input>
+    </group>
+    <select1 appearance="minimal" ref="/new_member_registration/relationship">
+      <label ref="jr:itext('/new_member_registration/relationship:label')"/>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/mother:label')"/>
+        <value>mother</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/father:label')"/>
+        <value>father</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/spouse:label')"/>
+        <value>spouse</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/brother:label')"/>
+        <value>brother</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/sister:label')"/>
+        <value>sister</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/son:label')"/>
+        <value>son</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/daughter:label')"/>
+        <value>daughter</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/grandchild:label')"/>
+        <value>grandchild</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/uncle:label')"/>
+        <value>uncle</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/aunt:label')"/>
+        <value>aunt</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/cousin:label')"/>
+        <value>cousin</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/nephew_or_niece:label')"/>
+        <value>nephew_or_niece</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/brother_in_law:label')"/>
+        <value>brother_in_law</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/sister_in_law:label')"/>
+        <value>sister_in_law</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/mother_in_law:label')"/>
+        <value>mother_in_law</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/father_in_law:label')"/>
+        <value>father_in_law</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/son_or_daughter_in_law:label')"/>
+        <value>son_or_daughter_in_law</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/maternal_grandmother:label')"/>
+        <value>maternal_grandmother</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/paternal_grandmother:label')"/>
+        <value>paternal_grandmother</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/maternal_grandfather:label')"/>
+        <value>maternal_grandfather</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/paternal_grandfather:label')"/>
+        <value>paternal_grandfather</value>
+      </item>
+      <item>
+        <label ref="jr:itext('/new_member_registration/relationship/other:label')"/>
+        <value>other</value>
+      </item>
+    </select1>
+    <input ref="/new_member_registration/relationship_other">
+      <label ref="jr:itext('/new_member_registration/relationship_other:label')"/>
+    </input>
+    <input ref="/new_member_registration/note_child">
+      <label ref="jr:itext('/new_member_registration/note_child:label')"/>
+    </input>
+    <input ref="/new_member_registration/note_rep_women">
+      <label ref="jr:itext('/new_member_registration/note_rep_women:label')"/>
+    </input>
+    <input appearance="multiline" ref="/new_member_registration/comments">
+      <label ref="jr:itext('/new_member_registration/comments:label')"/>
+    </input>
+  </h:body>
+</h:html>

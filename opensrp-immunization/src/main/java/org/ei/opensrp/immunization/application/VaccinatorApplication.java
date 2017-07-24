@@ -1,7 +1,10 @@
 package org.ei.opensrp.immunization.application;
 
 import android.content.res.Configuration;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
+
+import com.ihs.odkate.base.Odkate;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
@@ -15,7 +18,7 @@ import static org.ei.opensrp.util.Log.logInfo;
 /**
  * Created by koros on 2/3/16.
  */
-public class VaccinatorApplication extends DrishtiApplication{
+public class VaccinatorApplication extends Odkate implements DrishtiApplication{
     private Locale locale = null;
     private Context context;
 
@@ -65,5 +68,10 @@ public class VaccinatorApplication extends DrishtiApplication{
         Locale.setDefault(locale);
         getBaseContext().getResources().updateConfiguration(config,
                 getBaseContext().getResources().getDisplayMetrics());
+    }
+
+    @Override
+    public void logoutCurrentUser() {
+        Log.i(getClass().getName(), "Logging out");
     }
 }

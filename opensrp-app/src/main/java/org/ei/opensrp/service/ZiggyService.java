@@ -31,21 +31,45 @@ public class ZiggyService {
         this.ziggyFileLoader = ziggyFileLoader;
         this.dataRepository = dataRepository;
         this.formSubmissionRouter = formSubmissionRouter;
-        initRhino();
+        initRhino(null);
+    }
+
+    public ZiggyService(ZiggyFileLoader ziggyFileLoader, FormDataRepository dataRepository,
+                        FormSubmissionRouter formSubmissionRouter, Map<String, String> metadata) {
+        this.ziggyFileLoader = ziggyFileLoader;
+        this.dataRepository = dataRepository;
+        this.formSubmissionRouter = formSubmissionRouter;
+        initRhino(metadata);
     }
 
     public void saveForm(String params, String formInstance) throws Exception {
         context = enter();
+        ziggyFileLoader.setFormDirectoryPath("");// to not allow overriding the form path
         saveFunction.call(context, scope, scope, new Object[]{params, formInstance});
         logInfo(format("Saving form successful, with params: {0}, with instance {1}.", params, formInstance));
         exit();
     }
 
-    private void initRhino() {
+    public void saveForm(String params, String formInstance, String formDefinitionPath) throws Exception {
+        context = enter();
+        ziggyFileLoader.setFormDirectoryPath(formDefinitionPath);
+        saveFunction.call(context, scope, scope, new Object[]{params, formInstance});
+        logInfo(format("Saving form successful, with params: {0}, with instance {1}.", params, formInstance));
+        exit();
+    }
+
+    private void initRhino(Map<String, String> metadata) {
         try {
             context = enter();
             context.setOptimizationLevel(-1);
             scope = context.initStandardObjects();
+
+            if (metadata != null){
+                for (String s : metadata.keySet()) {
+                    scope.put(s, scope, metadata.get(s));
+                }
+            }
+
             String jsFiles = ziggyFileLoader.getJSFiles();
             scope.put(REPOSITORY, scope, toObject(dataRepository, scope));
             scope.put(ZIGGY_FILE_LOADER, scope, toObject(ziggyFileLoader, scope));

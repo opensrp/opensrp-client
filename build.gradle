@@ -1,19 +1,47 @@
-configure(allprojects) { project ->
-    buildscript {
-        System.properties['com.android.build.gradle.overrideVersionCheck'] = 'true'
+buildscript {
+    System.properties['com.android.build.gradle.overrideVersionCheck'] = 'true'
 
-        repositories {
-            jcenter()
-            mavenCentral()
-            maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-            mavenLocal()
-        }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.2'
+        //classpath 'com.google.gms:google-services:3.0.0'
     }
 }
 
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "$rootDir/repo/" }
+        maven { url = 'https://oss.sonatype.org/content/groups/public' }
+        maven {
+            url "${projectDir}/opensrp-app/../libs/"
+        }
+        maven {
+            url "${projectDir}/opensrp-app-it/../libs/"
+        }
+        mavenLocal()
+    }
+}
+
+configurations.all {
+    transitive = true
+}
+
+//configure(allprojects) { project ->
+//    buildscript {
+//        System.properties['com.android.build.gradle.overrideVersionCheck'] = 'true'
+//
+//        repositories {
+//            jcenter()
+//            mavenCentral()
+//            maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+//            mavenLocal()
+//        }
+//    }
+//}
+
 project.ext.preDexLibs = !project.hasProperty('disablePreDex')
 
-subprojects {
+/*subprojects {
 
     group = 'org.ei.opensrp'
 
@@ -27,6 +55,7 @@ subprojects {
     ext.androidAnnotationsAPIVersion = '3.0.1';
 
     repositories {
+        jcenter()
         mavenCentral()
         maven { url "${projectDir}/libs/" }
         maven { url "http://nexus.motechproject.org/content/repositories/drishti" }
@@ -51,7 +80,7 @@ subprojects {
             project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
         }
     }
-}
+}*/
 
 apply plugin : 'java'
 apply plugin : 'build-dashboard'

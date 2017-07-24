@@ -13,7 +13,9 @@ import org.ei.opensrp.immunization.woman.WomanSmartRegisterFragment;
 import org.ei.opensrp.view.controller.FormController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by muhammad.ahmed@ihsinformatics.com on 13-Oct-15.
@@ -66,13 +68,15 @@ public class ZMSmartRegisterActivity extends RegisterActivity {
         return new ZMSmartRegisterFragment(new FormController(this));
     }
 
-    protected String[] buildFormNameList(){
-        List<String> formNames = new ArrayList<String>();
-        formNames.add("woman_enrollment");
-        formNames.add("woman_offsite_followup");
-        formNames.add("child_enrollment");
-        formNames.add("child_offsite_followup");
-        return formNames.toArray(new String[formNames.size()]);
+    protected Map<String, Object> buildFormNameList(){
+        Map<String, Object> formNames = new HashMap<>();
+
+        formNames.put("woman_enrollment", new String[]{"pkwoman"});
+        formNames.put("woman_offsite_followup", new String[]{"pkwoman"});
+        formNames.put("child_enrollment", new String[]{"pkchild"});
+        formNames.put("child_offsite_followup", new String[]{"pkchild"});
+
+        return formNames;
     }
 
     @Override

@@ -46,4 +46,8 @@ public class FormPathService {
         return IOUtils.toString(this.assetManager.open(appPath + file), encoding);
     }
 
+    public String getForm(String file, String encoding) throws IOException {
+        return IOUtils.toString(new FileInputStream(file), encoding);
+    }
+
 }

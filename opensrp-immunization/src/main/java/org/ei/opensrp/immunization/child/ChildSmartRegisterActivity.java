@@ -12,7 +12,9 @@ import org.ei.opensrp.view.controller.FormController;
 import org.ei.opensrp.view.fragment.SecuredNativeSmartRegisterFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Ahmed on 13-Oct-15.
@@ -68,13 +70,14 @@ public class ChildSmartRegisterActivity extends RegisterActivity {
     }
 
     @Override
-    protected String[] buildFormNameList() {
-        List<String> formNames = new ArrayList<String>();
-        formNames.add("child_enrollment");
-        formNames.add("child_followup");
-        formNames.add("child_offsite_followup");
+    protected Map<String, Object> buildFormNameList() {
+        Map<String, Object> formNames = new HashMap<>();
 
-        return formNames.toArray(new String[formNames.size()]);
+        formNames.put("child_enrollment", new String[]{"pkchild"});
+        formNames.put("child_enrollment", new String[]{"pkchild"});
+        formNames.put("child_offsite_followup", new String[]{"pkchild"});
+
+        return formNames;
     }
 
     @Override

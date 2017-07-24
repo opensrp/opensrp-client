@@ -7,7 +7,9 @@ import org.ei.opensrp.view.controller.FormController;
 import org.ei.opensrp.view.fragment.SecuredNativeSmartRegisterFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FieldMonitorSmartRegisterActivity extends RegisterActivity {
 
@@ -16,11 +18,11 @@ public class FieldMonitorSmartRegisterActivity extends RegisterActivity {
         return new FieldMonitorRegisterFragment(new FormController(this));
     }
 
-    protected String[] buildFormNameList() {
-        List<String> formNames = new ArrayList<String>();
-        formNames.add("vaccine_stock_position");
+    protected Map<String, Object> buildFormNameList() {
+        Map<String, Object> formNames = new HashMap<>();
+        formNames.put("vaccine_stock_position", new String[]{"stock"});
 
-        return formNames.toArray(new String[formNames.size()]);
+        return formNames;
     }
 
     @Override

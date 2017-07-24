@@ -2,6 +2,7 @@ package org.ei.opensrp.service;
 
 import android.content.res.AssetManager;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,10 +39,18 @@ public class ZiggyFileLoader {
     public String loadAppData(String fileName) {
         try {
             FormPathService fps = new FormPathService(assetManager);
+            if (StringUtils.isNotBlank(formDirectoryPath)){
+                return fps.getForm(formDirectoryPath, "UTF-8");
+            }
             return fps.getForms(fileName, "UTF-8");
         } catch (IOException e) {
+
             logError(format("Error while loading app data file: {0}, with exception: {1}", fileName, e));
         }
         return null;
+    }
+
+    public void setFormDirectoryPath(String formDirectoryPath){
+        this.formDirectoryPath = formDirectoryPath;
     }
 }

@@ -9,6 +9,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -19,6 +20,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.ihs.odkate.base.Odkate;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
@@ -45,7 +48,7 @@ import static android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS;
 import static org.ei.opensrp.domain.LoginResponse.SUCCESS;
 import static org.ei.opensrp.core.utils.Utils.resetLocale;
 
-public abstract class LoginActivity extends Activity {
+public abstract class LoginActivity extends AppCompatActivity {
     private Context context;
     private ProgressDialog progressDialog;
 
@@ -61,7 +64,11 @@ public abstract class LoginActivity extends Activity {
 
         ((TextView) findViewById(R.id.application_name)).setText(applicationName());
 
-        getActionBar().setDisplayShowTitleEnabled(false);
+        if(getActionBar() != null){
+            getActionBar().setDisplayShowTitleEnabled(false);
+        }
+
+        Odkate.setupODK(this);
 
         initializeBuildDetails();
         setDoneActionHandlerOnPasswordField();

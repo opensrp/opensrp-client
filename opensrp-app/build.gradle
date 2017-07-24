@@ -6,7 +6,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'org.apache.commons:commons-lang3:3.3.2'
     }
 }
@@ -14,8 +14,8 @@ buildscript {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion androidCompileSdkVersion
-    buildToolsVersion androidBuildToolsVersion
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     signingConfigs {
         config {
@@ -49,7 +49,7 @@ android {
         // multiDexEnabled = true
         //applicationId "org.ei.opensrp"
         minSdkVersion 19
-        targetSdkVersion 21
+        targetSdkVersion 24
         versionCode 1
         versionName "3.0.1"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -107,7 +107,7 @@ configurations.all {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'commons-io:commons-io:2.1'
     compile 'com.google.code.gson:gson:2.3'
     compile 'org.apache.commons:commons-lang3:3.1'
@@ -116,8 +116,10 @@ dependencies {
     compile 'joda-time:joda-time:2.3'
     compile 'com.github.bmelnychuk:atv:1.2.+'
     compile 'com.github.johnkil.print:print:1.2.3'
-    compile 'ch.acra:acra:4.5.0'
-    compile 'com.google.guava:guava:18.0'
+    compile ('ch.acra:acra:4.5.0'){
+        exclude group: 'org.json', module: 'json'
+    }
+    compile 'com.google.guava:guava:19.0'
     compile fileTree(include: ['*.jar'], dir: 'libs')
 }
 

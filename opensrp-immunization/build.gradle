@@ -3,7 +3,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'org.apache.commons:commons-lang3:3.3.2'
     }
 }
@@ -13,13 +13,15 @@ apply plugin: 'com.android.application'
 android {
     enforceUniquePackageName = false
 
-    compileSdkVersion 24
+    compileSdkVersion 25
     buildToolsVersion "25.0.2"
-
+    dexOptions {
+        javaMaxHeapSize '4g'
+    }
     defaultConfig {
         applicationId "org.ei.opensrp.immunization"
         minSdkVersion 19
-        targetSdkVersion 21
+        targetSdkVersion 24
         versionCode 1
         multiDexEnabled true
         versionName "5.0.0b"
@@ -47,7 +49,7 @@ android {
 dependencies {
     compile project(':opensrp-core')
 
-    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
     //compile 'com.flurry.android:analytics:6.3.0'
 }
 

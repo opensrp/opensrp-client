@@ -12,7 +12,9 @@ import org.ei.opensrp.view.controller.FormController;
 import org.ei.opensrp.view.fragment.SecuredNativeSmartRegisterFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by muhammad.ahmed@ihsinformatics.com on 13-Oct-15.
@@ -66,13 +68,15 @@ public class WomanSmartRegisterActivity extends RegisterActivity {
         return new WomanSmartRegisterFragment(new FormController(this));
     }
 
-    protected String[] buildFormNameList(){
-        List<String> formNames = new ArrayList<String>();
-        formNames.add("woman_enrollment");
-        formNames.add("woman_followup");
-        formNames.add("woman_offsite_followup");
+    protected Map<String, Object> buildFormNameList(){
+        Map<String, Object> formNames = new HashMap<>();
 
-        return formNames.toArray(new String[formNames.size()]);
+        String[] bindTypes = new String[]{"pkwoman"};
+        formNames.put("woman_enrollment", bindTypes);
+        formNames.put("woman_followup", bindTypes);
+        formNames.put("woman_offsite_followup", bindTypes);
+
+        return formNames;
     }
 
     @Override

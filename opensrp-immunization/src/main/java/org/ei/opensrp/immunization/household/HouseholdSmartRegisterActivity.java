@@ -10,7 +10,9 @@ import org.ei.opensrp.core.template.RegisterDataGridFragment;
 import org.ei.opensrp.view.controller.FormController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Safwan on 4/22/2016.
@@ -71,14 +73,16 @@ public class HouseholdSmartRegisterActivity extends RegisterActivity {
     }
 
     @Override
-    protected String[] buildFormNameList() {
-        List<String> formNames = new ArrayList<String>();
-        formNames.add("family_registration");
-        formNames.add("new_member_registration");
-        formNames.add("child_enrollment");
-        formNames.add("woman_enrollment");
+    protected Map<String, Object> buildFormNameList() {
+        Map<String, Object> formNames = new HashMap<>();
+        formNames.put("family_registration", new String[]{"pkhousehold"});
+        formNames.put("new_member_registration", new String[]{"pkindividual"});
+        formNames.put("woman_enrollment", new String[]{"pkwoman"});
+        formNames.put("woman_offsite_followup", new String[]{"pkwoman"});
+        formNames.put("child_enrollment", new String[]{"pkchild"});
+        formNames.put("child_offsite_followup", new String[]{"pkchild"});
 
-        return formNames.toArray(new String[formNames.size()]);
+        return formNames;
     }
 
     @Override
