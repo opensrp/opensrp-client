@@ -109,7 +109,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginRight="1dp"
-        android:layout_weight="1.7"
+        android:layout_weight="3.7"
         android:background="#ffffff">
 
         <LinearLayout
@@ -147,7 +147,6 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
         android:background="#ffffff"
         android:orientation="horizontal">
 
@@ -159,7 +158,8 @@
             android:layout_margin="5dp"
             android:background="@drawable/due_vaccine_red_bg"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="invisible">
 
             <ImageView
                 android:id="@+id/record_vaccination_check"

@@ -112,7 +112,7 @@ public class ChildUnderFiveFragment extends Fragment {
 //            createPTCMTVIEW(fragmentContainer, "PMTCT: ", Utils.getValue(childDetails.getColumnmaps(), "pmtct_status", true));
             createWeightLayout(fragmentContainer, editWeightMode);
 
-            updateVaccinationViews(fragmentContainer, editVaccineMode);
+//            updateVaccinationViews(fragmentContainer, editVaccineMode);
 //            updateServiceViews(fragmentContainer, editServiceMode);
         }
     }

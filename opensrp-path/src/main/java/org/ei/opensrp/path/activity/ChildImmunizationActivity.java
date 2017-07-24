@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
@@ -246,10 +247,10 @@ public class ChildImmunizationActivity extends BaseActivity
 
         UpdateViewTask updateViewTask = new UpdateViewTask();
         updateViewTask.setWeightRepository(weightRepository);
-        updateViewTask.setVaccineRepository(vaccineRepository);
+//        updateViewTask.setVaccineRepository(vaccineRepository);
 //        updateViewTask.setRecurringServiceTypeRepository(recurringServiceTypeRepository);
 //        updateViewTask.setRecurringServiceRecordRepository(recurringServiceRecordRepository);
-        updateViewTask.setAlertService(alertService);
+//        updateViewTask.setAlertService(alertService);
         Utils.startAsyncTask(updateViewTask, null);
     }
 
@@ -1657,10 +1658,24 @@ public class ChildImmunizationActivity extends BaseActivity
 
        boolean check = checkWeighGainVelocity(weight,previouseWeight,age_when_weight_taken,monthLastWeightTaken,gender);
        if(!check){
-           Snackbar.make((CoordinatorLayout)findViewById(R.id.immunization_coordinator_layout),"not adequate growth",Snackbar.LENGTH_LONG).show();
+//           Snackbar.make((CoordinatorLayout)findViewById(R.id.immunization_coordinator_layout),"not adequate growth",Snackbar.LENGTH_LONG).show();
 //           Toast.makeText(this,"not enough growth",Toast.LENGTH_LONG).show();
+           showNotification("not adequate growth",getResources().getDrawable(R.drawable.ic_check_bcg_scar),
+                   "ok", new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           hideNotification();
+                           }
+                   }, "", null,null);
        }else{
-           Snackbar.make((CoordinatorLayout)findViewById(R.id.immunization_coordinator_layout),"adequate growth",Snackbar.LENGTH_LONG).show();
+//           Snackbar.make((CoordinatorLayout)findViewById(R.id.immunization_coordinator_layout),"adequate growth",Snackbar.LENGTH_LONG).show();
+           showNotification("adequate growth",getResources().getDrawable(R.drawable.ic_check_bcg_scar),
+                   "ok", new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           hideNotification();
+                       }
+                   }, "", null,null);
        }
 //        net.sqlcipher.database.SQLiteDatabase db = wp.getPathRepository().getReadableDatabase();
 

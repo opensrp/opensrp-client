@@ -14,7 +14,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/tablerowcontainer"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp">
+            android:layout_marginBottom="5dp"
+            android:visibility="invisible">
 
             <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:layout_width="wrap_content"
