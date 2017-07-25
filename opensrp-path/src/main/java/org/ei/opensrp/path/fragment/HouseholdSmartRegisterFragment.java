@@ -341,7 +341,7 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
         LinearLayout clientsHeaderLayout = (LinearLayout) view.findViewById(org.ei.opensrp.R.id.clients_header_layout);
         clientsHeaderLayout.setVisibility(View.GONE);
 
-        LinearLayout headerLayout = (LinearLayout) getLayoutInflater(null).inflate(R.layout.smart_register_child_header, null);
+        LinearLayout headerLayout = (LinearLayout) getLayoutInflater(null).inflate(R.layout.smart_register_household_header, null);
         clientsView.addHeaderView(headerLayout);
         clientsView.setEmptyView(getActivity().findViewById(R.id.empty_view));
 
