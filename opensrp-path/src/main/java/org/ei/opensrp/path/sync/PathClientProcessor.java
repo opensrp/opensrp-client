@@ -476,6 +476,16 @@ public class PathClientProcessor extends ClientProcessor {
             VaccineSchedule.updateOfflineAlerts(entityId, birthDateTime, "child");
             ServiceSchedule.updateOfflineAlerts(entityId, birthDateTime);
         }
+        if (contentValues != null && StringUtils.containsIgnoreCase(tableName, "mother")) {
+            String dob = contentValues.getAsString("dob");
+
+            if (StringUtils.isBlank(dob)) {
+                return;
+            }
+
+            DateTime birthDateTime = new DateTime(dob);
+            VaccineSchedule.updateOfflineAlerts(entityId, birthDateTime, "mother");
+        }
     }
 
     public boolean unSync(List<JSONObject> events) {

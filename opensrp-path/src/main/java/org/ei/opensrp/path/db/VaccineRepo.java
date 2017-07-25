@@ -31,11 +31,11 @@ public class VaccineRepo {
         bcg2("BCG 2", null, 366, 0, 84, "child"),
         ipv("IPV", opv3, 1830, 274, 28, "child"),
 
-        tt1("TT 1", null, 0, 0, 0, "woman"),
-        tt2("TT 2", tt1, 366, 0, 28, "woman"),
-        tt3("TT 3", tt2, 366, 0, 26 * 7, "woman"),
-        tt4("TT 4", tt3, 366, 0, 52 * 7, "woman"),
-        tt5("TT 5", tt4, 1830, 0, 52 * 7, "woman"),;
+        tt1("TT 1", null, 0, 0, 0, "mother"),
+        tt2("TT 2", tt1, 366, 0, 28, "mother"),
+        tt3("TT 3", tt2, 366, 0, 26 * 7, "mother"),
+        tt4("TT 4", tt3, 366, 0, 52 * 7, "mother"),
+        tt5("TT 5", tt4, 1830, 0, 52 * 7, "mother"),;
 
         private String display;
         private Vaccine prerequisite;
