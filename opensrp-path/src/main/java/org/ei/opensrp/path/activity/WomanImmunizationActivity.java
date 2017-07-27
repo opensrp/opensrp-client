@@ -1172,7 +1172,7 @@ public class WomanImmunizationActivity extends BaseActivity
             String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
             if (!TextUtils.isEmpty(dobString)) {
                 DateTime dateTime = new DateTime(dobString);
-                VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "child");
+                VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "mother");
             }
 
             List<Vaccine> vaccineList = new ArrayList<>();
@@ -1259,7 +1259,7 @@ public class WomanImmunizationActivity extends BaseActivity
                     String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
                     if (!TextUtils.isEmpty(dobString)) {
                         DateTime dateTime = new DateTime(dobString);
-                        affectedVaccines = VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "child");
+                        affectedVaccines = VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "mother");
                         vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
                         alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
                                 VaccinateActionUtils.allAlertNames("child"));

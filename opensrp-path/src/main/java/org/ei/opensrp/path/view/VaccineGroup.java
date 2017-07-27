@@ -310,7 +310,7 @@ public static interface OnVaccineUndoClickListener {
         Map<String, Date> recievedVaccines = receivedVaccines(vaccineList);
 
         String dobString = Utils.getValue(getChildDetails().getColumnmaps(), "dob", false);
-        List<Map<String, Object>> sch = generateScheduleList("woman", new DateTime(dobString), recievedVaccines, alertList);
+        List<Map<String, Object>> sch = generateScheduleList("mother", new DateTime(dobString), recievedVaccines, alertList);
 
         for (Map<String, Object> m : sch) {
             VaccineRepo.Vaccine vaccine = (VaccineRepo.Vaccine) m.get("vaccine");
