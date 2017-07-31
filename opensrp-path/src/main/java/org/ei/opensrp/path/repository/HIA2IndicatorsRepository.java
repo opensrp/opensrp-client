@@ -32,6 +32,7 @@ public class HIA2IndicatorsRepository extends BaseRepository {
     public static final String CREATED_AT_COLUMN = "created_at";
     public static final String UPDATED_AT_COLUMN = "updated_at";
     public static final String[] HIA2_TABLE_COLUMNS = {ID_COLUMN, PROVIDER_ID, INDICATOR_CODE, LABEL, DHIS_ID, DESCRIPTION, CATEGORY, CREATED_AT_COLUMN, UPDATED_AT_COLUMN};
+    public static final Map<Integer, String> CSV_COLUMN_MAPPING;
 
     private static final String PROVIDER_ID_INDEX = "CREATE INDEX " + HIA2_INDICATORS_TABLE_NAME + "_" + PROVIDER_ID + "_index ON " + HIA2_INDICATORS_TABLE_NAME + "(" + PROVIDER_ID + " COLLATE NOCASE);";
     private static final String KEY_INDEX = "CREATE INDEX " + HIA2_INDICATORS_TABLE_NAME + "_" + INDICATOR_CODE + "_index ON " + HIA2_INDICATORS_TABLE_NAME + "(" + INDICATOR_CODE + " COLLATE NOCASE);";
@@ -41,6 +42,15 @@ public class HIA2IndicatorsRepository extends BaseRepository {
     private static final String DESCRIPTION_INDEX = "CREATE INDEX " + HIA2_INDICATORS_TABLE_NAME + "_" + DESCRIPTION + "_index ON " + HIA2_INDICATORS_TABLE_NAME + "(" + DESCRIPTION + ");";
     private static final String CATEGORY_INDEX = "CREATE INDEX " + HIA2_INDICATORS_TABLE_NAME + "_" + CATEGORY + "_index ON " + HIA2_INDICATORS_TABLE_NAME + "(" + CATEGORY + ");";
 
+    static {
+        CSV_COLUMN_MAPPING = new HashMap<>();
+        CSV_COLUMN_MAPPING.put(0, HIA2IndicatorsRepository.ID_COLUMN);
+        CSV_COLUMN_MAPPING.put(1, HIA2IndicatorsRepository.INDICATOR_CODE);
+        CSV_COLUMN_MAPPING.put(2, HIA2IndicatorsRepository.LABEL);
+        CSV_COLUMN_MAPPING.put(3, HIA2IndicatorsRepository.DHIS_ID);
+        CSV_COLUMN_MAPPING.put(4, HIA2IndicatorsRepository.DESCRIPTION);
+        CSV_COLUMN_MAPPING.put(999, HIA2IndicatorsRepository.CATEGORY);//999 means nothing really, just to hold the column name for categories since category is a row in the hia2 csv
+    }
 
     public HIA2IndicatorsRepository(PathRepository pathRepository) {
         super(pathRepository);
@@ -83,7 +93,7 @@ public class HIA2IndicatorsRepository extends BaseRepository {
         Cursor cursor = null;
 
         try {
-            cursor = getPathRepository().getReadableDatabase().query(HIA2_INDICATORS_TABLE_NAME, HIA2_TABLE_COLUMNS, INDICATOR_CODE + " = ?", new String[]{indicatorCode}, null, null, null, null);
+            cursor = getPathRepository().getReadableDatabase().query(HIA2_INDICATORS_TABLE_NAME, HIA2_TABLE_COLUMNS, INDICATOR_CODE + " = ? COLLATE NOCASE ", new String[]{indicatorCode}, null, null, null, null);
             List<Hia2Indicator> hia2Indicators = readAllDataElements(cursor);
             if (hia2Indicators.size() == 1) {
                 return hia2Indicators.get(0);
@@ -182,7 +192,7 @@ public class HIA2IndicatorsRepository extends BaseRepository {
     private Long checkIfExists(SQLiteDatabase db, String indicatorCode) {
         Cursor mCursor = null;
         try {
-            String query = "SELECT " + ID_COLUMN + " FROM " + HIA2_INDICATORS_TABLE_NAME + " WHERE " + INDICATOR_CODE + " = '" + indicatorCode + "'";
+            String query = "SELECT " + ID_COLUMN + " FROM " + HIA2_INDICATORS_TABLE_NAME + " WHERE " + INDICATOR_CODE + " = '" + indicatorCode + "' COLLATE NOCASE ";
             mCursor = db.rawQuery(query, null);
             if (mCursor != null && mCursor.moveToFirst()) {
 
@@ -198,11 +208,12 @@ public class HIA2IndicatorsRepository extends BaseRepository {
 
     /**
      * order by id asc so that the indicators are ordered by category and indicator id
+     *
      * @return
      */
     public List<Hia2Indicator> fetchAll() {
         SQLiteDatabase database = getPathRepository().getReadableDatabase();
-        Cursor cursor = database.query(HIA2_INDICATORS_TABLE_NAME, HIA2_TABLE_COLUMNS, null, null, null, null, ID_COLUMN+" asc ");
+        Cursor cursor = database.query(HIA2_INDICATORS_TABLE_NAME, HIA2_TABLE_COLUMNS, null, null, null, null, ID_COLUMN + " asc ");
         return readAllDataElements(cursor);
     }
 

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/client_list_header_dark_grey"
+    android:orientation="horizontal"
+    android:weightSum="10">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="1dp"
+        android:layout_weight="6"
+        android:orientation="horizontal">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/household_profile"
+            style="@style/CustomFontTextViewStyle.ClientList.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/household_profile"
+            android:textAllCaps="true"
+            android:textColor="@color/client_list_grey"
+            android:textSize="16sp" />
+
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/household_number_of_elco"
+            style="@style/CustomFontTextViewStyle.ClientList.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="7dp"
+            android:text="@string/number_of_elco"
+            android:textAllCaps="true"
+            android:textColor="@color/client_list_grey"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="1dp"
+        android:layout_weight="2">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/household_last_visit_date"
+            style="@style/CustomFontTextViewStyle.ClientList.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last_visit_date"
+            android:textAllCaps="true"
+            android:textColor="@color/client_list_grey"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="1dp"
+        android:layout_weight="2">
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/household_hh_visit_due"
+            style="@style/CustomFontTextViewStyle.ClientList.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/hh_visit_due"
+            android:textAllCaps="true"
+            android:textColor="@color/client_list_grey"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

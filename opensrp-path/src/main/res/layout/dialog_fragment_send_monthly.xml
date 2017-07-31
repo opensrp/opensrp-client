@@ -1,34 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
-    android:gravity="center_horizontal"
     android:orientation="vertical">
-    <org.ei.opensrp.view.customControls.CustomFontTextView
+
+    <TextView
         android:id="@+id/tv_send_monthly_draft"
-        style="@style/CustomFontTextViewStyle.ClientList.Light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="0dp"
-        android:text="Send the May 2017 report?"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
         android:textSize="24sp" />
-    <org.ei.opensrp.view.customControls.CustomFontTextView
-        android:id="@+id/tv_send_monthly_draft_date"
-        style="@style/CustomFontTextViewStyle.ClientList.Light"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="0dp"
-        android:text="Send the May 2017 report?"
-        android:textSize="24sp" />
-    <org.ei.opensrp.view.customControls.CustomFontTextView
-        android:id="@+id/tv_send_monthly_draft_user"
-        style="@style/CustomFontTextViewStyle.ClientList.Light"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="0dp"
-        android:text="Send the May 2017 report?"
-        android:textSize="24sp" />
+        android:layout_gravity="center_vertical|right"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical|right"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:background="@null"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/cancel"
+            android:textSize="22sp" />
+
+        <Button
+            android:id="@+id/button_send"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:background="@null"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/send"
+            android:textSize="22sp" />
+    </LinearLayout>
 
 </LinearLayout>

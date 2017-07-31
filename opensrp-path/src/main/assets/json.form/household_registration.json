@@ -64,10 +64,10 @@
       },
       {
         "key": "HIE_FACILITIES",
-        "openmrs_entity_parent": "",
+        "openmrs_entity_parent": "usual_residence",
         "openmrs_entity": "person_address",
         "openmrs_entity_id": "address6",
-        "openmrs_data_type": "usual_residence",
+        "openmrs_data_type": "text",
         "type": "tree",
         "hint": "Household head's home health facility *",
         "tree": [],
@@ -78,10 +78,10 @@
       },
       {
         "key": "WARD",
-        "openmrs_entity_parent": "",
+        "openmrs_entity_parent": "usual_residence",
         "openmrs_entity": "person_address",
         "openmrs_entity_id": "address2",
-        "openmrs_data_type": "usual_residence",
+        "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "ওয়ার্ড নং- *",
         "values": [
@@ -134,10 +134,10 @@
       },
       {
         "key": "ADDRESS_LINE",
-        "openmrs_entity_parent": "",
+        "openmrs_entity_parent": "usual_residence",
         "openmrs_entity": "person_address",
         "openmrs_entity_id": "address1",
-        "openmrs_data_type": "usual_residence",
+        "openmrs_data_type": "text",
         "type": "edit_text",
         "hint": "বাড়ীর ঠিকানা-"
       },

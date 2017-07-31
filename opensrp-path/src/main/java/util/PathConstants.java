@@ -43,4 +43,20 @@ public class PathConstants extends AllConstants {
     }
 
 
+    public static final class EventType {
+
+        public static final String DEATH = "Death";
+    }
+
+    public static final class EntityType {
+
+        public static final String CHILD = "child";
+    }
+
+    public static final class EC_CHILD_TABLE {
+
+        public static final String DOD = "dod";
+    }
+
+    public static final String DEFAULT_DATE_STRING = "1970-1-1";
 }

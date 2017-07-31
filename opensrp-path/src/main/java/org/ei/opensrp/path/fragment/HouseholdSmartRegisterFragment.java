@@ -313,9 +313,10 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
             }
             RegisterClickables registerClickables = new RegisterClickables();
 
-
+            Log.e("-------------------",view.getId() + "");
             switch (view.getId()) {
                 case R.id.child_profile_info_layout:
+                    Log.e("-------------------","Openning HouseholdDetails");
                     Intent intent = new Intent(getActivity(), HouseholdDetailActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(EXTRA_HOUSEHOLD_DETAILS, client);
@@ -341,7 +342,7 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
         LinearLayout clientsHeaderLayout = (LinearLayout) view.findViewById(org.ei.opensrp.R.id.clients_header_layout);
         clientsHeaderLayout.setVisibility(View.GONE);
 
-        LinearLayout headerLayout = (LinearLayout) getLayoutInflater(null).inflate(R.layout.smart_register_child_header, null);
+        LinearLayout headerLayout = (LinearLayout) getLayoutInflater(null).inflate(R.layout.smart_register_household_header, null);
         clientsView.addHeaderView(headerLayout);
         clientsView.setEmptyView(getActivity().findViewById(R.id.empty_view));
 

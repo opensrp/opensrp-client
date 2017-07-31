@@ -60,6 +60,8 @@ import java.util.Calendar;
 import util.JsonFormUtils;
 import util.NetworkUtils;
 
+import static org.ei.opensrp.util.Log.logError;
+
 /**
  * Base activity class for all other PATH activity classes. Implements:
  * - A uniform navigation bar that is launched by swiping from the left
@@ -184,7 +186,7 @@ public abstract class BaseActivity extends AppCompatActivity
                     syncStatusSnackbar = Snackbar.make(rootView, R.string.syncing,
                             Snackbar.LENGTH_LONG);
                     syncStatusSnackbar.show();
-                    ((TextView)syncMenuItem.findViewById(R.id.nav_synctextview)).setText(R.string.syncing);
+                    ((TextView) syncMenuItem.findViewById(R.id.nav_synctextview)).setText(R.string.syncing);
                 } else {
                     if (fetchStatus != null) {
                         if (syncStatusSnackbar != null) syncStatusSnackbar.dismiss();
@@ -231,7 +233,7 @@ public abstract class BaseActivity extends AppCompatActivity
     private void updateLastSyncText() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null && navigationView.getMenu() != null) {
-            TextView syncMenuItem = ((TextView)navigationView.findViewById(R.id.nav_synctextview));
+            TextView syncMenuItem = ((TextView) navigationView.findViewById(R.id.nav_synctextview));
             if (syncMenuItem != null) {
                 String lastSync = getLastSyncTime();
 
@@ -242,8 +244,8 @@ public abstract class BaseActivity extends AppCompatActivity
             }
         }
     }
-    private void initializeCustomNavbarLIsteners(){
 
+    private void initializeCustomNavbarLIsteners() {
 
 
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -428,13 +430,21 @@ public abstract class BaseActivity extends AppCompatActivity
 
         TextView initialsTV = (TextView) navigationView.findViewById(R.id.initials_tv);
         initialsTV.setText(getLoggedInUserInitials());
-        String preferredName = getOpenSRPContext().allSharedPreferences().getANMPreferredName(
-                getOpenSRPContext().allSharedPreferences().fetchRegisteredANM());
-        TextView nameTV = (TextView) navigationView.findViewById(R.id.name_tv);
-        nameTV.setText(preferredName);
+
+        try {
+            String preferredName = getOpenSRPContext().allSharedPreferences().getANMPreferredName(
+                    getOpenSRPContext().allSharedPreferences().fetchRegisteredANM());
+            TextView nameTV = (TextView) navigationView.findViewById(R.id.name_tv);
+            nameTV.setText(preferredName);
+
+
+        } catch (Exception e) {
+            logError("Error on initView : Getting Preferences: Getting Initials");
+        }
         refreshSyncStatusViews(null);
         initializeCustomNavbarLIsteners();
     }
+
     //FIXME this method conflicts with raihan's don't know what the difference is
 //    public void initViews() {
 //        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -481,24 +491,31 @@ public abstract class BaseActivity extends AppCompatActivity
 //        initializeCustomNavbarLIsteners();
 //    }
     protected String getLoggedInUserInitials() {
-        String preferredName = getOpenSRPContext().allSharedPreferences().getANMPreferredName(
-                getOpenSRPContext().allSharedPreferences().fetchRegisteredANM());
-        if (!TextUtils.isEmpty(preferredName)) {
-            String[] initialsArray = preferredName.split(" ");
-            String initials = "";
-            if (initialsArray.length > 0) {
-                initials = initialsArray[0].substring(0, 1);
-                if (initialsArray.length > 1) {
-                    initials = initials + initialsArray[1].substring(0, 1);
+
+        try {
+
+            String preferredName = getOpenSRPContext().allSharedPreferences().getANMPreferredName(
+                    getOpenSRPContext().allSharedPreferences().fetchRegisteredANM());
+            if (!TextUtils.isEmpty(preferredName)) {
+                String[] initialsArray = preferredName.split(" ");
+                String initials = "";
+                if (initialsArray.length > 0) {
+                    initials = initialsArray[0].substring(0, 1);
+                    if (initialsArray.length > 1) {
+                        initials = initials + initialsArray[1].substring(0, 1);
+                    }
                 }
+
+                return initials.toUpperCase();
             }
 
-            return initials.toUpperCase();
+        } catch (Exception e) {
+            logError("Error on initView : Getting Preferences: Getting Initials");
         }
 
-       return null;
-
+        return null;
     }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -510,7 +527,7 @@ public abstract class BaseActivity extends AppCompatActivity
             startJsonForm("child_enrollment", null);
         } else if (id == R.id.nav_record_vaccination_out_catchment) {
             startJsonForm("out_of_catchment_service", null);
-        }  else if (id == R.id.nav_sync) {
+        } else if (id == R.id.nav_sync) {
             startSync();
         }
 

@@ -82,7 +82,7 @@
             "text":"Other"
           }
         ],
-        "value": "Children's Clinic (C/C)",
+        "value": "C/C",
         "v_required": {
           "value": true,
           "err": "Please enter the place where stock was issued"

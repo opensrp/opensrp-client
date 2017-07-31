@@ -16,6 +16,7 @@
     <dimen name="bottom_text_size">28dp</dimen>
     <dimen name="right_left_spinner_padding">25dp</dimen>
     <dimen name="spinner_error_left_margin">25dp</dimen>
+    <dimen name="button_height">60dp</dimen>
 
     <dimen name="section_header_text_size">32sp</dimen>
 </resources>

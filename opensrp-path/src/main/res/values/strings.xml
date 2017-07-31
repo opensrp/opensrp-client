@@ -17,7 +17,6 @@
     <string name="child_details_title"> Child Details</string>
     <string name="stock_title"> Stock Control</string>
     <string name="vaccination_summary"> Vaccination Summary</string>
-
     <string name="search_hint">Search Register</string>
     <string name="birthdate">DOB</string>
     <string name="age">Age</string>
@@ -27,13 +26,15 @@
     <string name="birthdate_age">AGE</string>
     <string name="epi_number">ID</string>
     <string name="child_contact_number">WEIGHT</string>
-
     <string name="marital_status">Marital Status</string>
-
-
     <string name="woman_entries"></string>
     <string name="woman_nbnf">NBNF</string>
     <string name="woman_register_title">Woman Register</string>
+
+    <string name="household_profile">HOUSEHOLD PROFILE</string>
+    <string name="number_of_elco">NO. OF ELCO</string>
+    <string name="last_visit_date">LAST VISIT DATE</string>
+    <string name="hh_visit_due">HH VISIT DUE</string>
 
     <string name="unique_id">UNIQUE_IDs</string>
     <string name="str_woman_search_hint">Search Woman Register</string>
@@ -57,7 +58,6 @@
     <string name="total">TOTAL\n</string>
     <string name="used">USED</string>
     <string name="wasted">WASTED</string>
-
     <string name="month">MONTH</string>
     <string name="month_target">MONTHLY TARGET</string>
     <string name="month_received">STOCK RECEIVED</string>
@@ -67,8 +67,6 @@
     <string name="stock_register_title">Stock Register</string>
     <string name="stock_register_monthly_view">Monthly</string>
     <string name="stock_register_daily_view">Daily</string>
-
-
     <string name="field_entries">Stock Register</string>
     <string name="field_title">Stock Register</string>
     <string name="str_field_search_hint">Search Register</string>
@@ -79,39 +77,28 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="userNameText">User Name</string>
     <string name="passwordText">Password</string>
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="done_today">Done Today</string>
     <string name="undo">Undo</string>
-
     <string name="unauthorized">Please check the credentials</string>
     <string name="unauthorized_group">Your user group is not allowed to access this device</string>
     <string name="unknown_response">login failed. Try later</string>
     <string name="no_internet_connectivity">No internet connection. Please ensure data connectivity</string>
-
     <string name="form_saved_dialog_title">Form Submission</string>
     <string name="form_saved_success_dialog_message">Form saved successfully!</string>
     <string name="form_saved_failed_dialog_message">Form saving encountered an error. </string>
-
     <string name="ok_button_label">OK</string>
-
     <string name="forminputerror">Please check the form for any error/missing input marked in Red box</string>
     <string name="okforminputerror">ok</string>
-
     <string name="child_followup">Child Follow Up</string>
     <string name="woman_followup">Woman Follow Up</string>
-
     <string name="edit">Edit</string>
     <string name="save">Save</string>
-
     <string name="search">Search</string>
     <string name="cancel">Cancel</string>
-
     <string name="global_search_hint">Search Globally</string>
     <string name="global_search">Global Search</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="child_siblings">%s siblings</string>
@@ -120,13 +107,9 @@
     <string name="male_sex_id">his</string>
     <string name="label_zeir">ZEIR</string>
     <string name="label_immunization_records">IMMUNISATION &amp; SERVICES</string>
-
     <string name="str_search_hint">Search name or ID</string>
-
     <string name="scan_qr_code">Scan QR code</string>
-
     <string name="zeir">ZEIR</string>
-
     <string name="record_all">Record all</string>
     <string name="record_">Record %1$s</string>
     <string name="record_due_">Record %1$s - due %2$s</string>
@@ -160,14 +143,10 @@
     <string name="overdue_due">Overdue/Due (%1$s)</string>
     <string name="record_weight_with_nl">Record\nweight</string>
     <string name="record_weight">Record weight</string>
-
-
     <string name="saving_dialog_title">Saving…</string>
     <string name="updating_dialog_title">Updating…</string>
     <string name="please_wait_message">Please wait</string>
     <string name="saving_dialog_message">Please wait</string>
-
-    <!-- advanced search -->
     <string name="advanced_search">Advanced Search</string>
     <string name="out_and_inside">Outside and Inside\nMy Catchment Area</string>
     <string name="requires_internet_connection">(Requires internet connection)</string>
@@ -199,13 +178,10 @@
     <string name="check_child_bcg_scar">"Check for child's BCG scar"</string>
     <string name="move_to_catchment_confirm_dialog_title">Confirm move</string>
     <string name="move_to_catchment_confirm_dialog_message">Are you sure you want to move this record to your catchment area?</string>
-
     <string name="mother_lookup_results">Matching records</string>
     <string name="dismiss">Cancel</string>
     <string name="change_status">Change status</string>
     <string name="title_activity_stock_control">StockControlActivity</string>
-
-
     <string name="recurring_services">Recurring Services</string>
     <string name="given_today">%1$s given today</string>
     <string name="given_earlier">%1$s given earlier</string>
@@ -219,11 +195,9 @@
     <string name="undo_service">Undo Service?</string>
     <string name="yes_undo_service">Yes, undo service</string>
     <string name="cannot_record_vaccine">Cannot record %1$s</string>
-
     <string name="device_timezone_changed">"The device's timezone changed. Please login again."</string>
     <string name="device_time_changed">"The device's time has changed. Please login again."</string>
     <string name="problem_applying_vaccine_constraints">Could not apply vaccine constraints.</string>
-
     <string name="immunizations">IMMUNIZATIONS</string>
     <string name="recurring">RECURRING SERVICES</string>
     <string name="months">Months</string>
@@ -235,7 +209,7 @@
     <string name="side_nav_hia2">HIA 2 Reports</string>
     <string name="hia2_daily_tallies">Daily Tallies</string>
     <string name="hia2_draft_monthly">Draft Monthly</string>
-    <string name="hia2_draft_monthly_with_count">Draft Monthly (%1$s)</string>
+    <string name="hia2_draft_monthly_with_count">Draft Monthly (%1$d)</string>
     <string name="hia2_sent_monthly">Sent Monthly</string>
     <string name="title_activity_hia2_report">HIA2 Reports</string>
     <string name="start_new_report">Start new report</string>
@@ -251,13 +225,14 @@
     <string name="drawer_open">Drawer open</string>
     <string name="drawer_close">Drawer close</string>
     <string name="started">Started</string>
-
-
     <string name="searching_dialog_title">Searching…</string>
     <string name="searching_dialog_message">Please wait</string>
-
     <string name="move_to_catchment_dialog_title">Moving…</string>
     <string name="move_to_catchment_dialog_message">Please wait</string>
     <string name="title_activity_householddetail">HouseholddetailActivity</string>
 
+    <string name="send_report_warning">Send report?\n\tDate: %1$s\n\tUser: %2$s</string>
+    <string name="send">Send</string>
+    <string name="n_a">"N/A"</string>
+    <string name="confirm_button_label">Confirm</string>
 </resources>

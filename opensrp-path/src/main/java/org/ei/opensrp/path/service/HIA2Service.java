@@ -23,70 +23,70 @@ public class HIA2Service {
     public static DateFormat dfyymmdd = new SimpleDateFormat("yyyy-MM-dd");
     public static String REPORT_NAME = "HIA2";
 
-    private String CHN1_005 = "CHN1-005";
-    private String CHN1_010 = "CHN1-010";
-    private String CHN1_011 = "CHN1-011";
-    private String CHN1_015 = "CHN1-015";
-    private String CHN1_020 = "CHN1-020";
-    private String CHN1_021 = "CHN1-021";
-    private String CHN1_025 = "CHN1-025";
-    private String CHN1_030 = "CHN1-030";
-    private String CHN2_005 = "CHN2-005";
-    private String CHN2_010 = "CHN2-010";
-    private String CHN2_015 = "CHN2-015";
-    private String CHN2_020 = "CHN2-020";
-    private String CHN2_025 = "CHN2-025";
-    private String CHN2_030 = "CHN2-030";
-    private String CHN2_035 = "CHN2-035";
-    private String CHN2_040 = "CHN2-040";
-    private String CHN2_041 = "CHN2-041";
-    private String CHN2_045 = "CHN2-045";
-    private String CHN2_050 = "CHN2-050";
-    private String CHN2_051 = "CHN2-051";
-    private String CHN2_055 = "CHN2-055";
-    private String CHN2_060 = "CHN2-060";
-    private String CHN2_061 = "CHN2-061";
-    private String CHN2_065 = "CHN2-065";
-    private String CHN2_070 = "CHN2-070";
-    private String CHN2_075 = "CHN2-075";
-    private String CHN2_080 = "CHN2-080";
-    private String CHN3_005 = "CHN3-005";
-    private String CHN3_005_O = "CHN3-005-O";
-    private String CHN3_010 = "CHN3-010";
-    private String CHN3_010_O = "CHN3-010-O";
-    private String CHN3_015 = "CHN3-015";
-    private String CHN3_015_O = "CHN3-015-O";
-    private String CHN3_020 = "CHN3-020";
-    private String CHN3_020_O = "CHN3-020-O";
-    private String CHN3_025 = "CHN3-025";
-    private String CHN3_025_O = "CHN3-025-O";
-    private String CHN3_027 = "CHN3-027";
-    private String CHN3_027_O = "CHN3-027-O";
-    private String CHN3_030 = "CHN3-030";
-    private String CHN3_030_O = "CHN3-030-O";
-    private String CHN3_035 = "CHN3-035";
-    private String CHN3_035_O = "CHN3-035-O";
-    private String CHN3_040 = "CHN3-040";
-    private String CHN3_040_O = "CHN3-040-O";
-    private String CHN3_045 = "CHN3-045";
-    private String CHN3_045_O = "CHN3-045-O";
-    private String CHN3_050 = "CHN3-050";
-    private String CHN3_050_O = "CHN3-050-O";
-    private String CHN3_055 = "CHN3-055";
-    private String CHN3_055_O = "CHN3-055-O";
-    private String CHN3_060 = "CHN3-060";
-    private String CHN3_060_O = "CHN3-060-O";
-    private String CHN3_065 = "CHN3-065";
-    private String CHN3_065_O = "CHN3-065-O";
-    private String CHN3_070 = "CHN3-070";
-    private String CHN3_070_O = "CHN3-070-O";
-    private String CHN3_075 = "CHN3-075";
-    private String CHN3_075_O = "CHN3-075-O";
-    private String CHN3_80 = "CHN3-80";
-    private String CHN3_80_O = "CHN3-80-O";
-    private String CHN3_085 = "CHN3-085";
-    private String CHN3_085_O = "CHN3-085-O";
-    private String CHN3_090 = "CHN3-090";
+    public static String CHN1_005 = "CHN1-005";
+    public static String CHN1_010 = "CHN1-010";
+    public static String CHN1_011 = "CHN1-011";
+    public static String CHN1_015 = "CHN1-015";
+    public static String CHN1_020 = "CHN1-020";
+    public static String CHN1_021 = "CHN1-021";
+    public static String CHN1_025 = "CHN1-025";
+    public static String CHN1_030 = "CHN1-030";
+    public static String CHN2_005 = "CHN2-005";
+    public static String CHN2_010 = "CHN2-010";
+    public static String CHN2_015 = "CHN2-015";
+    public static String CHN2_020 = "CHN2-020";
+    public static String CHN2_025 = "CHN2-025";
+    public static String CHN2_030 = "CHN2-030";
+    public static String CHN2_035 = "CHN2-035";
+    public static String CHN2_040 = "CHN2-040";
+    public static String CHN2_041 = "CHN2-041";
+    public static String CHN2_045 = "CHN2-045";
+    public static String CHN2_050 = "CHN2-050";
+    public static String CHN2_051 = "CHN2-051";
+    public static String CHN2_055 = "CHN2-055";
+    public static String CHN2_060 = "CHN2-060";
+    public static String CHN2_061 = "CHN2-061";
+    public static String CHN2_065 = "CHN2-065";
+    public static String CHN2_070 = "CHN2-070";
+    public static String CHN2_075 = "CHN2-075";
+    public static String CHN2_080 = "CHN2-080";
+    public static String CHN3_005 = "CHN3-005";
+    public static String CHN3_005_O = "CHN3-005-O";
+    public static String CHN3_010 = "CHN3-010";
+    public static String CHN3_010_O = "CHN3-010-O";
+    public static String CHN3_015 = "CHN3-015";
+    public static String CHN3_015_O = "CHN3-015-O";
+    public static String CHN3_020 = "CHN3-020";
+    public static String CHN3_020_O = "CHN3-020-O";
+    public static String CHN3_025 = "CHN3-025";
+    public static String CHN3_025_O = "CHN3-025-O";
+    public static String CHN3_027 = "CHN3-027";
+    public static String CHN3_027_O = "CHN3-027-O";
+    public static String CHN3_030 = "CHN3-030";
+    public static String CHN3_030_O = "CHN3-030-O";
+    public static String CHN3_035 = "CHN3-035";
+    public static String CHN3_035_O = "CHN3-035-O";
+    public static String CHN3_040 = "CHN3-040";
+    public static String CHN3_040_O = "CHN3-040-O";
+    public static String CHN3_045 = "CHN3-045";
+    public static String CHN3_045_O = "CHN3-045-O";
+    public static String CHN3_050 = "CHN3-050";
+    public static String CHN3_050_O = "CHN3-050-O";
+    public static String CHN3_055 = "CHN3-055";
+    public static String CHN3_055_O = "CHN3-055-O";
+    public static String CHN3_060 = "CHN3-060";
+    public static String CHN3_060_O = "CHN3-060-O";
+    public static String CHN3_065 = "CHN3-065";
+    public static String CHN3_065_O = "CHN3-065-O";
+    public static String CHN3_070 = "CHN3-070";
+    public static String CHN3_070_O = "CHN3-070-O";
+    public static String CHN3_075 = "CHN3-075";
+    public static String CHN3_075_O = "CHN3-075-O";
+    public static String CHN3_080 = "CHN3-080";
+    public static String CHN3_080_O = "CHN3-080-O";
+    public static String CHN3_085 = "CHN3-085";
+    public static String CHN3_085_O = "CHN3-085-O";
+    public static String CHN3_090 = "CHN3-090";
     private Map<String, Object> hia2Report = new HashMap<>();
     private SQLiteDatabase database;
     public static String PREVIOUS_REPORT_DATES_QUERY = "select distinct strftime('%Y-%m-%d'," + PathRepository.event_column.eventDate + ") as eventDate, " + PathRepository.event_column.updatedAt + " from " + PathRepository.Table.event.name();
@@ -165,8 +165,8 @@ public class HIA2Service {
         getCHN3_070_O();
         getCHN3_075();
         getCHN3_075_O();
-        getCHN3_80();
-        getCHN3_80_O();
+        getCHN3_080();
+        getCHN3_080_O();
         getCHN3_085();
         getCHN3_085_O();
         getCHN3_090();
@@ -991,12 +991,12 @@ public class HIA2Service {
      * Number of children < one year who have received the complete BCG, OPV series, DPT-Hib+Hep1 series, PCV series , RV series and measles/MR 1 within 10 days of each antigen being due at this facility
      * <p/>
      */
-    private void getCHN3_80() {
+    private void getCHN3_080() {
         try {
             int count = getVaccineCountWithH1A2Status("<12", false);
-            hia2Report.put(CHN3_80, count);
+            hia2Report.put(CHN3_080, count);
         } catch (Exception e) {
-            Log.logError(TAG, "CHN3_80 " + e.getMessage());
+            Log.logError(TAG, "CHN3_080 " + e.getMessage());
         }
     }
 
@@ -1004,12 +1004,12 @@ public class HIA2Service {
      * Number of children < one year who have received the complete BCG, OPV series, DPT-Hib+Hep1 series, PCV series , RV series and measles/MR 1 within 10 days of each antigen being due at outreach conducyed by this facility
      * <p/>
      */
-    private void getCHN3_80_O() {
+    private void getCHN3_080_O() {
         try {
             int count = getVaccineCountWithH1A2Status("<12", true);
-            hia2Report.put(CHN3_80_O, count);
+            hia2Report.put(CHN3_080_O, count);
         } catch (Exception e) {
-            Log.logError(TAG, "CHN3_80_O " + e.getMessage());
+            Log.logError(TAG, "CHN3_080_O " + e.getMessage());
         }
     }
 

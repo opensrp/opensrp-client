@@ -38,7 +38,7 @@ public class ClientProcessor {
     private static ClientProcessor instance;
     private CloudantDataHandler mCloudantDataHandler;
     private static final String TAG = "ClientProcessor";
-    protected static final String baseEntityIdJSONKey = "baseEntityId";
+    public static final String baseEntityIdJSONKey = "baseEntityId";
     protected static final String providerIdJSONKey = "providerId";
 
     private static final String detailsUpdated = "detailsUpdated";
@@ -138,6 +138,12 @@ public class ClientProcessor {
                 return false;
             }
 
+            // Check if child is deceased and skip
+            if(client.has("deathdate") &&  !client.getString("deathdate").isEmpty()){
+
+                return false;
+            }
+
             // Get the client type classification
             JSONArray clientClasses = clientClassificationJson.getJSONArray("case_classification_rules");
             if (isNullOrEmptyJSONArray(clientClasses)) {
@@ -178,6 +184,13 @@ public class ClientProcessor {
             if (isNullOrEmptyJSONArray(clientClasses)) {
                 return false;
             }
+
+            // Check if child is deceased and skip
+            if(client.has("deathdate") &&  !client.getString("deathdate").isEmpty()){
+
+                return false;
+            }
+
             for (int i = 0; i < clientClasses.length(); i++) {
                 JSONObject clientClass = clientClasses.getJSONObject(i);
                 processClientClass(clientClass, event, client);

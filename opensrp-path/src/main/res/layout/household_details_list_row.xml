@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="150dp"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
     android:gravity="center"
-    android:layout_height="140dp"
     android:background="@drawable/vaccine_card_background_white">
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="20dp">
 
@@ -18,6 +18,7 @@
             style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Name : "
             android:layout_marginBottom="15dp"
             android:textColor="@color/client_list_grey"
             android:textSize="30sp"
@@ -28,7 +29,7 @@
             style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="Age : "
             android:textColor="@color/client_list_grey"
             android:textSize="20sp"
             android:layout_gravity="center_horizontal"
@@ -39,7 +40,7 @@
             style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="Address : "
             android:textColor="@color/client_list_grey"
             android:textSize="20sp"
             android:layout_gravity="center_horizontal"

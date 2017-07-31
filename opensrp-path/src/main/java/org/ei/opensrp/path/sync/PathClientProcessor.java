@@ -9,7 +9,6 @@ import android.util.Log;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.clientandeventmodel.DateUtil;
-import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.ServiceRecord;
 import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.domain.Vaccine;
@@ -40,6 +39,7 @@ import java.util.Date;
 import java.util.List;
 
 import util.MoveToMyCatchmentUtils;
+import util.PathConstants;
 
 public class PathClientProcessor extends ClientProcessor {
 
@@ -80,20 +80,20 @@ public class PathClientProcessor extends ClientProcessor {
                     continue;
                 }
 
-                if (type.equals(VaccineIntentService.EVENT_TYPE)||type.equals(VaccineIntentService.EVENT_TYPE_OUT_OF_CATCHMENT)) {
+                if (type.equals(VaccineIntentService.EVENT_TYPE) || type.equals(VaccineIntentService.EVENT_TYPE_OUT_OF_CATCHMENT)) {
                     JSONObject clientVaccineClassificationJson = new JSONObject(clientVaccineStr);
                     if (isNullOrEmptyJSONObject(clientVaccineClassificationJson)) {
                         continue;
                     }
 
-                    processVaccine(event, clientVaccineClassificationJson,type.equals(VaccineIntentService.EVENT_TYPE_OUT_OF_CATCHMENT));
-                } else if (type.equals(WeightIntentService.EVENT_TYPE)||type.equals(WeightIntentService.EVENT_TYPE_OUT_OF_CATCHMENT)) {
+                    processVaccine(event, clientVaccineClassificationJson, type.equals(VaccineIntentService.EVENT_TYPE_OUT_OF_CATCHMENT));
+                } else if (type.equals(WeightIntentService.EVENT_TYPE) || type.equals(WeightIntentService.EVENT_TYPE_OUT_OF_CATCHMENT)) {
                     JSONObject clientWeightClassificationJson = new JSONObject(clientWeightStr);
                     if (isNullOrEmptyJSONObject(clientWeightClassificationJson)) {
                         continue;
                     }
 
-                    processWeight(event, clientWeightClassificationJson,type.equals(WeightIntentService.EVENT_TYPE_OUT_OF_CATCHMENT));
+                    processWeight(event, clientWeightClassificationJson, type.equals(WeightIntentService.EVENT_TYPE_OUT_OF_CATCHMENT));
                 } else if (type.equals(RecurringIntentService.EVENT_TYPE)) {
                     JSONObject clientServiceClassificationJson = new JSONObject(clientServiceStr);
                     if (isNullOrEmptyJSONObject(clientServiceClassificationJson)) {
@@ -101,6 +101,8 @@ public class PathClientProcessor extends ClientProcessor {
                     }
                     processService(event, clientServiceClassificationJson);
                 } else if (type.equals(MoveToMyCatchmentUtils.MOVE_TO_CATCHMENT_EVENT)) {
+                    unsyncEvents.add(event);
+                } else if (type.equals(PathConstants.EventType.DEATH)) {
                     unsyncEvents.add(event);
                 } else {
                     JSONObject clientClassificationJson = new JSONObject(clientClassificationStr);
@@ -144,14 +146,14 @@ public class PathClientProcessor extends ClientProcessor {
                         continue;
                     }
 
-                    processVaccine(event, clientVaccineClassificationJson,eventType.equals(VaccineIntentService.EVENT_TYPE_OUT_OF_CATCHMENT));
+                    processVaccine(event, clientVaccineClassificationJson, eventType.equals(VaccineIntentService.EVENT_TYPE_OUT_OF_CATCHMENT));
                 } else if (eventType.equals(WeightIntentService.EVENT_TYPE) || eventType.equals(WeightIntentService.EVENT_TYPE_OUT_OF_CATCHMENT)) {
                     JSONObject clientWeightClassificationJson = new JSONObject(clientWeightStr);
                     if (isNullOrEmptyJSONObject(clientWeightClassificationJson)) {
                         continue;
                     }
 
-                    processWeight(event, clientWeightClassificationJson,eventType.equals(WeightIntentService.EVENT_TYPE_OUT_OF_CATCHMENT));
+                    processWeight(event, clientWeightClassificationJson, eventType.equals(WeightIntentService.EVENT_TYPE_OUT_OF_CATCHMENT));
                 } else if (eventType.equals(RecurringIntentService.EVENT_TYPE)) {
                     JSONObject clientServiceClassificationJson = new JSONObject(clientServiceStr);
                     if (isNullOrEmptyJSONObject(clientServiceClassificationJson)) {
@@ -159,6 +161,8 @@ public class PathClientProcessor extends ClientProcessor {
                     }
                     processService(event, clientServiceClassificationJson);
                 } else if (eventType.equals(MoveToMyCatchmentUtils.MOVE_TO_CATCHMENT_EVENT)) {
+                    unsyncEvents.add(event);
+                } else if (eventType.equals(PathConstants.EventType.DEATH)) {
                     unsyncEvents.add(event);
                 } else {
                     JSONObject clientClassificationJson = new JSONObject(clientClassificationStr);
@@ -180,7 +184,7 @@ public class PathClientProcessor extends ClientProcessor {
 
     }
 
-    public Boolean processVaccine(JSONObject vaccine, JSONObject clientVaccineClassificationJson,boolean outOfCatchment) throws Exception {
+    public Boolean processVaccine(JSONObject vaccine, JSONObject clientVaccineClassificationJson, boolean outOfCatchment) throws Exception {
 
         try {
 
@@ -212,7 +216,7 @@ public class PathClientProcessor extends ClientProcessor {
                 vaccineObj.setSyncStatus(VaccineRepository.TYPE_Synced);
                 vaccineObj.setFormSubmissionId(vaccine.has(VaccineRepository.FORMSUBMISSION_ID) ? vaccine.getString(VaccineRepository.FORMSUBMISSION_ID) : null);
                 vaccineObj.setEventId(vaccine.getString("id"));//FIXME hard coded id
-                vaccineObj.setOutOfCatchment(outOfCatchment?1:0);
+                vaccineObj.setOutOfCatchment(outOfCatchment ? 1 : 0);
 
                 vaccineRepository.add(vaccineObj);
             }
@@ -224,7 +228,7 @@ public class PathClientProcessor extends ClientProcessor {
         }
     }
 
-    public Boolean processWeight(JSONObject weight, JSONObject clientWeightClassificationJson,boolean outOfCatchment) throws Exception {
+    public Boolean processWeight(JSONObject weight, JSONObject clientWeightClassificationJson, boolean outOfCatchment) throws Exception {
 
         try {
 
@@ -263,7 +267,7 @@ public class PathClientProcessor extends ClientProcessor {
                 weightObj.setSyncStatus(WeightRepository.TYPE_Synced);
                 weightObj.setFormSubmissionId(weight.has(WeightRepository.FORMSUBMISSION_ID) ? weight.getString(WeightRepository.FORMSUBMISSION_ID) : null);
                 weightObj.setEventId(weight.getString("id"));//FIXME hard coded id
-                weightObj.setOutOfCatchment(outOfCatchment?1:0);
+                weightObj.setOutOfCatchment(outOfCatchment ? 1 : 0);
 
 
                 weightRepository.add(weightObj);
