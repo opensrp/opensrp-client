@@ -33,11 +33,13 @@ public class VaccineCardAdapter extends BaseAdapter {
     private final Context context;
     private HashMap<String, VaccineCard> vaccineCards;
     private final VaccineGroup vaccineGroup;
+    private final String type;
 
-    public VaccineCardAdapter(Context context, VaccineGroup vaccineGroup) throws JSONException {
+    public VaccineCardAdapter(Context context, VaccineGroup vaccineGroup,String type) throws JSONException {
         this.context = context;
         this.vaccineGroup = vaccineGroup;
         vaccineCards = new HashMap<>();
+        this.type = type;
     }
 
     @Override
@@ -99,7 +101,7 @@ public class VaccineCardAdapter extends BaseAdapter {
                 vaccineWrapper.setPatientName(childName.trim());
 
                 vaccineGroup.updateWrapper(vaccineWrapper);
-                vaccineGroup.updateWrapperStatus(vaccineWrapper);
+                vaccineGroup.updateWrapperStatus(vaccineWrapper,type);
                 vaccineCard.setVaccineWrapper(vaccineWrapper);
 
                 vaccineCards.put(vaccineName, vaccineCard);
