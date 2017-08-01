@@ -132,7 +132,7 @@ public class ChildImmunizationActivity extends BaseActivity
     // Data
     private CommonPersonObjectClient childDetails;
     private RegisterClickables registerClickables;
-    private DetailsRepository detailsRepository;
+    public DetailsRepository detailsRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -594,7 +594,7 @@ public class ChildImmunizationActivity extends BaseActivity
 
     }
 
-    private void showWeightDialog(View view) {
+    public void showWeightDialog(View view) {
         FragmentTransaction ft = this.getFragmentManager().beginTransaction();
         Fragment prev = this.getFragmentManager().findFragmentByTag(DIALOG_TAG);
         if (prev != null) {
