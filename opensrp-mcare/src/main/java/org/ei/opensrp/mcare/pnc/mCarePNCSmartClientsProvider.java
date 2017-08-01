@@ -1,5 +1,6 @@
 package org.ei.opensrp.mcare.pnc;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
 import android.util.Log;
@@ -20,6 +21,7 @@ import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.logger.Logger;
 import org.ei.opensrp.mcare.R;
 import org.ei.opensrp.mcare.application.McareApplication;
+import org.ei.opensrp.mcare.household.HouseHoldDetailActivity;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.util.DateUtil;
@@ -95,6 +97,15 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
 
 
         final CommonPersonObjectClient pc = (CommonPersonObjectClient) smartRegisterClient;
+        profilepic.setImageResource(org.ei.opensrp.R.drawable.woman_placeholder);
+
+        CommonPersonObject motherObject = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByCaseID(pc.entityId());
+        CommonPersonObject elco = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("elco").findByCaseID(motherObject.getRelationalId());
+
+        if(elco.getDetails().get("profilepic")!=null){
+            HouseHoldDetailActivity.setImagetoHolder((Activity) context, elco.getDetails().get("profilepic"), profilepic, R.mipmap.womanimageload);
+        }
+
         profileinfolayout.setOnClickListener(onClickListener);
         profileinfolayout.setTag(pc);
 

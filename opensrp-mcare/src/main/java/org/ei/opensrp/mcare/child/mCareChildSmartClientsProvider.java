@@ -1,5 +1,6 @@
 package org.ei.opensrp.mcare.child;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import org.ei.opensrp.cursoradapter.SmartRegisterCLientsProviderForCursorAdapter
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.mcare.R;
 import org.ei.opensrp.mcare.application.McareApplication;
+import org.ei.opensrp.mcare.household.HouseHoldDetailActivity;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
@@ -70,7 +72,7 @@ public class mCareChildSmartClientsProvider implements SmartRegisterCLientsProvi
 
         LinearLayout profileinfolayout = (LinearLayout)itemView.findViewById(R.id.profile_info_layout);
 
-//        ImageView profilepic = (ImageView)itemView.findViewById(R.id.profilepic);
+        ImageView profilepic = (ImageView)itemView.findViewById(R.id.profilepic);
         TextView mothername = (TextView)itemView.findViewById(R.id.mother_name);
         TextView fathername = (TextView)itemView.findViewById(R.id.father_name);
         TextView gobhhid = (TextView)itemView.findViewById(R.id.gobhhid);
@@ -116,7 +118,9 @@ public class mCareChildSmartClientsProvider implements SmartRegisterCLientsProvi
             brid.setVisibility(View.GONE);
         }
 
-
+        if (pc.getDetails().get("profilepic") != null) {
+            HouseHoldDetailActivity.setImagetoHolderFromUri((Activity) context, pc.getDetails().get("profilepic"), profilepic, R.drawable.child_boy_infant);
+        }
 
         constructRiskFlagView(pc,mcaremotherObject,itemView);
         constructENCCReminderDueBlock(pc, itemView);

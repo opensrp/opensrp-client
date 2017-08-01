@@ -22,6 +22,7 @@ import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.mcare.R;
+import org.ei.opensrp.mcare.household.HouseHoldDetailActivity;
 import org.ei.opensrp.util.DateUtil;
 
 import java.io.File;
@@ -164,9 +165,11 @@ public class mCareAncDetailActivity extends Activity {
 
 
         final ImageView householdview = (ImageView) findViewById(R.id.householdprofileview);
+        CommonPersonObject motherObject = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByCaseID(ancclient.entityId());
+        CommonPersonObject elco = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("elco").findByCaseID(motherObject.getRelationalId());
 
-        if (ancclient.getDetails().get("profilepic") != null) {
-            setImagetoHolder(mCareAncDetailActivity.this, ancclient.getDetails().get("profilepic"), householdview, R.mipmap.woman_placeholder);
+        if (elco.getDetails().get("profilepic") != null) {
+            setImagetoHolder(mCareAncDetailActivity.this, elco.getDetails().get("profilepic"), householdview, R.mipmap.woman_placeholder);
         }
 //        householdview.setOnClickListener(new View.OnClickListener() {
 //            @Override

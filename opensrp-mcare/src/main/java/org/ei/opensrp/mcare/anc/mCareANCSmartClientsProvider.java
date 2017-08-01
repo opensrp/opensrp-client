@@ -19,6 +19,7 @@ import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
 import org.ei.opensrp.cursoradapter.SmartRegisterCLientsProviderForCursorAdapter;
 import org.ei.opensrp.domain.Alert;
+import org.ei.opensrp.logger.Logger;
 import org.ei.opensrp.mcare.R;
 import org.ei.opensrp.mcare.application.McareApplication;
 import org.ei.opensrp.mcare.household.HouseHoldDetailActivity;
@@ -77,7 +78,7 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
 //        itemView = (ViewGroup) inflater().inflate(R.layout.smart_register_mcare_anc_client, null);
         LinearLayout profileinfolayout = (LinearLayout)itemView.findViewById(R.id.profile_info_layout);
 
-//        ImageView profilepic = (ImageView)itemView.findViewById(R.id.profilepic);
+        ImageView profilepic = (ImageView)itemView.findViewById(R.id.profilepic);
         TextView name = (TextView)itemView.findViewById(R.id.name);
         TextView spousename = (TextView)itemView.findViewById(R.id.spousename);
         TextView gobhhid = (TextView)itemView.findViewById(R.id.gobhhid);
@@ -101,10 +102,15 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
 
         final CommonPersonObjectClient pc = (CommonPersonObjectClient) smartRegisterClient;
 
-//        if(pc.getDetails().get("profilepic")!=null){
-//            HouseHoldDetailActivity.setImagetoHolder((Activity) context, pc.getDetails().get("profilepic"), profilepic, R.mipmap.woman_placeholder);
-//        }
-//
+        profilepic.setImageResource(org.ei.opensrp.R.drawable.woman_placeholder);
+
+        CommonPersonObject motherObject = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByCaseID(pc.entityId());
+        CommonPersonObject elco = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("elco").findByCaseID(motherObject.getRelationalId());
+
+        if(elco.getDetails().get("profilepic")!=null){
+            HouseHoldDetailActivity.setImagetoHolder((Activity) context, elco.getDetails().get("profilepic"), profilepic, R.mipmap.womanimageload);
+        }
+
 //        id.setText(pc.getDetails().get("case_id")!=null?pc.getCaseId():"");
         name.setText(humanize(pc.getColumnmaps().get("FWWOMFNAME")!=null?pc.getColumnmaps().get("FWWOMFNAME"):""));
         spousename.setText(humanize(pc.getDetails().get("FWHUSNAME")!=null?pc.getDetails().get("FWHUSNAME"):""));

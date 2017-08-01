@@ -21,6 +21,7 @@ import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.mcare.R;
+import org.ei.opensrp.mcare.household.HouseHoldDetailActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,6 +64,7 @@ public class ChildDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         Context context = Context.getInstance();
         setContentView(R.layout.child_detail_activity);
+        ImageView profilepic = (ImageView) findViewById(R.id.householdprofileview);
         TextView name = (TextView) findViewById(R.id.childid);
         TextView fathersname = (TextView) findViewById(R.id.fathersname);
         TextView mothersname = (TextView) findViewById(R.id.mothersname);
@@ -118,7 +120,9 @@ public class ChildDetailActivity extends Activity {
 //        if (ChildClient.getDetails().get("profilepic") != null) {
 //            setImagetoHolder(ChildDetailActivity.this, ChildClient.getDetails().get("profilepic"), householdview, R.mipmap.woman_placeholder);
 //        }
-
+        if (childobject.getDetails().get("profilepic") != null) {
+            HouseHoldDetailActivity.setImagetoHolderFromUri(ChildDetailActivity.this, childobject.getDetails().get("profilepic"), profilepic, R.drawable.child_boy_infant);
+        }
 
 
     }
