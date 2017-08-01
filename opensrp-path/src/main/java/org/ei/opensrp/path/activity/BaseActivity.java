@@ -378,14 +378,14 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (toolbar.getSupportedMenu() != 0) {
-            this.menu = menu;
-            getMenuInflater().inflate(toolbar.getSupportedMenu(), menu);
-            toolbar.prepareMenu();
-            return super.onCreateOptionsMenu(menu);
-        } else {
-            toolbar.prepareMenu();
-        }
+//        if (toolbar.getSupportedMenu() != 0) {
+//            this.menu = menu;
+//            getMenuInflater().inflate(toolbar.getSupportedMenu(), menu);
+//            toolbar.prepareMenu();
+//            return super.onCreateOptionsMenu(menu);
+//        } else {
+//            toolbar.prepareMenu();
+//        }
 
         return false;
     }

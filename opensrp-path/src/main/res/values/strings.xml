@@ -30,12 +30,6 @@
     <string name="woman_entries"></string>
     <string name="woman_nbnf">NBNF</string>
     <string name="woman_register_title">Woman Register</string>
-
-    <string name="household_profile">HOUSEHOLD PROFILE</string>
-    <string name="number_of_elco">NO. OF ELCO</string>
-    <string name="last_visit_date">LAST VISIT DATE</string>
-    <string name="hh_visit_due">HH VISIT DUE</string>
-
     <string name="unique_id">UNIQUE_IDs</string>
     <string name="str_woman_search_hint">Search Woman Register</string>
     <string name="woman_profile">WOMAN PROFILE</string>
@@ -229,10 +223,10 @@
     <string name="searching_dialog_message">Please wait</string>
     <string name="move_to_catchment_dialog_title">Moving…</string>
     <string name="move_to_catchment_dialog_message">Please wait</string>
-    <string name="title_activity_householddetail">HouseholddetailActivity</string>
-
     <string name="send_report_warning">Send report?\n\tDate: %1$s\n\tUser: %2$s</string>
     <string name="send">Send</string>
     <string name="n_a">"N/A"</string>
     <string name="confirm_button_label">Confirm</string>
+    <string name="title_activity_householddetail">HouseholddetailActivity</string>
+    <string name="hh_registration_date">Registration Date</string>
 </resources>

@@ -464,8 +464,20 @@ public class PathClientProcessor extends ClientProcessor {
     @Override
     public void updateFTSsearch(String tableName, String entityId, ContentValues contentValues) {
         super.updateFTSsearch(tableName, entityId, contentValues);
-
-        if (contentValues != null && StringUtils.containsIgnoreCase(tableName, "child")) {
+        Log.v("tablename",tableName);
+        Log.v("contentValues",contentValues.toString());
+//        if (contentValues != null && StringUtils.containsIgnoreCase(tableName, "child")) {
+//            String dob = contentValues.getAsString("dob");
+//
+//            if (StringUtils.isBlank(dob)) {
+//                return;
+//            }
+//
+//            DateTime birthDateTime = new DateTime(dob);
+//            VaccineSchedule.updateOfflineAlerts(entityId, birthDateTime, "child");
+//            ServiceSchedule.updateOfflineAlerts(entityId, birthDateTime);
+//        }
+        if (contentValues != null && StringUtils.containsIgnoreCase(tableName, "mother")) {
             String dob = contentValues.getAsString("dob");
 
             if (StringUtils.isBlank(dob)) {
@@ -473,8 +485,7 @@ public class PathClientProcessor extends ClientProcessor {
             }
 
             DateTime birthDateTime = new DateTime(dob);
-            VaccineSchedule.updateOfflineAlerts(entityId, birthDateTime, "child");
-            ServiceSchedule.updateOfflineAlerts(entityId, birthDateTime);
+            VaccineSchedule.updateOfflineAlerts(entityId, birthDateTime, "mother");
         }
     }
 

@@ -204,8 +204,8 @@
       {
         "key": "member_birth_date",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "birthdate",
         "openmrs_data_type": "text",
         "type": "date_picker",
         "hint": "Date of birth",

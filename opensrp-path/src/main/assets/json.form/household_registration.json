@@ -142,6 +142,53 @@
         "hint": "বাড়ীর ঠিকানা-"
       },
       {
+        "key": "First_Name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "first_name",
+        "type": "edit_text",
+        "hint": "Head of Household First name",
+        "edit_type": "name",
+        "v_regex": {
+          "value": "[A-Za-z\\s\.\-]*",
+          "err": "Please enter a valid name"
+        }
+      },
+      {
+        "key": "Last_Name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "last_name",
+        "type": "edit_text",
+        "hint": "Head of Household Last name *",
+        "edit_type": "name",
+        "v_required": {
+          "value": "true",
+          "err": "Please enter the last name"
+        },
+        "v_regex": {
+          "value": "[A-Za-z\\s\.\-]*",
+          "err": "Please enter a valid name"
+        }
+      },
+      {
+        "key": "Date_Birth",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "birthdate",
+        "type": "date_picker",
+        "hint": "Head of Household's DOB *",
+        "expanded": false,
+        "duration": {
+          "label": "Age"
+        },
+        "max_date": "today-20y",
+        "v_required": {
+          "value": "true",
+          "err": "Please enter the date of birth"
+        }
+      },
+      {
         "key": "Date_Of_Reg",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
@@ -149,9 +196,6 @@
         "type": "date_picker",
         "hint": "রেজিস্ট্রেশন তারিখ",
         "expanded": false,
-        "duration": {
-          "label": "Age"
-        },
         "min_date": "today-5y",
         "max_date": "today",
         "v_required": {
