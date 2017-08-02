@@ -71,7 +71,7 @@ public class ChildImmunizationActivityUnitTest extends BaseUnitTest {
     @Before
     public void setUp() {
         details = new HashMap<>();
-        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivityTestVersion.class);
+        Intent intent = new Intent(RuntimeEnvironment.application, ChildImmunizationActivityTestVersion.class);
         intent.putExtra("location_name", "Nairobi");
         controller = Robolectric.buildActivity(ChildImmunizationActivityTestVersion.class, intent);
         activity = controller.get();
@@ -110,20 +110,10 @@ public class ChildImmunizationActivityUnitTest extends BaseUnitTest {
 
     }
 
-
-    @Test
-    public void shouldRenderEditIconImageView() {
-
-        ImageView logoImageView = (ImageView) activity.findViewById(R.id.imageView2);
-        assertNotNull(logoImageView);
-
-    }
-
-
     @Test
     public void shouldRenderChildNameTextView() {
 
-        TextView nameView = (TextView) activity.findViewById(R.id.name);
+        TextView nameView = (TextView) activity.findViewById(R.id.name_tv);
         assertNotNull(nameView);
 
     }
@@ -132,74 +122,19 @@ public class ChildImmunizationActivityUnitTest extends BaseUnitTest {
     @Test
     public void shouldRenderZierIDTextView() {
 
-        TextView textView = (TextView) activity.findViewById(R.id.idforclient);
+        TextView textView = (TextView) activity.findViewById(R.id.child_id_tv);
         assertNotNull(textView);
 
     }
 
-
-    @Test
-    public void shouldRenderStatusImageView() {
-
-        ImageView logoImageView = (ImageView) activity.findViewById(R.id.statusimage);
-        assertNotNull(logoImageView);
-
-    }
 
     @Test
     public void shouldRenderAgeForClientTextView() {
 
-        TextView textView = (TextView) activity.findViewById(R.id.ageforclient);
+        TextView textView = (TextView) activity.findViewById(R.id.age_tv);
         assertNotNull(textView);
 
     }
-
-
-    @Test
-    public void shouldRenderStatusNameTextView() {
-
-        TextView textView = (TextView) activity.findViewById(R.id.statusname);
-        assertNotNull(textView);
-
-    }
-
-
-    @Test
-    public void shouldRenderStatusTextView() {
-
-        TextView textView = (TextView) activity.findViewById(R.id.status);
-        assertNotNull(textView);
-
-    }
-
-
-
-
-
-
-
-
-
-    @Test
-    public void shouldDisplayOnOptionsMenuCaseRegistrationData() {
-        MenuItemTestVersion menuItem = new MenuItemTestVersion();
-        menuItem.setItemId(R.id.registration_data);
-        activity.onOptionsItemSelected(menuItem);
-        ArrayList<View> outViews = new ArrayList<>();
-
-        //Validate correct form view loaded by validating various fields
-
-
-
-
-    }
-
-
-
-
-
-
-
 
     public void onBackPressShouldFinishActivity() {
         activity.onBackPressed();
@@ -234,25 +169,6 @@ public class ChildImmunizationActivityUnitTest extends BaseUnitTest {
 
 
     @Test
-    public void shouldRenderStatusFragmentOnStatusViewClick() {
-
-        LinearLayout statusView = (LinearLayout) activity.findViewById(R.id.statusview);
-        assertNotNull(statusView);
-        statusView.performClick();
-
-        ArrayList<View> outViews = new ArrayList<>();
-        View view = activity.getFragmentManager().findFragmentByTag(ChildDetailTabbedActivityTestVersion.DIALOG_TAG).getView();
-        assertNotNull(view);//make sure view exists
-        view.findViewsWithText(outViews, "Child Status",
-                View.FIND_VIEWS_WITH_TEXT);
-
-        assertFalse(outViews.isEmpty());
-        assertTrue(outViews.size() == 1);//only one
-        assertTrue(outViews.get(0).getVisibility() == View.VISIBLE);
-    }
-
-
-    @Test
 
     public void onCreateSetsUpSuccessfullyWithSerializedChildDetails() {
 
@@ -279,40 +195,6 @@ public class ChildImmunizationActivityUnitTest extends BaseUnitTest {
     }
 
 
-    @Test
-
-    public void statusViewShouldUpdateToInactiveIfChildDetailsInactiveParamIsSetToTrue() {
-
-        destroyController(); //destroy controller
-
-        //Recreate and start controller with bundles this time
-
-        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivityTestVersion.class);
-        intent.putExtra("location_name", "Nairobi");
-        Bundle bundle = new Bundle();
-        CommonPersonObjectClient newChildDetails = new CommonPersonObjectClient("1", new HashMap<String, String>(), "test");
-        Map<String, String> columnMap = EasyMap.create(ChildDetailTabbedActivityTestVersion.inactive, "true").map();
-        newChildDetails.setColumnmaps(columnMap);
-        newChildDetails.setDetails(columnMap);
-        details = columnMap;//save for later call to getAllDetailsForClient method
-        bundle.putSerializable(ChildDetailTabbedActivityTestVersion.EXTRA_CHILD_DETAILS, newChildDetails);
-        intent.putExtras(bundle);
-
-
-        controller = Robolectric.buildActivity(ChildImmunizationActivityTestVersion.class, intent);
-        activity = controller.get();
-
-        activity.detailsRepository = getDetailsRepository();
-        controller.setup();
-        LinearLayout statusView = (LinearLayout) activity.findViewById(R.id.statusview);
-        assertNotNull(statusView);
-
-        TextView statusTextView = (TextView) statusView.findViewById(R.id.statusname);
-        assertTrue(statusTextView.getVisibility() == View.VISIBLE);
-        assertEquals("Inactive", statusTextView.getText().toString());
-
-    }
-
 
     @Test
     public void onBackActivityShouldReturnChildSmartRegisterActivityClass() {
@@ -324,72 +206,6 @@ public class ChildImmunizationActivityUnitTest extends BaseUnitTest {
     }
 
 
-    @Test
-
-    public void statusViewShouldUpdateToActiveifChildStatusParamListIsEmpty() {
-
-        destroyController(); //destroy controller
-
-        //Recreate and start controller with bundles this time
-
-        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivityTestVersion.class);
-        intent.putExtra("location_name", "Nairobi");
-        Bundle bundle = new Bundle();
-        CommonPersonObjectClient newChildDetails = new CommonPersonObjectClient("1", new HashMap<String, String>(), "test");
-        newChildDetails.setColumnmaps(Collections.EMPTY_MAP);
-        newChildDetails.setDetails(Collections.EMPTY_MAP);
-        bundle.putSerializable(ChildDetailTabbedActivityTestVersion.EXTRA_CHILD_DETAILS, newChildDetails);
-        intent.putExtras(bundle);
-
-
-        controller = Robolectric.buildActivity(ChildImmunizationActivityTestVersion.class, intent);
-        activity = controller.get();
-        activity.detailsRepository = getDetailsRepository();
-        controller.setup();
-
-        LinearLayout statusView = (LinearLayout) activity.findViewById(R.id.statusview);
-        assertNotNull(statusView);
-
-        TextView statusTextView = (TextView) statusView.findViewById(R.id.statusname);
-        assertTrue(statusTextView.getVisibility() == View.VISIBLE);
-        assertEquals("Active", statusTextView.getText().toString());
-
-
-    }
-
-    @Test
-
-    public void statusViewShouldUpdateToLostToFollowUpWhenChildStatusLostToFollowUpParamIsTrue() {
-
-        destroyController(); //destroy controller
-
-        //Recreate and start controller with bundles this time
-
-        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivityTestVersion.class);
-        intent.putExtra("location_name", "Nairobi");
-        Bundle bundle = new Bundle();
-        CommonPersonObjectClient newChildDetails = new CommonPersonObjectClient("1", new HashMap<String, String>(), "test");
-        Map<String, String> columnMap = EasyMap.create(ChildDetailTabbedActivityTestVersion.lostToFollowUp, "true").map();
-        newChildDetails.setColumnmaps(columnMap);
-        newChildDetails.setDetails(columnMap);
-        details = columnMap;//save for later call to getAllDetailsForClient method
-        bundle.putSerializable(ChildDetailTabbedActivityTestVersion.EXTRA_CHILD_DETAILS, newChildDetails);
-        intent.putExtras(bundle);
-
-
-        controller = Robolectric.buildActivity(ChildImmunizationActivityTestVersion.class, intent);
-        activity = controller.get();
-
-        activity.detailsRepository = getDetailsRepository();
-        controller.setup();
-        LinearLayout statusView = (LinearLayout) activity.findViewById(R.id.statusview);
-        assertNotNull(statusView);
-
-        TextView statusTextView = (TextView) statusView.findViewById(R.id.status);
-        assertTrue(statusTextView.getVisibility() == View.VISIBLE);
-        assertEquals("Lost to\nFollow-Up", statusTextView.getText().toString());
-
-    }
 
     private DetailsRepository getDetailsRepository() {
 
