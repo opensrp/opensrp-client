@@ -613,17 +613,17 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
         ImageView hp = (ImageView)itemView.findViewById(R.id.hr);
         ImageView vg = (ImageView)itemView.findViewById(R.id.vg);
         if(pc.getDetails().get("FWVG") != null && pc.getDetails().get("FWVG").equalsIgnoreCase("1")){
-
+            vg.setVisibility(View.VISIBLE);
         }else{
             vg.setVisibility(View.GONE);
         }
         if(pc.getDetails().get("FWHRP") != null && pc.getDetails().get("FWHRP").equalsIgnoreCase("1")){
-
+            hrp.setVisibility(View.VISIBLE);
         }else{
             hrp.setVisibility(View.GONE);
         }
         if(pc.getDetails().get("FWHR_PSR") != null && pc.getDetails().get("FWHR_PSR").equalsIgnoreCase("1")){
-
+            hp.setVisibility(View.VISIBLE);
         }else{
             hp.setVisibility(View.GONE);
         }
