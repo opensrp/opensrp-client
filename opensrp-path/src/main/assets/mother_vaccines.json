@@ -21,7 +21,7 @@
         "schedule": {
           "due": [
             {
-              "reference": "dob",
+              "reference": "lmp",
               "offset": "+0d"
             }
           ],

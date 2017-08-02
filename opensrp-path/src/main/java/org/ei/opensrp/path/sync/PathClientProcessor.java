@@ -476,7 +476,7 @@ public class PathClientProcessor extends ClientProcessor {
             ServiceSchedule.updateOfflineAlerts(entityId, birthDateTime);
         }
         if (contentValues != null && StringUtils.containsIgnoreCase(tableName, "mother")) {
-            String dob = contentValues.getAsString("dob");
+            String dob = contentValues.getAsString("lmp");
 
             if (StringUtils.isBlank(dob)) {
                 return;
