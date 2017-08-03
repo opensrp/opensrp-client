@@ -1,7 +1,7 @@
 [
   {
-    "name": "Birth",
-    "id": "Birth",
+    "name": "LMP",
+    "id": "lmp",
     "days_after_birth_due": 0,
     "vaccines": [
       {
@@ -27,7 +27,7 @@
           ],
           "expiry": [
             {
-              "reference": "dob",
+              "reference": "lmp",
               "offset": "+10000d"
             }
           ]
@@ -36,7 +36,7 @@
       ]
         },
   {
-    "name": "4 Weeks",
+    "name": "4 Weeks after TT 1",
     "id": "Four_Wks",
     "days_after_birth_due": 28,
     "vaccines": [
@@ -64,7 +64,8 @@
           ],
           "expiry": [
             {
-              "reference": "dob",
+              "reference": "prerequisite",
+              "prerequisite": "TT 1",
               "offset": "+2y"
             }
           ]
@@ -73,9 +74,9 @@
     ]
   },
   {
-    "name": "10 Weeks",
+    "name": "26 Weeks after TT 2",
     "id": "Ten_Wks",
-    "days_after_birth_due": 70,
+    "days_after_birth_due": 180,
     "vaccines": [
       {
         "name": "TT 3",
@@ -111,7 +112,7 @@
     ]
   },
   {
-    "name": "14 Weeks",
+    "name": "1 year after TT 3",
     "id": "Fourteen_Weeks",
     "days_after_birth_due": 98,
     "vaccines": [
@@ -149,7 +150,7 @@
     ]
   },
   {
-    "name": "9 Months",
+    "name": "1 year after TT 4",
     "id": "Nine_Months",
     "days_after_birth_due": 274,
     "vaccines": [

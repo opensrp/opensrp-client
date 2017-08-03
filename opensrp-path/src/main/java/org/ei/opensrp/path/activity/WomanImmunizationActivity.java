@@ -1019,8 +1019,14 @@ public class WomanImmunizationActivity extends BaseActivity
             Pair<ArrayList<VaccineWrapper>, List<Vaccine>> pair = new Pair<>(list, vaccineList);
             String dobString = Utils.getValue(childDetails.getColumnmaps(), "lmp", false);
             if (!TextUtils.isEmpty(dobString)) {
-                DateTime dateTime = new DateTime(dobString);
-                affectedVaccines = VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "mother");
+                SimpleDateFormat lmp_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+                Date dateTime = null;
+                try {
+                    dateTime = lmp_DATE_FORMAT.parse(dobString);
+                    affectedVaccines =VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), new DateTime(dateTime.getTime()), "mother");
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
             vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
             alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
@@ -1176,10 +1182,10 @@ public class WomanImmunizationActivity extends BaseActivity
                 Date dateTime = null;
                 try {
                     dateTime = lmp_DATE_FORMAT.parse(dobString);
+                    VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), new DateTime(dateTime.getTime()), "mother");
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), new DateTime(dateTime.getTime()), "mother");
             }
 
             List<Vaccine> vaccineList = new ArrayList<>();
@@ -1265,11 +1271,17 @@ public class WomanImmunizationActivity extends BaseActivity
                     vaccineRepository.deleteVaccine(dbKey);
                     String dobString = Utils.getValue(childDetails.getColumnmaps(), "lmp", false);
                     if (!TextUtils.isEmpty(dobString)) {
-                        DateTime dateTime = new DateTime(dobString);
-                        affectedVaccines = VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "mother");
+                            SimpleDateFormat lmp_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+                            Date dateTime = null;
+                            try {
+                                dateTime = lmp_DATE_FORMAT.parse(dobString);
+                                VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), new DateTime(dateTime.getTime()), "mother");
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
                         vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
                         alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
-                                VaccinateActionUtils.allAlertNames("child"));
+                                VaccinateActionUtils.allAlertNames("mother"));
                     }
                 }
             }
