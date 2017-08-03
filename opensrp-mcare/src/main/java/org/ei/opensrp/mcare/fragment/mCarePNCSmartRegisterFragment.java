@@ -354,7 +354,7 @@ public class mCarePNCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder(pncMainSelectWithJoins());
         mainSelect = queryBUilder.mainCondition(" mcaremother.Is_PNC = '1'  and mcaremother.FWWOMFNAME not null and mcaremother.FWWOMFNAME != \"\"   AND mcaremother.details  LIKE '%\"FWWOMVALID\":\"1\"%'");
-        Sortqueries = sortByAlertmethod();
+        Sortqueries = sortBySortValue();
 
         currentlimit = 20;
         currentoffset = 0;
@@ -375,7 +375,7 @@ public class mCarePNCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
                 "Else Post_Natal_Care_Reminder_Visit END ASC";
     }
     private String sortBySortValue(){
-        return " FWSORTVALUE ASC";
+        return " ABS(FWSORTVALUE) DESC";
     }
     private String sortByFWWOMFNAME(){
         return " FWWOMFNAME ASC";

@@ -369,7 +369,7 @@ public class mCareANCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
 
     }
     private String sortBySortValue(){
-        return " FWSORTVALUE ASC";
+        return " ABS(FWSORTVALUE) DESC";
     }
     private String sortByFWWOMFNAME(){
         return " FWWOMFNAME ASC";

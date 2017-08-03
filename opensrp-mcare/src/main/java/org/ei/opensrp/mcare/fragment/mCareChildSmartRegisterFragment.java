@@ -363,7 +363,7 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
     }
 
     private String sortBySortValue(){
-        return " FWSORTVALUE ASC";
+        return " ABS(FWSORTVALUE) DESC";
     }
     private String sortByFWWOMFNAME(){
         return " FWWOMFNAME ASC";
