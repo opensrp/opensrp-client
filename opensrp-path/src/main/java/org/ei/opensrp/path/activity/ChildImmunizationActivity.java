@@ -102,7 +102,7 @@ public class ChildImmunizationActivity extends BaseActivity
 
     private static final String TAG = "ChildImmunoActivity";
     private static final String VACCINES_FILE = "vaccines.json";
-    private static final String EXTRA_CHILD_DETAILS = "child_details";
+    public static final String EXTRA_CHILD_DETAILS = "child_details";
     private static final String EXTRA_REGISTER_CLICKABLES = "register_clickables";
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
     private static final String DIALOG_TAG = "ChildImmunoActivity_DIALOG_TAG";
@@ -134,12 +134,16 @@ public class ChildImmunizationActivity extends BaseActivity
     private RegisterClickables registerClickables;
     public DetailsRepository detailsRepository;
 
+    public DetailsRepository getDetailsRepository() {
+        return detailsRepository;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
+        detailsRepository = detailsRepository == null ? this.getOpenSRPContext().detailsRepository() : detailsRepository;
 
         toolbar = (LocationSwitcherToolbar) getToolbar();
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -213,7 +217,7 @@ public class ChildImmunizationActivity extends BaseActivity
         return childDetails != null && childDetails.getDetails() != null;
     }
 
-    private void updateViews() {
+    public void updateViews() {
         ((LinearLayout) findViewById(R.id.profile_name_layout)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

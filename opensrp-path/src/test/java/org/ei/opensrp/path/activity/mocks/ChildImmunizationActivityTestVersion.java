@@ -52,4 +52,9 @@ public class ChildImmunizationActivityTestVersion extends ChildImmunizationActiv
         super.onDestroy();
     }
 
+    @Override
+    public void updateViews() {
+        return;
+    }
+
 }

@@ -15,6 +15,7 @@ import org.ei.opensrp.path.activity.mocks.ChildImmunizationActivityTestVersion;
 import org.ei.opensrp.path.activity.mocks.MenuItemTestVersion;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.toolbar.ChildDetailsToolbar;
+import org.ei.opensrp.path.toolbar.LocationSwitcherToolbar;
 import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.util.EasyMap;
 import org.junit.After;
@@ -45,6 +46,7 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 
 /**
@@ -71,8 +73,9 @@ public class ChildImmunizationActivityUnitTest extends BaseUnitTest {
     @Before
     public void setUp() {
         details = new HashMap<>();
+        childDetails = new CommonPersonObjectClient("1234",details,"name");
         Intent intent = new Intent(RuntimeEnvironment.application, ChildImmunizationActivityTestVersion.class);
-        intent.putExtra("location_name", "Nairobi");
+//        intent.putExtra("location_name", "Nairobi");
         controller = Robolectric.buildActivity(ChildImmunizationActivityTestVersion.class, intent);
         activity = controller.get();
 
@@ -154,7 +157,7 @@ public class ChildImmunizationActivityUnitTest extends BaseUnitTest {
 
     @Test
     public void clickingToolBarNavigationButtonClosesTheActivity() {
-        ChildDetailsToolbar toolbar = (ChildDetailsToolbar) activity.findViewById(R.id.child_detail_toolbar);
+        LocationSwitcherToolbar toolbar = (LocationSwitcherToolbar) activity.findViewById(R.id.location_switching_toolbar);
         ArrayList<View> outViews = new ArrayList<>();
         toolbar.findViewsWithText(outViews, "NAVIGATE UP",
                 View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION);
@@ -177,10 +180,10 @@ public class ChildImmunizationActivityUnitTest extends BaseUnitTest {
 
         //Recreate and start controller with bundles this time
 
-        Intent intent = new Intent(RuntimeEnvironment.application, ChildDetailTabbedActivityTestVersion.class);
-        intent.putExtra("location_name", "Nairobi");
+        Intent intent = new Intent(RuntimeEnvironment.application, ChildImmunizationActivityTestVersion.class);
+//        intent.putExtra("location_name", "Nairobi");
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ChildDetailTabbedActivityTestVersion.EXTRA_CHILD_DETAILS, childDetails);
+        bundle.putSerializable(ChildImmunizationActivityTestVersion.EXTRA_CHILD_DETAILS, childDetails);
         intent.putExtras(bundle);
 
 
@@ -190,7 +193,7 @@ public class ChildImmunizationActivityUnitTest extends BaseUnitTest {
         controller.setup();
 
         //Certify started successfully by checking if at least one random element rendered
-        TextView nameView = (TextView) activity.findViewById(R.id.name);
+        TextView nameView = (TextView) activity.findViewById(R.id.name_tv);
         assertNotNull(nameView);
     }
 
