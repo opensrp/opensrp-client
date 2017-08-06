@@ -139,11 +139,15 @@ public class ChildImmunizationActivityUnitTest extends BaseUnitTest {
 
     }
 
+
+    @Test
     public void onBackPressShouldFinishActivity() {
         activity.onBackPressed();
         assertTrue(activity.isFinishing());
 
     }
+
+
 
 
 
