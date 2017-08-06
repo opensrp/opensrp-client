@@ -476,14 +476,19 @@ public class PathClientProcessor extends ClientProcessor {
             ServiceSchedule.updateOfflineAlerts(entityId, birthDateTime);
         }
         if (contentValues != null && StringUtils.containsIgnoreCase(tableName, "mother")) {
-            String dob = contentValues.getAsString("dob");
+            String lmp = contentValues.getAsString("lmp");
 
-            if (StringUtils.isBlank(dob)) {
+            if (StringUtils.isBlank(lmp)) {
                 return;
             }
-
-            DateTime birthDateTime = new DateTime(dob);
-            VaccineSchedule.updateOfflineAlerts(entityId, birthDateTime, "mother");
+            SimpleDateFormat lmp_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+            Date dateTime = null;
+            try {
+                dateTime = lmp_DATE_FORMAT.parse(lmp);
+                VaccineSchedule.updateOfflineAlerts(entityId, new DateTime(dateTime.getTime()), "mother");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
 

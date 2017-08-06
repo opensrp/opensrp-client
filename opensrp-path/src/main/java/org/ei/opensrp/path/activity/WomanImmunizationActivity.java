@@ -69,6 +69,7 @@ import org.opensrp.api.constants.Gender;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -1016,10 +1017,16 @@ public class WomanImmunizationActivity extends BaseActivity
             }
 
             Pair<ArrayList<VaccineWrapper>, List<Vaccine>> pair = new Pair<>(list, vaccineList);
-            String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+            String dobString = Utils.getValue(childDetails.getColumnmaps(), "lmp", false);
             if (!TextUtils.isEmpty(dobString)) {
-                DateTime dateTime = new DateTime(dobString);
-                affectedVaccines = VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "child");
+                SimpleDateFormat lmp_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+                Date dateTime = null;
+                try {
+                    dateTime = lmp_DATE_FORMAT.parse(dobString);
+                    affectedVaccines =VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), new DateTime(dateTime.getTime()), "mother");
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
             vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
             alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
@@ -1169,10 +1176,16 @@ public class WomanImmunizationActivity extends BaseActivity
 
         @Override
         protected Map<String, NamedObject<?>> doInBackground(Void... voids) {
-            String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+            String dobString = Utils.getValue(childDetails.getColumnmaps(), "lmp", false);
             if (!TextUtils.isEmpty(dobString)) {
-                DateTime dateTime = new DateTime(dobString);
-                VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "mother");
+                 SimpleDateFormat lmp_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+                Date dateTime = null;
+                try {
+                    dateTime = lmp_DATE_FORMAT.parse(dobString);
+                    VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), new DateTime(dateTime.getTime()), "mother");
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
 
             List<Vaccine> vaccineList = new ArrayList<>();
@@ -1256,13 +1269,19 @@ public class WomanImmunizationActivity extends BaseActivity
                 if (tag.getDbKey() != null) {
                     Long dbKey = tag.getDbKey();
                     vaccineRepository.deleteVaccine(dbKey);
-                    String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+                    String dobString = Utils.getValue(childDetails.getColumnmaps(), "lmp", false);
                     if (!TextUtils.isEmpty(dobString)) {
-                        DateTime dateTime = new DateTime(dobString);
-                        affectedVaccines = VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "mother");
+                            SimpleDateFormat lmp_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+                            Date dateTime = null;
+                            try {
+                                dateTime = lmp_DATE_FORMAT.parse(dobString);
+                                VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), new DateTime(dateTime.getTime()), "mother");
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
                         vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
                         alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
-                                VaccinateActionUtils.allAlertNames("child"));
+                                VaccinateActionUtils.allAlertNames("mother"));
                     }
                 }
             }
