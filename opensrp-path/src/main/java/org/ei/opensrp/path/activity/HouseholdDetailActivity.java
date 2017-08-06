@@ -67,8 +67,8 @@ public class HouseholdDetailActivity extends BaseActivity {
                 householdDetails = (CommonPersonObjectClient) serializable;
             }
         }
-
         Logger.largeErrorLog("-------------",householdDetails.getDetails().toString());
+        Logger.largeErrorLog("-------------",householdDetails.getDetails().get("_id"));
 
         DrawerLayout drawer = (DrawerLayout) findViewById(getDrawerLayoutId());
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -129,8 +129,8 @@ public class HouseholdDetailActivity extends BaseActivity {
         //setAdapter data of Household member
         PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
         net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
-
-        Cursor cursor = db.rawQuery("SELECT  id as _id, first_name FROM ec_child", null);
+        String mother_id = householdDetails.getDetails().get("_id");
+        Cursor cursor = db.rawQuery("SELECT  id as _id,first_name,client_reg_date FROM ec_mother where relational_id = ?",new String[]{mother_id});
 
 
         householdList = (ListView) findViewById(R.id.household_list);
@@ -157,7 +157,6 @@ public class HouseholdDetailActivity extends BaseActivity {
 
     @Override
     protected int getContentView() {
-        Log.e("----------","setting household_detail_activity");
         return  R.layout.household_detail_activity;
     }
     @Override
@@ -193,20 +192,45 @@ public class HouseholdDetailActivity extends BaseActivity {
 
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
-            Log.e("------------","binding value to the row");
-            TextView member_name = (TextView) view.findViewById(R.id.member_name);
-            TextView member_age = (TextView) view.findViewById(R.id.member_age);
-            TextView member_address = (TextView) view.findViewById(R.id.member_address);
+            Log.e("------------","bind view call");
+            TextView member_name = (TextView) view.findViewById(R.id.mother_name);
+            TextView member_age = (TextView) view.findViewById(R.id.mother_age);
+            TextView member_address = (TextView) view.findViewById(R.id.mother_address);
 
-            member_name.setText("Name : Habibur Rahman");
+            LinearLayout household_details_list_row = (LinearLayout) view.findViewById(R.id.child_holder);
+
+            addChild(household_details_list_row,cursor.getString(0));
+
+            member_name.setText("Name : " + cursor.getString(1));
             member_age.setText("Age : 27");
             member_address.setText("Address : Rajshahi");
         }
 
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
-            Log.e("------------","selecting row for members");
             return  inflater.inflate(R.layout.household_details_list_row,parent,false);
+        }
+
+        public void addChild(LinearLayout household_details_list_row, String mother_id){
+            Log.e("--------------",mother_id);
+            LinearLayout childrenLayout = (LinearLayout)inflater.inflate(R.layout.household_details_child_row, null);
+
+            PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+            net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
+
+            Cursor cursor = db.rawQuery("SELECT  id as _id,first_name,last_name,gender,mother_first_name,mother_last_name,dob,epi_card_number FROM ec_child where relational_id = ?",new String[]{mother_id});
+
+            cursor.moveToFirst();
+            while (cursor.isAfterLast() == false) {
+                ((TextView)childrenLayout.findViewById(R.id.child_name)).setText(cursor.getString(1));
+                ((TextView)childrenLayout.findViewById(R.id.child_mother)).setText(cursor.getString(4) + " " + cursor.getString(5));
+                ((TextView)childrenLayout.findViewById(R.id.child_dob)).setText(cursor.getString(6));
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+            household_details_list_row.addView(childrenLayout);
+
         }
 
     }

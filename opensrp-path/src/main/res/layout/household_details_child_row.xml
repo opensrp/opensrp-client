@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:background="@drawable/vaccine_card_background_white">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:orientation="vertical"
@@ -14,7 +12,7 @@
         android:layout_marginBottom="20dp">
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
-            android:id="@+id/mother_name"
+            android:id="@+id/child_name"
             style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,34 +23,27 @@
             android:layout_gravity="center_horizontal" />
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
-            android:id="@+id/mother_age"
+            android:id="@+id/child_mother"
             style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Age : "
+            android:text="Mother Name : "
             android:textColor="@color/client_list_grey"
             android:textSize="20sp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp" />
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
-            android:id="@+id/mother_address"
+            android:id="@+id/child_dob"
             style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Address : "
+            android:text="Date of Birth : "
             android:textColor="@color/client_list_grey"
             android:textSize="20sp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp" />
 
     </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/child_holder"></LinearLayout>
-
 
 </LinearLayout>
