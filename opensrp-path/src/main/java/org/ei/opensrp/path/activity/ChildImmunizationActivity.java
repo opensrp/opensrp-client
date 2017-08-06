@@ -105,7 +105,7 @@ public class ChildImmunizationActivity extends BaseActivity
     public static final String EXTRA_CHILD_DETAILS = "child_details";
     private static final String EXTRA_REGISTER_CLICKABLES = "register_clickables";
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
-    private static final String DIALOG_TAG = "ChildImmunoActivity_DIALOG_TAG";
+    public static final String DIALOG_TAG = "ChildImmunoActivity_DIALOG_TAG";
     private ArrayList<VaccineGroup> vaccineGroups;
     private ArrayList<ServiceGroup> serviceGroups;
     private static final ArrayList<String> COMBINED_VACCINES;

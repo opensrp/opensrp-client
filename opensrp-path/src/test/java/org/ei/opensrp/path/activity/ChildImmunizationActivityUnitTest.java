@@ -147,13 +147,13 @@ public class ChildImmunizationActivityUnitTest extends BaseUnitTest {
 
 
 
-//    @Test
-//    public void showWeightDialogShouldRender() {
-//
-//        activity.showWeightDialog(0);
-//        assertNotNull(activity.getFragmentManager().findFragmentByTag(ChildDetailTabbedActivity.DIALOG_TAG));
-//
-//    }
+    @Test
+    public void showWeightDialogShouldRender() {
+        View recordWeight = activity.findViewById(R.id.record_weight);
+        activity.showWeightDialog(recordWeight);
+        assertNotNull(activity.getFragmentManager().findFragmentByTag(ChildImmunizationActivity.DIALOG_TAG));
+
+    }
 
     @Test
     public void clickingToolBarNavigationButtonClosesTheActivity() {
