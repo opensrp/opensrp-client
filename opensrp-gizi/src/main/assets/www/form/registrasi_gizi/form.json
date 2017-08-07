@@ -25,7 +25,7 @@
   {"label":{"Bahasa":"Nama Posyandu","English":"Health Post"},"type":"text","name":"posyandu","hint":{"Bahasa":"Nama Pos Pelayanan Terpadu","English":"Name of Health Post"}},
   {"instance":{"openmrs_entity_id":"last_name","openmrs_entity":"person"},"label":{"Bahasa":"Nama Ayah","English":"Fathr's Name"},"type":"text","name":"nama_ayah","hint":{"Bahasa":"Nama Ayah Bayi yang diberikan Imunisasi","English":"Name of Baby's Father Receiving Immunization"}},
   {"instance":{"openmrs_entity_id":"first_name","openmrs_entity":"person"},"label":{"Bahasa":"Nama Ibu","English":"Mother's Name"},"type":"text","name":"nama_ibu","hint":{"Bahasa":"Nama Ibu Bayi yang diberikan Imunisasi","English":"Name of Baby's Mother Receiving Immunization"}},
-  {"instance":{"openmrs_entity_id":"NoIbu","openmrs_entity":"person_attribute"},"type":"integer","name":"no_ibu","bind":{"required":"yes"},"label":{"Bahasa":"No. Ibu","English":"Mother's Number"}},
+  {"instance":{"openmrs_entity_id":"NoIbu","openmrs_entity":"person_attribute"},"type":"integer","name":"no_ibu","label":{"Bahasa":"No. Ibu","English":"Mother's Number"}},
   {"instance":{"openmrs_entity_id":"nik","openmrs_entity":"person_identifier"},"label":{"Bahasa":"NIK","English":"National identification number"},"type":"integer","name":"nik","hint":{"Bahasa":"Nomor KTP (Kartu Tanda Penduduk)","English":"Personal identity number"}},
   {"default":"0","instance":{"openmrs_entity_id":"1532AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"type":"hidden","name":"umur","hint":{"Bahasa":"for sync purpose"}},
   {"default":"0","instance":{"openmrs_entity_id":"374AAAAAAAAAAAAAAAAAAAAAAAAAAAAA","openmrs_entity":"concept"},"type":"hidden","name":"jenis_kontrasepsi","hint":{"Bahasa":"for sync purpose"}},

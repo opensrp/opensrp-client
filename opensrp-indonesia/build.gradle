@@ -43,7 +43,7 @@ android {
     buildToolsVersion androidBuildToolsVersion
 
     defaultConfig {
-        applicationId "org.ei.opensrp.indonesia_mac"
+        applicationId "org.ei.opensrp.indonesia_entry"
         minSdkVersion 16
         targetSdkVersion 21
 

@@ -71,8 +71,8 @@ public class KmsHandler  implements FormSubmissionHandler {
                 String[]tempHeight = history2[1].split(",");
                 int weightAge = Integer.parseInt(tempAgeW[tempAgeW.length - 1]);
                 double weight = Double.parseDouble(tempWeight[tempWeight.length - 1]);
-                int lengthAge = Integer.parseInt(tempAgeH[tempAgeH.length - 1]);
-                double length = Double.parseDouble(tempHeight[tempHeight.length-1]);
+                int lengthAge = tempAgeH.length > 0 ? Integer.parseInt(tempAgeH[tempAgeH.length - 1]) : 0;
+                double length = tempHeight.length > 0 ? Double.parseDouble(tempHeight[ tempHeight.length - 1]) : 0;
 //                double length = Double.parseDouble(submission.getFieldValue("tinggiBadan") != null ? submission.getFieldValue("tinggiBadan") : "0");
 
                 ZScoreSystemCalculation zScore = new ZScoreSystemCalculation();

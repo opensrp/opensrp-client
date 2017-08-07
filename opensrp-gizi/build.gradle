@@ -35,7 +35,7 @@ android {
     buildToolsVersion androidBuildToolsVersion
 
     defaultConfig {
-        applicationId "org.ei.opensrp.gizi"
+        applicationId "org.ei.opensrp.gizi_entry"
         minSdkVersion 16
         targetSdkVersion 21
         versionCode 2
