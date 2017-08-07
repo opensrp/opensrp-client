@@ -34,7 +34,7 @@ android {
     defaultConfig {
         applicationId "org.ei.opensrp.path"
         minSdkVersion 18
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 7
         versionName "1.2.1"
         multiDexEnabled true
