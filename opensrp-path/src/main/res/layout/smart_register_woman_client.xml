@@ -15,11 +15,14 @@
         android:id="@+id/profile_info_layout">
 
         <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:id="@+id/profilepic"
             android:src="@drawable/woman_placeholder"
-            android:scaleType="fitXY" />
+            android:scaleType="centerCrop"
+            android:paddingBottom="2dp"
+            android:paddingLeft="2dp"
+            android:paddingTop="2dp" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -44,6 +47,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 style="@style/CustomFontTextViewStyle.noPadding"
                 android:text="Medium Text"
+                android:textSize="12sp"
                 android:id="@+id/spousename"
                 android:layout_weight="1" />
 
@@ -53,6 +57,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 style="@style/CustomFontTextViewStyle.noPadding"
                 android:text="Medium Text"
+                android:textSize="12sp"
                 android:id="@+id/address"
                 android:layout_weight="1" />
 
