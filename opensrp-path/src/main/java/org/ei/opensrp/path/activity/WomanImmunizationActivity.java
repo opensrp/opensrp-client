@@ -103,10 +103,10 @@ public class WomanImmunizationActivity extends BaseActivity
 
     private static final String TAG = "ChildImmunoActivity";
     private static final String VACCINES_FILE = "vaccines.json";
-    private static final String EXTRA_CHILD_DETAILS = "child_details";
+    public static final String EXTRA_CHILD_DETAILS = "child_details";
     private static final String EXTRA_REGISTER_CLICKABLES = "register_clickables";
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
-    private static final String DIALOG_TAG = "ChildImmunoActivity_DIALOG_TAG";
+    public static final String DIALOG_TAG = "ChildImmunoActivity_DIALOG_TAG";
     private ArrayList<VaccineGroup> vaccineGroups;
     private ArrayList<ServiceGroup> serviceGroups;
     private static final ArrayList<String> COMBINED_VACCINES;
@@ -133,7 +133,7 @@ public class WomanImmunizationActivity extends BaseActivity
     // Data
     private CommonPersonObjectClient childDetails;
     private RegisterClickables registerClickables;
-    private DetailsRepository detailsRepository;
+    public DetailsRepository detailsRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,7 +214,7 @@ public class WomanImmunizationActivity extends BaseActivity
         return childDetails != null && childDetails.getDetails() != null;
     }
 
-    private void updateViews() {
+    public void updateViews() {
         ((LinearLayout) findViewById(R.id.profile_name_layout)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -592,7 +592,7 @@ public class WomanImmunizationActivity extends BaseActivity
 
     }
 
-    private void showWeightDialog(View view) {
+    public void showWeightDialog(View view) {
         FragmentTransaction ft = this.getFragmentManager().beginTransaction();
         Fragment prev = this.getFragmentManager().findFragmentByTag(DIALOG_TAG);
         if (prev != null) {

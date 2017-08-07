@@ -570,7 +570,7 @@ public class ChildDetailTabbedActivityUnitTest extends BaseUnitTest {
         assertTrue(activity.onPrepareOptionsMenu(null));
 
     }
-
+    @Test
     public void onBackPressShouldFinishActivity() {
         activity.onBackPressed();
         assertTrue(activity.isFinishing());
