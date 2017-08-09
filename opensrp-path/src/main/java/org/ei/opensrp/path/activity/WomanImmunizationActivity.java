@@ -300,7 +300,7 @@ public class WomanImmunizationActivity extends BaseActivity
     }
 
     private void updateGenderViews() {
-        Gender gender = Gender.UNKNOWN;
+        Gender gender = Gender.FEMALE;
         if (isDataOk()) {
             String genderString = Utils.getValue(childDetails, "gender", false);
             if (genderString != null && genderString.toLowerCase().equals("female")) {

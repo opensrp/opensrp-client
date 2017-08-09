@@ -374,7 +374,7 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
 
                 case R.id.record_vaccination:
                     registerClickables.setRecordAll(true);
-                    ChildImmunizationActivity.launchActivity(getActivity(), client, registerClickables);
+                    WomanImmunizationActivity.launchActivity(getActivity(), client, registerClickables);
                     break;
                 case R.id.filter_selection:
                     toggleFilterSelection();

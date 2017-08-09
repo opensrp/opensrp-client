@@ -11,25 +11,40 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="1dp"
-        android:layout_weight="3">
+        android:layout_weight="4">
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:id="@+id/woman_pic"
             style="@style/CustomFontTextViewStyle.ClientList.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/woman_profile"
+            android:text="@string/str_provider_profile"
             android:textAllCaps="true"
             android:textColor="@color/client_list_grey"
             android:textSize="16sp" />
 
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/age"
+            style="@style/CustomFontTextViewStyle.ClientList.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/age"
+            android:textAllCaps="true"
+            android:textColor="@color/client_list_grey"
+            android:layout_gravity="right"
+            android:textSize="16sp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="7dp"
+            />
+
     </RelativeLayout>
+
 
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="1dp"
-        android:layout_weight="3">
+        android:layout_weight="2.5">
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:id="@+id/woman_unique_ids"
@@ -54,7 +69,7 @@
             style="@style/CustomFontTextViewStyle.ClientList.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/woman_next_vaacine"
+            android:text="@string/child_next_vaccine"
             android:textAllCaps="true"
             android:textColor="@color/client_list_grey"
             android:textSize="16sp" />
@@ -64,7 +79,7 @@
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2">
+        android:layout_weight="1.5">
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:id="@+id/woman_nbnf"
