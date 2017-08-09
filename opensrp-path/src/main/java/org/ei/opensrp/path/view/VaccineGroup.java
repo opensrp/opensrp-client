@@ -62,6 +62,7 @@ public class VaccineGroup extends LinearLayout implements View.OnClickListener,
     private OnVaccineUndoClickListener onVaccineUndoClickListener;
     private SimpleDateFormat READABLE_DATE_FORMAT = new SimpleDateFormat("dd MMMM, yyyy", Locale.US);
     private boolean modalOpen;
+    private String type;
 
     private static enum State {
         IN_PAST,
@@ -128,11 +129,12 @@ public class VaccineGroup extends LinearLayout implements View.OnClickListener,
         recordAllTV.setOnClickListener(this);
     }
 
-    public void setData(JSONObject vaccineData, CommonPersonObjectClient childDetails, List<Vaccine> vaccines, List<Alert> alerts) {
+    public void setData(JSONObject vaccineData, CommonPersonObjectClient childDetails, List<Vaccine> vaccines, List<Alert> alerts,String type) {
         this.vaccineData = vaccineData;
         this.childDetails = childDetails;
         this.vaccineList = vaccines;
         this.alertList = alerts;
+        this.type = type;
         updateViews();
     }
 
@@ -209,7 +211,7 @@ public class VaccineGroup extends LinearLayout implements View.OnClickListener,
     private void updateVaccineCards(ArrayList<VaccineWrapper> vaccinesToUpdate) {
         if (vaccineCardAdapter == null) {
             try {
-                vaccineCardAdapter = new VaccineCardAdapter(context, this);
+                vaccineCardAdapter = new VaccineCardAdapter(context, this,type);
                 vaccinesGV.setAdapter(vaccineCardAdapter);
             } catch (JSONException e) {
                 Log.e(TAG, Log.getStackTraceString(e));
@@ -302,7 +304,7 @@ public static interface OnVaccineUndoClickListener {
         this.modalOpen = modalOpen;
     }
 
-    public void updateWrapperStatus(VaccineWrapper tag) {
+    public void updateWrapperStatus(VaccineWrapper tag,String type) {
         List<Vaccine> vaccineList = getVaccineList();
 
         List<Alert> alertList = getAlertList();
@@ -310,7 +312,7 @@ public static interface OnVaccineUndoClickListener {
         Map<String, Date> recievedVaccines = receivedVaccines(vaccineList);
 
         String dobString = Utils.getValue(getChildDetails().getColumnmaps(), "dob", false);
-        List<Map<String, Object>> sch = generateScheduleList("mother", new DateTime(dobString), recievedVaccines, alertList);
+        List<Map<String, Object>> sch = generateScheduleList(type, new DateTime(dobString), recievedVaccines, alertList);
 
         for (Map<String, Object> m : sch) {
             VaccineRepo.Vaccine vaccine = (VaccineRepo.Vaccine) m.get("vaccine");
@@ -329,13 +331,13 @@ public static interface OnVaccineUndoClickListener {
         }
     }
 
-    public void updateWrapperStatus(ArrayList<VaccineWrapper> tags) {
+    public void updateWrapperStatus(ArrayList<VaccineWrapper> tags,String type) {
         if (tags == null) {
             return;
         }
 
         for (VaccineWrapper tag : tags) {
-            updateWrapperStatus(tag);
+            updateWrapperStatus(tag,type);
         }
     }
 

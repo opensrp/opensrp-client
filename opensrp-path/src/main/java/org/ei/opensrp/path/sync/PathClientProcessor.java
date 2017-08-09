@@ -464,20 +464,7 @@ public class PathClientProcessor extends ClientProcessor {
     @Override
     public void updateFTSsearch(String tableName, String entityId, ContentValues contentValues) {
         super.updateFTSsearch(tableName, entityId, contentValues);
-        Log.v("tablename",tableName);
-        Log.v("contentValues",contentValues.toString());
-//        if (contentValues != null && StringUtils.containsIgnoreCase(tableName, "child")) {
-//            String dob = contentValues.getAsString("dob");
-//
-//            if (StringUtils.isBlank(dob)) {
-//                return;
-//            }
-//
-//            DateTime birthDateTime = new DateTime(dob);
-//            VaccineSchedule.updateOfflineAlerts(entityId, birthDateTime, "child");
-//            ServiceSchedule.updateOfflineAlerts(entityId, birthDateTime);
-//        }
-        if (contentValues != null && StringUtils.containsIgnoreCase(tableName, "mother")) {
+        if (contentValues != null && StringUtils.containsIgnoreCase(tableName, "child")) {
             String dob = contentValues.getAsString("dob");
 
             if (StringUtils.isBlank(dob)) {
@@ -485,7 +472,23 @@ public class PathClientProcessor extends ClientProcessor {
             }
 
             DateTime birthDateTime = new DateTime(dob);
-            VaccineSchedule.updateOfflineAlerts(entityId, birthDateTime, "mother");
+            VaccineSchedule.updateOfflineAlerts(entityId, birthDateTime, "child");
+            ServiceSchedule.updateOfflineAlerts(entityId, birthDateTime);
+        }
+        if (contentValues != null && StringUtils.containsIgnoreCase(tableName, "mother")) {
+            String lmp = contentValues.getAsString("lmp");
+
+            if (StringUtils.isBlank(lmp)) {
+                return;
+            }
+            SimpleDateFormat lmp_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+            Date dateTime = null;
+            try {
+                dateTime = lmp_DATE_FORMAT.parse(lmp);
+                VaccineSchedule.updateOfflineAlerts(entityId, new DateTime(dateTime.getTime()), "mother");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -5,45 +5,78 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="20dp">
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="20dp">
+        android:background="@color/white"
+        android:weightSum="5">
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
-            android:id="@+id/child_name"
-            style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Name : "
-            android:layout_marginBottom="15dp"
-            android:textColor="@color/client_list_grey"
-            android:textSize="30sp"
-            android:layout_gravity="center_horizontal" />
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_weight="1">
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
-            android:id="@+id/child_mother"
-            style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Mother Name : "
-            android:textColor="@color/client_list_grey"
-            android:textSize="20sp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp" />
+                <ImageView
+                    android:id="@+id/child_profile_pic"
+                    android:src="@drawable/child_boy_infant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
-            android:id="@+id/child_dob"
-            style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date of Birth : "
-            android:textColor="@color/client_list_grey"
-            android:textSize="20sp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="25dp"
+                android:layout_gravity="left|center_horizontal">
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:id="@+id/child_name"
+                    style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name : "
+                    android:layout_marginBottom="15dp"
+                    android:textColor="@color/client_list_grey"
+                    android:textSize="30sp"
+                    android:layout_gravity="left|center_horizontal"
+                    android:layout_marginLeft="20dp" />
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:id="@+id/child_mother"
+                    style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mother Name : "
+                    android:textColor="@color/client_list_grey"
+                    android:textSize="20sp"
+                    android:layout_gravity="left|center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="20dp" />
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:id="@+id/child_dob"
+                    style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date of Birth : "
+                    android:textColor="@color/client_list_grey"
+                    android:textSize="20sp"
+                    android:layout_gravity="left|center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="20dp" />
+
+            </LinearLayout>
 
     </LinearLayout>
+
 
 </LinearLayout>

@@ -26,6 +26,7 @@ import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.Vaccine_typesRepository;
 import org.ei.opensrp.path.toolbar.LocationSwitcherToolbar;
 import org.ei.opensrp.repository.AllSharedPreferences;
+import org.ei.opensrp.view.customControls.CustomFontTextView;
 
 import java.io.Serializable;
 
@@ -79,7 +80,7 @@ public class HouseholdDetailActivity extends BaseActivity {
         toolbar.updateSeparatorView(toolbarResource);
         toolbar.init(this);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(householdDetails.getName());
+        toolbar.setTitle("Household Details");
 
 
 
@@ -152,6 +153,7 @@ public class HouseholdDetailActivity extends BaseActivity {
         refreshadapter();
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         LinearLayout stockregister = (LinearLayout) drawer.findViewById(R.id.stockcontrol);
+        ((CustomFontTextView)findViewById(R.id.title)).setText("Household Details");
         stockregister.setBackgroundColor(getResources().getColor(R.color.tintcolor));
     }
 
@@ -197,9 +199,7 @@ public class HouseholdDetailActivity extends BaseActivity {
             TextView member_age = (TextView) view.findViewById(R.id.mother_age);
             TextView member_address = (TextView) view.findViewById(R.id.mother_address);
 
-            LinearLayout household_details_list_row = (LinearLayout) view.findViewById(R.id.child_holder);
 
-            addChild(household_details_list_row,cursor.getString(0));
 
             member_name.setText("Name : " + cursor.getString(1));
             member_age.setText("Age : 27");
@@ -208,12 +208,16 @@ public class HouseholdDetailActivity extends BaseActivity {
 
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
-            return  inflater.inflate(R.layout.household_details_list_row,parent,false);
+            Log.e("------------","new view call");
+            View view = inflater.inflate(R.layout.household_details_list_row,parent,false);
+            LinearLayout household_details_list_row = (LinearLayout) view.findViewById(R.id.child_holder);
+            addChild(household_details_list_row,cursor.getString(0));
+            return  view;
         }
 
         public void addChild(LinearLayout household_details_list_row, String mother_id){
             Log.e("--------------",mother_id);
-            LinearLayout childrenLayout = (LinearLayout)inflater.inflate(R.layout.household_details_child_row, null);
+
 
             PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
             net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
@@ -222,14 +226,14 @@ public class HouseholdDetailActivity extends BaseActivity {
 
             cursor.moveToFirst();
             while (cursor.isAfterLast() == false) {
-                ((TextView)childrenLayout.findViewById(R.id.child_name)).setText(cursor.getString(1));
-                ((TextView)childrenLayout.findViewById(R.id.child_mother)).setText(cursor.getString(4) + " " + cursor.getString(5));
-                ((TextView)childrenLayout.findViewById(R.id.child_dob)).setText(cursor.getString(6));
+                LinearLayout childrenLayout = (LinearLayout)inflater.inflate(R.layout.household_details_child_row, null);
+                ((TextView)childrenLayout.findViewById(R.id.child_name)).setText("Name : " + cursor.getString(1));
+                ((TextView)childrenLayout.findViewById(R.id.child_mother)).setText("Mother name : " + cursor.getString(4) + " " + cursor.getString(5));
+                ((TextView)childrenLayout.findViewById(R.id.child_dob)).setText("Child Date of Birth : " + cursor.getString(6).split("T")[0]);
+                household_details_list_row.addView(childrenLayout);
                 cursor.moveToNext();
             }
             cursor.close();
-
-            household_details_list_row.addView(childrenLayout);
 
         }
 
