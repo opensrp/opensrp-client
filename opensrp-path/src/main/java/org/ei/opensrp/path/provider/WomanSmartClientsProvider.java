@@ -112,6 +112,12 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
         }
         fillValue((TextView) convertView.findViewById(R.id.age), durationString);
 
+        String husbandname = getValue(pc.getColumnmaps(), "husband_name", false);
+        fillValue((TextView) convertView.findViewById(R.id.spousename), husbandname);
+
+        String address1 = getValue(pc.getColumnmaps(), "address1", false);
+        fillValue((TextView) convertView.findViewById(R.id.address), address1);
+
         String lmpstring = Utils.getValue(pc.getColumnmaps(), "lmp", false);
 
 
