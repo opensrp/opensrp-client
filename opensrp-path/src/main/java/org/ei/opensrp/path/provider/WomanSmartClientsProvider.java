@@ -21,10 +21,12 @@ import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.domain.Weight;
 import org.ei.opensrp.logger.Logger;
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.domain.VaccineSchedule;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.repository.WeightRepository;
+import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.util.OpenSRPImageLoader;
 import org.ei.opensrp.view.activity.DrishtiApplication;
@@ -53,6 +55,7 @@ import util.VaccinateActionUtils;
 import widget.FlowIndicator;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static util.Utils.fillValue;
 import static util.Utils.getName;
 import static util.Utils.getValue;
@@ -72,6 +75,7 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
     WeightRepository weightRepository;
     private final AbsListView.LayoutParams clientViewLayoutParams;
     private static final String VACCINES_FILE = "vaccines.json";
+    private DetailsRepository detailsRepository = null;
 
     public WomanSmartClientsProvider(Context context, View.OnClickListener onClickListener,
                                      AlertService alertService, VaccineRepository vaccineRepository, WeightRepository weightRepository) {
@@ -82,7 +86,7 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
         this.weightRepository = weightRepository;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        clientViewLayoutParams = new AbsListView.LayoutParams(MATCH_PARENT, (int) context.getResources().getDimension(org.ei.opensrp.R.dimen.list_item_height));
+        clientViewLayoutParams = new AbsListView.LayoutParams(MATCH_PARENT, WRAP_CONTENT);
     }
 
     @Override
@@ -112,14 +116,19 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
         }
         fillValue((TextView) convertView.findViewById(R.id.age), durationString);
 
-        String husbandname = getValue(pc.getColumnmaps(), "husband_name", false);
-        fillValue((TextView) convertView.findViewById(R.id.spousename), husbandname);
 
         String address1 = getValue(pc.getColumnmaps(), "address1", false);
         fillValue((TextView) convertView.findViewById(R.id.address), address1);
 
-        String lmpstring = Utils.getValue(pc.getColumnmaps(), "lmp", false);
+        detailsRepository = detailsRepository == null ? org.ei.opensrp.Context.getInstance().updateApplicationContext(context.getApplicationContext()).detailsRepository() : detailsRepository;
+        Map<String, String> detailmaps = detailsRepository.getAllDetailsForClient(pc.entityId());
 
+        String husbandname = getValue(detailmaps, "spouseName", false);
+        fillValue((TextView) convertView.findViewById(R.id.spousename), husbandname);
+
+        fillValue((TextView) convertView.findViewById(R.id.nid), "NID: "+getValue(detailmaps, "nationalId", false));
+
+        String lmpstring = Utils.getValue(pc.getColumnmaps(), "lmp", false);
 
         View recordVaccination = convertView.findViewById(R.id.record_vaccination);
         recordVaccination.setTag(client);

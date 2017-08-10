@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_base"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="org.ei.opensrp.path.activity.ChildImmunizationActivity"
+    tools:showIn="@layout/app_bar_child_immunization">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/immun_child_card_height"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/card_view_corner_radius"
+            app:cardElevation="@dimen/card_elevation">
+
+            <LinearLayout
+                android:id="@+id/profile_name_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:id="@+id/profile_image_iv"
+                    android:layout_width="@dimen/immun_child_card_height"
+                    android:layout_height="@dimen/immun_child_card_height"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/woman_path_register_logo" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="20dp">
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:id="@+id/name_tv"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Joyce Mwansa"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/activity_title_size" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:id="@+id/child_id_tv"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="EIR"
+                            android:textColor="@color/dark_grey"
+                            android:textSize="@dimen/activity_sub_title_size" />
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:id="@+id/age_tv"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="Age"
+                            android:textColor="@color/dark_grey"
+                            android:textSize="@dimen/activity_sub_title_size" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:layout_marginRight="12.5dp"
+                android:src="@drawable/ic_more_vert" />
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_category_horizontal_margin"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:clickable="false"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:minHeight="135dp"
+                app:cardCornerRadius="@dimen/card_view_corner_radius"
+                app:cardElevation="@dimen/card_elevation"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="10dp">
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        style="@style/CustomFontTextViewStyle.ClientList"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="WEIGHT-FOR-AGE"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/activity_sub_title_size" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:id="@+id/record_weight"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:background="@drawable/record_weight_bg"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingBottom="16dp"
+                            android:paddingTop="16dp">
+
+                            <ImageView
+                                android:id="@+id/record_weight_check"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingRight="3dp"
+                                android:src="@drawable/ic_action_check"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/record_weight_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@string/record_weight"
+                                android:textAllCaps="false"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="@color/text_black"
+                                android:textSize="19sp" />
+                        </LinearLayout>
+
+                        <ImageButton
+                            android:id="@+id/growth_chart_button"
+                            android:src="@drawable/ic_icon_growth_chart"
+                            android:background="@null"
+                            android:layout_width="0dp"
+                            android:layout_height="70dp"
+                            android:layout_marginLeft="@dimen/card_category_horizontal_margin"
+                            android:layout_weight="0.5" />
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:clickable="false"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:minHeight="135dp"
+                app:cardCornerRadius="@dimen/card_view_corner_radius"
+                app:cardElevation="@dimen/card_elevation">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp">
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:id="@+id/child_siblings_tv"
+                        style="@style/CustomFontTextViewStyle.ClientList"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="HER SIBLINGS"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/activity_sub_title_size" />
+
+                    <org.ei.opensrp.path.view.SiblingPicturesGroup
+                        android:id="@+id/sibling_pictures"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_category_horizontal_margin"
+            android:background="@color/white"
+            android:clickable="false"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/card_view_corner_radius"
+            app:cardElevation="@dimen/card_elevation">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="10dp">
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        style="@style/CustomFontTextViewStyle.ClientList"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/label_immunization_records"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/activity_sub_title_size" />
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:id="@+id/dob_tv"
+                        style="@style/CustomFontTextViewStyle.ClientList"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/activity_sub_title_size" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/service_group_canvas_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/vaccine_group_canvas_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+</ScrollView>

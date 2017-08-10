@@ -254,7 +254,7 @@ public class WomanImmunizationActivity extends BaseActivity
             if (childDetails.entityId() != null) {//image already in local storage most likey ):
                 //set profile image by passing the client id.If the image doesn't exist in the image repository then download and save locally
                 profileImageIV.setTag(org.ei.opensrp.R.id.entity_id, childDetails.entityId());
-                DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(childDetails.entityId(), OpenSRPImageLoader.getStaticImageListener((ImageView) profileImageIV, ImageUtils.profileImageResourceByGender(gender), ImageUtils.profileImageResourceByGender(gender)));
+                DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(childDetails.entityId(), OpenSRPImageLoader.getStaticImageListener((ImageView) profileImageIV, R.drawable.woman_path_register_logo, R.drawable.woman_path_register_logo));
 
             }
         }
@@ -300,7 +300,7 @@ public class WomanImmunizationActivity extends BaseActivity
     }
 
     private void updateGenderViews() {
-        Gender gender = Gender.FEMALE;
+        Gender gender = Gender.MALE;
         if (isDataOk()) {
             String genderString = Utils.getValue(childDetails, "gender", false);
             if (genderString != null && genderString.toLowerCase().equals("female")) {
@@ -329,7 +329,7 @@ public class WomanImmunizationActivity extends BaseActivity
 
         TextView childSiblingsTV = (TextView) findViewById(R.id.child_siblings_tv);
         childSiblingsTV.setText(
-                String.format(getString(R.string.child_siblings), identifier).toUpperCase());
+                "Her Children".toUpperCase());
         updateProfilePicture(gender);
 
         return selectedColor;
@@ -661,7 +661,7 @@ public class WomanImmunizationActivity extends BaseActivity
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_child_immunization;
+        return R.layout.activity_woman_immunization;
     }
 
     @Override
@@ -1369,7 +1369,7 @@ public class WomanImmunizationActivity extends BaseActivity
             String motherBaseEntityId = Utils.getValue(childDetails.getColumnmaps(), "relational_id", false);
             if (!TextUtils.isEmpty(motherBaseEntityId) && !TextUtils.isEmpty(baseEntityId)) {
                 List<CommonPersonObject> children = getOpenSRPContext().commonrepository(PathConstants.CHILD_TABLE_NAME)
-                        .findByRelational_IDs(motherBaseEntityId);
+                        .findByRelational_IDs(baseEntityId);
 
                 if (children != null) {
                     ArrayList<String> baseEntityIds = new ArrayList<>();

@@ -96,7 +96,7 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
 
             @Override
             public String nameInShortFormForTitle() {
-                return Context.getInstance().getStringResource(R.string.zeir);
+                return Context.getInstance().getStringResource(R.string.household);
             }
         };
     }

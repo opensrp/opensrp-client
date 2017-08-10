@@ -107,7 +107,7 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
 
             @Override
             public String nameInShortFormForTitle() {
-                return Context.getInstance().getStringResource(R.string.zeir);
+                return Context.getInstance().getStringResource(R.string.woman_title);
             }
         };
     }
@@ -381,7 +381,7 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
                     break;
 
                 case R.id.global_search:
-                    ((ChildSmartRegisterActivity) getActivity()).startAdvancedSearch();
+                    ((WomanSmartRegisterActivity) getActivity()).startAdvancedSearch();
                     break;
 
                 case R.id.scan_qr_code:
