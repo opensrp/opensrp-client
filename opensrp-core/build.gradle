@@ -45,9 +45,10 @@ android {
 dependencies {
     compile project(':opensrp-app')
 
-    compile ('com.ihs.odkate:odkate-base:1.0.0@aar'){
+    compile ('com.ihs.odkate:odkate-base:1.0.1@aar'){
         transitive=true
         exclude group: 'com.google.guava'
+        exclude group: 'net.sqlcipher'
     }
 
     compile fileTree(include: ['*.jar'], dir: 'libs')

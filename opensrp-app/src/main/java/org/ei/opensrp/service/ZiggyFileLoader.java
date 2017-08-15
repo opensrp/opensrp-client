@@ -44,7 +44,6 @@ public class ZiggyFileLoader {
             }
             return fps.getForms(fileName, "UTF-8");
         } catch (IOException e) {
-
             logError(format("Error while loading app data file: {0}, with exception: {1}", fileName, e));
         }
         return null;

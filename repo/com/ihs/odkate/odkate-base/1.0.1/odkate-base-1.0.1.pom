@@ -3,9 +3,14 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.ihs.odkate</groupId>
   <artifactId>odkate-base</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <packaging>aar</packaging>
   <dependencies>
+    <dependency>
+      <groupId>net.zetetic</groupId>
+      <artifactId>android-database-sqlcipher</artifactId>
+      <version>3.5.7</version>
+    </dependency>
     <dependency>
       <groupId>com.ihs.odkate</groupId>
       <artifactId>collect_app</artifactId>

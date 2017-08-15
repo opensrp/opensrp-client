@@ -16,8 +16,9 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.ihs.odkate.base.FormUtils;
 import com.ihs.odkate.base.Odkate;
+import com.ihs.odkate.base.utils.FormSubmissionUtils;
+import com.ihs.odkate.base.utils.OdkateUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
@@ -150,8 +151,8 @@ public abstract class RegisterActivity extends SecuredActivity {
     public void saveFormSubmission(final JSONObject formSubmission, final String formName) {
         try {
             final FormSubmission submission = new FormSubmission(formSubmission.getString("instanceId"), formSubmission.getString("entityId"),
-                    formName, formSubmission.getString("instance"), formSubmission.getString("clientVersion"), PENDING, formSubmission.getString("formDataDefinitionVersion"));
-            saveAndProcess(submission, null, null, FormUtils.getInstance(this).getFormDefinitionPath(formName));
+                    formName, formSubmission.getJSONObject("instance").toString(), formSubmission.getString("clientVersion"), PENDING, formSubmission.getString("formDataDefinitionVersion"));
+            saveAndProcess(submission, formName, new JSONObject(), OdkateUtils.getFormDefinitionPath(formName), false);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Form Submission Save encountered an error");
@@ -164,7 +165,7 @@ public abstract class RegisterActivity extends SecuredActivity {
             org.ei.opensrp.util.FormUtils formUtils = org.ei.opensrp.util.FormUtils.getInstance(getApplicationContext());
         try {
             final FormSubmission submission = formUtils.generateFormSubmisionFromXMLString(id, formSubmission, formName, fieldOverrides);
-            saveAndProcess(submission, formName, fieldOverrides, null);
+            saveAndProcess(submission, formName, fieldOverrides, null, true);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Form Submission Save encountered an error");
@@ -172,11 +173,16 @@ public abstract class RegisterActivity extends SecuredActivity {
 
     }
 
-    public void saveAndProcess(final FormSubmission submission, final String formName, final JSONObject fieldOverrides, String formDefinitionPath) {
+    public void saveAndProcess(final FormSubmission submission, final String formName,
+                               final JSONObject fieldOverrides, String formDefinitionPath, final boolean ziggy) {
         try {
-            ZiggyService ziggyService = org.ei.opensrp.Context.getInstance().ziggyService();
-            ziggyService.saveForm(getParams(submission), submission.instance(), formDefinitionPath);
-
+            if (ziggy) {
+                ZiggyService ziggyService = org.ei.opensrp.Context.getInstance().ziggyService();
+                ziggyService.saveForm(getParams(submission), submission.instance(), formDefinitionPath);
+            }
+            else {
+                context.formDataRepository().saveFormSubmission(submission);
+            }
             new AlertDialog.Builder(this)
                     .setMessage(R.string.form_saved_success_dialog_message)
                     .setTitle(R.string.form_saved_dialog_title)
@@ -184,7 +190,7 @@ public abstract class RegisterActivity extends SecuredActivity {
                     .setPositiveButton(R.string.ok_button_label,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
-                                    closeForm(formName, submission, fieldOverrides); // pass data to let fragment know which record to display
+                                    closeForm(ziggy?formName:null, submission, fieldOverrides); // pass data to let fragment know which record to display
                                 }
                             })
                     .show();
@@ -198,7 +204,7 @@ public abstract class RegisterActivity extends SecuredActivity {
                     .setPositiveButton(R.string.ok_button_label,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
-                                    closeForm(formName, null, fieldOverrides); // pass data to let fragment know which record to display
+                                    closeForm(ziggy?formName:null, null, fieldOverrides); // pass data to let fragment know which record to display
                                 }
                             }).show();
         }
@@ -385,8 +391,7 @@ public abstract class RegisterActivity extends SecuredActivity {
                         instanceCursor.moveToFirst();
                         String formName = instanceCursor.getString(instanceCursor.getColumnIndex("jrFormId"));
 
-                        JSONObject formSubmission = FormUtils.getInstance(this).generateFormSubmisionFromXMLString(
-                                (String[]) buildFormNameList().get(formName), data.getData(), this);
+                      JSONObject formSubmission = new FormSubmissionUtils(this).generateFormSubmission(data.getData());
 
                         Log.v(getClass().getName(), formSubmission.toString());
 

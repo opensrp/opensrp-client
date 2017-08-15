@@ -5,8 +5,10 @@ import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.ihs.odkate.base.Odkate;
+import com.ihs.odkate.base.utils.OdkateConfig;
 
 import org.ei.opensrp.Context;
+import org.ei.opensrp.commonregistry.CommonRepository;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.ei.opensrp.view.receiver.SyncBroadcastReceiver;
@@ -35,6 +37,11 @@ public class VaccinatorApplication extends Odkate implements DrishtiApplication{
         startCESyncService(getApplicationContext());
         ConfigSyncReceiver.scheduleFirstSync(getApplicationContext());
         Log.i(getClass().getName(), "Loaded vaccinator application");
+    }
+
+    @Override
+    protected OdkateConfig configureDatabase() {
+        return new OdkateConfig("drishti", CommonRepository.ID_COLUMN, CommonRepository.DETAILS_COLUMN, CommonRepository.Relational_ID, true);
     }
 
     private void cleanUpSyncState() {

@@ -68,8 +68,6 @@ public abstract class LoginActivity extends AppCompatActivity {
             getActionBar().setDisplayShowTitleEnabled(false);
         }
 
-        Odkate.setupODK(this);
-
         initializeBuildDetails();
         setDoneActionHandlerOnPasswordField();
         getLoginButton().setOnClickListener(new View.OnClickListener() {
@@ -273,6 +271,8 @@ public abstract class LoginActivity extends AppCompatActivity {
     }
 
     private void localLoginWith(String userName, String password) {
+        Odkate.initDatabase(getApplicationContext(), password);
+
         context.userService().localLogin(userName, password);
         goToHome();
         new Thread(new Runnable() {
@@ -286,6 +286,8 @@ public abstract class LoginActivity extends AppCompatActivity {
     }
 
     private void remoteLoginWith(String userName, String password, String userInfo) {
+        Odkate.initDatabase(getApplicationContext(), password);
+
         context.userService().remoteLogin(userName, password, userInfo);
 
         try{
