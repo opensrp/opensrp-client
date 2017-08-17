@@ -256,5 +256,6 @@
 
     <string name="move_to_catchment_dialog_title">Moving…</string>
     <string name="move_to_catchment_dialog_message">Please wait</string>
+    <string name="zeir_short">GP</string>
 
 </resources>

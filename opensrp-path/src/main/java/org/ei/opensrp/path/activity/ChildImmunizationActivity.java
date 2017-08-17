@@ -280,7 +280,7 @@ public class ChildImmunizationActivity extends BaseActivity
         TextView childIdTV = (TextView) findViewById(R.id.child_id_tv);
         childIdTV.setText(String.format("%s: %s", "Unique ID", childId));
 
-        Utils.startAsyncTask(new GetSiblingsTask(), null);
+//        Utils.startAsyncTask(new GetSiblingsTask(), null);
     }
 
     private void updateAgeViews() {
