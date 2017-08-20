@@ -71,6 +71,7 @@ public class HouseholdDetailActivity extends BaseActivity {
         Logger.largeErrorLog("-------------",householdDetails.getDetails().toString());
         Logger.largeErrorLog("-------------",householdDetails.getDetails().get("_id"));
 
+
         DrawerLayout drawer = (DrawerLayout) findViewById(getDrawerLayoutId());
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -82,6 +83,9 @@ public class HouseholdDetailActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle("Household Details");
 
+
+        ((TextView) findViewById(R.id.household_head_name)).setText("Name : " + "Abul");
+        ((TextView) findViewById(R.id.household_head_age)).setText("Age : " + "29");
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -197,13 +201,8 @@ public class HouseholdDetailActivity extends BaseActivity {
             Log.e("------------","bind view call");
             TextView member_name = (TextView) view.findViewById(R.id.mother_name);
             TextView member_age = (TextView) view.findViewById(R.id.mother_age);
-            TextView member_address = (TextView) view.findViewById(R.id.mother_address);
-
-
-
             member_name.setText("Name : " + cursor.getString(1));
             member_age.setText("Age : 27");
-            member_address.setText("Address : Rajshahi");
         }
 
         @Override
@@ -228,8 +227,7 @@ public class HouseholdDetailActivity extends BaseActivity {
             while (cursor.isAfterLast() == false) {
                 LinearLayout childrenLayout = (LinearLayout)inflater.inflate(R.layout.household_details_child_row, null);
                 ((TextView)childrenLayout.findViewById(R.id.child_name)).setText("Name : " + cursor.getString(1));
-                ((TextView)childrenLayout.findViewById(R.id.child_mother)).setText("Mother name : " + cursor.getString(4) + " " + cursor.getString(5));
-                ((TextView)childrenLayout.findViewById(R.id.child_dob)).setText("Child Date of Birth : " + cursor.getString(6).split("T")[0]);
+                ((TextView)childrenLayout.findViewById(R.id.child_age)).setText("Age : " + cursor.getString(6).split("T")[0]);
                 household_details_list_row.addView(childrenLayout);
                 cursor.moveToNext();
             }

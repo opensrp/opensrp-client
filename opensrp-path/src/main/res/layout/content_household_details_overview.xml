@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#A4C639"
     app:layout_behavior="@string/appbar_scrolling_view_behavior" >
 
     <LinearLayout
@@ -44,7 +45,7 @@
             android:layout_gravity="left">
 
             <org.ei.opensrp.view.customControls.CustomFontTextView
-                android:id="@+id/mother_name"
+                android:id="@+id/household_head_name"
                 style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -56,7 +57,7 @@
                 android:layout_marginLeft="20dp" />
 
             <org.ei.opensrp.view.customControls.CustomFontTextView
-                android:id="@+id/mother_age"
+                android:id="@+id/household_head_age"
                 style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -67,17 +68,6 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="20dp" />
 
-            <org.ei.opensrp.view.customControls.CustomFontTextView
-                android:id="@+id/mother_address"
-                style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Address : "
-                android:textColor="@color/client_list_grey"
-                android:textSize="20sp"
-                android:layout_gravity="left|center_horizontal"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="20dp" />
 
         </LinearLayout>
     </LinearLayout>

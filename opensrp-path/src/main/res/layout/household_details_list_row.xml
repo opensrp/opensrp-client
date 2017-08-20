@@ -3,23 +3,18 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
-    android:background="#A4C639">
+    android:gravity="center">
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="20dp">
-    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="5"
-        android:layout_marginLeft="25dp"
         android:background="@color/white"
-        android:layout_marginRight="25dp">
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="5dp">
 
         <LinearLayout
             android:layout_width="100dp"
@@ -38,8 +33,8 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
             android:layout_weight="4"
             android:layout_gravity="left">
 
@@ -65,18 +60,6 @@
                     android:textSize="20sp"
                     android:layout_gravity="left|center_horizontal"
                     android:layout_marginBottom="10dp"
-                android:layout_marginLeft="20dp" />
-
-                <org.ei.opensrp.view.customControls.CustomFontTextView
-                    android:id="@+id/mother_address"
-                    style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Address : "
-                    android:textColor="@color/client_list_grey"
-                    android:textSize="20sp"
-                    android:layout_gravity="left|center_horizontal"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="20dp" />
 
             </LinearLayout>
@@ -86,8 +69,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="25dp"
         android:id="@+id/child_holder">
     </LinearLayout>
 
