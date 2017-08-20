@@ -324,6 +324,16 @@ public class VaccinateActionUtils {
             case measles2:
             case mr2:
                 return "18 months";
+            case tt1:
+                return "After LMP";
+            case tt2:
+                return "4 Weeks after TT 1";
+            case tt3:
+                return "26 Weeks after TT 2";
+            case tt4:
+                return " 1 Year after  TT 3 ";
+            case tt5:
+                return " 1 Year after  TT 4 ";
         }
 
         return "";
@@ -360,6 +370,18 @@ public class VaccinateActionUtils {
         if (category.equals("child")) {
 
             ArrayList<VaccineRepo.Vaccine> vaccines = VaccineRepo.getVaccines("child");
+            List<String> names = new ArrayList<>();
+
+            for (VaccineRepo.Vaccine vaccine : vaccines) {
+                names.add(vaccine.display());
+                names.add(vaccine.name());
+            }
+
+            return names.toArray(new String[names.size()]);
+        }
+        if (category.equals("mother")) {
+
+            ArrayList<VaccineRepo.Vaccine> vaccines = VaccineRepo.getVaccines("mother");
             List<String> names = new ArrayList<>();
 
             for (VaccineRepo.Vaccine vaccine : vaccines) {

@@ -2,7 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="@dimen/list_item_height"
+    android:layout_height="wrap_content"
     android:background="#eeeeee"
     android:orientation="horizontal"
     android:weightSum="10">
@@ -10,20 +10,21 @@
     <LinearLayout
         android:id="@+id/child_profile_info_layout"
         android:layout_width="0dp"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_marginRight="1dp"
         android:layout_weight="3.2"
         android:background="#ffffff"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
+            android:layout_height="65dp"
             android:id="@+id/imageView4"
-            android:src="@drawable/houshold"
+            android:src="@drawable/houshold_register_placeholder"
             android:scaleType="fitCenter"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp" />
+            android:layout_width="65dp"
+            android:paddingBottom="2dp"
+            android:paddingLeft="2dp"
+            android:paddingTop="2dp" />
 
         <LinearLayout
             android:layout_width="fill_parent"

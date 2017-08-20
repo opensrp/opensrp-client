@@ -100,7 +100,7 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
 
             @Override
             public String nameInShortFormForTitle() {
-                return Context.getInstance().getStringResource(R.string.zeir);
+                return Context.getInstance().getStringResource(R.string.child_profile);
             }
         };
     }

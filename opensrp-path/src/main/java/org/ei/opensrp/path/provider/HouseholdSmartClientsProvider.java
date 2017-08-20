@@ -53,6 +53,7 @@ import util.JsonFormUtils;
 import util.VaccinateActionUtils;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static org.ei.opensrp.path.fragment.HouseholdMemberAddFragment.startForm;
 import static util.Utils.fillValue;
 import static util.Utils.getName;
@@ -87,7 +88,7 @@ public class HouseholdSmartClientsProvider implements SmartRegisterCLientsProvid
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mBaseFragment = mBaseFragment;
 
-        clientViewLayoutParams = new AbsListView.LayoutParams(MATCH_PARENT, (int) context.getResources().getDimension(org.ei.opensrp.R.dimen.list_item_height));
+        clientViewLayoutParams = new AbsListView.LayoutParams(MATCH_PARENT, WRAP_CONTENT);
     }
 
     @Override

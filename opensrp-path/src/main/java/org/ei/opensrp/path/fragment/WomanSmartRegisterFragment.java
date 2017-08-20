@@ -107,7 +107,7 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
 
             @Override
             public String nameInShortFormForTitle() {
-                return Context.getInstance().getStringResource(R.string.zeir);
+                return Context.getInstance().getStringResource(R.string.woman_title);
             }
         };
     }
@@ -374,14 +374,14 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
 
                 case R.id.record_vaccination:
                     registerClickables.setRecordAll(true);
-                    ChildImmunizationActivity.launchActivity(getActivity(), client, registerClickables);
+                    WomanImmunizationActivity.launchActivity(getActivity(), client, registerClickables);
                     break;
                 case R.id.filter_selection:
                     toggleFilterSelection();
                     break;
 
                 case R.id.global_search:
-                    ((ChildSmartRegisterActivity) getActivity()).startAdvancedSearch();
+                    ((WomanSmartRegisterActivity) getActivity()).startAdvancedSearch();
                     break;
 
                 case R.id.scan_qr_code:
