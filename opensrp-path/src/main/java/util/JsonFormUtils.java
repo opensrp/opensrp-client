@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import net.sqlcipher.database.SQLiteDatabase;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.ei.opensrp.clientandeventmodel.Address;
@@ -40,6 +42,7 @@ import org.ei.opensrp.path.repository.WeightRepository;
 import org.ei.opensrp.path.sync.ECSyncUpdater;
 import org.ei.opensrp.path.sync.PathClientProcessor;
 import org.ei.opensrp.repository.AllSharedPreferences;
+import org.ei.opensrp.repository.ClientRepository;
 import org.ei.opensrp.repository.ImageRepository;
 import org.ei.opensrp.sync.ClientProcessor;
 import org.ei.opensrp.util.AssetHandler;
@@ -202,8 +205,11 @@ public class JsonFormUtils {
             if (lookUpEntityId.equals("household") && StringUtils.isNotBlank(lookUpBaseEntityId)) {
                 Client ss = new Client(lookUpBaseEntityId);
                 addRelationship(context, ss, c,"household");
+                SQLiteDatabase db = VaccinatorApplication.getInstance().getRepository().getReadableDatabase();
+                PathRepository pathRepository = new PathRepository(VaccinatorApplication.getInstance());
+                JSONObject clientjson = pathRepository.getClient(db, lookUpBaseEntityId);
+                c.setAddresses(getAddressFromClientJson(clientjson));
             }
-
 
 
             if (c != null) {
@@ -231,6 +237,31 @@ public class JsonFormUtils {
         } catch (Exception e) {
             Log.e(TAG, "", e);
         }
+    }
+
+    private static ArrayList<Address> getAddressFromClientJson(JSONObject clientjson) {
+        ArrayList<Address> addresses = new ArrayList<Address>();
+        try {
+            JSONArray addressArray = clientjson.getJSONArray("addresses");
+            for(int i = 0 ;i<addressArray.length();i++){
+                Address address = new Address();
+                address.setAddressType(addressArray.getJSONObject(i).getString("addressType"));
+                JSONObject addressfields = addressArray.getJSONObject(i).getJSONObject("addressFields");
+
+                Iterator<?> keys = addressfields.keys();
+
+                while( keys.hasNext() ) {
+                    String key = (String)keys.next();
+                    if ( addressfields.get(key) instanceof String ) {
+                        address.addAddressField(key,addressfields.getString(key));
+                    }
+                }
+                addresses.add(address);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return addresses;
     }
 
     public static void saveAdverseEvent(String jsonString, String locationId, String baseEntityId,
