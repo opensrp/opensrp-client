@@ -99,14 +99,6 @@
         }
       },
       {
-        "key": "Child_Register_Card_Number",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Child_Register_Card_Number",
-        "type": "edit_text",
-        "hint": "Child's register card number"
-      },
-      {
         "key": "Child_Birth_Certificate",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
@@ -277,19 +269,6 @@
         "max_date": "today-10y"
       },
       {
-        "key": "Mother_Guardian_NRC",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "NRC_Number",
-        "entity_id": "mother",
-        "type": "edit_text",
-        "hint": "Mother/guardian NRC number",
-        "v_regex": {
-          "value": "([0-9]{6}/[0-9]{2}/[0-9])|\s*",
-          "err": "Number must take the format of ######/##/#"
-        }
-      },
-      {
         "key": "Mother_Guardian_Number",
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
@@ -317,18 +296,6 @@
         "v_regex": {
           "value": "[A-Za-z\\s\.\-]*",
           "err": "Please enter a valid name"
-        }
-      },
-      {
-        "key": "Father_Guardian_NRC",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "Father_NRC_Number",
-        "type": "edit_text",
-        "hint": "Father/guardian NRC number",
-        "v_regex": {
-          "value": "([0-9]{6}/[0-9]{2}/[0-9])|\s*",
-          "err": "Number must take the format of ######/##/#"
         }
       },
       {
@@ -446,47 +413,6 @@
         "hint": "Landmark",
         "edit_type": "name"
       },
-      {
-        "key": "CHW_Name",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "CHW_Name",
-        "type": "edit_text",
-        "hint": "CHW name",
-        "edit_type": "name",
-        "v_regex": {
-          "value": "[A-Za-z\\s\.\-]*",
-          "err": "Please enter a valid name"
-        }
-      },
-      {
-        "key": "CHW_Phone_Number",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "CHW_Phone_Number",
-        "type": "edit_text",
-        "hint": "CHW phone number",
-        "v_numeric": {
-          "value": "true",
-          "err": "Number must begin with 095, 096, or 097 and must be a total of 10 digits in length"
-        },
-        "v_regex": {
-          "value": "(09[5-7][0-9]{7})|\s*",
-          "err": "Number must begin with 095, 096, or 097 and must be a total of 10 digits in length"
-        }
-      },
-      {
-        "key": "PMTCT_Status",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        "type": "spinner",
-        "hint": "HIV exposure",
-        "values": [
-          "CE",
-          "MSU",
-          "CNE"
-        ],
         "openmrs_choice_ids": {
           "CE": "703AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "MSU": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",

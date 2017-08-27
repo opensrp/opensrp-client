@@ -237,14 +237,15 @@ public class WomanImmunizationActivity extends BaseActivity
 
 
         AlertService alertService = getOpenSRPContext().alertService();
-
-        UpdateViewTask updateViewTask = new UpdateViewTask();
-        updateViewTask.setWeightRepository(weightRepository);
-        updateViewTask.setVaccineRepository(vaccineRepository);
+        if(!StringUtils.isBlank(Utils.getValue(childDetails.getColumnmaps(), "lmp", false))) {
+            UpdateViewTask updateViewTask = new UpdateViewTask();
+            updateViewTask.setWeightRepository(weightRepository);
+            updateViewTask.setVaccineRepository(vaccineRepository);
 //        updateViewTask.setRecurringServiceTypeRepository(recurringServiceTypeRepository);
 //        updateViewTask.setRecurringServiceRecordRepository(recurringServiceRecordRepository);
-        updateViewTask.setAlertService(alertService);
-        Utils.startAsyncTask(updateViewTask, null);
+            updateViewTask.setAlertService(alertService);
+            Utils.startAsyncTask(updateViewTask, null);
+        }
     }
 
     private void updateProfilePicture(Gender gender) {
