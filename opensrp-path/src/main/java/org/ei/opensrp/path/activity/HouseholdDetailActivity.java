@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.logger.Logger;
 import org.ei.opensrp.path.R;
@@ -27,8 +28,14 @@ import org.ei.opensrp.path.repository.Vaccine_typesRepository;
 import org.ei.opensrp.path.toolbar.LocationSwitcherToolbar;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.view.customControls.CustomFontTextView;
+import org.joda.time.DateTime;
 
 import java.io.Serializable;
+
+import util.DateUtils;
+
+import static util.Utils.fillValue;
+import static util.Utils.getValue;
 
 /**
  * Created by habib on 25/07/17.
@@ -84,8 +91,22 @@ public class HouseholdDetailActivity extends BaseActivity {
         toolbar.setTitle("Household Details");
 
 
-        ((TextView) findViewById(R.id.household_head_name)).setText("Name : " + "Abul");
-        ((TextView) findViewById(R.id.household_head_age)).setText("Age : " + "29");
+        ((TextView) findViewById(R.id.name_tv)).setText(householdDetails.getDetails().get("first_name"));
+        ((TextView) findViewById(R.id.child_id_tv)).setText("HHID : " +householdDetails.getDetails().get("HHID"));
+        String dobString = getValue(householdDetails.getDetails(), "dob", false);
+        String durationString = "";
+        if (StringUtils.isNotBlank(dobString)) {
+            try {
+                DateTime birthDateTime = new DateTime(dobString);
+                String duration = DateUtils.getDuration(birthDateTime);
+                if (duration != null) {
+                    durationString = duration;
+                }
+            } catch (Exception e) {
+                Log.e(getClass().getName(), e.toString(), e);
+            }
+        }
+        ((TextView) findViewById(R.id.age_tv)).setText("Age : " + durationString);
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -199,8 +220,8 @@ public class HouseholdDetailActivity extends BaseActivity {
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
             Log.e("------------","bind view call");
-            TextView member_name = (TextView) view.findViewById(R.id.mother_name);
-            TextView member_age = (TextView) view.findViewById(R.id.mother_age);
+            TextView member_name = (TextView) view.findViewById(R.id.name_tv);
+            TextView member_age = (TextView) view.findViewById(R.id.age_tv);
             member_name.setText("Name : " + cursor.getString(1));
             member_age.setText("Age : 27");
         }
@@ -226,8 +247,8 @@ public class HouseholdDetailActivity extends BaseActivity {
             cursor.moveToFirst();
             while (cursor.isAfterLast() == false) {
                 LinearLayout childrenLayout = (LinearLayout)inflater.inflate(R.layout.household_details_child_row, null);
-                ((TextView)childrenLayout.findViewById(R.id.child_name)).setText("Name : " + cursor.getString(1));
-                ((TextView)childrenLayout.findViewById(R.id.child_age)).setText("Age : " + cursor.getString(6).split("T")[0]);
+                ((TextView)childrenLayout.findViewById(R.id.name_tv)).setText("Name : " + cursor.getString(1));
+                ((TextView)childrenLayout.findViewById(R.id.age_tv)).setText("Age : " + cursor.getString(6).split("T")[0]);
                 household_details_list_row.addView(childrenLayout);
                 cursor.moveToNext();
             }

@@ -5,73 +5,122 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A4C639"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:background="#ffffff">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="20dp">
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="5"
-        android:layout_marginLeft="25dp"
-        android:background="@color/white"
-        android:layout_marginRight="30dp">
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
-        <LinearLayout
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_weight="1">
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/card_view_corner_radius"
+            app:cardElevation="@dimen/card_elevation">
+
+            <LinearLayout
+                android:id="@+id/profile_name_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:id="@+id/profile_image_iv"
+                    android:layout_width="@dimen/immun_child_card_height"
+                    android:layout_height="@dimen/immun_child_card_height"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/houshold_register_placeholder" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="20dp">
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
+                        android:id="@+id/name_tv"
+                        style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Joyce Mwansa"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/activity_title_size" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:id="@+id/child_id_tv"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="EIR"
+                            android:textColor="@color/dark_grey"
+                            android:textSize="@dimen/activity_sub_title_size" />
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:id="@+id/age_tv"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="Age"
+                            android:textColor="@color/dark_grey"
+                            android:textSize="@dimen/activity_sub_title_size" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
 
             <ImageView
-                android:id="@+id/mother_profile_pic"
-                android:src="@drawable/pk_woman_icon"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="4"
-            android:layout_gravity="left">
-
-            <org.ei.opensrp.view.customControls.CustomFontTextView
-                android:id="@+id/household_head_name"
-                style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Name : "
-                android:layout_marginBottom="15dp"
-                android:textColor="@color/client_list_grey"
-                android:textSize="30sp"
-                android:layout_gravity="left|center_horizontal"
-                android:layout_marginLeft="20dp" />
-
-            <org.ei.opensrp.view.customControls.CustomFontTextView
-                android:id="@+id/household_head_age"
-                style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Age : "
-                android:textColor="@color/client_list_grey"
-                android:textSize="20sp"
-                android:layout_gravity="left|center_horizontal"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="20dp" />
-
-
-        </LinearLayout>
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:layout_marginRight="12.5dp"
+                android:src="@drawable/ic_more_vert" />
+        </android.support.v7.widget.CardView>
     </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="20dp">
 
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            style="@style/CustomFontTextViewStyle.ClientList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="Household Members"
+            android:textColor="@color/text_black"
+            android:textSize="20sp" />
+
+        <org.ei.opensrp.view.customControls.CustomFontTextView
+            android:id="@+id/dob_tv"
+            style="@style/CustomFontTextViewStyle.ClientList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="right"
+            android:gravity="right"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/activity_sub_title_size" />
+    </RelativeLayout>
     <ListView
         android:id="@+id/household_list"
         android:layout_width="match_parent"

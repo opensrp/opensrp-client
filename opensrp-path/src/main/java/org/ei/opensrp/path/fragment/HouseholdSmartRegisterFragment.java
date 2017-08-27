@@ -292,6 +292,7 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
                 tableName + ".relationalid",
                 tableName + ".first_name",
                 tableName + ".last_name",
+                tableName + ".dob",
                 tableName + ".details",
                 tableName + ".HHID",
                 tableName + ".Date_Of_Reg",
