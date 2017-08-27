@@ -214,7 +214,9 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
         super.setupViews(view);
         view.findViewById(R.id.btn_report_month).setVisibility(INVISIBLE);
         view.findViewById(R.id.service_mode_selection).setVisibility(INVISIBLE);
-
+        view.findViewById(R.id.register_client).setVisibility(INVISIBLE);
+        view.findViewById(R.id.global_search).setVisibility(INVISIBLE);
+        view.findViewById(R.id.filter_selection).setVisibility(INVISIBLE);
         filterSection = view.findViewById(R.id.filter_selection);
         filterSection.setOnClickListener(clientActionHandler);
 
@@ -453,8 +455,8 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
     }*/
 
     private String filterSelectionCondition(boolean urgentOnly) {
-        String mainCondition = " (inactive != 'true' and lost_to_follow_up != 'true') AND ( ";
-        ArrayList<VaccineRepo.Vaccine> vaccines = VaccineRepo.getVaccines("child");
+        String mainCondition = " ( ";
+        ArrayList<VaccineRepo.Vaccine> vaccines = VaccineRepo.getVaccines("mother");
 
         for (int i = 0; i < vaccines.size(); i++) {
             VaccineRepo.Vaccine vaccine = vaccines.get(i);

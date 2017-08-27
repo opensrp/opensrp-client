@@ -172,7 +172,7 @@
         "openmrs_entity_id": "nationalId",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "Type NID",
+        "hint": "Type BRID",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid BRID"
@@ -349,7 +349,7 @@
           "No"
         ],
         "v_required": {
-          "value": true,
+          "value": false,
           "err": "Please Select Yes/No."
         }
       },
@@ -366,6 +366,12 @@
           "Oral Pill",
           "Injectable"
         ],
+        "relevance": {
+          "step1:fp_user": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
+          }
+        },
         "v_required": {
           "value": true,
           "err": "Please Select Any One."

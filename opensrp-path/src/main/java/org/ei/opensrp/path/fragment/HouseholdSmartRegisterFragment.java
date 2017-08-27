@@ -195,6 +195,9 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
         super.setupViews(view);
         view.findViewById(R.id.btn_report_month).setVisibility(INVISIBLE);
         view.findViewById(R.id.service_mode_selection).setVisibility(INVISIBLE);
+        view.findViewById(R.id.global_search).setVisibility(INVISIBLE);
+        view.findViewById(R.id.filter_selection).setVisibility(INVISIBLE);
+        view.findViewById(R.id.filter_count).setVisibility(INVISIBLE);
 
         filterSection = view.findViewById(R.id.filter_selection);
         filterSection.setOnClickListener(clientActionHandler);
@@ -281,12 +284,14 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
         countSelect = countqueryBUilder.mainCondition("");
         mainCondition = "";
         super.CountExecute();
-        countOverDue();
-        countDueOverDue();
+//        countOverDue();
+//        countDueOverDue();
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
         queryBUilder.SelectInitiateMainTable(tableName, new String[]{
                 tableName + ".relationalid",
+                tableName + ".first_name",
+                tableName + ".last_name",
                 tableName + ".details",
                 tableName + ".HHID",
                 tableName + ".Date_Of_Reg",
