@@ -2,16 +2,18 @@ package org.ei.opensrp.path.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,21 +22,19 @@ import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.logger.Logger;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
-import org.ei.opensrp.path.domain.Vaccine_types;
 import org.ei.opensrp.path.repository.PathRepository;
-import org.ei.opensrp.path.repository.StockRepository;
 import org.ei.opensrp.path.repository.Vaccine_typesRepository;
 import org.ei.opensrp.path.toolbar.LocationSwitcherToolbar;
 import org.ei.opensrp.repository.AllSharedPreferences;
+import org.ei.opensrp.view.customControls.CustomFontTextView;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
- * Created by raihan on 5/23/17.
+ * Created by habib on 25/07/17.
  */
 public class HouseholdDetailActivity extends BaseActivity {
-    ListView listView;
+    ListView householdList;
     private LocationSwitcherToolbar toolbar;
     public org.ei.opensrp.Context context;
     public Vaccine_typesRepository VTR;
@@ -68,6 +68,9 @@ public class HouseholdDetailActivity extends BaseActivity {
                 householdDetails = (CommonPersonObjectClient) serializable;
             }
         }
+        Logger.largeErrorLog("-------------",householdDetails.getDetails().toString());
+        Logger.largeErrorLog("-------------",householdDetails.getDetails().get("_id"));
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(getDrawerLayoutId());
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -78,8 +81,11 @@ public class HouseholdDetailActivity extends BaseActivity {
         toolbar.updateSeparatorView(toolbarResource);
         toolbar.init(this);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(householdDetails.getName());
+        toolbar.setTitle("Household Details");
 
+
+        ((TextView) findViewById(R.id.household_head_name)).setText("Name : " + "Abul");
+        ((TextView) findViewById(R.id.household_head_age)).setText("Age : " + "29");
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -112,21 +118,37 @@ public class HouseholdDetailActivity extends BaseActivity {
 //        toolbar.setOnLocationChangeListener(this);
 //
 
+        initQueries();
 
 
-        listView = (ListView) findViewById(R.id.household_list);
         context = org.ei.opensrp.Context.getInstance().updateApplicationContext(this.getApplicationContext());
         VTR = new Vaccine_typesRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(),VaccinatorApplication.createCommonFtsObject(),context.alertService());
         //get Household members repository
     }
 
+    private void initQueries(){
+
+    }
+
     private void refreshadapter() {
         //setAdapter data of Household member
-        ArrayList<Vaccine_types> allVaccineTypes = (ArrayList) VTR.getAllVaccineTypes();
-        Vaccine_types [] allVaccineTypesarray = allVaccineTypes.toArray(new Vaccine_types[allVaccineTypes.size()]);
-        HouseholdListAdpater adapter = new HouseholdListAdpater(this,allVaccineTypesarray);
-        listView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+        net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
+        String mother_id = householdDetails.getDetails().get("_id");
+        Cursor cursor = db.rawQuery("SELECT  id as _id,first_name,client_reg_date FROM ec_mother where relational_id = ?",new String[]{mother_id});
+
+
+        householdList = (ListView) findViewById(R.id.household_list);
+
+        HouseholdCursorAdpater cursorAdpater = new HouseholdCursorAdpater(getApplicationContext(),cursor);
+
+        householdList.setAdapter(cursorAdpater);
+        householdList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.e("-----------","item clicked");
+            }
+        });
     }
 
     @Override
@@ -135,6 +157,7 @@ public class HouseholdDetailActivity extends BaseActivity {
         refreshadapter();
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         LinearLayout stockregister = (LinearLayout) drawer.findViewById(R.id.stockcontrol);
+        ((CustomFontTextView)findViewById(R.id.title)).setText("Household Details");
         stockregister.setBackgroundColor(getResources().getColor(R.color.tintcolor));
     }
 
@@ -145,26 +168,8 @@ public class HouseholdDetailActivity extends BaseActivity {
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-//        int id = item.getItemId();
-//
-//        if (id == R.id.nav_register) {
-////            startFormActivity("child_enrollment", null, null);
-//        } else if (id == R.id.nav_record_vaccination_out_catchment) {
-////            startFormActivity("out_of_catchment_service", null, null);
-//        } else if (id == R.id.stock) {
-//            Intent intent = new Intent(this, StockActivity.class);
-//            startActivity(intent);
-//        } else if (id == R.id.nav_sync) {
-////            startSync();
-//        }
-//
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
-
 
     @Override
     protected int getDrawerLayoutId() {
@@ -181,78 +186,53 @@ public class HouseholdDetailActivity extends BaseActivity {
         return ChildSmartRegisterActivity.class;
     }
 
-    class HouseholdListAdpater extends BaseAdapter {
+    class HouseholdCursorAdpater extends CursorAdapter {
         private Context context;
-        private final Vaccine_types[] vaccine_types;
+        private LayoutInflater inflater = null;
 
-        public HouseholdListAdpater(Context context, Vaccine_types[] vaccine_types) {
-            this.context = context;
-            this.vaccine_types = vaccine_types;
+        public HouseholdCursorAdpater(Context context, Cursor c) {
+            super(context, c);
+            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
         }
 
-        public View getView(int position, View convertView, ViewGroup parent) {
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
+            Log.e("------------","bind view call");
+            TextView member_name = (TextView) view.findViewById(R.id.mother_name);
+            TextView member_age = (TextView) view.findViewById(R.id.mother_age);
+            member_name.setText("Name : " + cursor.getString(1));
+            member_age.setText("Age : 27");
+        }
 
-            final LayoutInflater inflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            Log.e("------------","new view call");
+            View view = inflater.inflate(R.layout.household_details_list_row,parent,false);
+            LinearLayout household_details_list_row = (LinearLayout) view.findViewById(R.id.child_holder);
+            addChild(household_details_list_row,cursor.getString(0));
+            return  view;
+        }
 
-            View listView;
-
-            if (convertView == null) {
-
-                listView = new View(context);
-
-                // get layout from mobile.xml
-                listView = inflater.inflate(R.layout.household_details_list_row, null);
-
-                // set value into textview
-                TextView name = (TextView) listView
-                        .findViewById(R.id.member_name);
-                TextView age = (TextView) listView
-                        .findViewById(R.id.member_age);
-                TextView address = (TextView) listView
-                        .findViewById(R.id.member_address);
-
-                // set image based on selected text
+        public void addChild(LinearLayout household_details_list_row, String mother_id){
+            Log.e("--------------",mother_id);
 
 
-                final Vaccine_types vaccine_type = vaccine_types[position];
-                StockRepository stockRepository = new StockRepository((PathRepository)VaccinatorApplication.getInstance().getRepository(),VaccinatorApplication.createCommonFtsObject(), org.ei.opensrp.Context.getInstance().alertService());
-                int currentvials = stockRepository.getBalanceFromNameAndDate(vaccine_type.getName(),System.currentTimeMillis());
-                name.setText(vaccine_type.getName());
+            PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
+            net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
 
-                age.setText(""+currentvials*vaccine_type.getDoses()+ " doses");
+            Cursor cursor = db.rawQuery("SELECT  id as _id,first_name,last_name,gender,mother_first_name,mother_last_name,dob,epi_card_number FROM ec_child where relational_id = ?",new String[]{mother_id});
 
-                address.setText(""+currentvials+ " vials");
-
-                listView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(HouseholdDetailActivity.this, StockControlActivity.class);
-                        intent.putExtra("vaccine_type",vaccine_type);
-                        startActivity(intent);
-                    }
-                });
-
-            } else {
-                listView = (View) convertView;
+            cursor.moveToFirst();
+            while (cursor.isAfterLast() == false) {
+                LinearLayout childrenLayout = (LinearLayout)inflater.inflate(R.layout.household_details_child_row, null);
+                ((TextView)childrenLayout.findViewById(R.id.child_name)).setText("Name : " + cursor.getString(1));
+                ((TextView)childrenLayout.findViewById(R.id.child_age)).setText("Age : " + cursor.getString(6).split("T")[0]);
+                household_details_list_row.addView(childrenLayout);
+                cursor.moveToNext();
             }
+            cursor.close();
 
-            return listView;
-        }
-
-        @Override
-        public int getCount() {
-            return vaccine_types.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
         }
 
     }

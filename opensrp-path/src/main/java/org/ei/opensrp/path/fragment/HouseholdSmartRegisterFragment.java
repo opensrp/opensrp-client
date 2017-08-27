@@ -318,9 +318,10 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
             }
             RegisterClickables registerClickables = new RegisterClickables();
 
-
+            Log.e("-------------------",view.getId() + "");
             switch (view.getId()) {
                 case R.id.child_profile_info_layout:
+                    Log.e("-------------------","Openning HouseholdDetails");
                     Intent intent = new Intent(getActivity(), HouseholdDetailActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(EXTRA_HOUSEHOLD_DETAILS, client);

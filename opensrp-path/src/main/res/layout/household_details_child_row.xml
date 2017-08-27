@@ -1,45 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center">
-
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="5"
         android:background="@color/white"
+        android:weightSum="5"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="5dp">
+        android:layout_marginRight="30dp">
 
-        <LinearLayout
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_weight="1">
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_weight="1">
 
-            <ImageView
-                android:id="@+id/mother_profile_pic"
-                android:src="@drawable/pk_woman_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/child_profile_pic"
+                    android:src="@drawable/child_boy_infant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-        </LinearLayout>
+            </LinearLayout>
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp"
-            android:layout_weight="4"
-            android:layout_gravity="left">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:layout_gravity="left|center_horizontal">
 
                 <org.ei.opensrp.view.customControls.CustomFontTextView
-                    android:id="@+id/mother_name"
+                    android:id="@+id/child_name"
                     style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -50,8 +46,9 @@
                     android:layout_gravity="left|center_horizontal"
                     android:layout_marginLeft="20dp" />
 
-            <org.ei.opensrp.view.customControls.CustomFontTextView
-                    android:id="@+id/mother_age"
+
+                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    android:id="@+id/child_age"
                     style="@style/CustomFontTextViewStyle.ClientList.NoPadding"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -63,13 +60,7 @@
                     android:layout_marginLeft="20dp" />
 
             </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/child_holder">
     </LinearLayout>
 
 
