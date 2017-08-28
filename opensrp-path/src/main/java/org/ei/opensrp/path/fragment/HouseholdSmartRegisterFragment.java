@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -334,6 +336,26 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
     }
 
     public void updateSearchView() {
+        textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                filter("Where ((first_name Like '%"+s.toString()+"%' or HHID Like '%"+s.toString()+"%')" +
+                        " or ec_household.id in (select ec_mother.relational_id from ec_mother where ec_mother.first_name like '%" +s.toString()+"%')" +
+                        "or ec_household.id in (select ec_mother.relational_id from ec_mother where ec_mother.id in (select ec_child.relational_id from ec_child where ec_child.first_name like '%" +s.toString()+"%')))"
+                        ,"","");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
         getSearchView().removeTextChangedListener(textWatcher);
         getSearchView().addTextChangedListener(textWatcher);
     }
