@@ -412,12 +412,6 @@
         "type": "edit_text",
         "hint": "Landmark",
         "edit_type": "name"
-      },
-        "openmrs_choice_ids": {
-          "CE": "703AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "MSU": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "CNE": "664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-        }
       }
     ]
   }
