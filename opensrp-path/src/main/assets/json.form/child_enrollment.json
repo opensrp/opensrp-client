@@ -80,25 +80,6 @@
         }
       },
       {
-        "key": "ZEIR_ID",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_identifier",
-        "openmrs_entity_id": "ZEIR_ID",
-        "type": "barcode",
-        "barcode_type": "qrcode",
-        "hint": "Child's ZEIR ID *",
-        "scanButtonText": "Scan QR Code",
-        "value": "0",
-        "v_numeric": {
-          "value": "true",
-          "err": "Please enter a valid ID"
-        },
-        "v_required": {
-          "value": "true",
-          "err": "Please enter the Child's ZEIR ID"
-        }
-      },
-      {
         "key": "Child_Birth_Certificate",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",

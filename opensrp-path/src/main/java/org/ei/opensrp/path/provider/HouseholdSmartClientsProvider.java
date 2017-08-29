@@ -121,6 +121,14 @@ public class HouseholdSmartClientsProvider implements SmartRegisterCLientsProvid
         convertView.findViewById(R.id.child_profile_info_layout).setTag(client);
         convertView.findViewById(R.id.child_profile_info_layout).setOnClickListener(onClickListener);
 
+        ImageView profileImageIV = (ImageView) convertView.findViewById(R.id.profilepic);
+        if (pc.entityId() != null) {//image already in local storage most likey ):
+            //set profile image by passing the client id.If the image doesn't exist in the image repository then download and save locally
+            profileImageIV.setTag(org.ei.opensrp.R.id.entity_id, pc.entityId());
+            DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pc.entityId(), OpenSRPImageLoader.getStaticImageListener((ImageView) profileImageIV, R.drawable.houshold_register_placeholder, R.drawable.houshold_register_placeholder));
+
+        }
+
         addmember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

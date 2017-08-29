@@ -18,9 +18,9 @@
 
         <ImageView
             android:layout_height="65dp"
-            android:id="@+id/imageView4"
+            android:id="@+id/profilepic"
             android:src="@drawable/houshold_register_placeholder"
-            android:scaleType="fitCenter"
+            android:scaleType="fitXY"
             android:layout_width="65dp"
             android:paddingBottom="2dp"
             android:paddingLeft="2dp"

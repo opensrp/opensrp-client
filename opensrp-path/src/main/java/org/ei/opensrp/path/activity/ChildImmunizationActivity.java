@@ -243,8 +243,8 @@ public class ChildImmunizationActivity extends BaseActivity
         UpdateViewTask updateViewTask = new UpdateViewTask();
         updateViewTask.setWeightRepository(weightRepository);
         updateViewTask.setVaccineRepository(vaccineRepository);
-        updateViewTask.setRecurringServiceTypeRepository(recurringServiceTypeRepository);
-        updateViewTask.setRecurringServiceRecordRepository(recurringServiceRecordRepository);
+//        updateViewTask.setRecurringServiceTypeRepository(recurringServiceTypeRepository);
+//        updateViewTask.setRecurringServiceRecordRepository(recurringServiceRecordRepository);
         updateViewTask.setAlertService(alertService);
         Utils.startAsyncTask(updateViewTask, null);
     }
@@ -1349,7 +1349,8 @@ public class ChildImmunizationActivity extends BaseActivity
 
         @Override
         protected ArrayList<String> doInBackground(Void... params) {
-            String baseEntityId = Utils.getValue(childDetails.getColumnmaps(), "base_entity_id", false);
+            String baseEntityId = childDetails.entityId();
+//                    Utils.getValue(childDetails.getColumnmaps(), "base_entity_id", false);
             String motherBaseEntityId = Utils.getValue(childDetails.getColumnmaps(), "relational_id", false);
             if (!TextUtils.isEmpty(motherBaseEntityId) && !TextUtils.isEmpty(baseEntityId)) {
                 List<CommonPersonObject> children = getOpenSRPContext().commonrepository(PathConstants.CHILD_TABLE_NAME)

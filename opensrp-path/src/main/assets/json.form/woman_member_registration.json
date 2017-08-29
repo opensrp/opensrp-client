@@ -245,23 +245,6 @@
         }
       },
       {
-        "key": "husband_name",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "spouseName",
-        "openmrs_data_type": "text",
-        "type": "edit_text",
-        "hint": "Husband's Name",
-        "v_required": {
-          "value": true,
-          "err": "Please Type Husband Name."
-        },
-        "v_regex": {
-          "value": "[A-Za-z\\s\.\-]*",
-          "err": "Please Enter a Valid Name"
-        }
-      },
-      {
         "key": "epi_card_number",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
@@ -306,6 +289,29 @@
         ]
       },
       {
+        "key": "husband_name",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "spouseName",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "Husband's Name",
+        "v_required": {
+          "value": true,
+          "err": "Please Type Husband Name."
+        },
+        "v_regex": {
+          "value": "[A-Za-z\\s\.\-]*",
+          "err": "Please Enter a Valid Name"
+        },
+        "relevance": {
+          "step1:maritial_status": {
+            "type": "string",
+            "ex": "equalTo(., \"Married\")"
+          }
+        }
+      },
+      {
         "key": "couple_no",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
@@ -320,6 +326,12 @@
         "v_numeric": {
           "value": "true",
           "err": "Please Enter 8 Valid Number."
+        },
+        "relevance": {
+          "step1:maritial_status": {
+            "type": "string",
+            "ex": "equalTo(., \"Married\")"
+          }
         }
       },
       {

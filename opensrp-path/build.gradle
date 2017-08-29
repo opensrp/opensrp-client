@@ -58,7 +58,7 @@ android {
             buildConfigField "int", "VACCINE_SYNC_TIME", '12'
             buildConfigField "int", "DATABASE_VERSION", '8'
             buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
-            buildConfigField "boolean", "TIME_CHECK", "true"
+            buildConfigField "boolean", "TIME_CHECK", "false"
         }
 
         debug {

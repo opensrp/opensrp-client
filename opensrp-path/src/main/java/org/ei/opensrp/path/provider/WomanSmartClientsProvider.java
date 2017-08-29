@@ -1,6 +1,8 @@
 package org.ei.opensrp.path.provider;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.text.TextUtils;
@@ -21,13 +23,16 @@ import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.domain.Weight;
 import org.ei.opensrp.logger.Logger;
 import org.ei.opensrp.path.R;
+import org.ei.opensrp.path.activity.PathJsonFormActivity;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.domain.VaccineSchedule;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.repository.WeightRepository;
+import org.ei.opensrp.path.view.LocationPickerView;
 import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.service.AlertService;
+import org.ei.opensrp.util.FormUtils;
 import org.ei.opensrp.util.OpenSRPImageLoader;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
@@ -37,6 +42,8 @@ import org.ei.opensrp.view.dialog.ServiceModeOption;
 import org.ei.opensrp.view.dialog.SortOption;
 import org.ei.opensrp.view.viewHolder.OnClickFormLauncher;
 import org.joda.time.DateTime;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,12 +57,15 @@ import java.util.concurrent.TimeUnit;
 
 import util.DateUtils;
 import util.ImageUtils;
+import util.JsonFormUtils;
 import util.Utils;
 import util.VaccinateActionUtils;
 import widget.FlowIndicator;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static org.ei.opensrp.path.activity.WomanImmunizationActivity.DATE_FORMAT;
+import static org.ei.opensrp.path.activity.WomanSmartRegisterActivity.REQUEST_CODE_GET_JSON;
 import static util.Utils.fillValue;
 import static util.Utils.getName;
 import static util.Utils.getValue;
@@ -90,13 +100,22 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
     }
 
     @Override
-    public void getView(SmartRegisterClient client, View convertView) {
-        CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
+    public void getView(SmartRegisterClient client, final View convertView) {
+        final CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
         Logger.largeLog("-----------",pc.getDetails().toString());
         Logger.largeLog("-----------",pc.getColumnmaps().toString());
 
         String name = pc.getDetails().get("first_name") + " " + pc.getDetails().get("last_name");
         ((TextView) convertView.findViewById(R.id.name)).setText(name);
+
+        ImageView profileImageIV = (ImageView) convertView.findViewById(R.id.profilepic);
+        if (pc.entityId() != null) {//image already in local storage most likey ):
+            //set profile image by passing the client id.If the image doesn't exist in the image repository then download and save locally
+            profileImageIV.setTag(org.ei.opensrp.R.id.entity_id, pc.entityId());
+            DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pc.entityId(), OpenSRPImageLoader.getStaticImageListener((ImageView) profileImageIV, R.drawable.woman_path_register_logo, R.drawable.woman_path_register_logo));
+
+        }
+
         View profileview = convertView.findViewById(R.id.profile_info_layout);
         profileview.setTag(pc);
         profileview.setOnClickListener(onClickListener);
@@ -128,12 +147,33 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
 
         fillValue((TextView) convertView.findViewById(R.id.nid), "NID: "+getValue(detailmaps, "nationalId", false));
 
-        String lmpstring = Utils.getValue(pc.getColumnmaps(), "lmp", false);
+        final String lmpstring = Utils.getValue(pc.getColumnmaps(), "lmp", false);
 
         View recordVaccination = convertView.findViewById(R.id.record_vaccination);
         recordVaccination.setTag(client);
         recordVaccination.setOnClickListener(onClickListener);
         recordVaccination.setVisibility(View.INVISIBLE);
+
+
+        View add_child = convertView.findViewById(R.id.add_member);
+        add_child.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                String metadata = getmetaDataForEditForm(pc);
+                Intent intent = new Intent(context, PathJsonFormActivity.class);
+
+                intent.putExtra("json", metadata);
+
+                ((Activity)context).startActivityForResult(intent, REQUEST_CODE_GET_JSON);
+
+            }
+        });
+//        Intent intent = new Intent(context, PathJsonFormActivity.class);
+//
+//        intent.putExtra("json", metadata);
+
         try {
 //            Utils.startAsyncTask(new ChildSmartClientsProvider.WeightAsyncTask(convertView, pc.entityId(), lostToFollowUp, inactive), null);
             Utils.startAsyncTask(new WomanSmartClientsProvider.VaccinationAsyncTask(convertView, pc.entityId(), lmpstring), null);
@@ -390,5 +430,66 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
         protected void onPostExecute(Void param) {
             updateRecordVaccination(convertView, vaccines, alerts, dobString);
         }
+    }
+
+
+    private String getmetaDataForEditForm(CommonPersonObjectClient pc) {
+        org.ei.opensrp.Context context = VaccinatorApplication.getInstance().context();
+        try {
+            JSONObject form = FormUtils.getInstance(this.context).getFormJson("child_enrollment");
+            LocationPickerView lpv = new LocationPickerView(this.context);
+            lpv.init(context);
+            JsonFormUtils.addChildRegLocHierarchyQuestions(form, context);
+            Log.d("add child form", "Form is " + form.toString());
+            if (form != null) {
+                JSONObject metaDataJson = form.getJSONObject("metadata");
+                JSONObject lookup = metaDataJson.getJSONObject("look_up");
+                lookup.put("entity_id", "mother");
+                lookup.put("value", pc.entityId());
+
+                //inject zeir id into the form
+                JSONObject stepOne = form.getJSONObject(JsonFormUtils.STEP1);
+                JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Mother_Guardian_First_Name")) {
+                        jsonObject.put(JsonFormUtils.READ_ONLY, true);
+                        jsonObject.put(JsonFormUtils.VALUE, (Utils.getValue(pc.getDetails(), "first_name", true).isEmpty() ? Utils.getValue(pc.getDetails(), "first_name", true) : Utils.getValue(pc.getDetails(), "first_name", true)));
+
+                    }
+                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Mother_Guardian_Last_Name")) {
+                        jsonObject.put(JsonFormUtils.READ_ONLY, true);
+                        jsonObject.put(JsonFormUtils.VALUE, (Utils.getValue(pc.getDetails(), "last_name", true).isEmpty() ? Utils.getValue(pc.getDetails(), "last_name", true) : Utils.getValue(pc.getDetails(), "last_name", true)));
+                    }
+                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Mother_Guardian_Date_Birth")) {
+                        jsonObject.put(JsonFormUtils.READ_ONLY, true);
+                        if (!TextUtils.isEmpty(Utils.getValue(pc.getDetails(), "dob", true))) {
+                            try {
+                                DateTime dateTime = new DateTime(Utils.getValue(pc.getDetails(), "dob", true));
+                                Date dob = dateTime.toDate();
+                                Date defaultDate = DATE_FORMAT.parse(JsonFormUtils.MOTHER_DEFAULT_DOB);
+                                long timeDiff = Math.abs(dob.getTime() - defaultDate.getTime());
+                                if (timeDiff > 86400000) {// Mother's date of birth occurs more than a day from the default date
+                                    jsonObject.put(JsonFormUtils.VALUE, DATE_FORMAT.format(dob));
+                                }
+                            } catch (Exception e) {
+                            }
+                        }
+                    }
+
+
+
+
+
+                }
+//            intent.putExtra("json", form.toString());
+//            startActivityForResult(intent, REQUEST_CODE_GET_JSON);
+                return form.toString();
+            }
+        } catch (Exception e) {
+            Log.e("exception in addchild", e.getMessage());
+        }
+
+        return "";
     }
 }

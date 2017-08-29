@@ -218,7 +218,7 @@ public class WomanImmunizationActivity extends BaseActivity
         ((LinearLayout) findViewById(R.id.profile_name_layout)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchDetailActivity(WomanImmunizationActivity.this, childDetails, null);
+//                launchDetailActivity(WomanImmunizationActivity.this, childDetails, null);
             }
         });
         // TODO: update all views using child data
@@ -1366,7 +1366,8 @@ public class WomanImmunizationActivity extends BaseActivity
 
         @Override
         protected ArrayList<String> doInBackground(Void... params) {
-            String baseEntityId = Utils.getValue(childDetails.getColumnmaps(), "base_entity_id", false);
+            String baseEntityId = childDetails.entityId();
+//                    Utils.getValue(childDetails.getColumnmaps(), "base_entity_id", false);
             String motherBaseEntityId = Utils.getValue(childDetails.getColumnmaps(), "relational_id", false);
             if (!TextUtils.isEmpty(motherBaseEntityId) && !TextUtils.isEmpty(baseEntityId)) {
                 List<CommonPersonObject> children = getOpenSRPContext().commonrepository(PathConstants.CHILD_TABLE_NAME)

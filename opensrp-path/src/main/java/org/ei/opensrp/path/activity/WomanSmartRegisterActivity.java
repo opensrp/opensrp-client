@@ -66,7 +66,7 @@ public class WomanSmartRegisterActivity extends BaseRegisterActivity {
     @Bind(R.id.view_pager)
     OpenSRPViewPager mPager;
     private FragmentPagerAdapter mPagerAdapter;
-    private static final int REQUEST_CODE_GET_JSON = 3432;
+    public static final int REQUEST_CODE_GET_JSON = 3432;
     private static final int REQUEST_CODE_RECORD_OUT_OF_CATCHMENT = 1131;
     private int currentPage;
     public static final int ADVANCED_SEARCH_POSITION = 1;
