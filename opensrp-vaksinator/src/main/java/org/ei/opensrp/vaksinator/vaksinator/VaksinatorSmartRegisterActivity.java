@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
 
+import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.domain.form.FormSubmission;
 import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
@@ -272,21 +273,25 @@ public class VaksinatorSmartRegisterActivity extends SecuredNativeSmartRegisterA
         FlurryAgent.logEvent(formName, FS, true);
 
         if(formName.equals("kohort_bayi_immunization")) {
-            final int choice = new java.util.Random().nextInt(3);
-            CharSequence[] selections = selections(choice, entityId);
+            if(numOfRecord()<4)
+                activatingForm(formName,entityId,metaData);
+            else {
+                final int choice = new java.util.Random().nextInt(3);
+                CharSequence[] selections = selections(choice, entityId);
 
-            final AlertDialog.Builder builder = new AlertDialog.Builder(VaksinatorSmartRegisterActivity.this);
-            builder.setTitle(context().getStringResource(R.string.reconfirmChildName));
-            builder.setItems(selections, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // the user clicked on colors[which]
-                    if (which == choice) {
-                        activatingForm(formName,entityId,metaData);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(VaksinatorSmartRegisterActivity.this);
+                builder.setTitle(context().getStringResource(R.string.reconfirmChildName));
+                builder.setItems(selections, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // the user clicked on colors[which]
+                        if (which == choice) {
+                            activatingForm(formName, entityId, metaData);
+                        }
                     }
-                }
-            });
-            builder.show();
+                });
+                builder.show();
+            }
         }
         else{
             activatingForm(formName,entityId,metaData);
@@ -389,6 +394,7 @@ public class VaksinatorSmartRegisterActivity extends SecuredNativeSmartRegisterA
 
     @Override
     public void onBackPressed() {
+        nf.setCriteria("!");
         if (currentPage != 0) {
             switchToBaseFragment(null);
         } else if (currentPage == 0) {
@@ -425,6 +431,14 @@ public class VaksinatorSmartRegisterActivity extends SecuredNativeSmartRegisterA
         }
     }
 
+    private int numOfRecord(){
+        Cursor childcountcursor = context().commonrepository("ec_anak").RawCustomQueryForAdapter(new SmartRegisterQueryBuilder().queryForCountOnRegisters("ec_anak_search", "ec_anak_search.is_closed=0"));
+        childcountcursor.moveToFirst();
+        int childcount = childcountcursor.getInt(0);
+        childcountcursor.close();
+        return childcount;
+    }
+
     private boolean currentActivityIsShowingForm(){
         return currentPage != 0;
     }
@@ -440,7 +454,7 @@ public class VaksinatorSmartRegisterActivity extends SecuredNativeSmartRegisterA
                 FlurryAgent.logEvent(TAG+" search_by_face OK", true);
 
             } else {
-                nf.setCriteria("");
+                nf.setCriteria("!");
                 Log.e(TAG, "onClick: NO "+currentPage);
                 FlurryAgent.logEvent(TAG+" search_by_face NOK", true);
 
