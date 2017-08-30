@@ -1,6 +1,5 @@
 package org.ei.opensrp.core.widget;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
@@ -8,7 +7,6 @@ import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -103,6 +101,7 @@ public class PromptView {
 
     private void resetViewColors(String validatorRegex){
         if (StringUtils.isBlank(inputValue()) || !inputValue().matches(validatorRegex)){
+            inputValue().length();
             getPositiveButton().setEnabled(false);
             input.setBackgroundColor(Utils.getColor(dialog.getContext(), R.color.dull_red_light));
             confirm.setBackgroundColor(Utils.getColor(dialog.getContext(), R.color.dull_white));

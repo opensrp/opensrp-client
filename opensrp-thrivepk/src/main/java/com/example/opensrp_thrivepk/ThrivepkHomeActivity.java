@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andexert.library.RippleView;
 import com.example.opensrp_anc.anc.ANCSmartRegisterActivity;
 import com.example.opensrp_child.child.ChildSmartRegisterActivity;
 import com.example.opensrp_household.household.HouseholdSmartRegisterActivity;
@@ -133,11 +134,10 @@ public class ThrivepkHomeActivity extends HomeActivity {
     protected Integer getHeaderIcon() {
         return R.drawable.opensrp_icon;
     }
-    private View.OnClickListener onRegisterStartListener = new View.OnClickListener() {
-
+    private RippleView.OnRippleCompleteListener onRegisterStartListener =new RippleView.OnRippleCompleteListener() {
         @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
+        public void onComplete(RippleView rippleView) {
+            switch (rippleView.getId()) {
                 case R.id.btn_anc_register:
                     activity.startActivity(new Intent(activity, ANCSmartRegisterActivity.class));
                     break;

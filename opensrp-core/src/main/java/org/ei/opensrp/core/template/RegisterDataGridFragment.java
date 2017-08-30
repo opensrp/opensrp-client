@@ -21,7 +21,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonObjectFilterOption;
 import org.ei.opensrp.core.R;
 import org.ei.opensrp.core.db.handler.RegisterDataLoaderHandler;
@@ -546,7 +545,7 @@ public abstract class RegisterDataGridFragment extends SecuredFragment {
     }
 
     protected void showMessageDialog(String message, DialogInterface.OnClickListener ok) {
-        AlertDialog dialog = new AlertDialog.Builder(Context.getInstance().applicationContext())
+        AlertDialog dialog = new AlertDialog.Builder(getContext())
                 .setTitle("Alert")
                 .setMessage(message)
                 .setPositiveButton("OK", ok)
@@ -556,7 +555,7 @@ public abstract class RegisterDataGridFragment extends SecuredFragment {
     }
 
     protected void showMessageDialog(String message, DialogInterface.OnClickListener ok, DialogInterface.OnClickListener cancel) {
-        AlertDialog dialog = new AlertDialog.Builder(Context.getInstance().applicationContext())
+        AlertDialog dialog = new AlertDialog.Builder(getContext())
                 .setTitle("Alert")
                 .setMessage(message)
                 .setPositiveButton("OK", ok)

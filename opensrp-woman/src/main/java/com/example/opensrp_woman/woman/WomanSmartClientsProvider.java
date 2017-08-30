@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.opensrp_stock.field.util.VaccineRepo;
@@ -33,7 +32,6 @@ import static org.ei.opensrp.core.utils.Utils.convertDateFormat;
 import static org.ei.opensrp.core.utils.Utils.fillValue;
 import static org.ei.opensrp.core.utils.Utils.getValue;
 import static org.ei.opensrp.core.utils.Utils.nonEmptyValue;
-import static org.ei.opensrp.core.utils.Utils.setProfiePic;
 import static org.ei.opensrp.core.utils.Utils.toDate;
 
 /**
@@ -136,7 +134,7 @@ public class WomanSmartClientsProvider implements RegisterClientsProvider <Commo
             }
         }
 
-        setProfiePic(convertView.getContext(), (ImageView) convertView.findViewById(R.id.woman_profilepic), "pkwoman", pc.entityId(), null);
+       // setProfiePic(convertView.getContext(), (ImageView) convertView.findViewById(R.id.woman_profilepic), "pkwoman", pc.entityId(), null);
 
         convertView.findViewById(R.id.woman_profile_info_layout).setTag(pc);
         convertView.findViewById(R.id.woman_profile_info_layout).setOnClickListener(onClickListener);

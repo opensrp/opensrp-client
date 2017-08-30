@@ -6,8 +6,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.andexert.library.RippleView;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
@@ -219,7 +220,7 @@ public abstract class HomeActivity extends SecuredActivity {
         }).execute();
     }
 
-    protected Register setupRegister(String authority, int containerId, int registerButtonId, View.OnClickListener registerClickListener,
+    protected Register setupRegister(String authority, int containerId, int registerButtonId, RippleView.OnRippleCompleteListener registerClickListener,
                 RegisterCountView[] registerCountViews) {
         boolean allowRegister = false;
         // if any permission or role specified user must have that otherwise ignore permission or role
@@ -243,9 +244,11 @@ public abstract class HomeActivity extends SecuredActivity {
         if (allowRegister){
             View container = findViewById(containerId);
             container.setVisibility(View.VISIBLE);
-            LinearLayout registerButton = (LinearLayout) findViewById(registerButtonId);
+            final RippleView registerButton = (RippleView) findViewById(registerButtonId);
+           // LinearLayout registerButton = (LinearLayout) findViewById(registerButtonId);
             if(registerClickListener !=  null){
-                registerButton.setOnClickListener(registerClickListener);
+              //  registerButton.setOnClickListener(registerClickListener);
+                registerButton.setOnRippleCompleteListener(registerClickListener);
             }
 
             Map<Integer, RegisterCountView> countViews = new HashMap<>();
@@ -357,10 +360,10 @@ public abstract class HomeActivity extends SecuredActivity {
         private final boolean allowed;
         private final String authority;
         private final int container;
-        private final LinearLayout registerButton;
+        private final RippleView registerButton;
         private final Map<Integer, RegisterCountView> countViews;
 
-        Register(boolean allowed, String authority, int container, LinearLayout registerButton, Map<Integer, RegisterCountView> countViews){
+        Register(boolean allowed, String authority, int container, RippleView registerButton, Map<Integer, RegisterCountView> countViews){
             this.allowed = allowed;
             this.authority = authority;
             this.container = container;
@@ -376,7 +379,7 @@ public abstract class HomeActivity extends SecuredActivity {
             return container;
         }
 
-        public LinearLayout getRegisterButton() {
+        public RippleView getRegisterButton() {
             return registerButton;
         }
 

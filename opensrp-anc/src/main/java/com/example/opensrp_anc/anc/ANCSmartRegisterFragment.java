@@ -284,7 +284,7 @@ public class ANCSmartRegisterFragment extends RegisterDataGridFragment {
     @Override
     protected void onResumption() {
         ImageView filterView = (ImageView) mView.findViewById(org.ei.opensrp.core.R.id.filter_selection);
-        prompt = VaccinatorUtils.makePromptable(getActivity(), filterView, com.example.opensrp_stock.R.mipmap.qr_code_missing, "Enter Identifier", "Ok", "\\d+", true, new DialogInterface.OnClickListener() {
+        prompt = VaccinatorUtils.makePromptable(getActivity(), filterView, com.example.opensrp_stock.R.mipmap.qr_code_missing, "Enter Identifier", "Ok", "\\d{14}+", true, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.v(getClass().getName(), "PROMPT VALUE "+prompt.inputValue());

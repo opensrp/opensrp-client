@@ -99,7 +99,14 @@ public class ChildDetailFragment extends DetailFragment {
         }
         addRow(getActivity(), dt, "Birthdate (Age)", convertDateFormat(getValue(client.getColumnmaps(), "dob", false), "No DoB", true) +" \n" +" (" + (months < 0? "":(months+"")) + " months" + ")", Size.MEDIUM);
         addRow(getActivity(), dt, "Gender", getValue(client.getColumnmaps(), "gender", true), Size.MEDIUM);
-        addRow(getActivity(), dt, "Ethnicity", getValue(client, "ethnicity", true), Size.MEDIUM);
+        String ethnicity=getValue(client, "ethnicity", true);
+        if(ethnicity!=null) {
+            if (ethnicity.equalsIgnoreCase("Other")) {
+                addRow(getActivity(), dt, "Ethnicity", getValue(client, "ethnicity_other", true), Size.MEDIUM);
+            } else {
+                addRow(getActivity(), dt, "Ethnicity", ethnicity, Size.MEDIUM);
+            }
+        }
 
         TableLayout dt2 = (TableLayout) currentView.findViewById(R.id.child_detail_info_table2);
 

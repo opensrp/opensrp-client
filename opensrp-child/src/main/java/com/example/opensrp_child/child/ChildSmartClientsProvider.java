@@ -134,8 +134,7 @@ public class ChildSmartClientsProvider implements RegisterClientsProvider <Commo
                 }
                 else if (((Alert)nv.get("alert")).status().value().equalsIgnoreCase("upcoming")) {
                     activateNextVaccine(dueDate, vaccine, Color.BLACK, R.color.alert_upcoming, onClickListener, client, convertView);
-                }
-                else if (((Alert)nv.get("alert")).status().value().equalsIgnoreCase("urgent")) {
+                }                else if (((Alert)nv.get("alert")).status().value().equalsIgnoreCase("urgent")) {
                     activateNextVaccine(dueDate, vaccine, Color.WHITE, R.color.alert_urgent, onClickListener, client, convertView);
                 }
                 else if (((Alert)nv.get("alert")).status().value().equalsIgnoreCase("expired")) {

@@ -5,36 +5,38 @@
     android:background="#ff313131"
     android:orientation="vertical">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="10">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9.5"
+            android:background="@color/text_black"
             android:orientation="vertical"
-            android:weightSum="10">
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
 
-            <LinearLayout
+            <com.andexert.library.RippleView
+                android:id="@+id/btn_zm_register"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="9.5"
-                android:background="@drawable/bg_texture"
-                android:orientation="vertical"
-                android:paddingBottom="20dp"
-                android:paddingTop="20dp">
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:rv_centered="true"
+                app:rv_rippleDuration="200">
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:padding="10dp">
+                    app:cardPreventCornerOverlap="false">
 
                     <LinearLayout
-                        android:id="@+id/btn_zm_register"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:background="@color/text_black"
+                        android:layout_height="122dp"
+                        android:background="@drawable/bg_texture"
                         android:orientation="horizontal"
                         android:weightSum="3">
 
@@ -43,30 +45,29 @@
                             android:layout_width="0dp"
                             android:layout_height="fill_parent"
                             android:layout_marginRight="10dp"
-                            android:layout_weight="1">
+                            android:layout_weight="0.8">
 
                             <ImageButton
                                 style="@style/ImageButton.Home.Register"
-                                android:layout_width="160dp"
-                                android:layout_height="160dp"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
                                 android:layout_gravity="center"
                                 android:scaleType="fitXY"
                                 android:src="@drawable/register_zm" />
 
                             <TextView
                                 android:id="@+id/zm_location_filtered"
-                                android:layout_width="140dp"
+                                android:layout_width="82dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginBottom="5dp"
-                                android:layout_marginLeft="22dp"
-                                android:layout_marginRight="8dp"
+                                android:layout_marginLeft="35dp"
                                 android:layout_marginTop="12dp"
                                 android:background="@color/dull_red_dark"
                                 android:gravity="center_horizontal"
                                 android:text="Location Filtered"
                                 android:textColor="@android:color/white"
-                                android:textSize="14sp"
+                                android:textSize="12sp"
                                 android:textStyle="bold" />
 
                         </FrameLayout>
@@ -74,7 +75,7 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="1.2">
+                            android:layout_weight="1.4">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -83,7 +84,7 @@
                                 android:gravity="center_vertical"
                                 android:text="Program Register"
                                 android:textColor="@color/dull_white"
-                                android:textSize="20sp"
+                                android:textSize="25sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -91,97 +92,124 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="0.8"
-                            android:orientation="horizontal"
-                            android:paddingTop="25dp">
+                            android:orientation="horizontal">
 
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="0.5"
+                                android:layout_weight="0.8"
                                 android:orientation="vertical">
-                                <TextView
-                                    android:id="@+id/txt_zm_register_client_count"
-                                    style="@style/CustomFontTextViewStyle.Badge"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="0000M"
-                                    android:textSize="13sp"
-                                    android:textStyle="bold" />
 
-                                <TextView
-                                    android:id="@+id/txt_zm_register_woman_count"
-                                    style="@style/CustomFontTextViewStyle.Badge"
-                                    android:layout_width="wrap_content"
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="0000W"
-                                    android:textSize="13sp"
-                                    android:textStyle="bold" />
+                                    android:orientation="horizontal">
 
-                                <TextView
-                                    android:id="@+id/txt_zm_register_child_count"
-                                    style="@style/CustomFontTextViewStyle.Badge"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="0000C"
-                                    android:textSize="13sp"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
+                                    <TextView
+                                        android:id="@+id/txt_zm_register_client_count"
+                                        style="@style/Badge"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_weight="0.5"
+                                        android:text="0000 M"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
 
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="0.5"
-                                android:orientation="vertical">
-                                <TextView
-                                    android:id="@+id/zm_register_male_count"
-                                    style="@style/CustomFontTextViewStyle.Badge"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="0000M"
-                                    android:textSize="13sp"
-                                    android:textStyle="bold" />
+                                    <TextView
+                                        android:id="@+id/zm_register_intersex_count"
+                                        style="@style/Badge"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_weight="0.5"
+                                        android:text="0000 T"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
 
-                                <TextView
-                                    android:id="@+id/zm_register_female_count"
-                                    style="@style/CustomFontTextViewStyle.Badge"
-                                    android:layout_width="wrap_content"
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="0000F"
-                                    android:textSize="13sp"
-                                    android:textStyle="bold" />
+                                    android:orientation="horizontal">
 
-                                <TextView
-                                    android:id="@+id/zm_register_intersex_count"
-                                    style="@style/CustomFontTextViewStyle.Badge"
-                                    android:layout_width="wrap_content"
+                                    <TextView
+                                        android:id="@+id/zm_register_female_count"
+                                        style="@style/Badge"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_weight="0.5"
+                                        android:text="0000 F"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/zm_register_male_count"
+                                        style="@style/Badge"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_weight="0.5"
+                                        android:text="0000 M"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:text="0000T"
-                                    android:textSize="13sp"
-                                    android:textStyle="bold" />
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/txt_zm_register_child_count"
+                                        style="@style/Badge"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_weight="0.5"
+                                        android:text="0000 C"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/txt_zm_register_woman_count"
+                                        style="@style/Badge"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_weight="0.5"
+                                        android:text="0000 W"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+
                             </LinearLayout>
 
                         </LinearLayout>
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
+            </com.andexert.library.RippleView>
+
+            <com.andexert.library.RippleView
+                android:id="@+id/btn_household_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:rv_centered="true"
+                app:rv_rippleDuration="200">
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:padding="10dp">
+                    app:cardPreventCornerOverlap="false">
 
                     <LinearLayout
-                        android:id="@+id/btn_household_register"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:background="@color/text_black"
+                        android:layout_height="110dp"
+                        android:background="@drawable/bg_texture"
                         android:orientation="horizontal"
                         android:weightSum="3">
 
@@ -190,12 +218,12 @@
                             android:layout_width="0dp"
                             android:layout_height="fill_parent"
                             android:layout_marginRight="10dp"
-                            android:layout_weight="1">
+                            android:layout_weight="0.8">
 
                             <ImageButton
                                 style="@style/ImageButton.Home.Register"
-                                android:layout_width="150dp"
-                                android:layout_height="150dp"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
                                 android:layout_gravity="center"
                                 android:scaleType="fitXY"
                                 android:src="@drawable/register_household" />
@@ -205,7 +233,7 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="1.2">
+                            android:layout_weight="1.4">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -214,7 +242,7 @@
                                 android:gravity="center_vertical"
                                 android:text="Household Register"
                                 android:textColor="@color/dull_white"
-                                android:textSize="20sp"
+                                android:textSize="25sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -223,24 +251,26 @@
                             android:layout_height="match_parent"
                             android:layout_weight="0.8"
                             android:orientation="horizontal"
-                            android:paddingTop="25dp">
+                            android:weightSum="1">
 
                             <TextView
                                 android:id="@+id/txt_household_register_client_count"
-                                style="@style/CustomFontTextViewStyle.Badge"
-                                android:layout_width="wrap_content"
+                                style="@style/Badge"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
+                                android:layout_weight="0.5"
                                 android:text="0000M"
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
 
                             <TextView
                                 android:id="@+id/txt_household_register_client_plus_members_count"
-                                style="@style/CustomFontTextViewStyle.Badge"
-                                android:layout_width="wrap_content"
+                                style="@style/Badge"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
+                                android:layout_weight="0.5"
                                 android:text="0000 H"
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
@@ -250,18 +280,25 @@
                     </LinearLayout>
 
                 </android.support.v7.widget.CardView>
+            </com.andexert.library.RippleView>
+
+            <com.andexert.library.RippleView
+                android:id="@+id/btn_anc_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:rv_centered="true"
+                app:rv_rippleDuration="200">
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:padding="10dp">
+                    app:cardPreventCornerOverlap="false">
 
                     <LinearLayout
-                        android:id="@+id/btn_anc_register"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:background="@color/text_black"
+                        android:layout_height="110dp"
+                        android:background="@drawable/bg_texture"
                         android:orientation="horizontal"
                         android:weightSum="3">
 
@@ -270,12 +307,12 @@
                             android:layout_width="0dp"
                             android:layout_height="fill_parent"
                             android:layout_marginRight="10dp"
-                            android:layout_weight="1">
+                            android:layout_weight="0.8">
 
                             <ImageButton
                                 style="@style/ImageButton.Home.Register"
-                                android:layout_width="150dp"
-                                android:layout_height="150dp"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
                                 android:layout_gravity="center"
                                 android:scaleType="fitXY"
                                 android:src="@drawable/register_anc" />
@@ -308,7 +345,7 @@
                                 android:gravity="center_vertical"
                                 android:text="ANC Register"
                                 android:textColor="@color/dull_white"
-                                android:textSize="20sp"
+                                android:textSize="25sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -319,8 +356,8 @@
 
                             <TextView
                                 android:id="@+id/txt_anc_register_client_count"
-                                style="@style/CustomFontTextViewStyle.Badge"
-                                android:layout_width="wrap_content"
+                                style="@style/Badge"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:text="00000"
@@ -331,18 +368,25 @@
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
+            </com.andexert.library.RippleView>
+
+            <com.andexert.library.RippleView
+                android:id="@+id/btn_woman_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:rv_centered="true"
+                app:rv_rippleDuration="200">
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:padding="10dp">
+                    app:cardPreventCornerOverlap="false">
 
                     <LinearLayout
-                        android:id="@+id/btn_woman_register"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:background="@color/text_black"
+                        android:layout_height="110dp"
+                        android:background="@drawable/bg_texture"
                         android:orientation="horizontal"
                         android:weightSum="3">
 
@@ -351,12 +395,12 @@
                             android:layout_width="0dp"
                             android:layout_height="fill_parent"
                             android:layout_marginRight="10dp"
-                            android:layout_weight="1">
+                            android:layout_weight="0.8">
 
                             <ImageButton
                                 style="@style/ImageButton.Home.Register"
-                                android:layout_width="150dp"
-                                android:layout_height="150dp"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
                                 android:layout_gravity="center"
                                 android:scaleType="fitXY"
                                 android:src="@drawable/register_woman" />
@@ -375,7 +419,7 @@
                                 android:gravity="center_vertical"
                                 android:text="Woman Register"
                                 android:textColor="@color/dull_white"
-                                android:textSize="20sp"
+                                android:textSize="25sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -386,8 +430,8 @@
 
                             <TextView
                                 android:id="@+id/txt_woman_register_client_count"
-                                style="@style/CustomFontTextViewStyle.Badge"
-                                android:layout_width="wrap_content"
+                                style="@style/Badge"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:text="00000"
@@ -397,18 +441,25 @@
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
+            </com.andexert.library.RippleView>
+
+            <com.andexert.library.RippleView
+                android:id="@+id/btn_child_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:rv_centered="true"
+                app:rv_rippleDuration="200">
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:padding="10dp">
+                    app:cardPreventCornerOverlap="false">
 
                     <LinearLayout
-                        android:id="@+id/btn_child_register"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:background="@color/text_black"
+                        android:layout_height="110dp"
+                        android:background="@drawable/bg_texture"
                         android:orientation="horizontal"
                         android:weightSum="3">
 
@@ -417,12 +468,12 @@
                             android:layout_width="0dp"
                             android:layout_height="fill_parent"
                             android:layout_marginRight="10dp"
-                            android:layout_weight="1">
+                            android:layout_weight="0.8">
 
                             <ImageButton
                                 style="@style/ImageButton.Home.Register"
-                                android:layout_width="150dp"
-                                android:layout_height="150dp"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
                                 android:layout_gravity="center"
                                 android:scaleType="fitXY"
                                 android:src="@drawable/register_child" />
@@ -441,7 +492,7 @@
                                 android:gravity="center_vertical"
                                 android:text="Child Register"
                                 android:textColor="@color/dull_white"
-                                android:textSize="20sp"
+                                android:textSize="25sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -452,8 +503,8 @@
 
                             <TextView
                                 android:id="@+id/txt_child_register_client_count"
-                                style="@style/CustomFontTextViewStyle.Badge"
-                                android:layout_width="wrap_content"
+                                style="@style/Badge"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:text="00000"
@@ -463,18 +514,25 @@
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
+            </com.andexert.library.RippleView>
+
+            <com.andexert.library.RippleView
+                android:id="@+id/btn_field_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:rv_centered="true"
+                app:rv_rippleDuration="200">
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:padding="10dp">
+                    app:cardPreventCornerOverlap="false">
 
                     <LinearLayout
-                        android:id="@+id/btn_field_register"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:background="@color/text_black"
+                        android:layout_height="110dp"
+                        android:background="@drawable/bg_texture"
                         android:orientation="horizontal"
                         android:weightSum="3">
 
@@ -482,12 +540,12 @@
                             android:id="@+id/stockContainer"
                             android:layout_width="0dp"
                             android:layout_height="fill_parent"
-                            android:layout_weight="1">
+                            android:layout_weight="0.8">
 
                             <ImageButton
                                 style="@style/ImageButton.Home.Register"
-                                android:layout_width="150dp"
-                                android:layout_height="150dp"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
                                 android:layout_gravity="center"
                                 android:scaleType="fitXY"
                                 android:src="@drawable/register_fieldmonitor" />
@@ -506,7 +564,7 @@
                                 android:gravity="center_vertical"
                                 android:text="Stock Register"
                                 android:textColor="@color/dull_white"
-                                android:textSize="20sp"
+                                android:textSize="25sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -517,8 +575,8 @@
 
                             <TextView
                                 android:id="@+id/txt_field_register_client_countm"
-                                style="@style/CustomFontTextViewStyle.Badge"
-                                android:layout_width="wrap_content"
+                                style="@style/Badge"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:text="00000"
@@ -528,93 +586,94 @@
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="0.5"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <!--   <LinearLayout
-                       android:orientation="horizontal"
-                       android:layout_width="0dp"
-                       android:layout_height="match_parent"
-                       android:layout_weight="1"
-                       android:visibility="gone">
-
-                       <RelativeLayout
-                           android:layout_width="0dp"
-                           android:layout_height="match_parent"
-                           android:layout_weight="1">
-
-                       </RelativeLayout>
-
-                       <TextView
-                           android:id="@+id/btn_learning"
-                           android:layout_width="0dp"
-                           android:layout_height="50dp"
-                           android:layout_weight="1"
-                           android:text="Learning"
-                           android:textStyle="bold"
-                           style="@style/CustomFontTextViewStyle.Home.Buttons"
-                           android:gravity="center_vertical"/>
-
-                       <TextView
-                           android:id="@+id/btn_why"
-                           android:layout_width="0dp"
-                           android:layout_height="50dp"
-                           android:layout_weight="1"
-                           android:text="Why"
-                           android:textStyle="bold"
-                           style="@style/CustomFontTextViewStyle.Home.Buttons"
-                           android:gravity="center_vertical" />
-                       <TextView
-                           android:id="@+id/btn_how"
-                           android:layout_width="0dp"
-                           android:layout_height="50dp"
-                           android:layout_weight="1"
-                           android:text="How"
-                           android:textStyle="bold"
-                           style="@style/CustomFontTextViewStyle.Home.Buttons"
-                           android:gravity="center_vertical" />
-                   </LinearLayout>-->
-
-                <TextView
-                    android:id="@+id/btn_reporting"
-                    style="@style/CustomFontTextViewStyle.Home.Buttons"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_reporting"
-                    android:drawablePadding="50dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="30dp"
-                    android:text="@string/str_reporting"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/btn_provider_profile"
-                    style="@style/CustomFontTextViewStyle.Home.Buttons"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/profile_provider"
-                    android:drawablePadding="50dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="30dp"
-                    android:paddingRight="70dp"
-                    android:text="@string/str_provider_profile"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+            </com.andexert.library.RippleView>
 
         </LinearLayout>
-    </ScrollView>
 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="0.5"
+            android:orientation="horizontal"
+            android:weightSum="2">
 
+            <!--   <LinearLayout
+                   android:orientation="horizontal"
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="1"
+                   android:visibility="gone">
+
+                   <RelativeLayout
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="1">
+
+                   </RelativeLayout>
+
+                   <TextView
+                       android:id="@+id/btn_learning"
+                       android:layout_width="0dp"
+                       android:layout_height="50dp"
+                       android:layout_weight="1"
+                       android:text="Learning"
+                       android:textStyle="bold"
+                       style="@style/CustomFontTextViewStyle.Home.Buttons"
+                       android:gravity="center_vertical"/>
+
+                   <TextView
+                       android:id="@+id/btn_why"
+                       android:layout_width="0dp"
+                       android:layout_height="50dp"
+                       android:layout_weight="1"
+                       android:text="Why"
+                       android:textStyle="bold"
+                       style="@style/CustomFontTextViewStyle.Home.Buttons"
+                       android:gravity="center_vertical" />
+                   <TextView
+                       android:id="@+id/btn_how"
+                       android:layout_width="0dp"
+                       android:layout_height="50dp"
+                       android:layout_weight="1"
+                       android:text="How"
+                       android:textStyle="bold"
+                       style="@style/CustomFontTextViewStyle.Home.Buttons"
+                       android:gravity="center_vertical" />
+               </LinearLayout>-->
+
+            <TextView
+                android:id="@+id/btn_reporting"
+                style="@style/CustomFontTextViewStyle.Home.Buttons"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_texture"
+                android:drawableLeft="@drawable/ic_reporting"
+                android:drawablePadding="50dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="30dp"
+                android:text="@string/str_reporting"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btn_provider_profile"
+                style="@style/CustomFontTextViewStyle.Home.Buttons"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_texture"
+                android:drawableLeft="@drawable/profile_provider"
+                android:drawablePadding="50dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="30dp"
+                android:paddingRight="70dp"
+                android:text="@string/str_provider_profile"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>

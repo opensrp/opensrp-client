@@ -94,21 +94,25 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
             @Override
             public ServiceModeOption serviceMode() {
                 return new VaccinationServiceModeOption(null, "Household Register", new int[]{
-                        R.string.household_profile , R.string.household_members, R.string.household_add_member
-                }, new int[]{13,5,2});
+                        R.string.household_profile, R.string.household_members, R.string.household_add_member
+                }, new int[]{13, 5, 2});
             }
+
             @Override
             public FilterOption villageFilter() {
                 return null;
             }
+
             @Override
             public SortingOption sortOption() {
                 return new CommonSortingOption(getResources().getString(R.string.household_alphabetical_sort), "first_name");
             }
+
             @Override
             public String nameInShortFormForTitle() {
                 return Context.getInstance().getStringResource(R.string.household_register_title);
             }
+
             @Override
             public SearchType searchType() {
                 return SearchType.PASSIVE;
@@ -129,12 +133,14 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
             public DialogOption[] filterOptions() {
                 return new DialogOption[]{};
             }
+
             @Override
             public DialogOption[] serviceModeOptions() {
                 return new DialogOption[]{
                         //  new CommonObjectSort(CommonObjectSort.ByColumnAndByDetails.byDetails,true,"program_client_id",getResources().getString(R.string.child_id_sort))
                 };
             }
+
             @Override
             public DialogOption[] sortingOptions() {
                 return new DialogOption[]{
@@ -145,6 +151,7 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
                         new CommonSortingOption(getResources().getString(R.string.sort_num_unregistered_members), "(num_household_members-registeredMembers) DESC")
                 };
             }
+
             @Override
             public String searchHint() {
                 return Context.getInstance().getStringResource(R.string.search_hint);
@@ -153,7 +160,7 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
     }//end of method
 
     @Override
-    protected void onInitialization(){
+    protected void onInitialization() {
         context.formSubmissionRouter().getHandlerMap().put("woman_enrollment", new HouseholdMemberRegistrationHandler(getActivity()));
         context.formSubmissionRouter().getHandlerMap().put("child_enrollment", new HouseholdMemberRegistrationHandler(getActivity()));
     }
@@ -166,7 +173,8 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
     }
 
     @Override
-    protected void onCreation() {}
+    protected void onCreation() {
+    }
 
     @Override
     protected void startRegistration() {
@@ -202,10 +210,10 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
     @Override
     protected void onResumption() {
         ImageView filterView = (ImageView) mView.findViewById(org.ei.opensrp.core.R.id.filter_selection);
-        promptHH = VaccinatorUtils.makePromptable(getActivity(), filterView, R.mipmap.qr_code_missing, "Enter Identifier", "Ok", "\\d+", true, new DialogInterface.OnClickListener() {
+        promptHH = VaccinatorUtils.makePromptable(getActivity(), filterView, R.mipmap.qr_code_missing, "Enter Identifier", "Ok", "\\d{14}+", true, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Log.v(getClass().getName(), "PROMPT VALUE "+promptHH.inputValue());
+                Log.v(getClass().getName(), "PROMPT VALUE " + promptHH.inputValue());
                 onQRCodeSucessfullyScanned(promptHH.inputValue(), "GROUP", null, null);
             }
         });
@@ -217,7 +225,7 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
         mView.findViewById(org.ei.opensrp.core.R.id.village).setVisibility(View.GONE);
         mView.findViewById(org.ei.opensrp.core.R.id.label_village).setVisibility(View.GONE);
 
-        ImageView imv = ((ImageView)mView.findViewById(org.ei.opensrp.core.R.id.register_client));
+        ImageView imv = ((ImageView) mView.findViewById(org.ei.opensrp.core.R.id.register_client));
         imv.setImageResource(R.mipmap.qr_code);
         // create a matrix for the manipulation
         imv.setAdjustViewBounds(true);
@@ -228,7 +236,9 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
         return "family_registration";
     }
 
-    protected String getMemberRegistrationForm(){return "new_member_registration";}
+    protected String getMemberRegistrationForm() {
+        return "new_member_registration";
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -236,63 +246,67 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
         Log.i(getClass().getName(), "REQUEST COODE " + requestCode);
         Log.i(getClass().getName(), "Result Code " + resultCode);
 
-        if(requestCode == BarcodeIntentIntegrator.REQUEST_CODE) {
+        if (requestCode == BarcodeIntentIntegrator.REQUEST_CODE) {
             BarcodeIntentResult res = integ.parseActivityResult(requestCode, resultCode, data);
-            if(StringUtils.isNotBlank(res.getContents())) {
+            if (StringUtils.isNotBlank(res.getContents())) {
                 onQRCodeSucessfullyScanned(res.getContents(), res.getScanType().getType(), res.getScanType().getId(), (CommonPersonObject) res.getScanType().getData());
-            }
-            else Log.i("", "NO RESULT FOR QR CODE");
+            } else Log.i("", "NO RESULT FOR QR CODE");
         }
     }//end of the method
 
-    private void startGroupEnrollmentForm(HashMap<String, String> overrides){
+    private void startGroupEnrollmentForm(HashMap<String, String> overrides) {
         overrides.putAll(VaccinatorUtils.providerDetails());
         startForm(getRegistrationForm(overrides), "", overrides);
     }
 
-    private void startNewMemberEnrollmentForm(HashMap<String, String> overrides, CommonPersonObject client){
+    private void startNewMemberEnrollmentForm(HashMap<String, String> overrides, CommonPersonObject client) {
         overrides.putAll(VaccinatorUtils.providerDetails());
         startForm(getMemberRegistrationForm(), "", overrides);//todo check if entity ids are assigned correctly
     }
 
-    private void startWomanEnrollmentForm(final String entityId, final HashMap<String, String> overrides){
+    private void startWomanEnrollmentForm(final String entityId, final HashMap<String, String> overrides) {
         overrides.putAll(VaccinatorUtils.providerDetails());
-        Log.v(getClass().getName(), "Enrolling woman with id "+entityId);
+        Log.v(getClass().getName(), "Enrolling woman with id " + entityId);
         startForm("woman_enrollment", entityId, overrides);
     }
 
-    private void startChildEnrollmentForm(final String entityId, final HashMap<String, String> overrides){
+    private void startChildEnrollmentForm(final String entityId, final HashMap<String, String> overrides) {
         overrides.putAll(VaccinatorUtils.providerDetails());
-        Log.v(getClass().getName(), "Enrolling child with id "+entityId);
+        Log.v(getClass().getName(), "Enrolling child with id " + entityId);
         startForm("child_enrollment", entityId, overrides);
     }
-    public void startAncEnrollmentForm(final String entityId, final HashMap<String, String> overrides){
+
+    public void startAncEnrollmentForm(final String entityId, final HashMap<String, String> overrides) {
         overrides.putAll(VaccinatorUtils.providerDetails());
-        Log.v(getClass().getName(), "Enrolling anc with id "+entityId);
-        startForm("anc_visit_form",entityId, overrides);
+        Log.v(getClass().getName(), "Enrolling anc with id " + entityId);
+        startForm("anc_visit_form", entityId, overrides);
     }
 
 
     private void onQRCodeSucessfullyScanned(String qrCode, String entityType, String linkId, CommonPersonObject data) {
         String hhId = findHouseholdOrPersonWithId(qrCode);
-        if(hhId != null){
+        if (!qrCode.matches("\\d+")) {
+            Toast.makeText(getActivity(), "QR Code should be digits only", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (hhId != null) {
             Toast.makeText(getActivity(), "Found a household with someone occupying the given ID", Toast.LENGTH_LONG).show();
             onFilterManual(qrCode);
             return;
         }
 
         CommonPersonObject child = vaccinatorTables(qrCode, "pkchild");
-        if(child != null && entityType.equalsIgnoreCase("MEMBER") == false){
+        if (child != null && entityType.equalsIgnoreCase("MEMBER") == false) {
             Toast.makeText(getActivity(), "Found a Child already registered for given ID with no Household information. Search in Child register", Toast.LENGTH_LONG).show();
             return;
         }
         CommonPersonObject woman = vaccinatorTables(qrCode, "pkwoman");
-        if(woman != null && entityType.equalsIgnoreCase("MEMBER") == false){
+        if (woman != null && entityType.equalsIgnoreCase("MEMBER") == false) {
             Toast.makeText(getActivity(), "Found a Woman already registered for given ID with no Household information. Search in Woman register", Toast.LENGTH_LONG).show();
             return;
         }
         CommonPersonObject anc = vaccinatorTables(qrCode, "pkanc");
-        if(anc != null && entityType.equalsIgnoreCase("MEMBER") == false){
+        if (anc != null && entityType.equalsIgnoreCase("MEMBER") == false) {
             Toast.makeText(getActivity(), "Found a Woman already registered for given ID with no Household information. Search in Anc register", Toast.LENGTH_LONG).show();
             return;
         }
@@ -302,34 +316,33 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
         if (VaccinatorUtils.providerRolesList().toLowerCase().contains("vaccinator")
                 && entityType.equalsIgnoreCase("WOMAN") == false
                 && entityType.equalsIgnoreCase("CHILD") == false
-                && entityType.equalsIgnoreCase("ANC") == false){
+                && entityType.equalsIgnoreCase("ANC") == false) {
             Toast.makeText(getActivity(), "No household member found associated with given ID. Search in corresponding register", Toast.LENGTH_LONG).show();
             return;
         }
 
-        HashMap<String,String> map = new HashMap<>();
+        HashMap<String, String> map = new HashMap<>();
 
-        if (entityType.equalsIgnoreCase("MEMBER")){
-            if(woman != null && child != null){
+        if (entityType.equalsIgnoreCase("MEMBER")) {
+            if (woman != null && child != null) {
                 Toast.makeText(getActivity(), "Given ID found associated with a child and a woman. Data is inconsistent. Search in corresponding register", Toast.LENGTH_LONG).show();
                 return;
             }
             map.put("existing_program_client_id", qrCode);
             map.put("program_client_id", qrCode);
 
-            Map<String, String> m = memberRegistrationOverrides(data, woman != null?woman:child, filterHouseholdMembers(data.getColumnmaps().get("household_id")));
+            Map<String, String> m = memberRegistrationOverrides(data, woman != null ? woman : child, filterHouseholdMembers(data.getColumnmaps().get("household_id")));
             map.putAll(m);
 
             startNewMemberEnrollmentForm(map, data);
-        }
-        else if(entityType.equalsIgnoreCase("WOMAN")){//todo what about offsite enrollment
+        } else if (entityType.equalsIgnoreCase("WOMAN")) {//todo what about offsite enrollment
             map.put("existing_program_client_id", qrCode);
             map.put("program_client_id", qrCode);
             map.put("gender", "female");
 
             CommonPersonObject memberData = data;
 
-            Log.v(getClass().getName(), "Going to Filter HH "+data.getColumnmaps());
+            Log.v(getClass().getName(), "Going to Filter HH " + data.getColumnmaps());
 
             CommonPersonObject hhData = filterHousehold(memberData.getRelationalId()).get(0);
             map.put("first_name", getValue(memberData.getColumnmaps(), "first_name", false));
@@ -342,19 +355,22 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
             map.put("town", getValue(hhData.getColumnmaps(), "town", false));
             map.put("union_council", getValue(hhData.getColumnmaps(), "union_council", false));
             map.put("address1", getValue(hhData.getColumnmaps(), "address1", false));
-            if(memberData.getColumnmaps().get("relationship").equalsIgnoreCase("spouse")
-                    || memberData.getColumnmaps().get("relationship").equalsIgnoreCase("husband")
-                    || memberData.getColumnmaps().get("relationship").equalsIgnoreCase("wife")) {
-                map.put("husband_name", hhData.getColumnmaps().get("first_name"));
-                map.put("marriage", "yes");
+
+            if (memberData.getColumnmaps().get("relationship") != null) {
+                if (memberData.getColumnmaps().get("relationship").equalsIgnoreCase("spjouse")
+                        || memberData.getColumnmaps().get("relationship").equalsIgnoreCase("husband")
+                        || memberData.getColumnmaps().get("relationship").equalsIgnoreCase("wife")) {
+                    map.put("husband_name", hhData.getColumnmaps().get("first_name"));
+                    map.put("marriage", "yes");
+                }
             }
+
 
             // For filtering data after FS
             map.put("household_id", hhData.getColumnmaps().get("household_id"));
 
             startWomanEnrollmentForm(linkId, map);
-        }
-        else if(entityType.equalsIgnoreCase("CHILD")){//todo what about offsite enrollment
+        } else if (entityType.equalsIgnoreCase("CHILD")) {//todo what about offsite enrollment
             map.put("existing_program_client_id", qrCode);
             map.put("program_client_id", qrCode);
 
@@ -375,8 +391,7 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
             map.put("household_id", hhData.getColumnmaps().get("household_id"));
 
             startChildEnrollmentForm(linkId, map);
-        }
-        else if(entityType.equalsIgnoreCase("ANC")){//todo what about offsite enrollment
+        } else if (entityType.equalsIgnoreCase("ANC")) {//todo what about offsite enrollment
             map.put("existing_program_client_id", qrCode);
             map.put("program_client_id", qrCode);
 
@@ -407,8 +422,7 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
             map.put("existing_ethnicity", getValue(memberData.getColumnmaps(), "ethnicity", true));
 
             startAncEnrollmentForm(linkId, map);
-        }
-        else {
+        } else {
             map.put("household_id", qrCode);
             map.put("town", getValue(VaccinatorUtils.providerDetails(), "provider_town", false));
             map.put("union_council", getValue(VaccinatorUtils.providerDetails(), "provider_uc", false));
@@ -421,11 +435,11 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
     public RegisterDataLoaderHandler loaderHandler() {
         if (loaderHandler == null) {
             loaderHandler = new RegisterDataCursorLoaderHandler(getActivity(),
-                    new RegisterQuery(bindType(), "id", "pkindividual", "relationalid", bindType()+".id",
+                    new RegisterQuery(bindType(), "id", "pkindividual", "relationalid", bindType() + ".id",
                             Arrays.asList(new String[]
                                     {"count(pkindividual.id) registeredMembers",
-                                    "SUM(CASE WHEN julianday(DATETIME('now'))-julianday(pkindividual.dob) < 365*5 THEN 1 ELSE 0 END) children",
-                                    "SUM(CASE WHEN julianday(DATETIME('now'))-julianday(pkindividual.dob) BETWEEN 365*15 AND 365*49 AND pkindividual.gender IN ('female', 'f') THEN 1 ELSE 0 END) women"}), null).limitAndOffset(7, 0),
+                                            "SUM(CASE WHEN julianday(DATETIME('now'))-julianday(pkindividual.dob) < 365*5 THEN 1 ELSE 0 END) children",
+                                            "SUM(CASE WHEN julianday(DATETIME('now'))-julianday(pkindividual.dob) BETWEEN 365*15 AND 365*49 AND pkindividual.gender IN ('female', 'f') THEN 1 ELSE 0 END) women"}), null).limitAndOffset(7, 0),
                     new RegisterCursorAdapter(getActivity(), clientsProvider()));
         }
         return loaderHandler;
@@ -437,37 +451,37 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
     }
 
     private List<CommonPersonObject> filterHousehold(String filterString) {
-        Log.v(getClass().getName(), "Filtering HH "+filterString);
+        Log.v(getClass().getName(), "Filtering HH " + filterString);
         return RegisterRepository.queryData(bindType(), null, new HouseholdIDSearchOption(filterString).getCriteria(), null, null);
     }
 
     private List<CommonPersonObject> filterHouseholdMembers(String householdId) {
-        String memberExistQuery = "select * from pkindividual where household_id = '"+householdId+"' ";
+        String memberExistQuery = "select * from pkindividual where household_id = '" + householdId + "' ";
 
         return context.allCommonsRepositoryobjects("pkindividual").customQueryForCompleteRow(memberExistQuery, new String[]{}, "pkindividual");
     }
 
     private String findHouseholdOrPersonWithId(String id) {
-        String sql = "SELECT MAX(household_id) FROM (select h.household_id, 'HHH' from pkhousehold h where h.household_id='"+id+"' OR h.program_client_id = '"+id+"' OR h.household_member_id = '"+id+"' " +
+        String sql = "SELECT MAX(household_id) FROM (select h.household_id, 'HHH' from pkhousehold h where h.household_id='" + id + "' OR h.program_client_id = '" + id + "' OR h.household_member_id = '" + id + "' " +
                 " union " +
-                " select i.household_id, 'MEMBER' from pkindividual i where i.household_id='"+id+"' OR i.program_client_id = '"+id+"' OR i.household_member_id = '"+id+"') e ";
+                " select i.household_id, 'MEMBER' from pkindividual i where i.household_id='" + id + "' OR i.program_client_id = '" + id + "' OR i.household_member_id = '" + id + "') e ";
 
         List<String> res = context.commonrepository("pkindividual").findSearchIds(sql);
-        return res.size()>0?res.get(0):null;
+        return res.size() > 0 ? res.get(0) : null;
     }
 
     private Integer personsInVaccinatorTableWithId(String id) {
-        String sql = "SELECT SUM(c) FROM (SELECT count(1) c from pkwoman w where w.program_client_id = '"+id+"' " +
+        String sql = "SELECT SUM(c) FROM (SELECT count(1) c from pkwoman w where w.program_client_id = '" + id + "' " +
                 " union " +
-                " SELECT count(1) c from pkchild c where c.program_client_id = '"+id+"' ) e ";
+                " SELECT count(1) c from pkchild c where c.program_client_id = '" + id + "' ) e ";
 
         ArrayList<HashMap<String, String>> res = context.commonrepository("pkindividual").rawQuery(sql);
-        return res.size()>0? Integer.parseInt(res.get(0).get("c")):null;
+        return res.size() > 0 ? Integer.parseInt(res.get(0).get("c")) : null;
     }
 
-    public CommonPersonObject filterHouseholdMember(String hhMemberId){
-        String memberExistQuery = "select * from pkindividual where program_client_id = '"+hhMemberId+"' " +
-                " OR id = '"+hhMemberId+"' OR household_member_id = '"+hhMemberId+"'";
+    public CommonPersonObject filterHouseholdMember(String hhMemberId) {
+        String memberExistQuery = "select * from pkindividual where program_client_id = '" + hhMemberId + "' " +
+                " OR id = '" + hhMemberId + "' OR household_member_id = '" + hhMemberId + "'";
 
         List<CommonPersonObject> memberData = context.allCommonsRepositoryobjects("pkindividual").customQueryForCompleteRow(memberExistQuery, new String[]{}, "pkindividual");
         CommonPersonObject householdMember;
@@ -483,8 +497,9 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
         return householdMember;
     }
 
-    public CommonPersonObject vaccinatorTables(String qrCode, String entity){
-        String q = "select * from "+entity+" where program_client_id = " + qrCode;
+    public CommonPersonObject vaccinatorTables(String qrCode, String entity) {
+
+        String q = "select * from " + entity + " where program_client_id = " + qrCode;
         List<CommonPersonObject> memberData = context.allCommonsRepositoryobjects(entity).customQueryForCompleteRow(q, new String[]{}, entity);
         if (memberData.size() == 0) {
             return null;
@@ -580,13 +595,13 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
     }//end of method
 
     private Map<String, String> memberRegistrationOverrides(CommonPersonObject client
-            , CommonPersonObject existingClient, List<CommonPersonObject> otherMembers){
+            , CommonPersonObject existingClient, List<CommonPersonObject> otherMembers) {
         Map<String, String> map = new HashMap<>();
 
         map.put("relationalid", client.getCaseId());
         map.put("existing_full_name_hhh", getValue(client.getColumnmaps(), "first_name", true));
         map.put("existing_household_id", getValue(client.getColumnmaps(), "household_id", true));
-        map.put("existing_num_members", (otherMembers.size()+1)+"");
+        map.put("existing_num_members", (otherMembers.size() + 1) + "");
         map.put("existing_num_household_members", getValue(client.getColumnmaps(), "num_household_members", false));
 
         map.put("province", getValue(client.getColumnmaps(), "province", false));
@@ -596,10 +611,10 @@ public class HouseholdSmartRegisterFragment extends RegisterDataGridFragment {
         map.put("address1", getValue(client.getColumnmaps(), "address1", false));
 
         map.put("existing_full_address", getValue(client.getColumnmaps(), "address1", true)
-                +", UC: "+ getValue(client.getColumnmaps(), "union_council", true).replace("Uc", "UC")
-                +", Town: "+ getValue(client.getColumnmaps(), "town", true)
-                +", City: "+ getValue(client.getColumnmaps(), "city_village", true)
-                +", Province: "+ getValue(client.getColumnmaps(), "province", true));
+                + ", UC: " + getValue(client.getColumnmaps(), "union_council", true).replace("Uc", "UC")
+                + ", Town: " + getValue(client.getColumnmaps(), "town", true)
+                + ", City: " + getValue(client.getColumnmaps(), "city_village", true)
+                + ", Province: " + getValue(client.getColumnmaps(), "province", true));
 
         if (existingClient != null) {
             map.put("first_name", getValue(existingClient.getColumnmaps(), "first_name", false));

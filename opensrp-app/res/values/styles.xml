@@ -186,13 +186,23 @@
 
     <style name="CustomFontTextViewStyle.Home.Buttons">
         <item name="fontVariant">black</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:background">@drawable/home_button_background</item>
-        <item name="android:layout_margin">5dp</item>
+        <item name="android:background">@drawable/bg_texture</item>
+        <item name="android:layout_margin">2dp</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:clickable">true</item>
+    </style>
+
+    <style name="Badge">
+        <item name="android:textSize">15sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/badge_background</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:layout_width">500dp</item>
     </style>
 
     <style name="CustomFontTextViewStyle.Badge">
@@ -200,8 +210,8 @@
         <item name="android:layout_gravity">top|right</item>
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:layout_marginRight">28dp</item>
-        <item name="android:paddingLeft">0dp</item>
-        <item name="android:paddingRight">0dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
         <item name="android:paddingBottom">5dp</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/badge</item>
