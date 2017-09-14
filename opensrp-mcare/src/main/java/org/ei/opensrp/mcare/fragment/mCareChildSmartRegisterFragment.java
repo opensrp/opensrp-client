@@ -332,7 +332,7 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder(childMainSelectWithJoins());
         mainSelect = queryBUilder.mainCondition(" mcarechild.FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' ");
-        Sortqueries = sortBySortValue();
+        Sortqueries = sortByAlertmethod();
 
         currentlimit = 20;
         currentoffset = 0;

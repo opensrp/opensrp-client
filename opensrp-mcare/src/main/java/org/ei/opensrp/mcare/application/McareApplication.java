@@ -155,7 +155,7 @@ public class McareApplication extends DrishtiApplication {
     }
 
     private String[] getFtsTables(){
-        String[] ftsTables = { "household", "elco" };
+        String[] ftsTables = { "household", "elco","mcaremother","mcarechild" };
         return ftsTables;
     }
 
