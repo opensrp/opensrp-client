@@ -172,7 +172,7 @@
         "openmrs_entity_id": "nationalId",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "Type BRID",
+        "hint": "BIRD টাইপ করুন",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid BRID"
@@ -195,7 +195,7 @@
         "openmrs_entity_id": "",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "Do you know your date of birth?",
+        "hint": "আপনি কি আপনার জন্ম তারিখ বলতে পারেন?",
         "values": [
           "YES",
           "NO"
@@ -208,7 +208,7 @@
         "openmrs_entity_id": "birthdate",
         "openmrs_data_type": "text",
         "type": "date_picker",
-        "hint": "Date of birth",
+        "hint": "জন্ম তারিখ",
         "v_required": {
           "value": true,
           "err": "Please Enter birth date"
@@ -228,7 +228,7 @@
         "openmrs_entity_id": "",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "Type Age",
+        "hint": "বয়স টাইপ কর ",
         "v_numeric": {
           "value": "true",
           "err": "Enter age"
@@ -251,7 +251,7 @@
         "openmrs_entity_id": "",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "EPI Card Number",
+        "hint": "EPI কার্ড নাম্বার ",
         "v_required": {
           "value": true,
           "err": "Enter 8 digits Number from EPI card."
@@ -272,7 +272,7 @@
         "openmrs_entity_id": "phoneNumber",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "Mobile Number:"
+        "hint": "মোবাইল নম্বর:"
       },
       {
         "key": "maritial_status",
@@ -281,7 +281,7 @@
         "openmrs_entity_id": "",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "Maritial Status",
+        "hint": "বৈবাহিক অবস্থা",
         "values": [
           "Unmarried",
           "Married",
@@ -295,7 +295,7 @@
         "openmrs_entity_id": "spouseName",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "Husband's Name",
+        "hint": "স্বামীর নাম",
         "v_required": {
           "value": true,
           "err": "Please Type Husband Name."
@@ -318,7 +318,7 @@
         "openmrs_entity_id": "",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "Couple No.",
+        "hint": "দম্পতি নম্বর",
         "v_required": {
           "value": true,
           "err": "Please Enter a Valid Number."
@@ -341,7 +341,7 @@
         "openmrs_entity_id": "",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "Are you currently pregnant?",
+        "hint": "আপনি কি বর্তমানে গর্ভব্তী?",
         "values":[
           "No",
           "Yes",
@@ -355,7 +355,7 @@
         "openmrs_entity_id": "",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "Are you on any FP method?",
+        "hint": "আপনি কি বর্তমানে জন্মবিরতি কোন ব্যবস্থা গ্রহন করতেছেন?",
         "values":[
           "Yes",
           "No"
@@ -372,7 +372,7 @@
         "openmrs_entity_id": "50b7f374-9406-49d1-bcfb-9bf613184030",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "Which Method are you using?",
+        "hint": "আপনি জন্মবিরতি কি ব্যবস্থা গ্রহন করতেছেন?",
         "values":[
           "Condoms",
           "Oral Pill",
@@ -396,42 +396,20 @@
         "openmrs_entity_id": "50b7f374-9406-49d1-bcfb-9bf613184030",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "Do you Know your EDD,LMP or Ultrasound information?",
+        "hint": "আপনি কি আপনার এলএমপি তথ্য জানেন??",
         "values":[
-          "EDD",
-          "LMP",
-          "Ultrasound",
-          "None of the Above"
+          "YES",
+          "NO"
         ]
       },
-      {
-        "key": "edd",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "openmrs_data_type": "text",
-        "type": "date_picker",
-        "hint": "EDD",
-        "v_required": {
-          "value": "true",
-          "err": "Please Enter EDD date"
-        },
-        "relevance": {
-          "step1:edd_lmp": {
-            "type": "string",
-            "ex": "equalTo(., \"EDD\")"
-          }
-        },
-        "min_date": "today"
-      },
-      {
+         {
         "key": "lmp",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "openmrs_data_type": "text",
         "type": "date_picker",
-        "hint": "LMP",
+        "hint": "এলএমপি তারিখ",
         "v_required": {
           "value": true,
           "err": "Please Enter LMP date"
@@ -439,50 +417,11 @@
         "relevance": {
           "step1:edd_lmp": {
             "type": "string",
-            "ex": "equalTo(., \"LMP\")"
+            "ex": "equalTo(., \"YES\")"
           }
         },
         "max_date": "today"
-      },
-      {
-        "key": "ultrasound_date",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "openmrs_data_type": "text",
-        "type": "date_picker",
-        "hint": "Ultrasound Date",
-        "v_required": {
-          "value": true,
-          "err": "Please Enter Ultrasound date"
-        },
-        "relevance": {
-          "step1:edd_lmp": {
-            "type": "string",
-            "ex": "equalTo(., \"Ultrasound\")"
-          }
-        },
-        "max_date": "today"
-      },
-      {
-        "key": "ultrasound_weeks",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "openmrs_data_type": "text",
-        "type": "edit_text",
-        "hint": "Ultrasound Weeks",
-        "v_numeric": {
-          "value": "true",
-          "err": "Please enter Ultrasound Weeks"
-        },
-        "relevance": {
-          "step1:edd_lmp": {
-            "type": "string",
-            "ex": "equalTo(., \"Ultrasound\")"
-          }
-        }
       }
-    ]
+        ]
   }
 }

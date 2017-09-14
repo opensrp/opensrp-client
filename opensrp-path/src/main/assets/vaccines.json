@@ -155,35 +155,6 @@
             }
           ]
         }
-      },
-      {
-        "name": "Rota 1",
-        "type": "Rota",
-        "openmrs_date": {
-          "parent_entity": "159698AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "entity": "concept",
-          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-        },
-        "openmrs_calculate": {
-          "parent_entity": "159698AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "entity": "concept",
-          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "calculation": 1
-        },
-        "schedule": {
-          "due": [
-            {
-              "reference": "dob",
-              "offset": "+42d"
-            }
-          ],
-          "expiry": [
-            {
-              "reference": "dob",
-              "offset": "+7m"
-            }
-          ]
-        }
       }
     ]
   },
@@ -278,36 +249,6 @@
             {
               "reference": "dob",
               "offset": "+4y,11m"
-            }
-          ]
-        }
-      },
-      {
-        "name": "Rota 2",
-        "type": "Rota",
-        "openmrs_date": {
-          "parent_entity": "159698AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "entity": "concept",
-          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-        },
-        "openmrs_calculate": {
-          "parent_entity": "159698AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "entity": "concept",
-          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "calculation": 2
-        },
-        "schedule": {
-          "due": [
-            {
-              "reference": "prerequisite",
-              "prerequisite": "Rota 1",
-              "offset": "+28d"
-            }
-          ],
-          "expiry": [
-            {
-              "reference": "dob",
-              "offset": "+8m"
             }
           ]
         }
@@ -506,7 +447,7 @@
     ]
   },
   {
-    "name": "18 Months",
+    "name": "15 Months",
     "id": "Eighteen_Months",
     "days_after_birth_due": 548,
     "vaccines": [

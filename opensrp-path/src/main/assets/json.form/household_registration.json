@@ -60,7 +60,7 @@
         "openmrs_entity": "",
         "openmrs_entity_id": "",
         "type": "choose_image",
-        "uploadButtonText": "Take a photo of the head of household"
+        "uploadButtonText": "পরিবারের প্রধানের ছবি তুলুন "
       },
       {
         "key": "HIE_FACILITIES",
@@ -69,7 +69,7 @@
         "openmrs_entity_id": "address6",
         "openmrs_data_type": "text",
         "type": "tree",
-        "hint": "Household head's home health facility *",
+        "hint": "পরিবারের প্রধানের স্বাস্থ্য কেন্দ্র *",
         "tree": [],
         "v_required": {
           "value": true,
@@ -147,7 +147,7 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "first_name",
         "type": "edit_text",
-        "hint": "Head of Household First name",
+        "hint": "পরিবারের প্রধানের নামের প্রথম অংশ",
         "edit_type": "name",
         "v_regex": {
           "value": "[A-Za-z\\s\.\-]*",
@@ -160,7 +160,7 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "last_name",
         "type": "edit_text",
-        "hint": "Head of Household Last name *",
+        "hint": "পরিবারের প্রধানের নামের শেষের  অংশ",
         "edit_type": "name",
         "v_required": {
           "value": "true",
@@ -177,7 +177,7 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "birthdate",
         "type": "date_picker",
-        "hint": "Head of Household's DOB *",
+        "hint": "পরিবারের প্রধানের জন্ম তারিখ *",
         "expanded": false,
         "duration": {
           "label": "Age"
@@ -209,7 +209,7 @@
         "openmrs_entity": "person_attribute",
         "openmrs_entity_id": "householdCode",
         "type": "edit_text",
-        "hint": "বাড়ি/ জিআর/ হোল্ডিং নম্বর"
+        "hint": "Household ID"
       }
     ]
   }
