@@ -172,6 +172,35 @@
         }
       },
       {
+        "key": "Sex",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "gender",
+        "type": "spinner",
+        "hint": "পরিবারের প্রধানের লিঙ্গ *",
+        "values": [
+          "Male",
+          "Female"
+        ],
+        "v_required": {
+          "value": "true",
+          "err": "Please enter the sex"
+        }
+      },
+      {
+        "key": "date_of_birth_known",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "আপনি কি আপনার জন্ম তারিখ বলতে পারেন?",
+        "values":[
+          "YES",
+          "NO"
+        ]
+      },
+      {
         "key": "Date_Birth",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person",
@@ -186,6 +215,39 @@
         "v_required": {
           "value": "true",
           "err": "Please enter the date of birth"
+        },
+        "relevance": {
+          "step1:date_of_birth_known": {
+            "type": "string",
+            "ex": "equalTo(., \"YES\")"
+          }
+        }
+      },
+      {
+        "key": "age",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person",
+        "openmrs_entity_id": "birthdate",
+        "type": "edit_text",
+        "hint": " বয়স টাইপ করুন *",
+        "expanded": false,
+        "duration": {
+          "label": "Age"
+        },
+        "max_date": "today-20y",
+        "v_required": {
+          "value": "true",
+          "err": "Please enter the date of birth"
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter a valid age"
+        },
+        "relevance": {
+          "step1:date_of_birth_known": {
+            "type": "string",
+            "ex": "equalTo(., \"NO\")"
+          }
         }
       },
       {

@@ -44,12 +44,12 @@ public class LocationPickerView extends CustomFontTextView implements View.OnCli
     private OnLocationChangeListener onLocationChangeListener;
 
     private static final ArrayList<String> ALLOWED_LEVELS;
-    private static final String DEFAULT_LOCATION_LEVEL = "Mouzapara";
+    private static final String DEFAULT_LOCATION_LEVEL = "Division";
 
     static {
         ALLOWED_LEVELS = new ArrayList<>();
-        ALLOWED_LEVELS.add("Upazilla");
-        ALLOWED_LEVELS.add("Mouzapara");
+        ALLOWED_LEVELS.add("Country");
+        ALLOWED_LEVELS.add("Division");
     }
 
     public LocationPickerView(Context context) {

@@ -49,6 +49,8 @@ import org.ei.opensrp.util.AssetHandler;
 import org.ei.opensrp.util.FormUtils;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -443,9 +445,29 @@ public class JsonFormUtils {
                     } catch (Exception e) {
                         Log.e(TAG, Log.getStackTraceString(e));
                     }
-                } else if (key.equals("Mother_Guardian_Date_Birth")) {
-                    if(TextUtils.isEmpty(fields.getJSONObject(i).optString("value"))) {
-                        fields.getJSONObject(i).put("value", MOTHER_DEFAULT_DOB);
+                } else if (key.equals("Date_Birth")) {
+                    if(TextUtils.isEmpty(fields.getJSONObject(i).getString("value"))) {
+                        for (int j = 0; j < fields.length(); j++) {
+                            String keyJ = fields.getJSONObject(j).getString("key");
+                            if(keyJ.equals("age")) {
+                                String ageValue = fields.getJSONObject(j).getString("value");
+                                int age = 0;
+                                try {
+                                    age = Integer.parseInt(ageValue);
+                                }catch (Exception e ){
+                                    age = 0;
+                                }
+                                int dobYear = age;
+                                int dobMonth = 0;
+                                int dobDay = 0;
+
+                                DateTime now = DateTime.now();
+                                DateTime dob = now.minusYears(dobYear)
+                                        .minusMonths(dobMonth)
+                                        .minusDays(dobDay);
+                                fields.getJSONObject(i).put("value", dd_MM_yyyy.format(dob.toDate()));
+                            }
+                        }
                     }
                 }
             }
@@ -1902,12 +1924,24 @@ public class JsonFormUtils {
 
             ArrayList<String> healthFacilities = new ArrayList<>();
             healthFacilities.add("Country");
-            healthFacilities.add("Province");
+            healthFacilities.add("Division");
             healthFacilities.add("District");
-            healthFacilities.add("Health Facility");
+            healthFacilities.add("Upazilla");
+            healthFacilities.add("Union");
+            healthFacilities.add("Ward");
+            healthFacilities.add("Subunit");
+            healthFacilities.add("EPI center");
+
 
             ArrayList<String> defaultFacilities = new ArrayList<>();
             healthFacilities.add("Country");
+            healthFacilities.add("Division");
+            healthFacilities.add("District");
+            healthFacilities.add("Upazilla");
+            healthFacilities.add("Union");
+            healthFacilities.add("Ward");
+            healthFacilities.add("Subunit");
+            healthFacilities.add("EPI center");
 
             JSONArray defaultLocation = generateDefaultLocationHierarchy(context, allLevels);
             JSONArray defaultFacility = generateDefaultLocationHierarchy(context, healthFacilities);
