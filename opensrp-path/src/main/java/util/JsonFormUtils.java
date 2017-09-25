@@ -424,7 +424,8 @@ public class JsonFormUtils {
             if (fields == null) {
                 return;
             }
-
+            ArrayList<Address> adresses = new ArrayList<Address>();
+            Address address1 = new Address();
             String encounterType = getString(jsonForm, ENCOUNTER_TYPE);
 
             JSONObject metadata = getJSONObject(jsonForm, METADATA);
@@ -470,11 +471,44 @@ public class JsonFormUtils {
                             }
                         }
                     }
+                }else if (key.equals("HIE_FACILITIES")) {
+                    if(!TextUtils.isEmpty(fields.getJSONObject(i).getString("value"))){
+                        String address = fields.getJSONObject(i).getString("value");
+                        try {
+                            address = address.replace("[", "").replace("]", "");
+                            String[] addressStringArray = address.split(",");
+                            if(addressStringArray.length>0) {
+                                address1.setAddressType("usual_residence");
+                                address1.addAddressField("country", addressStringArray[0].replaceAll("^\"|\"$", ""));
+                                address1.addAddressField("stateProvince", addressStringArray[1].replaceAll("^\"|\"$", ""));
+                                address1.addAddressField("countyDistrict", addressStringArray[2].replaceAll("^\"|\"$", ""));
+                                address1.addAddressField("cityVillage", addressStringArray[3].replaceAll("^\"|\"$", ""));
+                                address1.addAddressField("address1", addressStringArray[4].replaceAll("^\"|\"$", ""));
+                                address1.addAddressField("address2", addressStringArray[5].replaceAll("^\"|\"$", ""));
+                                address1.addAddressField("address3", addressStringArray[6].replaceAll("^\"|\"$", ""));
+                                address1.addAddressField("address4", addressStringArray[7].replaceAll("^\"|\"$", ""));
+                            }
+                            Log.v("address", address);
+                        }catch (Exception e){
+
+                        }
+                    }
+                }else if (key.equals("HHID")) {
+                    if(!TextUtils.isEmpty(fields.getJSONObject(i).getString("value"))) {
+                        String hhid = fields.getJSONObject(i).getString("value");
+                        address1.addAddressField("address5",hhid);
+                    }
+                }else if (key.equals("ADDRESS_LINE")) {
+                    if(!TextUtils.isEmpty(fields.getJSONObject(i).getString("value"))) {
+                        String addressLine = fields.getJSONObject(i).getString("value");
+                        address1.addAddressField("address6",addressLine);
+                    }
                 }
             }
 
-
             Client c = JsonFormUtils.createBaseClient(fields, entityId);
+            adresses.add(address1);
+            c.withAddresses(adresses);
             Event e = JsonFormUtils.createEvent(openSrpContext, fields, metadata, entityId, encounterType, providerId, bindType);
 
 
@@ -482,9 +516,7 @@ public class JsonFormUtils {
 
             if (c != null) {
                 JSONObject clientJson = new JSONObject(gson.toJson(c));
-
                 ecUpdater.addClient(c.getBaseEntityId(), clientJson);
-
             }
 
             if (e != null) {

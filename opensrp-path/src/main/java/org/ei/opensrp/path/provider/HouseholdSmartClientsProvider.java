@@ -105,7 +105,7 @@ public class HouseholdSmartClientsProvider implements SmartRegisterCLientsProvid
         DetailsRepository detailsRepository;
         detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
         Map<String, String> details = detailsRepository.getAllDetailsForClient(pc.entityId());
-        fillValue((TextView) convertView.findViewById(R.id.householdprimarytext), getValue(details, "BLOCK", false));
+        fillValue((TextView) convertView.findViewById(R.id.householdprimarytext), getValue(details, "address3", false));
         fillValue((TextView) convertView.findViewById(R.id.housholdsecondarytext), getValue(details, "address2", false));
         fillValue((TextView) convertView.findViewById(R.id.address), getValue(details, "address1", false));
 

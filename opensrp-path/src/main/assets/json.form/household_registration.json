@@ -64,9 +64,9 @@
       },
       {
         "key": "HIE_FACILITIES",
-        "openmrs_entity_parent": "usual_residence",
-        "openmrs_entity": "person_address",
-        "openmrs_entity_id": "address6",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
         "openmrs_data_type": "text",
         "type": "tree",
         "hint": "পরিবারের প্রধানের স্বাস্থ্য কেন্দ্র *",
@@ -74,62 +74,6 @@
         "v_required": {
           "value": true,
           "err": "Please enter the Household head's home facility"
-        }
-      },
-      {
-        "key": "WARD",
-        "openmrs_entity_parent": "usual_residence",
-        "openmrs_entity": "person_address",
-        "openmrs_entity_id": "address2",
-        "openmrs_data_type": "text",
-        "type": "spinner",
-        "hint": "ওয়ার্ড নং- *",
-        "values": [
-          "Ward 1",
-          "Ward 2",
-          "Ward 3"
-        ],
-        "openmrs_choice_ids": {
-          "Ward 1": "",
-          "Ward 2": "",
-          "Ward 3": ""
-        },
-        "v_required": {
-          "value": true,
-          "err": "Please enter the ward"
-        }
-      },
-      {
-        "key": "BLOCK",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "openmrs_data_type": "usual_residence",
-        "type": "spinner",
-        "hint": "ব্লক নং/ কেন্দ্রের নাম *",
-        "values": [
-          "Ka-1",
-          "Ka-2",
-          "Kha-1",
-          "Kha-2",
-          "Ga-1",
-          "Ga-2",
-          "Gha-1",
-          "Gha-2"
-        ],
-        "openmrs_choice_ids": {
-          "Ka-1": "",
-          "Ka-2": "",
-          "Kha-1": "",
-          "Kha-2": "",
-          "Ga-1": "",
-          "Ga-2": "",
-          "Gha-1": "",
-          "Gha-2": ""
-        },
-        "v_required": {
-          "value": true,
-          "err": "Please enter the Block"
         }
       },
       {
@@ -265,6 +209,15 @@
           "value": "true",
           "err": "Please enter the date of Registration"
         }
+      },
+      {
+        "key": "contact_phone_number",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "phoneNumber",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "মোবাইল নম্বর:"
       },
       {
         "key": "HHID",
