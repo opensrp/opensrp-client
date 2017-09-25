@@ -147,7 +147,7 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "first_name",
         "type": "edit_text",
-        "hint": "পরিবারের প্রধানের নামের প্রথম অংশ",
+        "hint": "পরিবারের প্রধানের নাম",
         "edit_type": "name",
         "v_regex": {
           "value": "[A-Za-z\\s\.\-]*",
@@ -155,20 +155,21 @@
         }
       },
       {
-        "key": "Last_Name",
+        "key": "OpenMRS_ID",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "last_name",
+        "openmrs_entity": "person_identifier",
+        "openmrs_entity_id": "OpenMRS_ID",
         "type": "edit_text",
-        "hint": "পরিবারের প্রধানের নামের শেষের  অংশ",
-        "edit_type": "name",
+        "hint": "OpenMRS ID *",
+        "read_only":"true",
+        "value": "0",
+        "v_numeric": {
+          "value": "true",
+          "err": "Please enter a valid ID"
+        },
         "v_required": {
           "value": "true",
-          "err": "Please enter the last name"
-        },
-        "v_regex": {
-          "value": "[A-Za-z\\s\.\-]*",
-          "err": "Please enter a valid name"
+          "err": "Please enter the Child's ZEIR ID"
         }
       },
       {

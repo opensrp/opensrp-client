@@ -108,6 +108,7 @@ public class JsonFormUtils {
     public static final String READ_ONLY = "read_only";
     private static final String METADATA = "metadata";
     public static final String ZEIR_ID = "ZEIR_ID";
+    public static final String  OpenMRS_ID = "OpenMRS_ID";
     public static final String M_ZEIR_ID = "M_ZEIR_ID";
     public static final String attributes = "attributes";
     public static final String encounterType = "Update Birth Registration";
@@ -840,7 +841,7 @@ public class JsonFormUtils {
 
         String firstName = getFieldValue(fields, FormEntityConstants.Person.first_name);
         String middleName = getFieldValue(fields, FormEntityConstants.Person.middle_name);
-        String lastName = getFieldValue(fields, FormEntityConstants.Person.last_name);
+        String lastName = getFieldValue(fields, FormEntityConstants.Person.last_name)!= null ? getFieldValue(fields, FormEntityConstants.Person.last_name):".";
         String bd = getFieldValue(fields, FormEntityConstants.Person.birthdate);
         Date birthdate = formatDate(bd, true);
         String dd = getFieldValue(fields, FormEntityConstants.Person.deathdate);
@@ -2734,9 +2735,28 @@ public class JsonFormUtils {
                         continue;
                     }
                 }
-
                 JsonFormUtils.addAddAvailableVaccines(context, form);
+
             }else  if (formName.equals("household_registration")) {
+                if (StringUtils.isBlank(entityId)) {
+                    UniqueIdRepository uniqueIdRepo = VaccinatorApplication.getInstance().uniqueIdRepository();
+                    entityId = uniqueIdRepo.getNextUniqueId() != null ? uniqueIdRepo.getNextUniqueId().getOpenmrsId() : "";
+                    if (entityId.isEmpty()) {
+                        Toast.makeText(context, context.getString(R.string.no_openmrs_id), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+                JSONObject stepOne = form.getJSONObject(JsonFormUtils.STEP1);
+                JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    if (jsonObject.getString(JsonFormUtils.KEY)
+                            .equalsIgnoreCase(JsonFormUtils.OpenMRS_ID)) {
+                        jsonObject.remove(JsonFormUtils.VALUE);
+                        jsonObject.put(JsonFormUtils.VALUE, entityId);
+                        continue;
+                    }
+                }
 
                 JsonFormUtils.addHouseholdRegLocHierarchyQuestions(form, openSrpContext);
 
