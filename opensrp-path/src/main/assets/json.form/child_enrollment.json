@@ -80,6 +80,24 @@
         }
       },
       {
+        "key": "OpenMRS_ID",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_identifier",
+        "openmrs_entity_id": "OpenMRS_ID",
+        "type": "edit_text",
+        "hint": "OpenMRS ID *",
+        "read_only":"true",
+        "value": "0",
+        "v_numeric": {
+          "value": "true",
+          "err": "Please enter a valid ID"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please enter the Child's ZEIR ID"
+        }
+      },
+      {
         "key": "Child_Birth_Certificate",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
@@ -93,25 +111,8 @@
         "openmrs_entity": "person",
         "openmrs_entity_id": "first_name",
         "type": "edit_text",
-        "hint": "শিশুর নামের প্রথম অংশ",
+        "hint": "শিশুর নাম",
         "edit_type": "name",
-        "v_regex": {
-          "value": "[A-Za-z\\s\.\-]*",
-          "err": "Please enter a valid name"
-        }
-      },
-      {
-        "key": "Last_Name",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "last_name",
-        "type": "edit_text",
-        "hint": "শিশুর নামের শেষের অংশ *",
-        "edit_type": "name",
-        "v_required": {
-          "value": "true",
-          "err": "Please enter the last name"
-        },
         "v_regex": {
           "value": "[A-Za-z\\s\.\-]*",
           "err": "Please enter a valid name"
@@ -168,7 +169,7 @@
           "err": "Enter a valid weight"
         },
         "v_required": {
-          "value": "true",
+          "value": "false",
           "err": "Enter the child's birth weight"
         }
       },
@@ -179,7 +180,7 @@
         "openmrs_entity_id": "first_name",
         "entity_id": "mother",
         "type": "edit_text",
-        "hint": "মা/অবিভাবকের নামের প্রথম অংশ *",
+        "hint": "মা/অবিভাবকের নাম *",
         "edit_type": "name",
         "look_up": "true",
         "v_required": {
@@ -190,41 +191,6 @@
           "value": "[A-Za-z\\s\.\-]*",
           "err": "Please enter a valid name"
         }
-      },
-      {
-        "key": "Mother_Guardian_Last_Name",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "last_name",
-        "entity_id": "mother",
-        "type": "edit_text",
-        "hint": "মা/অবিভাবকের নামের শেষের অংশ *",
-        "edit_type": "name",
-        "look_up": "true",
-        "v_required": {
-          "value": "true",
-          "err": "Please enter the mother/guardian's last name"
-        },
-        "v_regex": {
-          "value": "[A-Za-z\\s\.\-]*",
-          "err": "Please enter a valid name"
-        }
-      },
-      {
-        "key": "Mother_Guardian_Date_Birth",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "birthdate",
-        "entity_id": "mother",
-        "type": "date_picker",
-        "hint": "মা/অবিভাবকের জন্ম তারিখ",
-        "look_up": "true",
-        "expanded": false,
-        "duration": {
-          "label": "Age"
-        },
-        "min_date": "01-01-1900",
-        "max_date": "today-10y"
       },
       {
         "key": "Mother_Guardian_Number",
@@ -238,7 +204,7 @@
           "err": "Number must begin with 095, 096, or 097 and must be a total of 10 digits in length"
         },
         "v_regex": {
-          "value": "(09[5-7][0-9]{7})|\s*",
+          "value": "(01[5-9][0-9]{8})|\s*",
           "err": "Number must begin with 095, 096, or 097 and must be a total of 10 digits in length"
         }
       },
@@ -323,7 +289,7 @@
         "openmrs_entity_id": "address3",
         "openmrs_data_type": "text",
         "type": "tree",
-        "hint": "শিশুর আবাসিক এলাকা *",
+        "hint": "শিশুর জন্ম স্থান *",
         "tree": [],
         "v_required": {
           "value": true,
@@ -348,15 +314,6 @@
             "ex": "equalTo(., \"[\"Other\"]\")"
           }
         }
-      },
-      {
-        "key": "Physical_Landmark",
-        "openmrs_entity_parent": "usual_residence",
-        "openmrs_entity": "person_address",
-        "openmrs_entity_id": "address1",
-        "type": "edit_text",
-        "hint": "শিশুর বাড়ীর কাছে কোন দর্শনীয় স্থান",
-        "edit_type": "name"
       }
     ]
   }

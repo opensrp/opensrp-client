@@ -266,13 +266,13 @@ public class WomanImmunizationActivity extends BaseActivity
         String childId = "";
         if (isDataOk()) {
             name = constructChildName();
-            childId = Utils.getValue(childDetails.getColumnmaps(), "zeir_id", false);
+            childId = Utils.getValue(childDetails.getColumnmaps(), "OpenMRS_ID", false);
         }
 
         TextView nameTV = (TextView) findViewById(R.id.name_tv);
         nameTV.setText(name);
         TextView childIdTV = (TextView) findViewById(R.id.child_id_tv);
-        childIdTV.setText(String.format("%s: %s", getString(R.string.label_zeir), childId));
+        childIdTV.setText(String.format("%s: %s", getString(R.string.label_openmrsid), childId));
 
         Utils.startAsyncTask(new GetSiblingsTask(), null);
     }

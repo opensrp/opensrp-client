@@ -2822,7 +2822,7 @@ public class JsonFormUtils {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     if (jsonObject.getString(JsonFormUtils.KEY)
-                            .equalsIgnoreCase(JsonFormUtils.ZEIR_ID)) {
+                            .equalsIgnoreCase(JsonFormUtils.OpenMRS_ID)) {
                         jsonObject.remove(JsonFormUtils.VALUE);
                         jsonObject.put(JsonFormUtils.VALUE, entityId);
                         continue;

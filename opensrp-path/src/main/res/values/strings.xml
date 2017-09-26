@@ -230,4 +230,5 @@
     <string name="title_activity_householddetail">HouseholddetailActivity</string>
     <string name="hh_registration_date">Registration Date</string>
     <string name="household">Household</string>
+    <string name="label_openmrsid">OpenMRS ID</string>
 </resources>
