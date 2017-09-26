@@ -145,7 +145,7 @@ public class MotherLookUpUtils {
                         {
                                 "relationalid",
                                 "details",
-                                "zeir_id",
+                                "openmrs_id",
                                 "first_name",
                                 "last_name",
                                 "gender",

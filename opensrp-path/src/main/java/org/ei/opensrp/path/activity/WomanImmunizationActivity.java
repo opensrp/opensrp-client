@@ -266,7 +266,7 @@ public class WomanImmunizationActivity extends BaseActivity
         String childId = "";
         if (isDataOk()) {
             name = constructChildName();
-            childId = Utils.getValue(childDetails.getColumnmaps(), "OpenMRS_ID", false);
+            childId = Utils.getValue(childDetails.getColumnmaps(), "openmrs_id", false);
         }
 
         TextView nameTV = (TextView) findViewById(R.id.name_tv);
