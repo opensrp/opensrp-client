@@ -240,6 +240,26 @@ public class HouseholdMemberAddFragment extends DialogFragment {
                 lookup.put("value", HouseholdEnitityID);
                 JsonFormUtils.addHouseholdRegLocHierarchyQuestions(form, openSrpContext);
 
+                if (StringUtils.isBlank(entityId)) {
+                    UniqueIdRepository uniqueIdRepo = VaccinatorApplication.getInstance().uniqueIdRepository();
+                    entityId = uniqueIdRepo.getNextUniqueId() != null ? uniqueIdRepo.getNextUniqueId().getOpenmrsId() : "";
+                    if (entityId.isEmpty()) {
+                        Toast.makeText(context, context.getString(R.string.no_openmrs_id), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+                JSONObject stepOne = form.getJSONObject(JsonFormUtils.STEP1);
+                JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    if (jsonObject.getString(JsonFormUtils.KEY)
+                            .equalsIgnoreCase(JsonFormUtils.OpenMRS_ID)) {
+                        jsonObject.remove(JsonFormUtils.VALUE);
+                        jsonObject.put(JsonFormUtils.VALUE, entityId);
+                        continue;
+                    }
+                }
+
             } else {
                 Log.w(TAG, "Unsupported form requested for launch " + formName);
             }

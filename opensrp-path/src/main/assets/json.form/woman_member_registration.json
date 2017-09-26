@@ -70,7 +70,7 @@
         "openmrs_entity_id": "",
         "openmrs_data_type": "text",
         "type": "date_picker",
-        "hint": "Date of Registration",
+        "hint": "রেজিস্ট্রেশন তারিখ",
         "expanded": false,
         "min_date": "today-5y",
         "max_date": "today",
@@ -80,21 +80,21 @@
         }
       },
       {
-        "key": "reg_No",
+        "key": "OpenMRS_ID",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
-        "openmrs_data_type": "text",
+        "openmrs_entity": "person_identifier",
+        "openmrs_entity_id": "OpenMRS_ID",
         "type": "edit_text",
-        "hint": "Member's Registration No.",
-        "expanded": false,
+        "hint": "OpenMRS ID *",
+        "read_only":"true",
+        "value": "0",
         "v_numeric": {
           "value": "true",
-          "err": "Enter a valid Registration No."
+          "err": "Please enter a valid ID"
         },
         "v_required": {
           "value": "true",
-          "err": "Enter the Member's Registration No."
+          "err": "Please enter the Child's ZEIR ID"
         }
       },
       {
@@ -104,7 +104,7 @@
         "openmrs_entity_id": "first_name",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "Member's First Name",
+        "hint": "মহিলার নাম",
         "expanded": false,
         "v_required": {
           "value": "true",
@@ -116,24 +116,10 @@
         }
       },
       {
-        "key": "member_l_name",
-        "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "last_name",
-        "openmrs_data_type": "text",
-        "type": "edit_text",
-        "hint": "Member's Last Name",
-        "expanded": false,
-        "v_regex": {
-          "value": "[A-Za-z\\s\.\-]*",
-          "err": "Please Enter a Valid Name"
-        }
-      },
-      {
         "key": "member_unique_ID",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "last_name",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "idtype",
         "openmrs_data_type": "text",
         "type": "spinner",
         "hint": "Which ID card do you have?",
@@ -149,7 +135,7 @@
         "openmrs_entity_id": "nationalId",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "Type NID",
+        "hint": "NID টাইপ করুন",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid NID No."
@@ -172,7 +158,7 @@
         "openmrs_entity_id": "nationalId",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "BIRD টাইপ করুন",
+        "hint": "BRID টাইপ করুন",
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid BRID"
@@ -253,7 +239,7 @@
         "type": "edit_text",
         "hint": "EPI কার্ড নাম্বার ",
         "v_required": {
-          "value": true,
+          "value": false,
           "err": "Enter 8 digits Number from EPI card."
         },
         "v_numeric": {
@@ -272,7 +258,23 @@
         "openmrs_entity_id": "phoneNumber",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "মোবাইল নম্বর:"
+        "hint": "মোবাইল নম্বর:",
+        "v_required": {
+          "value": true,
+          "err": "Enter 11 digits Mobile Number."
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "Please Enter 11 digit Mobile number"
+        },
+        "v_max_length":{
+          "value" : "11",
+          "err" : "Please Enter 11 digit Mobile number"
+        },
+        "v_min_length":{
+          "value" : "11",
+          "err" : "Please Enter 11 digit Mobile number"
+        }
       },
       {
         "key": "maritial_status",
@@ -285,7 +287,7 @@
         "values": [
           "Unmarried",
           "Married",
-          "Divorced/Widow/Widower"
+          "Divorced/Widow"
         ]
       },
       {
@@ -320,7 +322,7 @@
         "type": "edit_text",
         "hint": "দম্পতি নম্বর",
         "v_required": {
-          "value": true,
+          "value": false,
           "err": "Please Enter a Valid Number."
         },
         "v_numeric": {
@@ -346,7 +348,13 @@
           "No",
           "Yes",
           "Don't Know"
-        ]
+        ],
+        "relevance": {
+        "step1:maritial_status": {
+          "type": "string",
+          "ex": "equalTo(., \"Married\")"
+        }
+      }
       },
       {
         "key": "fp_user",
@@ -363,6 +371,12 @@
         "v_required": {
           "value": false,
           "err": "Please Select Yes/No."
+        },
+        "relevance": {
+        "step1:maritial_status": {
+          "type": "string",
+          "ex": "equalTo(., \"Married\")"
+          }
         }
       },
       {
@@ -396,10 +410,11 @@
         "openmrs_entity_id": "50b7f374-9406-49d1-bcfb-9bf613184030",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "আপনি কি আপনার এলএমপি তথ্য জানেন??",
+        "hint": "আপনি আপনার এলএমপি, ইডিডি বা শেষ আলট্রাসাউন্ড তথ্য জানেন?",
         "values":[
-          "YES",
-          "NO"
+          "LMP",
+          "EDD",
+          "UltraSound"
         ]
       },
          {
@@ -417,11 +432,79 @@
         "relevance": {
           "step1:edd_lmp": {
             "type": "string",
-            "ex": "equalTo(., \"YES\")"
+            "ex": "equalTo(., \"LMP\")"
           }
         },
         "max_date": "today"
+      },
+      {
+        "key": "edd",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "openmrs_data_type": "text",
+        "type": "date_picker",
+        "hint": "ইডিডি তারিখ",
+        "v_required": {
+          "value": true,
+          "err": "Please Enter LMP date"
+        },
+        "relevance": {
+          "step1:edd_lmp": {
+            "type": "string",
+            "ex": "equalTo(., \"EDD\")"
+          }
+        },
+        "max_date": "today"
+      },
+      {
+        "key": "ultrasound_date",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "openmrs_data_type": "text",
+        "type": "date_picker",
+        "hint": "আল্ট্রাসাউন্ড তারিখ",
+        "v_required": {
+          "value": true,
+          "err": "Please Enter LMP date"
+        },
+        "relevance": {
+          "step1:edd_lmp": {
+            "type": "string",
+            "ex": "equalTo(., \"UltraSound\")"
+          }
+        },
+        "max_date": "today"
+      },
+      {
+        "key": "ultrasound_weeks",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "openmrs_data_type": "text",
+        "type": "edit_text",
+        "hint": "গর্ভাবস্থার আল্ট্রাসাউন্ড দ্বারা নির্ধারিত বয়স",
+        "v_required": {
+          "value": true,
+          "err": "Enter Ultrasound Weeks."
+        },
+        "v_numeric": {
+          "value": "true",
+          "err": "Enter Ultrasound Weeks."
+        },
+        "v_max_length":{
+          "value" : "2",
+          "err" : "Max length can be at most 2."
+        },
+        "relevance": {
+          "step1:edd_lmp": {
+            "type": "string",
+            "ex": "equalTo(., \"UltraSound\")"
+          }
+        }
       }
+
         ]
   }
 }

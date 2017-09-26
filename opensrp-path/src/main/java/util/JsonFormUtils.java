@@ -189,6 +189,91 @@ public class JsonFormUtils {
                     if (TextUtils.isEmpty(fields.getJSONObject(i).optString("value"))) {
                         fields.getJSONObject(i).put("value", MOTHER_DEFAULT_DOB);
                     }
+                }else if (key.equals("member_birth_date")) {
+                    if(TextUtils.isEmpty(fields.getJSONObject(i).getString("value"))) {
+                        for (int j = 0; j < fields.length(); j++) {
+                            String keyJ = fields.getJSONObject(j).getString("key");
+                            if(keyJ.equals("age")) {
+                                String ageValue = fields.getJSONObject(j).getString("value");
+                                int age = 0;
+                                try {
+                                    age = Integer.parseInt(ageValue);
+                                }catch (Exception e ){
+                                    age = 0;
+                                }
+                                int dobYear = age;
+                                int dobMonth = 0;
+                                int dobDay = 0;
+
+                                DateTime now = DateTime.now();
+                                DateTime dob = now.minusYears(dobYear)
+                                        .minusMonths(dobMonth)
+                                        .minusDays(dobDay);
+                                fields.getJSONObject(i).put("value", dd_MM_yyyy.format(dob.toDate()));
+                            }
+                        }
+                    }
+                }else if (key.equals("lmp")) {
+                    if(TextUtils.isEmpty(fields.getJSONObject(i).getString("value"))) {
+                        boolean USGNeeded = false;
+                        for (int j = 0; j < fields.length(); j++) {
+                            String keyJ = fields.getJSONObject(j).getString("key");
+                            if(keyJ.equals("edd")) {
+                                if(!TextUtils.isEmpty(fields.getJSONObject(j).getString("value"))) {
+                                    String eddValue = fields.getJSONObject(j).getString("value");
+                                    DateTime now = new DateTime(dd_MM_yyyy.parse(eddValue));
+                                    DateTime dob = now.minusDays(280);
+                                    fields.getJSONObject(i).put("value", dd_MM_yyyy.format(dob.toDate()));
+                                }else{
+                                    USGNeeded = true;
+                                }
+                            }
+                        }
+                        if(USGNeeded){
+                            String ultrasound_dateValue = "";
+                            String ultrasound_weeksValue = "";
+
+
+                            for (int j = 0; j < fields.length(); j++) {
+                                String keyJ = fields.getJSONObject(j).getString("key");
+                                if(keyJ.equals("ultrasound_date")) {
+                                    if(!TextUtils.isEmpty(fields.getJSONObject(j).getString("value"))) {
+                                        ultrasound_dateValue = fields.getJSONObject(j).getString("value");
+                                    }
+                                }
+                                if(keyJ.equals("ultrasound_weeks")) {
+                                    if(!TextUtils.isEmpty(fields.getJSONObject(j).getString("value"))) {
+                                        ultrasound_weeksValue = fields.getJSONObject(j).getString("value");
+                                    }
+                                }
+                            }
+                            DateTime ultrasoundDate = new DateTime(dd_MM_yyyy.parse(ultrasound_dateValue));
+                            int ultraSoundWeeks = Integer.parseInt(ultrasound_weeksValue);
+                            for (int j = 0; j < fields.length(); j++) {
+                                String keyJ = fields.getJSONObject(j).getString("key");
+                                if(keyJ.equals("edd")) {
+                                    if(TextUtils.isEmpty(fields.getJSONObject(j).getString("value"))) {
+                                        DateTime edddate = ultrasoundDate.plusDays(280-(7*ultraSoundWeeks));
+                                        fields.getJSONObject(j).put("value", dd_MM_yyyy.format(edddate.toDate()));
+                                        fields.getJSONObject(i).put("value", dd_MM_yyyy.format(edddate.minusDays(280).toDate()));
+                                    }
+                                }
+                            }
+                        }
+                    }else{
+                        String lmpValue = fields.getJSONObject(i).getString("value");
+                        for (int j = 0; j < fields.length(); j++) {
+                            String keyJ = fields.getJSONObject(j).getString("key");
+                            if(keyJ.equals("edd")) {
+                                if(TextUtils.isEmpty(fields.getJSONObject(j).getString("value"))) {
+
+                                    DateTime now = new DateTime(dd_MM_yyyy.parse(lmpValue));
+                                    DateTime dob = now.plusDays(280);
+                                    fields.getJSONObject(j).put("value", dd_MM_yyyy.format(dob.toDate()));
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
