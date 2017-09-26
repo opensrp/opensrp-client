@@ -312,7 +312,7 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
         queryBUilder.SelectInitiateMainTable(tableName, new String[]{
                 tableName + ".relationalid",
                 tableName + ".details",
-                tableName + ".zeir_id",
+                tableName + ".openmrs_id",
                 tableName + ".relational_id",
                 tableName + ".first_name",
                 tableName + ".last_name",
