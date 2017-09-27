@@ -66,7 +66,7 @@
         "uploadButtonText": "শিশুর ছবি তুলুন "
       },
       {
-        "key": "Home_Facility",
+        "key": "HIE_FACILITIES",
         "openmrs_entity_parent": "",
         "openmrs_entity": "",
         "openmrs_entity_id": "",
@@ -249,9 +249,8 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "163531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "openmrs_data_type": "text",
-        "type": "tree",
+        "type": "edit_text",
         "hint": "শিশুটি জন্মগ্রহণ করার সময় কোন স্বাস্থ্য কেন্দ্রের সুবিধা পেয়েছিল? *",
-        "tree": [],
         "v_required": {
           "value": true,
           "err": "Please enter the birth facility name"
@@ -269,7 +268,7 @@
         "openmrs_entity": "concept",
         "openmrs_entity_id": "160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "type": "edit_text",
-        "hint": "Other health facility *",
+        "hint": "শিশুর জন্ম স্থান * *",
         "edit_type": "name",
         "v_required": {
           "value": true,
@@ -278,40 +277,7 @@
         "relevance": {
           "step1:Birth_Facility_Name": {
             "type": "string",
-            "ex": "equalTo(., \"[\"Other\"]\")"
-          }
-        }
-      },
-      {
-        "key": "Residential_Area",
-        "openmrs_entity_parent": "usual_residence",
-        "openmrs_entity": "person_address",
-        "openmrs_entity_id": "address3",
-        "openmrs_data_type": "text",
-        "type": "tree",
-        "hint": "শিশুর জন্ম স্থান *",
-        "tree": [],
-        "v_required": {
-          "value": true,
-          "err": "Please enter the child's residential area"
-        }
-      },
-      {
-        "key": "Residential_Area_Other",
-        "openmrs_entity_parent": "usual_residence",
-        "openmrs_entity": "person_address",
-        "openmrs_entity_id": "address5",
-        "type": "edit_text",
-        "hint": "Other residential area *",
-        "edit_type": "name",
-        "v_required": {
-          "value": true,
-          "err": "Please specify the residential area"
-        },
-        "relevance": {
-          "step1:Residential_Area": {
-            "type": "string",
-            "ex": "equalTo(., \"[\"Other\"]\")"
+            "ex": "equalTo(., \"[\"Home\"]\")"
           }
         }
       }

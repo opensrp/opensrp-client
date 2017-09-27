@@ -105,7 +105,19 @@ public class HouseholdMemberAddFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 Log.d("------------","addChild");
-                ((HouseholdSmartRegisterActivity) getActivity()).startFormActivity("child_enrollment", null, null);
+                try {
+                    JSONObject form = FormUtils.getInstance(getActivity().getApplicationContext()).getFormJson("child_enrollment");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    startForm((Activity) context,opensrpcontext,REQUEST_CODE_GET_JSON,"child_enrollment", null, null,locationId,HouseholdEnitityID);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+//                ((HouseholdSmartRegisterActivity) getActivity()).startFormActivity("child_enrollment", null, null);
             }
         });
 
@@ -185,23 +197,32 @@ public class HouseholdMemberAddFragment extends DialogFragment {
                         return;
                     }
                 }
-
-                if (StringUtils.isNotBlank(entityId)) {
-                    entityId = entityId.replace("-", "");
-                }
-
-                JsonFormUtils.addChildRegLocHierarchyQuestions(form, openSrpContext);
-
-                // Inject zeir id into the form
                 JSONObject stepOne = form.getJSONObject(JsonFormUtils.STEP1);
                 JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    if (jsonObject.getString(JsonFormUtils.KEY)
+                            .equalsIgnoreCase(JsonFormUtils.OpenMRS_ID)) {
+                        jsonObject.remove(JsonFormUtils.VALUE);
+                        jsonObject.put(JsonFormUtils.VALUE, entityId);
+                        continue;
+                    }
+                }
+
+                JsonFormUtils.addHouseholdRegLocHierarchyQuestions(form, openSrpContext);
+
+                String birthFacilityHierarchy = JsonFormUtils.getOpenMrsLocationHierarchy(
+                        openSrpContext,currentLocationId ).toString();
+
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     if (jsonObject.getString(JsonFormUtils.KEY)
                             .equalsIgnoreCase(JsonFormUtils.ZEIR_ID)) {
                         jsonObject.remove(JsonFormUtils.VALUE);
                         jsonObject.put(JsonFormUtils.VALUE, entityId);
-                        continue;
+                    }else if(jsonObject.getString(JsonFormUtils.KEY)
+                            .equalsIgnoreCase("HIE_FACILITIES")){
+                        jsonObject.put(JsonFormUtils.VALUE, birthFacilityHierarchy);
                     }
                 }
             } else if (formName.equals("out_of_catchment_service")) {

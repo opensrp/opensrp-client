@@ -114,7 +114,7 @@ public class HouseholdSmartClientsProvider implements SmartRegisterCLientsProvid
         LocationPickerView locationPickerView = ((HouseholdSmartRegisterFragment) mBaseFragment).getLocationPickerView();
 
         try {
-            locationId = JsonFormUtils.getOpenMrsLocationId(context(), locationPickerView.getSelectedItem());
+            locationId = JsonFormUtils.getOpenMrsLocationId(context(),getValue(details, "address4", false) );
         } catch (JSONException e) {
             e.printStackTrace();
         }

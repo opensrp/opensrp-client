@@ -39,6 +39,7 @@ import org.ei.opensrp.path.repository.StockRepository;
 import org.ei.opensrp.path.view.LocationPickerView;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.repository.AllSharedPreferences;
+import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.service.FormSubmissionService;
 import org.ei.opensrp.service.ZiggyService;
 import org.ei.opensrp.util.FormUtils;
@@ -46,6 +47,8 @@ import org.ei.opensrp.view.dialog.DialogOptionModel;
 import org.ei.opensrp.view.viewpager.OpenSRPViewPager;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,6 +58,7 @@ import util.barcode.BarcodeIntentIntegrator;
 import util.barcode.BarcodeIntentResult;
 
 import static android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS;
+import static util.Utils.getValue;
 
 /**
  * Created by Ahmed on 13-Oct-15.
@@ -232,10 +236,21 @@ public class HouseholdSmartRegisterActivity extends BaseRegisterActivity {
                         }else{
                             c.close();
                         }
+                        String locationid = "";
+                        DetailsRepository detailsRepository;
+                        detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
+                        Map<String, String> details = detailsRepository.getAllDetailsForClient(householdid);
+                        locationid = JsonFormUtils.getOpenMrsLocationId(context(),getValue(details, "address4", false) );
+
+
 
 
                         LocationPickerView locationPickerView = ((HouseholdSmartRegisterFragment) mBaseFragment).getLocationPickerView();
+
                         String locationId = JsonFormUtils.getOpenMrsLocationId(context(), locationPickerView.getSelectedItem());
+                        if(!StringUtils.isBlank(locationid) || locationid.equalsIgnoreCase("")){
+                            locationId = locationid;
+                        }
                         HouseholdMemberAddFragment addmemberFragment = HouseholdMemberAddFragment.newInstance(this,locationId,householdid,context());
                         addmemberFragment.show(ft, HouseholdMemberAddFragment.DIALOG_TAG);
 //                       startFormActivity("woman_member_registration", null, null);

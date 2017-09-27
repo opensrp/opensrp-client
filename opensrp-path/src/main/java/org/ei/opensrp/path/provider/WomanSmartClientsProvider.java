@@ -14,6 +14,7 @@ import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
@@ -27,6 +28,7 @@ import org.ei.opensrp.path.activity.PathJsonFormActivity;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.domain.VaccineSchedule;
+import org.ei.opensrp.path.repository.UniqueIdRepository;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.repository.WeightRepository;
 import org.ei.opensrp.path.view.LocationPickerView;
@@ -439,7 +441,7 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
             JSONObject form = FormUtils.getInstance(this.context).getFormJson("child_enrollment");
             LocationPickerView lpv = new LocationPickerView(this.context);
             lpv.init(context);
-            JsonFormUtils.addChildRegLocHierarchyQuestions(form, context);
+            JsonFormUtils.addHouseholdRegLocHierarchyQuestions(form, context);
             Log.d("add child form", "Form is " + form.toString());
             if (form != null) {
                 JSONObject metaDataJson = form.getJSONObject("metadata");
@@ -447,11 +449,44 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
                 lookup.put("entity_id", "mother");
                 lookup.put("value", pc.entityId());
 
+                UniqueIdRepository uniqueIdRepo = VaccinatorApplication.getInstance().uniqueIdRepository();
+                String entityId = uniqueIdRepo.getNextUniqueId() != null ? uniqueIdRepo.getNextUniqueId().getOpenmrsId() : "";
+                if (entityId.isEmpty()) {
+                    Toast.makeText(context.applicationContext(), context.getInstance().applicationContext().getString(R.string.no_openmrs_id), Toast.LENGTH_SHORT).show();
+                }
+//
+//                JSONObject stepOne = form.getJSONObject(JsonFormUtils.STEP1);
+//                JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
+//                for (int i = 0; i < jsonArray.length(); i++) {
+//                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+//                    if (jsonObject.getString(JsonFormUtils.KEY)
+//                            .equalsIgnoreCase(JsonFormUtils.OpenMRS_ID)) {
+//                        jsonObject.remove(JsonFormUtils.VALUE);
+//                        jsonObject.put(JsonFormUtils.VALUE, entityId);
+//                        continue;
+//                    }
+//                }
+                String locationid = "";
+                DetailsRepository detailsRepository;
+                detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
+                Map<String, String> details = detailsRepository.getAllDetailsForClient(pc.entityId());
+                locationid = JsonFormUtils.getOpenMrsLocationId(context,getValue(details, "address4", false) );
+
+                String birthFacilityHierarchy = JsonFormUtils.getOpenMrsLocationHierarchy(
+                        context,locationid ).toString();
                 //inject zeir id into the form
                 JSONObject stepOne = form.getJSONObject(JsonFormUtils.STEP1);
                 JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase(JsonFormUtils.OpenMRS_ID)) {
+                        jsonObject.remove(JsonFormUtils.VALUE);
+                        jsonObject.put(JsonFormUtils.VALUE, entityId);
+                    }
+                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("HIE_FACILITIES")) {
+                        jsonObject.put(JsonFormUtils.VALUE, birthFacilityHierarchy);
+
+                    }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Mother_Guardian_First_Name")) {
                         jsonObject.put(JsonFormUtils.READ_ONLY, true);
                         jsonObject.put(JsonFormUtils.VALUE, (Utils.getValue(pc.getDetails(), "first_name", true).isEmpty() ? Utils.getValue(pc.getDetails(), "first_name", true) : Utils.getValue(pc.getDetails(), "first_name", true)));
