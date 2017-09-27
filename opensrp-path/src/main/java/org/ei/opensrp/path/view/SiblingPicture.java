@@ -181,8 +181,17 @@ public class SiblingPicture extends RecyclerView.ViewHolder {
                 initialsString = firstName.substring(0, 1);
             }
 
-            if (!TextUtils.isEmpty(lastName)) {
+            if (!TextUtils.isEmpty(lastName) && !lastName.equalsIgnoreCase(".")) {
                 initialsString = initialsString + lastName.substring(0, 1);
+            }else{
+                if(firstName.contains(" ")){
+                    String [] firstnamearray = firstName.split(" ");
+                    if(firstnamearray.length>1){
+                        initialsString = initialsString+firstnamearray[1].substring(0,1);
+                    }
+                }else if(firstName.length()>2) {
+                    initialsString = initialsString + firstName.substring(1, 2);
+                }
             }
 
             initials.setText(initialsString.toUpperCase());

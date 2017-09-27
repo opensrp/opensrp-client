@@ -95,7 +95,8 @@ public class HouseholdSmartClientsProvider implements SmartRegisterCLientsProvid
     public void getView(SmartRegisterClient client, final View convertView) {
         convertView.setLayoutParams(clientViewLayoutParams);
         final CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
-//
+        fillValue((TextView) convertView.findViewById(R.id.householdheadname), getValue(pc.getColumnmaps(), "first_name", false));
+
         fillValue((TextView) convertView.findViewById(R.id.id), getValue(pc.getColumnmaps(), "HHID", false));
         fillValue((TextView) convertView.findViewById(R.id.registrationdate), getValue(pc.getColumnmaps(), "Date_Of_Reg", false));
 //        fillValue((TextView) convertView.findViewById(R.id.address), getValue(pc.getColumnmaps(), "address1", false));

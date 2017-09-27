@@ -33,6 +33,14 @@
             android:layout_marginTop="1dp"
             android:gravity="center_vertical"
             android:orientation="vertical">
+            <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:id="@+id/householdheadname"
+                style="@style/CustomFontTextViewStyle.ClientList.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Child Name"
+                android:textColor="@color/client_list_grey"
+                android:textSize="18sp" />
 
             <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:id="@+id/householdprimarytext"

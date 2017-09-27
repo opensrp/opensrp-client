@@ -86,7 +86,7 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
         fillValue((TextView) convertView.findViewById(R.id.child_zeir_id), getValue(pc.getColumnmaps(), "zeir_id", false));
 
         String firstName = getValue(pc.getColumnmaps(), "first_name", true);
-        String lastName = getValue(pc.getColumnmaps(), "last_name", true);
+        String lastName = getValue(pc.getColumnmaps(), "last_name", true).replace(".","");
         String childName = getName(firstName, lastName);
 
         String motherFirstName = getValue(pc.getColumnmaps(), "mother_first_name", true);

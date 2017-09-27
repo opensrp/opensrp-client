@@ -156,7 +156,7 @@ public class HouseholdDetailActivity extends BaseActivity {
         PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
         net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
         String mother_id = householdDetails.getDetails().get("_id");
-        Cursor cursor = db.rawQuery("SELECT  id as _id,first_name,client_reg_date FROM ec_mother where relational_id = ?",new String[]{mother_id});
+        Cursor cursor = db.rawQuery("SELECT  id as _id,first_name,client_reg_date,dob FROM ec_mother where relational_id = ?",new String[]{mother_id});
 
 
         householdList = (ListView) findViewById(R.id.household_list);
@@ -223,7 +223,20 @@ public class HouseholdDetailActivity extends BaseActivity {
             TextView member_name = (TextView) view.findViewById(R.id.name_tv);
             TextView member_age = (TextView) view.findViewById(R.id.age_tv);
             member_name.setText("Name : " + cursor.getString(1));
-            member_age.setText("Age : 27");
+            String dobString = cursor.getString(cursor.getColumnIndex("dob"));
+            String durationString = "";
+            if (StringUtils.isNotBlank(dobString)) {
+                try {
+                    DateTime birthDateTime = new DateTime(dobString);
+                    String duration = DateUtils.getDuration(birthDateTime);
+                    if (duration != null) {
+                        durationString = duration;
+                    }
+                } catch (Exception e) {
+                    Log.e(getClass().getName(), e.toString(), e);
+                }
+            }
+            member_age.setText("Age : "+durationString);
         }
 
         @Override

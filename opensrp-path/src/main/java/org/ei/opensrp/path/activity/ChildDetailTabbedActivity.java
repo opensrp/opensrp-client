@@ -781,7 +781,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         String formattedDob = "";
         if (isDataOk()) {
             name = Utils.getValue(childDetails.getColumnmaps(), "first_name", true)
-                    + " " + Utils.getValue(childDetails.getColumnmaps(), "last_name", true);
+                    + " " + Utils.getValue(childDetails.getColumnmaps(), "last_name", true).replace(".","");
             childId = Utils.getValue(childDetails.getColumnmaps(), "zeir_id", false);
             if (StringUtils.isNotBlank(childId)) {
                 childId = childId.replace("-", "");

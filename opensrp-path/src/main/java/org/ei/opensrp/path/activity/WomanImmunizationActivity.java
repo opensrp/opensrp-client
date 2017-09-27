@@ -1039,7 +1039,7 @@ public class WomanImmunizationActivity extends BaseActivity
 
     private String constructChildName() {
         String firstName = Utils.getValue(childDetails.getColumnmaps(), "first_name", true);
-        String lastName = Utils.getValue(childDetails.getColumnmaps(), "last_name", true);
+        String lastName = Utils.getValue(childDetails.getColumnmaps(), "last_name", true).replace(".","");
         return getName(firstName, lastName).trim();
     }
 
