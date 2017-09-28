@@ -14,12 +14,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
+import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
+import org.ei.opensrp.commonregistry.CommonRepository;
+import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.logger.Logger;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
@@ -27,12 +31,18 @@ import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.Vaccine_typesRepository;
 import org.ei.opensrp.path.toolbar.LocationSwitcherToolbar;
 import org.ei.opensrp.repository.AllSharedPreferences;
+import org.ei.opensrp.util.OpenSRPImageLoader;
+import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.ei.opensrp.view.customControls.CustomFontTextView;
 import org.joda.time.DateTime;
+import org.opensrp.api.constants.Gender;
 
 import java.io.Serializable;
 
 import util.DateUtils;
+import util.ImageUtils;
+import util.PathConstants;
+import util.Utils;
 
 import static util.Utils.fillValue;
 import static util.Utils.getValue;
@@ -107,7 +117,12 @@ public class HouseholdDetailActivity extends BaseActivity {
             }
         }
         ((TextView) findViewById(R.id.age_tv)).setText("Age : " + durationString);
+        ImageView profileImageIV = (ImageView)findViewById(R.id.profile_image_iv);
+        String entityid = householdDetails.getDetails().get("_id");
+        if(entityid!=null) {
+            DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(entityid, OpenSRPImageLoader.getStaticImageListener((ImageView) profileImageIV, R.drawable.houshold_register_placeholder, R.drawable.houshold_register_placeholder));
 
+        }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -156,7 +171,26 @@ public class HouseholdDetailActivity extends BaseActivity {
         PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
         net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
         String mother_id = householdDetails.getDetails().get("_id");
-        Cursor cursor = db.rawQuery("SELECT  id as _id,first_name,client_reg_date,dob FROM ec_mother where relational_id = ?",new String[]{mother_id});
+
+        String tableName = PathConstants.MOTHER_TABLE_NAME;
+        SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
+        queryBUilder.SelectInitiateMainTable(tableName, new String[]{
+                tableName + ".relationalid",
+                tableName + ".details",
+                tableName + ".openmrs_id",
+                tableName + ".relational_id",
+                tableName + ".first_name",
+                tableName + ".last_name",
+                tableName + ".gender",
+                tableName + ".father_name",
+                tableName + ".dob",
+                tableName + ".epi_card_number",
+                tableName + ".contact_phone_number",
+                tableName + ".client_reg_date",
+                tableName + ".last_interacted_with"
+        });
+
+        Cursor cursor = db.rawQuery(queryBUilder.mainCondition("relational_id = ?"),new String[]{mother_id});
 
 
         householdList = (ListView) findViewById(R.id.household_list);
@@ -164,12 +198,6 @@ public class HouseholdDetailActivity extends BaseActivity {
         HouseholdCursorAdpater cursorAdpater = new HouseholdCursorAdpater(getApplicationContext(),cursor);
 
         householdList.setAdapter(cursorAdpater);
-        householdList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.e("-----------","item clicked");
-            }
-        });
     }
 
     @Override
@@ -218,11 +246,15 @@ public class HouseholdDetailActivity extends BaseActivity {
         }
 
         @Override
-        public void bindView(View view, Context context, Cursor cursor) {
+        public void bindView(View view, final Context context, Cursor cursor) {
             Log.e("------------","bind view call");
+            CommonRepository commonRepository = org.ei.opensrp.Context.getInstance().commonrepository(PathConstants.MOTHER_TABLE_NAME);
+            CommonPersonObject personinlist = commonRepository.readAllcommonforCursorAdapter(cursor);
+            final CommonPersonObjectClient pClient = new CommonPersonObjectClient(personinlist.getCaseId(), personinlist.getDetails(), personinlist.getDetails().get("FWHOHFNAME"));
+            pClient.setColumnmaps(personinlist.getColumnmaps());
             TextView member_name = (TextView) view.findViewById(R.id.name_tv);
             TextView member_age = (TextView) view.findViewById(R.id.age_tv);
-            member_name.setText("Name : " + cursor.getString(1));
+            member_name.setText("Name : " + cursor.getString(cursor.getColumnIndex("first_name")));
             String dobString = cursor.getString(cursor.getColumnIndex("dob"));
             String durationString = "";
             if (StringUtils.isNotBlank(dobString)) {
@@ -237,14 +269,33 @@ public class HouseholdDetailActivity extends BaseActivity {
                 }
             }
             member_age.setText("Age : "+durationString);
+            ((LinearLayout)view.findViewById(R.id.profile_name_layout)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    WomanImmunizationActivity.launchActivity(HouseholdDetailActivity.this,pClient,null);
+                }
+            });
+            ImageView profileImageIV = (ImageView)view.findViewById(R.id.profile_image_iv);
+
+            if (pClient.entityId() != null) {//image already in local storage most likey ):
+                //set profile image by passing the client id.If the image doesn't exist in the image repository then download and save locally
+                profileImageIV.setTag(org.ei.opensrp.R.id.entity_id, pClient.entityId());
+                DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pClient.entityId(), OpenSRPImageLoader.getStaticImageListener((ImageView) profileImageIV, R.drawable.woman_path_register_logo, R.drawable.woman_path_register_logo));
+
+            }
         }
 
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
             Log.e("------------","new view call");
+            CommonRepository commonRepository = org.ei.opensrp.Context.getInstance().commonrepository(PathConstants.MOTHER_TABLE_NAME);
+            CommonPersonObject personinlist = commonRepository.readAllcommonforCursorAdapter(cursor);
+            final CommonPersonObjectClient pClient = new CommonPersonObjectClient(personinlist.getCaseId(), personinlist.getDetails(), personinlist.getDetails().get("FWHOHFNAME"));
+            pClient.setColumnmaps(personinlist.getColumnmaps());
+
             View view = inflater.inflate(R.layout.household_details_list_row,parent,false);
             LinearLayout household_details_list_row = (LinearLayout) view.findViewById(R.id.child_holder);
-            addChild(household_details_list_row,cursor.getString(0));
+            addChild(household_details_list_row,pClient.entityId());
             return  view;
         }
 
@@ -255,14 +306,97 @@ public class HouseholdDetailActivity extends BaseActivity {
             PathRepository repo = (PathRepository) VaccinatorApplication.getInstance().getRepository();
             net.sqlcipher.database.SQLiteDatabase db = repo.getReadableDatabase();
 
-            Cursor cursor = db.rawQuery("SELECT  id as _id,first_name,last_name,gender,mother_first_name,mother_last_name,dob,epi_card_number FROM ec_child where relational_id = ?",new String[]{mother_id});
+
+            String tableName = PathConstants.CHILD_TABLE_NAME;
+            String parentTableName = PathConstants.MOTHER_TABLE_NAME;
+            SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
+            queryBUilder.SelectInitiateMainTable(tableName, new String[]{
+                    tableName + ".relationalid",
+                    tableName + ".details",
+                    tableName + ".openmrs_id",
+                    tableName + ".relational_id",
+                    tableName + ".first_name",
+                    tableName + ".last_name",
+                    tableName + ".gender",
+                    parentTableName + ".first_name as mother_first_name",
+                    parentTableName + ".last_name as mother_last_name",
+                    parentTableName + ".dob as mother_dob",
+                    parentTableName + ".nrc_number as mother_nrc_number",
+                    tableName + ".father_name",
+                    tableName + ".dob",
+                    tableName + ".epi_card_number",
+                    tableName + ".contact_phone_number",
+                    tableName + ".pmtct_status",
+                    tableName + ".provider_uc",
+                    tableName + ".provider_town",
+                    tableName + ".provider_id",
+                    tableName + ".provider_location_id",
+                    tableName + ".client_reg_date",
+                    tableName + ".last_interacted_with",
+                    tableName + ".inactive",
+                    tableName + ".lost_to_follow_up"
+            });
+            queryBUilder.customJoin("LEFT JOIN " + parentTableName + " ON  " + tableName + ".relational_id =  " + parentTableName + ".id");
+            String mainCondition = " (dod is NULL OR dod = '' )";
+            String mainSelect = queryBUilder.mainCondition(mainCondition);
+
+
+
+
+            Cursor cursor = db.rawQuery(mainSelect+ "and "+tableName+".relational_id = ?",new String[]{mother_id});
+
+
 
             cursor.moveToFirst();
             while (cursor.isAfterLast() == false) {
+                CommonRepository commonRepository = org.ei.opensrp.Context.getInstance().commonrepository(tableName);
+                CommonPersonObject personinlist = commonRepository.readAllcommonforCursorAdapter(cursor);
+                final CommonPersonObjectClient pClient = new CommonPersonObjectClient(personinlist.getCaseId(), personinlist.getDetails(), personinlist.getDetails().get("FWHOHFNAME"));
+                pClient.setColumnmaps(personinlist.getColumnmaps());
                 LinearLayout childrenLayout = (LinearLayout)inflater.inflate(R.layout.household_details_child_row, null);
-                ((TextView)childrenLayout.findViewById(R.id.name_tv)).setText("Name : " + cursor.getString(1));
-                ((TextView)childrenLayout.findViewById(R.id.age_tv)).setText("Age : " + cursor.getString(6).split("T")[0]);
+                ((TextView)childrenLayout.findViewById(R.id.name_tv)).setText("Name : " + cursor.getString(cursor.getColumnIndex("first_name")));
+
+                String dobString = cursor.getString(cursor.getColumnIndex("dob"));
+                String durationString = "";
+                if (StringUtils.isNotBlank(dobString)) {
+                    try {
+                        DateTime birthDateTime = new DateTime(dobString);
+                        String duration = DateUtils.getDuration(birthDateTime);
+                        if (duration != null) {
+                            durationString = duration;
+                        }
+                    } catch (Exception e) {
+                        Log.e(getClass().getName(), e.toString(), e);
+                    }
+                }
+                ((TextView)childrenLayout.findViewById(R.id.age_tv)).setText("Age : "+durationString);
+
+                Gender gender = Gender.UNKNOWN;
+                if (pClient != null && pClient.getDetails() != null) {
+                    String genderString = Utils.getValue(pClient, "gender", false);
+                    if (genderString != null && genderString.toLowerCase().equals("female")) {
+                        gender = Gender.FEMALE;
+                    } else if (genderString != null && genderString.toLowerCase().equals("male")) {
+                        gender = Gender.MALE;
+                    }
+                    ImageView profileImageIV = (ImageView)childrenLayout.findViewById(R.id.profile_image_iv);
+
+                    if (pClient.entityId() != null) {//image already in local storage most likey ):
+                        //set profile image by passing the client id.If the image doesn't exist in the image repository then download and save locally
+                        profileImageIV.setTag(org.ei.opensrp.R.id.entity_id, pClient.entityId());
+                        DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pClient.entityId(), OpenSRPImageLoader.getStaticImageListener((ImageView) profileImageIV, ImageUtils.profileImageResourceByGender(gender), ImageUtils.profileImageResourceByGender(gender)));
+
+                    }
+                }
+
+
                 household_details_list_row.addView(childrenLayout);
+                childrenLayout.findViewById(R.id.profile_name_layout).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ChildImmunizationActivity.launchActivity(HouseholdDetailActivity.this,pClient,null);
+                    }
+                });
                 cursor.moveToNext();
             }
             cursor.close();
