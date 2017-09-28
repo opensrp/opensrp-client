@@ -96,6 +96,10 @@
         "v_regex": {
           "value": "[A-Za-z\\s\.\-]*",
           "err": "Please enter a valid name"
+        },
+        "v_required": {
+          "value": "true",
+          "err": "Please enter the Child's ZEIR ID"
         }
       },
       {
@@ -104,7 +108,7 @@
         "openmrs_entity": "person_identifier",
         "openmrs_entity_id": "OpenMRS_ID",
         "type": "edit_text",
-        "hint": "OpenMRS ID *",
+        "hint": "নিবন্ধন নম্বর *",
         "read_only":"true",
         "value": "0",
         "v_numeric": {
@@ -217,7 +221,15 @@
         "openmrs_entity_id": "phoneNumber",
         "openmrs_data_type": "text",
         "type": "edit_text",
-        "hint": "মোবাইল নম্বর:"
+        "hint": "মোবাইল নম্বর:",
+        "v_numeric": {
+          "value": "true",
+          "err": "Number must begin with 095, 096, or 097 and must be a total of 11 digits in length"
+        },
+        "v_regex": {
+          "value": "(01[5-9][0-9]{8})|\s*",
+          "err": "Number must begin with 015, 016,017,018 or 019 and must be a total of 11 digits in length"
+        }
       },
       {
         "key": "HHID",

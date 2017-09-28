@@ -85,7 +85,7 @@
         "openmrs_entity": "person_identifier",
         "openmrs_entity_id": "OpenMRS_ID",
         "type": "edit_text",
-        "hint": "OpenMRS ID *",
+        "hint": "নিবন্ধন নম্বর *",
         "read_only":"true",
         "value": "0",
         "v_numeric": {
@@ -201,11 +201,19 @@
         "hint": "মা/অবিভাবকের মোবাইল নম্বর",
         "v_numeric": {
           "value": "true",
-          "err": "Number must begin with 095, 096, or 097 and must be a total of 10 digits in length"
+          "err": "Number must begin with 095, 096, or 097 and must be a total of 11 digits in length"
         },
         "v_regex": {
           "value": "(01[5-9][0-9]{8})|\s*",
-          "err": "Number must begin with 095, 096, or 097 and must be a total of 10 digits in length"
+          "err": "Number must begin with 015, 016,017,018 or 019 and must be a total of 11 digits in length"
+        },
+        "v_max_length":{
+          "value" : "11",
+          "err" : "Please Enter 11 digit Mobile number"
+        },
+        "v_min_length":{
+          "value" : "11",
+          "err" : "Please Enter 11 digit Mobile number"
         }
       },
       {

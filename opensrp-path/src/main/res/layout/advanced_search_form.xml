@@ -209,21 +209,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/zeir_id"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/zeir_id_hint"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:textColor="@color/client_list_grey"
-                    android:textColorHint="@color/light_grey"
-                    android:textSize="@dimen/advanced_search_text_size"
-                    app:met_floatingLabel="highlight"
-                    app:met_floatingLabelText="@string/zeir_id"
-                    app:met_floatingLabelTextSize="@dimen/advanced_search_text_size"
-                    app:met_primaryColor="@color/light_blue"
-                    app:met_singleLineEllipsis="true" />
             </LinearLayout>
 
             <LinearLayout
@@ -254,22 +239,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/last_name"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/last_name_hint"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:paddingLeft="@dimen/advanced_search_label_padding"
-                    android:textColor="@color/client_list_grey"
-                    android:textColorHint="@color/light_grey"
-                    android:textSize="@dimen/advanced_search_text_size"
-                    app:met_floatingLabel="highlight"
-                    app:met_floatingLabelText="@string/last_name"
-                    app:met_floatingLabelTextSize="@dimen/advanced_search_text_size"
-                    app:met_primaryColor="@color/light_blue"
-                    app:met_singleLineEllipsis="true" />
             </LinearLayout>
 
             <LinearLayout
@@ -300,22 +269,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/mother_guardian_nrc"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/mother_guardian_nrc_hint"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:paddingLeft="@dimen/advanced_search_label_padding"
-                    android:textColor="@color/client_list_grey"
-                    android:textColorHint="@color/light_grey"
-                    android:textSize="@dimen/advanced_search_text_size"
-                    app:met_floatingLabel="highlight"
-                    app:met_floatingLabelText="@string/mother_guardian_nrc"
-                    app:met_floatingLabelTextSize="@dimen/advanced_search_text_size"
-                    app:met_primaryColor="@color/light_blue"
-                    app:met_singleLineEllipsis="true" />
             </LinearLayout>
 
             <LinearLayout

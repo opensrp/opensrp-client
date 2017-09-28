@@ -61,33 +61,14 @@
                         android:orientation="horizontal">
 
                         <org.ei.opensrp.view.customControls.CustomFontTextView
-                            android:id="@+id/child_zeir_id"
-                            style="@style/CustomFontTextViewStyle.ClientList.Light"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="EIR"
-                            android:textColor="@color/client_list_grey"
-                            android:textSize="22sp" />
-
-                        <org.ei.opensrp.view.customControls.CustomFontTextView
                             android:id="@+id/child_age"
                             style="@style/CustomFontTextViewStyle.ClientList.Light"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
                             android:text="Age"
                             android:textColor="@color/client_list_grey"
                             android:textSize="22sp" />
                     </LinearLayout>
-
-                    <org.ei.opensrp.view.customControls.CustomFontTextView
-                        android:id="@+id/pmtct_status"
-                        style="@style/CustomFontTextViewStyle.ClientList.Light"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="pmtct_status"
-                        android:textColor="@color/client_list_grey"
-                        android:textSize="22sp" />
 
                 </LinearLayout>
 

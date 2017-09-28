@@ -321,9 +321,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
 
         zeirId = (MaterialEditText) view.findViewById(R.id.zeir_id);
         firstName = (MaterialEditText) view.findViewById(R.id.first_name);
-        lastName = (MaterialEditText) view.findViewById(R.id.last_name);
         motherGuardianName = (MaterialEditText) view.findViewById(R.id.mother_guardian_name);
-        motherGuardianNrc = (MaterialEditText) view.findViewById(R.id.mother_guardian_nrc);
         motherGuardianPhoneNumber = (MaterialEditText) view.findViewById(R.id.mother_guardian_phone_number);
 
         startDate = (EditText) view.findViewById(R.id.start_date);
@@ -344,11 +342,11 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
         inactive.setChecked(false);
         lostToFollowUp.setChecked(false);
 
-        zeirId.setText("");
+
         firstName.setText("");
-        lastName.setText("");
+
         motherGuardianName.setText("");
-        motherGuardianNrc.setText("");
+
         motherGuardianPhoneNumber.setText("");
 
         startDate.setText("");
@@ -477,17 +475,17 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
 
         }
 
-        String zeirIdString = zeirId.getText().toString();
-        if (StringUtils.isNotBlank(zeirIdString))
+//        String zeirIdString = zeirId.getText().toString();
+//        if (StringUtils.isNotBlank(zeirIdString))
 
-        {
-            searchCriteriaString += " ZEIR ID: \"" + bold(zeirIdString) + "\",";
-            String key = ZEIR_ID;
-            if (!outOfArea) {
-                key = tableName + "." + ZEIR_ID;
-            }
-            editMap.put(key, zeirIdString.trim());
-        }
+//        {
+//            searchCriteriaString += " ZEIR ID: \"" + bold(zeirIdString) + "\",";
+//            String key = ZEIR_ID;
+//            if (!outOfArea) {
+//                key = tableName + "." + ZEIR_ID;
+//            }
+//            editMap.put(key, zeirIdString.trim());
+//        }
 
         String firstNameString = firstName.getText().toString();
         if (StringUtils.isNotBlank(firstNameString))
@@ -501,17 +499,17 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
             editMap.put(key, firstNameString.trim());
         }
 
-        String lastNameString = lastName.getText().toString();
-        if (StringUtils.isNotBlank(lastNameString))
-
-        {
-            searchCriteriaString += " Last name: \"" + bold(lastNameString) + "\",";
-            String key = LAST_NAME;
-            if (!outOfArea) {
-                key = tableName + "." + LAST_NAME;
-            }
-            editMap.put(key, lastNameString.trim());
-        }
+//        String lastNameString = lastName.getText().toString();
+//        if (StringUtils.isNotBlank(lastNameString))
+//
+//        {
+//            searchCriteriaString += " Last name: \"" + bold(lastNameString) + "\",";
+//            String key = LAST_NAME;
+//            if (!outOfArea) {
+//                key = tableName + "." + LAST_NAME;
+//            }
+//            editMap.put(key, lastNameString.trim());
+//        }
 
         String motherGuardianNameString = motherGuardianName.getText().toString();
         if (StringUtils.isNotBlank(motherGuardianNameString))
@@ -524,24 +522,24 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
             }
             editMap.put(key, motherGuardianNameString.trim());
 
-            key = MOTHER_GUARDIAN_LAST_NAME;
-            if (!outOfArea) {
-                key = parentTableName + "." + LAST_NAME;
-            }
-            editMap.put(key, motherGuardianNameString.trim());
+//            key = MOTHER_GUARDIAN_LAST_NAME;
+//            if (!outOfArea) {
+//                key = parentTableName + "." + LAST_NAME;
+//            }
+//            editMap.put(key, motherGuardianNameString.trim());
         }
 
-        String motherGuardianNrcString = motherGuardianNrc.getText().toString();
-        if (StringUtils.isNotBlank(motherGuardianNrcString))
-
-        {
-            searchCriteriaString += " Mother/Guardian nrc: \"" + bold(motherGuardianNrcString) + "\",";
-            String key = MOTHER_GUARDIAN_NRC_NUMBER;
-            if (!outOfArea) {
-                key = parentTableName + "." + NRC_NUMBER;
-            }
-            editMap.put(key, motherGuardianNrcString.trim());
-        }
+//        String motherGuardianNrcString = motherGuardianNrc.getText().toString();
+//        if (StringUtils.isNotBlank(motherGuardianNrcString))
+//
+//        {
+//            searchCriteriaString += " Mother/Guardian nrc: \"" + bold(motherGuardianNrcString) + "\",";
+//            String key = MOTHER_GUARDIAN_NRC_NUMBER;
+//            if (!outOfArea) {
+//                key = parentTableName + "." + NRC_NUMBER;
+//            }
+//            editMap.put(key, motherGuardianNrcString.trim());
+//        }
 
         String motherGuardianPhoneNumberString = motherGuardianPhoneNumber.getText().toString();
         if (StringUtils.isNotBlank(motherGuardianPhoneNumberString))

@@ -84,12 +84,7 @@ public class EditWeightDialogFragment extends DialogFragment {
         TextView nameView = (TextView) dialogView.findViewById(R.id.child_name);
         nameView.setText(tag.getPatientName());
 
-        TextView numberView = (TextView) dialogView.findViewById(R.id.child_zeir_id);
-        if (StringUtils.isNotBlank(tag.getPatientNumber())) {
-            numberView.setText(String.format("%s: %s", getString(R.string.label_zeir), tag.getPatientNumber()));
-        } else {
-            numberView.setText("");
-        }
+
 
         TextView ageView = (TextView) dialogView.findViewById(R.id.child_age);
         if (StringUtils.isNotBlank(tag.getPatientAge())) {
@@ -98,8 +93,6 @@ public class EditWeightDialogFragment extends DialogFragment {
             ageView.setText("");
         }
 
-        TextView pmtctStatusView = (TextView) dialogView.findViewById(R.id.pmtct_status);
-        pmtctStatusView.setText(tag.getPmtctStatus());
 
         if (tag.getId() != null) {
             ImageView mImageView = (ImageView) dialogView.findViewById(R.id.child_profilepic);

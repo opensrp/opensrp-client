@@ -312,6 +312,10 @@ public class JsonFormUtils {
                 ecUpdater.addEvent(e.getBaseEntityId(), eventJson);
             }
 
+            String zeirId = c.getIdentifier(OpenMRS_ID);
+            //mark zeir id as used
+            VaccinatorApplication.getInstance().uniqueIdRepository().close(zeirId);
+
 
 
             String imageLocation = getFieldValue(fields, imageKey);
@@ -470,7 +474,7 @@ public class JsonFormUtils {
                 ecUpdater.addEvent(se.getBaseEntityId(), eventJson);
             }
 
-            String zeirId = c.getIdentifier(ZEIR_ID);
+            String zeirId = c.getIdentifier(OpenMRS_ID);
             //mark zeir id as used
             VaccinatorApplication.getInstance().uniqueIdRepository().close(zeirId);
 
@@ -608,6 +612,9 @@ public class JsonFormUtils {
                 JSONObject eventJson = new JSONObject(gson.toJson(e));
                 ecUpdater.addEvent(e.getBaseEntityId(), eventJson);
             }
+            String zeirId = c.getIdentifier(OpenMRS_ID);
+            //mark zeir id as used
+            VaccinatorApplication.getInstance().uniqueIdRepository().close(zeirId);
 
 
 //            String zeirId = c.getIdentifier(ZEIR_ID);

@@ -153,7 +153,7 @@
     <string name="zeir_id">ZEIR ID</string>
     <string name="zeir_id_hint">ZEIR ID number</string>
     <string name="first_name">First Name</string>
-    <string name="first_name_hint">First name</string>
+    <string name="first_name_hint">Name</string>
     <string name="last_name">Last Name</string>
     <string name="last_name_hint">Last name</string>
     <string name="mother_guardian_name">Mother/Guardian Name</string>

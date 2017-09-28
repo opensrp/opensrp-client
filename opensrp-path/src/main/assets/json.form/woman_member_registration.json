@@ -85,7 +85,7 @@
         "openmrs_entity": "person_identifier",
         "openmrs_entity_id": "OpenMRS_ID",
         "type": "edit_text",
-        "hint": "OpenMRS ID *",
+        "hint": "নিবন্ধন নম্বর *",
         "read_only":"true",
         "value": "0",
         "v_numeric": {
@@ -122,10 +122,11 @@
         "openmrs_entity_id": "idtype",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "Which ID card do you have?",
+        "hint": "কোন আইডি কার্ড আছে?",
         "values": [
           "NID",
-          "BRID"
+          "BRID",
+          "None"
         ]
       },
       {
@@ -139,6 +140,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid NID No."
+        },
+        "v_regex": {
+          "value": "^(?=[0-9]*$)(?:.{10}|.{13}|.{17})$",
+          "err": "Number must be a total of 10,13 or 17 digits in length"
         },
         "v_required": {
           "value": true,
@@ -162,6 +167,10 @@
         "v_numeric": {
           "value": "true",
           "err": "Enter a valid BRID"
+        },
+        "v_regex": {
+          "value": "^(?=[0-9]*$)(?:.{17})$",
+          "err": "Number must be a total of 17 digits in length"
         },
         "v_required": {
           "value": true,
@@ -265,7 +274,11 @@
         },
         "v_numeric": {
           "value": "true",
-          "err": "Please Enter 11 digit Mobile number"
+          "err": "Number must begin with 095, 096, or 097 and must be a total of 11 digits in length"
+        },
+        "v_regex": {
+          "value": "(01[5-9][0-9]{8})|\s*",
+          "err": "Number must begin with 015, 016,017,018 or 019 and must be a total of 11 digits in length"
         },
         "v_max_length":{
           "value" : "11",

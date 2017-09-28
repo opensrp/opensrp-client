@@ -782,7 +782,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         if (isDataOk()) {
             name = Utils.getValue(childDetails.getColumnmaps(), "first_name", true)
                     + " " + Utils.getValue(childDetails.getColumnmaps(), "last_name", true).replace(".","");
-            childId = Utils.getValue(childDetails.getColumnmaps(), "zeir_id", false);
+            childId = Utils.getValue(childDetails.getColumnmaps(), "openmrs_id", false);
             if (StringUtils.isNotBlank(childId)) {
                 childId = childId.replace("-", "");
             }
@@ -801,7 +801,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
 
 
         profileage.setText(String.format("%s: %s", getString(R.string.age), formattedAge));
-        profileZeirID.setText(String.format("%s: %s", getString(R.string.label_zeir), childId));
+        profileZeirID.setText(String.format("%s: %s", getString(R.string.label_openmrsid), childId));
         profilename.setText(name);
         updateGenderViews();
         Gender gender = Gender.UNKNOWN;
