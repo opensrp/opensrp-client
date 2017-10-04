@@ -447,6 +447,7 @@ public class JsonFormUtils {
             }
 
             Client c = JsonFormUtils.createBaseClient(fields, entityId);
+            adresses.add(address1);
             c.setAddresses(adresses);
             Event e = JsonFormUtils.createEvent(openSrpContext, fields, metadata, entityId, encounterType, providerId, bindType);
 
