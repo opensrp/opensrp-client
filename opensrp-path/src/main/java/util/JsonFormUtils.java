@@ -390,7 +390,8 @@ public class JsonFormUtils {
             String encounterType = getString(jsonForm, ENCOUNTER_TYPE);
 
             JSONObject metadata = getJSONObject(jsonForm, METADATA);
-
+            ArrayList<Address> adresses = new ArrayList<Address>();
+            Address address1 = new Address();
             // Replace values for location questions with their corresponding location IDs
             for (int i = 0; i < fields.length(); i++) {
                 String key = fields.getJSONObject(i).getString("key");
@@ -412,6 +413,28 @@ public class JsonFormUtils {
                     if (TextUtils.isEmpty(fields.getJSONObject(i).optString("value"))) {
                         fields.getJSONObject(i).put("value", MOTHER_DEFAULT_DOB);
                     }
+                }else if (key.equals("HIE_FACILITIES")) {
+                    if(!TextUtils.isEmpty(fields.getJSONObject(i).getString("value"))){
+                        String address = fields.getJSONObject(i).getString("value");
+                        try {
+                            address = address.replace("[", "").replace("]", "");
+                            String[] addressStringArray = address.split(",");
+                            if(addressStringArray.length>0) {
+                                address1.setAddressType("usual_residence");
+                                address1.addAddressField("country", addressStringArray[0].replaceAll("^\"|\"$", ""));
+                                address1.addAddressField("stateProvince", addressStringArray[1].replaceAll("^\"|\"$", ""));
+                                address1.addAddressField("countyDistrict", addressStringArray[2].replaceAll("^\"|\"$", ""));
+                                address1.addAddressField("cityVillage", addressStringArray[3].replaceAll("^\"|\"$", ""));
+                                address1.addAddressField("address1", addressStringArray[4].replaceAll("^\"|\"$", ""));
+                                address1.addAddressField("address2", addressStringArray[5].replaceAll("^\"|\"$", ""));
+                                address1.addAddressField("address3", addressStringArray[6].replaceAll("^\"|\"$", ""));
+                                address1.addAddressField("address4", addressStringArray[7].replaceAll("^\"|\"$", ""));
+                            }
+                            Log.v("address", address);
+                        }catch (Exception e){
+
+                        }
+                    }
                 }
             }
 
@@ -424,6 +447,7 @@ public class JsonFormUtils {
             }
 
             Client c = JsonFormUtils.createBaseClient(fields, entityId);
+            c.setAddresses(adresses);
             Event e = JsonFormUtils.createEvent(openSrpContext, fields, metadata, entityId, encounterType, providerId, bindType);
 
             Client s = null;
