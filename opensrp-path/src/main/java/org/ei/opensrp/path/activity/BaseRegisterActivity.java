@@ -360,6 +360,9 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
 //                finish();
             }
         });
+        hia2.setVisibility(View.GONE);
+        stockregister.setVisibility(View.GONE);
+        outofcatchment.setVisibility(View.GONE);
 
     }
 
