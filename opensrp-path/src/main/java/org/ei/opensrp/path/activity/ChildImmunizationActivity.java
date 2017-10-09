@@ -1895,6 +1895,865 @@ public class ChildImmunizationActivity extends BaseActivity
                 }
             }
         }
+        if(age_when_weight_taken == 7 && monthLastWeightTaken == 6 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 223){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 214){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 7 && monthLastWeightTaken == 5 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 585){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 560){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 7 && monthLastWeightTaken == 4 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 1038){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 995){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 7 && monthLastWeightTaken == 3 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 1602){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 1522){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 7 && monthLastWeightTaken == 1 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 3406){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 3033){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 8 && monthLastWeightTaken == 7 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 181){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 178){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 8 && monthLastWeightTaken == 6 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 486){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 469){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 8 && monthLastWeightTaken == 5 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 859){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 825){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 8 && monthLastWeightTaken == 4 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 1312){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 1248){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 8 && monthLastWeightTaken == 2 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 2662){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 2480){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 9 && monthLastWeightTaken == 8 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 148){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 139){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 9 && monthLastWeightTaken == 7 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 417){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 399){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 9 && monthLastWeightTaken == 6 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 733){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 697){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 9 && monthLastWeightTaken == 5 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 1097){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 1042){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 9 && monthLastWeightTaken == 3 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 2141){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 2030){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 10 && monthLastWeightTaken == 9 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 120){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 110){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 10 && monthLastWeightTaken == 8 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 360){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 336){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 10 && monthLastWeightTaken == 7 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 639){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 598){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 10 && monthLastWeightTaken == 6 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 945){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 891){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 10 && monthLastWeightTaken == 4 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 1789){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 1692){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 11 && monthLastWeightTaken == 10 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 100){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 95){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 11 && monthLastWeightTaken == 9 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 315){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 297){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 11 && monthLastWeightTaken == 8 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 567){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 528){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 11 && monthLastWeightTaken == 7 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 832){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 785){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 11 && monthLastWeightTaken == 5 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 1524){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 1446){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 12 && monthLastWeightTaken == 11 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 91){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 88){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 12 && monthLastWeightTaken == 10 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 286){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 274){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 12 && monthLastWeightTaken == 9 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 509){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 481){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 12 && monthLastWeightTaken == 8 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 757){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 712){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 12 && monthLastWeightTaken == 6 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 1346){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 1271){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 13 && monthLastWeightTaken == 11 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 260){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 254){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 13 && monthLastWeightTaken == 10 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 465){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 451){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 13 && monthLastWeightTaken == 9 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 700){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 659){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 13 && monthLastWeightTaken == 7 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 1212){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 1147){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 14 && monthLastWeightTaken == 12 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 236){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 238){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 14 && monthLastWeightTaken == 11 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 430){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 429){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 14 && monthLastWeightTaken == 11 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 648){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 624){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 14 && monthLastWeightTaken == 8 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 1106){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 1063){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 15 && monthLastWeightTaken == 13 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 212){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 227){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 15 && monthLastWeightTaken == 12 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 404){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 413){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 15 && monthLastWeightTaken == 11 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 598){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 601){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 15 && monthLastWeightTaken == 9 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 1024){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 1009){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 16 && monthLastWeightTaken == 14 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 197){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 220){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 16 && monthLastWeightTaken == 13 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 385){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 403){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 16 && monthLastWeightTaken == 12 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 564){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 586){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 16 && monthLastWeightTaken == 10 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 970){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 975){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 17 && monthLastWeightTaken == 15 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 193){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 216){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 17 && monthLastWeightTaken == 14 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 372){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 397){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 17 && monthLastWeightTaken == 13 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 550){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 578){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 17 && monthLastWeightTaken == 11 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 937){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 956){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 18 && monthLastWeightTaken == 16 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 192){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 212){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 18 && monthLastWeightTaken == 15 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 362){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 392){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 18 && monthLastWeightTaken == 14 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 543){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 572){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 18 && monthLastWeightTaken == 12 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 914){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 942){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 19 && monthLastWeightTaken == 17 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 188){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 205){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 19 && monthLastWeightTaken == 16 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 355){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 385){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 19 && monthLastWeightTaken == 15 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 537){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 565){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 19 && monthLastWeightTaken == 13 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 898){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 931){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 20 && monthLastWeightTaken == 18 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 182){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 196){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 20 && monthLastWeightTaken == 17 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 351){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 376){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 20 && monthLastWeightTaken == 16 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 529){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 556){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 20 && monthLastWeightTaken == 14 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 887){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 920){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 21 && monthLastWeightTaken == 19 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 176){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 188){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 21 && monthLastWeightTaken == 18 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 347){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 366){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 21 && monthLastWeightTaken == 17 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 519){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 546){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 21 && monthLastWeightTaken == 15 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 880){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 908){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 22 && monthLastWeightTaken == 20 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 171){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 178){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 22 && monthLastWeightTaken == 19 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 342){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 354){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 22 && monthLastWeightTaken == 18 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 508){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 532){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 22 && monthLastWeightTaken == 16 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 872){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 894){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 23 && monthLastWeightTaken == 21 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 167){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 164){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 23 && monthLastWeightTaken == 20 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 334){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 340){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 23 && monthLastWeightTaken == 19){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 501){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 517){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 23 && monthLastWeightTaken == 17 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 863){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 876){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 24 && monthLastWeightTaken == 22 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 164){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 150){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 24 && monthLastWeightTaken == 21 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 322){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 326){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 24 && monthLastWeightTaken == 20 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 497){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 503){
+                    check = false;
+                }
+            }
+        }
+        if(age_when_weight_taken == 24 && monthLastWeightTaken == 18 ){
+            if(gender.MALE == gender){
+                if(weightDifferenceInGrams< 855){
+                    check = false;
+                }
+            }else if (gender.FEMALE == gender){
+                if(weightDifferenceInGrams< 857){
+                    check = false;
+                }
+            }
+        }
+
 
 
 
