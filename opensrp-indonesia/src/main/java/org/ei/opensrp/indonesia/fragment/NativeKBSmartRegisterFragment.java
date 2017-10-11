@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.flurry.android.FlurryAgent;
+import com.qualcomm.snapdragon.sdk.face.FacialProcessing;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
@@ -359,55 +360,6 @@ public class NativeKBSmartRegisterFragment extends SecuredNativeSmartRegisterCur
         }
 
     }
-//    OLD
-//    @Override
-//    public void setupSearchView(View view) {
-//        searchView = (EditText) view.findViewById(org.ei.opensrp.R.id.edt_search);
-//        searchView.setHint(getNavBarOptionsProvider().searchHint());
-//        searchView.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(final CharSequence cs, int start, int before, int count) {
-//
-//                filters = cs.toString();
-//                joinTable = "";
-//                mainCondition = " is_closed = 0 and jenisKontrasepsi != '0' ";
-//
-//
-//                getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
-//                CountExecute();
-//                filterandSortExecute();
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//            }
-//        });
-
-//        searchView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                CharSequence selections[] = new CharSequence[]{"Name", "Photo"};
-////                Image selections[] = new Image[]{};
-//                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//                builder.setTitle("Please Choose one, Search by");
-//                builder.setItems(selections, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int opt) {
-//                        if (opt == 0) searchTextChangeListener("");
-//                        else getFacialRecord(view);
-//                    }
-//                });
-//                builder.show();
-//            }
-//        });
-
-//        searchCancelView = view.findViewById(org.ei.opensrp.R.id.btn_search_cancel);
-//        searchCancelView.setOnClickListener(searchCancelHandler);
-//    }
 
     public void updateSearchView(){
         getSearchView().addTextChangedListener(new TextWatcher() {
@@ -448,62 +400,6 @@ public class NativeKBSmartRegisterFragment extends SecuredNativeSmartRegisterCur
         }
     }
 
-//    public void searchTextChangeListener(String s) {
-//        Log.e(TAG, "searchTextChangeListener: " + s);
-//        if (s != null) {
-//            filters =  s;
-//        } else {
-//            searchView.addTextChangedListener(new TextWatcher() {
-//                @Override
-//                public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-//                }
-//
-//                @Override
-//                public void onTextChanged(final CharSequence cs, int start, int before, int count) {
-//
-//                    Log.e(TAG, "onTextChanged: " + searchView.getText());
-//                    (new AsyncTask() {
-////                    SmartRegisterClients filteredClients;
-//
-//                        @Override
-//                        protected Object doInBackground(Object[] params) {
-////                        currentSearchFilter =
-////                        setCurrentSearchFilter(new HHSearchOption(cs.toString()));
-////                        filteredClients = getClientsAdapter().getListItemProvider()
-////                                .updateClients(getCurrentVillageFilter(), getCurrentServiceModeOption(),
-////                                        getCurrentSearchFilter(), getCurrentSortOption());
-////
-//
-//                            filters = cs.toString();
-////                        joinTable = "";
-////                        mainCondition = " is_closed = 0 and jenisKontrasepsi != '0' ";
-//                            Log.e(TAG, "doInBackground: " + filters);
-//                            return null;
-//                        }
-////
-////                    @Override
-////                    protected void onPostExecute(Object o) {
-//////                        clientsAdapter
-//////                                .refreshList(currentVillageFilter, currentServiceModeOption,
-//////                                        currentSearchFilter, currentSortOption);
-//////                        getClientsAdapter().refreshClients(filteredClients);
-//////                        getClientsAdapter().notifyDataSetChanged();
-////                        getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
-////                        CountExecute();
-////                        filterandSortExecute();
-////                        super.onPostExecute(o);
-////                    }
-//                    }).execute();
-//                }
-//
-//                @Override
-//                public void afterTextChanged(Editable editable) {
-//                }
-//            });
-//        }
-//    }
-
-
     //    WD
     public static String criteria;
 
@@ -522,17 +418,21 @@ public class NativeKBSmartRegisterFragment extends SecuredNativeSmartRegisterCur
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharSequence selections[] = new CharSequence[]{"Name", "Photo"};
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Please Choose one, Search by");
-                builder.setItems(selections, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int opt) {
-                        if (opt == 0) searchTextChangeListener("");
-                        else getFacialRecord(view);
-                    }
-                });
-                builder.show();
+                if (SmartShutterActivity.isDevCompat) {
+                    CharSequence selections[] = new CharSequence[]{"Name", "Photo"};
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Please Choose one, Search by");
+                    builder.setItems(selections, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int opt) {
+                            if (opt == 0) searchTextChangeListener("");
+                            else getFacialRecord(view);
+                        }
+                    });
+                    builder.show();
+                } else {
+                    searchTextChangeListener("");
+                }
             }
         });
 

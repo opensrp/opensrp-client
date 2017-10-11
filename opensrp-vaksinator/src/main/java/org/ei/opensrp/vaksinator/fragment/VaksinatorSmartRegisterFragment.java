@@ -407,17 +407,21 @@ public class VaksinatorSmartRegisterFragment extends SecuredNativeSmartRegisterC
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharSequence selections[] = new CharSequence[]{"Name", "Photo"};
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Please Choose one, Search by");
-                builder.setItems(selections, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int opt) {
-                        if (opt == 0) searchTextChangeListener("");
-                        else getFacialRecord(view);
-                    }
-                });
-                builder.show();
+                if (SmartShutterActivity.isDevCompat) {
+                    CharSequence selections[] = new CharSequence[]{"Name", "Photo"};
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Please Choose one, Search by");
+                    builder.setItems(selections, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int opt) {
+                            if (opt == 0) searchTextChangeListener("");
+                            else getFacialRecord(view);
+                        }
+                    });
+                    builder.show();
+                } else {
+                    searchTextChangeListener("");
+                }
             }
         });
 

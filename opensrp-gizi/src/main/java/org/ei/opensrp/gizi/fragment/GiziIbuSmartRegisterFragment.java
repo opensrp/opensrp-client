@@ -340,17 +340,6 @@ public class GiziIbuSmartRegisterFragment extends SecuredNativeSmartRegisterCurs
         }
         @Override
         public void onDialogOptionSelection(DialogOption option, Object tag) {
-
-
-            /*if(option.name().equalsIgnoreCase(getString(R.string.str_register_anc_form)) ) {
-                CommonPersonObjectClient pc = KIDetailActivity.kiclient;
-                if(pc.getDetails().get("ibu.type")!= null) {
-                    if (pc.getDetails().get("ibu.type").equals("anc") || pc.getDetails().get("ibu.type").equals("pnc")) {
-                        Toast.makeText(getActivity().getApplicationContext(), getString(R.string.mother_already_registered), Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                }
-            }*/
             onEditSelection((EditOption) option, (SmartRegisterClient) tag);
         }
     }
@@ -371,58 +360,7 @@ public class GiziIbuSmartRegisterFragment extends SecuredNativeSmartRegisterCurs
         }
 
     }
-//    @Override
-//    public void setupSearchView(View view) {
-//        searchView = (EditText) view.findViewById(org.ei.opensrp.R.id.edt_search);
-//        searchView.setHint(getNavBarOptionsProvider().searchHint());
-//        searchView.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(final CharSequence cs, int start, int before, int count) {
-//
-//                (new AsyncTask() {
-//                    SmartRegisterClients filteredClients;
-//
-//                    @Override
-//                    protected Object doInBackground(Object[] params) {
-////                        currentSearchFilter =
-////                        setCurrentSearchFilter(new HHSearchOption(cs.toString()));
-////                        filteredClients = getClientsAdapter().getListItemProvider()
-////                                .updateClients(getCurrentVillageFilter(), getCurrentServiceModeOption(),
-////                                        getCurrentSearchFilter(), getCurrentSortOption());
-////
-//                        filters = cs.toString();
-//                        joinTable = "";
-//                        mainCondition = " namaBayi !='' ";
-//                        return null;
-//                    }
-//
-//                    @Override
-//                    protected void onPostExecute(Object o) {
-////                        clientsAdapter
-////                                .refreshList(currentVillageFilter, currentServiceModeOption,
-////                                        currentSearchFilter, currentSortOption);
-////                        getClientsAdapter().refreshClients(filteredClients);
-////                        getClientsAdapter().notifyDataSetChanged();
-//                        getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
-//                        CountExecute();
-//                        filterandSortExecute();
-//                        super.onPostExecute(o);
-//                    }
-//                }).execute();
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//            }
-//        });
-//        searchCancelView = view.findViewById(org.ei.opensrp.R.id.btn_search_cancel);
-//        searchCancelView.setOnClickListener(searchCancelHandler);
-//    }
-//
+
     public void updateSearchView(){
         getSearchView().addTextChangedListener(new TextWatcher() {
             @Override
@@ -432,17 +370,9 @@ public class GiziIbuSmartRegisterFragment extends SecuredNativeSmartRegisterCurs
             @Override
             public void onTextChanged(final CharSequence cs, int start, int before, int count) {
                 (new AsyncTask() {
-                    SmartRegisterClients filteredClients;
 
                     @Override
                     protected Object doInBackground(Object[] params) {
-//                        currentSearchFilter =
-//                        setCurrentSearchFilter(new HHSearchOption(cs.toString()));
-//                        filteredClients = getClientsAdapter().getListItemProvider()
-//                                .updateClients(getCurrentVillageFilter(), getCurrentServiceModeOption(),
-//                                        getCurrentSearchFilter(), getCurrentSortOption());
-//
-
                         filters = cs.toString();
                         joinTable = "";
                         mainCondition = " namaBayi !='' ";
@@ -451,22 +381,11 @@ public class GiziIbuSmartRegisterFragment extends SecuredNativeSmartRegisterCurs
 
                     @Override
                     protected void onPostExecute(Object o) {
-//                        clientsAdapter
-//                                .refreshList(currentVillageFilter, currentServiceModeOption,
-//                                        currentSearchFilter, currentSortOption);
-//                        getClientsAdapter().refreshClients(filteredClients);
-//                        getClientsAdapter().notifyDataSetChanged();
                         getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
                         filterandSortExecute();
                         super.onPostExecute(o);
                     }
                 }).execute();
-//                currentSearchFilter = new HHSearchOption(cs.toString());
-//                clientsAdapter
-//                        .refreshList(currentVillageFilter, currentServiceModeOption,
-//                                currentSearchFilter, currentSortOption);
-//
-//                searchCancelView.setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
 
 
             }
@@ -508,17 +427,21 @@ public class GiziIbuSmartRegisterFragment extends SecuredNativeSmartRegisterCurs
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharSequence selections[] = new CharSequence[]{"Name", "Photo"};
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Please Choose one, Search by");
-                builder.setItems(selections, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int opt) {
-                        if (opt == 0) searchTextChangeListener("");
-                        else getFacialRecord(view);
-                    }
-                });
-                builder.show();
+                if (SmartShutterActivity.isDevCompat) {
+                    CharSequence selections[] = new CharSequence[]{"Name", "Photo"};
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Please Choose one, Search by");
+                    builder.setItems(selections, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int opt) {
+                            if (opt == 0) searchTextChangeListener("");
+                            else getFacialRecord(view);
+                        }
+                    });
+                    builder.show();
+                } else {
+                    searchTextChangeListener("");
+                }
             }
         });
 
@@ -558,12 +481,6 @@ public class GiziIbuSmartRegisterFragment extends SecuredNativeSmartRegisterCurs
 
                         @Override
                         protected Object doInBackground(Object[] params) {
-//                        currentSearchFilter =
-//                        setCurrentSearchFilter(new HHSearchOption(cs.toString()));
-//                        filteredClients = getClientsAdapter().getListItemProvider()
-//                                .updateClients(getCurrentVillageFilter(), getCurrentServiceModeOption(),
-//                                        getCurrentSearchFilter(), getCurrentSortOption());
-//
 
                             filters = cs.toString();
                             joinTable = "";
@@ -594,22 +511,7 @@ public class GiziIbuSmartRegisterFragment extends SecuredNativeSmartRegisterCurs
         }
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data){
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        Intent myIntent = new Intent(getActivity(), IbuSmartRegisterActivity.class);
-//        if (data != null) {
-//            myIntent.putExtra("org.ei.opensrp.indonesia.face.face_mode", true);
-//            myIntent.putExtra("org.ei.opensrp.indonesia.face.base_id", data.getStringExtra("org.ei.opensrp.indonesia.face.base_id"));
-//        }
-//        getActivity().startActivity(myIntent);
-//
-//    }
-
-
     @Override
-
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
 

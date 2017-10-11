@@ -95,7 +95,7 @@ public class SmartShutterActivity extends Activity implements Camera.PreviewCall
 
     private int FRONT_CAMERA_INDEX = 1;
     private int BACK_CAMERA_INDEX = 0;
-    private boolean isDevCompat;
+    public static boolean isDevCompat;
     private static boolean switchCamera = false;
     private static boolean settingsButtonPress;
     private static boolean faceEyesMouthDetectionPressed;

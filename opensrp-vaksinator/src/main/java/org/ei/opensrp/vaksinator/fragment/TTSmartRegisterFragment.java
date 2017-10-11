@@ -80,13 +80,7 @@ public class TTSmartRegisterFragment extends SecuredNativeSmartRegisterCursorAda
 
     @Override
     protected void onCreation() {
-        //
     }
-
-//    @Override
-//    protected SmartRegisterPaginatedAdapter adapter() {
-//        return new SmartRegisterPaginatedAdapter(clientsProvider());
-//    }
 
     @Override
     protected SecuredNativeSmartRegisterActivity.DefaultOptionsProvider getDefaultOptionsProvider() {
@@ -151,9 +145,6 @@ public class TTSmartRegisterFragment extends SecuredNativeSmartRegisterCursorAda
             public DialogOption[] sortingOptions() {
                 FlurryFacade.logEvent("click_sorting_option_on_kohort_ibu_dashboard");
                 return new DialogOption[]{
-//                        new HouseholdCensusDueDateSort(),
-
-
                         new CursorCommonObjectSort(getResources().getString(R.string.sort_by_name_label),KiSortByNameAZ()),
                         new CursorCommonObjectSort(getResources().getString(R.string.sort_by_name_label_reverse),KiSortByNameZA()),
                 };
@@ -351,58 +342,6 @@ public class TTSmartRegisterFragment extends SecuredNativeSmartRegisterCursorAda
 
     }
 
-//    @Override
-//    public void setupSearchView(View view) {
-//        searchView = (EditText) view.findViewById(org.ei.opensrp.R.id.edt_search);
-//        searchView.setHint(getNavBarOptionsProvider().searchHint());
-//        searchView.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(final CharSequence cs, int start, int before, int count) {
-//
-//                (new AsyncTask() {
-//                    SmartRegisterClients filteredClients;
-//
-//                    @Override
-//                    protected Object doInBackground(Object[] params) {
-////                        currentSearchFilter =
-////                        setCurrentSearchFilter(new HHSearchOption(cs.toString()));
-////                        filteredClients = getClientsAdapter().getListItemProvider()
-////                                .updateClients(getCurrentVillageFilter(), getCurrentServiceModeOption(),
-////                                        getCurrentSearchFilter(), getCurrentSortOption());
-////
-//                        filters = cs.toString();
-//                        joinTable = "";
-//                        mainCondition = " namaBayi !='' ";
-//                        return null;
-//                    }
-//
-//                    @Override
-//                    protected void onPostExecute(Object o) {
-////                        clientsAdapter
-////                                .refreshList(currentVillageFilter, currentServiceModeOption,
-////                                        currentSearchFilter, currentSortOption);
-////                        getClientsAdapter().refreshClients(filteredClients);
-////                        getClientsAdapter().notifyDataSetChanged();
-//                        getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
-//                        CountExecute();
-//                        filterandSortExecute();
-//                        super.onPostExecute(o);
-//                    }
-//                }).execute();
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//            }
-//        });
-//        searchCancelView = view.findViewById(org.ei.opensrp.R.id.btn_search_cancel);
-//        searchCancelView.setOnClickListener(searchCancelHandler);
-//    }
-
     public void updateSearchView(){
         getSearchView().addTextChangedListener(new TextWatcher() {
             @Override
@@ -488,17 +427,21 @@ public class TTSmartRegisterFragment extends SecuredNativeSmartRegisterCursorAda
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharSequence selections[] = new CharSequence[]{"Name", "Photo"};
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Please Choose one, Search by");
-                builder.setItems(selections, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int opt) {
-                        if (opt == 0) searchTextChangeListener("");
-                        else getFacialRecord(view);
-                    }
-                });
-                builder.show();
+                if (SmartShutterActivity.isDevCompat) {
+                    CharSequence selections[] = new CharSequence[]{"Name", "Photo"};
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Please Choose one, Search by");
+                    builder.setItems(selections, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int opt) {
+                            if (opt == 0) searchTextChangeListener("");
+                            else getFacialRecord(view);
+                        }
+                    });
+                    builder.show();
+                } else {
+                    searchTextChangeListener("");
+                }
             }
         });
 
