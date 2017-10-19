@@ -388,37 +388,6 @@ public class NativeKIPNCSmartRegisterFragment extends SecuredNativeSmartRegister
 
     }
 
-//    @Override
-//    public void setupSearchView(View view) {
-//        searchView = (EditText) view.findViewById(org.ei.opensrp.R.id.edt_search);
-//        searchView.setHint(getNavBarOptionsProvider().searchHint());
-//        searchView.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(final CharSequence cs, int start, int before, int count) {
-//
-//                filters = cs.toString();
-//                joinTable = "";
-//                mainCondition = " is_closed = 0 and keadaanIbu ='hidup' ";
-//
-//                getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
-//                CountExecute();
-//                filterandSortExecute();
-//
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//            }
-//        });
-//        searchCancelView = view.findViewById(org.ei.opensrp.R.id.btn_search_cancel);
-//        searchCancelView.setOnClickListener(searchCancelHandler);
-//    }
-
     public void updateSearchView(){
         getSearchView().addTextChangedListener(new TextWatcher() {
             @Override
@@ -476,17 +445,21 @@ public class NativeKIPNCSmartRegisterFragment extends SecuredNativeSmartRegister
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharSequence selections[] = new CharSequence[]{"Name", "Photo"};
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Please Choose one, Search by");
-                builder.setItems(selections, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int opt) {
-                        if (opt == 0) searchTextChangeListener("");
-                        else getFacialRecord(view);
-                    }
-                });
-                builder.show();
+                if (SmartShutterActivity.isDevCompat) {
+                    CharSequence selections[] = new CharSequence[]{"Name", "Photo"};
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Please Choose one, Search by");
+                    builder.setItems(selections, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int opt) {
+                            if (opt == 0) searchTextChangeListener("");
+                            else getFacialRecord(view);
+                        }
+                    });
+                    builder.show();
+                } else {
+                    searchTextChangeListener("");
+                }
             }
         });
 
