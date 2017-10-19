@@ -317,7 +317,8 @@ public class GiziSmartRegisterActivity extends SecuredNativeSmartRegisterActivit
      */
     private CharSequence[] selections(int choice, String entityId){
         String name = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_anak").findByCaseID(entityId).getColumnmaps().get("namaBayi");
-        System.out.println("start form activity / nama = " + name);
+        if(name==null)
+            name = "-";
         CharSequence selections[] = new CharSequence[]{name, name, name};
 
         selections[choice] = (CharSequence) name;
