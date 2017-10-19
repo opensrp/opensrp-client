@@ -94,6 +94,10 @@
         "bind": "/model/instance/EligibleCoupleRegister/existing_location"
       },
       {
+        "name": "existing_TT_Count",
+        "bind": "/model/instance/EligibleCoupleRegister/existing_TT_Count"
+      },
+      {
         "name": "today",
         "bind": "/model/instance/EligibleCoupleRegister/today"
       },

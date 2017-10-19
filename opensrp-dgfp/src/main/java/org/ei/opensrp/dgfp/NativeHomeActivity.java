@@ -11,11 +11,19 @@ import android.widget.Toast;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
+import org.ei.opensrp.dgfp.anc.anc1handler;
+import org.ei.opensrp.dgfp.anc.anc2handler;
+import org.ei.opensrp.dgfp.anc.anc3handler;
+import org.ei.opensrp.dgfp.anc.anc4handler;
 import org.ei.opensrp.dgfp.anc.nbnfhandler;
 import org.ei.opensrp.dgfp.clientDownload.ClientSearchActivity;
 import org.ei.opensrp.dgfp.hh_member.HouseHoldHandler;
 import org.ei.opensrp.dgfp.injectables.InjectableHandler;
 import org.ei.opensrp.dgfp.pnc.ChildRegistrationhandler;
+import org.ei.opensrp.dgfp.pnc.pnc1handler;
+import org.ei.opensrp.dgfp.pnc.pnc2handler;
+import org.ei.opensrp.dgfp.pnc.pnc3handler;
+import org.ei.opensrp.dgfp.pnc.pnc4handler;
 import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.service.HTTPAgent;
 import org.ei.opensrp.service.PendingFormSubmissionService;
@@ -108,12 +116,16 @@ public class NativeHomeActivity extends SecuredActivity {
         DisplayFormFragment.okMessage = getResources().getString(R.string.okforminputerror);
         context.formSubmissionRouter().getHandlerMap().put("childregistration",new ChildRegistrationhandler(this));
         context.formSubmissionRouter().getHandlerMap().put("birth_notification",new nbnfhandler(this));
-
         context.formSubmissionRouter().getHandlerMap().put("injectable",new InjectableHandler(this));
-
-
         context.formSubmissionRouter().getHandlerMap().put("new_household_registration",new HouseHoldHandler(this));
-
+        context.formSubmissionRouter().getHandlerMap().put("anc_visit1",new anc1handler());
+        context.formSubmissionRouter().getHandlerMap().put("anc_visit2",new anc2handler());
+        context.formSubmissionRouter().getHandlerMap().put("anc_visit3",new anc3handler());
+        context.formSubmissionRouter().getHandlerMap().put("anc_visit4",new anc4handler());
+        context.formSubmissionRouter().getHandlerMap().put("pnc_visit1",new pnc1handler());
+        context.formSubmissionRouter().getHandlerMap().put("pnc_visit2",new pnc2handler());
+        context.formSubmissionRouter().getHandlerMap().put("pnc_visit3",new pnc3handler());
+        context.formSubmissionRouter().getHandlerMap().put("pnc_visit4",new pnc4handler());
 
     }
 

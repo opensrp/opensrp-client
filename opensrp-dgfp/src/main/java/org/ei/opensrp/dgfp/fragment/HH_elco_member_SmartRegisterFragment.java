@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
+import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
@@ -61,6 +62,7 @@ import java.util.Map;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.ei.opensrp.util.StringUtil.humanize;
 
 /**
  * Created by koros on 11/2/15.
@@ -245,7 +247,28 @@ public class HH_elco_member_SmartRegisterFragment extends SecuredNativeSmartRegi
                     startActivity(intent);
                     break;
                 case R.id.pvf:
-                    ((HH_woman_member_SmartRegisterActivity)getActivity()).startFormActivity("elco_register", ((CommonPersonObjectClient) view.getTag()).entityId(), null);
+//                    existing_HoH_F_Name
+                    JSONObject overridejsonobject = new JSONObject();
+                    AllCommonsRepository allelcoRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("members");
+                    CommonPersonObject elcoobject = allelcoRepository.findByCaseID(((CommonPersonObjectClient) view.getTag()).entityId());
+                    String ttcount =    (elcoobject.getDetails().get("TT_Count") != null ? (elcoobject.getDetails().get("TT_Count")+",") : "");
+
+                    AllCommonsRepository householdrep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("household");
+                    CommonPersonObject householdparent = householdrep.findByCaseID(elcoobject.getRelationalId());
+                    String householdname = householdparent.getColumnmaps().get("HoH_F_Name");
+
+
+                    try {
+                        overridejsonobject.put("existing_HoH_F_Name",householdname);
+                        overridejsonobject.put("existing_TT_Count",ttcount);
+                        //overridejsonobject.put("existing_Preg_Status","1");
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    FieldOverrides fieldOverrides = new FieldOverrides(overridejsonobject.toString());
+
+                    ((HH_woman_member_SmartRegisterActivity)getActivity()).startFormActivity("elco_register", ((CommonPersonObjectClient) view.getTag()).entityId(), fieldOverrides.getJSONString());
 //                    CustomFontTextView ancreminderDueDate = (CustomFontTextView)view.findViewById(R.id.anc_reminder_due_date);
                     Log.v("do as you will", "button was click");
 

@@ -20,6 +20,7 @@ import org.ei.opensrp.cursoradapter.SmartRegisterCLientsProviderForCursorAdapter
 import org.ei.opensrp.dgfp.R;
 import org.ei.opensrp.dgfp.anc.mCareANCSmartRegisterActivity;
 import org.ei.opensrp.dgfp.application.dgfpApplication;
+import org.ei.opensrp.dgfp.hh_member.HouseHoldDetailActivity;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.service.AlertService;
@@ -103,6 +104,12 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
         final CommonPersonObjectClient pc = (CommonPersonObjectClient) smartRegisterClient;
         profileinfolayout.setOnClickListener(onClickListener);
         profileinfolayout.setTag(pc);
+
+        if (pc.getDetails().get("profilepic") != null) {
+            HouseHoldDetailActivity.setImagetoHolder((Activity) context, pc.getDetails().get("profilepic"), profilepic, R.mipmap.householdload);
+        } else {
+            profilepic.setImageResource(R.drawable.woman_placeholder);
+        }
 
 //        if(pc.getDetails().get("profilepic")!=null){
 //            HouseHoldDetailActivity.setImagetoHolder((Activity) context, pc.getDetails().get("profilepic"), profilepic, R.mipmap.woman_placeholder);

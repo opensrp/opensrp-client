@@ -33,6 +33,15 @@ public class nbnfhandler implements FormSubmissionHandler {
             memberDetails.put("is_child_register_done", "0");
 
             allmemberRepository.mergeDetails(entityID, memberDetails);
+        }else{
+            List<Alert> alertlist_for_client = org.ei.opensrp.Context.getInstance().alertService().findByEntityIdAndAlertNames(entityID, "Birth_Notification");
+            if(alertlist_for_client.size() == 0){
+
+            }else{
+                for(int i = 0;i<alertlist_for_client.size();i++){
+                    org.ei.opensrp.Context.getInstance().alertService().changeAlertStatusToComplete(entityID, "Birth_Notification");
+                }
+            }
         }
 //        CommonPersonObject memberobject = allmemberRepository.findByCaseID(entityID);
 //        if(submission.getFieldValue("Visit_Status")!= null){

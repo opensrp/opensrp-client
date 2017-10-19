@@ -182,37 +182,39 @@ public class mCarePncDetailActivity extends Activity {
             tview.setText("N/A");
             return;
         }
-        switch (detailvariable){
-            case "Visit_Status" :
-                text = visit_Status[Integer.parseInt(text) - 3];
-                break;
-            case "Delivery_Type" :
-                text = delivery_Type[Integer.parseInt(text) - 1];
-                break;
-            case "Where_Delivered" :
-                text = where_Delivered[Integer.parseInt(text) - 1];
-                break;
-            case "Num_Live_Birth" :
+        try {
+            switch (detailvariable) {
+                case "Visit_Status":
+                    text = visit_Status[Integer.parseInt(text) - 3];
+                    break;
+                case "Delivery_Type":
+                    text = delivery_Type[Integer.parseInt(text) - 1];
+                    break;
+                case "Where_Delivered":
+                    text = where_Delivered[Integer.parseInt(text) - 1];
+                    break;
+                case "Num_Live_Birth":
 
-                break;
-            case "Is_Referred" :
-                text = text.equalsIgnoreCase("0") ? "No" : "Yes";
-                break;
-            case "Is_Cleaned" :
-                text = text.equalsIgnoreCase("0") ? "No" : "Yes";
-                break;
-            case "Chlorhexidin" :
-                text = text.equalsIgnoreCase("0") ? "No" : "Yes";
-                break;
-            case "Breastmilk_Fed" :
-                text = text.equalsIgnoreCase("0") ? "No" : "Yes";
-                break;
-            case "Not_Bathed" :
-                text = text.equalsIgnoreCase("0") ? "No" : "Yes";
-                break;
-            default:
-                break;
-        }
+                    break;
+                case "Is_Referred":
+                    text = text.equalsIgnoreCase("0") ? "No" : "Yes";
+                    break;
+                case "Is_Cleaned":
+                    text = text.equalsIgnoreCase("0") ? "No" : "Yes";
+                    break;
+                case "Chlorhexidin":
+                    text = text.equalsIgnoreCase("0") ? "No" : "Yes";
+                    break;
+                case "Breastmilk_Fed":
+                    text = text.equalsIgnoreCase("0") ? "No" : "Yes";
+                    break;
+                case "Not_Bathed":
+                    text = text.equalsIgnoreCase("0") ? "No" : "Yes";
+                    break;
+                default:
+                    break;
+            }
+        }catch (Exception e){}
 
         tview.setText(text);
     }
