@@ -108,9 +108,17 @@ public class nutrition_SmartClientsProvider implements SmartRegisterCLientsProvi
         if ((pc.getDetails().get("Child") != null ? pc.getDetails().get("Child") : "").equalsIgnoreCase("1")) {
             if ((pc.getDetails().get("Member_Gender") != null ? (String) pc.getDetails().get("Member_Gender") : "").equalsIgnoreCase("1")) {
                 husband_name_or_mothersname.setText((pc.getDetails().get("Child_Mother") != null ? pc.getDetails().get("Child_Mother") : ""));
-                profilepic.setImageResource(R.drawable.child_boy_infant);
+                if (pc.getDetails().get("profilepic") != null) {
+                    HouseHoldDetailActivity.setImagetoHolder((Activity) context, pc.getDetails().get("profilepic"), profilepic, R.mipmap.householdload);
+                } else {
+                    profilepic.setImageResource(R.drawable.child_boy_infant);
+                }
             } else {
-                profilepic.setImageResource(R.drawable.child_girl_infant);
+                if (pc.getDetails().get("profilepic") != null) {
+                    HouseHoldDetailActivity.setImagetoHolder((Activity) context, pc.getDetails().get("profilepic"), profilepic, R.mipmap.householdload);
+                } else {
+                    profilepic.setImageResource(R.drawable.child_girl_infant);
+                }
                 husband_name_or_mothersname.setText((pc.getDetails().get("Child_Mother") != null ? pc.getDetails().get("Child_Mother") : ""));
             }
             if((pc.getDetails().get("Calc_Dob_Confirm") != null ? pc.getDetails().get("Calc_Dob_Confirm") : "").equalsIgnoreCase("")){
@@ -121,7 +129,11 @@ public class nutrition_SmartClientsProvider implements SmartRegisterCLientsProvi
             if ((pc.getDetails().get("Member_Gender") != null ? (String) pc.getDetails().get("Member_Gender") : "").equalsIgnoreCase("2")) {
                 profilepic.setImageResource(R.drawable.woman_placeholder);
                 husband_name_or_mothersname.setText((pc.getDetails().get("Spouse_Name") != null ? pc.getDetails().get("Spouse_Name") : ""));
-
+                if (pc.getDetails().get("profilepic") != null) {
+                    HouseHoldDetailActivity.setImagetoHolder((Activity) context, pc.getDetails().get("profilepic"), profilepic, R.mipmap.womanimageload);
+                } else {
+                    profilepic.setImageResource(R.drawable.woman_placeholder);
+                }
             } else {
                 profilepic.setImageResource(R.mipmap.household_profile_thumb);
             }

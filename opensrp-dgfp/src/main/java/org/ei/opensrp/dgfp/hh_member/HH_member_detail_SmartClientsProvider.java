@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -68,7 +70,7 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
     public void getView(final SmartRegisterClient smartRegisterClient, View convertView) {
         View itemView = convertView;
 
-//        LinearLayout profileinfolayout = (LinearLayout)itemView.findViewById(R.id.profile_info_layout);
+        LinearLayout registerButtonHolder = (LinearLayout)itemView.findViewById(R.id.registerbuttonholder);
 
         ImageView profilepic = (ImageView)itemView.findViewById(R.id.profilepic);
         TextView name = (TextView)itemView.findViewById(R.id.name);
@@ -186,6 +188,7 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
             }
         }
 
+
 //        dateofbirth.setText(mcaremotherObject.getColumnmaps().get("FWBNFDTOO")!=null?mcaremotherObject.getColumnmaps().get("FWBNFDTOO"):"");
 
 
@@ -195,11 +198,54 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
 //        constructENCCReminderDueBlock(pc, itemView);
 ////        constructNBNFDueBlock(pc, itemView);s
 //        constructENCCVisitStatusBlock(pc,itemView);
-
-
-
+        assignRegisterButtons(registerButtonHolder,pc);
 
         itemView.setLayoutParams(clientViewLayoutParams);
+    }
+
+    private void assignRegisterButtons(LinearLayout registerButtonHolder, CommonPersonObjectClient pc) {
+        if ((pc.getDetails().get("Eligible") != null ? pc.getDetails().get("Eligible") : "").equalsIgnoreCase("1")) {
+            Button elcoButton = new Button(context);
+            elcoButton.setText("ELCO Register");
+            registerButtonHolder.addView(elcoButton);
+        }
+        if ((pc.getDetails().get("Preg_Status") != null ? pc.getDetails().get("Preg_Status") : "").equalsIgnoreCase("1")) {
+            Button elcoButton = new Button(context);
+            elcoButton.setText("ANC Register");
+            registerButtonHolder.addView(elcoButton);
+        }
+        if ((pc.getDetails().get("Is_PNC") != null ? pc.getDetails().get("Is_PNC") : "").equalsIgnoreCase("1")) {
+            Button elcoButton = new Button(context);
+            elcoButton.setText("PNC Register");
+            registerButtonHolder.addView(elcoButton);
+        }
+        if ((pc.getDetails().get("Child") != null ? pc.getDetails().get("Child") : "").equalsIgnoreCase("1")) {
+            Button elcoButton = new Button(context);
+            elcoButton.setText("Child Register");
+            registerButtonHolder.addView(elcoButton);
+        }
+        if ((pc.getDetails().get("Nutrition") != null ? pc.getDetails().get("Nutrition") : "").equalsIgnoreCase("1")) {
+            Button elcoButton = new Button(context);
+            elcoButton.setText("Nutrition Register");
+            registerButtonHolder.addView(elcoButton);
+        }
+        if ((pc.getDetails().get("Is_Eligible_Injectables") != null ? pc.getDetails().get("Is_Eligible_Injectables") : "").equalsIgnoreCase("1")) {
+            Button elcoButton = new Button(context);
+            elcoButton.setText("Injectable Register");
+            registerButtonHolder.addView(elcoButton);
+        }
+        if ((pc.getDetails().get("Adolescent") != null ? pc.getDetails().get("Adolescent") : "").equalsIgnoreCase("1")) {
+             Button elcoButton = new Button(context);
+             elcoButton.setText("Adolescent Register");
+             registerButtonHolder.addView(elcoButton);
+        }
+        if (((pc.getDetails().get("Visit_Status") != null ? pc.getDetails().get("Visit_Status") : "").equalsIgnoreCase("10"))||((pc.getDetails().get("Visit_Status") != null ? pc.getDetails().get("Visit_Status") : "").equalsIgnoreCase("11"))) {
+            Button elcoButton = new Button(context);
+            elcoButton.setText("Death Register");
+            registerButtonHolder.addView(elcoButton);
+        }
+
+
     }
 
     private String calculateage(int i) {

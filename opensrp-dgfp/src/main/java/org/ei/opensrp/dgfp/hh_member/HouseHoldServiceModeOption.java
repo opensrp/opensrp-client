@@ -49,7 +49,7 @@ public class HouseHoldServiceModeOption extends ServiceModeOption {
             @Override
             public int[] headerTextResourceIds() {
                 return new int[]{
-                        R.string.hh_profile, R.string.elco_unique_id, R.string.mobile_no,
+                        R.string.hh_profile, R.string.elco_unique_id, R.string.other_info,
                         R.string.hh_last_visit_date,R.string.hh_next_visit_date
                         };
             }

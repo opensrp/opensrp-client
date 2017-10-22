@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
@@ -173,33 +174,35 @@ public class adolescent_SmartClientsProvider implements SmartRegisterCLientsProv
         for (int i = 0; i < councelling.length; i++){
             counsillingString.append(prefix);
             prefix = ",";
-            switch (Integer.parseInt(councelling[i])){
-                case 1:
-                    councelling_counter++;
-                    counsillingString.append("Early Marriage and Adolescent Pregnancy");
-                    break;
-                case 2:
-                    councelling_counter++;
-                    counsillingString.append("IFA");
-                    break;
-                case 3:
-                    councelling_counter++;
-                    counsillingString.append("Nutrition & Proper Diet");
-                    break;
-                case 4:
-                    councelling_counter++;
-                    counsillingString.append("Adolescent Changes");
-                    break;
-                case 5:
-                    councelling_counter++;
-                    counsillingString.append("Mentruation");
-                    break;
-                case 6:
-                    councelling_counter++;
-                    counsillingString.append("Reproductive Infections/Diseases");
-                    break;
-                default:
-                    break;
+            if(StringUtils.isNumeric(councelling[i])) {
+                switch (Integer.parseInt(councelling[i])) {
+                    case 1:
+                        councelling_counter++;
+                        counsillingString.append("Early Marriage and Adolescent Pregnancy");
+                        break;
+                    case 2:
+                        councelling_counter++;
+                        counsillingString.append("IFA");
+                        break;
+                    case 3:
+                        councelling_counter++;
+                        counsillingString.append("Nutrition & Proper Diet");
+                        break;
+                    case 4:
+                        councelling_counter++;
+                        counsillingString.append("Adolescent Changes");
+                        break;
+                    case 5:
+                        councelling_counter++;
+                        counsillingString.append("Mentruation");
+                        break;
+                    case 6:
+                        councelling_counter++;
+                        counsillingString.append("Reproductive Infections/Diseases");
+                        break;
+                    default:
+                        break;
+                }
             }
         }
         if (councelling_counter == 6){

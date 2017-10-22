@@ -112,7 +112,18 @@
                 android:layout_weight="1.5"
                 >
 
-                <org.ei.opensrp.view.customControls.CustomFontTextView
+                    <ScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:id="@+id/registerbuttonholder"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"></LinearLayout>
+                    </ScrollView>
+
+                    <org.ei.opensrp.view.customControls.CustomFontTextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="New Born"

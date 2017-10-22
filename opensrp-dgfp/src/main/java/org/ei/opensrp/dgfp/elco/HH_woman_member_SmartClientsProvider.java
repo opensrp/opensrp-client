@@ -177,16 +177,17 @@ public class HH_woman_member_SmartClientsProvider implements SmartRegisterCLient
 //        Census_Date
         String datetoconvert = "";
         String scheduledate = "";
-        if(pc.getDetails().get("Reg_Date")!=null){
-          datetoconvert = pc.getDetails().get("Reg_Date");
+        if(pc.getDetails().get("Member_Reg_Date")!=null){
+          datetoconvert = pc.getDetails().get("Member_Reg_Date");
+            scheduledate =  setDate(datetoconvert,0);
         }
         if(pc.getDetails().get("ELCO_Date")!=null){
             datetoconvert = pc.getDetails().get("ELCO_Date");
+            scheduledate =  setDate(datetoconvert,56);
         }
-        if(!datetoconvert.equalsIgnoreCase("")) {
-//            Date scheduledate = converdatefromString(datetoconvert);
-          scheduledate =  setDate(datetoconvert,56);
-        }
+//        if(!datetoconvert.equalsIgnoreCase("")) {
+////            Date scheduledate = converdatefromString(datetoconvert);
+//        }
 
         singleALertButtonView(alertlist_for_client,pvfdue,pc,datetoconvert,scheduledate);
 

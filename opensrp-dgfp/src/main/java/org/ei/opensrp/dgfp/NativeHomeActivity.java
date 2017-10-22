@@ -19,6 +19,7 @@ import org.ei.opensrp.dgfp.anc.nbnfhandler;
 import org.ei.opensrp.dgfp.clientDownload.ClientSearchActivity;
 import org.ei.opensrp.dgfp.hh_member.HouseHoldHandler;
 import org.ei.opensrp.dgfp.injectables.InjectableHandler;
+import org.ei.opensrp.dgfp.nutrition.nutritionhandler;
 import org.ei.opensrp.dgfp.pnc.ChildRegistrationhandler;
 import org.ei.opensrp.dgfp.pnc.pnc1handler;
 import org.ei.opensrp.dgfp.pnc.pnc2handler;
@@ -126,6 +127,7 @@ public class NativeHomeActivity extends SecuredActivity {
         context.formSubmissionRouter().getHandlerMap().put("pnc_visit2",new pnc2handler());
         context.formSubmissionRouter().getHandlerMap().put("pnc_visit3",new pnc3handler());
         context.formSubmissionRouter().getHandlerMap().put("pnc_visit4",new pnc4handler());
+        context.formSubmissionRouter().getHandlerMap().put("nutrition",new nutritionhandler());
 
     }
 

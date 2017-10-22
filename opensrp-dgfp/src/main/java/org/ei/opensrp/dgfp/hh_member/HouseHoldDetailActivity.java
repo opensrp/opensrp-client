@@ -99,7 +99,7 @@ public class HouseHoldDetailActivity extends SecuredFragment implements View.OnC
                 (humanize((householdclient.getDetails().get("Union") != null ? householdclient.getDetails().get("Union") : "").replace("+", "_")))+", "+
                 (humanize((householdclient.getDetails().get("Upazilla") != null ? householdclient.getDetails().get("Upazilla") : "").replace("+", "_")))
         );
-        gobhhid.setText(getResources().getString(R.string.hhid_gob) + (householdclient.getColumnmaps().get("HHID")!=null?householdclient.getColumnmaps().get("HHID"):""));
+        gobhhid.setText(getResources().getString(R.string.hhid_gob) + (householdclient.getColumnmaps().get("GoB_HHID")!=null?householdclient.getColumnmaps().get("GoB_HHID"):""));
         age.setText(",Age : " + (householdclient.getDetails().get("Calc_HoH_Age_Confirm")!=null?householdclient.getDetails().get("Calc_HoH_Age_Confirm"):""));
         nid.setText("NID : " + (householdclient.getDetails().get("HoH_NID")!=null?householdclient.getDetails().get("HoH_NID"):""));
         brid.setText("BRID : " + (householdclient.getDetails().get("HoH_BRID")!=null?householdclient.getDetails().get("HoH_BRID"):""));

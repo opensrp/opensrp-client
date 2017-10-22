@@ -360,6 +360,7 @@
     <string name="forminputerror">Please check the form for any error/missing input marked in Red box</string>
     <string name="okforminputerror">ok</string>
     <string name="mobile_no">Mobile No</string>
+    <string name="other_info">Other Info</string>
     <string name="hh_next_visit_date">Next Visit Date</string>
     <string name="lmp_edd_ga">LMP/EDD/GA</string>
     <string name="last_vaccine">Last Vaccine</string>

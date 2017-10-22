@@ -17,6 +17,7 @@ import org.ei.opensrp.commonregistry.CommonPersonObjectController;
 import org.ei.opensrp.cursoradapter.SmartRegisterCLientsProviderForCursorAdapter;
 import org.ei.opensrp.dgfp.R;
 import org.ei.opensrp.dgfp.elco.HH_woman_member_SmartRegisterActivity;
+import org.ei.opensrp.dgfp.hh_member.HH_member_SmartRegisterActivity;
 import org.ei.opensrp.dgfp.hh_member.HouseHoldDetailActivity;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.form.FieldOverrides;
@@ -108,17 +109,17 @@ public class child_SmartClientsProvider implements SmartRegisterCLientsProviderF
         gobhhid.setText((pc.getDetails().get("Member_GoB_HHID") != null ? pc.getDetails().get("Member_GoB_HHID") : ""));
 
         if((pc.getDetails().get("Child") != null ? pc.getDetails().get("Child") : "").equalsIgnoreCase("1")){
-            if (pc.getDetails().get("profilepic") != null) {
-                HouseHoldDetailActivity.setImagetoHolder((Activity) context, pc.getDetails().get("profilepic"), profilepic, R.mipmap.householdload);
-            } else {
+            if ((pc.getDetails().get("Member_Gender") != null ? pc.getDetails().get("Member_Gender") : "").equalsIgnoreCase("1")) {
                 profilepic.setImageResource(R.drawable.child_boy_infant);
-            }
+//                newborn_or_fp.setText("Family Planning");
 
-        }else {
-            if (pc.getDetails().get("profilepic") != null) {
-                HouseHoldDetailActivity.setImagetoHolder((Activity) context, pc.getDetails().get("profilepic"), profilepic, R.mipmap.householdload);
             } else {
-                profilepic.setImageResource(R.drawable.woman_placeholder);
+                profilepic.setImageResource(R.drawable.child_girl_infant);
+//                newborn_or_fp.setVisibility(View.INVISIBLE);
+
+            }
+            if (pc.getDetails().get("profilepic") != null) {
+                HH_member_SmartRegisterActivity.setImagetoHolderFromUri((Activity)context, pc.getDetails().get("profilepic"), profilepic, R.mipmap.householdload);
             }
        }
        village.setText(humanize((pc.getDetails().get("Mem_Village_Name") != null ? (pc.getDetails().get("Mem_Village_Name")+",") : "").replace("+", "_")) + humanize((pc.getDetails().get("Mem_Mauzapara") != null ? pc.getDetails().get("Mem_Mauzapara") : "").replace("+", "_")));
