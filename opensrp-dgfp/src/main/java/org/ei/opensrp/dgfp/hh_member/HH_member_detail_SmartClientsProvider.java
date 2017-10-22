@@ -117,8 +117,12 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
             uniqueid.setVisibility(View.GONE);
             age.setText(pc.getColumnmaps().get("Child_dob")!=null?pc.getColumnmaps().get("Child_dob"):"");
             try {
+                String datetocalc = (pc.getDetails().get("Calc_Dob") != null ?  pc.getDetails().get("Calc_Dob")  : "");
+                if(datetocalc.equalsIgnoreCase("")){
+                    datetocalc = (pc.getDetails().get("Member_Birth_Date") != null ?  pc.getDetails().get("Member_Birth_Date")  : "");
+                }
                 DateUtil.setDefaultDateFormat("yyyy-MM-dd");
-                int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("Calc_Dob") != null ?  pc.getDetails().get("Calc_Dob")  : "")), DateUtil.today());
+                int days = DateUtil.dayDifference(DateUtil.getLocalDate(datetocalc), DateUtil.today());
                 int calc_age = days / 365;
                 age.setText(calculateage(days));
             }catch (Exception e){

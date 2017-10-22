@@ -21,6 +21,7 @@ import org.ei.opensrp.dgfp.hh_member.HouseHoldDetailActivity;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.service.AlertService;
+import org.ei.opensrp.util.DateUtil;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.contract.SmartRegisterClients;
 import org.ei.opensrp.view.dialog.FilterOption;
@@ -37,6 +38,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static org.ei.opensrp.dgfp.child.ChildDetailActivity.calculateage;
 import static org.ei.opensrp.util.StringUtil.humanize;
 
 /**
@@ -121,10 +123,24 @@ public class child_SmartClientsProvider implements SmartRegisterCLientsProviderF
        }
        village.setText(humanize((pc.getDetails().get("Mem_Village_Name") != null ? (pc.getDetails().get("Mem_Village_Name")+",") : "").replace("+", "_")) + humanize((pc.getDetails().get("Mem_Mauzapara") != null ? pc.getDetails().get("Mem_Mauzapara") : "").replace("+", "_")));
 
-        date_of_birth.setText(pc.getDetails().get("Member_Birth_Date") != null ? pc.getDetails().get("Member_Birth_Date") : "");
+//        date_of_birth.setText(pc.getDetails().get("Member_Birth_Date") != null ? pc.getDetails().get("Member_Birth_Date") : "");
 
-        age.setText(pc.getDetails().get("Calc_Age_Confirm") != null ? "("+pc.getDetails().get("Calc_Age_Confirm")+")" : "");
+        String agetodisplay = "";
+        try {
+            String datetocalc = (pc.getDetails().get("Calc_Dob") != null ?  pc.getDetails().get("Calc_Dob")  : "");
+            if(datetocalc.equalsIgnoreCase("")){
+                datetocalc = (pc.getDetails().get("Member_Birth_Date") != null ?  pc.getDetails().get("Member_Birth_Date")  : "");
+            }
+            DateUtil.setDefaultDateFormat("yyyy-MM-dd");
+            int days = DateUtil.dayDifference(DateUtil.getLocalDate(datetocalc), DateUtil.today());
+            int calc_age = days / 365;
+            agetodisplay = calculateage(days);
+        }catch (Exception e){
 
+        }
+        date_of_birth.setText((pc.getDetails().get("Member_Birth_Date") != null ? pc.getDetails().get("Member_Birth_Date") : "")+"\n"+"("+agetodisplay+")");
+
+        age.setVisibility(View.INVISIBLE);
         cBRID.setText("C_BRID: " + (pc.getDetails().get("Mem_BRID") != null ? pc.getDetails().get("Mem_BRID") : ""));
         mBRID.setText("M_BRID: " + (pc.getDetails().get("ELCO_BRID") != null ? pc.getDetails().get("ELCO_BRID") : ""));
         mNID.setText("M_NID:" + (pc.getDetails().get("ELCO_NID") != null ? pc.getDetails().get("ELCO_NID") : ""));
