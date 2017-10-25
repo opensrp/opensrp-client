@@ -39,6 +39,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static org.ei.opensrp.dgfp.child.ChildDetailActivity.calculateage;
 import static org.ei.opensrp.util.StringUtil.humanize;
 
 /**
@@ -121,7 +122,20 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
         gobhhid.setText(" "+(pc.getDetails().get("Member_GoB_HHID")!=null?pc.getDetails().get("Member_GoB_HHID"):""));
         village.setText((humanize((pc.getDetails().get("Mem_Village_Name") != null ? pc.getDetails().get("Mem_Village_Name") : "").replace("+", "_")))+","+(humanize((pc.getDetails().get("Mem_Mauzapara") != null ? pc.getDetails().get("Mem_Mauzapara") : "").replace("+", "_"))));
         age.setText("("+(pc.getDetails().get("Calc_Age_Confirm")!=null?pc.getDetails().get("Calc_Age_Confirm"):"")+") ");
+        String agetodisplay = "";
+        try {
+            String datetocalc = "";
+            if(datetocalc.equalsIgnoreCase("")){
+                datetocalc = (pc.getColumnmaps().get("Member_Birth_Date") != null ?  pc.getColumnmaps().get("Member_Birth_Date")  : "");
+            }
+            DateUtil.setDefaultDateFormat("yyyy-MM-dd");
+            int days = DateUtil.dayDifference(DateUtil.getLocalDate(datetocalc), DateUtil.today());
+            int calc_age = days / 365;
+            agetodisplay = calculateage(days);
+        }catch (Exception e){
 
+        }
+        age.setText(agetodisplay);
         DateUtil.setDefaultDateFormat("yyyy-MM-dd");
 //        AllCommonsRepository allmotherRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("mcaremother");
 //        CommonPersonObject childobject = allmotherRepository.findByCaseID(smartRegisterClient.entityId());

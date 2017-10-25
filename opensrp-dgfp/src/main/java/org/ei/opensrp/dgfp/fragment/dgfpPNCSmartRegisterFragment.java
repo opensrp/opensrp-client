@@ -351,7 +351,7 @@ public class dgfpPNCSmartRegisterFragment extends SecuredNativeSmartRegisterCurs
     }
 
     public String pncMainSelectWithJoins(){
-        return "Select id as _id,relationalid,details,Mem_F_Name,EDD,Child_calc_age,calc_age_confirm,Child_mother_name,Member_GOB_HHID,Marital_status,Pregnancy_Status,missedCount \n" +
+        return "Select id as _id,relationalid,details,Mem_F_Name,EDD,Member_Birth_Date,Child_calc_age,calc_age_confirm,Child_mother_name,Member_GOB_HHID,Marital_status,Pregnancy_Status,missedCount \n" +
                 "from members " ;
     }
     public String pncMainCountWithJoins(){
@@ -360,7 +360,7 @@ public class dgfpPNCSmartRegisterFragment extends SecuredNativeSmartRegisterCurs
     }
     public void initializeQueries(){
         mCarePNCSmartClientsProvider hhscp = new mCarePNCSmartClientsProvider(getActivity(),clientActionHandler,context.alertService());
-        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, hhscp, new CommonRepository("members",new String []{"Mem_F_Name","EDD","Child_calc_age","calc_age_confirm","Child_mother_name","Member_GOB_HHID","Marital_status","Pregnancy_Status","missedCount"}));
+        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, hhscp, new CommonRepository("members",new String []{"Mem_F_Name","EDD","Member_Birth_Date","Child_calc_age","calc_age_confirm","Child_mother_name","Member_GOB_HHID","Marital_status","Pregnancy_Status","missedCount"}));
         clientsView.setAdapter(clientAdapter);
 
         setTablename("members");

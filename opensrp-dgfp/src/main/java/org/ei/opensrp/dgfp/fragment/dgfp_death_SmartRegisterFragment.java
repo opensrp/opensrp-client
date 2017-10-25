@@ -391,7 +391,7 @@ public class dgfp_death_SmartRegisterFragment extends SecuredNativeSmartRegister
 
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
-        queryBUilder.SelectInitiateMainTable("members", new String[]{"relationalid", "details", "Mem_F_Name", "EDD", "calc_age_confirm","Child_mother_name", "Member_GOB_HHID", "Marital_status", "Pregnancy_Status","missedCount"});
+        queryBUilder.SelectInitiateMainTable("members", new String[]{"relationalid", "details", "Mem_F_Name", "EDD","Member_Birth_Date", "calc_age_confirm","Child_mother_name", "Member_GOB_HHID", "Marital_status", "Pregnancy_Status","missedCount"});
         queryBUilder.joinwithALerts("members", "FW CENSUS");
         mainSelect = queryBUilder.mainCondition("(members.Mem_F_Name not null ) AND  (members.Mem_F_Name != \"\" ) AND ((details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%') or (details like '%\"ELCO_Status\":\"10\"%' or details like '%\"ELCO_Status\":\"11\"%'))");
         queryBUilder.addCondition(filters);
@@ -399,14 +399,14 @@ public class dgfp_death_SmartRegisterFragment extends SecuredNativeSmartRegister
         currentquery  = queryBUilder.orderbyCondition(Sortqueries);
         Cursor c = commonRepository.RawCustomQueryForAdapter(queryBUilder.Endquery(queryBUilder.addlimitandOffset(currentquery, 20, 0)));
         death_SmartClientsProvider hhscp = new death_SmartClientsProvider(getActivity(),clientActionHandler,context.alertService());
-        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), c, hhscp, new CommonRepository("members",new String []{"Mem_F_Name","EDD","calc_age_confirm","Child_mother_name","Member_GOB_HHID","Marital_status","Pregnancy_Status","missedCount"}));
+        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), c, hhscp, new CommonRepository("members",new String []{"Mem_F_Name","EDD","Member_Birth_Date","calc_age_confirm","Child_mother_name","Member_GOB_HHID","Marital_status","Pregnancy_Status","missedCount"}));
         clientsView.setAdapter(clientAdapter);
         updateSearchView();
         refresh();
 
     }
     private String sortByage(){
-        return " calc_age_confirm ASC";
+        return " Member_Birth_Date ASC";
     }
     private String sortByFWWOMFNAME(){
         return " Mem_F_Name COLLATE NOCASE ASC";

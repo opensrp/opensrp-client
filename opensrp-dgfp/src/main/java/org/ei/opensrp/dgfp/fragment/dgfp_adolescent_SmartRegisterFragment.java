@@ -159,8 +159,8 @@ public class dgfp_adolescent_SmartRegisterFragment extends SecuredNativeSmartReg
                 return new DialogOption[]{
 //                        new ElcoPSRFDueDateSort(),
 //                        new CursorCommonObjectSort(getString(R.string.due_status),sortByAlertmethod()),
-                        new CursorCommonObjectSort(Context.getInstance().applicationContext().getString(R.string.sort_by_child_age),sortByage()),
-                        new CursorCommonObjectSort(Context.getInstance().applicationContext().getString(R.string.elco_alphabetical_sort),sortByFWWOMFNAME())
+//                        new CursorCommonObjectSort(Context.getInstance().applicationContext().getString(R.string.sort_by_child_age),sortByage()),
+                        new CursorCommonObjectSort(Context.getInstance().applicationContext().getString(R.string.sort_by_name_label),sortByFWWOMFNAME())
 //                        new CursorCommonObjectSort( Context.getInstance().applicationContext().getString(R.string.sort_by_marital_status),sortByMaritalStatus())
 //
 //
@@ -389,7 +389,7 @@ public class dgfp_adolescent_SmartRegisterFragment extends SecuredNativeSmartReg
 
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
-        queryBUilder.SelectInitiateMainTable("members", new String[]{"relationalid", "details", "Mem_F_Name", "EDD", "calc_age_confirm","Child_mother_name", "Member_GOB_HHID", "Marital_status", "Pregnancy_Status","missedCount"});
+        queryBUilder.SelectInitiateMainTable("members", new String[]{"relationalid", "details", "Mem_F_Name", "EDD","Member_Birth_Date", "calc_age_confirm","Child_mother_name", "Member_GOB_HHID", "Marital_status", "Pregnancy_Status","missedCount"});
         queryBUilder.joinwithALerts("members", "FW CENSUS");
         mainSelect = queryBUilder.mainCondition(" details like '%\"Adolescent\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%')  ");
         queryBUilder.addCondition(filters);
@@ -397,14 +397,14 @@ public class dgfp_adolescent_SmartRegisterFragment extends SecuredNativeSmartReg
         currentquery  = queryBUilder.orderbyCondition(Sortqueries);
         Cursor c = commonRepository.RawCustomQueryForAdapter(queryBUilder.Endquery(queryBUilder.addlimitandOffset(currentquery, 20, 0)));
         adolescent_SmartClientsProvider hhscp = new adolescent_SmartClientsProvider(getActivity(),clientActionHandler,context.alertService());
-        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), c, hhscp, new CommonRepository("members",new String []{"Mem_F_Name","EDD","calc_age_confirm","Child_mother_name","Member_GOB_HHID","Marital_status","Pregnancy_Status","missedCount"}));
+        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), c, hhscp, new CommonRepository("members",new String []{"Mem_F_Name","EDD","Member_Birth_Date","calc_age_confirm","Child_mother_name","Member_GOB_HHID","Marital_status","Pregnancy_Status","missedCount"}));
         clientsView.setAdapter(clientAdapter);
         updateSearchView();
         refresh();
 
     }
     private String sortByage(){
-        return " calc_age_confirm ASC";
+        return " Member_Birth_Date ASC";
     }
     private String sortByFWWOMFNAME(){
         return " Mem_F_Name COLLATE NOCASE ASC";

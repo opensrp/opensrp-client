@@ -342,19 +342,22 @@ public class ChildDetailActivity extends Activity {
     }
     public static String calculateage(int i) {
         if(i <= 15){
-            return (i + " days");
+            return (i + " d");
         }
         if(i <= 141){
-            return (i/7 + " weeks");
+            return (i/7 + " w");
         }
         if(i <= 719){
-            return (i/30 + " months");
+            return (i/30 + " m");
         }
         if(i >719){
-            String years = 719/365 + " years ";
+            String years = i/365 + " y ";
             String months = "";
             if((719%365)!=0) {
-                months = (719 % 365)/30 + " months";
+                months = (719 % 365)/30 + " m";
+            }
+            if(i/365 >5){
+                return years;
             }
 
             return years + months;

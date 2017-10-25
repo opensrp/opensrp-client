@@ -147,7 +147,8 @@
                 android:text="00"
                 android:id="@+id/age"
                 android:gravity="right"
-                android:layout_marginRight="2dp"
+                android:textSize="12sp"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1" />
 
 

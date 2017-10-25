@@ -126,7 +126,7 @@ public class WomanDetailActivity extends Activity {
         marriagelife.setText("Marriage Life: "+((womanclient.getDetails().get("Married_Life") != null ? womanclient.getDetails().get("Married_Life") : "")));
 
 
-        womandob.setText("Age: "+calculateage(getageindays(getdate((womanclient.getDetails().get("Calc_Dob_Confirm") != null ? womanclient.getDetails().get("Calc_Dob_Confirm") : "")))));
+        womandob.setText("Age: "+calculateage(getageindays(getdate((womanclient.getColumnmaps().get("Member_Birth_Date") != null ? womanclient.getColumnmaps().get("Member_Birth_Date") : "")))));
 //        SpannableString content = new SpannableString((womanclient.getDetails().get("contact_phone_number") != null ? womanclient.getDetails().get("contact_phone_number") : ""));
 //        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
 //        contactno.setText(content);

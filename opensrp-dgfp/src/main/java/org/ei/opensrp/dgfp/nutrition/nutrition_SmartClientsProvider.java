@@ -24,6 +24,7 @@ import org.ei.opensrp.dgfp.hh_member.HouseHoldDetailActivity;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.service.AlertService;
+import org.ei.opensrp.util.DateUtil;
 import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.contract.SmartRegisterClients;
@@ -41,6 +42,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static org.ei.opensrp.dgfp.child.ChildDetailActivity.calculateage;
 import static org.ei.opensrp.util.StringUtil.humanize;
 
 /**
@@ -143,8 +145,20 @@ public class nutrition_SmartClientsProvider implements SmartRegisterCLientsProvi
 
         date_of_last_visit.setText(pc.getDetails().get("nutrition_Visit_Date") != null ? pc.getDetails().get("nutrition_Visit_Date") : "");
 
-        age.setText(pc.getDetails().get("Calc_Age_Confirm") != null ? "("+pc.getDetails().get("Calc_Age_Confirm")+")" : "");
+        String agetodisplay = "";
+        try {
+            String datetocalc = (pc.getDetails().get("Calc_Dob") != null ?  pc.getDetails().get("Calc_Dob")  : "");
+            if(datetocalc.equalsIgnoreCase("")){
+                datetocalc = (pc.getColumnmaps().get("Member_Birth_Date") != null ?  pc.getColumnmaps().get("Member_Birth_Date")  : "");
+            }
+            DateUtil.setDefaultDateFormat("yyyy-MM-dd");
+            int days = DateUtil.dayDifference(DateUtil.getLocalDate(datetocalc), DateUtil.today());
+            int calc_age = days / 365;
+            agetodisplay = calculateage(days);
+        }catch (Exception e){
 
+        }
+        age.setText(agetodisplay);
         nid.setText("NID: " + (pc.getDetails().get("ELCO_NID") != null ? pc.getDetails().get("ELCO_NID") : ""));
         brid.setText("BRID: " + (pc.getDetails().get("Mem_BRID") != null ? pc.getDetails().get("Mem_BRID") : ""));
 

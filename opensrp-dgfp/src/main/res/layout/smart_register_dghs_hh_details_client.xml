@@ -100,40 +100,29 @@
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
                 android:layout_gravity="right">
 
                 <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_weight="1.5"
-                >
-
-                    <ScrollView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
-
-                        <LinearLayout
-                            android:orientation="vertical"
-                            android:id="@+id/registerbuttonholder"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"></LinearLayout>
-                    </ScrollView>
-
-                    <org.ei.opensrp.view.customControls.CustomFontTextView
-                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:id="@+id/registerbuttonholder"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:text="New Born"
-                    style="@style/CustomFontTextViewStyle.ListView.Medium"
-                    android:id="@+id/newborn_pr_fp"
-                    android:background="@color/alert_upcoming_yellow"
-                    android:layout_gravity="center"
-                    android:padding="25dp"
-                    android:gravity="center" />
+                    android:layout_weight="1"
+                    android:padding="2dp">
 
+                    <GridView
+                        android:layout_width="250dp"
+                        android:layout_height="match_parent"
+                        android:verticalSpacing="10dp"
+                        android:horizontalSpacing="2dp"
+                        android:columnWidth="120dp"
+                        android:numColumns="auto_fit"
+                        android:gravity="right"
+                        android:id="@+id/gridview"
+                        android:layout_gravity="right"/>
                 </LinearLayout>
 
                 <ImageView
@@ -143,10 +132,8 @@
 
                 <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_weight="1.5"
-                >
+                    android:layout_width="wrap_content"
+                android:layout_height="fill_parent">
 
                 <org.ei.opensrp.view.customControls.CustomFontTextView
                     android:layout_width="match_parent"
@@ -165,6 +152,7 @@
                     android:layout_height="fill_parent"
                     android:src="@color/smart_register_client_divider_color"/>
             </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>

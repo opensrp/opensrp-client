@@ -140,6 +140,20 @@ public class HH_woman_member_SmartClientsProvider implements SmartRegisterCLient
         lmp.setText(pc.getDetails().get("LMP") != null ? pc.getDetails().get("LMP") : "");
 
         age.setText(pc.getDetails().get("Calc_Age_Confirm") != null ? "("+pc.getDetails().get("Calc_Age_Confirm")+")" : "");
+        String agetodisplay = "";
+        try {
+            String datetocalc = "";
+            if(datetocalc.equalsIgnoreCase("")){
+                datetocalc = (pc.getColumnmaps().get("Member_Birth_Date") != null ?  pc.getColumnmaps().get("Member_Birth_Date")  : "");
+            }
+            DateUtil.setDefaultDateFormat("yyyy-MM-dd");
+            int days = DateUtil.dayDifference(DateUtil.getLocalDate(datetocalc), DateUtil.today());
+            int calc_age = days / 365;
+            agetodisplay = calculateage(days);
+        }catch (Exception e){
+
+        }
+        age.setText(agetodisplay);
 //        calc_HoH_dob_confirm
 //        try {
 //            int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("calc_dob_confirm") != null ?  pc.getDetails().get("calc_dob_confirm")  : "")), DateUtil.today());
@@ -389,6 +403,24 @@ public class HH_woman_member_SmartClientsProvider implements SmartRegisterCLient
             return null;
         }
         return convertedDate;
+    }
+    public static String calculateage(int i) {
+        if(i <= 15){
+            return (i + " days");
+        }
+        if(i <= 141){
+            return (i/7 + " weeks");
+        }
+        if(i <= 719){
+            return (i/30 + " months");
+        }
+        if(i >719){
+            String years = "("+i/365 + " y) ";
+
+
+            return years ;
+        }
+        return "";
     }
 
 

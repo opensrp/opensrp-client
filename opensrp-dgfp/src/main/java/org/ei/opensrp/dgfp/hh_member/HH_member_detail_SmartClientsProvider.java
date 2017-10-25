@@ -3,12 +3,15 @@ package org.ei.opensrp.dgfp.hh_member;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -31,6 +34,7 @@ import org.ei.opensrp.view.dialog.ServiceModeOption;
 import org.ei.opensrp.view.dialog.SortOption;
 import org.ei.opensrp.view.viewHolder.OnClickFormLauncher;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
@@ -78,7 +82,6 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
         TextView age = (TextView)itemView.findViewById(R.id.age);
         TextView maritalstatus = (TextView)itemView.findViewById(R.id.marital_status);
         TextView general = (TextView)itemView.findViewById(R.id.general);
-        TextView newborn_or_fp = (TextView)itemView.findViewById(R.id.newborn_pr_fp);
 
         ListView childlist = (ListView)itemView.findViewById(R.id.childlist);
 
@@ -98,8 +101,6 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
         general.setOnClickListener(onClickListener);
         general.setTag(smartRegisterClient);
 
-        newborn_or_fp.setOnClickListener(onClickListener);
-        newborn_or_fp.setTag(smartRegisterClient);
 
         profilepic.setOnClickListener(onClickListener);
         profilepic.setTag(smartRegisterClient);
@@ -119,13 +120,13 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
             uniqueid.setVisibility(View.GONE);
             age.setText(pc.getColumnmaps().get("Child_dob")!=null?pc.getColumnmaps().get("Child_dob"):"");
             try {
-                String datetocalc = (pc.getDetails().get("Calc_Dob") != null ?  pc.getDetails().get("Calc_Dob")  : "");
+                String datetocalc = "";
                 if(datetocalc.equalsIgnoreCase("")){
-                    datetocalc = (pc.getDetails().get("Member_Birth_Date") != null ?  pc.getDetails().get("Member_Birth_Date")  : "");
+                    datetocalc = (pc.getColumnmaps().get("Member_Birth_Date") != null ?  pc.getColumnmaps().get("Member_Birth_Date")  : "");
                 }
                 DateUtil.setDefaultDateFormat("yyyy-MM-dd");
                 int days = DateUtil.dayDifference(DateUtil.getLocalDate(datetocalc), DateUtil.today());
-                int calc_age = days / 365;
+//                int calc_age = days / 365;
                 age.setText(calculateage(days));
             }catch (Exception e){
 
@@ -134,11 +135,11 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
             if ((pc.getDetails().get("Member_Gender") != null ? pc.getDetails().get("Member_Gender") : "").equalsIgnoreCase("1")) {
                 profilepic.setImageResource(R.drawable.child_boy_infant);
 //                newborn_or_fp.setText("Family Planning");
-                newborn_or_fp.setVisibility(View.INVISIBLE);
+
             } else {
                 profilepic.setImageResource(R.drawable.child_girl_infant);
 //                newborn_or_fp.setVisibility(View.INVISIBLE);
-                newborn_or_fp.setVisibility(View.INVISIBLE);
+
             }
             if (pc.getDetails().get("profilepic") != null) {
                 HH_member_SmartRegisterActivity.setImagetoHolderFromUri((Activity)context, pc.getDetails().get("profilepic"), profilepic, R.drawable.child_boy_infant);
@@ -156,7 +157,7 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
             age.setText(pc.getColumnmaps().get("calc_age_confirm") != null ? pc.getColumnmaps().get("calc_age_confirm") : "");
             try {
                 DateUtil.setDefaultDateFormat("yyyy-MM-dd");
-                int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("calc_dob_confirm") != null ?  pc.getDetails().get("calc_dob_confirm")  : "")), DateUtil.today());
+                int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("Member_Birth_Date") != null ?  pc.getDetails().get("Member_Birth_Date")  : "")), DateUtil.today());
                 int calc_age = days / 365;
                 age.setText(calc_age);
             }catch (Exception e){
@@ -166,10 +167,10 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
             if ((pc.getDetails().get("Member_Gender") != null ? pc.getDetails().get("Member_Gender") : "").equalsIgnoreCase("2")) {
                 profilepic.setImageResource(R.drawable.woman_placeholder);
 //                newborn_or_fp.setText("Family Planning");
-                newborn_or_fp.setVisibility(View.INVISIBLE);
+
             } else {
                 profilepic.setImageResource(R.mipmap.household_profile_thumb);
-                newborn_or_fp.setVisibility(View.INVISIBLE);
+
             }
 
 
@@ -204,47 +205,51 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
     }
 
     private void assignRegisterButtons(LinearLayout registerButtonHolder, CommonPersonObjectClient pc) {
+        GridView gridView = (GridView) registerButtonHolder.findViewById(R.id.gridview);
+        ArrayList<String> buttons = new ArrayList<String>();
         if ((pc.getDetails().get("Eligible") != null ? pc.getDetails().get("Eligible") : "").equalsIgnoreCase("1")) {
-            Button elcoButton = new Button(context);
-            elcoButton.setText("ELCO Register");
-            registerButtonHolder.addView(elcoButton);
+
+            buttons.add("ELCO");
+
         }
         if ((pc.getDetails().get("Preg_Status") != null ? pc.getDetails().get("Preg_Status") : "").equalsIgnoreCase("1")) {
-            Button elcoButton = new Button(context);
-            elcoButton.setText("ANC Register");
-            registerButtonHolder.addView(elcoButton);
+
+            buttons.add("ANC");
+
         }
         if ((pc.getDetails().get("Is_PNC") != null ? pc.getDetails().get("Is_PNC") : "").equalsIgnoreCase("1")) {
-            Button elcoButton = new Button(context);
-            elcoButton.setText("PNC Register");
-            registerButtonHolder.addView(elcoButton);
+
+            buttons.add("PNC");
+
         }
         if ((pc.getDetails().get("Child") != null ? pc.getDetails().get("Child") : "").equalsIgnoreCase("1")) {
-            Button elcoButton = new Button(context);
-            elcoButton.setText("Child Register");
-            registerButtonHolder.addView(elcoButton);
+
+            buttons.add("Child");
+
         }
         if ((pc.getDetails().get("Nutrition") != null ? pc.getDetails().get("Nutrition") : "").equalsIgnoreCase("1")) {
-            Button elcoButton = new Button(context);
-            elcoButton.setText("Nutrition Register");
-            registerButtonHolder.addView(elcoButton);
+
+            buttons.add("Nutrition");
+
         }
         if ((pc.getDetails().get("Is_Eligible_Injectables") != null ? pc.getDetails().get("Is_Eligible_Injectables") : "").equalsIgnoreCase("1")) {
-            Button elcoButton = new Button(context);
-            elcoButton.setText("Injectable Register");
-            registerButtonHolder.addView(elcoButton);
+
+            buttons.add("Injectable");
+
         }
         if ((pc.getDetails().get("Adolescent") != null ? pc.getDetails().get("Adolescent") : "").equalsIgnoreCase("1")) {
-             Button elcoButton = new Button(context);
-             elcoButton.setText("Adolescent Register");
-             registerButtonHolder.addView(elcoButton);
+
+            buttons.add("Adolescent");
+
         }
         if (((pc.getDetails().get("Visit_Status") != null ? pc.getDetails().get("Visit_Status") : "").equalsIgnoreCase("10"))||((pc.getDetails().get("Visit_Status") != null ? pc.getDetails().get("Visit_Status") : "").equalsIgnoreCase("11"))) {
-            Button elcoButton = new Button(context);
-            elcoButton.setText("Death Register");
-            registerButtonHolder.addView(elcoButton);
-        }
 
+            buttons.add("Death");
+
+        }
+        String [] buttonnames = new String[buttons.size()];
+        buttonnames = buttons.toArray(buttonnames);
+        gridView.setAdapter(new ButtonAdapter(context,buttonnames));
 
     }
 
@@ -259,7 +264,7 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
             return (i/30 + " months");
         }
         if(i >719){
-            String years = 719/365 + " years ";
+            String years = i/365 + " years ";
             String months = "";
             if((719%365)!=0) {
                 months = (719 % 365)/30 + " months";
@@ -549,7 +554,7 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
     protected SmartRegisterPaginatedCursorAdapter adapter(String relationalid,SmartRegisterClient pc) {
         CommonRepository commonRepository = org.ei.opensrp.Context.getInstance().commonrepository("members");
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
-        queryBUilder.SelectInitiateMainTable("members", new String[]{"relationalid", "details", "Mem_F_Name", "EDD", "Child_calc_age","calc_age_confirm", "Member_GOB_HHID", "Marital_status", "Pregnancy_Status"});
+        queryBUilder.SelectInitiateMainTable("members", new String[]{"relationalid", "details", "Mem_F_Name", "EDD","Member_Birth_Date", "Child_calc_age","calc_age_confirm", "Member_GOB_HHID", "Marital_status", "Pregnancy_Status"});
         queryBUilder.joinwithALerts("members", "FW CENSUS");
         String mainSelect = queryBUilder.mainCondition("  (details like '%\"mother_UUID\":\""+pc.entityId()+"\"%') ");
         queryBUilder.addCondition("");
@@ -557,10 +562,60 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
 //        currentquery  = queryBUilder.orderbyCondition(Sortqueries);
         Cursor c = commonRepository.RawCustomQueryForAdapter(queryBUilder.Endquery(queryBUilder.addlimitandOffset(mainSelect, 200, 0)));
         HH_member_detail_SmartClientsProvider hhscp = new HH_member_detail_SmartClientsProvider(context,onClickListener,org.ei.opensrp.Context.getInstance().alertService());
-        SmartRegisterPaginatedCursorAdapter clientAdapter = new SmartRegisterPaginatedCursorAdapter(context, c, hhscp, new CommonRepository("members",new String []{"Mem_F_Name","EDD","Child_calc_age","calc_age_confirm","Member_GOB_HHID","Marital_status","Pregnancy_Status"}));
+        SmartRegisterPaginatedCursorAdapter clientAdapter = new SmartRegisterPaginatedCursorAdapter(context, c, hhscp, new CommonRepository("members",new String []{"Mem_F_Name","EDD","Member_Birth_Date","Child_calc_age","calc_age_confirm","Member_GOB_HHID","Marital_status","Pregnancy_Status"}));
 
 
         return  clientAdapter;
 //        return new SmartRegisterPaginatedAdapter(new HouseholdDetailsSmartClientsProvider(this,paginationViewHandler ,householdcontroller));
+    }
+
+    class ButtonAdapter extends BaseAdapter {
+        private Context mContext;
+        private String [] buttonnames;
+        // Gets the context so it can be used later
+        public ButtonAdapter(Context c,String [] buttonnames) {
+            mContext = c;
+            this.buttonnames = buttonnames;
+        }
+
+        // Total number of things contained within the adapter
+        public int getCount() {
+            return buttonnames.length;
+        }
+
+        // Require for structure, not really used in my code.
+        public Object getItem(int position) {
+            return null;
+        }
+
+        // Require for structure, not really used in my code. Can
+        // be used to get the id of an item in the adapter for
+        // manual control.
+        public long getItemId(int position) {
+            return position;
+        }
+
+        public View getView(int position,
+                            View convertView, ViewGroup parent) {
+            Button btn;
+            if (convertView == null) {
+                // if it's not recycled, initialize some attributes
+                btn = new Button(mContext);
+                btn.setTextSize(10);
+                btn.setLayoutParams(new GridView.LayoutParams(140, 45));
+                btn.setPadding(1, 1, 1, 1);
+            }
+            else {
+                btn = (Button) convertView;
+            }
+
+            btn.setText(buttonnames[position]);
+            // filenames is an array of strings
+            btn.setTextColor(Color.WHITE);
+            btn.setBackgroundResource(R.color.alert_in_progress_blue);
+            btn.setId(position);
+
+            return btn;
+        }
     }
 }

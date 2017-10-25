@@ -111,7 +111,7 @@ public class mCarePncDetailActivity extends Activity {
         marriagelife.setText("Marriage Life: "+((womanclient.getDetails().get("Married_Life") != null ? womanclient.getDetails().get("Married_Life") : "")));
 
 
-        womandob.setText("Age: "+calculateage(getageindays(getdate((womanclient.getDetails().get("Calc_Dob_Confirm") != null ? womanclient.getDetails().get("Calc_Dob_Confirm") : "")))));
+        womandob.setText("Age: "+calculateage(getageindays(getdate((womanclient.getColumnmaps().get("Member_Birth_Date") != null ? womanclient.getColumnmaps().get("Member_Birth_Date") : "")))));
 
         address.setText("Address: "+(humanize((womanclient.getDetails().get("Mem_Subunit") != null ? womanclient.getDetails().get("Mem_Subunit") : "").replace("+", "_")))+", "+
                 (humanize((womanclient.getDetails().get("Mem_Village_Name") != null ? womanclient.getDetails().get("Mem_Village_Name") : "").replace("+", "_")))+", "+
@@ -158,7 +158,7 @@ public class mCarePncDetailActivity extends Activity {
         checkPnc2view(ancclient);
         checkAnc3view(ancclient);
        doolay(ancclient);
-        final ImageView householdview = (ImageView) findViewById(R.id.householdprofileview);
+        final ImageView householdview = (ImageView) findViewById(R.id.womandetailprofileview);
 
         if (ancclient.getDetails().get("profilepic") != null) {
             setImagetoHolder(mCarePncDetailActivity.this, ancclient.getDetails().get("profilepic"), householdview, R.mipmap.woman_placeholder);
