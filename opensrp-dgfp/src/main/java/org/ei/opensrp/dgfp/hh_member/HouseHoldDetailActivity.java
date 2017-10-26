@@ -391,6 +391,6 @@ public class HouseHoldDetailActivity extends SecuredFragment implements View.OnC
     public void recalladapterinitialization(){
         Clientsview = null;
         Clientsview = (ListView)mView.findViewById(R.id.list);
-
+        Clientsview.setAdapter(adapter(householdclient.getCaseId()));
     }
 }

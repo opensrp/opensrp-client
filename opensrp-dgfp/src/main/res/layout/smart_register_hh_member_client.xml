@@ -38,7 +38,7 @@
                 style="@style/CustomFontTextViewStyle.ListView.Medium.NoPadding"
                 android:text="Medium Text"
                 android:id="@+id/householdheadname"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:layout_width="wrap_content"
@@ -149,7 +149,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_margin="2dp"
+            android:layout_margin="1dp"
             android:background="@color/status_bar_text_almost_white"
             android:layout_weight="1.5"
             android:orientation="vertical">

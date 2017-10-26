@@ -379,7 +379,7 @@ public class HH_member_SmartRegisterActivity extends SecuredNativeSmartRegisterA
 //            Log.v("see imageview",""+(String)mImageView.getTag());
             Log.v("see imageview", "" + currentfile.getAbsolutePath());
             setImagetoHolderFromUri(this, currentfile.getAbsolutePath(), mImageView, R.mipmap.householdload);
-//            recalladapterinitialization();
+            ((HouseHoldDetailActivity)mProfileFragment).recalladapterinitialization();
         }
     }
     public void saveimagereference(String bindobject,String entityid,Map<String,String> details){

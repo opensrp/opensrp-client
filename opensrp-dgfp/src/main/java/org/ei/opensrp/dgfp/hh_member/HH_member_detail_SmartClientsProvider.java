@@ -602,7 +602,7 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
                 // if it's not recycled, initialize some attributes
                 btn = new Button(mContext);
                 btn.setTextSize(10);
-                btn.setLayoutParams(new GridView.LayoutParams(140, 45));
+                btn.setLayoutParams(new GridView.LayoutParams(120, 38));
                 btn.setPadding(1, 1, 1, 1);
             }
             else {

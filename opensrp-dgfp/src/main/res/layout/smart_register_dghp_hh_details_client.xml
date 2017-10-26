@@ -144,7 +144,9 @@
                     style="@style/CustomFontTextViewStyle.ListView.Medium"
                     android:id="@+id/general"
                     android:padding="25dp"
+                    android:layout_margin="1dp"
                     android:background="@color/alert_upcoming_yellow"
+                    android:textColor="@color/status_bar_text_almost_white"
                     android:layout_gravity="center"
                     android:gravity="center" />
             </LinearLayout>
