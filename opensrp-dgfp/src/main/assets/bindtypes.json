@@ -9,7 +9,7 @@
     {
       "name": "members",
       "columns": [
-        {"name":"Mem_F_Name"},{"name":"EDD"},{"name":"Member_Birth_Date"},{"name":"Child_calc_age"},{"name":"calc_age_confirm"},{"name":"Child_mother_name"},{"name":"Member_GOB_HHID"},{"name":"Marital_status"},{"name":"Pregnancy_Status"},{"name":"missedCount"}
+        {"name":"Mem_F_Name"},{"name":"EDD"},{"name":"Calc_Dob_Confirm"},{"name":"Child_calc_age"},{"name":"calc_age_confirm"},{"name":"Child_mother_name"},{"name":"Member_GOB_HHID"},{"name":"Marital_status"},{"name":"Pregnancy_Status"},{"name":"missedCount"}
       ]
     }
   ]

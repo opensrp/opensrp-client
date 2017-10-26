@@ -173,7 +173,7 @@ public class HouseHoldDetailActivity extends SecuredFragment implements View.OnC
     protected SmartRegisterPaginatedCursorAdapter adapter(String relationalid) {
         CommonRepository commonRepository = context.commonrepository("members");
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
-        queryBUilder.SelectInitiateMainTable("members", new String[]{"relationalid", "details", "Mem_F_Name", "EDD","Member_Birth_Date", "Child_calc_age","calc_age_confirm", "Member_GOB_HHID", "Marital_status", "Pregnancy_Status"});
+        queryBUilder.SelectInitiateMainTable("members", new String[]{"relationalid", "details", "Mem_F_Name", "EDD","Calc_Dob_Confirm", "Child_calc_age","calc_age_confirm", "Member_GOB_HHID", "Marital_status", "Pregnancy_Status"});
         queryBUilder.joinwithALerts("members", "FW CENSUS");
         String mainSelect = queryBUilder.mainCondition(" relationalid = '"+relationalid+"' and (details not like '%\"mother_UUID\"%') ");
         queryBUilder.addCondition("");
@@ -181,7 +181,7 @@ public class HouseHoldDetailActivity extends SecuredFragment implements View.OnC
 //        currentquery  = queryBUilder.orderbyCondition(Sortqueries);
         Cursor c = commonRepository.RawCustomQueryForAdapter(queryBUilder.Endquery(queryBUilder.addlimitandOffset(mainSelect, 200, 0)));
         HH_member_detail_SmartClientsProvider hhscp = new HH_member_detail_SmartClientsProvider(getActivity(),this,context.alertService());
-        SmartRegisterPaginatedCursorAdapter clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), c, hhscp, new CommonRepository("members",new String []{"Mem_F_Name","EDD","Member_Birth_Date","Child_calc_age","calc_age_confirm","Member_GOB_HHID","Marital_status","Pregnancy_Status"}));
+        SmartRegisterPaginatedCursorAdapter clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), c, hhscp, new CommonRepository("members",new String []{"Mem_F_Name","EDD","Calc_Dob_Confirm","Child_calc_age","calc_age_confirm","Member_GOB_HHID","Marital_status","Pregnancy_Status"}));
 
 
        return  clientAdapter;

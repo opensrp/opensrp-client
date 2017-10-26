@@ -278,7 +278,7 @@ public class dgfp_child_SmartRegisterFragment extends SecuredNativeSmartRegister
         private String doolay(CommonPersonObjectClient ancclient) {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             try {
-                Date edd_date = format.parse(ancclient.getDetails().get("Member_Birth_Date")!=null?ancclient.getDetails().get("Member_Birth_Date"):"");
+                Date edd_date = format.parse(ancclient.getDetails().get("Calc_Dob_Confirm")!=null?ancclient.getDetails().get("Calc_Dob_Confirm"):"");
                 GregorianCalendar calendar = new GregorianCalendar();
                 calendar.setTime(edd_date);
                 edd_date.setTime(calendar.getTime().getTime());
@@ -426,7 +426,7 @@ public class dgfp_child_SmartRegisterFragment extends SecuredNativeSmartRegister
 
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
-        queryBUilder.SelectInitiateMainTable("members", new String[]{"relationalid", "details", "Mem_F_Name", "EDD","Member_Birth_Date", "calc_age_confirm","Child_mother_name", "Member_GOB_HHID", "Marital_status", "Pregnancy_Status","missedCount"});
+        queryBUilder.SelectInitiateMainTable("members", new String[]{"relationalid", "details", "Mem_F_Name", "EDD","Calc_Dob_Confirm", "calc_age_confirm","Child_mother_name", "Member_GOB_HHID", "Marital_status", "Pregnancy_Status","missedCount"});
         queryBUilder.joinwithALerts("members", "FW CENSUS");
         mainSelect = queryBUilder.mainCondition(" details like '%\"Child\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%')  ");
         queryBUilder.addCondition(filters);
@@ -434,7 +434,7 @@ public class dgfp_child_SmartRegisterFragment extends SecuredNativeSmartRegister
         currentquery  = queryBUilder.orderbyCondition(Sortqueries);
         Cursor c = commonRepository.RawCustomQueryForAdapter(queryBUilder.Endquery(queryBUilder.addlimitandOffset(currentquery, 20, 0)));
         child_SmartClientsProvider hhscp = new child_SmartClientsProvider(getActivity(),clientActionHandler,context.alertService());
-        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), c, hhscp, new CommonRepository("members",new String []{"Mem_F_Name","EDD","Member_Birth_Date","calc_age_confirm","Child_mother_name","Member_GOB_HHID","Marital_status","Pregnancy_Status","missedCount"}));
+        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), c, hhscp, new CommonRepository("members",new String []{"Mem_F_Name","EDD","Calc_Dob_Confirm","calc_age_confirm","Child_mother_name","Member_GOB_HHID","Marital_status","Pregnancy_Status","missedCount"}));
         clientsView.setAdapter(clientAdapter);
         updateSearchView();
         refresh();

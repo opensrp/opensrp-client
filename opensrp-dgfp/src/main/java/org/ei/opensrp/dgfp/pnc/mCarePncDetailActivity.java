@@ -111,7 +111,7 @@ public class mCarePncDetailActivity extends Activity {
         marriagelife.setText("Marriage Life: "+((womanclient.getDetails().get("Married_Life") != null ? womanclient.getDetails().get("Married_Life") : "")));
 
 
-        womandob.setText("Age: "+calculateage(getageindays(getdate((womanclient.getColumnmaps().get("Member_Birth_Date") != null ? womanclient.getColumnmaps().get("Member_Birth_Date") : "")))));
+        womandob.setText("Age: "+calculateage(getageindays(getdate((womanclient.getColumnmaps().get("Calc_Dob_Confirm") != null ? womanclient.getColumnmaps().get("Calc_Dob_Confirm") : "")))));
 
         address.setText("Address: "+(humanize((womanclient.getDetails().get("Mem_Subunit") != null ? womanclient.getDetails().get("Mem_Subunit") : "").replace("+", "_")))+", "+
                 (humanize((womanclient.getDetails().get("Mem_Village_Name") != null ? womanclient.getDetails().get("Mem_Village_Name") : "").replace("+", "_")))+", "+

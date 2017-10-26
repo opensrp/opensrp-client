@@ -122,7 +122,7 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
             try {
                 String datetocalc = "";
                 if(datetocalc.equalsIgnoreCase("")){
-                    datetocalc = (pc.getColumnmaps().get("Member_Birth_Date") != null ?  pc.getColumnmaps().get("Member_Birth_Date")  : "");
+                    datetocalc = (pc.getColumnmaps().get("Calc_Dob_Confirm") != null ?  pc.getColumnmaps().get("Calc_Dob_Confirm")  : "");
                 }
                 DateUtil.setDefaultDateFormat("yyyy-MM-dd");
                 int days = DateUtil.dayDifference(DateUtil.getLocalDate(datetocalc), DateUtil.today());
@@ -157,7 +157,7 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
             age.setText(pc.getColumnmaps().get("calc_age_confirm") != null ? pc.getColumnmaps().get("calc_age_confirm") : "");
             try {
                 DateUtil.setDefaultDateFormat("yyyy-MM-dd");
-                int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("Member_Birth_Date") != null ?  pc.getDetails().get("Member_Birth_Date")  : "")), DateUtil.today());
+                int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("Calc_Dob_Confirm") != null ?  pc.getDetails().get("Calc_Dob_Confirm")  : "")), DateUtil.today());
                 int calc_age = days / 365;
                 age.setText(calc_age);
             }catch (Exception e){
@@ -554,7 +554,7 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
     protected SmartRegisterPaginatedCursorAdapter adapter(String relationalid,SmartRegisterClient pc) {
         CommonRepository commonRepository = org.ei.opensrp.Context.getInstance().commonrepository("members");
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
-        queryBUilder.SelectInitiateMainTable("members", new String[]{"relationalid", "details", "Mem_F_Name", "EDD","Member_Birth_Date", "Child_calc_age","calc_age_confirm", "Member_GOB_HHID", "Marital_status", "Pregnancy_Status"});
+        queryBUilder.SelectInitiateMainTable("members", new String[]{"relationalid", "details", "Mem_F_Name", "EDD","Calc_Dob_Confirm", "Child_calc_age","calc_age_confirm", "Member_GOB_HHID", "Marital_status", "Pregnancy_Status"});
         queryBUilder.joinwithALerts("members", "FW CENSUS");
         String mainSelect = queryBUilder.mainCondition("  (details like '%\"mother_UUID\":\""+pc.entityId()+"\"%') ");
         queryBUilder.addCondition("");
@@ -562,7 +562,7 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
 //        currentquery  = queryBUilder.orderbyCondition(Sortqueries);
         Cursor c = commonRepository.RawCustomQueryForAdapter(queryBUilder.Endquery(queryBUilder.addlimitandOffset(mainSelect, 200, 0)));
         HH_member_detail_SmartClientsProvider hhscp = new HH_member_detail_SmartClientsProvider(context,onClickListener,org.ei.opensrp.Context.getInstance().alertService());
-        SmartRegisterPaginatedCursorAdapter clientAdapter = new SmartRegisterPaginatedCursorAdapter(context, c, hhscp, new CommonRepository("members",new String []{"Mem_F_Name","EDD","Member_Birth_Date","Child_calc_age","calc_age_confirm","Member_GOB_HHID","Marital_status","Pregnancy_Status"}));
+        SmartRegisterPaginatedCursorAdapter clientAdapter = new SmartRegisterPaginatedCursorAdapter(context, c, hhscp, new CommonRepository("members",new String []{"Mem_F_Name","EDD","Calc_Dob_Confirm","Child_calc_age","calc_age_confirm","Member_GOB_HHID","Marital_status","Pregnancy_Status"}));
 
 
         return  clientAdapter;

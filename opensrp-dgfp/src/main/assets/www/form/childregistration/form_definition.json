@@ -168,7 +168,7 @@
             "bind": "/model/instance/ChildRegistraton/Reg_Newborn/Mem_L_Name"
           },
           {
-            "name": "Member_Birth_Date",
+            "name": "Calc_Dob_Confirm",
             "bind": "/model/instance/ChildRegistraton/Reg_Newborn/Member_Birth_Date"
           },
           {

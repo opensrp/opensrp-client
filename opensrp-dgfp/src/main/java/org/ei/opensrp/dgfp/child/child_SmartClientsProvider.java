@@ -130,7 +130,7 @@ public class child_SmartClientsProvider implements SmartRegisterCLientsProviderF
         try {
             String datetocalc = "";
             if(datetocalc.equalsIgnoreCase("")){
-                datetocalc = (pc.getColumnmaps().get("Member_Birth_Date") != null ?  pc.getColumnmaps().get("Member_Birth_Date")  : "");
+                datetocalc = (pc.getColumnmaps().get("Calc_Dob_Confirm") != null ?  pc.getColumnmaps().get("Calc_Dob_Confirm")  : "");
             }
             DateUtil.setDefaultDateFormat("yyyy-MM-dd");
             int days = DateUtil.dayDifference(DateUtil.getLocalDate(datetocalc), DateUtil.today());
@@ -139,7 +139,7 @@ public class child_SmartClientsProvider implements SmartRegisterCLientsProviderF
         }catch (Exception e){
 
         }
-        date_of_birth.setText((pc.getColumnmaps().get("Member_Birth_Date") != null ? pc.getColumnmaps().get("Member_Birth_Date") : "")+"\n"+"("+agetodisplay+")");
+        date_of_birth.setText((pc.getColumnmaps().get("Calc_Dob_Confirm") != null ? pc.getColumnmaps().get("Calc_Dob_Confirm") : "")+"\n"+"("+agetodisplay+")");
 
         age.setVisibility(View.INVISIBLE);
         cBRID.setText("C_BRID: " + (pc.getDetails().get("Mem_BRID") != null ? pc.getDetails().get("Mem_BRID") : ""));

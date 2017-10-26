@@ -132,7 +132,7 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
         try {
             String datetocalc = "";
             if(datetocalc.equalsIgnoreCase("")){
-                datetocalc = (pc.getColumnmaps().get("Member_Birth_Date") != null ?  pc.getColumnmaps().get("Member_Birth_Date")  : "");
+                datetocalc = (pc.getColumnmaps().get("Calc_Dob_Confirm") != null ?  pc.getColumnmaps().get("Calc_Dob_Confirm")  : "");
             }
             DateUtil.setDefaultDateFormat("yyyy-MM-dd");
             int days = DateUtil.dayDifference(DateUtil.getLocalDate(datetocalc), DateUtil.today());
