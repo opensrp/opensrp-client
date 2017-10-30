@@ -137,7 +137,7 @@ public class mCarePNCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
             public DialogOption[] sortingOptions() {
                 return new DialogOption[]{
 //                        new ElcoPSRFDueDateSort(),
-                        new CursorCommonObjectSort(Context.getInstance().applicationContext().getString(R.string.due_status),sortByAlertmethod()),
+                        new CursorCommonObjectSort(Context.getInstance().applicationContext().getString(R.string.due_status),sortByAlertmethodWithoutFTS()),
                         new CursorCommonObjectSort(Context.getInstance().applicationContext().getString(R.string.elco_alphabetical_sort),sortByFWWOMFNAME()),
                         new CursorCommonObjectSort(Context.getInstance().applicationContext().getString(R.string.hh_fwGobhhid_sort),sortByGOBHHID()),
                         new CursorCommonObjectSort(Context.getInstance().applicationContext().getString(R.string.hh_fwJivhhid_sort),sortByJiVitAHHID()),
@@ -277,8 +277,8 @@ public class mCarePNCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
                 if(cs.toString().equalsIgnoreCase("")){
                     filters = "";
                 }else {
-                    //filters = "and FWWOMFNAME Like '%" + cs.toString() + "%' or GOBHHID Like '%" + cs.toString() + "%'  or JiVitAHHID Like '%" + cs.toString() + "%' ";
-                    filters = cs.toString();
+                    filters = "and (FWWOMFNAME Like '%" + cs.toString() + "%' or GOBHHID Like '%" + cs.toString() + "%'  or JiVitAHHID Like '%" + cs.toString() + "%' )";
+//                    filters = cs.toString();
                 }
                 joinTable = "";
                 mainCondition = " Is_PNC = '1'  and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%'";
@@ -347,12 +347,12 @@ public class mCarePNCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
         clientsView.setAdapter(clientAdapter);
 
         setTablename("mcaremother");
-        SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder(pncMainCountWithJoins());
+        SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder(pncMainCountWithJoinsWithoutFTS());
         countSelect = countqueryBUilder.mainCondition(" mcaremother.Is_PNC = '1'  and mcaremother.FWWOMFNAME not null and mcaremother.FWWOMFNAME != \"\"   AND mcaremother.details  LIKE '%\"FWWOMVALID\":\"1\"%'");
         mainCondition = " Is_PNC = '1'  and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%'";
         super.CountExecute();
 
-        SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder(pncMainSelectWithJoins());
+        SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder(pncMainSelectWithJoinsWithoutFTS());
         mainSelect = queryBUilder.mainCondition(" mcaremother.Is_PNC = '1'  and mcaremother.FWWOMFNAME not null and mcaremother.FWWOMFNAME != \"\"   AND mcaremother.details  LIKE '%\"FWWOMVALID\":\"1\"%'");
         Sortqueries = sortBySortValue();
 
@@ -404,6 +404,26 @@ public class mCarePNCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
     private String filterStringForPNCRV3(){
         return "pncrv_3";
     }
+
+    private String sortByAlertmethodWithoutFTS() {
+        return " CASE WHEN alerts.status = 'urgent' THEN '1'"
+                +
+                "WHEN alerts.status = 'upcoming' THEN '2'\n" +
+                "WHEN alerts.status = 'normal' THEN '3'\n" +
+                "WHEN alerts.status = 'expired' THEN '4'\n" +
+                "WHEN alerts.status is Null THEN '5'\n" +
+                "WHEN alerts.status = 'complete' THEN '6'\n" +
+                "Else alerts.status END ASC";
+    }
+    public String pncMainSelectWithJoinsWithoutFTS(){
+        return "Select id as _id,relationalid,details,FWWOMFNAME,FWPSRLMP,FWSORTVALUE,JiVitAHHID,GOBHHID,Is_PNC,FWBNFSTS,FWBNFDTOO \n" +
+                "from mcaremother\n" +
+                "Left Join alerts on alerts.caseID = mcaremother.id and alerts.scheduleName = 'Post Natal Care Reminder Visit' ";
+    }
+    public String pncMainCountWithJoinsWithoutFTS(){
+        return "Select Count(*) \n" +
+                "from mcaremother\n";
+     }
 
 
     /**

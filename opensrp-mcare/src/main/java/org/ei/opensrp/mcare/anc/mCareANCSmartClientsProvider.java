@@ -150,14 +150,27 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
 //        Log.v("brid tag",pc.getDetails().get("FWWOMBID"));
 
 
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+//            if (pc.getDetails().get("FWGESTATIONALAGE") != null) {
+//                String GASourcestring = "GA: " + pc.getDetails().get("FWGESTATIONALAGE") + " weeks" + " ";
+                Date lmp_date = format.parse(pc.getColumnmaps().get("FWPSRLMP") != null ? pc.getColumnmaps().get("FWPSRLMP") : "");
+                Calendar thatDay = Calendar.getInstance();
+                thatDay.setTime(lmp_date);
 
-        if(pc.getDetails().get("FWGESTATIONALAGE")!=null){
-            String GASourcestring = "GA: " + pc.getDetails().get("FWGESTATIONALAGE")+ " weeks" + " ";
+                Calendar today = Calendar.getInstance();
 
-            ga.setText(Html.fromHtml(GASourcestring));
+                long diff = today.getTimeInMillis() - thatDay.getTimeInMillis();
+
+                long days = diff / (24 * 60 * 60 * 1000);
+                int GAweeks = (int)days/7 ;
+                String GASourcestring = "GA: " + GAweeks + " weeks" + " ";
+                ga.setText(Html.fromHtml(GASourcestring));
+//            }
+        }catch (Exception e){
+
         }
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date edd_date = format.parse(pc.getColumnmaps().get("FWPSRLMP")!=null?pc.getColumnmaps().get("FWPSRLMP"):"");
             GregorianCalendar calendar = new GregorianCalendar();

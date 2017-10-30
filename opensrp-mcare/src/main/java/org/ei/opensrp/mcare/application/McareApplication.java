@@ -155,7 +155,7 @@ public class McareApplication extends DrishtiApplication {
     }
 
     private String[] getFtsTables(){
-        String[] ftsTables = { "household", "elco","mcaremother","mcarechild" };
+        String[] ftsTables = { "household", "elco","mcarechild" };
         return ftsTables;
     }
 
@@ -167,7 +167,7 @@ public class McareApplication extends DrishtiApplication {
         Map<String, Pair<String, Boolean>> map = new HashMap<String, Pair<String, Boolean>>();
         map.put("FW CENSUS", Pair.create("household", false));
         map.put("ELCO PSRF", Pair.create("elco", false));
-        map.put("Ante Natal Care Reminder Visit", Pair.create("mcaremother", true));
+        map.put("Ante Natal Care Reminder Visit", Pair.create("mcaremother", false));
         map.put("BirthNotificationPregnancyStatusFollowUp",  Pair.create("mcaremother", false));
         map.put("Post Natal Care Reminder Visit", Pair.create("mcaremother", true));
         map.put("Essential Newborn Care Checklist", Pair.create("mcarechild", true));

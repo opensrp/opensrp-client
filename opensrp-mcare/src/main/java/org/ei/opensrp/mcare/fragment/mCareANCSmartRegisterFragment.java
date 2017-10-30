@@ -138,7 +138,7 @@ public class mCareANCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
             public DialogOption[] sortingOptions() {
                 return new DialogOption[]{
 //                        new ElcoPSRFDueDateSort(),
-                        new CursorCommonObjectSort(getString(R.string.due_status),sortByAlertmethod()),
+                        new CursorCommonObjectSort(getString(R.string.due_status),sortByAlertmethodWithoutFTS()),
                         new CursorCommonObjectSort(Context.getInstance().applicationContext().getString(R.string.elco_alphabetical_sort),sortByFWWOMFNAME()),
                         new CursorCommonObjectSort(Context.getInstance().applicationContext().getString(R.string.hh_fwGobhhid_sort),sortByGOBHHID()),
                         new CursorCommonObjectSort( Context.getInstance().applicationContext().getString(R.string.hh_fwJivhhid_sort),sortByJiVitAHHID()),
@@ -283,8 +283,8 @@ public class mCareANCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
                 if(cs.toString().equalsIgnoreCase("")){
                     filters = "";
                 }else {
-                    //filters = "and FWWOMFNAME Like '%" + cs.toString() + "%' or GOBHHID Like '%" + cs.toString() + "%'  or JiVitAHHID Like '%" + cs.toString() + "%' ";
-                    filters = cs.toString();
+                    filters = "and (FWWOMFNAME Like '%" + cs.toString() + "%' or GOBHHID Like '%" + cs.toString() + "%'  or JiVitAHHID Like '%" + cs.toString() + "%' )";
+//                    filters = cs.toString();
                 }
                 joinTable = "";
                 mainCondition = "(Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%'";
@@ -343,6 +343,16 @@ public class mCareANCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
         return "Select Count(*) \n" +
                 "from mcaremother\n";
     }
+    public String ancMainSelectWithJoinswithoutFTS(){
+        return "Select id as _id,relationalid,details,FWWOMFNAME,FWPSRLMP,FWSORTVALUE,JiVitAHHID,GOBHHID,Is_PNC,FWBNFSTS,FWBNFDTOO \n" +
+                "from mcaremother\n" +
+                "Left Join alerts on alerts.caseID = mcaremother.id and alerts.scheduleName = 'Ante Natal Care Reminder Visit'\n" +
+                "Left Join alerts as alerts2 on alerts2.caseID = mcaremother.id and alerts2.scheduleName = 'BirthNotificationPregnancyStatusFollowUp'";
+    }
+    public String ancMainCountWithJoinswithoutFTS(){
+        return "Select Count(*) \n" +
+                "from mcaremother\n";
+    }
     public void initializeQueries(){
         mCareANCSmartClientsProvider hhscp = new mCareANCSmartClientsProvider(getActivity(),
                 clientActionHandler,context().alertService());
@@ -350,12 +360,12 @@ public class mCareANCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
         clientsView.setAdapter(clientAdapter);
 
         setTablename("mcaremother");
-        SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder(ancMainCountWithJoins());
+        SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder(ancMainCountWithJoinswithoutFTS());
         countSelect = countqueryBUilder.mainCondition("(mcaremother.Is_PNC is null or mcaremother.Is_PNC = '0') and mcaremother.FWWOMFNAME not null and mcaremother.FWWOMFNAME != \"\"   AND mcaremother.details  LIKE '%\"FWWOMVALID\":\"1\"%'");
         mainCondition = "( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%'";
         super.CountExecute();
 
-        SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder(ancMainSelectWithJoins());
+        SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder(ancMainSelectWithJoinswithoutFTS());
         mainSelect = queryBUilder.mainCondition("( mcaremother.Is_PNC is null or mcaremother.Is_PNC = '0') and mcaremother.FWWOMFNAME not null and mcaremother.FWWOMFNAME != \"\"   AND mcaremother.details  LIKE '%\"FWWOMVALID\":\"1\"%'");
         Sortqueries = sortBySortValue();
 
@@ -425,6 +435,37 @@ public class mCareANCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
                 "WHEN Ante_Natal_Care_Reminder_Visit = \"\" THEN 99999\n" +
 //                "WHEN BirthNotificationPregnancyStatusFollowUp is null THEN '18'\n" +
                 "Else Ante_Natal_Care_Reminder_Visit END ASC";
+    }
+    private String sortByAlertmethodWithoutFTS() {
+        return " CASE WHEN alerts.status = 'urgent' and alerts2.status = 'urgent' THEN 1 "
+                +
+                "WHEN alerts.status = 'upcoming' and alerts2.status = 'urgent' THEN  2\n" +
+                "WHEN alerts.status = 'normal' and alerts2.status = 'urgent' THEN 3\n" +
+                "WHEN alerts.status = 'expired' and alerts2.status = 'urgent' THEN 4\n" +
+                "WHEN alerts.status is null and alerts2.status = 'urgent' THEN 5\n" +
+
+                "WHEN alerts.status = 'urgent' and alerts2.status = 'upcoming' THEN 6\n" +
+                "WHEN alerts.status = 'upcoming' and alerts2.status = 'upcoming' THEN 7\n" +
+                "WHEN alerts.status = 'normal' and alerts2.status = 'upcoming' THEN 8\n" +
+                "WHEN alerts.status = 'expired' and alerts2.status = 'upcoming' THEN 9\n" +
+                "WHEN alerts.status is null and alerts2.status = 'upcoming' THEN 10\n" +
+
+                "WHEN alerts.status = 'urgent' and alerts2.status = 'normal' THEN 11\n" +
+                "WHEN alerts.status = 'upcoming' and alerts2.status = 'normal' THEN 12\n" +
+                "WHEN alerts.status = 'normal' and alerts2.status = 'normal' THEN 13\n" +
+                "WHEN alerts.status = 'expired' and alerts2.status = 'normal' THEN 14\n" +
+                "WHEN alerts.status is null and alerts2.status = 'normal' THEN 15\n" +
+
+                "WHEN alerts.status = 'urgent' and alerts2.status = 'expired' THEN 16\n" +
+                "WHEN alerts.status = 'upcoming' and alerts2.status = 'expired' THEN 17\n" +
+                "WHEN alerts.status = 'normal' and alerts2.status = 'expired' THEN 18\n" +
+                "WHEN alerts.status = 'expired' and alerts2.status = 'expired' THEN 19\n" +
+                "WHEN alerts.status is null and alerts2.status = 'expired' THEN 20\n" +
+
+                "WHEN alerts2.status is null THEN 9999\n" +
+                "WHEN alerts.status = \"\" THEN 99999\n" +
+//                "WHEN alerts2.status is null THEN '18'\n" +
+                "Else alerts.status END ASC";
     }
 
     /**
