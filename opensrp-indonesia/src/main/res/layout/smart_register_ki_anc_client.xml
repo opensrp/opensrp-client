@@ -29,7 +29,7 @@
             android:layout_alignParentTop="true"
             android:paddingLeft="5dp"
             android:layout_marginTop="5dp"
-            android:text="No Ibu: "
+            android:text="@string/header_no_ibu"
             style="@style/CustomFontTextViewStyle.ListView.Small"/>
 
         <org.ei.opensrp.view.customControls.CustomFontTextView

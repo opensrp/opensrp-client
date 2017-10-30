@@ -43,18 +43,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import util.formula.Support;
 
-import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_ANC_CLOSE;
-import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_ANC_RENCANA_PERSALINAN;
-import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_ANC_VISIT;
-import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_ANC_VISIT_INTEGRASI;
-import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_ANC_VISIT_LABTEST;
 import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_PNC_CLOSE;
-import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_PNC_EDIT;
 import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_PNC_OA;
 import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_PNC_POSPARTUM_KB;
-import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_PNC_REGISTRATION;
 import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_PNC_VISIT;
-import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KOHORT_KB_REGISTER;
 
 /**
  * Created by Dimas Ciputra on 3/5/15.
@@ -179,10 +171,10 @@ public class NativeKIPNCSmartRegisterActivity extends SecuredNativeSmartRegister
 
     public DialogOption[] getEditOptions() {
         return new DialogOption[]{
-                new OpenFormOption("PNC Visit ", KARTU_IBU_PNC_VISIT, formController),
-                new OpenFormOption("Postpartum KB ", KARTU_IBU_PNC_POSPARTUM_KB, formController),
+                new OpenFormOption(getString(R.string.str_pnc_visit_form), KARTU_IBU_PNC_VISIT, formController),
+                new OpenFormOption(getString(R.string.str_pnc_postpartum_family_planning_form), KARTU_IBU_PNC_POSPARTUM_KB, formController),
               //  new OpenFormOption("Edit PNC ", KARTU_IBU_PNC_EDIT, formController),
-                new OpenFormOption("PNC Close ", KARTU_IBU_PNC_CLOSE, formController),
+                new OpenFormOption(getString(R.string.str_pnc_close_form), KARTU_IBU_PNC_CLOSE, formController),
 
 
         };

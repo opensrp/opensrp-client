@@ -96,7 +96,7 @@
 
     <string name="str_register_pnc_form">Daftar PNC</string>
     <string name="str_register_fp_form">Register KB</string>
-    <string name="str_register_child_form">Register Child</string>
+    <string name="str_register_child_form">Register Anak</string>
     <string name="str_fp_change_form">FP Change</string>
     <string name="str_fp_change_fp_form">Change FP</string>
     <string name="str_record_ecp_form">Record ECP</string>
@@ -154,7 +154,7 @@
     <string name="header_dob">Tgl Lahir</string>
     <string name="header_dok_persalinan">Dok Prsalinan</string>
 
-    <string name="app_name">Bidan</string>
+    <string name="app_name">Bidan OpenSRP</string>
 
     <string name="home_ec_label">Eligible Couple</string>
     <string name="home_fp_label">FP</string>
@@ -302,8 +302,8 @@
     <string name="header_pnc_visits">PNC VISITS</string>
     <string name="pnc_register_service_mode_overview">Overview</string>
     <string name="pnc_register_service_mode_pnc_visits">PNC Visits</string>
-    <string name="str_pnc_visit_form">PNC Visit</string>
-    <string name="str_pnc_postpartum_family_planning_form">Postpartum family planning</string>
+    <string name="str_pnc_visit_form">Kunjungan PNC</string>
+    <string name="str_pnc_postpartum_family_planning_form">Postpartum KB</string>
     <string name="str_referred">Referred</string>
     <string name="str_referral">referral</string>
     <string name="str_follow_up">follow-up</string>
