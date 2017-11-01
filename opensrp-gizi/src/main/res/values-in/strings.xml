@@ -12,8 +12,8 @@
     <string name="login_failed_dialog_message">Please check the credentials</string>
     <string name="mcareform_back_confirm_dialog_message">Are you sure you want to go back?</string>
     <string name="mcareform_back_confirm_dialog_title">Confirm form close</string>
-    <string name="mcareyes_button_label">Yes</string>
-    <string name="mcareno_button_label">No</string>
+    <string name="mcareyes_button_label">Ya</string>
+    <string name="mcareno_button_label">Tidak</string>
     <string name="home_hh_label">Household</string>
     <string name="home_ec_label">ELCO</string>
     <string name="home_fp_label">FP</string>
@@ -426,6 +426,7 @@
     <string name="hb_level">Kadar HB</string>
     <string name="vitamin_a_pnc_2">Vitamin A setelah 2 jam: </string>
     <string name="vitamin_a_pnc_24">Vitamin A setelah 24 jam: </string>
+    <string name="not_attend_string">Tidak Datang Posyandu</string>
     <string name="post_partum_care">Pelayanan Post-Partum</string>
     <string name="years_unit">thn</string>
     <string name="month_unit">bln</string>
@@ -434,5 +435,7 @@
     <string name="lila">Lingkar Lengan</string>
     <string name="sistolik">Sistolik</string>
     <string name="diastolik">Diastolik</string>
+    <string name="monthly_visit">Kunjungan Per Bulan</string>
+    <string name="close_form">Tutup Form</string>
 
 </resources>

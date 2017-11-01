@@ -255,6 +255,7 @@
     <string name="str_pnc_visit_form">PNC Visit</string>
     <string name="str_pnc_postpartum_family_planning_form">Postpartum family planning</string>
     <string name="str_pnc_close_form">PNC Close</string>
+    <string name="no_complication">No complication</string>
 
     <string name="str_referred">Referred</string>
     <string name="str_referral">referral</string>
@@ -303,6 +304,7 @@
     <string name="str_contact">Contact:</string>
     <string name="str_risks_reviewed">Risks reviewed:</string>
     <string name="sort_by_edd_label">EDD</string>
+    <string name="temperature_lbl">Temperature: </string>
 
     <string name="sort_by_no_ibu_label">Mother Number</string>
     <string name="str_pnc_delivery_date">Date:</string>
