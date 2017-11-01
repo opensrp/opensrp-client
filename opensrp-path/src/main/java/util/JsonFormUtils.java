@@ -2080,7 +2080,7 @@ public class JsonFormUtils {
             healthFacilities.add("Union");
             healthFacilities.add("Ward");
             healthFacilities.add("Subunit");
-            healthFacilities.add("EPI center");
+            healthFacilities.add("Vaccination Center");
 
 
             ArrayList<String> defaultFacilities = new ArrayList<>();
@@ -2091,7 +2091,7 @@ public class JsonFormUtils {
             healthFacilities.add("Union");
             healthFacilities.add("Ward");
             healthFacilities.add("Subunit");
-            healthFacilities.add("EPI center");
+            healthFacilities.add("Vaccination Center");
 
             JSONArray defaultLocation = generateDefaultLocationHierarchy(context, allLevels);
             JSONArray defaultFacility = generateDefaultLocationHierarchy(context, healthFacilities);

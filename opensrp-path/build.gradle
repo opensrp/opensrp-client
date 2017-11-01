@@ -62,8 +62,8 @@ android {
         }
 
         debug {
-            resValue "string", 'opensrp_url', '"http://192.168.19.77:8080/opensrp/"'
-            buildConfigField "String", 'OPENMRS_URL', '"http://192.168.22.152:8080/openmrs/"'
+            resValue "string", 'opensrp_url', '"http://103.247.238.31:9979/opensrp/"'
+            buildConfigField "String", 'OPENMRS_URL', '"http://103.247.238.30:1969/openmrs"'
             buildConfigField "String", 'OPENMRS_IDGEN_URL', '"/module/idgen/exportIdentifiers.form"'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_INITIAL_BATCH_SIZE", '250'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_BATCH_SIZE", '100'

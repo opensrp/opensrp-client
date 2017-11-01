@@ -106,9 +106,9 @@ public class HouseholdSmartClientsProvider implements SmartRegisterCLientsProvid
         DetailsRepository detailsRepository;
         detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
         Map<String, String> details = detailsRepository.getAllDetailsForClient(pc.entityId());
-        fillValue((TextView) convertView.findViewById(R.id.householdprimarytext), getValue(details, "address3", false));
-        fillValue((TextView) convertView.findViewById(R.id.housholdsecondarytext), getValue(details, "address2", false));
-        fillValue((TextView) convertView.findViewById(R.id.address), getValue(details, "address1", false));
+        fillValue((TextView) convertView.findViewById(R.id.householdprimarytext), getValue(details, "address3", false).split(":")[getValue(details, "address3", false).split(":").length-1]);
+        fillValue((TextView) convertView.findViewById(R.id.housholdsecondarytext), getValue(details, "address2", false).split(":")[getValue(details, "address2", false).split(":").length-1]);
+        fillValue((TextView) convertView.findViewById(R.id.address), getValue(details, "address1", false).split(":")[getValue(details, "address1", false).split(":").length-1]);
 
         Button addmember = (Button)convertView.findViewById(R.id.add_member);
         LocationPickerView locationPickerView = ((HouseholdSmartRegisterFragment) mBaseFragment).getLocationPickerView();

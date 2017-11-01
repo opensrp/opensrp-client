@@ -207,6 +207,7 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
         super.setupViews(view);
         view.findViewById(R.id.btn_report_month).setVisibility(INVISIBLE);
         view.findViewById(R.id.service_mode_selection).setVisibility(INVISIBLE);
+        view.findViewById(R.id.register_client).setVisibility(INVISIBLE);
 
         filterSection = view.findViewById(R.id.filter_selection);
         filterSection.setOnClickListener(clientActionHandler);
