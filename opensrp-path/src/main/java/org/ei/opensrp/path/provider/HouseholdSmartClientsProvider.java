@@ -105,7 +105,7 @@ public class HouseholdSmartClientsProvider implements SmartRegisterCLientsProvid
 
         DetailsRepository detailsRepository;
         detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
-        Map<String, String> details = detailsRepository.getAllDetailsForClient(pc.entityId());
+        final Map<String, String> details = detailsRepository.getAllDetailsForClient(pc.entityId());
         fillValue((TextView) convertView.findViewById(R.id.householdprimarytext), getValue(details, "address3", false).split(":")[getValue(details, "address3", false).split(":").length-1]);
         fillValue((TextView) convertView.findViewById(R.id.housholdsecondarytext), getValue(details, "address2", false).split(":")[getValue(details, "address2", false).split(":").length-1]);
         fillValue((TextView) convertView.findViewById(R.id.address), getValue(details, "address1", false).split(":")[getValue(details, "address1", false).split(":").length-1]);
@@ -139,7 +139,11 @@ public class HouseholdSmartClientsProvider implements SmartRegisterCLientsProvid
                     ft.remove(prev);
                 }
                 ft.addToBackStack(null);
-
+                try {
+                    locationId = JsonFormUtils.getOpenMrsLocationId(context(),getValue(details, "address4", false) );
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 HouseholdMemberAddFragment addmemberFragment = HouseholdMemberAddFragment.newInstance(context,locationId,pc.entityId(),context());
                     addmemberFragment.show(ft, HouseholdMemberAddFragment.DIALOG_TAG);
 //
