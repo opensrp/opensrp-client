@@ -17,8 +17,6 @@ import org.ei.opensrp.domain.form.FormSubmission;
 import org.ei.opensrp.indonesia.LoginActivity;
 import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.fragment.NativeKBSmartRegisterFragment;
-import org.ei.opensrp.indonesia.fragment.NativeKBSmartRegisterFragment;
-import org.ei.opensrp.indonesia.lib.FlurryFacade;
 import org.ei.opensrp.indonesia.pageradapter.BaseRegisterActivityPagerAdapter;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.service.ZiggyService;
@@ -46,11 +44,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import util.formula.Support;
 
-import static org.ei.opensrp.R.string.form_back_confirm_dialog_message;
-import static org.ei.opensrp.R.string.form_back_confirm_dialog_title;
-import static org.ei.opensrp.R.string.no_button_label;
-import static org.ei.opensrp.R.string.yes_button_label;
-import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_REGISTRATION;
 import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KOHORT_KB_CLOSE;
 import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KOHORT_KB_REGISTER;
 import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KOHORT_KB_UPDATE;
@@ -180,9 +173,9 @@ public class NativeKBSmartRegisterActivity extends SecuredNativeSmartRegisterAct
 
     public DialogOption[] getEditOptions() {
         return new DialogOption[]{
-                new OpenFormOption("Update KB ", KOHORT_KB_UPDATE, formController),
+                new OpenFormOption(getString(R.string.str_kb_update), KOHORT_KB_UPDATE, formController),
                // new OpenFormOption("Edit KB ", KOHORT_KB_EDIT, formController),
-                new OpenFormOption("Tutup KB ", KOHORT_KB_CLOSE, formController),
+                new OpenFormOption(getString(R.string.str_kb_close), KOHORT_KB_CLOSE, formController),
 
         };
 

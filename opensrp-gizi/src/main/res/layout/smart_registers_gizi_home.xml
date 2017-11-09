@@ -70,7 +70,7 @@
                 <org.ei.opensrp.view.customControls.CustomFontTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="GIZI"
+                        android:text="@string/gizi"
                         style="@style/CustomFontTextViewStyle.Home.RegisterName"/>
 
                 <org.ei.opensrp.view.customControls.CustomFontTextView
@@ -102,9 +102,10 @@
 
                 <org.ei.opensrp.view.customControls.CustomFontTextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="GIZI IBU"
-                    style="@style/CustomFontTextViewStyle.Home.RegisterName"/>
+                    android:layout_height="101dp"
+                    android:text="@string/gizi_ibu"
+                    style="@style/CustomFontTextViewStyle.Home.RegisterName"
+                    android:textSize="14dp" />
 
                 <org.ei.opensrp.view.customControls.CustomFontTextView
                     android:layout_width="match_parent"

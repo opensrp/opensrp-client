@@ -158,7 +158,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tidak Datang Posyandu"
+                android:text="@string/not_attend_string"
                 android:id="@+id/absen"
                 style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
                 android:textColor="#fa0303"

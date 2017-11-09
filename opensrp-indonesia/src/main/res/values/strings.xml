@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Bidan OpenSRP OS</string>
+    <string name="app_name">Bidan OpenSRP</string>
     <string name="userNameEditText">Enter user name</string>
     <string name="passwordEditText">Enter password</string>
     <string name="login_text">Log In</string>
@@ -28,7 +28,7 @@
     <string name="header_tgl_periksa">Check Date</string>
     <string name="header_edd">EDD</string>
     <string name="header_kunjungan">VISIT</string>
-    <string name="header_no_ibu">No Ibu</string>
+    <string name="header_no_ibu">Cohort ID</string>
     <string name="header_status_b">STATUS</string>
     <string name="header_obsetri">OBSETRI</string>
     <string name="mother_weight">Weight:</string>
@@ -38,6 +38,10 @@
     <string name="videos_IEC_not_installed_dialog_message">Please install IEC application to play the videos.
     </string>
 
+    <string name="cohort_child">CHILD</string>
+    <string name="cohort_mother">COHORT MOTHER</string>
+    <string name="cohort_fp">COHORT FP</string>
+
     <string name="sort_by_wife_age_label">Age</string>
     <string name="videos_unknown_error_dialog_message">Unable to play video due to technical error.</string>
     <string name="settings_logout_confirm_title">Confirm Log out</string>
@@ -45,10 +49,10 @@
         cleared.
     </string>
     <string name="unsynced_forms_count_message">forms unsynced</string>
-    <string name="anc_visit_integrasi">Kunjungan ANC Integrasi</string>
-    <string name="anc_visit_labtest">Kunjungan ANC Tes Lab</string>
-    <string name="str_rencana_persalinan_anc_form">Rencana Persalinan</string>
-    <string name="str_register_pnc_form">Daftar PNC</string>
+    <string name="anc_visit_integrasi">Integrated ANC Visit</string>
+    <string name="anc_visit_labtest">Lab Test ANC Visit</string>
+    <string name="str_rencana_persalinan_anc_form">Delivery Planning</string>
+    <string name="str_register_pnc_form">PNC Registration</string>
     <string name="anc_edit">Edit ANC</string>
     <string name="pnc_edit">Edit PNC</string>
     <string name="pnc_visit">PNC Visit</string>
@@ -77,7 +81,7 @@
     <string name="label_sorted_by">Sorted By:</string>
     <string name="label_village">, Filtered By:</string>
     <string name="ec_register_wife_age">({0})</string>
-    <string name="ki_register_title_in_short">KI</string>
+    <string name="ki_register_title_in_short">CM</string>
     <string name="ec_register_male_child">Male\n{0}</string>
     <string name="ec_register_female_child">Female\n{0}</string>
     <string name="ec_register_no_fp">No FP</string>
@@ -121,6 +125,7 @@
     <string name="str_record_ecp_form">Record ECP</string>
     <string name="str_edit_ec_form">Edit EC</string>
     <string name="str_close_ec_form">Close EC</string>
+    <string name="str_close_ki_form">Close CM</string>
     <string name="report_month_sample_text">26/03 - 25/04</string>
     <string name="str_switch_language">Switch Language</string>
 
@@ -250,6 +255,7 @@
     <string name="str_pnc_visit_form">PNC Visit</string>
     <string name="str_pnc_postpartum_family_planning_form">Postpartum family planning</string>
     <string name="str_pnc_close_form">PNC Close</string>
+    <string name="no_complication">No complication</string>
 
     <string name="str_referred">Referred</string>
     <string name="str_referral">referral</string>
@@ -298,6 +304,7 @@
     <string name="str_contact">Contact:</string>
     <string name="str_risks_reviewed">Risks reviewed:</string>
     <string name="sort_by_edd_label">EDD</string>
+    <string name="temperature_lbl">Temperature: </string>
 
     <string name="sort_by_no_ibu_label">Mother Number</string>
     <string name="str_pnc_delivery_date">Date:</string>
@@ -434,10 +441,10 @@
     <string name="str_parity_full">Parity</string>
     <string name="str_abortus_full">Abortus</string>
     <string name="str_alive_full">Alive</string>
-    <string name="str_kb_update">Update KB</string>
-    <string name="str_kb_edit">Edit KB</string>
-    <string name="str_kb_close">Tutup KB</string>
-    <string name="kb_register_title_in_short">KB</string>
+    <string name="str_kb_update">Update FP</string>
+    <string name="str_kb_edit">Edit FP</string>
+    <string name="str_kb_close">Close FP</string>
+    <string name="kb_register_title_in_short">FP</string>
     <string name="tanggalkunjungan">Tanggal:</string>
     <string name="ancke">ANC Ke:</string>
     <string name="kunjunganke">Kunjungan Ke:</string>

@@ -13,23 +13,15 @@ import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
 
-import org.ei.opensrp.Context;
-import org.ei.opensrp.commonregistry.AllCommonsRepository;
-import org.ei.opensrp.commonregistry.CommonPersonObject;
-import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
-import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.domain.form.FormSubmission;
-import org.ei.opensrp.gizi.LoginActivity;
-import org.ei.opensrp.gizi.fragment.GiziSmartRegisterFragment;
-import org.ei.opensrp.gizi.pageradapter.BaseRegisterActivityPagerAdapter;
-import org.ei.opensrp.provider.SmartRegisterClientsProvider;
-import org.ei.opensrp.service.ZiggyService;
 import org.ei.opensrp.gizi.LoginActivity;
 import org.ei.opensrp.gizi.R;
 import org.ei.opensrp.gizi.fragment.GiziSmartRegisterFragment;
 import org.ei.opensrp.gizi.pageradapter.BaseRegisterActivityPagerAdapter;
+import org.ei.opensrp.provider.SmartRegisterClientsProvider;
+import org.ei.opensrp.service.ZiggyService;
 import org.ei.opensrp.sync.ClientProcessor;
 import org.ei.opensrp.util.FormUtils;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
@@ -52,7 +44,6 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import util.ZScore.ZScoreSystemCalculation;
 import util.formula.Support;
 
 public class GiziSmartRegisterActivity extends SecuredNativeSmartRegisterActivity implements
@@ -166,8 +157,8 @@ public class GiziSmartRegisterActivity extends SecuredNativeSmartRegisterActivit
 
     public DialogOption[] getEditOptions() {
             return new DialogOption[]{
-                new OpenFormOption("Kunjungan Per Bulan ", "kunjungan_gizi", formController),
-                new OpenFormOption("Close Form","close_form",formController)
+                new OpenFormOption(getString(R.string.monthly_visit), "kunjungan_gizi", formController),
+                new OpenFormOption(getString(R.string.close_form),"close_form",formController)
             };
     }
 
@@ -317,7 +308,8 @@ public class GiziSmartRegisterActivity extends SecuredNativeSmartRegisterActivit
      */
     private CharSequence[] selections(int choice, String entityId){
         String name = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_anak").findByCaseID(entityId).getColumnmaps().get("namaBayi");
-        System.out.println("start form activity / nama = " + name);
+        if(name==null)
+            name = "-";
         CharSequence selections[] = new CharSequence[]{name, name, name};
 
         selections[choice] = (CharSequence) name;

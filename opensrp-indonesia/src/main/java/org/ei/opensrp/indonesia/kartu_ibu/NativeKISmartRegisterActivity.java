@@ -1,7 +1,6 @@
 package org.ei.opensrp.indonesia.kartu_ibu;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,15 +10,11 @@ import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
 
-import org.ei.opensrp.commonregistry.AllCommonsRepository;
-import org.ei.opensrp.commonregistry.CommonPersonObject;
-import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.domain.form.FormSubmission;
 import org.ei.opensrp.indonesia.LoginActivity;
 import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.fragment.NativeKISmartRegisterFragment;
-import org.ei.opensrp.indonesia.lib.FlurryFacade;
 import org.ei.opensrp.indonesia.pageradapter.BaseRegisterActivityPagerAdapter;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.service.ZiggyService;
@@ -177,8 +172,8 @@ public class NativeKISmartRegisterActivity extends SecuredNativeSmartRegisterAct
         return new DialogOption[]{
                 new OpenFormOption(getString(R.string.str_register_fp_form), "kohort_kb_pelayanan", formController),
                 new OpenFormOption(getString(R.string.str_register_anc_form), "kartu_anc_registration", formController),
-                new OpenFormOption("Registrasi Anak ", ANAK_BAYI_REGISTRATION, formController),
-                new OpenFormOption("Kartu Ibu Close ", KARTU_IBU_CLOSE, formController),
+                new OpenFormOption(getString(R.string.str_register_child_form), ANAK_BAYI_REGISTRATION, formController),
+                new OpenFormOption(getString(R.string.str_close_ki_form), KARTU_IBU_CLOSE, formController),
 
         };
 

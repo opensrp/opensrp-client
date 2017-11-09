@@ -2,9 +2,6 @@ package org.ei.opensrp.gizi.gizi;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -25,7 +22,6 @@ import org.ei.opensrp.gizi.face.camera.SmartShutterActivity;
 import org.ei.opensrp.gizi.face.camera.util.Tools;
 import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.util.Log;
-import org.ei.opensrp.util.OpenSRPImageLoader;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 
 import java.io.File;
@@ -129,16 +125,13 @@ public class GiziDetailActivity extends Activity {
         DetailsRepository detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
         detailsRepository.updateDetails(childclient);
 
-        System.out.println("columnmaps: " + childclient.getColumnmaps().toString());
-        System.out.println("details: "+childclient.getDetails().toString());
-
         childview.setTag(R.id.entity_id, childclient.getCaseId());//required when saving file to disk
 
-        if (childclient.getDetails().get("gender") != null) {
+        if (!Support.getDetails(childclient,"gender").equals("-")) {
             System.out.println(childclient.getDetails().toString());
             util.formula.Support.setImagetoHolderFromUri( this ,
-                    DrishtiApplication.getAppDir() + File.separator + childclient.getDetails().get("base_entity_id") + ".JPEG",
-                    childview, childclient.getDetails().get("gender").equals("female") ? R.drawable.child_girl_infant : R.drawable.child_boy_infant);
+                    DrishtiApplication.getAppDir() + File.separator + Support.getDetails(childclient,"base_entity_id") + ".JPEG",
+                    childview, Support.getDetails(childclient,"gender").equals("female") ? R.drawable.child_girl_infant : R.drawable.child_boy_infant);
         } else {
             android.util.Log.e(TAG, "getView: Gender is NOT SET");
         }
@@ -184,15 +177,6 @@ public class GiziDetailActivity extends Activity {
 
         KmsPerson anak = new KmsPerson(childclient);
         KmsCalc kalkulator = new KmsCalc();
-
-//        System.out.println("age "+anak.getAge());
-//        System.out.println("dob "+anak.getDateOfBirth());
-//        System.out.println("weight "+anak.getWeight());
-//        System.out.println("prev weight "+anak.getPreviousWeight());
-//        System.out.println("2nd last weight "+anak.getSecondLastWeight());
-//        System.out.println("last visit "+anak.getLastVisitDate());
-//        System.out.println("2nd last visit "+anak.getSecondLastVisitDate());
-//        System.out.println("3rd last visit "+anak.getThirdLastVisitDate());
 
         dua_t.setText(String.format("%s %s", getString(R.string.dua_t), (yesNo(kalkulator.cek2T(anak)))));
         bgm.setText(String.format("%s %s",getString(R.string.bgm), (yesNo(kalkulator.cekBGM(anak)))));

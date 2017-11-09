@@ -4,12 +4,11 @@ import android.app.Activity;
 import android.net.Uri;
 import android.widget.ImageView;
 
+import org.ei.opensrp.commonregistry.CommonPersonObject;
+import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.util.Log;
 
 import java.io.File;
-
-import org.ei.opensrp.commonregistry.CommonPersonObject;
-import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 
 /**
  * Created by al on 30/05/2017.
@@ -154,6 +153,8 @@ public class Support {
     }
 
     public static int monthAges(String lastVisitDate,String currentDate){
+        if (lastVisitDate.length()<10 || currentDate.length()<10)
+            return 0;
         int tahun = Integer.parseInt(currentDate.substring(0,4))-Integer.parseInt(lastVisitDate.substring(0,4));
         int bulan = Integer.parseInt(currentDate.substring(5,7))-Integer.parseInt(lastVisitDate.substring(5,7));
         int hari = Integer.parseInt(currentDate.substring(8))-Integer.parseInt(lastVisitDate.substring(8));

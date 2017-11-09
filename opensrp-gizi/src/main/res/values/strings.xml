@@ -75,7 +75,7 @@
 
     <string name="str_out_of_area">(O/A)</string>
 
-    <string name="sort_by_name_label">Nama (A to Z)</string>
+    <string name="sort_by_name_label">Name (A to Z)</string>
     <string name="sort_by_ec_number_label">EC Number</string>
     <string name="sort_by_date_of_delivery_label">Date of Delivery</string>
     <string name="sort_by_sc_label">SC</string>
@@ -84,6 +84,7 @@
     <string name="sort_by_high_risk_pregnancy_label">HRP</string>
     <string name="sort_by_high_risk_label">High Risk (HR)</string>
     <string name="sort_by_bpl_label">BPL</string>
+    <string name="no_complication">No complication</string>
 
     <string name="filter_by_all_label">All</string>
     <string name="filter_by_out_of_area_label">O/A</string>
@@ -401,7 +402,7 @@
     <string name="asi">Exclusive Breastfeeding:</string>
     <string name="mpasi">Weaning Food:</string>
     <string name="parent_name">Parent Name</string>
-    <string name="gizi">Gizi</string>
+    <string name="gizi">Nutrition</string>
     <string name="good_nutrition">Well Nourished</string>
     <string name="jenis_kelamin">Gender</string>
     <string name="visitSchedule">Visit Schedule</string>
@@ -419,6 +420,8 @@
     <string name="lastVitA">Last Vitamin A given:</string>
     <string name="lastAnthelmintic">Last Anthelmintic given:</string>
     <string name="reconfirmChildName">Re-Confirm children name</string>
+    <string name="monthly_visit">Monthly Visit</string>
+    <string name="close_form">Close Form</string>
 
     <!-- Mother Register String -->
     <string name="detail_ibu">Mother Details</string>
@@ -434,7 +437,7 @@
     <string name="usiaKandungan">Gestational Age</string>
     <string name="vitamin_a_pnc_2">Vitamin A after 2 hrs: </string>
     <string name="vitamin_a_pnc_24">Vitamin A after 24 hrs: </string>
-
+    <string name="not_attend_string">Absent on health visit</string>
 
     <string name="years_unit">yrs</string>
     <string name="month_unit">mth</string>

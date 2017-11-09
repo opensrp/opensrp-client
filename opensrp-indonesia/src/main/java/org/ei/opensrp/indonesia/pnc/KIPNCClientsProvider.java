@@ -20,7 +20,6 @@ import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
 import org.ei.opensrp.cursoradapter.SmartRegisterCLientsProviderForCursorAdapter;
 import org.ei.opensrp.indonesia.R;
-import org.ei.opensrp.indonesia.application.BidanApplication;
 import org.ei.opensrp.indonesia.kartu_ibu.KIDetailActivity;
 import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.service.AlertService;
@@ -153,14 +152,14 @@ public class KIPNCClientsProvider implements SmartRegisterCLientsProviderForCurs
         String tempat = pc.getDetails().get("tempatBersalin") != null ? pc.getDetails().get("tempatBersalin") : "";
         viewHolder.tempat_persalinan.setText(tempat.equals("podok_bersalin_desa") ? "POLINDES" : tempat.equals("pusat_kesehatan_masyarakat_pembantu") ? "Puskesmas pembantu" : tempat.equals("pusat_kesehatan_masyarakat") ? "Puskesmas" : humanize(tempat));
         viewHolder.dok_tipe.setText(humanize(pc.getDetails().get("caraPersalinanIbu") != null ? pc.getDetails().get("caraPersalinanIbu") : ""));
-        viewHolder.komplikasi.setText(humanize(pc.getDetails().get("komplikasi") != null ? pc.getDetails().get("komplikasi") : ""));
+        viewHolder.komplikasi.setText(humanize(pc.getDetails().get("komplikasi") != null ? translateComplication(pc.getDetails().get("komplikasi")) : ""));
 
 
         String date = pc.getDetails().get("PNCDate") != null ? pc.getDetails().get("PNCDate") : "";
         String vit_a = pc.getDetails().get("pelayananfe") != null ? pc.getDetails().get("pelayananfe") : "";
         viewHolder.tanggal_kunjungan.setText(String.format("%s %s", context.getString(R.string.str_pnc_delivery_date), date));
 
-        viewHolder.vit_a.setText(String.format("%s %s", context.getString(R.string.fe), vit_a));
+        viewHolder.vit_a.setText(String.format("%s %s", context.getString(R.string.fe), yesNo(vit_a)));
 
         viewHolder.td_suhu.setText(humanize(pc.getDetails().get("tandaVitalSuhu") != null ? pc.getDetails().get("tandaVitalSuhu") : ""));
 
@@ -253,6 +252,14 @@ public class KIPNCClientsProvider implements SmartRegisterCLientsProviderForCurs
     public View inflatelayoutForCursorAdapter() {
         View View = (ViewGroup) inflater().inflate(R.layout.smart_register_ki_pnc_client, null);
         return View;
+    }
+
+    private String yesNo(String text){
+        return context.getString(text.toLowerCase().contains("y")? R.string.mcareyes_button_label : R.string.mcareno_button_label);
+    }
+
+    private String translateComplication(String text){
+        return text.toLowerCase().contains("dak_ada_kompli")? context.getString(R.string.no_complication):text;
     }
 
     public void risk(String risk1, String risk2, String risk3, String risk4, String risk5, String risk6, String risk7, String risk8, String risk9, String risk10, ImageView riskview) {

@@ -15,10 +15,7 @@ import com.flurry.android.FlurryAgent;
 import org.ei.opensrp.domain.form.FormSubmission;
 import org.ei.opensrp.indonesia.LoginActivity;
 import org.ei.opensrp.indonesia.R;
-import org.ei.opensrp.indonesia.fragment.NativeKBSmartRegisterFragment;
 import org.ei.opensrp.indonesia.fragment.NativeKIANCSmartRegisterFragment;
-import org.ei.opensrp.indonesia.kartu_ibu.NativeKISmartRegisterActivity;
-import org.ei.opensrp.indonesia.lib.FlurryFacade;
 import org.ei.opensrp.indonesia.pageradapter.BaseRegisterActivityPagerAdapter;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.service.ZiggyService;
@@ -44,15 +41,11 @@ import butterknife.ButterKnife;
 import util.formula.Support;
 
 import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_ANC_CLOSE;
-import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_ANC_EDIT;
 import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_ANC_RENCANA_PERSALINAN;
 import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_ANC_VISIT;
 import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_ANC_VISIT_INTEGRASI;
 import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_ANC_VISIT_LABTEST;
 import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KARTU_IBU_PNC_REGISTRATION;
-import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KOHORT_KB_CLOSE;
-import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KOHORT_KB_REGISTER;
-import static org.ei.opensrp.indonesia.AllConstantsINA.FormNames.KOHORT_KB_UPDATE;
 
 /**
  * Created by Dimas Ciputra on 3/5/15.
@@ -161,13 +154,13 @@ public class NativeKIANCSmartRegisterActivity extends SecuredNativeSmartRegister
 
     public DialogOption[] getEditOptions() {
         return new DialogOption[]{
-                new OpenFormOption("ANC Visit ", KARTU_IBU_ANC_VISIT, formController),
-                new OpenFormOption("Kunjungan ANC Integrasi ", KARTU_IBU_ANC_VISIT_INTEGRASI, formController),
-                new OpenFormOption("Kunjungan ANC Tes Lab ", KARTU_IBU_ANC_VISIT_LABTEST, formController),
-                new OpenFormOption("Rencana Persalinan", KARTU_IBU_ANC_RENCANA_PERSALINAN, formController),
-                new OpenFormOption("Daftar PNC ", KARTU_IBU_PNC_REGISTRATION, formController),
+                new OpenFormOption(getString(R.string.str_register_anc_visit_form), KARTU_IBU_ANC_VISIT, formController),
+                new OpenFormOption(getString(R.string.anc_visit_integrasi), KARTU_IBU_ANC_VISIT_INTEGRASI, formController),
+                new OpenFormOption(getString(R.string.anc_visit_labtest), KARTU_IBU_ANC_VISIT_LABTEST, formController),
+                new OpenFormOption(getString(R.string.str_rencana_persalinan_anc_form), KARTU_IBU_ANC_RENCANA_PERSALINAN, formController),
+                new OpenFormOption(getString(R.string.str_register_pnc_form), KARTU_IBU_PNC_REGISTRATION, formController),
                // new OpenFormOption("Edit ANC ", KARTU_IBU_ANC_EDIT, formController),
-                new OpenFormOption("ANC Close ", KARTU_IBU_ANC_CLOSE, formController),
+                new OpenFormOption(getString(R.string.str_register_anc_close_form), KARTU_IBU_ANC_CLOSE, formController),
         };
     }
 

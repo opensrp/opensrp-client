@@ -200,7 +200,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/lbl_td_diastolik"
-            android:text="Suhu : "
+            android:text="@string/temperature_lbl"
             style="@style/CustomFontTextViewStyle.ListView.Normal"/>
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
