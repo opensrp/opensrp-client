@@ -437,7 +437,7 @@ public class WomanImmunizationActivity extends BaseActivity
             if (VaccinateActionUtils.hasAlert(alerts, VaccineRepo.Vaccine.bcg2) && bcgOfferedInPast) {
                 Alert alert = VaccinateActionUtils.getAlert(alerts, VaccineRepo.Vaccine.bcg2);
                 if (!alert.isComplete()) {
-                    showCheckBcgScarNotification(alert);
+//                    showCheckBcgScarNotification(alert);
                 }
             }
         }
@@ -1031,7 +1031,7 @@ public class WomanImmunizationActivity extends BaseActivity
             }
             vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
             alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
-                    VaccinateActionUtils.allAlertNames("child"));
+                    VaccinateActionUtils.allAlertNames("mother"));
 
             return pair;
         }

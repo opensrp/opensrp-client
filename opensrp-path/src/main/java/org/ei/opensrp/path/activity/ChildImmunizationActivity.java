@@ -438,7 +438,7 @@ public class ChildImmunizationActivity extends BaseActivity
             if (VaccinateActionUtils.hasAlert(alerts, VaccineRepo.Vaccine.bcg2) && bcgOfferedInPast) {
                 Alert alert = VaccinateActionUtils.getAlert(alerts, VaccineRepo.Vaccine.bcg2);
                 if (!alert.isComplete()) {
-                    showCheckBcgScarNotification(alert);
+//                    showCheckBcgScarNotification(alert);
                 }
             }
         }

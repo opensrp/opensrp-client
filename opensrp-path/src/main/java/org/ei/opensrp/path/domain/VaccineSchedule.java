@@ -3,13 +3,11 @@ package org.ei.opensrp.path.domain;
 import android.text.TextUtils;
 import android.util.Log;
 
-import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.clientandeventmodel.DateUtil;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.AlertStatus;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.db.VaccineRepo;
-import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.service.AlertService;
 import org.joda.time.DateTime;
@@ -106,7 +104,7 @@ public class VaccineSchedule {
                 }
 
                 // Get all the administered vaccines for the child
-                List<Vaccine> issuedVaccines = vaccineRepository.findByEntityId(baseEntityId);
+                List<org.ei.opensrp.domain.Vaccine> issuedVaccines = vaccineRepository.findByEntityId(baseEntityId);
                 if (issuedVaccines == null) {
                     issuedVaccines = new ArrayList<>();
                 }
@@ -195,10 +193,8 @@ public class VaccineSchedule {
     }
 
     public static VaccineSchedule getVaccineSchedule(String vaccineCategory, String vaccineName) {
-        if (vaccineSchedules.containsKey(vaccineCategory)) {
-            if (vaccineSchedules.get(vaccineCategory).containsKey(vaccineName.toUpperCase())) {
-                return vaccineSchedules.get(vaccineCategory).get(vaccineName.toUpperCase());
-            }
+        if (vaccineSchedules.containsKey(vaccineCategory) && vaccineSchedules.get(vaccineCategory).containsKey(vaccineName.toUpperCase())) {
+            return vaccineSchedules.get(vaccineCategory).get(vaccineName.toUpperCase());
         }
 
         return null;
@@ -263,7 +259,7 @@ public class VaccineSchedule {
      * @return An {@link Alert} object if one exists, or {@code NULL} if non exists
      */
     public Alert getOfflineAlert(final String baseEntityId, final Date dateOfBirth,
-                                 List<Vaccine> issuedVaccines) {
+                                 List<org.ei.opensrp.domain.Vaccine> issuedVaccines) {
         Alert defaultAlert = null;
 
         // Check if all conditions pass
@@ -273,13 +269,14 @@ public class VaccineSchedule {
             }
         }
 
+        Date dueDate = getDueDate(issuedVaccines, dateOfBirth);
+        Date expiryDate = getExpiryDate(issuedVaccines, dateOfBirth);
+        Date overDueDate = getOverDueDate(dueDate);
         // Use the trigger date as a reference, since that is what is mostly used
-        AlertStatus alertStatus = calculateAlertStatus(
-                getDueDate(issuedVaccines, dateOfBirth));
+        AlertStatus alertStatus = calculateAlertStatus(dueDate, overDueDate);
 
         if (alertStatus != null) {
-            Date dueDate = getDueDate(issuedVaccines, dateOfBirth);
-            Date expiryDate = getExpiryDate(issuedVaccines, dateOfBirth);
+
             Alert offlineAlert = new Alert(baseEntityId,
                     vaccine.display(),
                     vaccine.name(),
@@ -299,18 +296,29 @@ public class VaccineSchedule {
      * status returned is {@code AlertStatus.normal}
      *
      * @param referenceDate The reference date to use to
+     * @param overDueDate   The overdue date to use
      * @return {@link AlertStatus} if able to calculate or {@code NULL} if unable
      */
-    private AlertStatus calculateAlertStatus(Date referenceDate) {
+    private AlertStatus calculateAlertStatus(Date referenceDate, Date overDueDate) {
         if (referenceDate != null) {
             Calendar refCalendarDate = Calendar.getInstance();
             refCalendarDate.setTime(referenceDate);
             standardiseCalendarDate(refCalendarDate);
 
+            Calendar overDueCalendarDate = Calendar.getInstance();
+            if (overDueDate != null) {
+                overDueCalendarDate.setTime(overDueDate);
+                standardiseCalendarDate(overDueCalendarDate);
+            }
+
             Calendar today = Calendar.getInstance();
             standardiseCalendarDate(today);
 
-            if (refCalendarDate.getTimeInMillis() <= today.getTimeInMillis()) {// Due
+
+            if (overDueDate != null
+                    && overDueCalendarDate.getTimeInMillis() <= today.getTimeInMillis()) { //OverDue
+                return AlertStatus.urgent;
+            } else if (refCalendarDate.getTimeInMillis() <= today.getTimeInMillis()) { // Due
                 return AlertStatus.normal;
             }
         }
@@ -318,7 +326,7 @@ public class VaccineSchedule {
         return null;
     }
 
-    public Date getDueDate(List<Vaccine> issuedVaccines, Date dob) {
+    public Date getDueDate(List<org.ei.opensrp.domain.Vaccine> issuedVaccines, Date dob) {
         Date dueDate = null;
         for (VaccineTrigger curTrigger : dueTriggers) {
             if (dueDate == null) {
@@ -334,7 +342,7 @@ public class VaccineSchedule {
         return dueDate;
     }
 
-    public Date getExpiryDate(List<Vaccine> issuedVaccines, Date dob) {
+    public Date getExpiryDate(List<org.ei.opensrp.domain.Vaccine> issuedVaccines, Date dob) {
         Date expiryDate = null;
         for (VaccineTrigger curTrigger : expiryTriggers) {
             if (expiryDate == null) {
@@ -350,6 +358,31 @@ public class VaccineSchedule {
         return expiryDate;
     }
 
+    public Date getOverDueDate(Date dueDate) {
+        if (dueDate == null) {
+            return null;
+        }
+
+        String window = null;
+        for (VaccineTrigger curTrigger : dueTriggers) {
+            if (curTrigger.getWindow() != null) {
+                window = curTrigger.getWindow();
+                break;
+            }
+        }
+
+        if (window != null) {
+            Calendar dueDateCalendar = Calendar.getInstance();
+            dueDateCalendar.setTime(dueDate);
+            standardiseCalendarDate(dueDateCalendar);
+
+            return addOffsetToCalendar(dueDateCalendar, window).getTime();
+        }
+
+        return null;
+    }
+
+
     public static void standardiseCalendarDate(Calendar calendarDate) {
         calendarDate.set(Calendar.HOUR_OF_DAY, 0);
         calendarDate.set(Calendar.MINUTE, 0);
@@ -362,12 +395,12 @@ public class VaccineSchedule {
      * Offsets can look like:
      * "+5y,3m,2d" : Plus 5 years, 3 months, and 2 days
      * "-2d" : Minus 2 days
-     * <p/>
+     * <p>
      * Accepted time units for the offset are:
      * d : Days
      * m : Months
      * y : Years
-     * <p/>
+     * <p>
      * Accepted operators for the offset are:
      * - : Minus
      * + : Plus
@@ -378,15 +411,15 @@ public class VaccineSchedule {
      */
     public static Calendar addOffsetToCalendar(Calendar calendar, String offset) {
         if (calendar != null && offset != null) {
-            offset = offset.replace(" ", "").toLowerCase();
+            String offsetAfterReplace = offset.replace(" ", "").toLowerCase();
             Pattern p1 = Pattern.compile("([-+]{1})(.*)");
-            Matcher m1 = p1.matcher(offset);
+            Matcher m1 = p1.matcher(offsetAfterReplace);
             if (m1.find()) {
                 String operatorString = m1.group(1);
                 String valueString = m1.group(2);
 
                 int operator = 1;
-                if (operatorString.equals("-")) {
+                if ("-".equals(operatorString)) {
                     operator = -1;
                 }
 
@@ -399,11 +432,11 @@ public class VaccineSchedule {
                         int curValue = operator * Integer.parseInt(m2.group(1));
                         String fieldString = m2.group(2);
                         int field = Calendar.DATE;
-                        if (fieldString.equals("d")) {
+                        if ("d".equals(fieldString)) {
                             field = Calendar.DATE;
-                        } else if (fieldString.equals("m")) {
+                        } else if ("m".equals(fieldString)) {
                             field = Calendar.MONTH;
-                        } else if (fieldString.equals("y")) {
+                        } else if ("y".equals(fieldString)) {
                             field = Calendar.YEAR;
                         }
 

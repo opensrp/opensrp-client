@@ -23,7 +23,8 @@
           "due": [
             {
               "reference": "lmp",
-              "offset": "+0d"
+              "offset": "+0d",
+              "window": "+10d"
             }
           ],
           "expiry": [
@@ -60,7 +61,8 @@
             {
               "reference": "prerequisite",
               "prerequisite": "TT 1",
-              "offset": "+28d"
+              "offset": "+28d",
+              "window": "+10d"
             }
           ],
           "expiry": [
@@ -98,7 +100,8 @@
             {
               "reference": "prerequisite",
               "prerequisite": "TT 2",
-              "offset": "+6m"
+              "offset": "+6m",
+              "window": "+10d"
             }
           ],
           "expiry": [
@@ -136,7 +139,8 @@
             {
               "reference": "prerequisite",
               "prerequisite": "TT 3",
-              "offset": "+1y"
+              "offset": "+1y",
+              "window": "+10d"
             }
           ],
           "expiry": [
@@ -174,7 +178,8 @@
             {
               "reference": "prerequisite",
               "prerequisite": "TT 4",
-              "offset": "+1y"
+              "offset": "+1y",
+              "window": "+10d"
             }
           ],
           "expiry": [
