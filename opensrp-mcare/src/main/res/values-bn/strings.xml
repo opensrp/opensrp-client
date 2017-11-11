@@ -131,4 +131,5 @@
     <string name="date_of_birth">জন্মতারিখ</string>
     <string name="child_details_mothers_name_label">Mমাতার নাম:</string>
     <string name="pnc_Details_date_of_outcome">ফলাফলের তারিখ</string>
+    <string name="risk_status">কত ঝুঁকিপূর্ণ</string>
 </resources>

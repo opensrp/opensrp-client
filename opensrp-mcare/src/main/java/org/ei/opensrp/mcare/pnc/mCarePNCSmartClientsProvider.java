@@ -139,7 +139,7 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
 
         dateofdelivery.setText(pc.getColumnmaps().get("FWBNFDTOO")!=null?pc.getColumnmaps().get("FWBNFDTOO"):"");
         String outcomevalue = pc.getColumnmaps().get("FWBNFSTS")!=null?pc.getColumnmaps().get("FWBNFSTS"):"";
-
+        delivery_outcome.setText("");
         if(outcomevalue.equalsIgnoreCase("3")){
             delivery_outcome.setText(context.getString(R.string.mcare_pnc_liveBirth));
         }else if (outcomevalue.equalsIgnoreCase("4")){
@@ -162,6 +162,7 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
             brid.setVisibility(View.GONE);
         }
           try {
+              dateofdelivery.setText("");
 //                    dateofdelivery.setText(Html.fromHtml("DOO:" +"<b> "+ (pc.getColumnmaps().get("FWBNFDTOO") != null ? pc.getColumnmaps().get("FWBNFDTOO") : "")+ "</b>"));
                    dateofdelivery.setText(Html.fromHtml("" +" "+ doolay(pc)));
 

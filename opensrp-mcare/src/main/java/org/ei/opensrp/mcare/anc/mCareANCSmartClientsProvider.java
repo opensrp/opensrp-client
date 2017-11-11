@@ -151,6 +151,7 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
 
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        ga.setText("");
         try {
 //            if (pc.getDetails().get("FWGESTATIONALAGE") != null) {
 //                String GASourcestring = "GA: " + pc.getDetails().get("FWGESTATIONALAGE") + " weeks" + " ";
@@ -170,7 +171,7 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
         }catch (Exception e){
 
         }
-
+        edd.setText("");
         try {
             Date edd_date = format.parse(pc.getColumnmaps().get("FWPSRLMP")!=null?pc.getColumnmaps().get("FWPSRLMP"):"");
             GregorianCalendar calendar = new GregorianCalendar();

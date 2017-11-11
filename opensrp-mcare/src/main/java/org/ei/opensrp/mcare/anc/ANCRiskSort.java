@@ -1,8 +1,7 @@
-package org.ei.opensrp.mcare.elco;
+package org.ei.opensrp.mcare.anc;
 
 
 import android.util.Log;
-import android.view.View;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
@@ -19,12 +18,12 @@ import java.util.List;
 /**
  * Created by Raihan Ahmed on 3/22/15.
  */
-public class ElcoPSRFDueDateSort implements SortOption {
+public class ANCRiskSort implements SortOption {
 
 
 
 
-    public ElcoPSRFDueDateSort() {
+    public ANCRiskSort() {
 
     }
 

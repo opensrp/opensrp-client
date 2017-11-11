@@ -406,6 +406,7 @@
     <string name="date_of_birth">Date of Birth</string>
     <string name="child_details_mothers_name_label">Mother\'s Name:</string>
     <string name="pnc_Details_date_of_outcome">Date of Outcome</string>
+    <string name="risk_status">Risk Status</string>
 
 
 </resources>

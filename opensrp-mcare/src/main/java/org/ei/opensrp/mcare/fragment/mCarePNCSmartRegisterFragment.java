@@ -23,6 +23,7 @@ import org.ei.opensrp.cursoradapter.SmartRegisterPaginatedCursorAdapter;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.mcare.LoginActivity;
 import org.ei.opensrp.mcare.R;
+import org.ei.opensrp.mcare.anc.ANCRiskSort;
 import org.ei.opensrp.mcare.anc.mCareANCSmartRegisterActivity;
 import org.ei.opensrp.mcare.elco.ElcoMauzaCommonObjectFilterOption;
 import org.ei.opensrp.mcare.elco.ElcoPSRFDueDateSort;
@@ -91,7 +92,7 @@ public class mCarePNCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
 
             @Override
             public SortOption sortOption() {
-                return new ElcoPSRFDueDateSort();
+                return new ANCRiskSort();
 
             }
 
