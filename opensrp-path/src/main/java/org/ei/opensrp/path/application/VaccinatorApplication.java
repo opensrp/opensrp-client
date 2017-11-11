@@ -192,9 +192,13 @@ public class VaccinatorApplication extends DrishtiApplication
 
     public static Map<String, Pair<String, Boolean>> getAlertScheduleMap() {
         ArrayList<VaccineRepo.Vaccine> vaccines = VaccineRepo.getVaccines("child");
+        ArrayList<VaccineRepo.Vaccine> vaccines2 = VaccineRepo.getVaccines("mother");
         Map<String, Pair<String, Boolean>> map = new HashMap<String, Pair<String, Boolean>>();
         for (VaccineRepo.Vaccine vaccine : vaccines) {
             map.put(vaccine.display(), Pair.create(PathConstants.CHILD_TABLE_NAME, false));
+        }
+        for (VaccineRepo.Vaccine vaccine : vaccines2) {
+            map.put(vaccine.display(), Pair.create(PathConstants.MOTHER_TABLE_NAME, false));
         }
         return map;
     }

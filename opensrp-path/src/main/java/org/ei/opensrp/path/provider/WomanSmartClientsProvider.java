@@ -143,6 +143,7 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
 
         detailsRepository = detailsRepository == null ? org.ei.opensrp.Context.getInstance().updateApplicationContext(context.getApplicationContext()).detailsRepository() : detailsRepository;
         Map<String, String> detailmaps = detailsRepository.getAllDetailsForClient(pc.entityId());
+        pc.getColumnmaps().putAll(detailmaps);
 
         String husbandname = getValue(detailmaps, "spouseName", false);
         fillValue((TextView) convertView.findViewById(R.id.spousename), husbandname);
@@ -150,7 +151,7 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
         fillValue((TextView) convertView.findViewById(R.id.nid), "NID: "+getValue(detailmaps, "nationalId", false));
 
         final String lmpstring = Utils.getValue(pc.getColumnmaps(), "lmp", false);
-
+        Log.v("lmpstring",lmpstring);
         View recordVaccination = convertView.findViewById(R.id.record_vaccination);
         recordVaccination.setTag(client);
         recordVaccination.setOnClickListener(onClickListener);
@@ -423,8 +424,24 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
 
         @Override
         protected Void doInBackground(Void... params) {
+
             vaccines = vaccineRepository.findByEntityId(entityId);
             alerts = alertService.findByEntityIdAndAlertNames(entityId, VaccinateActionUtils.allAlertNames("mother"));
+            if(alerts.size() == 0){
+                if (!TextUtils.isEmpty(dobString)) {
+                    SimpleDateFormat lmp_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+                    Date dateTime = null;
+                    Log.v("dobstring",dobString);
+                    try {
+                        dateTime = lmp_DATE_FORMAT.parse(dobString);
+                        VaccineSchedule.updateOfflineAlerts(entityId, new DateTime(dateTime.getTime()), "mother");
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                alerts = alertService.findByEntityIdAndAlertNames(entityId, VaccinateActionUtils.allAlertNames("mother"));
+            }
+
             return null;
         }
 

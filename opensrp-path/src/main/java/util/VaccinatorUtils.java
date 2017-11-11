@@ -719,6 +719,16 @@ public class VaccinatorUtils {
                 }
             }
         }
+        JSONArray supportedMotherVaccines = new JSONArray(getSupportedWomanVaccines(context));
+        for (int i = 0; i < supportedVaccines.length(); i++) {
+            JSONObject curGroup = supportedVaccines.getJSONObject(i);
+            for (int j = 0; j < curGroup.getJSONArray("vaccines").length(); j++) {
+                JSONObject curVaccine = curGroup.getJSONArray("vaccines").getJSONObject(j);
+                if (curVaccine.getString("name").equalsIgnoreCase(vaccineName)) {
+                    return curVaccine.getJSONObject("openmrs_calculate").getInt("calculation");
+                }
+            }
+        }
         return -1;
     }
 
@@ -760,6 +770,24 @@ public class VaccinatorUtils {
         boolean found = false;
         try {
             JSONArray availableVaccines = new JSONArray(getSupportedVaccines(context));
+            for (int i = 0; i < availableVaccines.length(); i++) {
+                JSONObject currVaccineGroup = availableVaccines.getJSONObject(i);
+                for (int j = 0; j < currVaccineGroup.getJSONArray("vaccines").length(); j++) {
+                    JSONObject curVaccine = currVaccineGroup.getJSONArray("vaccines").getJSONObject(j);
+                    if (curVaccine.getString("name").toLowerCase().equals(vaccineDbName.toLowerCase())) {
+                        readableName = curVaccine.getString("name");
+                        found = true;
+                    }
+
+                    if (found) break;
+                }
+                if (found) break;
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
+        try {
+            JSONArray availableVaccines = new JSONArray(getSupportedWomanVaccines(context));
             for (int i = 0; i < availableVaccines.length(); i++) {
                 JSONObject currVaccineGroup = availableVaccines.getJSONObject(i);
                 for (int j = 0; j < currVaccineGroup.getJSONArray("vaccines").length(); j++) {

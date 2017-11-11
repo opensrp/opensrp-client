@@ -433,8 +433,8 @@
          {
         "key": "lmp",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "",
-        "openmrs_entity_id": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "lmp",
         "openmrs_data_type": "text",
         "type": "date_picker",
         "hint": "এলএমপি তারিখ",
