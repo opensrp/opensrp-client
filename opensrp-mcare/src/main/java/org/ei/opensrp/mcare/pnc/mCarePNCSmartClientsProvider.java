@@ -372,7 +372,7 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
                         alerttextstatus = setAlertStatus(dateofoutcome,"PNC1",alertlist);
 
                     }else{
-                        alerttextstatus = new alertTextandStatus("Not synced","not synced");
+                        alerttextstatus = new alertTextandStatus("Not Active","not active");
                     }
                 }
             }
@@ -435,8 +435,8 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
                 }
             });
         }
-        if(alerttextstatus.getAlertstatus().equalsIgnoreCase("not synced")){
-            customFontTextView.setText("Not Synced");
+        if(alerttextstatus.getAlertstatus().equalsIgnoreCase("not active")){
+            customFontTextView.setText("Not Active");
             customFontTextView.setTextColor(context.getResources().getColor(R.color.text_black));
             customFontTextView.setBackgroundColor(context.getResources().getColor(org.ei.opensrp.R.color.status_bar_text_almost_white));
 //

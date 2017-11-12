@@ -319,7 +319,7 @@ public class mCareChildSmartClientsProvider implements SmartRegisterCLientsProvi
                         alerttextstatus = setAlertStatus("ENCC1",alertlist);
 
                     }else{
-                        alerttextstatus = new alertTextandStatus("Not synced","not synced");
+                        alerttextstatus = new alertTextandStatus("Not Active","not active");
                     }
                 }
             }
@@ -384,11 +384,17 @@ public class mCareChildSmartClientsProvider implements SmartRegisterCLientsProvi
                 }
             });
         }
-        if(alerttextstatus.getAlertstatus().equalsIgnoreCase("not synced")){
-            customFontTextView.setText("Not Synced");
+        if(alerttextstatus.getAlertstatus().equalsIgnoreCase("not active")){
+            customFontTextView.setText("Not Active");
             customFontTextView.setTextColor(context.getResources().getColor(R.color.text_black));
             customFontTextView.setBackgroundColor(context.getResources().getColor(org.ei.opensrp.R.color.status_bar_text_almost_white));
 //
+            customFontTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
     }
 

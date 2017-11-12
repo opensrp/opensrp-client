@@ -111,9 +111,9 @@ public class mCarePNCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
             public DialogOption[] filterOptions() {
                 ArrayList<DialogOption> dialogOptionslist = new ArrayList<DialogOption>();
                 dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_all_label),""));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_pncrv1),filterStringForPNCRV1()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_pncrv2),filterStringForPNCRV2()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_pncrv3),filterStringForPNCRV3()));
+                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_pncrv1),filterStringForPNCRV1withoutfts()));
+                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_pncrv2),filterStringForPNCRV2withoutfts()));
+                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_pncrv3),filterStringForPNCRV3withoutfts()));
 
                 String locationjson = context().anmLocationController().get();
                 LocationTree locationTree = EntityUtils.fromJson(locationjson, LocationTree.class);
@@ -406,6 +406,16 @@ public class mCarePNCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
         return "pncrv_3";
     }
 
+    private String filterStringForPNCRV1withoutfts(){
+        return "and alerts.visitCode LIKE '%pncrv_1%'";
+    }
+    private String filterStringForPNCRV2withoutfts(){
+        return "and alerts.visitCode LIKE '%pncrv_2%'";
+    }
+    private String filterStringForPNCRV3withoutfts(){
+        return "and alerts.visitCode LIKE '%pncrv_3%'";
+    }
+
     private String sortByAlertmethodWithoutFTS() {
         return " CASE WHEN alerts.status = 'urgent' THEN '1'"
                 +
@@ -431,18 +441,18 @@ public class mCarePNCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
      * Override filter to capture fts filter by location
      * @param filter
      */
-    @Override
-    public void onFilterSelection(FilterOption filter) {
-        appliedVillageFilterView.setText(filter.name());
-        filters = ((CursorFilterOption)filter).filter();
-        mainCondition = " Is_PNC = '1'  and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%'";
-
-        if(StringUtils.isNotBlank(filters) && filters.contains(" and details LIKE ")){
-            mainCondition += filters;
-            filters = "";
-        }
-        CountExecute();
-        filterandSortExecute();
-    }
+//    @Override
+//    public void onFilterSelection(FilterOption filter) {
+//        appliedVillageFilterView.setText(filter.name());
+//        filters = ((CursorFilterOption)filter).filter();
+//        mainCondition = " Is_PNC = '1'  and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%'";
+//
+//        if(StringUtils.isNotBlank(filters) && filters.contains(" and details LIKE ")){
+//            mainCondition += filters;
+//            filters = "";
+//        }
+//        CountExecute();
+//        filterandSortExecute();
+//    }
 
 }

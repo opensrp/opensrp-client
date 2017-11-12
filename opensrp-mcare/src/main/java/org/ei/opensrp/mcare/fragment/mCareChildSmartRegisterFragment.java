@@ -263,12 +263,23 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
 
                 if (cs.toString().equalsIgnoreCase("")) {
                     filters = "";
+                    mainCondition = " FWBNFGEN is not null ";
                 } else {
                     //filters = "and FWWOMFNAME Like '%" + cs.toString() + "%' or GOBHHID Like '%" + cs.toString() + "%'  or JiVitAHHID Like '%" + cs.toString() + "%' ";
                     filters = cs.toString();
+                    filters = "";
+                    mainCondition = " FWBNFGEN is not null ";
+                    mainCondition += " AND (("+ CommonFtsObject.idColumn +" IN (SELECT "+CommonRepository.ID_COLUMN+ " FROM " + "mcarechild"+ " WHERE details LIKE '%" + cs.toString()+ "%' )) " +
+                            "or ("+ CommonFtsObject.relationalIdColumn +" IN (SELECT "+CommonRepository.ID_COLUMN+ " FROM " + "mcaremother"+ " WHERE FWWOMFNAME LIKE '%" + cs.toString()+ "%' ))" +
+                            "or ("+ CommonFtsObject.relationalIdColumn +" IN (SELECT "+CommonRepository.ID_COLUMN+ " FROM " + "mcaremother"+ " WHERE GOBHHID LIKE '%" + cs.toString()+ "%' ))" +
+                            "or ("+ CommonFtsObject.relationalIdColumn +" IN (SELECT "+CommonRepository.ID_COLUMN+ " FROM " + "mcaremother"+ " WHERE JiVitAHHID LIKE '%" + cs.toString()+ "%' ))" +
+                            ")";
+
+
                 }
                 joinTable = "";
-                mainCondition = " FWBNFGEN is not null ";
+//                mainCondition = " FWBNFGEN is not null ";
+
 
                 getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
                 CountExecute();
@@ -396,7 +407,7 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
 
         if(StringUtils.isNotBlank(filters) && filters.contains(" and mcaremother.details like ")){
             String searchString = filters.replace(" and mcaremother.details like ", "");
-            mainCondition += " AND "+ CommonFtsObject.relationalIdColumn +" IN (SELECT "+CommonFtsObject.idColumn+ " FROM " + CommonFtsObject.searchTableName("mcaremother")+ " WHERE details LIKE " + searchString+ " ) ";
+            mainCondition += " AND "+ CommonFtsObject.relationalIdColumn +" IN (SELECT "+CommonRepository.ID_COLUMN+ " FROM " + "mcaremother"+ " WHERE details LIKE " + searchString+ " ) ";
             filters = "";
         }
         CountExecute();

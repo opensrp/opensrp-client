@@ -157,7 +157,7 @@ public class mCarePNCSmartRegisterActivity extends SecuredNativeSmartRegisterAct
         };
     }
     public DialogOption[] getEditOptionsforpnc(String visittext,String alertstatus) {
-        String ancvisittext = "Not Synced";
+        String ancvisittext = "Not Active";
         String ancalertstatus = alertstatus;
         ancvisittext = visittext;
 

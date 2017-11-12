@@ -490,7 +490,7 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
                 alerttextstatus.setAlertText(alerttextstatus.alertText.substring(1));
             }
         }else{
-            alerttextstatus = new alertTextandStatus("Not synced","not synced");
+            alerttextstatus = new alertTextandStatus("Not Active","not active");
             alerttextstatus.setAlertText(alerttextstatus.alertText);
 
         }
@@ -520,7 +520,7 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
                         alerttextstatus = setAlertStatus(lmpdate,"ANC1",alertlist);
 
                     }else{
-                        alerttextstatus = new alertTextandStatus("Not synced","not synced");
+                        alerttextstatus = new alertTextandStatus("Not Active","not active");
                     }
                 }
             }
@@ -583,8 +583,8 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
                 }
             });
         }
-        if(alerttextstatus.getAlertstatus().equalsIgnoreCase("not synced")){
-            customFontTextView.setText("Not Synced");
+        if(alerttextstatus.getAlertstatus().equalsIgnoreCase("not active")){
+            customFontTextView.setText("Not Active");
             customFontTextView.setTextColor(context.getResources().getColor(R.color.text_black));
             customFontTextView.setBackgroundColor(context.getResources().getColor(org.ei.opensrp.R.color.status_bar_text_almost_white));
             //////////////////////////////////////////////////////////////////////////////////
@@ -593,6 +593,12 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
             //customFontTextView.setTag(R.id.textforAncRegister,alerttextstatus.getAlertText() != null ? alerttextstatus.getAlertText() : "");
             //customFontTextView.setTag(R.id.AlertStatustextforAncRegister, "urgent");
             //////////////////////////////////////////////////////////////////////////////////
+            customFontTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
     }
 

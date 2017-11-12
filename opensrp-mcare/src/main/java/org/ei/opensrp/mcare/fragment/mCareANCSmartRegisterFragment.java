@@ -111,10 +111,10 @@ public class mCareANCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
             public DialogOption[] filterOptions() {
                 ArrayList<DialogOption> dialogOptionslist = new ArrayList<DialogOption>();
                 dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_all_label),""));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_anc1),filterStringForANCRV1()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_anc2),filterStringForANCRV2()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_anc3),filterStringForANCRV3()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_anc4),filterStringForANCRV4()));
+                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_anc1),filterStringForANCRV1withoutfts()));
+                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_anc2),filterStringForANCRV2withoutfts()));
+                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_anc3),filterStringForANCRV3withoutfts()));
+                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_anc4),filterStringForANCRV4withoutfts()));
 
                 String locationjson = context().anmLocationController().get();
                 LocationTree locationTree = EntityUtils.fromJson(locationjson, LocationTree.class);
@@ -403,6 +403,22 @@ public class mCareANCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
     private String filterStringForANCRV4(){
         return "ancrv_4";
     }
+
+    private String filterStringForANCRV1withoutfts(){
+        return "and alerts.visitCode LIKE '%ancrv_1%'";
+    }
+    private String filterStringForANCRV2withoutfts(){
+        return "and alerts.visitCode LIKE '%ancrv_2%'";
+    }
+    private String filterStringForANCRV3withoutfts(){
+        return "and alerts.visitCode LIKE '%ancrv_3%'";
+    }
+    private String filterStringForANCRV4withoutfts(){
+        return "and alerts.visitCode LIKE '%ancrv_4%'";
+    }
+
+
+
     private String sortByGOBHHID(){
         return " GOBHHID ASC";
     }
@@ -473,17 +489,17 @@ public class mCareANCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
      * Override filter to capture fts filter by location
      * @param filter
      */
-    @Override
-    public void onFilterSelection(FilterOption filter) {
-        appliedVillageFilterView.setText(filter.name());
-        filters = ((CursorFilterOption)filter).filter();
-        mainCondition = "( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%'";
-
-        if(StringUtils.isNotBlank(filters) && filters.contains(" and details LIKE ")){
-            mainCondition += filters;
-            filters = "";
-        }
-        CountExecute();
-        filterandSortExecute();
-    }
+//    @Override
+//    public void onFilterSelection(FilterOption filter) {
+//        appliedVillageFilterView.setText(filter.name());
+//        filters = ((CursorFilterOption)filter).filter();
+//        mainCondition = "( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%'";
+//
+//        if(StringUtils.isNotBlank(filters) && filters.contains(" and details LIKE ")){
+//            mainCondition += filters;
+//            filters = "";
+//        }
+//        CountExecute();
+//        filterandSortExecute();
+//    }
 }
