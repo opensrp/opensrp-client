@@ -117,6 +117,11 @@ public class mCareChildSmartClientsProvider implements SmartRegisterCLientsProvi
         }else{
             brid.setVisibility(View.GONE);
         }
+        if((pc.getColumnmaps().get("FWBNFGEN")!=null?pc.getColumnmaps().get("FWBNFGEN"):"").equalsIgnoreCase("2")){
+            profilepic.setImageResource(R.drawable.child_girl_infant);
+        }else if((pc.getColumnmaps().get("FWBNFGEN")!=null?pc.getColumnmaps().get("FWBNFGEN"):"").equalsIgnoreCase("1")){
+            profilepic.setImageResource(R.drawable.child_boy_infant);
+        }
 
         if (pc.getDetails().get("profilepic") != null) {
             HouseHoldDetailActivity.setImagetoHolderFromUri((Activity) context, pc.getDetails().get("profilepic"), profilepic, R.drawable.child_boy_infant);

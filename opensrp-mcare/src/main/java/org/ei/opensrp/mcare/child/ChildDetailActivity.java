@@ -120,6 +120,11 @@ public class ChildDetailActivity extends Activity {
 //        if (ChildClient.getDetails().get("profilepic") != null) {
 //            setImagetoHolder(ChildDetailActivity.this, ChildClient.getDetails().get("profilepic"), householdview, R.mipmap.woman_placeholder);
 //        }
+        if((ChildClient.getColumnmaps().get("FWBNFGEN")!=null?ChildClient.getColumnmaps().get("FWBNFGEN"):"").equalsIgnoreCase("2")){
+            profilepic.setImageResource(R.drawable.child_girl_infant);
+        }else if((ChildClient.getColumnmaps().get("FWBNFGEN")!=null?ChildClient.getColumnmaps().get("FWBNFGEN"):"").equalsIgnoreCase("1")){
+            profilepic.setImageResource(R.drawable.child_boy_infant);
+        }
         if (childobject.getDetails().get("profilepic") != null) {
             HouseHoldDetailActivity.setImagetoHolderFromUri(ChildDetailActivity.this, childobject.getDetails().get("profilepic"), profilepic, R.drawable.child_boy_infant);
         }
