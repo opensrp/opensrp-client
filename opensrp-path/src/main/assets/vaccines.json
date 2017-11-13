@@ -29,7 +29,7 @@
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+1825d"
+              "offset": "+5y"
             }
           ],
           "conditions": [
@@ -96,13 +96,13 @@
             {
               "reference": "dob",
               "offset": "+42d",
-              "window": "+10d"
+              "window": "+14d"
             }
           ],
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+5ym"
+              "offset": "+5y"
             }
           ]
         }
@@ -126,7 +126,7 @@
             {
               "reference": "dob",
               "offset": "+42d",
-              "window": "+10d"
+              "window": "+14d"
             }
           ],
           "expiry": [
@@ -156,13 +156,13 @@
             {
               "reference": "dob",
               "offset": "+42d",
-              "window": "+10d"
+              "window": "+14d"
             }
           ],
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+4y,10m"
+              "offset": "+5y"
             }
           ]
         }
@@ -194,13 +194,13 @@
               "reference": "prerequisite",
               "prerequisite": "OPV 1",
               "offset": "+28d",
-              "window": "+10d"
+              "window": "+14d"
             }
           ],
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+4y,11m"
+              "offset": "+5y"
             }
           ]
         }
@@ -225,13 +225,13 @@
               "reference": "prerequisite",
               "prerequisite": "Penta 1",
               "offset": "+28d",
-              "window": "+10d"
+              "window": "+14d"
             }
           ],
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+4y,11m"
+              "offset": "+5y"
             }
           ]
         }
@@ -256,13 +256,13 @@
               "reference": "prerequisite",
               "prerequisite": "PCV 1",
               "offset": "+28d",
-              "window": "+10d"
+              "window": "+14d"
             }
           ],
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+4y,11m"
+              "offset": "+5y"
             }
           ]
         }
@@ -294,7 +294,7 @@
               "reference": "prerequisite",
               "prerequisite": "OPV 2",
               "offset": "+28d",
-              "window": "+10d"
+              "window": "+14d"
             }
           ],
           "expiry": [
@@ -325,13 +325,13 @@
               "reference": "prerequisite",
               "prerequisite": "Penta 2",
               "offset": "+28d",
-              "window": "+10d"
+              "window": "+14d"
             }
           ],
           "expiry": [
             {
               "reference": "dob",
-              "offset": "+5y"
+              "offset": "+1y"
             }
           ]
         }
