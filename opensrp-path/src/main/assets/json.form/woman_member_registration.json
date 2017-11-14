@@ -382,9 +382,9 @@
           "err": "Please Select Yes/No."
         },
         "relevance": {
-        "step1:maritial_status": {
+        "step1:pregnant": {
           "type": "string",
-          "ex": "equalTo(., \"Married\")"
+          "ex": "equalTo(., \"No\")"
           }
         }
       },
@@ -456,7 +456,7 @@
         "hint": "ইডিডি তারিখ",
         "v_required": {
           "value": true,
-          "err": "Please Enter LMP date"
+          "err": "Please Enter EDD date"
         },
         "relevance": {
           "step1:edd_lmp": {
@@ -464,7 +464,7 @@
             "ex": "equalTo(., \"EDD\")"
           }
         },
-        "max_date": "today"
+        "min_date": "today"
       },
       {
         "key": "ultrasound_date",
@@ -476,7 +476,7 @@
         "hint": "আল্ট্রাসাউন্ড তারিখ",
         "v_required": {
           "value": true,
-          "err": "Please Enter LMP date"
+          "err": "Please Enter UltraSound date"
         },
         "relevance": {
           "step1:edd_lmp": {

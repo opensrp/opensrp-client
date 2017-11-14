@@ -215,6 +215,16 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
 
         filterCount = (TextView) view.findViewById(R.id.filter_count);
         filterCount.setVisibility(View.GONE);
+        filterCount.setClickable(false);
+        filterCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view.isClickable()) {
+                    filterSection.performClick();
+                }
+            }
+        });
+
 
         clientsView.setVisibility(View.VISIBLE);
         clientsProgressView.setVisibility(View.INVISIBLE);
@@ -487,16 +497,16 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
         String mainCondition = filterSelectionCondition(true);
         int count = count(mainCondition);
 
-        if (filterCount != null) {
-            if (count > 0) {
-                filterCount.setText(String.valueOf(count));
-                filterCount.setVisibility(View.VISIBLE);
-                filterCount.setClickable(true);
-            } else {
-                filterCount.setVisibility(View.GONE);
-                filterCount.setClickable(false);
-            }
-        }
+//        if (filterCount != null) {
+//            if (count > 0) {
+//                filterCount.setText(String.valueOf(count));
+//                filterCount.setVisibility(View.VISIBLE);
+//                filterCount.setClickable(true);
+//            } else {
+//                filterCount.setVisibility(View.GONE);
+//                filterCount.setClickable(false);
+//            }
+//        }
 
         ((ChildSmartRegisterActivity) getActivity()).updateAdvancedSearchFilterCount(count);
     }
