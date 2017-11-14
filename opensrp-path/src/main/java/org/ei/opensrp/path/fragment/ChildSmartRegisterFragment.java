@@ -209,20 +209,12 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
         view.findViewById(R.id.service_mode_selection).setVisibility(INVISIBLE);
         view.findViewById(R.id.register_client).setVisibility(INVISIBLE);
 
+        view.findViewById(R.id.filter_selection).setVisibility(INVISIBLE);
         filterSection = view.findViewById(R.id.filter_selection);
         filterSection.setOnClickListener(clientActionHandler);
 
         filterCount = (TextView) view.findViewById(R.id.filter_count);
         filterCount.setVisibility(View.GONE);
-        filterCount.setClickable(false);
-        filterCount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (view.isClickable()) {
-                    filterSection.performClick();
-                }
-            }
-        });
 
         clientsView.setVisibility(View.VISIBLE);
         clientsProgressView.setVisibility(View.INVISIBLE);

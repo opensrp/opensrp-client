@@ -356,7 +356,7 @@
               "reference": "prerequisite",
               "prerequisite": "PCV 2",
               "offset": "+28d",
-              "window": "+10d"
+              "window": "+14d"
             }
           ],
           "expiry": [
@@ -395,7 +395,7 @@
               {
                 "reference": "dob",
                 "offset": "+9m",
-                "window": "+10d"
+                "window": "+3m"
               }
             ],
             "conditions": [
@@ -410,7 +410,7 @@
               {
                 "reference": "dob",
                 "offset": "+9m",
-                "window": "+10d"
+                "window": "+3m"
               }
             ],
             "conditions": [
@@ -467,9 +467,9 @@
     ]
   },
   {
-    "name": "18 Months",
-    "id": "Eighteen_Months",
-    "days_after_birth_due": 548,
+    "name": "15 Months",
+    "id": "Fifteen_Months",
+    "days_after_birth_due": 450,
     "vaccines": [
       {
         "name": "Measles 2 / MR 2",
@@ -492,13 +492,13 @@
               {
                 "reference": "prerequisite",
                 "prerequisite": "Measles 1",
-                "offset": "+9m",
-                "window": "+10d"
+                "offset": "+6m",
+                "window": "+8m"
               },
               {
                 "reference": "prerequisite",
                 "prerequisite": "MR 1",
-                "offset": "+9m"
+                "offset": "+6m"
               }
             ],
             "conditions": [
@@ -513,13 +513,13 @@
               {
                 "reference": "prerequisite",
                 "prerequisite": "MR 1",
-                "offset": "+9m",
-                "window": "+10d"
+                "offset": "+6m",
+                "window": "+8m"
               },
               {
                 "reference": "prerequisite",
                 "prerequisite": "Measles 1",
-                "offset": "+9m"
+                "offset": "+6m"
               }
             ],
             "conditions": [

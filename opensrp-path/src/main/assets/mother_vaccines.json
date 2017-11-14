@@ -24,13 +24,7 @@
             {
               "reference": "lmp",
               "offset": "+0d",
-              "window": "+10d"
-            }
-          ],
-          "expiry": [
-            {
-              "reference": "lmp",
-              "offset": "+10000d"
+              "window": "+3m"
             }
           ]
         }
@@ -62,14 +56,7 @@
               "reference": "prerequisite",
               "prerequisite": "TT 1",
               "offset": "+28d",
-              "window": "+10d"
-            }
-          ],
-          "expiry": [
-            {
-              "reference": "prerequisite",
-              "prerequisite": "TT 1",
-              "offset": "+2y"
+              "window": "+14d"
             }
           ]
         }
@@ -101,14 +88,7 @@
               "reference": "prerequisite",
               "prerequisite": "TT 2",
               "offset": "+6m",
-              "window": "+10d"
-            }
-          ],
-          "expiry": [
-            {
-              "reference": "prerequisite",
-              "prerequisite": "TT 2",
-              "offset": "+1y,6m"
+              "window": "+14d"
             }
           ]
         }
@@ -140,14 +120,7 @@
               "reference": "prerequisite",
               "prerequisite": "TT 3",
               "offset": "+1y",
-              "window": "+10d"
-            }
-          ],
-          "expiry": [
-            {
-              "reference": "prerequisite",
-              "prerequisite": "TT 3",
-              "offset": "+2y"
+              "window": "+14d"
             }
           ]
         }
@@ -179,14 +152,7 @@
               "reference": "prerequisite",
               "prerequisite": "TT 4",
               "offset": "+1y",
-              "window": "+10d"
-            }
-          ],
-          "expiry": [
-            {
-              "reference": "prerequisite",
-              "prerequisite": "TT 4",
-              "offset": "+2y"
+              "window": "+14d"
             }
           ]
         }

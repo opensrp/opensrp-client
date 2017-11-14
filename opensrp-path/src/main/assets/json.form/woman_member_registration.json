@@ -247,10 +247,6 @@
         "openmrs_data_type": "text",
         "type": "edit_text",
         "hint": "EPI কার্ড নাম্বার ",
-        "v_required": {
-          "value": false,
-          "err": "Enter 8 digits Number from EPI card."
-        },
         "v_numeric": {
           "value": "true",
           "err": "Please Enter 8 digit EPI number"
