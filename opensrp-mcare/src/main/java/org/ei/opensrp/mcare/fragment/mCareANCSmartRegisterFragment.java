@@ -485,6 +485,38 @@ public class mCareANCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
                 "Else alerts.status END ASC";
     }
 
+    private String sortByAlertmethodWithoutFTSandSortValue() {
+        return " CASE WHEN alerts.status = 'urgent' and alerts2.status = 'urgent' THEN 1 "
+                +
+                "WHEN alerts.status = 'upcoming' and alerts2.status = 'urgent' THEN  2\n" +
+                "WHEN alerts.status = 'normal' and alerts2.status = 'urgent' THEN 3\n" +
+                "WHEN alerts.status = 'expired' and alerts2.status = 'urgent' THEN 4\n" +
+                "WHEN alerts.status is null and alerts2.status = 'urgent' THEN 5\n" +
+
+                "WHEN alerts.status = 'urgent' and alerts2.status = 'upcoming' THEN 6\n" +
+                "WHEN alerts.status = 'upcoming' and alerts2.status = 'upcoming' THEN 7\n" +
+                "WHEN alerts.status = 'normal' and alerts2.status = 'upcoming' THEN 8\n" +
+                "WHEN alerts.status = 'expired' and alerts2.status = 'upcoming' THEN 9\n" +
+                "WHEN alerts.status is null and alerts2.status = 'upcoming' THEN 10\n" +
+
+                "WHEN alerts.status = 'urgent' and alerts2.status = 'normal' THEN 11\n" +
+                "WHEN alerts.status = 'upcoming' and alerts2.status = 'normal' THEN 12\n" +
+                "WHEN alerts.status = 'normal' and alerts2.status = 'normal' THEN 13\n" +
+                "WHEN alerts.status = 'expired' and alerts2.status = 'normal' THEN 14\n" +
+                "WHEN alerts.status is null and alerts2.status = 'normal' THEN 15\n" +
+
+                "WHEN alerts.status = 'urgent' and alerts2.status = 'expired' THEN 16\n" +
+                "WHEN alerts.status = 'upcoming' and alerts2.status = 'expired' THEN 17\n" +
+                "WHEN alerts.status = 'normal' and alerts2.status = 'expired' THEN 18\n" +
+                "WHEN alerts.status = 'expired' and alerts2.status = 'expired' THEN 19\n" +
+                "WHEN alerts.status is null and alerts2.status = 'expired' THEN 20\n" +
+
+                "WHEN alerts2.status is null THEN 9999\n" +
+                "WHEN alerts.status = \"\" THEN 99999\n" +
+//                "WHEN alerts2.status is null THEN '18'\n" +
+                "Else alerts.status END ASC , ABS(FWSORTVALUE) DESC";
+    }
+
     /**
      * Override filter to capture fts filter by location
      * @param filter

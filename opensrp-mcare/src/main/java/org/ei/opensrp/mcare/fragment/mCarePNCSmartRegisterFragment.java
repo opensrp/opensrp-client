@@ -355,7 +355,7 @@ public class mCarePNCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder(pncMainSelectWithJoinsWithoutFTS());
         mainSelect = queryBUilder.mainCondition(" mcaremother.Is_PNC = '1'  and mcaremother.FWWOMFNAME not null and mcaremother.FWWOMFNAME != \"\"   AND mcaremother.details  LIKE '%\"FWWOMVALID\":\"1\"%'");
-        Sortqueries = sortBySortValue();
+        Sortqueries = sortByAlertmethodWithoutFTSandSortValue();
 
         currentlimit = 20;
         currentoffset = 0;
@@ -425,6 +425,16 @@ public class mCarePNCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
                 "WHEN alerts.status is Null THEN '5'\n" +
                 "WHEN alerts.status = 'complete' THEN '6'\n" +
                 "Else alerts.status END ASC";
+    }
+    private String sortByAlertmethodWithoutFTSandSortValue() {
+        return " CASE WHEN alerts.status = 'urgent' THEN '1'"
+                +
+                "WHEN alerts.status = 'upcoming' THEN '2'\n" +
+                "WHEN alerts.status = 'normal' THEN '3'\n" +
+                "WHEN alerts.status = 'expired' THEN '4'\n" +
+                "WHEN alerts.status is Null THEN '5'\n" +
+                "WHEN alerts.status = 'complete' THEN '6'\n" +
+                "Else alerts.status END ASC ,ABS(FWSORTVALUE) DESC";
     }
     public String pncMainSelectWithJoinsWithoutFTS(){
         return "Select id as _id,relationalid,details,FWWOMFNAME,FWPSRLMP,FWSORTVALUE,JiVitAHHID,GOBHHID,Is_PNC,FWBNFSTS,FWBNFDTOO \n" +
