@@ -670,7 +670,6 @@ public class Tools {
             faceVector = objFace.serializeRecogntionAlbum();
 
             hash = retrieveHash(context);
-
             hash.put(entityId, Integer.toString(result));
 
             // Save Hash
