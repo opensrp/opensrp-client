@@ -6,7 +6,7 @@
   "instance": {
     "encounter_type": "Dokumentasi Persalinan"
   },
-  "version": "201702121222",
+  "version": "201711150239",
   "id_string": "dokumentasi_persalinan",
   "type": "survey",
   "children": [
@@ -85,74 +85,74 @@
       }
     },
     {
-      "bind": {
-        "calculate": "${Village}"
-      },
-      "type": "hidden",
-      "name": "existing_location",
       "instance": {
         "openmrs_entity_id": "location_id",
         "openmrs_entity": "encounter"
+      },
+      "type": "hidden",
+      "name": "existing_location",
+      "bind": {
+        "calculate": "${Village}"
       }
     },
     {
-      "bind": {
-        "calculate": "${Province}"
-      },
-      "type": "calculate",
-      "name": "provinsi",
       "instance": {
         "openmrs_entity_parent": "usual_residence",
         "openmrs_entity_id": "stateProvince",
         "openmrs_entity": "person_address"
+      },
+      "type": "calculate",
+      "name": "provinsi",
+      "bind": {
+        "calculate": "${Province}"
       }
     },
     {
-      "bind": {
-        "calculate": "${District}"
-      },
-      "type": "calculate",
-      "name": "kabupaten",
       "instance": {
         "openmrs_entity_parent": "usual_residence",
         "openmrs_entity_id": "countyDistrict",
         "openmrs_entity": "person_address"
+      },
+      "type": "calculate",
+      "name": "kabupaten",
+      "bind": {
+        "calculate": "${District}"
       }
     },
     {
-      "bind": {
-        "calculate": "${Village}"
-      },
-      "type": "calculate",
-      "name": "desa",
       "instance": {
         "openmrs_entity_parent": "usual_residence",
         "openmrs_entity_id": "cityVillage",
         "openmrs_entity": "person_address"
+      },
+      "type": "calculate",
+      "name": "desa",
+      "bind": {
+        "calculate": "${Village}"
       }
     },
     {
-      "bind": {
-        "calculate": "${Sub-village}"
-      },
-      "type": "calculate",
-      "name": "dusun",
       "instance": {
         "openmrs_entity_parent": "usual_residence",
         "openmrs_entity_id": "address1",
         "openmrs_entity": "person_address"
+      },
+      "type": "calculate",
+      "name": "dusun",
+      "bind": {
+        "calculate": "${Sub-village}"
       }
     },
     {
-      "bind": {
-        "calculate": "${Sub-district}"
-      },
-      "type": "calculate",
-      "name": "kecamatan",
       "instance": {
         "openmrs_entity_parent": "usual_residence",
         "openmrs_entity_id": "address2",
         "openmrs_entity": "person_address"
+      },
+      "type": "calculate",
+      "name": "kecamatan",
+      "bind": {
+        "calculate": "${Sub-district}"
       }
     },
     {
@@ -164,6 +164,10 @@
       }
     },
     {
+      "instance": {
+        "openmrs_entity_id": "1427AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "Concept"
+      },
       "bind": {
         "jr:constraintMsg": {
           "Bahasa": "Nilai yang dimasukkan tidak memenuhi syarat, mohon periksa kembali",
@@ -172,27 +176,26 @@
         "constraint": ".>0"
       },
       "type": "hidden",
-      "instance": {
-        "openmrs_entity_id": "1427AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        "openmrs_entity": "Concept"
-      },
       "name": "hpht",
       "label": {
         "Bahasa": "inject HPHT from register ANC"
       }
     },
     {
-      "bind": {
-        "calculate": "int(((${today} - ${hpht}) div 7)+1)"
-      },
-      "type": "calculate",
-      "name": "usiakehamilan",
       "instance": {
         "openmrs_entity_id": "1438AAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "openmrs_entity": "Concept"
+      },
+      "type": "calculate",
+      "name": "usiakehamilan",
+      "bind": {
+        "calculate": "int(((${today} - ${hpht}) div 7)+1)"
       }
     },
     {
+      "instance": {
+        "openmrs_entity": "n/a"
+      },
       "bind": {
         "jr:constraintMsg": {
           "Bahasa": "Nilai yang dimasukkan tidak memenuhi syarat, mohon periksa kembali",
@@ -201,9 +204,6 @@
         "constraint": ".>0"
       },
       "type": "note",
-      "instance": {
-        "openmrs_entity": "n/a"
-      },
       "name": "usia_kehamilan_hpht",
       "label": {
         "Bahasa": "Usia kehamilan berdasarkan HPHT: ${usiakehamilan} minggu",
@@ -1283,25 +1283,25 @@
       ]
     },
     {
-      "bind": {
-        "relevant": "${keadaan_bayi} = 'hidup'"
-      },
-      "type": "repeat",
       "instance": {
         "openmrs_entity_id": "Child Registration",
         "openmrs_entity": "person"
       },
+      "bind": {
+        "relevant": "${keadaan_bayi} = 'hidup'"
+      },
+      "type": "repeat",
       "children": [
         {
-          "bind": {
-            "calculate": "${Village}"
-          },
-          "type": "calculate",
-          "name": "desa_anak",
           "instance": {
             "openmrs_entity_parent": "cityVillage",
             "openmrs_entity_id": "160632AAAAAAAAAAAAAAAAAAAAAAAAAA",
             "openmrs_entity": "Concept"
+          },
+          "type": "calculate",
+          "name": "desa_anak",
+          "bind": {
+            "calculate": "${Village}"
           }
         },
         {
@@ -1312,14 +1312,14 @@
           }
         },
         {
-          "bind": {
-            "calculate": "${Village}"
-          },
-          "type": "hidden",
-          "name": "child_existing_location",
           "instance": {
             "openmrs_entity_id": "location_id",
             "openmrs_entity": "encounter"
+          },
+          "type": "hidden",
+          "name": "child_existing_location",
+          "bind": {
+            "calculate": "${Village}"
           }
         },
         {
@@ -1389,7 +1389,8 @@
             "English": "Baby's date of birth"
           },
           "bind": {
-            "required": "yes"
+            "required": "yes",
+            "constraint": ".<${today}"
           },
           "label": {
             "Bahasa": "Tanggal lahir",
@@ -1429,112 +1430,112 @@
       "name": "child_registration"
     },
     {
-      "bind": {
-        "calculate": "(if(selected(${komplikasi},'distosia'), 'yes','no'))"
-      },
-      "type": "calculate",
-      "name": "high_risk_post-partum_distosia",
       "instance": {
         "openmrs_entity_id": "141596AAAAAAAAAAAAAAAAAAAAAAAAAA",
         "openmrs_entity": "Concept"
+      },
+      "type": "calculate",
+      "name": "high_risk_post-partum_distosia",
+      "bind": {
+        "calculate": "(if(selected(${komplikasi},'distosia'), 'yes','no'))"
       }
     },
     {
-      "bind": {
-        "calculate": "(if(selected(${komplikasi},'hipertensi_dalam_kehamilan'), 'yes','no'))"
-      },
-      "type": "calculate",
-      "name": "high_risk_post-partum_PIH",
       "instance": {
         "openmrs_entity_id": "47AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "openmrs_entity": "Concept"
+      },
+      "type": "calculate",
+      "name": "high_risk_post-partum_PIH",
+      "bind": {
+        "calculate": "(if(selected(${komplikasi},'hipertensi_dalam_kehamilan'), 'yes','no'))"
       }
     },
     {
-      "bind": {
-        "calculate": "(if(selected(${komplikasi},'perdarahan_post-partum'), 'yes','no'))"
-      },
-      "type": "calculate",
-      "name": "high_risk_post-partum_Hemorrhage",
       "instance": {
         "openmrs_entity_id": "230AAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "openmrs_entity": "Concept"
+      },
+      "type": "calculate",
+      "name": "high_risk_post-partum_Hemorrhage",
+      "bind": {
+        "calculate": "(if(selected(${komplikasi},'perdarahan_post-partum'), 'yes','no'))"
       }
     },
     {
-      "bind": {
-        "calculate": "(if(selected(${komplikasi},'Infeksi'), 'yes','no'))"
-      },
-      "type": "calculate",
-      "name": "high_risk_post-partum_infection",
       "instance": {
         "openmrs_entity_id": "117069AAAAAAAAAAAAAAAAAAAAAAAAAA",
         "openmrs_entity": "Concept"
+      },
+      "type": "calculate",
+      "name": "high_risk_post-partum_infection",
+      "bind": {
+        "calculate": "(if(selected(${komplikasi},'Infeksi'), 'yes','no'))"
       }
     },
     {
-      "bind": {
-        "calculate": "(if(selected(${komplikasi},'sepsis_maternal'), 'yes','no'))"
-      },
-      "type": "calculate",
-      "name": "high_risk_post-partum_maternal_sepsis",
       "instance": {
         "openmrs_entity_id": "130AAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "openmrs_entity": "Concept"
+      },
+      "type": "calculate",
+      "name": "high_risk_post-partum_maternal_sepsis",
+      "bind": {
+        "calculate": "(if(selected(${komplikasi},'sepsis_maternal'), 'yes','no'))"
       }
     },
     {
-      "bind": {
-        "calculate": "(if(selected(${komplikasi},'preeklampsi'), 'yes','no'))"
-      },
-      "type": "calculate",
-      "name": "high_risk_post-partum_Pre-eclampsia",
       "instance": {
         "openmrs_entity_id": "129251AAAAAAAAAAAAAAAAAAAAAAAAAA",
         "openmrs_entity": "Concept"
+      },
+      "type": "calculate",
+      "name": "high_risk_post-partum_Pre-eclampsia",
+      "bind": {
+        "calculate": "(if(selected(${komplikasi},'preeklampsi'), 'yes','no'))"
       }
     },
     {
-      "bind": {
-        "calculate": "(if(selected(${komplikasi},'eklampsi'), 'yes','no'))"
-      },
-      "type": "calculate",
-      "name": "high_risk_post-partum_Eclampsia",
       "instance": {
         "openmrs_entity_id": "118744AAAAAAAAAAAAAAAAAAAAAAAAAA",
         "openmrs_entity": "Concept"
+      },
+      "type": "calculate",
+      "name": "high_risk_post-partum_Eclampsia",
+      "bind": {
+        "calculate": "(if(selected(${komplikasi},'eklampsi'), 'yes','no'))"
       }
     },
     {
-      "bind": {
-        "calculate": "(if(selected(${cara_persalinan_ibu},'vacum'), 'yes','no'))"
-      },
-      "type": "calculate",
-      "name": "high_risk_post-partum_vacum",
       "instance": {
         "openmrs_entity_id": "159260AAAAAAAAAAAAAAAAAAAAAAAAAA",
         "openmrs_entity": "Concept"
+      },
+      "type": "calculate",
+      "name": "high_risk_post-partum_vacum",
+      "bind": {
+        "calculate": "(if(selected(${cara_persalinan_ibu},'vacum'), 'yes','no'))"
       }
     },
     {
-      "bind": {
-        "calculate": "(if(selected(${cara_persalinan_ibu},'forceps'), 'yes','no'))"
+      "instance": {
+        "openmrs_entity": "Concept"
       },
       "type": "calculate",
       "name": "high_risk_post-partum_forceps",
-      "instance": {
-        "openmrs_entity": "Concept"
+      "bind": {
+        "calculate": "(if(selected(${cara_persalinan_ibu},'forceps'), 'yes','no'))"
       }
     },
     {
-      "bind": {
-        "calculate": "(if(selected(${cara_persalinan_ibu},'sectio_caesaria'), 'yes','no'))"
-      },
-      "type": "calculate",
-      "name": "high_risk_post-partum_Sectio_Caesaria",
       "instance": {
         "openmrs_entity_id": "159901AAAAAAAAAAAAAAAAAAAAAAAAAA",
         "openmrs_entity": "Concept"
+      },
+      "type": "calculate",
+      "name": "high_risk_post-partum_Sectio_Caesaria",
+      "bind": {
+        "calculate": "(if(selected(${cara_persalinan_ibu},'sectio_caesaria'), 'yes','no'))"
       }
     },
     {
