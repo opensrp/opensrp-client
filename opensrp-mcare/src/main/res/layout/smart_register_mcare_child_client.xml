@@ -48,6 +48,12 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/vg"
                     android:src="@mipmap/flag_vg" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pt"
+                    android:src="@drawable/flag_pt"
+                    android:scaleType="fitXY" />
             </LinearLayout>
         </FrameLayout>
 

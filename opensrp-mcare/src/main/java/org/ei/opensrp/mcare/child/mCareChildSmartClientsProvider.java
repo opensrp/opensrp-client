@@ -172,6 +172,29 @@ public class mCareChildSmartClientsProvider implements SmartRegisterCLientsProvi
         }
 
     }
+    private boolean isPT(CommonPersonObjectClient ancclient) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date edd_date = format.parse(ancclient.getDetails().get("FWBNFDOB")!=null?ancclient.getDetails().get("FWBNFDOB") :"");
+            Date lmpdate = format.parse(ancclient.getDetails().get("FWPSRLMP")!=null?ancclient.getDetails().get("FWPSRLMP") :"");
+            Calendar thatDay = Calendar.getInstance();
+            thatDay.setTime(edd_date);
+
+            Calendar today = Calendar.getInstance();
+
+            long diff = today.getTimeInMillis() - thatDay.getTimeInMillis();
+
+            long days = diff / (24 * 60 * 60 * 1000);
+
+            long week = days/7;
+
+            return (week<37);
+        } catch (ParseException e) {
+            Log.e(getClass().getName(), "Exception", e);
+            return false;
+        }
+
+    }
 
 
 
@@ -415,6 +438,7 @@ public class mCareChildSmartClientsProvider implements SmartRegisterCLientsProvi
         ImageView hrp = (ImageView)itemView.findViewById(R.id.hrp);
         ImageView hp = (ImageView)itemView.findViewById(R.id.hr);
         ImageView vg = (ImageView)itemView.findViewById(R.id.vg);
+        ImageView pt = (ImageView)itemView.findViewById(R.id.pt);
         if(mcaremotherObject.getDetails().get("FWVG") != null && mcaremotherObject.getDetails().get("FWVG").equalsIgnoreCase("1")){
             vg.setVisibility(View.VISIBLE);
         }else{
@@ -430,6 +454,11 @@ public class mCareChildSmartClientsProvider implements SmartRegisterCLientsProvi
         }else{
             hp.setVisibility(View.GONE);
         }
+        pt.setVisibility(View.GONE);
+        if(isPT(pc)){
+            pt.setVisibility(View.VISIBLE);
+        }
+
 
     }
 
