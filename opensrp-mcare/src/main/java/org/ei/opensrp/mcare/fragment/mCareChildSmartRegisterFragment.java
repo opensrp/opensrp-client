@@ -25,6 +25,7 @@ import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.mcare.LoginActivity;
 import org.ei.opensrp.mcare.R;
 import org.ei.opensrp.mcare.child.ChildDetailActivity;
+import org.ei.opensrp.mcare.child.childSort;
 import org.ei.opensrp.mcare.child.mCareChildServiceModeOption;
 import org.ei.opensrp.mcare.child.mCareChildSmartClientsProvider;
 import org.ei.opensrp.mcare.child.mCareChildSmartRegisterActivity;
@@ -90,7 +91,7 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
 
             @Override
             public SortOption sortOption() {
-                return new ElcoPSRFDueDateSort();
+                return new childSort();
 
             }
 

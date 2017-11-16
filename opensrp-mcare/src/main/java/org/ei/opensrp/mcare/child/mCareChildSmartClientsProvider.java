@@ -35,6 +35,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static org.ei.opensrp.util.StringUtil.humanize;
@@ -174,22 +176,42 @@ public class mCareChildSmartClientsProvider implements SmartRegisterCLientsProvi
     }
     private boolean isPT(CommonPersonObjectClient ancclient) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatlmp = new SimpleDateFormat("E MMM d HH:mm:ss yyyy");
+        Date lmpdate = null;
+        try {
+            lmpdate = formatlmp.parse((ancclient.getDetails().get("FWPSRLMP")!=null?ancclient.getDetails().get("FWPSRLMP") :"").replace(" BDT "," "));
+        } catch (ParseException e) {
+            try {
+                lmpdate = format.parse((ancclient.getDetails().get("FWPSRLMP")!=null?ancclient.getDetails().get("FWPSRLMP") :"").replace(" BDT "," "));
+            } catch (ParseException e1) {
+                e1.printStackTrace();
+            }
+
+        }
+
+
+//        Asia/Dhaka
         try {
             Date edd_date = format.parse(ancclient.getDetails().get("FWBNFDOB")!=null?ancclient.getDetails().get("FWBNFDOB") :"");
-            Date lmpdate = format.parse(ancclient.getDetails().get("FWPSRLMP")!=null?ancclient.getDetails().get("FWPSRLMP") :"");
+//            Date lmpdate = new Date(ancclient.getDetails().get("FWPSRLMP")!=null?ancclient.getDetails().get("FWPSRLMP") :"");
+
+            Calendar lmpday = Calendar.getInstance();
+            lmpday.setTime(lmpdate);
+
             Calendar thatDay = Calendar.getInstance();
             thatDay.setTime(edd_date);
 
-            Calendar today = Calendar.getInstance();
+//            Calendar today = Calendar.getInstance();
 
-            long diff = today.getTimeInMillis() - thatDay.getTimeInMillis();
+            long diff = thatDay.getTimeInMillis() - lmpday.getTimeInMillis();
 
             long days = diff / (24 * 60 * 60 * 1000);
 
             long week = days/7;
-
+            Log.v("weeks","weeks--"+week);
+            Log.v("weeks","weeks--"+week+ "entityID"+"---"+ancclient.entityId());
             return (week<37);
-        } catch (ParseException e) {
+        } catch (Exception e) {
             Log.e(getClass().getName(), "Exception", e);
             return false;
         }
