@@ -128,7 +128,6 @@ public class GiziDetailActivity extends Activity {
         childview.setTag(R.id.entity_id, childclient.getCaseId());//required when saving file to disk
 
         if (!Support.getDetails(childclient,"gender").equals("-")) {
-            System.out.println(childclient.getDetails().toString());
             util.formula.Support.setImagetoHolderFromUri( this ,
                     DrishtiApplication.getAppDir() + File.separator + Support.getDetails(childclient,"base_entity_id") + ".JPEG",
                     childview, Support.getDetails(childclient,"gender").equals("female") ? R.drawable.child_girl_infant : R.drawable.child_boy_infant);
@@ -228,7 +227,7 @@ public class GiziDetailActivity extends Activity {
         Log.logInfo("Berat :" +yAxis);
         Log.logInfo("umurs :" +xAxis);
         GraphView graph = (GraphView) findViewById(R.id.graph);
-        new GrowthChartGenerator(graph,childclient.getDetails().get("gender"),
+        new GrowthChartGenerator(graph,Support.getDetails(childclient,"gender"),
                 Support.getDetails(childclient, "tanggalLahirAnak").substring(0, Support.getDetails(childclient, "tanggalLahirAnak").indexOf("T"))
                 ,xAxis,yAxis);
 

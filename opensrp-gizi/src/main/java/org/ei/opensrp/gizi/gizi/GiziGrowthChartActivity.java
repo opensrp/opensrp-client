@@ -89,10 +89,10 @@ public class GiziGrowthChartActivity extends Activity{
 
         String []series=initiateSeries();
 
-        System.out.println("gender : "+client.getDetails().get("gender"));
-        System.out.println("DOB : "+client.getDetails().get("tanggalLahir"));
+        System.out.println("gender : "+Support.getDetails(client,"gender"));
+        System.out.println("DOB : "+Support.getDetails(client,"tanggalLahir"));
 
-        new GrowthChartGenerator(lfaGraph, GraphConstant.LFA_CHART,client.getDetails().get("gender"),client.getDetails().get("tanggalLahir"),series[0],series[1]);
+        new GrowthChartGenerator(lfaGraph, GraphConstant.LFA_CHART,Support.getDetails(client,"gender"),Support.getDetails(client,"tanggalLahir"),series[0],series[1]);
         lfaGraph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             @Override
             public String formatLabel(double value, boolean isValueX) {
@@ -103,7 +103,7 @@ public class GiziGrowthChartActivity extends Activity{
             }
         });
 
-        new GrowthChartGenerator(hfaGraph,GraphConstant.HFA_CHART,client.getDetails().get("gender"),client.getDetails().get("tanggalLahir"),series[2],series[3]);
+        new GrowthChartGenerator(hfaGraph,GraphConstant.HFA_CHART,Support.getDetails(client,"gender"),Support.getDetails(client,"tanggalLahir"),series[2],series[3]);
         hfaGraph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             @Override
             public String formatLabel(double value, boolean isValueX) {
@@ -140,16 +140,16 @@ public class GiziGrowthChartActivity extends Activity{
     }
 
     private String createSeries(){
-        if(client.getDetails().get("history_tinggi")==null) {
+        if(Support.getDetails(client,"history_tinggi")==null) {
             return "0#0";
         }
-        else if(client.getDetails().get("history_tinggi").length()<3) {
+        else if(Support.getDetails(client,"history_tinggi").length()<3) {
             return "0#0";
         }
         String ageSeries="";
         String lengthSeries="";
-        String dateOfBirth = client.getDetails().get("tanggalLahirAnak").substring(0,10);
-        String data = Support.fixHistory(client.getDetails().get("history_tinggi"));
+        String dateOfBirth = Support.getDetails(client,"tanggalLahirAnak").substring(0,10);
+        String data = Support.fixHistory(Support.getDetails(client,"history_tinggi"));
         String []array = data.substring(4,data.length()).split(",");
         String [][]array2 = new String[array.length][];
         int []age = new int[array.length];

@@ -122,19 +122,19 @@ public class GiziSmartClientsProvider implements SmartRegisterCLientsProviderFor
 
         //start profile image
 //        viewHolder.profilepic.setTag(R.id.entity_id, pc.getCaseId());//required when saving file to disk
-        viewHolder.profilepic.setTag(R.id.entity_id, pc.getColumnmaps().get("_id"));//required when saving file to disk
+        viewHolder.profilepic.setTag(R.id.entity_id, Support.getColumnmaps(pc,"_id"));//required when saving file to disk
 
-        if (pc.getDetails().get("gender") != null) {
+        if (Support.getDetails(pc,"gender") != null) {
             util.formula.Support.setImagetoHolderFromUri((Activity) context,
-                    DrishtiApplication.getAppDir() + File.separator + pc.getDetails().get("base_entity_id") + ".JPEG",
-                    viewHolder.profilepic, pc.getDetails().get("gender").equals("female") ? R.drawable.child_girl_infant : R.drawable.child_boy_infant);
+                    DrishtiApplication.getAppDir() + File.separator + Support.getDetails(pc,"base_entity_id") + ".JPEG",
+                    viewHolder.profilepic, Support.getDetails(pc,"gender").equals("female") ? R.drawable.child_girl_infant : R.drawable.child_boy_infant);
         } else {
             Log.e(TAG, "getView: Gender is NOT SET");
         }
 
         viewHolder.name.setText(Support.getDetails(pc,"namaBayi"));
-        String ages = pc.getColumnmaps().get("tanggalLahirAnak").substring(0, pc.getColumnmaps().get("tanggalLahirAnak").indexOf("T"));
-        viewHolder.age.setVisibility(View.INVISIBLE);//.setText(pc.getDetails().get("tanggalLahirAnak")!= null ? Integer.toString(monthRangeToToday(ages))+" bln" : "");
+        String ages = Support.getColumnmaps(pc,"tanggalLahirAnak").substring(0, Support.getColumnmaps(pc,"tanggalLahirAnak").indexOf("T"));
+        viewHolder.age.setVisibility(View.INVISIBLE);//.setText(Support.getDetails(pc,"tanggalLahirAnak")!= null ? Integer.toString(monthRangeToToday(ages))+" bln" : "");
 
         AllCommonsRepository childRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_anak");
         CommonPersonObject childobject = childRepository.findByCaseID(pc.entityId());
@@ -144,15 +144,15 @@ public class GiziSmartClientsProvider implements SmartRegisterCLientsProviderFor
 
         if(kiparent != null) {
             detailsRepository.updateDetails(kiparent);
-            String namaayah = kiparent.getDetails().get("namaSuami") != null ? kiparent.getDetails().get("namaSuami") : "";
-            String namaibu = kiparent.getColumnmaps().get("namalengkap") != null ? kiparent.getColumnmaps().get("namalengkap") : "";
+            String namaayah = Support.getDetails(kiparent,"namaSuami") != null ? Support.getDetails(kiparent,"namaSuami") : "";
+            String namaibu = Support.getColumnmaps(kiparent,"namalengkap") != null ? Support.getColumnmaps(kiparent,"namalengkap") : "";
 
             viewHolder.fatherName.setText(String.format("%s,%s", namaibu, namaayah));
-            viewHolder.subVillage.setText(kiparent.getDetails().get("address1") != null ? kiparent.getDetails().get("address1") : "");
+            viewHolder.subVillage.setText(Support.getDetails(kiparent,"address1") != null ? Support.getDetails(kiparent,"address1") : "");
         }
 
 
-        String Tgl = pc.getDetails().get("tanggalLahirAnak");
+        String Tgl = Support.getDetails(pc,"tanggalLahirAnak");
 
         if (Tgl != null && Tgl.contains("T"))
            Tgl = Tgl.substring(0, Tgl.indexOf("T"));
@@ -162,26 +162,26 @@ public class GiziSmartClientsProvider implements SmartRegisterCLientsProviderFor
                        ,new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()).split("-")
                ) >= 365 ? View.VISIBLE : View.INVISIBLE
         );
-        viewHolder.dateOfBirth.setText(pc.getDetails().get("tanggalLahirAnak")!=null?Tgl:"");
+        viewHolder.dateOfBirth.setText(Support.getDetails(pc,"tanggalLahirAnak")!=null?Tgl:"");
 
-//        viewHolder.gender.setText( pc.getDetails().get("gender") != null ? setGender(pc.getDetails().get("gender")):"-");
+//        viewHolder.gender.setText( Support.getDetails(pc,"gender") != null ? setGender(Support.getDetails(pc,"gender")):"-");
         int age = monthRangeToToday(ages);
-        viewHolder.gender.setText(pc.getDetails().get("tanggalLahirAnak") != null
+        viewHolder.gender.setText(Support.getDetails(pc,"tanggalLahirAnak") != null
                 ? age/12 + " " + context.getString(R.string.years_unit)+" "+age%12+" "+context.getString(R.string.month_unit) : "-");
 
 /** collect history data and clean latest history data which contains no specific date or value,
  */
         if(!Support.getDetails(pc,"umur").toLowerCase().equals("nan")) {
-            String[] history1 = pc.getDetails().get("history_berat") != null ? Support.insertionSort(pc.getDetails().get("history_berat")) : new String[]{"0:0"};
+            String[] history1 = Support.getDetails(pc,"history_berat") != null ? Support.insertionSort(Support.getDetails(pc,"history_berat")) : new String[]{"0:0"};
             if (history1[history1.length - 1].charAt(history1[history1.length - 1].length() - 1) == ':')
                 history1[history1.length - 1] = history1[history1.length - 1] + "-";
-            String[] history2 = pc.getDetails().get("history_tinggi") != null ? Support.insertionSort(pc.getDetails().get("history_tinggi")) : new String[]{"0:0"};
+            String[] history2 = Support.getDetails(pc,"history_tinggi") != null ? Support.insertionSort(Support.getDetails(pc,"history_tinggi")) : new String[]{"0:0"};
             if (history2[history2.length - 1].charAt(history2[history2.length - 1].length() - 1) == ':')
                 history2[history2.length - 1] = history2[history2.length - 1] + "-";
             String newestDateonHistory = history1.length > 1
                     ? findDate(Tgl, Support.getAge(history1[history1.length - 1]))
-                    : pc.getDetails().get("tanggalPenimbangan") != null
-                    ? pc.getDetails().get("tanggalPenimbangan")
+                    : Support.getDetails(pc,"tanggalPenimbangan") != null
+                    ? Support.getDetails(pc,"tanggalPenimbangan")
                     : Tgl;
 
             System.out.println("history1 : " + history1[history1.length - 1]);
@@ -190,11 +190,11 @@ public class GiziSmartClientsProvider implements SmartRegisterCLientsProviderFor
 /**
  */
 
-            if (newestDateonHistory.equals(pc.getDetails().get("tanggalPenimbangan") != null ? pc.getDetails().get("tanggalPenimbangan") : "-")) {
+            if (newestDateonHistory.equals(Support.getDetails(pc,"tanggalPenimbangan") != null ? Support.getDetails(pc,"tanggalPenimbangan") : "-")) {
                 System.out.println("history = tglPenimbangan");
-                viewHolder.visitDate.setText(context.getString(R.string.tanggal) + " " + (pc.getDetails().get("tanggalPenimbangan") != null ? pc.getDetails().get("tanggalPenimbangan") : "-"));
-                viewHolder.height.setText(context.getString(R.string.height) + " " + (pc.getDetails().get("tinggiBadan") != null ? pc.getDetails().get("tinggiBadan") : "-") + " Cm");
-                viewHolder.weight.setText(context.getString(R.string.weight) + " " + (pc.getDetails().get("beratBadan") != null ? pc.getDetails().get("beratBadan") : "-") + " Kg");
+                viewHolder.visitDate.setText(context.getString(R.string.tanggal) + " " + (Support.getDetails(pc,"tanggalPenimbangan") != null ? Support.getDetails(pc,"tanggalPenimbangan") : "-"));
+                viewHolder.height.setText(context.getString(R.string.height) + " " + (Support.getDetails(pc,"tinggiBadan") != null ? Support.getDetails(pc,"tinggiBadan") : "-") + " Cm");
+                viewHolder.weight.setText(context.getString(R.string.weight) + " " + (Support.getDetails(pc,"beratBadan") != null ? Support.getDetails(pc,"beratBadan") : "-") + " Kg");
                 viewHolder.weightText.setText(context.getString(R.string.label_weight));
                 viewHolder.heightText.setText(context.getString(R.string.label_height));
                 viewHolder.antihelminticText.setText(R.string.anthelmintic);
@@ -202,17 +202,17 @@ public class GiziSmartClientsProvider implements SmartRegisterCLientsProviderFor
                 System.out.println("history != tglPenimbangan");
                 viewHolder.visitDate.setText(context.getString(R.string.tanggal) + " " + (history1.length > 1 ? newestDateonHistory : "-"));
                 viewHolder.height.setText(context.getString(R.string.height) + " "
-                        + (pc.getDetails().get("tinggiBadan") != null
-                        ? !pc.getDetails().get("tinggiBadan").equals(history2[history2.length - 1])
+                        + (Support.getDetails(pc,"tinggiBadan") != null
+                        ? !Support.getDetails(pc,"tinggiBadan").equals(history2[history2.length - 1])
                         ? history2[history2.length - 1].split(":")[1]
-                        : pc.getDetails().get("tinggiBadan")
+                        : Support.getDetails(pc,"tinggiBadan")
                         : "-")
                         + " Cm");
                 viewHolder.weight.setText(context.getString(R.string.weight) + " "
-                        + (pc.getDetails().get("beratBadan") != null
-                        ? !pc.getDetails().get("beratBadan").equals(history1[history1.length - 1])
+                        + (Support.getDetails(pc,"beratBadan") != null
+                        ? !Support.getDetails(pc,"beratBadan").equals(history1[history1.length - 1])
                         ? history1[history1.length - 1].split(":")[1]
-                        : pc.getDetails().get("beratBadan")
+                        : Support.getDetails(pc,"beratBadan")
                         : "-")
                         + " Kg");
                 viewHolder.weightText.setText(context.getString(R.string.label_weight));
@@ -221,8 +221,8 @@ public class GiziSmartClientsProvider implements SmartRegisterCLientsProviderFor
             }
 
 //------VISIBLE AND INVISIBLE COMPONENT
-            viewHolder.absentAlert.setVisibility(pc.getDetails().get("tanggalPenimbangan") != null
-                            ? isLate(pc.getDetails().get("tanggalPenimbangan"), 1)
+            viewHolder.absentAlert.setVisibility(Support.getDetails(pc,"tanggalPenimbangan") != null
+                            ? isLate(Support.getDetails(pc,"tanggalPenimbangan"), 1)
                             ? View.VISIBLE
                             : View.INVISIBLE
                             : View.INVISIBLE
@@ -231,17 +231,17 @@ public class GiziSmartClientsProvider implements SmartRegisterCLientsProviderFor
 
 
 //------CHILD DATA HAS BEEN SUBMITTED OR NOT
-            System.out.println("latest date = " + returnLatestDate(pc.getDetails().get("tanggalPenimbangan"), newestDateonHistory));
+            System.out.println("latest date = " + returnLatestDate(Support.getDetails(pc,"tanggalPenimbangan"), newestDateonHistory));
 
-            viewHolder.weightLogo.setImageDrawable(context.getResources().getDrawable(isLate(returnLatestDate(pc.getDetails().get("tanggalPenimbangan"), newestDateonHistory), 0) ? R.drawable.ic_remove : R.drawable.ic_yes_large));
-            viewHolder.heightLogo.setImageDrawable(context.getResources().getDrawable(!isLate(returnLatestDate(pc.getDetails().get("tanggalPenimbangan"), newestDateonHistory), 0) && !Support.getDetails(pc, "tinggiBadan").equals("-") ? R.drawable.ic_yes_large : R.drawable.ic_remove));
-            viewHolder.vitALogo.setImageDrawable(context.getResources().getDrawable(inTheSameRegion(pc.getDetails().get("lastVitA")) ? R.drawable.ic_yes_large : R.drawable.ic_remove));
+            viewHolder.weightLogo.setImageDrawable(context.getResources().getDrawable(isLate(returnLatestDate(Support.getDetails(pc,"tanggalPenimbangan"), newestDateonHistory), 0) ? R.drawable.ic_remove : R.drawable.ic_yes_large));
+            viewHolder.heightLogo.setImageDrawable(context.getResources().getDrawable(!isLate(returnLatestDate(Support.getDetails(pc,"tanggalPenimbangan"), newestDateonHistory), 0) && !Support.getDetails(pc, "tinggiBadan").equals("-") ? R.drawable.ic_yes_large : R.drawable.ic_remove));
+            viewHolder.vitALogo.setImageDrawable(context.getResources().getDrawable(inTheSameRegion(Support.getDetails(pc,"lastVitA")) ? R.drawable.ic_yes_large : R.drawable.ic_remove));
             viewHolder.antihelminticLogo.setImageDrawable(context.getResources().getDrawable(isGiven(pc, "obatcacing") ? R.drawable.ic_yes_large : R.drawable.ic_remove));
 
-            if (pc.getDetails().get("tanggalPenimbangan") != null) {
-                viewHolder.stunting_status.setText(String.format("%s %s", context.getString(R.string.stunting), hasValue(pc.getDetails().get("stunting")) ? setStatus(pc.getDetails().get("stunting")) : "-"));
-                viewHolder.underweight.setText(String.format("%s %s", context.getString(R.string.wfa), hasValue(pc.getDetails().get("underweight")) ? setStatus(pc.getDetails().get("underweight")) : "-"));
-                viewHolder.wasting_status.setText(String.format("%s %s", context.getString(R.string.wasting), hasValue(pc.getDetails().get("wasting")) ? setStatus(pc.getDetails().get("wasting")) : "-"));
+            if (Support.getDetails(pc,"tanggalPenimbangan") != null) {
+                viewHolder.stunting_status.setText(String.format("%s %s", context.getString(R.string.stunting), hasValue(Support.getDetails(pc,"stunting")) ? setStatus(Support.getDetails(pc,"stunting")) : "-"));
+                viewHolder.underweight.setText(String.format("%s %s", context.getString(R.string.wfa), hasValue(Support.getDetails(pc,"underweight")) ? setStatus(Support.getDetails(pc,"underweight")) : "-"));
+                viewHolder.wasting_status.setText(String.format("%s %s", context.getString(R.string.wasting), hasValue(Support.getDetails(pc,"wasting")) ? setStatus(Support.getDetails(pc,"wasting")) : "-"));
             } else {
                 viewHolder.underweight.setText(String.format("%s ", context.getString(R.string.wfa)));
                 viewHolder.stunting_status.setText(String.format("%s ", context.getString(R.string.stunting)));
@@ -309,8 +309,8 @@ public class GiziSmartClientsProvider implements SmartRegisterCLientsProviderFor
 //    }
 
     private boolean isGiven(CommonPersonObjectClient pc, String details){
-        if(pc.getDetails().get(details) != null)
-            return pc.getDetails().get(details).equalsIgnoreCase("ya") || pc.getDetails().get(details).equalsIgnoreCase("yes");
+        if(Support.getDetails(pc,details) != null)
+            return Support.getDetails(pc,details).equalsIgnoreCase("ya") || Support.getDetails(pc,details).equalsIgnoreCase("yes");
         return false;
     }
 

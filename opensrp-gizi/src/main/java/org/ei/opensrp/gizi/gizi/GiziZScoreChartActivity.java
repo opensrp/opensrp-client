@@ -65,19 +65,19 @@ public class GiziZScoreChartActivity extends Activity{
         String seriesData = data[1];
 
         generator = new GrowthChartGenerator(zScoreGraph, GraphConstant.Z_SCORE_CHART,
-                client.getDetails().get("tanggalLahirAnak"),
-                client.getDetails().get("gender"),
+                Support.getDetails(client,"tanggalLahirAnak"),
+                Support.getDetails(client,"gender"),
                 seriesAxis,seriesData
         );
     }
 
     private void initializeGlobalVariable(){
         ////System.out.println("data z score client = "+client.getDetails().toString());
-        historyUmur = split(Support.fixHistory(client.getDetails().get("history_berat")))[0];
-        historyUmurHari = client.getDetails().get("history_umur_tinggi");
-        historyBerat = split(Support.fixHistory(client.getDetails().get("history_berat")))[1];
-        historyTinggi = cleanBlankValueOf(Support.fixHistory(client.getDetails().get("history_tinggi")));
-        historyTinggiUmurHari = cleanBlankValueOf(client.getDetails().get("history_tinggi_umur_hari"));
+        historyUmur = split(Support.fixHistory(Support.getDetails(client,"history_berat")))[0];
+        historyUmurHari = Support.getDetails(client,"history_umur_tinggi");
+        historyBerat = split(Support.fixHistory(Support.getDetails(client,"history_berat")))[1];
+        historyTinggi = cleanBlankValueOf(Support.fixHistory(Support.getDetails(client,"history_tinggi")));
+        historyTinggiUmurHari = cleanBlankValueOf(Support.getDetails(client,"history_tinggi_umur_hari"));
 
     }
 
@@ -198,7 +198,7 @@ public class GiziZScoreChartActivity extends Activity{
 
         String []dayAge = buildDayAgeArray(historyUmur/*,historyUmurHari*/).split(",");
         String[] weight = historyBerat.split(",");
-        boolean isMale = !client.getDetails().get("gender").toLowerCase().contains("em");
+        boolean isMale = !Support.getDetails(client,"gender").toLowerCase().contains("em");
         String wfa = "";
         int ageLength = dayAge.length;
 
@@ -243,7 +243,7 @@ public class GiziZScoreChartActivity extends Activity{
         if(historyUmur.length<1 || historyUmur[0].equals(""))
             return "";
         String []temp = historyTinggi.split(",");
-        boolean isMale = !client.getDetails().get("gender").toLowerCase().contains("em");
+        boolean isMale = !Support.getDetails(client,"gender").toLowerCase().contains("em");
 
 
         String result = "";
@@ -284,7 +284,7 @@ public class GiziZScoreChartActivity extends Activity{
         String[]berat = b.split(",");
         String[]tinggi = t.split(",");
 
-        boolean isMale = !client.getDetails().get("gender").toLowerCase().contains("em");
+        boolean isMale = !Support.getDetails(client,"gender").toLowerCase().contains("em");
         int j=1;
         for(int i=0;i<umurTinggi.length;i++){
             for(;j<umur.length;j++){
