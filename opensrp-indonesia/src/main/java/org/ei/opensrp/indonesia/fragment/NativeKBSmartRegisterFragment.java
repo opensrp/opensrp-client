@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.flurry.android.FlurryAgent;
-import com.qualcomm.snapdragon.sdk.face.FacialProcessing;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
@@ -30,7 +29,6 @@ import org.ei.opensrp.indonesia.LoginActivity;
 import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.face.camera.SmartShutterActivity;
 import org.ei.opensrp.indonesia.kartu_ibu.KICommonObjectFilterOption;
-import org.ei.opensrp.indonesia.kartu_ibu.NativeKISmartRegisterActivity;
 import org.ei.opensrp.indonesia.kb.AllKBServiceMode;
 import org.ei.opensrp.indonesia.kb.KBClientsProvider;
 import org.ei.opensrp.indonesia.kb.KBDetailActivity;
@@ -260,7 +258,7 @@ public class NativeKBSmartRegisterFragment extends SecuredNativeSmartRegisterCur
             currentoffset = 0;
 
             super.filterandSortInInitializeQueries();
-
+            CountExecute();
             updateSearchView();
             refresh();
         } catch (Exception e){
@@ -375,6 +373,7 @@ public class NativeKBSmartRegisterFragment extends SecuredNativeSmartRegisterCur
                 mainCondition = " is_closed = 0 and jenisKontrasepsi != '0' ";
 
                 getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
+                CountExecute();
                 filterandSortExecute();
 
             }

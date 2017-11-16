@@ -252,6 +252,7 @@ public class GiziSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
         super.filterandSortInInitializeQueries();
 
 //        setServiceModeViewDrawableRight(null);
+        CountExecute();
         updateSearchView();
         refresh();
 
@@ -422,6 +423,7 @@ public class GiziSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
                     @Override
                     protected void onPostExecute(Object o) {
                         getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
+                        CountExecute();
                         filterandSortExecute();
                         super.onPostExecute(o);
                     }

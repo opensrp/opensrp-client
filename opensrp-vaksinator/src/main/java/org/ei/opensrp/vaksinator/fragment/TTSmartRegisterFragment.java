@@ -1,8 +1,6 @@
 package org.ei.opensrp.vaksinator.fragment;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Parcelable;
@@ -16,23 +14,23 @@ import com.flurry.android.FlurryAgent;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
+import org.ei.opensrp.commonregistry.CommonPersonObjectController;
 import org.ei.opensrp.commonregistry.CommonRepository;
 import org.ei.opensrp.cursoradapter.CursorCommonObjectFilterOption;
 import org.ei.opensrp.cursoradapter.CursorCommonObjectSort;
 import org.ei.opensrp.cursoradapter.SecuredNativeSmartRegisterCursorAdapterFragment;
 import org.ei.opensrp.cursoradapter.SmartRegisterPaginatedCursorAdapter;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
-import org.ei.opensrp.commonregistry.CommonPersonObjectController;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
+import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.vaksinator.LoginActivity;
 import org.ei.opensrp.vaksinator.R;
 import org.ei.opensrp.vaksinator.face.camera.SmartShutterActivity;
 import org.ei.opensrp.vaksinator.imunisasiTT.TTServiceModeOption;
+import org.ei.opensrp.vaksinator.imunisasiTT.TTSmartClientsProvider;
 import org.ei.opensrp.vaksinator.imunisasiTT.TTSmartRegisterActivity;
 import org.ei.opensrp.vaksinator.vaksinator.FlurryFacade;
-import org.ei.opensrp.vaksinator.imunisasiTT.TTSmartClientsProvider;
 import org.ei.opensrp.vaksinator.vaksinator.KICommonObjectFilterOption;
-import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
 import org.ei.opensrp.view.contract.ECClient;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
@@ -234,7 +232,7 @@ public class TTSmartRegisterFragment extends SecuredNativeSmartRegisterCursorAda
            currentoffset = 0;
 
            super.filterandSortInInitializeQueries();
-
+           CountExecute();
            updateSearchView();
            refresh();
        } catch (Exception e){
@@ -376,6 +374,7 @@ public class TTSmartRegisterFragment extends SecuredNativeSmartRegisterCursorAda
 //                        getClientsAdapter().refreshClients(filteredClients);
 //                        getClientsAdapter().notifyDataSetChanged();
                         getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
+                        CountExecute();
                         filterandSortExecute();
                         super.onPostExecute(o);
                     }

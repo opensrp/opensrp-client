@@ -25,9 +25,9 @@ import org.ei.opensrp.gizi.LoginActivity;
 import org.ei.opensrp.gizi.R;
 import org.ei.opensrp.gizi.face.camera.SmartShutterActivity;
 import org.ei.opensrp.gizi.gizi.FlurryFacade;
-import org.ei.opensrp.gizi.giziIbu.IbuServiceModeOption;
 import org.ei.opensrp.gizi.gizi.GiziSmartRegisterActivity;
 import org.ei.opensrp.gizi.gizi.KICommonObjectFilterOption;
+import org.ei.opensrp.gizi.giziIbu.IbuServiceModeOption;
 import org.ei.opensrp.gizi.giziIbu.IbuSmartClientsProvider;
 import org.ei.opensrp.gizi.giziIbu.IbuSmartRegisterActivity;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
@@ -36,7 +36,6 @@ import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
 import org.ei.opensrp.view.contract.ECClient;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
-import org.ei.opensrp.view.contract.SmartRegisterClients;
 import org.ei.opensrp.view.controller.VillageController;
 import org.ei.opensrp.view.dialog.AllClientsFilter;
 import org.ei.opensrp.view.dialog.DialogOption;
@@ -244,7 +243,7 @@ public class GiziIbuSmartRegisterFragment extends SecuredNativeSmartRegisterCurs
             currentoffset = 0;
 
             super.filterandSortInInitializeQueries();
-
+            CountExecute();
             updateSearchView();
             refresh();
         } catch (Exception e){
@@ -382,6 +381,7 @@ public class GiziIbuSmartRegisterFragment extends SecuredNativeSmartRegisterCurs
                     @Override
                     protected void onPostExecute(Object o) {
                         getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
+                        CountExecute();
                         filterandSortExecute();
                         super.onPostExecute(o);
                     }

@@ -258,7 +258,7 @@ public class NativeKISmartRegisterFragment extends SecuredNativeSmartRegisterCur
             currentoffset = 0;
 
             super.filterandSortInInitializeQueries();
-
+            CountExecute();
             updateSearchView();
             refresh();
         } catch (Exception e) {
@@ -380,6 +380,7 @@ public class NativeKISmartRegisterFragment extends SecuredNativeSmartRegisterCur
                 mainCondition = "is_closed = 0 ";
 
                 getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
+                CountExecute();
                 filterandSortExecute();
 
             }

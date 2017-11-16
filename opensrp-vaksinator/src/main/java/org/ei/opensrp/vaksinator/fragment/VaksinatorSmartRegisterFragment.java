@@ -236,7 +236,7 @@ public class VaksinatorSmartRegisterFragment extends SecuredNativeSmartRegisterC
         currentoffset = 0;
 
         super.filterandSortInInitializeQueries();
-
+        CountExecute();
         updateSearchView();
         refresh();
 
@@ -362,6 +362,7 @@ public class VaksinatorSmartRegisterFragment extends SecuredNativeSmartRegisterC
                     @Override
                     protected void onPostExecute(Object o) {
                         getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
+                        CountExecute();
                         filterandSortExecute();
                         super.onPostExecute(o);
                     }

@@ -2,8 +2,6 @@ package org.ei.opensrp.indonesia.fragment;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -29,7 +27,6 @@ import org.ei.opensrp.indonesia.LoginActivity;
 import org.ei.opensrp.indonesia.R;
 import org.ei.opensrp.indonesia.face.camera.SmartShutterActivity;
 import org.ei.opensrp.indonesia.kartu_ibu.KICommonObjectFilterOption;
-import org.ei.opensrp.indonesia.kartu_ibu.NativeKISmartRegisterActivity;
 import org.ei.opensrp.indonesia.lib.FlurryFacade;
 import org.ei.opensrp.indonesia.pnc.KIPNCClientsProvider;
 import org.ei.opensrp.indonesia.pnc.KIPNCOverviewServiceMode;
@@ -47,7 +44,6 @@ import org.ei.opensrp.view.dialog.DialogOptionMapper;
 import org.ei.opensrp.view.dialog.DialogOptionModel;
 import org.ei.opensrp.view.dialog.EditOption;
 import org.ei.opensrp.view.dialog.FilterOption;
-import org.ei.opensrp.view.dialog.LocationSelectorDialogFragment;
 import org.ei.opensrp.view.dialog.NameSort;
 import org.ei.opensrp.view.dialog.ServiceModeOption;
 import org.ei.opensrp.view.dialog.SortOption;
@@ -288,7 +284,7 @@ public class NativeKIPNCSmartRegisterFragment extends SecuredNativeSmartRegister
             currentoffset = 0;
 
             super.filterandSortInInitializeQueries();
-
+            CountExecute();
             updateSearchView();
             refresh();
         } catch (Exception e){
@@ -402,6 +398,7 @@ public class NativeKIPNCSmartRegisterFragment extends SecuredNativeSmartRegister
                 mainCondition = " is_closed = 0 and (keadaanIbu ='hidup' OR keadaanIbu IS NULL) ";
 
                 getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
+                CountExecute();
                 filterandSortExecute();
 
             }

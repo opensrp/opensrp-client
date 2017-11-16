@@ -31,7 +31,6 @@ import org.ei.opensrp.indonesia.anc.KIANCOverviewServiceMode;
 import org.ei.opensrp.indonesia.anc.NativeKIANCSmartRegisterActivity;
 import org.ei.opensrp.indonesia.face.camera.SmartShutterActivity;
 import org.ei.opensrp.indonesia.kartu_ibu.KICommonObjectFilterOption;
-import org.ei.opensrp.indonesia.kartu_ibu.NativeKISmartRegisterActivity;
 import org.ei.opensrp.indonesia.lib.FlurryFacade;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.util.StringUtil;
@@ -302,7 +301,7 @@ public class NativeKIANCSmartRegisterFragment extends SecuredNativeSmartRegister
             currentoffset = 0;
 
             super.filterandSortInInitializeQueries();
-
+            CountExecute();
             updateSearchView();
             refresh();
         } catch (Exception e){
@@ -415,6 +414,7 @@ public class NativeKIANCSmartRegisterFragment extends SecuredNativeSmartRegister
                 mainCondition = " is_closed = 0 ";
 
                 getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
+                CountExecute();
                 filterandSortExecute();
 
             }
