@@ -319,7 +319,7 @@ public class AdvancedSearchFragment extends BaseSmartRegisterFragment {
             }
         });
 
-        zeirId = (MaterialEditText) view.findViewById(R.id.zeir_id);
+//        zeirId = (MaterialEditText) view.findViewById(R.id.zeir_id);
         firstName = (MaterialEditText) view.findViewById(R.id.first_name);
         motherGuardianName = (MaterialEditText) view.findViewById(R.id.mother_guardian_name);
         motherGuardianPhoneNumber = (MaterialEditText) view.findViewById(R.id.mother_guardian_phone_number);

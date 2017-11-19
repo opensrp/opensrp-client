@@ -13,7 +13,9 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="4"
-        android:id="@+id/profile_info_layout">
+        android:id="@+id/profile_info_layout"
+        android:layout_marginBottom="1dp"
+        android:layout_marginTop="1dp">
 
         <ImageView
             android:layout_width="65dp"
@@ -36,9 +38,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                style="@style/CustomFontTextViewStyle.ListView.Small.NoPadding"
+                style="@style/CustomFontTextViewStyle.ClientList.Medium.NoPadding"
                 android:text="Medium Text"
-                android:layout_weight="1"
+                android:textColor="@color/client_list_grey"
+                android:textSize="16sp"
                 android:id="@+id/name" />
 
             <org.ei.opensrp.view.customControls.CustomFontTextView
@@ -47,9 +50,9 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 style="@style/CustomFontTextViewStyle.noPadding"
                 android:text="Medium Text"
+                android:textColor="@color/client_list_grey"
                 android:textSize="12sp"
-                android:id="@+id/spousename"
-                android:layout_weight="1" />
+                android:id="@+id/spousename" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -97,20 +100,14 @@
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/CustomFontTextViewStyle"
+            style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
             android:id="@+id/nid"
             android:layout_marginTop="3dp" />
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/CustomFontTextViewStyle"
-            android:id="@+id/zeir_id" />
-
-        <org.ei.opensrp.view.customControls.CustomFontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/CustomFontTextViewStyle"
+            style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
             android:id="@+id/brid" />
     </LinearLayout>
 

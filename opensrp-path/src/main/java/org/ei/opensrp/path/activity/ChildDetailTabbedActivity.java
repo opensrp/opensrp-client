@@ -452,14 +452,15 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
             JSONObject form = FormUtils.getInstance(getApplicationContext()).getFormJson("child_enrollment");
             LocationPickerView lpv = new LocationPickerView(getApplicationContext());
             lpv.init(context);
-            JsonFormUtils.addChildRegLocHierarchyQuestions(form, context);
+            JsonFormUtils.addHouseholdRegLocHierarchyQuestions(form, context);
             Log.d(TAG, "Form is " + form.toString());
             if (form != null) {
                 form.put(JsonFormUtils.ENTITY_ID, childDetails.entityId());
                 form.put(JsonFormUtils.RELATIONAL_ID, childDetails.getColumnmaps().get("relational_id"));
-                form.put(JsonFormUtils.CURRENT_ZEIR_ID, Utils.getValue(childDetails.getColumnmaps(), "zeir_id", true).replace("-", ""));
-
-
+                form.put(JsonFormUtils.OpenMRS_ID, Utils.getValue(childDetails.getColumnmaps(), "openmrs_id", true));
+                String locationid = JsonFormUtils.getOpenMrsLocationId(context,getValue(childDetails.getColumnmaps(), "address4", false) );
+                String birthFacilityHierarchy = JsonFormUtils.getOpenMrsLocationHierarchy(
+                        context,locationid ).toString();
                 Intent intent = new Intent(getApplicationContext(), PathJsonFormActivity.class);
                 //inject zeir id into the form
                 JSONObject stepOne = form.getJSONObject(JsonFormUtils.STEP1);
@@ -476,9 +477,9 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                         jsonObject.put(JsonFormUtils.READ_ONLY, true);
                         jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(childDetails.getColumnmaps(), "gender", true));
                     }
-                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase(JsonFormUtils.ZEIR_ID)) {
-                        jsonObject.put(JsonFormUtils.READ_ONLY, false);
-                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(childDetails.getColumnmaps(), "zeir_id", true).replace("-", ""));
+                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase(JsonFormUtils.OpenMRS_ID)) {
+                        jsonObject.put(JsonFormUtils.READ_ONLY, true);
+                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(childDetails.getColumnmaps(), "openmrs_id", true).replace("-", ""));
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Child_Register_Card_Number")) {
                         jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "Child_Register_Card_Number", true));
@@ -523,15 +524,8 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                         jsonObject.put(JsonFormUtils.READ_ONLY, true);
                         jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "Father_NRC_Number", true));
                     }
-                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("First_Health_Facility_Contact")) {
-                        jsonObject.put(JsonFormUtils.READ_ONLY, true);
-                        String dateString = Utils.getValue(detailmaps, "First_Health_Facility_Contact", false);
-                        if (!TextUtils.isEmpty(dateString)) {
-                            Date date = JsonFormUtils.formatDate(dateString, false);
-                            if (date != null) {
-                                jsonObject.put(JsonFormUtils.VALUE, DATE_FORMAT.format(date));
-                            }
-                        }
+                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("HIE_FACILITIES")) {
+                        jsonObject.put(JsonFormUtils.VALUE, birthFacilityHierarchy);
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Date_Birth")) {
                         jsonObject.put(JsonFormUtils.READ_ONLY, true);
@@ -556,27 +550,6 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                         jsonObject.put(JsonFormUtils.VALUE, placeofnearth_Choice);
 
 //                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "Place_Birth", true));
-                    }
-                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Birth_Facility_Name")) {
-                        jsonObject.put(JsonFormUtils.READ_ONLY, true);
-                        JSONArray birthFacilityHierarchy = null;
-                        String birthFacilityName = Utils.getValue(detailmaps, "Birth_Facility_Name", false);
-
-                        if (birthFacilityName != null && birthFacilityName.equalsIgnoreCase("other")) {
-                            birthFacilityHierarchy = new JSONArray();
-                            birthFacilityHierarchy.put(birthFacilityName);
-                        } else {
-                            birthFacilityHierarchy = JsonFormUtils.getOpenMrsLocationHierarchy(
-                                    getOpenSRPContext(), birthFacilityName);
-                        }
-
-                        if (birthFacilityHierarchy != null) {
-                            jsonObject.put(JsonFormUtils.VALUE, birthFacilityHierarchy.toString());
-                        }
-                    }
-                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Birth_Facility_Name_Other")) {
-                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "Birth_Facility_Name_Other", false));
-                        jsonObject.put(JsonFormUtils.READ_ONLY, true);
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Residential_Area")) {
                         JSONArray residentialAreaHierarchy = null;

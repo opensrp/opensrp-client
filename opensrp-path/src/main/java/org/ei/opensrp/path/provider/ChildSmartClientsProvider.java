@@ -83,7 +83,7 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
     public void getView(SmartRegisterClient client, final View convertView) {
         CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
 
-        fillValue((TextView) convertView.findViewById(R.id.child_zeir_id), getValue(pc.getColumnmaps(), "zeir_id", false));
+        fillValue((TextView) convertView.findViewById(R.id.child_zeir_id), getValue(pc.getColumnmaps(), "openmrs_id", false));
 
         String firstName = getValue(pc.getColumnmaps(), "first_name", true);
         String lastName = getValue(pc.getColumnmaps(), "last_name", true).replace(".","");

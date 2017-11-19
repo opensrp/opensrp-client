@@ -148,7 +148,7 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
         String husbandname = getValue(detailmaps, "spouseName", false);
         fillValue((TextView) convertView.findViewById(R.id.spousename), husbandname);
 
-        fillValue((TextView) convertView.findViewById(R.id.nid), "NID: "+getValue(detailmaps, "nationalId", false));
+        fillValue((TextView) convertView.findViewById(R.id.nid), "NID: \n"+getValue(detailmaps, "nationalId", false));
 
         final String lmpstring = Utils.getValue(pc.getColumnmaps(), "lmp", false);
         Log.v("lmpstring",lmpstring);
