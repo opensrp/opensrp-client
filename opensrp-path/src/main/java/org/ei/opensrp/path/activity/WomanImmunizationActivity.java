@@ -757,7 +757,7 @@ public class WomanImmunizationActivity extends BaseActivity
 
         ft.addToBackStack(null);
         vaccineGroup.setModalOpen(true);
-        String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+        String dobString = Utils.getValue(childDetails.getColumnmaps(), "lmp", false);
         Date dob = Calendar.getInstance().getTime();
         if (!TextUtils.isEmpty(dobString)) {
             DateTime dateTime = new DateTime(dobString);
