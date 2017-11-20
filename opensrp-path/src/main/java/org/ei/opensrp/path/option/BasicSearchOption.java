@@ -46,8 +46,8 @@ public class BasicSearchOption implements FilterOption {
                 && currentclient.getDetails().get("first_name").toLowerCase().contains(filter.toLowerCase())) {
             return true;
         }
-        if(currentclient.getDetails().get("zeir_id") != null
-                && currentclient.getDetails().get("zeir_id").equalsIgnoreCase(filter)) {
+        if(currentclient.getDetails().get("openmrs_id") != null
+                && currentclient.getDetails().get("openmrs_id").equalsIgnoreCase(filter)) {
             return true;
         }
         if(currentclient.getDetails().get("existing_zeir_id") != null

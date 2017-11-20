@@ -150,10 +150,10 @@ public class VaccinatorApplication extends DrishtiApplication
 
     private static String[] getFtsSearchFields(String tableName) {
         if (tableName.equals(PathConstants.CHILD_TABLE_NAME)) {
-            String[] ftsSearchFileds = {"zeir_id", "epi_card_number", "first_name", "last_name"};
+            String[] ftsSearchFileds = {"openmrs_id", "epi_card_number", "first_name", "last_name"};
             return ftsSearchFileds;
         } else if (tableName.equals(PathConstants.MOTHER_TABLE_NAME)) {
-            String[] ftsSearchFileds = {"zeir_id", "epi_card_number", "first_name", "last_name", "father_name", "husband_name", "contact_phone_number"};
+            String[] ftsSearchFileds = {"openmrs_id", "epi_card_number", "first_name", "last_name", "father_name", "husband_name", "contact_phone_number"};
             return ftsSearchFileds;
         }
         return null;
@@ -167,7 +167,7 @@ public class VaccinatorApplication extends DrishtiApplication
             List<String> names = new ArrayList<>();
             names.add("first_name");
             names.add("dob");
-            names.add("zeir_id");
+            names.add("openmrs_id");
             names.add("last_interacted_with");
             names.add("inactive");
             names.add("lost_to_follow_up");
@@ -179,7 +179,7 @@ public class VaccinatorApplication extends DrishtiApplication
 
             return names.toArray(new String[names.size()]);
         } else if (tableName.equals(PathConstants.MOTHER_TABLE_NAME)) {
-            String[] sortFields = {"first_name", "dob", "zeir_id", "last_interacted_with"};
+            String[] sortFields = {"first_name", "dob", "openmrs_id", "last_interacted_with"};
             return sortFields;
         }
         return null;

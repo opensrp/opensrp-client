@@ -474,7 +474,6 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                         jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(childDetails.getColumnmaps(), "last_name", true));
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Sex")) {
-                        jsonObject.put(JsonFormUtils.READ_ONLY, true);
                         jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(childDetails.getColumnmaps(), "gender", true));
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase(JsonFormUtils.OpenMRS_ID)) {
@@ -485,7 +484,6 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                         jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "Child_Register_Card_Number", true));
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Child_Birth_Certificate")) {
-                        jsonObject.put(JsonFormUtils.READ_ONLY, true);
                         jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "Child_Birth_Certificate", true));
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Mother_Guardian_First_Name")) {
@@ -518,11 +516,11 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Father_Guardian_Name")) {
                         jsonObject.put(JsonFormUtils.READ_ONLY, true);
-                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "Father_Guardian_Name", true));
+                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "father_name", true));
                     }
-                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Father_Guardian_NRC")) {
+                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Birth_Facility_Name")) {
                         jsonObject.put(JsonFormUtils.READ_ONLY, true);
-                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "Father_NRC_Number", true));
+                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "Birth_Facility_Name", true));
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("HIE_FACILITIES")) {
                         jsonObject.put(JsonFormUtils.VALUE, birthFacilityHierarchy);
@@ -571,19 +569,6 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Residential_Address")) {
                         jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "address2", true));
-                    }
-                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Physical_Landmark")) {
-                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "address1", true));
-                    }
-                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("CHW_Name")) {
-                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "CHW_Name", true));
-                    }
-                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("CHW_Phone_Number")) {
-                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "CHW_Phone_Number", true));
-                    }
-                    if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("PMTCT_Status")) {
-                        jsonObject.put(JsonFormUtils.READ_ONLY, true);
-                        jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "PMTCT_Status", true));
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Home_Facility")) {
                         JSONArray homeFacilityHierarchy = JsonFormUtils.getOpenMrsLocationHierarchy(

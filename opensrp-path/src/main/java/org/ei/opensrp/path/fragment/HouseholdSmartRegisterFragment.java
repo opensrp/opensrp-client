@@ -346,8 +346,8 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 filter("Where ((first_name Like '%"+s.toString()+"%' or HHID Like '%"+s.toString()+"%')" +
-                        " or ec_household.id in (select ec_mother.relational_id from ec_mother where ec_mother.first_name like '%" +s.toString()+"%')" +
-                        "or ec_household.id in (select ec_mother.relational_id from ec_mother where ec_mother.id in (select ec_child.relational_id from ec_child where ec_child.first_name like '%" +s.toString()+"%')))"
+                        " or ec_household.id in (select ec_mother.relational_id from ec_mother where ec_mother.first_name like '%" +s.toString()+"%' or ec_mother.openmrs_id like '%" +s.toString()+"%')" +
+                        "or ec_household.id in (select ec_mother.relational_id from ec_mother where ec_mother.id in (select ec_child.relational_id from ec_child where ec_child.first_name like '%" +s.toString()+"%' or ec_child.openmrs_id like '%" +s.toString()+"%')))"
                         ,"","");
             }
 
