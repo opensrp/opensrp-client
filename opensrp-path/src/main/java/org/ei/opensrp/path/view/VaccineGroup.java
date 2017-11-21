@@ -24,6 +24,7 @@ import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -61,6 +62,7 @@ public class VaccineGroup extends LinearLayout implements View.OnClickListener,
     private OnVaccineClickedListener onVaccineClickedListener;
     private OnVaccineUndoClickListener onVaccineUndoClickListener;
     private SimpleDateFormat READABLE_DATE_FORMAT = new SimpleDateFormat("dd MMMM, yyyy", Locale.US);
+    private SimpleDateFormat simple_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
     private boolean modalOpen;
     private String type;
 
@@ -159,8 +161,20 @@ public class VaccineGroup extends LinearLayout implements View.OnClickListener,
     public void updateViews(ArrayList<VaccineWrapper> vaccinesToUpdate) {
         this.state = State.IN_PAST;
         if (this.vaccineData != null) {
-            String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
-            DateTime dateTime = new DateTime(dobString);
+            String dobString = "";
+            DateTime dateTime = null;
+            if(type.equalsIgnoreCase("child")) {
+                dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+                dateTime = new DateTime(dobString);
+            }else if(type.equalsIgnoreCase("mother")){
+                dobString = Utils.getValue(childDetails.getColumnmaps(), "lmp", false);
+                try {
+                    dateTime = new DateTime(simple_DATE_FORMAT.parse(dobString));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+
             Date dob = dateTime.toDate();
             Calendar today = Calendar.getInstance();
             today.set(Calendar.HOUR, 0);
@@ -193,9 +207,21 @@ public class VaccineGroup extends LinearLayout implements View.OnClickListener,
                             vaccineData.getString("name"), context.getString(R.string.today)));
                     break;
                 case IN_FUTURE:
-                    String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+                    String dobString = "";
+                    DateTime dateTime = null;
+                    if(type.equalsIgnoreCase("child")) {
+                        dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+                        dateTime = new DateTime(dobString);
+                    }else if(type.equalsIgnoreCase("mother")){
+                        dobString = Utils.getValue(childDetails.getColumnmaps(), "lmp", false);
+                        try {
+                            dateTime = new DateTime(simple_DATE_FORMAT.parse(dobString));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     Calendar dobCalender = Calendar.getInstance();
-                    DateTime dateTime = new DateTime(dobString);
+//                    DateTime dateTime = new DateTime(dobString);
                     dobCalender.setTime(dateTime.toDate());
                     dobCalender.add(Calendar.DATE, vaccineData.getInt("days_after_birth_due"));
                     nameTV.setText(String.format(context.getString(R.string.due_),

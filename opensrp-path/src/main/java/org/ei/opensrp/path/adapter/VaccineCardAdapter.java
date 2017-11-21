@@ -15,6 +15,8 @@ import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -34,6 +36,7 @@ public class VaccineCardAdapter extends BaseAdapter {
     private HashMap<String, VaccineCard> vaccineCards;
     private final VaccineGroup vaccineGroup;
     private final String type;
+    private SimpleDateFormat simple_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
 
     public VaccineCardAdapter(Context context, VaccineGroup vaccineGroup,String type) throws JSONException {
         this.context = context;
@@ -79,11 +82,22 @@ public class VaccineCardAdapter extends BaseAdapter {
                 vaccineWrapper.setGender(vaccineGroup.getChildDetails().getDetails().get("gender"));
                 vaccineWrapper.setName(vaccineName);
                 vaccineWrapper.setDefaultName(vaccineName);
-
-                String dobString = Utils.getValue(vaccineGroup.getChildDetails().getColumnmaps(), "dob", false);
-                if (StringUtils.isNotBlank(dobString)) {
+                DateTime dateTime = null;
+                String dobString = "";
+                if(type.equalsIgnoreCase("child")) {
+                    dobString = Utils.getValue(vaccineGroup.getChildDetails().getColumnmaps(), "dob", false);
+                    dateTime = new DateTime(dobString);
+                }else if(type.equalsIgnoreCase("mother")){
+                    dobString = Utils.getValue(vaccineGroup.getChildDetails().getColumnmaps(), "lmp", false);
+                    try {
+                        dateTime = new DateTime(simple_DATE_FORMAT.parse(dobString));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (StringUtils.isNotBlank(dobString) && dateTime != null) {
                     Calendar dobCalender = Calendar.getInstance();
-                    DateTime dateTime = new DateTime(dobString);
+//                    DateTime dateTime = new DateTime(dobString);
                     dobCalender.setTime(dateTime.toDate());
                     dobCalender.add(Calendar.DATE, vaccineGroup.getVaccineData().getInt("days_after_birth_due"));
                     vaccineWrapper.setVaccineDate(new DateTime(dobCalender.getTime()));
