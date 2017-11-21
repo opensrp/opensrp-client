@@ -286,7 +286,7 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
                 state = State.EXPIRED;
             }
         } else {
-            state = State.WAITING;
+//            state = State.WAITING;
         }
 
 

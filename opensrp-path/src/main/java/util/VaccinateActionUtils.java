@@ -323,7 +323,7 @@ public class VaccinateActionUtils {
 
             case measles2:
             case mr2:
-                return "18 months";
+                return "15 months";
             case tt1:
                 return "After LMP";
             case tt2:

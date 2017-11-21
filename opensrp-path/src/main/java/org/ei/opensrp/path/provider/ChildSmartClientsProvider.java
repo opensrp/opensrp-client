@@ -246,7 +246,7 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
                 state = State.EXPIRED;
             }
         } else {
-            state = State.WAITING;
+//            state = State.WAITING;
         }
 
 

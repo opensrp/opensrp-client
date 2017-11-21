@@ -421,48 +421,6 @@
             ]
           }
         }
-      },
-      {
-        "name": "OPV 4",
-        "type": "OPV",
-        "openmrs_date": {
-          "parent_entity": "783AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "entity": "concept",
-          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-        },
-        "openmrs_calculate": {
-          "parent_entity": "783AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "entity": "concept",
-          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "calculation": 4
-        },
-        "schedule": {
-          "due": [
-            {
-              "reference": "dob",
-              "offset": "+9m",
-              "window": "+10d"
-            }
-          ],
-          "expiry": [
-            {
-              "reference": "dob",
-              "offset": "+5y"
-            }
-          ],
-          "conditions": [
-            {
-              "type": "not_given",
-              "vaccine": "OPV 0"
-            },
-            {
-              "type": "given",
-              "vaccine": "OPV 3",
-              "comparison": "at_least",
-              "value": "-28d"
-            }
-          ]
-        }
       }
     ]
   },
