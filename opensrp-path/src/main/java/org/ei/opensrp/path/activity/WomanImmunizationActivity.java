@@ -758,9 +758,16 @@ public class WomanImmunizationActivity extends BaseActivity
         ft.addToBackStack(null);
         vaccineGroup.setModalOpen(true);
         String dobString = Utils.getValue(childDetails.getColumnmaps(), "lmp", false);
+        SimpleDateFormat simpleDATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+
         Date dob = Calendar.getInstance().getTime();
         if (!TextUtils.isEmpty(dobString)) {
-            DateTime dateTime = new DateTime(dobString);
+            DateTime dateTime = null;
+            try {
+                dateTime = new DateTime(simpleDATE_FORMAT.parse(dobString));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             dob = dateTime.toDate();
         }
 
