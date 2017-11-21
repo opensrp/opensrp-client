@@ -50,7 +50,6 @@
     },
     "encounter_location": "",
     "look_up": {
-        "household_id":"",
         "entity_id":"",
         "value":""
     }
@@ -179,6 +178,7 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "person",
         "openmrs_entity_id": "first_name",
+        "household_id":"",
         "entity_id": "mother",
         "type": "edit_text",
         "hint": "মা/অবিভাবকের নাম *",

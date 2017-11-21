@@ -34,12 +34,16 @@ public class PathEditTextFactory extends EditTextFactory {
     public void attachJson(String stepName, Context context, JsonFormFragment formFragment, JSONObject jsonObject, MaterialEditText editText) throws Exception {
         super.attachJson(stepName, context, formFragment, jsonObject, editText);
 
+//        String household_id = jsonObject.getString("household_id");
+        String household_id = "";
+        if (jsonObject.has("household_id")){
+            household_id = jsonObject.getString("household_id");
+        }
         // lookup hook
         if (jsonObject.has("look_up") && jsonObject.get("look_up").toString().equalsIgnoreCase(Boolean.TRUE.toString())) {
 
             String entityId = jsonObject.getString("entity_id");
 
-            String household_id = jsonObject.getString("household_id");
 
             Map<String, List<View>> lookupMap = formFragment.getLookUpMap();
             List<View> lookUpViews = new ArrayList<>();

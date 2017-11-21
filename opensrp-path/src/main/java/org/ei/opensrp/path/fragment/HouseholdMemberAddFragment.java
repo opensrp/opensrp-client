@@ -189,7 +189,6 @@ public class HouseholdMemberAddFragment extends DialogFragment {
             form.getJSONObject("metadata").put("encounter_location", currentLocationId);
 
             if (formName.equals("child_enrollment")) {
-                form.getJSONObject("metadata").getJSONObject("look_up").put("household_id", HouseholdEnitityID);
                 if (StringUtils.isBlank(entityId)) {
                     UniqueIdRepository uniqueIdRepo = VaccinatorApplication.getInstance().uniqueIdRepository();
                     entityId = uniqueIdRepo.getNextUniqueId() != null ? uniqueIdRepo.getNextUniqueId().getOpenmrsId() : "";
@@ -224,6 +223,9 @@ public class HouseholdMemberAddFragment extends DialogFragment {
                     }else if(jsonObject.getString(JsonFormUtils.KEY)
                             .equalsIgnoreCase("HIE_FACILITIES")){
                         jsonObject.put(JsonFormUtils.VALUE, birthFacilityHierarchy);
+                    }else if(jsonObject.getString(JsonFormUtils.KEY)
+                            .equalsIgnoreCase("Mother_Guardian_First_Name")){
+                        jsonObject.put("household_id", HouseholdEnitityID);
                     }
                 }
             } else if (formName.equals("out_of_catchment_service")) {

@@ -30,8 +30,6 @@ public class PathDatePickerFactory extends DatePickerFactory {
             if (jsonObject.has("look_up") && jsonObject.get("look_up").toString().equalsIgnoreCase(Boolean.TRUE.toString())) {
 
                 String entityId = jsonObject.getString("entity_id");
-                String household_id = jsonObject.getString("household_id");
-
 
                 Map<String, List<View>> lookupMap = formFragment.getLookUpMap();
                 List<View> lookUpViews = new ArrayList<>();
@@ -45,7 +43,7 @@ public class PathDatePickerFactory extends DatePickerFactory {
 
                 lookupMap.put(entityId, lookUpViews);
 
-                editText.addTextChangedListener(new LookUpTextWatcher(formFragment, editText, entityId,household_id));
+                editText.addTextChangedListener(new LookUpTextWatcher(formFragment, editText, entityId,""));
                 editText.setTag(com.vijay.jsonwizard.R.id.after_look_up, false);
             }
 

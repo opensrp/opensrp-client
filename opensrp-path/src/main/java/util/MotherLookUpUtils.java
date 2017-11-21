@@ -23,6 +23,7 @@ import java.util.Map;
 
 import static android.view.View.VISIBLE;
 import static android.view.View.combineMeasuredStates;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static util.Utils.getValue;
 
 /**
@@ -158,7 +159,10 @@ public class MotherLookUpUtils {
 
         );
         queryBUilder.mainCondition(getMainConditionString(entityMap));
-        String query = queryBUilder.addCondition("relational_id = ?"+relationalid);
+        if(!isBlank(relationalid)){
+            queryBUilder.addCondition("and relational_id = '"+relationalid+"'");
+        }
+        String query = queryBUilder.getSelectquery();
         return queryBUilder.Endquery(query);
     }
 
@@ -186,14 +190,14 @@ public class MotherLookUpUtils {
             }
 
             if (!key.equals(dob)) {
-                if (StringUtils.isBlank(mainConditionString)) {
+                if (isBlank(mainConditionString)) {
                     mainConditionString += " " + key + " Like '%" + value + "%'";
                 } else {
                     mainConditionString += " AND " + key + " Like '%" + value + "%'";
 
                 }
             } else {
-                if (StringUtils.isBlank(mainConditionString)) {
+                if (isBlank(mainConditionString)) {
                     mainConditionString += " cast(" + key + " as date) " + " =  cast('" + value + "'as date) ";
                 } else {
                     mainConditionString += " AND cast(" + key + " as date) " + " =  cast('" + value + "'as date) ";
