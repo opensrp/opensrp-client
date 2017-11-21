@@ -247,13 +247,17 @@
         "openmrs_data_type": "text",
         "type": "edit_text",
         "hint": "EPI কার্ড নাম্বার ",
+        "v_required": {
+          "value": false,
+          "err": "Enter EPI number."
+        },
         "v_numeric": {
           "value": "true",
           "err": "Please Enter 8 digit EPI number"
         },
-        "v_max_length":{
-          "value" : "8",
-          "err" : "Max length can be at most 8."
+        "v_regex": {
+          "value": "([0-9]{8})|\s*",
+          "err": "Please Enter 8 digit EPI number"
         }
       },
       {
@@ -413,20 +417,19 @@
         }
       },
       {
-        "key": "edd_lmp",
+        "key": "know_lmp",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "concept",
-        "openmrs_entity_id": "50b7f374-9406-49d1-bcfb-9bf613184030",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "আপনি আপনার এলএমপি, ইডিডি বা শেষ আলট্রাসাউন্ড তথ্য জানেন?",
+        "hint": "আপনি আপনার এলএমপি তথ্য জানেন?",
         "values":[
-          "LMP",
-          "EDD",
-          "UltraSound"
+          "Yes",
+          "No"
         ]
       },
-         {
+      {
         "key": "lmp",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
@@ -439,12 +442,31 @@
           "err": "Please Enter LMP date"
         },
         "relevance": {
-          "step1:edd_lmp": {
+          "step1:know_lmp": {
             "type": "string",
-            "ex": "equalTo(., \"LMP\")"
+            "ex": "equalTo(., \"Yes\")"
           }
         },
         "max_date": "today"
+      },
+      {
+        "key": "edd_lmp",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "50b7f374-9406-49d1-bcfb-9bf613184030",
+        "openmrs_data_type": "text",
+        "type": "spinner",
+        "hint": "আপনি আপনার ইডিডি বা শেষ আলট্রাসাউন্ড তথ্য জানেন?",
+        "values":[
+          "EDD",
+          "UltraSound"
+        ],
+        "relevance": {
+          "step1:pregnant": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
+          }
+        }
       },
       {
         "key": "edd",
@@ -462,6 +484,10 @@
           "step1:edd_lmp": {
             "type": "string",
             "ex": "equalTo(., \"EDD\")"
+          },
+          "step1:pregnant": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
           }
         },
         "min_date": "today"
@@ -482,6 +508,10 @@
           "step1:edd_lmp": {
             "type": "string",
             "ex": "equalTo(., \"UltraSound\")"
+          },
+          "step1:pregnant": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
           }
         },
         "max_date": "today"
@@ -510,6 +540,10 @@
           "step1:edd_lmp": {
             "type": "string",
             "ex": "equalTo(., \"UltraSound\")"
+          },
+          "step1:pregnant": {
+            "type": "string",
+            "ex": "equalTo(., \"Yes\")"
           }
         }
       }
