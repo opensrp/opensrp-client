@@ -160,7 +160,7 @@
         "key": "member_BRID",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "nationalId",
+        "openmrs_entity_id": "birthRegistrationId",
         "openmrs_data_type": "text",
         "type": "edit_text",
         "hint": "BRID টাইপ করুন",

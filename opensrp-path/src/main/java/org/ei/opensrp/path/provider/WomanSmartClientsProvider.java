@@ -66,6 +66,7 @@ import widget.FlowIndicator;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.ei.opensrp.path.activity.WomanImmunizationActivity.DATE_FORMAT;
 import static org.ei.opensrp.path.activity.WomanSmartRegisterActivity.REQUEST_CODE_GET_JSON;
 import static util.Utils.fillValue;
@@ -147,8 +148,16 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
 
         String husbandname = getValue(detailmaps, "spouseName", false);
         fillValue((TextView) convertView.findViewById(R.id.spousename), husbandname);
-
-        fillValue((TextView) convertView.findViewById(R.id.nid), "NID: \n"+getValue(detailmaps, "nationalId", false));
+        if(!isBlank(getValue(detailmaps, "nationalId", false))) {
+            ((TextView) convertView.findViewById(R.id.nid)).setVisibility(View.VISIBLE);
+            ((TextView) convertView.findViewById(R.id.brid)).setVisibility(View.GONE);
+            fillValue((TextView) convertView.findViewById(R.id.nid), "NID: \n" + getValue(detailmaps, "nationalId", false));
+        }
+        if(!isBlank(getValue(detailmaps, "birthRegistrationId", false))) {
+            ((TextView) convertView.findViewById(R.id.nid)).setVisibility(View.GONE);
+            ((TextView) convertView.findViewById(R.id.brid)).setVisibility(View.VISIBLE);
+            fillValue((TextView) convertView.findViewById(R.id.brid), "BRID: \n" + getValue(detailmaps, "birthRegistrationId", false));
+        }
 
         final String lmpstring = Utils.getValue(pc.getColumnmaps(), "lmp", false);
         Log.v("lmpstring",lmpstring);
@@ -173,6 +182,11 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
 
             }
         });
+        if(!isBlank(getValue(detailmaps, "maritial_status", false))){
+            if(!getValue(detailmaps, "maritial_status", false).equalsIgnoreCase("Married")){
+                add_child.setEnabled(false);
+            }
+        }
 //        Intent intent = new Intent(context, PathJsonFormActivity.class);
 //
 //        intent.putExtra("json", metadata);

@@ -39,6 +39,8 @@ public class PathEditTextFactory extends EditTextFactory {
 
             String entityId = jsonObject.getString("entity_id");
 
+            String household_id = jsonObject.getString("household_id");
+
             Map<String, List<View>> lookupMap = formFragment.getLookUpMap();
             List<View> lookUpViews = new ArrayList<>();
             if (lookupMap.containsKey(entityId)) {
@@ -50,7 +52,7 @@ public class PathEditTextFactory extends EditTextFactory {
             }
             lookupMap.put(entityId, lookUpViews);
 
-            editText.addTextChangedListener(new LookUpTextWatcher(formFragment, editText, entityId));
+            editText.addTextChangedListener(new LookUpTextWatcher(formFragment, editText, entityId,household_id));
             editText.setTag(com.vijay.jsonwizard.R.id.after_look_up, false);
         }
 

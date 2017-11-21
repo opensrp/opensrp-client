@@ -37,13 +37,13 @@ public class MotherLookUpUtils {
     public static final String dob = "dob";
     public static final String baseEntityId = "base_entity_id";
 
-    public static void motherLookUp(final Context context, final EntityLookUp entityLookUp, final Listener<HashMap<CommonPersonObject, List<CommonPersonObject>>> listener, final ProgressBar progressBar) {
+    public static void motherLookUp(final Context context, final EntityLookUp entityLookUp, final Listener<HashMap<CommonPersonObject, List<CommonPersonObject>>> listener, final ProgressBar progressBar, final String householdID) {
 
         Utils.startAsyncTask(new AsyncTask<Void, Void, HashMap<CommonPersonObject, List<CommonPersonObject>>>() {
             @Override
             protected HashMap<CommonPersonObject, List<CommonPersonObject>> doInBackground(Void... params) {
                 publishProgress();
-                return lookUp(context, entityLookUp);
+                return lookUp(context, entityLookUp,householdID);
             }
 
             @Override
@@ -63,7 +63,7 @@ public class MotherLookUpUtils {
         }, null);
     }
 
-    private static HashMap<CommonPersonObject, List<CommonPersonObject>> lookUp(Context context, EntityLookUp entityLookUp) {
+    private static HashMap<CommonPersonObject, List<CommonPersonObject>> lookUp(Context context, EntityLookUp entityLookUp,String householdid) {
         HashMap<CommonPersonObject, List<CommonPersonObject>> results = new HashMap<>();
         if (context == null) {
             return results;
@@ -82,7 +82,7 @@ public class MotherLookUpUtils {
         List<CommonPersonObject> motherList = new ArrayList<CommonPersonObject>();
 
         CommonRepository commonRepository = context.commonrepository(tableName);
-        String query = lookUpQuery(entityLookUp.getMap(), tableName);
+        String query = lookUpQuery(entityLookUp.getMap(), tableName,householdid);
 
         Cursor cursor = null;
         try {
@@ -137,7 +137,7 @@ public class MotherLookUpUtils {
 
     }
 
-    private static String lookUpQuery(Map<String, String> entityMap, String tableName) {
+    private static String lookUpQuery(Map<String, String> entityMap, String tableName , String relationalid) {
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
         queryBUilder.SelectInitiateMainTable(tableName, new String[]
@@ -151,12 +151,14 @@ public class MotherLookUpUtils {
                                 "gender",
                                 "dob",
                                 "nrc_number",
+                                "relational_id",
                                 "contact_phone_number",
                                 "base_entity_id"
                         }
 
         );
-        String query = queryBUilder.mainCondition(getMainConditionString(entityMap));
+        queryBUilder.mainCondition(getMainConditionString(entityMap));
+        String query = queryBUilder.addCondition("relational_id = ?"+relationalid);
         return queryBUilder.Endquery(query);
     }
 

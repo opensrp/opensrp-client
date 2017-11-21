@@ -50,6 +50,7 @@
     },
     "encounter_location": "",
     "look_up": {
+        "household_id":"",
         "entity_id":"",
         "value":""
     }
