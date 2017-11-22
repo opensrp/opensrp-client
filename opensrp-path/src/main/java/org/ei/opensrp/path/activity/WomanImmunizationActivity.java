@@ -5,11 +5,16 @@ import android.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
@@ -56,6 +61,7 @@ import org.ei.opensrp.path.toolbar.LocationSwitcherToolbar;
 import org.ei.opensrp.path.view.ServiceGroup;
 import org.ei.opensrp.path.view.SiblingPicturesGroup;
 import org.ei.opensrp.path.view.VaccineGroup;
+import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.util.OpenSRPImageLoader;
@@ -66,6 +72,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.opensrp.api.constants.Gender;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -107,12 +114,15 @@ public class WomanImmunizationActivity extends BaseActivity
     private static final String EXTRA_REGISTER_CLICKABLES = "register_clickables";
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
     private static final String DIALOG_TAG = "ChildImmunoActivity_DIALOG_TAG";
+    static final int REQUEST_TAKE_PHOTO = 1;
     private ArrayList<VaccineGroup> vaccineGroups;
     private ArrayList<ServiceGroup> serviceGroups;
     private static final ArrayList<String> COMBINED_VACCINES;
     private static final HashMap<String, String> COMBINED_VACCINES_MAP;
     private boolean bcgScarNotificationShown;
     private boolean weightNotificationShown;
+    public static Gender gender;
+    private File currentfile;
 
     static {
         COMBINED_VACCINES = new ArrayList<>();
@@ -258,6 +268,13 @@ public class WomanImmunizationActivity extends BaseActivity
                 DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(childDetails.entityId(), OpenSRPImageLoader.getStaticImageListener((ImageView) profileImageIV, R.drawable.woman_path_register_logo, R.drawable.woman_path_register_logo));
 
             }
+
+            profileImageIV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dispatchTakePictureIntent();
+                }
+            });
         }
     }
 
@@ -654,7 +671,82 @@ public class WomanImmunizationActivity extends BaseActivity
         }
         return String.format("%s > %s", getString(R.string.app_name), name.trim());
     }
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
 
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                currentfile = photoFile;
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        Uri.fromFile(photoFile));
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+//        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        return image;
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == REQUEST_CODE_GET_JSON) {
+//            if (resultCode == RESULT_OK) {
+//                try {
+//                    String jsonString = data.getStringExtra("json");
+//                    Log.d("JSONResult", jsonString);
+//
+//                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//                    AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
+//
+//                    JSONObject form = new JSONObject(jsonString);
+//                    if (form.getString("encounter_type").equals("Death")) {
+//                        confirmReportDeceased(jsonString, allSharedPreferences);
+//                    } else if (form.getString("encounter_type").equals("Birth Registration")) {
+//                        JsonFormUtils.editsave(this, getOpenSRPContext(), jsonString, allSharedPreferences.fetchRegisteredANM(), "Child_Photo", "child", "mother");
+//                    } else if (form.getString("encounter_type").equals("AEFI")) {
+//                        JsonFormUtils.saveAdverseEvent(jsonString, location_name,
+//                                childDetails.entityId(), allSharedPreferences.fetchRegisteredANM());
+//                    }
+//                    childDataFragment.childDetails = childDetails;
+//                    childDataFragment.loadData();
+//                } catch (Exception e) {
+//                    Log.e(TAG, e.getMessage());
+//                }
+//            }
+//        } else
+        if (requestCode == REQUEST_TAKE_PHOTO) {
+            if (resultCode == RESULT_OK) {
+                String imageLocation = currentfile.getAbsolutePath();
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
+
+                JsonFormUtils.saveImage(this, allSharedPreferences.fetchRegisteredANM(), childDetails.entityId(), imageLocation);
+                updateProfilePicture(gender);
+            }
+        }
+    }
     @Override
     public void onLocationChanged(final String newLocation) {
         // TODO: Do whatever needs to be done when the location is changed

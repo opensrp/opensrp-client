@@ -2,8 +2,13 @@ package org.ei.opensrp.path.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.DrawerLayout;
@@ -13,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -37,10 +41,15 @@ import org.ei.opensrp.view.customControls.CustomFontTextView;
 import org.joda.time.DateTime;
 import org.opensrp.api.constants.Gender;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import util.DateUtils;
 import util.ImageUtils;
+import util.JsonFormUtils;
 import util.PathConstants;
 import util.Utils;
 
@@ -59,6 +68,11 @@ public class HouseholdDetailActivity extends BaseActivity {
 
     private CommonPersonObjectClient householdDetails;
     private static final String EXTRA_HOUSEHOLD_DETAILS = "household_details";
+
+
+    static final int REQUEST_TAKE_PHOTO = 1;
+    public static Gender gender;
+    private File currentfile;
 
 
     @Override
@@ -120,9 +134,16 @@ public class HouseholdDetailActivity extends BaseActivity {
         ImageView profileImageIV = (ImageView)findViewById(R.id.profile_image_iv);
         String entityid = householdDetails.getDetails().get("_id");
         if(entityid!=null) {
+            profileImageIV.setTag(org.ei.opensrp.R.id.entity_id, entityid);
             DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(entityid, OpenSRPImageLoader.getStaticImageListener((ImageView) profileImageIV, R.drawable.houshold_register_placeholder, R.drawable.houshold_register_placeholder));
 
         }
+        profileImageIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchTakePictureIntent();
+            }
+        });
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -160,6 +181,93 @@ public class HouseholdDetailActivity extends BaseActivity {
         context = org.ei.opensrp.Context.getInstance().updateApplicationContext(this.getApplicationContext());
         VTR = new Vaccine_typesRepository((PathRepository) VaccinatorApplication.getInstance().getRepository(),VaccinatorApplication.createCommonFtsObject(),context.alertService());
         //get Household members repository
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                currentfile = photoFile;
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        Uri.fromFile(photoFile));
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+//        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        return image;
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        refreshadapter();
+//        if (requestCode == REQUEST_CODE_GET_JSON) {
+//            if (resultCode == RESULT_OK) {
+//                try {
+//                    String jsonString = data.getStringExtra("json");
+//                    Log.d("JSONResult", jsonString);
+//
+//                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//                    AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
+//
+//                    JSONObject form = new JSONObject(jsonString);
+//                    if (form.getString("encounter_type").equals("Death")) {
+//                        confirmReportDeceased(jsonString, allSharedPreferences);
+//                    } else if (form.getString("encounter_type").equals("Birth Registration")) {
+//                        JsonFormUtils.editsave(this, getOpenSRPContext(), jsonString, allSharedPreferences.fetchRegisteredANM(), "Child_Photo", "child", "mother");
+//                    } else if (form.getString("encounter_type").equals("AEFI")) {
+//                        JsonFormUtils.saveAdverseEvent(jsonString, location_name,
+//                                childDetails.entityId(), allSharedPreferences.fetchRegisteredANM());
+//                    }
+//                    childDataFragment.childDetails = childDetails;
+//                    childDataFragment.loadData();
+//                } catch (Exception e) {
+//                    Log.e(TAG, e.getMessage());
+//                }
+//            }
+//        } else
+        if (requestCode == REQUEST_TAKE_PHOTO) {
+            if (resultCode == RESULT_OK) {
+                String imageLocation = currentfile.getAbsolutePath();
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
+                String entityid = householdDetails.getDetails().get("_id");
+                JsonFormUtils.saveImage(this, allSharedPreferences.fetchRegisteredANM(), entityid, imageLocation);
+                updateProfilePicture(entityid);
+            }
+        }
+    }
+
+    private void updateProfilePicture(String entityid) {
+        if(entityid!=null) {
+            ImageView profileImageIV = (ImageView)findViewById(R.id.profile_image_iv);
+            profileImageIV.setTag(org.ei.opensrp.R.id.entity_id, entityid);
+            DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(entityid, OpenSRPImageLoader.getStaticImageListener((ImageView) profileImageIV, R.drawable.houshold_register_placeholder, R.drawable.houshold_register_placeholder));
+
+        }
     }
 
     private void initQueries(){
