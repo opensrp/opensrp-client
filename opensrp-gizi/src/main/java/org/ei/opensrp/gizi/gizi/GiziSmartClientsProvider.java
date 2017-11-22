@@ -33,6 +33,7 @@ import org.ei.opensrp.view.viewHolder.OnClickFormLauncher;
 import java.io.File;
 import java.text.SimpleDateFormat;
 
+import util.ZScore.ZScoreSystemCalculation;
 import util.formula.Support;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
@@ -71,34 +72,34 @@ public class GiziSmartClientsProvider implements SmartRegisterCLientsProviderFor
     public void getView(SmartRegisterClient smartRegisterClient, View convertView) {
         ViewHolder viewHolder;
 
-        if(convertView.getTag() == null || !(convertView.getTag() instanceof  ViewHolder)){
+        if (convertView.getTag() == null || !(convertView.getTag() instanceof ViewHolder)) {
             viewHolder = new ViewHolder();
-            viewHolder.profilelayout =  (LinearLayout)convertView.findViewById(R.id.profile_info_layout);
-            viewHolder.name = (TextView)convertView.findViewById(R.id.txt_child_name);
+            viewHolder.profilelayout = (LinearLayout) convertView.findViewById(R.id.profile_info_layout);
+            viewHolder.name = (TextView) convertView.findViewById(R.id.txt_child_name);
             viewHolder.fatherName = (TextView) convertView.findViewById(R.id.ParentName);
             viewHolder.subVillage = (TextView) convertView.findViewById(R.id.txt_child_subVillage);
-            viewHolder.age = (TextView)convertView.findViewById(R.id.txt_child_age);
+            viewHolder.age = (TextView) convertView.findViewById(R.id.txt_child_age);
             viewHolder.dateOfBirth = (TextView) convertView.findViewById(R.id.txt_child_date_of_birth);
-            viewHolder.gender = (TextView)convertView.findViewById(R.id.txt_child_gender);
-            viewHolder.visitDate = (TextView)convertView.findViewById(R.id.txt_child_visit_date);
-            viewHolder.height = (TextView)convertView.findViewById(R.id.txt_child_height);
-            viewHolder.weight = (TextView)convertView.findViewById(R.id.txt_child_weight);
-            viewHolder.underweight = (TextView)convertView.findViewById(R.id.txt_child_underweight);
-            viewHolder.stunting_status = (TextView)convertView.findViewById(R.id.txt_child_stunting);
-            viewHolder.wasting_status = (TextView)convertView.findViewById(R.id.txt_child_wasting);
+            viewHolder.gender = (TextView) convertView.findViewById(R.id.txt_child_gender);
+            viewHolder.visitDate = (TextView) convertView.findViewById(R.id.txt_child_visit_date);
+            viewHolder.height = (TextView) convertView.findViewById(R.id.txt_child_height);
+            viewHolder.weight = (TextView) convertView.findViewById(R.id.txt_child_weight);
+            viewHolder.underweight = (TextView) convertView.findViewById(R.id.txt_child_underweight);
+            viewHolder.stunting_status = (TextView) convertView.findViewById(R.id.txt_child_stunting);
+            viewHolder.wasting_status = (TextView) convertView.findViewById(R.id.txt_child_wasting);
 
-            viewHolder.absentAlert = (TextView)convertView.findViewById(R.id.absen);
-            viewHolder.weightText = (TextView)convertView.findViewById(R.id.weightSchedule);
-            viewHolder.weightLogo = (ImageView)convertView.findViewById(R.id.weightSymbol);
-            viewHolder.heightText = (TextView)convertView.findViewById(R.id.heightSchedule);
-            viewHolder.heightLogo = (ImageView)convertView.findViewById(R.id.heightSymbol);
-            viewHolder.vitALogo = (ImageView)convertView.findViewById(R.id.vitASymbol);
-            viewHolder.vitAText = (TextView)convertView.findViewById(R.id.vitASchedule);
-            viewHolder.antihelminticLogo = (ImageView)convertView.findViewById(R.id.antihelminticSymbol);
-            viewHolder.antihelminticText = (TextView)convertView.findViewById(R.id.antihelminticText);
+            viewHolder.absentAlert = (TextView) convertView.findViewById(R.id.absen);
+            viewHolder.weightText = (TextView) convertView.findViewById(R.id.weightSchedule);
+            viewHolder.weightLogo = (ImageView) convertView.findViewById(R.id.weightSymbol);
+            viewHolder.heightText = (TextView) convertView.findViewById(R.id.heightSchedule);
+            viewHolder.heightLogo = (ImageView) convertView.findViewById(R.id.heightSymbol);
+            viewHolder.vitALogo = (ImageView) convertView.findViewById(R.id.vitASymbol);
+            viewHolder.vitAText = (TextView) convertView.findViewById(R.id.vitASchedule);
+            viewHolder.antihelminticLogo = (ImageView) convertView.findViewById(R.id.antihelminticSymbol);
+            viewHolder.antihelminticText = (TextView) convertView.findViewById(R.id.antihelminticText);
 
-            viewHolder.profilepic =(ImageView)convertView.findViewById(R.id.profilepic);
-            viewHolder.follow_up = (ImageButton)convertView.findViewById(R.id.btn_edit);
+            viewHolder.profilepic = (ImageView) convertView.findViewById(R.id.profilepic);
+            viewHolder.follow_up = (ImageButton) convertView.findViewById(R.id.btn_edit);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -122,137 +123,163 @@ public class GiziSmartClientsProvider implements SmartRegisterCLientsProviderFor
 
         //start profile image
 //        viewHolder.profilepic.setTag(R.id.entity_id, pc.getCaseId());//required when saving file to disk
-        viewHolder.profilepic.setTag(R.id.entity_id, Support.getColumnmaps(pc,"_id"));//required when saving file to disk
+        viewHolder.profilepic.setTag(R.id.entity_id, Support.getColumnmaps(pc, "_id"));//required when saving file to disk
 
-        if (Support.getDetails(pc,"gender") != null) {
+        if (Support.getDetails(pc, "gender") != null) {
             util.formula.Support.setImagetoHolderFromUri((Activity) context,
-                    DrishtiApplication.getAppDir() + File.separator + Support.getDetails(pc,"base_entity_id") + ".JPEG",
-                    viewHolder.profilepic, Support.getDetails(pc,"gender").equals("female") ? R.drawable.child_girl_infant : R.drawable.child_boy_infant);
+                    DrishtiApplication.getAppDir() + File.separator + Support.getDetails(pc, "base_entity_id") + ".JPEG",
+                    viewHolder.profilepic, Support.getDetails(pc, "gender").equals("female") ? R.drawable.child_girl_infant : R.drawable.child_boy_infant);
         } else {
             Log.e(TAG, "getView: Gender is NOT SET");
         }
 
-        viewHolder.name.setText(Support.getDetails(pc,"namaBayi"));
-        String ages = Support.getColumnmaps(pc,"tanggalLahirAnak").substring(0, Support.getColumnmaps(pc,"tanggalLahirAnak").indexOf("T"));
+        viewHolder.name.setText(Support.getDetails(pc, "namaBayi"));
+        String dob = Support.getColumnmaps(pc, "tanggalLahirAnak");
+        dob = dob.length() > 7 ? dob.substring(0, dob.indexOf("T")) : dob;
+
         viewHolder.age.setVisibility(View.INVISIBLE);//.setText(Support.getDetails(pc,"tanggalLahirAnak")!= null ? Integer.toString(monthRangeToToday(ages))+" bln" : "");
 
         AllCommonsRepository childRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_anak");
         CommonPersonObject childobject = childRepository.findByCaseID(pc.entityId());
 
         AllCommonsRepository kirep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_kartu_ibu");
-        final CommonPersonObject kiparent = kirep.findByCaseID(Support.getColumnmaps(childobject,"relational_id"));
+        final CommonPersonObject kiparent = kirep.findByCaseID(Support.getColumnmaps(childobject, "relational_id"));
 
-        if(kiparent != null) {
+        if (kiparent != null) {
             detailsRepository.updateDetails(kiparent);
-            String namaayah = Support.getDetails(kiparent,"namaSuami") != null ? Support.getDetails(kiparent,"namaSuami") : "";
-            String namaibu = Support.getColumnmaps(kiparent,"namalengkap") != null ? Support.getColumnmaps(kiparent,"namalengkap") : "";
+            String namaayah = Support.getDetails(kiparent, "namaSuami") != null ? Support.getDetails(kiparent, "namaSuami") : "";
+            String namaibu = Support.getColumnmaps(kiparent, "namalengkap") != null ? Support.getColumnmaps(kiparent, "namalengkap") : "";
 
             viewHolder.fatherName.setText(String.format("%s,%s", namaibu, namaayah));
-            viewHolder.subVillage.setText(Support.getDetails(kiparent,"address1") != null ? Support.getDetails(kiparent,"address1") : "");
+            viewHolder.subVillage.setText(Support.getDetails(kiparent, "address1") != null ? Support.getDetails(kiparent, "address1") : "");
         }
 
 
-        String Tgl = Support.getDetails(pc,"tanggalLahirAnak");
+        String Tgl = Support.getDetails(pc, "tanggalLahirAnak");
 
-        if (Tgl != null && Tgl.contains("T"))
-           Tgl = Tgl.substring(0, Tgl.indexOf("T"));
+        if (Tgl.length() > 7) {
+            if (Tgl != null && Tgl.contains("T"))
+                Tgl = Tgl.substring(0, Tgl.indexOf("T"));
 
-        viewHolder.setAntihelminticVisibility(
-               dayRangeBetween(Tgl.split("-")
-                       ,new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()).split("-")
-               ) >= 365 ? View.VISIBLE : View.INVISIBLE
-        );
-        viewHolder.dateOfBirth.setText(Support.getDetails(pc,"tanggalLahirAnak")!=null?Tgl:"");
+            viewHolder.setAntihelminticVisibility(
+                    dayRangeBetween(Tgl.split("-")
+                            , new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()).split("-")
+                    ) >= 365 ? View.VISIBLE : View.INVISIBLE
+            );
+            viewHolder.dateOfBirth.setText(Support.getDetails(pc, "tanggalLahirAnak") != "-" ? Tgl : "");
 
 //        viewHolder.gender.setText( Support.getDetails(pc,"gender") != null ? setGender(Support.getDetails(pc,"gender")):"-");
-        int age = monthRangeToToday(ages);
-        viewHolder.gender.setText(Support.getDetails(pc,"tanggalLahirAnak") != null
-                ? age/12 + " " + context.getString(R.string.years_unit)+" "+age%12+" "+context.getString(R.string.month_unit) : "-");
+            int age = monthRangeToToday(dob);
+            viewHolder.gender.setText(Support.getDetails(pc, "tanggalLahirAnak") != "-"
+                    ? age / 12 + " " + context.getString(R.string.years_unit) + " " + age % 12 + " " + context.getString(R.string.month_unit) : "-");
 
 /** collect history data and clean latest history data which contains no specific date or value,
  */
-        if(!Support.getDetails(pc,"umur").toLowerCase().equals("nan")) {
-            String[] history1 = Support.getDetails(pc,"history_berat") != null ? Support.insertionSort(Support.getDetails(pc,"history_berat")) : new String[]{"0:0"};
-            if (history1[history1.length - 1].charAt(history1[history1.length - 1].length() - 1) == ':')
-                history1[history1.length - 1] = history1[history1.length - 1] + "-";
-            String[] history2 = Support.getDetails(pc,"history_tinggi") != null ? Support.insertionSort(Support.getDetails(pc,"history_tinggi")) : new String[]{"0:0"};
-            if (history2[history2.length - 1].charAt(history2[history2.length - 1].length() - 1) == ':')
-                history2[history2.length - 1] = history2[history2.length - 1] + "-";
-            String newestDateonHistory = history1.length > 1
-                    ? findDate(Tgl, Support.getAge(history1[history1.length - 1]))
-                    : Support.getDetails(pc,"tanggalPenimbangan") != null
-                    ? Support.getDetails(pc,"tanggalPenimbangan")
-                    : Tgl;
+            if (!Support.getDetails(pc, "umur").toLowerCase().equals("nan")) {
+                String[] history1 = hasValue(Support.getDetails(pc, "history_berat")) ? Support.insertionSort(Support.getDetails(pc, "history_berat")) : new String[]{"0:0"};
+                if (history1[history1.length - 1].charAt(history1[history1.length - 1].length() - 1) == ':')
+                    history1[history1.length - 1] = history1[history1.length - 1] + "-";
+                String[] history2 = hasValue(Support.getDetails(pc, "history_tinggi")) ? Support.insertionSort(Support.getDetails(pc, "history_tinggi")) : new String[]{"0:0"};
+                if (history2[history2.length - 1].charAt(history2[history2.length - 1].length() - 1) == ':')
+                    history2[history2.length - 1] = history2[history2.length - 1] + "-";
+                String newestDateonHistory = history1.length > 1
+                        ? findDate(Tgl, Support.getAge(history1[history1.length - 1]))
+                        : hasValue(Support.getDetails(pc, "tanggalPenimbangan"))
+                            ? Support.getDetails(pc, "tanggalPenimbangan")
+                            : Tgl;
 
-            System.out.println("history1 : " + history1[history1.length - 1]);
-            System.out.println("history2 : " + history2[history2.length - 1]);
-            System.out.println("newest : " + newestDateonHistory);
+                System.out.println("history1 : " + history1[history1.length - 1]);
+                System.out.println("history2 : " + history2[history2.length - 1]);
+                System.out.println("newest : " + newestDateonHistory);
 /**
  */
+                String weightToDisplay;
+                String heightToDisplay;
 
-            if (newestDateonHistory.equals(Support.getDetails(pc,"tanggalPenimbangan") != null ? Support.getDetails(pc,"tanggalPenimbangan") : "-")) {
-                System.out.println("history = tglPenimbangan");
-                viewHolder.visitDate.setText(context.getString(R.string.tanggal) + " " + (Support.getDetails(pc,"tanggalPenimbangan") != null ? Support.getDetails(pc,"tanggalPenimbangan") : "-"));
-                viewHolder.height.setText(context.getString(R.string.height) + " " + (Support.getDetails(pc,"tinggiBadan") != null ? Support.getDetails(pc,"tinggiBadan") : "-") + " Cm");
-                viewHolder.weight.setText(context.getString(R.string.weight) + " " + (Support.getDetails(pc,"beratBadan") != null ? Support.getDetails(pc,"beratBadan") : "-") + " Kg");
-                viewHolder.weightText.setText(context.getString(R.string.label_weight));
-                viewHolder.heightText.setText(context.getString(R.string.label_height));
-                viewHolder.antihelminticText.setText(R.string.anthelmintic);
-            } else {
-                System.out.println("history != tglPenimbangan");
+//                if (newestDateonHistory.equals(Support.getDetails(pc, "tanggalPenimbangan"))) {
+//                    System.out.println("history = tglPenimbangan");
+//                    heightToDisplay = Support.getDetails(pc, "tinggiBadan");
+//                    weightToDisplay = Support.getDetails(pc, "beratBadan");
+//                } else {
+                    System.out.println("history != tglPenimbangan");
+                    viewHolder.visitDate.setText(context.getString(R.string.tanggal) + " " + (history1.length > 1 ? newestDateonHistory : "-"));
+                    heightToDisplay = (Support.getDetails(pc, "tinggiBadan") != "-"
+                            ? !Support.getDetails(pc, "tinggiBadan").equals(history2[history2.length - 1])
+                                ? history2[history2.length - 1].split(":")[1]
+                                : Support.getDetails(pc, "tinggiBadan")
+                            : "-");
+                    weightToDisplay = (Support.getDetails(pc, "beratBadan") != "-"
+                            ? !Support.getDetails(pc, "beratBadan").equals(history1[history1.length - 1])
+                                ? history1[history1.length - 1].split(":")[1]
+                                : Support.getDetails(pc, "beratBadan")
+                            : "-");
+//                }
+
                 viewHolder.visitDate.setText(context.getString(R.string.tanggal) + " " + (history1.length > 1 ? newestDateonHistory : "-"));
-                viewHolder.height.setText(context.getString(R.string.height) + " "
-                        + (Support.getDetails(pc,"tinggiBadan") != null
-                        ? !Support.getDetails(pc,"tinggiBadan").equals(history2[history2.length - 1])
-                        ? history2[history2.length - 1].split(":")[1]
-                        : Support.getDetails(pc,"tinggiBadan")
-                        : "-")
-                        + " Cm");
-                viewHolder.weight.setText(context.getString(R.string.weight) + " "
-                        + (Support.getDetails(pc,"beratBadan") != null
-                        ? !Support.getDetails(pc,"beratBadan").equals(history1[history1.length - 1])
-                        ? history1[history1.length - 1].split(":")[1]
-                        : Support.getDetails(pc,"beratBadan")
-                        : "-")
-                        + " Kg");
+                viewHolder.height.setText(context.getString(R.string.height) + " " + heightToDisplay + " cm");
+                viewHolder.weight.setText(context.getString(R.string.weight) + " " + weightToDisplay + " Kg");
                 viewHolder.weightText.setText(context.getString(R.string.label_weight));
                 viewHolder.heightText.setText(context.getString(R.string.label_height));
                 viewHolder.antihelminticText.setText(R.string.anthelmintic);
-            }
 
 //------VISIBLE AND INVISIBLE COMPONENT
-            viewHolder.absentAlert.setVisibility(Support.getDetails(pc,"tanggalPenimbangan") != null
-                            ? isLate(Support.getDetails(pc,"tanggalPenimbangan"), 1)
-                            ? View.VISIBLE
-                            : View.INVISIBLE
-                            : View.INVISIBLE
-            );
-            viewHolder.setVitAVisibility();
-
+                viewHolder.absentAlert.setVisibility(Support.getDetails(pc, "tanggalPenimbangan") != "-"
+                                ? isLate(Support.getDetails(pc, "tanggalPenimbangan"), 1)
+                                ? View.VISIBLE
+                                : View.INVISIBLE
+                                : View.INVISIBLE
+                );
+                viewHolder.setVitAVisibility();
 
 //------CHILD DATA HAS BEEN SUBMITTED OR NOT
-            System.out.println("latest date = " + returnLatestDate(Support.getDetails(pc,"tanggalPenimbangan"), newestDateonHistory));
+                viewHolder.weightLogo.setImageDrawable(context.getResources().getDrawable(isLate(returnLatestDate(Support.getDetails(pc, "tanggalPenimbangan"), newestDateonHistory), 0) ? R.drawable.ic_remove : R.drawable.ic_yes_large));
+                viewHolder.heightLogo.setImageDrawable(context.getResources().getDrawable(!isLate(returnLatestDate(Support.getDetails(pc, "tanggalPenimbangan"), newestDateonHistory), 0) && !Support.getDetails(pc, "tinggiBadan").equals("-") ? R.drawable.ic_yes_large : R.drawable.ic_remove));
+                viewHolder.vitALogo.setImageDrawable(context.getResources().getDrawable(inTheSameRegion(Support.getDetails(pc, "lastVitA")) ? R.drawable.ic_yes_large : R.drawable.ic_remove));
+                viewHolder.antihelminticLogo.setImageDrawable(context.getResources().getDrawable(isGiven(pc, "obatcacing") ? R.drawable.ic_yes_large : R.drawable.ic_remove));
 
-            viewHolder.weightLogo.setImageDrawable(context.getResources().getDrawable(isLate(returnLatestDate(Support.getDetails(pc,"tanggalPenimbangan"), newestDateonHistory), 0) ? R.drawable.ic_remove : R.drawable.ic_yes_large));
-            viewHolder.heightLogo.setImageDrawable(context.getResources().getDrawable(!isLate(returnLatestDate(Support.getDetails(pc,"tanggalPenimbangan"), newestDateonHistory), 0) && !Support.getDetails(pc, "tinggiBadan").equals("-") ? R.drawable.ic_yes_large : R.drawable.ic_remove));
-            viewHolder.vitALogo.setImageDrawable(context.getResources().getDrawable(inTheSameRegion(Support.getDetails(pc,"lastVitA")) ? R.drawable.ic_yes_large : R.drawable.ic_remove));
-            viewHolder.antihelminticLogo.setImageDrawable(context.getResources().getDrawable(isGiven(pc, "obatcacing") ? R.drawable.ic_yes_large : R.drawable.ic_remove));
-
-            if (Support.getDetails(pc,"tanggalPenimbangan") != null) {
-                viewHolder.stunting_status.setText(String.format("%s %s", context.getString(R.string.stunting), hasValue(Support.getDetails(pc,"stunting")) ? setStatus(Support.getDetails(pc,"stunting")) : "-"));
-                viewHolder.underweight.setText(String.format("%s %s", context.getString(R.string.wfa), hasValue(Support.getDetails(pc,"underweight")) ? setStatus(Support.getDetails(pc,"underweight")) : "-"));
-                viewHolder.wasting_status.setText(String.format("%s %s", context.getString(R.string.wasting), hasValue(Support.getDetails(pc,"wasting")) ? setStatus(Support.getDetails(pc,"wasting")) : "-"));
-            } else {
-                viewHolder.underweight.setText(String.format("%s ", context.getString(R.string.wfa)));
-                viewHolder.stunting_status.setText(String.format("%s ", context.getString(R.string.stunting)));
-                viewHolder.wasting_status.setText(String.format("%s ", context.getString(R.string.wasting)));
+                setViewStatusGizi(pc,viewHolder,newestDateonHistory,history1,history2);
+                //================ END OF Z-SCORE==============================//
             }
-            //================ END OF Z-SCORE==============================//
+            convertView.setLayoutParams(clientViewLayoutParams);
+            // return convertView;
         }
-        convertView.setLayoutParams(clientViewLayoutParams);
-       // return convertView;
     }
-    CommonPersonObjectController householdelcocontroller;
+//    CommonPersonObjectController householdelcocontroller;
+
+    private void setViewStatusGizi(CommonPersonObjectClient pc, ViewHolder viewHolder, String newestDateonHistory, String[]history1, String[]history2){
+        if (Support.getDetails(pc, "tanggalPenimbangan") != "-") {
+            String stuntingStatus = "";
+            String underweightStatus = "";
+            String wastingStatus = "";
+            System.out.println("history 1 combined: "+Support.combine(history1,","));
+            System.out.println("history 2 combined: "+Support.combine(history2,","));
+            int umur = Integer.parseInt(history1[history1.length - 1].split(":")[0]);
+            double berat = Double.parseDouble(history1[history1.length - 1].split(":")[1]);
+            double tinggi;
+            boolean isMale = Support.getDetails(pc,"gender").toLowerCase().contains("em");;
+
+            if (umur<1857){
+                ZScoreSystemCalculation calculator = new ZScoreSystemCalculation();
+                underweightStatus = calculator.getWFAZScoreClassification(calculator.countWFA(isMale,umur,berat));
+                if (history2[history2.length-1].split(":")[1].length()>1){
+                    tinggi = Double.parseDouble(history2[history2.length - 1].split(":")[1]);
+                    stuntingStatus = calculator.getHFAZScoreClassification(calculator.countHFA(isMale,umur, tinggi));
+                    wastingStatus = calculator.getWFLZScoreClassification(calculator.countWFL(isMale,berat,tinggi));
+                }
+            } else {
+                underweightStatus = hasValue(Support.getDetails(pc, "underweight")) ? setStatus(Support.getDetails(pc, "underweight")) : "-";
+                stuntingStatus = hasValue(Support.getDetails(pc, "stunting")) ? setStatus(Support.getDetails(pc, "stunting")) : "-";
+                wastingStatus = hasValue(Support.getDetails(pc, "wasting")) ? setStatus(Support.getDetails(pc, "wasting")) : "-";
+            }
+            viewHolder.stunting_status.setText(String.format("%s %s", context.getString(R.string.stunting), setStatus(stuntingStatus)));
+            viewHolder.underweight.setText(String.format("%s %s", context.getString(R.string.wfa), setStatus(underweightStatus)));
+            viewHolder.wasting_status.setText(String.format("%s %s", context.getString(R.string.wasting), setStatus(wastingStatus)));
+        } else {
+            viewHolder.underweight.setText(String.format("%s ", context.getString(R.string.wfa)));
+            viewHolder.stunting_status.setText(String.format("%s ", context.getString(R.string.stunting)));
+            viewHolder.wasting_status.setText(String.format("%s ", context.getString(R.string.wasting)));
+        }
+    }
 
     private String setStatus(String status){
         switch (status.toLowerCase()){
@@ -284,10 +311,10 @@ public class GiziSmartClientsProvider implements SmartRegisterCLientsProviderFor
     }
 
     private String returnLatestDate(String date1, String date2){
-        if(date1 == null || date2 == null){
-            return date1==null && date2==null
+        if(date1 == "-" || date2 == "-"){
+            return date1=="-" && date2=="-"
                     ? null
-                    : date1==null
+                    : date1=="-"
                         ? date2
                         : date1
                     ;
@@ -321,6 +348,8 @@ public class GiziSmartClientsProvider implements SmartRegisterCLientsProviderFor
     }
 
     private int monthRangeToToday(String lastVisitDate){
+        if (lastVisitDate.length()<10)
+            return 0;
         String currentDate[] = new SimpleDateFormat("yyyy-MM").format(new java.util.Date()).substring(0,7).split("-");
         return ((Integer.parseInt(currentDate[0]) - Integer.parseInt(lastVisitDate.substring(0,4)))*12 +
                 (Integer.parseInt(currentDate[1]) - Integer.parseInt(lastVisitDate.substring(5,7))));
