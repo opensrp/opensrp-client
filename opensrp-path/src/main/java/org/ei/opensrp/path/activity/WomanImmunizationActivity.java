@@ -97,6 +97,7 @@ import util.RecurringServiceUtils;
 import util.Utils;
 import util.VaccinateActionUtils;
 import util.VaccinatorUtils;
+import util.VaccineScheduleUtils;
 
 import static util.Utils.getName;
 import static util.Utils.getValue;
@@ -1369,23 +1370,48 @@ public class WomanImmunizationActivity extends BaseActivity
                 if (tag.getDbKey() != null) {
                     Long dbKey = tag.getDbKey();
                     vaccineRepository.deleteVaccine(dbKey);
+                    vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
+
+//                    delete vaccines dependent on this
+                    deleteVaccinesDependentonDeletedVaccine(tag.getName(),vaccineList);
+
+//                    ////////////////////////////////////////////////////
+
                     String dobString = Utils.getValue(childDetails.getColumnmaps(), "lmp", false);
                     if (!TextUtils.isEmpty(dobString)) {
                             SimpleDateFormat lmp_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
                             Date dateTime = null;
                             try {
                                 dateTime = lmp_DATE_FORMAT.parse(dobString);
-                                VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), new DateTime(dateTime.getTime()), "mother");
+                           affectedVaccines = VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), new DateTime(dateTime.getTime()), "mother");
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-                        vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
-                        alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
-                                VaccinateActionUtils.allAlertNames("mother"));
+
                     }
+
+                    vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
+                    alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
+                            VaccinateActionUtils.allAlertNames("mother"));
                 }
             }
             return null;
+        }
+
+        private void deleteVaccinesDependentonDeletedVaccine(String name, List<Vaccine> vaccineList) {
+            for(int i = 0;i<vaccineList.size();i++){
+                ArrayList<VaccineRepo.Vaccine> allmothervaccines = VaccineRepo.getVaccines("mother");
+                for(int j = 0;j<allmothervaccines.size();j++){
+                    if(allmothervaccines.get(j).prerequisite()!=null) {
+                        if (allmothervaccines.get(j).prerequisite().display().equalsIgnoreCase(name)) {
+                            if (vaccineList.get(i).getName().equalsIgnoreCase(allmothervaccines.get(j).display())) {
+                                vaccineRepository.deleteVaccine(vaccineList.get(i).getId());
+                                deleteVaccinesDependentonDeletedVaccine(allmothervaccines.get(j).display(),vaccineList);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         @Override
