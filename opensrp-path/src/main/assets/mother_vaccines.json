@@ -87,7 +87,7 @@
             {
               "reference": "prerequisite",
               "prerequisite": "TT 2",
-              "offset": "+6m",
+              "offset": "+182d",
               "window": "+14d"
             }
           ]
@@ -119,7 +119,7 @@
             {
               "reference": "prerequisite",
               "prerequisite": "TT 3",
-              "offset": "+1y",
+              "offset": "+364d",
               "window": "+14d"
             }
           ]
@@ -151,7 +151,7 @@
             {
               "reference": "prerequisite",
               "prerequisite": "TT 4",
-              "offset": "+1y",
+              "offset": "+364d",
               "window": "+14d"
             }
           ]

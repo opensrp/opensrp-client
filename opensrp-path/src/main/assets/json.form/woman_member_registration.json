@@ -389,6 +389,10 @@
         "step1:pregnant": {
           "type": "string",
           "ex": "equalTo(., \"No\")"
+          },
+        "step1:maritial_status": {
+            "type": "string",
+            "ex": "equalTo(., \"Married\")"
           }
         }
       },
@@ -409,6 +413,10 @@
           "step1:fp_user": {
             "type": "string",
             "ex": "equalTo(., \"Yes\")"
+          },
+          "step1:maritial_status": {
+            "type": "string",
+            "ex": "equalTo(., \"Married\")"
           }
         },
         "v_required": {
@@ -427,7 +435,11 @@
         "values":[
           "Yes",
           "No"
-        ]
+        ],
+        "v_required": {
+          "value": true,
+          "err": "Please Select Any One."
+        }
       },
       {
         "key": "lmp",
@@ -465,6 +477,10 @@
           "step1:pregnant": {
             "type": "string",
             "ex": "equalTo(., \"Yes\")"
+          },
+          "step1:maritial_status": {
+            "type": "string",
+            "ex": "equalTo(., \"Married\")"
           }
         }
       },
@@ -488,6 +504,10 @@
           "step1:pregnant": {
             "type": "string",
             "ex": "equalTo(., \"Yes\")"
+          },
+          "step1:maritial_status": {
+            "type": "string",
+            "ex": "equalTo(., \"Married\")"
           }
         },
         "min_date": "today"
@@ -512,6 +532,10 @@
           "step1:pregnant": {
             "type": "string",
             "ex": "equalTo(., \"Yes\")"
+          },
+          "step1:maritial_status": {
+            "type": "string",
+            "ex": "equalTo(., \"Married\")"
           }
         },
         "max_date": "today"
@@ -544,6 +568,10 @@
           "step1:pregnant": {
             "type": "string",
             "ex": "equalTo(., \"Yes\")"
+          },
+          "step1:maritial_status": {
+            "type": "string",
+            "ex": "equalTo(., \"Married\")"
           }
         }
       }
