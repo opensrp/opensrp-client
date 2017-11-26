@@ -87,7 +87,7 @@
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:id="@+id/child_zeir_id"
-            style="@style/CustomFontTextViewStyle.ClientList.Light"
+            style="@style/CustomFontTextViewStyle.ClientList.Light.twoline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ZEIR ID"
