@@ -69,7 +69,7 @@
         "openmrs_entity_id": "",
         "openmrs_data_type": "text",
         "type": "tree",
-        "hint": "পরিবারের প্রধানের স্বাস্থ্য কেন্দ্র *",
+        "hint": "পরিবারের প্রধানের EPI কেন্দ্র *",
         "tree": [],
         "v_required": {
           "value": true,

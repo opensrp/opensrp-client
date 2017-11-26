@@ -7,8 +7,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import org.apache.commons.lang3.StringUtils;
+import org.ei.opensrp.domain.Vaccine;
+import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.db.VaccineRepo;
 import org.ei.opensrp.path.domain.Photo;
 import org.ei.opensrp.path.domain.VaccineWrapper;
+import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.view.VaccineCard;
 import org.ei.opensrp.path.view.VaccineGroup;
 import org.joda.time.DateTime;
@@ -19,7 +23,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import util.ImageUtils;
 import util.Utils;
@@ -95,12 +101,46 @@ public class VaccineCardAdapter extends BaseAdapter {
                         e.printStackTrace();
                     }
                 }
-                if (StringUtils.isNotBlank(dobString) && dateTime != null) {
-                    Calendar dobCalender = Calendar.getInstance();
+                ///////////////fix for vaccine date display /////////////////////////////////
+                VaccineRepo.Vaccine vaccine = null;
+                ArrayList<VaccineRepo.Vaccine> vaccines = VaccineRepo.getVaccines(type);
+                for(int i = 0;i<vaccines.size();i++){
+                    if(vaccines.get(i).display().equalsIgnoreCase(vaccineWrapper.getName())){
+                        vaccine = vaccines.get(i);
+                    }else if(vaccines.get(i).display().toLowerCase().contains("measles") || vaccines.get(i).display().toLowerCase().contains("mr")){
+                        if(vaccineWrapper.getName().toLowerCase().contains(vaccines.get(i).display().toLowerCase())){
+                            vaccine = vaccines.get(i);
+                        }
+                    }
+                }
+
+                VaccineRepo.Vaccine prerequisitevaccine = null;
+                Date prerequisitevaccineGivenDate = null;
+                if(vaccine != null) {
+                    if (vaccine.prerequisite() != null) {
+                        prerequisitevaccine = vaccine.prerequisite();
+                        VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
+                        List<Vaccine> givenVaccines = vaccineRepository.findByEntityId(vaccineGroup.getChildDetails().entityId());
+                        for (int i = 0; i < givenVaccines.size(); i++) {
+                            if (givenVaccines.get(i).getName().equalsIgnoreCase(prerequisitevaccine.display())) {
+                                prerequisitevaccineGivenDate = givenVaccines.get(i).getDate();
+                                Calendar dobCalender = Calendar.getInstance();
+                                dobCalender.setTime(prerequisitevaccineGivenDate);
+                                dobCalender.add(Calendar.DATE, vaccine.prerequisiteGapDays());
+                                vaccineWrapper.setVaccineDate(new DateTime(dobCalender.getTime()));
+                            }
+                        }
+                    }
+                }
+                //////////////////////////////////////////////////////////////////////////////////
+                if(vaccineWrapper.getVaccineDate() ==null) {
+                    if(StringUtils.isNotBlank(dobString) && dateTime != null) {
+                        Calendar dobCalender = Calendar.getInstance();
 //                    DateTime dateTime = new DateTime(dobString);
-                    dobCalender.setTime(dateTime.toDate());
-                    dobCalender.add(Calendar.DATE, vaccineGroup.getVaccineData().getInt("days_after_birth_due"));
-                    vaccineWrapper.setVaccineDate(new DateTime(dobCalender.getTime()));
+                        dobCalender.setTime(dateTime.toDate());
+                        dobCalender.add(Calendar.DATE, vaccineGroup.getVaccineData().getInt("days_after_birth_due"));
+                        vaccineWrapper.setVaccineDate(new DateTime(dobCalender.getTime()));
+                    }
                 }
 
                 Photo photo = ImageUtils.profilePhotoByClient(vaccineGroup.getChildDetails());
