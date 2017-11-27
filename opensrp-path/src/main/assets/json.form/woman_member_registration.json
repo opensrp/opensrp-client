@@ -449,6 +449,16 @@
         "openmrs_data_type": "text",
         "type": "date_picker",
         "hint": "এলএমপি তারিখ",
+        "hidden": "true"
+      },
+      {
+        "key": "latest_lmp",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "",
+        "openmrs_entity_id": "",
+        "openmrs_data_type": "text",
+        "type": "date_picker",
+        "hint": "এলএমপি তারিখ",
         "v_required": {
           "value": true,
           "err": "Please Enter LMP date"

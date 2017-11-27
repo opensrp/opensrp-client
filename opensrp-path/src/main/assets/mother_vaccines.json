@@ -24,7 +24,7 @@
             {
               "reference": "lmp",
               "offset": "+0d",
-              "window": "+3m"
+              "window": "+100y"
             }
           ]
         }

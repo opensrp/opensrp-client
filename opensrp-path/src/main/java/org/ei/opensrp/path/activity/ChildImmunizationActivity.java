@@ -936,21 +936,21 @@ public class ChildImmunizationActivity extends BaseActivity
     }
 
     private void showCheckBcgScarNotification(Alert alert) {
-        if (!bcgScarNotificationShown) {
-            bcgScarNotificationShown = true;
-            showNotification(R.string.check_child_bcg_scar, R.drawable.ic_check_bcg_scar,
-                    R.string.ok_button_label, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            hideNotification();
-                            Alert alert = (Alert) v.getTag();
-                            if (alert != null) {
-                                new MarkAlertAsDoneTask(getOpenSRPContext().alertService())
-                                        .execute(alert);
-                            }
-                        }
-                    }, 0, null, alert);
-        }
+//        if (!bcgScarNotificationShown) {
+//            bcgScarNotificationShown = true;
+//            showNotification(R.string.check_child_bcg_scar, R.drawable.ic_check_bcg_scar,
+//                    R.string.ok_button_label, new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            hideNotification();
+//                            Alert alert = (Alert) v.getTag();
+//                            if (alert != null) {
+//                                new MarkAlertAsDoneTask(getOpenSRPContext().alertService())
+//                                        .execute(alert);
+//                            }
+//                        }
+//                    }, 0, null, alert);
+//        }
     }
 
     private class MarkAlertAsDoneTask extends AsyncTask<Alert, Void, Void> {

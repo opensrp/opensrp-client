@@ -80,6 +80,8 @@ import java.util.regex.Pattern;
 
 import id.zelory.compressor.Compressor;
 
+import static android.text.TextUtils.isEmpty;
+
 /**
  * Created by keyman on 08/02/2017.
  */
@@ -190,11 +192,11 @@ public class JsonFormUtils {
                         Log.e(TAG, Log.getStackTraceString(e));
                     }
                 } else if (key.equals("Mother_Guardian_Date_Birth")) {
-                    if (TextUtils.isEmpty(fields.getJSONObject(i).optString("value"))) {
+                    if (isEmpty(fields.getJSONObject(i).optString("value"))) {
                         fields.getJSONObject(i).put("value", MOTHER_DEFAULT_DOB);
                     }
                 }else if (key.equals("member_birth_date")) {
-                    if(TextUtils.isEmpty(fields.getJSONObject(i).getString("value"))) {
+                    if(isEmpty(fields.getJSONObject(i).getString("value"))) {
                         for (int j = 0; j < fields.length(); j++) {
                             String keyJ = fields.getJSONObject(j).getString("key");
                             if(keyJ.equals("age")) {
@@ -217,13 +219,13 @@ public class JsonFormUtils {
                             }
                         }
                     }
-                }else if (key.equals("lmp")) {
-                    if(TextUtils.isEmpty(fields.getJSONObject(i).getString("value"))) {
+                }else if (key.equals("latest_lmp")) {
+                    if(isEmpty(fields.getJSONObject(i).getString("value"))) {
                         boolean USGNeeded = false;
                         for (int j = 0; j < fields.length(); j++) {
                             String keyJ = fields.getJSONObject(j).getString("key");
                             if(keyJ.equals("edd")) {
-                                if(!TextUtils.isEmpty(fields.getJSONObject(j).getString("value"))) {
+                                if(!isEmpty(fields.getJSONObject(j).getString("value"))) {
                                     String eddValue = fields.getJSONObject(j).getString("value");
                                     DateTime now = new DateTime(dd_MM_yyyy.parse(eddValue));
                                     DateTime dob = now.minusDays(280);
@@ -241,41 +243,53 @@ public class JsonFormUtils {
                             for (int j = 0; j < fields.length(); j++) {
                                 String keyJ = fields.getJSONObject(j).getString("key");
                                 if(keyJ.equals("ultrasound_date")) {
-                                    if(!TextUtils.isEmpty(fields.getJSONObject(j).getString("value"))) {
+                                    if(!isEmpty(fields.getJSONObject(j).getString("value"))) {
                                         ultrasound_dateValue = fields.getJSONObject(j).getString("value");
                                     }
                                 }
                                 if(keyJ.equals("ultrasound_weeks")) {
-                                    if(!TextUtils.isEmpty(fields.getJSONObject(j).getString("value"))) {
+                                    if(!isEmpty(fields.getJSONObject(j).getString("value"))) {
                                         ultrasound_weeksValue = fields.getJSONObject(j).getString("value");
                                     }
                                 }
                             }
-                            DateTime ultrasoundDate = new DateTime(dd_MM_yyyy.parse(ultrasound_dateValue));
-                            int ultraSoundWeeks = Integer.parseInt(ultrasound_weeksValue);
-                            for (int j = 0; j < fields.length(); j++) {
-                                String keyJ = fields.getJSONObject(j).getString("key");
-                                if(keyJ.equals("edd")) {
-                                    if(TextUtils.isEmpty(fields.getJSONObject(j).getString("value"))) {
-                                        DateTime edddate = ultrasoundDate.plusDays(280-(7*ultraSoundWeeks));
-                                        fields.getJSONObject(j).put("value", dd_MM_yyyy.format(edddate.toDate()));
-                                        fields.getJSONObject(i).put("value", dd_MM_yyyy.format(edddate.minusDays(280).toDate()));
+                            if(!isEmpty(ultrasound_dateValue)) {
+                                DateTime ultrasoundDate = new DateTime(dd_MM_yyyy.parse(ultrasound_dateValue));
+                                if(!isEmpty(ultrasound_weeksValue)) {
+                                    int ultraSoundWeeks = Integer.parseInt(ultrasound_weeksValue);
+                                    for (int j = 0; j < fields.length(); j++) {
+                                        String keyJ = fields.getJSONObject(j).getString("key");
+                                        if (keyJ.equals("edd")) {
+                                            if (isEmpty(fields.getJSONObject(j).getString("value"))) {
+                                                DateTime edddate = ultrasoundDate.plusDays(280 - (7 * ultraSoundWeeks));
+                                                fields.getJSONObject(j).put("value", dd_MM_yyyy.format(edddate.toDate()));
+                                                fields.getJSONObject(i).put("value", dd_MM_yyyy.format(edddate.minusDays(280).toDate()));
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
-                    }else{
-                        String lmpValue = fields.getJSONObject(i).getString("value");
-                        for (int j = 0; j < fields.length(); j++) {
-                            String keyJ = fields.getJSONObject(j).getString("key");
-                            if(keyJ.equals("edd")) {
-                                if(TextUtils.isEmpty(fields.getJSONObject(j).getString("value"))) {
+                    }
+                }
+            }
+            for (int i = 0; i < fields.length(); i++) {
+                String key = fields.getJSONObject(i).getString("key");
+                if (key.equals("member_birth_date")) {
+                    for (int j = 0; j < fields.length(); j++) {
+                        String keyJ = fields.getJSONObject(j).getString("key");
+                        if (keyJ.equals("lmp")) {
+                            String birthdateValue = fields.getJSONObject(i).getString("value");
+                            int age = 15;
 
-                                    DateTime now = new DateTime(dd_MM_yyyy.parse(lmpValue));
-                                    DateTime dob = now.plusDays(280);
-                                    fields.getJSONObject(j).put("value", dd_MM_yyyy.format(dob.toDate()));
-                                }
-                            }
+                            int dobMonth = 0;
+                            int dobDay = 0;
+
+                            DateTime now = new DateTime(dd_MM_yyyy.parse(birthdateValue).getTime());
+                            DateTime dob = now.plusYears(age)
+                                    .minusMonths(dobMonth)
+                                    .minusDays(dobDay);
+                            fields.getJSONObject(j).put("value", dd_MM_yyyy.format(dob.toDate()));
                         }
                     }
                 }
@@ -414,11 +428,11 @@ public class JsonFormUtils {
                         Log.e(TAG, Log.getStackTraceString(e));
                     }
                 } else if (key.equals("Mother_Guardian_Date_Birth")) {
-                    if (TextUtils.isEmpty(fields.getJSONObject(i).optString("value"))) {
+                    if (isEmpty(fields.getJSONObject(i).optString("value"))) {
                         fields.getJSONObject(i).put("value", MOTHER_DEFAULT_DOB);
                     }
                 }else if (key.equals("HIE_FACILITIES")) {
-                    if(!TextUtils.isEmpty(fields.getJSONObject(i).getString("value"))){
+                    if(!isEmpty(fields.getJSONObject(i).getString("value"))){
                         String address = fields.getJSONObject(i).getString("value");
                         try {
                             address = address.replace("[", "").replace("]", "");
@@ -566,7 +580,7 @@ public class JsonFormUtils {
                         Log.e(TAG, Log.getStackTraceString(e));
                     }
                 } else if (key.equals("Date_Birth")) {
-                    if(TextUtils.isEmpty(fields.getJSONObject(i).getString("value"))) {
+                    if(isEmpty(fields.getJSONObject(i).getString("value"))) {
                         for (int j = 0; j < fields.length(); j++) {
                             String keyJ = fields.getJSONObject(j).getString("key");
                             if(keyJ.equals("age")) {
@@ -590,7 +604,7 @@ public class JsonFormUtils {
                         }
                     }
                 }else if (key.equals("HIE_FACILITIES")) {
-                    if(!TextUtils.isEmpty(fields.getJSONObject(i).getString("value"))){
+                    if(!isEmpty(fields.getJSONObject(i).getString("value"))){
                         String address = fields.getJSONObject(i).getString("value");
                         try {
                             address = address.replace("[", "").replace("]", "");
@@ -612,12 +626,12 @@ public class JsonFormUtils {
                         }
                     }
                 }else if (key.equals("HHID")) {
-                    if(!TextUtils.isEmpty(fields.getJSONObject(i).getString("value"))) {
+                    if(!isEmpty(fields.getJSONObject(i).getString("value"))) {
                         String hhid = fields.getJSONObject(i).getString("value");
                         address1.addAddressField("address5",hhid);
                     }
                 }else if (key.equals("ADDRESS_LINE")) {
-                    if(!TextUtils.isEmpty(fields.getJSONObject(i).getString("value"))) {
+                    if(!isEmpty(fields.getJSONObject(i).getString("value"))) {
                         String addressLine = fields.getJSONObject(i).getString("value");
                         address1.addAddressField("address6",addressLine);
                     }
@@ -702,7 +716,7 @@ public class JsonFormUtils {
                         Log.e(TAG, Log.getStackTraceString(e));
                     }
                 } else if (key.equals("Mother_Guardian_Date_Birth")) {
-                    if (TextUtils.isEmpty(fields.getJSONObject(i).optString("value"))) {
+                    if (isEmpty(fields.getJSONObject(i).optString("value"))) {
                         fields.getJSONObject(i).put("value", MOTHER_DEFAULT_DOB);
                     }
                 }
@@ -769,7 +783,7 @@ public class JsonFormUtils {
             allSharedPreferences.saveLastUpdatedAtDate(lastSyncDate.getTime());
 
             String imageLocation = getFieldValue(fields, imageKey);
-            if (!TextUtils.isEmpty(imageLocation)) {
+            if (!isEmpty(imageLocation)) {
                 saveImage(context, providerId, entityId, imageLocation);
             }
 

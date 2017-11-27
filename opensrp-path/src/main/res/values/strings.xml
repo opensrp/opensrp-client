@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">OpenSRP-Unicef Vaccination App</string>
+    <string name="app_name">OpenSRP-Vaccination</string>
     <string name="invalid_device_date">Device current datetime must be after last synced server datetime which was </string>
     <string name="home_women_label">Woman</string>
     <string name="home_field_monitor_label">Stock</string>

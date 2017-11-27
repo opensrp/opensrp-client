@@ -126,10 +126,10 @@ public abstract class VaccineCondition {
                         result = comparisonDate.getTimeInMillis() == vaccinationDate.getTimeInMillis();
                         break;
                     case AT_LEAST:
-                        result = vaccinationDate.getTimeInMillis() >= comparisonDate.getTimeInMillis();
+                        result = comparisonDate.getTimeInMillis() >= vaccinationDate.getTimeInMillis();
                         break;
                     case AT_MOST:
-                        result = vaccinationDate.getTimeInMillis() <= comparisonDate.getTimeInMillis();
+                        result = comparisonDate.getTimeInMillis() <= vaccinationDate.getTimeInMillis();
                         break;
                 }
             }
