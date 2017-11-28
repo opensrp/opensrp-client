@@ -48,8 +48,7 @@
       },
       {
         "name": "Couple_No",
-        "bind": "/model/instance/Child_0-5yr/existing_Couple_No",
-        "shouldLoadValue": true
+        "bind": "/model/instance/Child_0-5yr/existing_Couple_No"
       },
       {
         "name": "Member_Birth_Date",

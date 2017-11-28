@@ -256,10 +256,17 @@ public class dgfp_child_SmartRegisterFragment extends SecuredNativeSmartRegister
                     break;
                 case R.id.child_followup_form:
                     CommonPersonObjectClient pc = ((CommonPersonObjectClient) view.getTag());
+                    String motherID = (pc.getDetails().get("mother_UUID") != null ? pc.getDetails().get("mother_UUID") : "");
+                    CommonRepository commonRepository = Context.getInstance().commonrepository("members");
+                    CommonPersonObject commonPersonObject = commonRepository.findByCaseID(motherID);
 
                     JSONObject overridejsonobject = new JSONObject();
                     try {
                         overridejsonobject.put("existing_Member_Birth_Date", doolay(pc));
+                        if(commonPersonObject != null) {
+                            String Couple_No = (commonPersonObject.getDetails().get("Couple_No") != null ? commonPersonObject.getDetails().get("Couple_No") : "");
+                            overridejsonobject.put("Couple_No", Couple_No);
+                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -278,7 +285,7 @@ public class dgfp_child_SmartRegisterFragment extends SecuredNativeSmartRegister
         private String doolay(CommonPersonObjectClient ancclient) {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             try {
-                Date edd_date = format.parse(ancclient.getDetails().get("Calc_Dob_Confirm")!=null?ancclient.getDetails().get("Calc_Dob_Confirm"):"");
+                Date edd_date = format.parse(ancclient.getColumnmaps().get("Calc_Dob_Confirm")!=null?ancclient.getColumnmaps().get("Calc_Dob_Confirm"):"");
                 GregorianCalendar calendar = new GregorianCalendar();
                 calendar.setTime(edd_date);
                 edd_date.setTime(calendar.getTime().getTime());
