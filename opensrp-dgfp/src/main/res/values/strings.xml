@@ -456,6 +456,11 @@
     <string name="outcome_info">Outcome Info</string>
     <string name="counselling">Councelling</string>
     <string name="adolescent_form">Adolescent Form</string>
+    <string name="unmarried">Unmarried</string>
+    <string name="married">Married</string>
+    <string name="widow">Widow/Widower</string>
+    <string name="separated">Separated</string>
+    <string name="divorced">Divorced</string>
 
 
 </resources>

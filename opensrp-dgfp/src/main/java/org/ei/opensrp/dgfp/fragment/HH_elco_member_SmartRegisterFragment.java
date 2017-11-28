@@ -251,7 +251,7 @@ public class HH_elco_member_SmartRegisterFragment extends SecuredNativeSmartRegi
                     JSONObject overridejsonobject = new JSONObject();
                     AllCommonsRepository allelcoRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("members");
                     CommonPersonObject elcoobject = allelcoRepository.findByCaseID(((CommonPersonObjectClient) view.getTag()).entityId());
-                    String ttcount =    (elcoobject.getDetails().get("TT_Count") != null ? (elcoobject.getDetails().get("TT_Count")+",") : "");
+                    String ttcount =    (elcoobject.getDetails().get("TT_Count") != null ? (elcoobject.getDetails().get("TT_Count")) : "");
 
                     AllCommonsRepository householdrep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("household");
                     CommonPersonObject householdparent = householdrep.findByCaseID(elcoobject.getRelationalId());

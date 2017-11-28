@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
@@ -98,7 +99,7 @@ public class mCareAncDetailActivity extends Activity {
 
         husbandname.setText("Spouse Name: "+((womanclient.getDetails().get("Spouse_Name") != null ? womanclient.getDetails().get("Spouse_Name") : "")));
 
-        marriagelife.setText("Marriage Life: "+((womanclient.getDetails().get("Married_Life") != null ? womanclient.getDetails().get("Married_Life") : "")));
+        marriagelife.setText("Marriage Life: "+ maritalStatus(((womanclient.getDetails().get("Married_Life") != null ? womanclient.getDetails().get("Married_Life") : ""))));
 
 
         womandob.setText("Age: "+calculateage(getageindays(getdate((womanclient.getColumnmaps().get("Calc_Dob_Confirm") != null ? womanclient.getColumnmaps().get("Calc_Dob_Confirm") : "")))));
@@ -229,6 +230,23 @@ public class mCareAncDetailActivity extends Activity {
 //        });
 
 
+    }
+
+    private String maritalStatus(String s) {
+        if(!StringUtils.isBlank(s)){
+            if(s.equalsIgnoreCase("1")){
+                return getResources().getString(R.string.unmarried);
+            }else if(s.equalsIgnoreCase("2")){
+                return getResources().getString(R.string.married);
+            }else if(s.equalsIgnoreCase("3")){
+                return getResources().getString(R.string.widow);
+            }else if(s.equalsIgnoreCase("4")){
+                return getResources().getString(R.string.separated);
+            }else if(s.equalsIgnoreCase("5")){
+                return getResources().getString(R.string.divorced);
+            }
+        }
+        return "";
     }
 
     private void eddlay(CommonPersonObjectClient ancclient) {
