@@ -57,7 +57,7 @@
         "shouldLoadValue": true
       },
       {
-        "name": "EDD",
+        "name": "Calc_EDD",
         "bind": "/model/instance/ANCVisit1/existing_EDD",
         "shouldLoadValue": true
       },
