@@ -105,6 +105,7 @@ import util.Utils;
 import util.VaccinateActionUtils;
 import util.VaccinatorUtils;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static util.Utils.getName;
 import static util.Utils.getValue;
 
@@ -487,6 +488,9 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                         jsonObject.put(JsonFormUtils.VALUE, Utils.getValue(detailmaps, "Child_Birth_Certificate", true));
                     }
                     if (jsonObject.getString(JsonFormUtils.KEY).equalsIgnoreCase("Mother_Guardian_First_Name")) {
+                        if(!isBlank((Utils.getValue(childDetails.getColumnmaps(), "mother_first_name", true).isEmpty() ? Utils.getValue(childDetails.getDetails(), "mother_first_name", true) : Utils.getValue(childDetails.getColumnmaps(), "mother_first_name", true)))) {
+                            jsonObject.put(JsonFormUtils.READ_ONLY, true);
+                        }
                         jsonObject.put(JsonFormUtils.VALUE, (Utils.getValue(childDetails.getColumnmaps(), "mother_first_name", true).isEmpty() ? Utils.getValue(childDetails.getDetails(), "mother_first_name", true) : Utils.getValue(childDetails.getColumnmaps(), "mother_first_name", true)));
 
                     }
@@ -1024,7 +1028,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         String childName = constructChildName();
         String gender = getValue(childDetails.getColumnmaps(), "gender", true);
         String motherFirstName = getValue(childDetails.getColumnmaps(), "mother_first_name", true);
-        if (StringUtils.isBlank(childName) && StringUtils.isNotBlank(motherFirstName)) {
+        if (isBlank(childName) && StringUtils.isNotBlank(motherFirstName)) {
             childName = "B/o " + motherFirstName.trim();
         }
         String zeirId = getValue(childDetails.getColumnmaps(), "zeir_id", false);

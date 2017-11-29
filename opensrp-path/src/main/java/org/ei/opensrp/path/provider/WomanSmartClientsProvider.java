@@ -168,6 +168,7 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
 
 
         View add_child = convertView.findViewById(R.id.add_member);
+        add_child.setEnabled(true);
         add_child.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
