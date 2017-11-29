@@ -16,6 +16,7 @@ import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
+import org.ei.opensrp.commonregistry.CommonRepository;
 import org.ei.opensrp.cursoradapter.SmartRegisterCLientsProviderForCursorAdapter;
 import org.ei.opensrp.dgfp.BuildConfig;
 import org.ei.opensrp.dgfp.R;
@@ -42,6 +43,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.ei.opensrp.dgfp.child.ChildDetailActivity.calculateage;
 import static org.ei.opensrp.util.StringUtil.humanize;
 
@@ -123,8 +125,19 @@ public class nutrition_SmartClientsProvider implements SmartRegisterCLientsProvi
                 }
                 husband_name_or_mothersname.setText((pc.getDetails().get("Child_Mother") != null ? pc.getDetails().get("Child_Mother") : ""));
             }
-            if((pc.getDetails().get("Calc_Dob_Confirm") != null ? pc.getDetails().get("Calc_Dob_Confirm") : "").equalsIgnoreCase("")){
-                pc.getDetails().put("Calc_Dob_Confirm",pc.getDetails().get("Member_Birth_Date"));
+            if ((pc.getDetails().get("Calc_Dob_Confirm") != null ? pc.getDetails().get("Calc_Dob_Confirm") : "").equalsIgnoreCase("")) {
+                pc.getDetails().put("Calc_Dob_Confirm", pc.getDetails().get("Member_Birth_Date"));
+            }
+            String motherID = (pc.getDetails().get("mother_UUID") != null ? pc.getDetails().get("mother_UUID") : "");
+            if (isBlank((pc.getDetails().get("existing_HoH_F_Name") != null ? pc.getDetails().get("existing_HoH_F_Name") : ""))){
+                if (!isBlank(motherID)) {
+                    CommonRepository commonRepository = org.ei.opensrp.Context.getInstance().commonrepository("members");
+                    CommonPersonObject commonPersonObject = commonRepository.findByCaseID(motherID);
+                    if (commonPersonObject != null) {
+                        pc.getDetails().put("existing_HoH_F_Name", (commonPersonObject.getDetails().get("existing_HoH_F_Name") != null ? commonPersonObject.getDetails().get("existing_HoH_F_Name") : ""));
+                        commonRepository.mergeDetails(pc.entityId(),pc.getDetails());
+                    }
+                }
             }
 
         } else {
