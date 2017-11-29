@@ -283,7 +283,7 @@ public class dgfp_nutrition_SmartRegisterFragment extends SecuredNativeSmartRegi
         private String doolay(CommonPersonObjectClient ancclient) {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             try {
-                Date edd_date = format.parse(ancclient.getDetails().get("Member_Birth_Date")!=null?ancclient.getDetails().get("Member_Birth_Date"):"");
+                Date edd_date = format.parse(ancclient.getColumnmaps().get("Calc_Dob_Confirm")!=null?ancclient.getColumnmaps().get("Calc_Dob_Confirm"):"");
                 GregorianCalendar calendar = new GregorianCalendar();
                 calendar.setTime(edd_date);
                 edd_date.setTime(calendar.getTime().getTime());
