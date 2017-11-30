@@ -218,7 +218,8 @@
             android:layout_height="match_parent"
             android:text="New Text"
             style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
-            android:id="@+id/nutrition_form" />
+            android:id="@+id/nutrition_form"
+            android:textStyle="normal|bold" />
 
     </LinearLayout>
 

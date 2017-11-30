@@ -167,7 +167,7 @@ public class adolescent_SmartClientsProvider implements SmartRegisterCLientsProv
         if(pc.getDetails().get("adolescent_today")!=null){
             datetoconvert = pc.getDetails().get("adolescent_today");
             completedate = pc.getDetails().get("adolescent_today");
-            scheduledate =  setDate(datetoconvert,7);
+            scheduledate =  setDate(datetoconvert,0);
         }
 
         singleALertButtonView(alertlist_for_client,follow_up,pc,completedate,scheduledate);
@@ -227,73 +227,78 @@ public class adolescent_SmartClientsProvider implements SmartRegisterCLientsProv
     }
 
     public void singleALertButtonView(List<Alert> alertlist_for_client,TextView due_visit_date, CommonPersonObjectClient smartRegisterClient,String textforComplete,String textfornotcomplete){
-        if(alertlist_for_client.size() == 0 ){
-            due_visit_date.setText("Not Synced to Server");
-            due_visit_date.setTextColor(context.getResources().getColor(R.color.text_black));
-            due_visit_date.setBackgroundColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
-            due_visit_date.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+//        if(alertlist_for_client.size() == 0 ){
+            due_visit_date.setText(textfornotcomplete);
+//            due_visit_date.setTextColor(context.getResources().getColor(R.color.text_black));
+//            due_visit_date.setBackgroundColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
 
-                }
-            });
+            due_visit_date.setBackgroundColor(context.getResources().getColor(R.color.alert_upcoming_yellow));
+            due_visit_date.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+
+
+//            due_visit_date.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                }
+//            });
             due_visit_date.setOnClickListener(onClickListener);
             due_visit_date.setTag(smartRegisterClient);
 
-        }
-        for(int i = 0;i<alertlist_for_client.size();i++){
-            if(alertlist_for_client.get(i).status().value().equalsIgnoreCase("normal")){
-//                due_visit_date.setText(alertlist_for_client.get(i).expiryDate());
-                due_visit_date.setText(textfornotcomplete);
-
-                due_visit_date.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
-                due_visit_date.setTextColor(context.getResources().getColor(R.color.text_black));
-
-                due_visit_date.setBackgroundColor(context.getResources().getColor(org.ei.opensrp.R.color.alert_upcoming_light_blue));
-            }
-            if(alertlist_for_client.get(i).status().value().equalsIgnoreCase("upcoming")){
-//                due_visit_date.setText(alertlist_for_client.get(i).startDate());
-                due_visit_date.setBackgroundColor(context.getResources().getColor(R.color.alert_upcoming_yellow));
-                due_visit_date.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
-
-                due_visit_date.setOnClickListener(onClickListener);
-                due_visit_date.setTag(smartRegisterClient);
-                due_visit_date.setText(textfornotcomplete);
-            }
-            if(alertlist_for_client.get(i).status().value().equalsIgnoreCase("urgent")){
-//                due_visit_date.setText((alertlist_for_client.get(i).startDate()));
-                due_visit_date.setOnClickListener(onClickListener);
-                due_visit_date.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
-
-                due_visit_date.setTag(smartRegisterClient);
-                due_visit_date.setBackgroundColor(context.getResources().getColor(org.ei.opensrp.R.color.alert_urgent_red));
-                due_visit_date.setText(textfornotcomplete);
-
-            }
-            if(alertlist_for_client.get(i).status().value().equalsIgnoreCase("expired")){
-                due_visit_date.setTextColor(context.getResources().getColor(R.color.text_black));
-
-                due_visit_date.setBackgroundColor(context.getResources().getColor(org.ei.opensrp.R.color.client_list_header_dark_grey));
-                due_visit_date.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
-                due_visit_date.setText(textfornotcomplete);
-            }
-            if(alertlist_for_client.get(i).isComplete()){
-                due_visit_date.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
-
-                due_visit_date.setBackgroundColor(context.getResources().getColor(R.color.alert_complete_green_mcare));
-                due_visit_date.setText(textforComplete);
-            }
-        }
+//        }
+//        for(int i = 0;i<alertlist_for_client.size();i++){
+//            if(alertlist_for_client.get(i).status().value().equalsIgnoreCase("normal")){
+////                due_visit_date.setText(alertlist_for_client.get(i).expiryDate());
+//                due_visit_date.setText(textfornotcomplete);
+//
+//                due_visit_date.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//
+//                    }
+//                });
+//                due_visit_date.setTextColor(context.getResources().getColor(R.color.text_black));
+//
+//                due_visit_date.setBackgroundColor(context.getResources().getColor(org.ei.opensrp.R.color.alert_upcoming_light_blue));
+//            }
+//            if(alertlist_for_client.get(i).status().value().equalsIgnoreCase("upcoming")){
+////                due_visit_date.setText(alertlist_for_client.get(i).startDate());
+//                due_visit_date.setBackgroundColor(context.getResources().getColor(R.color.alert_upcoming_yellow));
+//                due_visit_date.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+//
+//                due_visit_date.setOnClickListener(onClickListener);
+//                due_visit_date.setTag(smartRegisterClient);
+//                due_visit_date.setText(textfornotcomplete);
+//            }
+//            if(alertlist_for_client.get(i).status().value().equalsIgnoreCase("urgent")){
+////                due_visit_date.setText((alertlist_for_client.get(i).startDate()));
+//                due_visit_date.setOnClickListener(onClickListener);
+//                due_visit_date.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+//
+//                due_visit_date.setTag(smartRegisterClient);
+//                due_visit_date.setBackgroundColor(context.getResources().getColor(org.ei.opensrp.R.color.alert_urgent_red));
+//                due_visit_date.setText(textfornotcomplete);
+//
+//            }
+//            if(alertlist_for_client.get(i).status().value().equalsIgnoreCase("expired")){
+//                due_visit_date.setTextColor(context.getResources().getColor(R.color.text_black));
+//
+//                due_visit_date.setBackgroundColor(context.getResources().getColor(org.ei.opensrp.R.color.client_list_header_dark_grey));
+//                due_visit_date.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//
+//                    }
+//                });
+//                due_visit_date.setText(textfornotcomplete);
+//            }
+//            if(alertlist_for_client.get(i).isComplete()){
+//                due_visit_date.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+//
+//                due_visit_date.setBackgroundColor(context.getResources().getColor(R.color.alert_complete_green_mcare));
+//                due_visit_date.setText(textforComplete);
+//            }
+//        }
     }
 
 

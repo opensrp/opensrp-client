@@ -208,7 +208,8 @@
             android:layout_height="match_parent"
             android:text="New Text"
             style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
-            android:id="@+id/next_injectable_dose" />
+            android:id="@+id/next_injectable_dose"
+            android:textStyle="normal|bold" />
 
     </LinearLayout>
 

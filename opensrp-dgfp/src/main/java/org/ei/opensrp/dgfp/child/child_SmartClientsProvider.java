@@ -208,8 +208,8 @@ public class child_SmartClientsProvider implements SmartRegisterCLientsProviderF
 
                     }
                 });
-                due_visit_date.setOnClickListener(onClickListener);
-                due_visit_date.setTag(smartRegisterClient);
+//                due_visit_date.setOnClickListener(onClickListener);
+//                due_visit_date.setTag(smartRegisterClient);
             }
 
         }
@@ -264,6 +264,12 @@ public class child_SmartClientsProvider implements SmartRegisterCLientsProviderF
 
                 due_visit_date.setBackgroundColor(context.getResources().getColor(R.color.alert_complete_green_mcare));
                 due_visit_date.setText(textforComplete);
+                due_visit_date.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
             }
         }
     }

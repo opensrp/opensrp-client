@@ -222,8 +222,12 @@ public class HH_woman_member_SmartClientsProvider implements SmartRegisterCLient
                 due_visit_date.setBackgroundColor(context.getResources().getColor(R.color.alert_upcoming_yellow));
             }else{
                 due_visit_date.setText(textforComplete);
-                due_visit_date.setOnClickListener(onClickListener);
-                due_visit_date.setTag(smartRegisterClient);
+                due_visit_date.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
                 due_visit_date.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
                 due_visit_date.setBackgroundColor(context.getResources().getColor(R.color.alert_complete_green));
             }
@@ -288,8 +292,12 @@ public class HH_woman_member_SmartClientsProvider implements SmartRegisterCLient
             }
             if(alertlist_for_client.get(i).isComplete()){
                 due_visit_date.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
-                due_visit_date.setOnClickListener(onClickListener);
-                due_visit_date.setTag(smartRegisterClient);
+                due_visit_date.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
                 due_visit_date.setBackgroundColor(context.getResources().getColor(R.color.alert_complete_green_mcare));
                 due_visit_date.setText(textforComplete);
             }

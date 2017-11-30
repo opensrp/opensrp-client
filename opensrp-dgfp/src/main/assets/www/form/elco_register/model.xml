@@ -1,122 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <model>
   <instance>
-    <EligibleCoupleRegister
-        xmlns:jr="http://openrosa.org/javarosa"
-        xmlns:orx="http://openrosa.org/xforms" encounter_type="Eligible Couple" id="EligibleCoupleRegister" version="201701081315">
+    <EligibleCoupleRegister encounter_type="Eligible Couple" id="EligibleCoupleRegister" version="201711290608">
       <formhub>
-        <uuid/>
+        <uuid />
       </formhub>
-      <version/>
-      <changes/>
-      <existing_Mauzapara/>
-      <existing_GoB_HHID/>
-      <existing_Mem_F_Name/>
-      <existing_Spouse_Name/>
-      <existing_Mem_Marital_Status/>
-      <existing_ELCO_NID/>
-      <existing_ELCO_BRID/>
-      <existing_Calc_Age_Confirm/>
-      <existing_ELCO/>
-      <existing_Couple_No/>
-      <existing_ELCO_Mobile_Number/>
-      <existing_HoH_F_Name/>
-      <existing_Final_Dist/>
-      <existing_Final_Union/>
-      <existing_PW/>
-      <existing_Final_Vill/>
-      <existing_location openmrs_entity="encounter" openmrs_entity_id="location_id"/>
-      <existing_TT_Count/>
-      <today openmrs_entity="encounter" openmrs_entity_id="encounter_date"/>
-      <start openmrs_entity="concept" openmrs_entity_id="163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-      <end openmrs_entity="concept" openmrs_entity_id="163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-      <ELCO_Date openmrs_entity="concept" openmrs_entity_id="160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-      <ELCO_Status openmrs_entity="concept" openmrs_entity_id="163088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <version />
+      <changes />
+      <existing_Mauzapara />
+      <existing_GoB_HHID />
+      <existing_Mem_F_Name />
+      <existing_Spouse_Name />
+      <existing_Mem_Marital_Status />
+      <existing_ELCO_NID />
+      <existing_ELCO_BRID />
+      <existing_Calc_Age_Confirm />
+      <existing_ELCO />
+      <existing_Couple_No />
+      <existing_ELCO_Mobile_Number />
+      <existing_HoH_F_Name />
+      <existing_Final_Dist />
+      <existing_Final_Union />
+      <existing_PW />
+      <existing_Final_Vill />
+      <existing_location openmrs_entity="encounter" openmrs_entity_id="location_id" />
+      <existing_TT_Count />
+      <today openmrs_entity="encounter" openmrs_entity_id="encounter_date" />
+      <start openmrs_entity="concept" openmrs_entity_id="163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+      <end openmrs_entity="concept" openmrs_entity_id="163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+      <ELCO_Date openmrs_entity="concept" openmrs_entity_id="160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+      <ELCO_Status openmrs_entity="concept" openmrs_entity_id="163088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
       <Wom_Met>
-        <Confirm_Info/>
-        <Marriage_Date/>
-        <LMP openmrs_entity="concept" openmrs_entity_id="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-        <Preg_Status openmrs_entity="concept" openmrs_entity_id="162942AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-        <Using_FP/>
-        <Birth_Control openmrs_entity="concept" openmrs_entity_id="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-        <Type_Oral_Pill openmrs_entity="concept" openmrs_entity_id="163400AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-        <Pill_Given_No/>
-        <Pill_Given_Date/>
-        <Format_Pill_Given_Date/>
-        <Cond_Given_No/>
-        <Cond_Given_Date/>
-        <Format_Cond_Given_Date/>
-        <Injetable/>
-        <Injection_Date openmrs_entity="concept" openmrs_entity_id="1190AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="5279AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-        <Dose_No/>
-        <Format_Injection_Date/>
-        <Format_Next_Injection_Date/>
-        <Next_Injection_Date/>
-        <Type_Implant openmrs_entity="concept" openmrs_entity_id="163401AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-        <Permanent_M_Date/>
-        <Format_Permanent_M_Date/>
-        <Source_BC_Product openmrs_entity="concept" openmrs_entity_id="163361AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-        <Want_Change/>
-        <Want_To_Use/>
-        <Counselling/>
-        <Discuss_With_Fam/>
-        <Select_FP_Method/>
-        <Has_Changed/>
-        <Want_FP_Commodities/>
-        <Eligible_Injectables/>
-        <Provide_Pills_Condoms/>
-        <Refer/>
-        <TT_Status openmrs_entity="concept" openmrs_entity_id="160701AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-        <TT_Dose openmrs_entity="concept" openmrs_entity_id="160055AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-        <Not_Preg_Note/>
+        <Confirm_Info />
+        <Marriage_Date />
+        <LMP openmrs_entity="concept" openmrs_entity_id="1427AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <Preg_Status openmrs_entity="concept" openmrs_entity_id="162942AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <Using_FP />
+        <Birth_Control openmrs_entity="concept" openmrs_entity_id="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <Type_Oral_Pill openmrs_entity="concept" openmrs_entity_id="780AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <Pill_Given_No />
+        <Pill_Given_Date />
+        <Format_Pill_Given_Date />
+        <Cond_Given_No />
+        <Cond_Given_Date />
+        <Format_Cond_Given_Date />
+        <Injetable />
+        <Injection_Date openmrs_entity="concept" openmrs_entity_id="1190AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="5279AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <Dose_No />
+        <Format_Injection_Date />
+        <Format_Next_Injection_Date />
+        <Next_Injection_Date />
+        <Type_Implant openmrs_entity="concept" openmrs_entity_id="159589AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <Permanent_M_Date />
+        <Format_Permanent_M_Date />
+        <Source_BC_Product openmrs_entity="concept" openmrs_entity_id="163361AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <Want_Change />
+        <Want_To_Use />
+        <Counselling />
+        <Discuss_With_Fam />
+        <Select_FP_Method />
+        <Has_Changed>0'</Has_Changed>
+        <Want_FP_Commodities />
+        <Eligible_Injectables />
+        <Provide_Pills_Condoms />
+        <Refer />
+        <TT_Status openmrs_entity="concept" openmrs_entity_id="160701AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <TT_Dose openmrs_entity="concept" openmrs_entity_id="160055AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <Not_Preg_Note />
         <Pregnancy_Reg>
-          <Preg_Note/>
-          <Height/>
-          <Gestational_Age openmrs_entity="concept" openmrs_entity_id="1438AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-          <Calc_EDD openmrs_entity="concept" openmrs_entity_id="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-          <Gravida/>
-          <Child_Alive_Boy openmrs_entity="concept" openmrs_entity_id="1825AAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="1534AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-          <Child_Alive_Girl openmrs_entity="concept" openmrs_entity_id="1825AAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="1535AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-          <Total_Child_Alive/>
-          <Live_Birth/>
-          <Age_Youngest_Child/>
-          <Bleeding/>
+          <Preg_Note />
+          <Height />
+          <Gestational_Age openmrs_entity="concept" openmrs_entity_id="1438AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+          <Calc_EDD openmrs_entity="concept" openmrs_entity_id="5596AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+          <Gravida />
+          <Child_Alive_Boy openmrs_entity="concept" openmrs_entity_id="1825AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="1534AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+          <Child_Alive_Girl openmrs_entity="concept" openmrs_entity_id="1825AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="1535AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+          <Total_Child_Alive />
+          <Live_Birth />
+          <Age_Youngest_Child />
+          <Bleeding />
           <Last_Pregnancy>
-            <yn_dk_label/>
-            <Caesarean/>
-            <Heavy_Blood_Flow/>
-            <Prolong_Delivery/>
-            <Birth_Outcome/>
-            <Dead_Child/>
+            <yn_dk_label />
+            <Caesarean />
+            <Heavy_Blood_Flow />
+            <Prolong_Delivery />
+            <Birth_Outcome />
+            <Dead_Child />
           </Last_Pregnancy>
-          <Risky_Preg/>
-          <Refer_FWV/>
-          <Mother_Mauzapara/>
-          <Mother_GoB_HHID/>
-          <Mother_F_Name/>
-          <Mother_Hus_Name/>
-          <Mother_NID/>
-          <Mother_BRID/>
-          <Mother_Age/>
-          <Mother_LMP/>
-          <Mother_Valid/>
-          <Last_FP_Method/>
-          <Changed_FP_Method/>
-          <Calc_FP_Given_Date/>
-          <Is_Eligible_Injectables/>
-          <Is_Not_Injectable_Anymore/>
+          <Risky_Preg />
+          <Refer_FWV />
+          <Mother_Mauzapara />
+          <Mother_GoB_HHID />
+          <Mother_F_Name />
+          <Mother_Hus_Name />
+          <Mother_NID />
+          <Mother_BRID />
+          <Mother_Age />
+          <Mother_LMP />
+          <Mother_Valid />
+          <Last_FP_Method />
+          <Changed_FP_Method />
+          <Calc_FP_Given_Date />
+          <Is_Eligible_Injectables />
+          <Is_Not_Injectable_Anymore />
         </Pregnancy_Reg>
       </Wom_Met>
-      <Married_Life/>
-      <TT_Count/>
-      <ELCO_Followup_Logic/>
-      <Not_ELCO/>
-      <ELCO/>
-      <Eligible/>
-      <PW/>
-      <Current_Form_Status/>
-      <Nutrition/>
+      <Married_Life />
+      <TT_Count />
+      <ELCO_Followup_Logic />
+      <Not_ELCO />
+      <ELCO />
+      <Eligible />
+      <PW />
+      <Current_Form_Status />
+      <Nutrition />
       <meta>
-        <instanceID/>
+        <instanceID />
       </meta>
     </EligibleCoupleRegister>
   </instance>

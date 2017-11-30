@@ -70,6 +70,7 @@ import java.util.Map;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
@@ -285,12 +286,22 @@ public class dgfp_child_SmartRegisterFragment extends SecuredNativeSmartRegister
         private String doolay(CommonPersonObjectClient ancclient) {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             try {
-                Date edd_date = format.parse(ancclient.getColumnmaps().get("Calc_Dob_Confirm")!=null?ancclient.getColumnmaps().get("Calc_Dob_Confirm"):"");
+                Date edd_date = null;
+                if(!isBlank((ancclient.getColumnmaps().get("Calc_Dob_Confirm")!=null?ancclient.getColumnmaps().get("Calc_Dob_Confirm"):"")))
+                {
+                    edd_date = format.parse(ancclient.getColumnmaps().get("Calc_Dob_Confirm") != null ? ancclient.getColumnmaps().get("Calc_Dob_Confirm") : "");
+                }else if(!isBlank((ancclient.getColumnmaps().get("Member_Birth_Date")!=null?ancclient.getColumnmaps().get("Member_Birth_Date"):"")))
+                {
+                    edd_date = format.parse(ancclient.getColumnmaps().get("Member_Birth_Date") != null ? ancclient.getColumnmaps().get("Member_Birth_Date") : "");
+                }else if(!isBlank((ancclient.getDetails().get("Member_Birth_Date")!=null?ancclient.getDetails().get("Member_Birth_Date"):"")))
+                {
+                    edd_date = format.parse(ancclient.getDetails().get("Member_Birth_Date") != null ? ancclient.getDetails().get("Member_Birth_Date") : "");
+                }
                 GregorianCalendar calendar = new GregorianCalendar();
                 calendar.setTime(edd_date);
                 edd_date.setTime(calendar.getTime().getTime());
                 return dgfpApplication.convertToEnglishDigits(format.format(edd_date));
-            } catch (ParseException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 return "";
             }
