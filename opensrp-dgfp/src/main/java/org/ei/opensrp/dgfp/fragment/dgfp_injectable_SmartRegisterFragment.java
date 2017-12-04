@@ -58,6 +58,8 @@ import org.ei.opensrp.view.dialog.SortOption;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.opensrp.api.domain.Location;
+import org.opensrp.api.util.EntityUtils;
+import org.opensrp.api.util.LocationTree;
 import org.opensrp.api.util.TreeNode;
 
 import java.util.ArrayList;
@@ -139,12 +141,12 @@ public class dgfp_injectable_SmartRegisterFragment extends SecuredNativeSmartReg
 //                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.triple_vaccine_miss),filterStringForMoreThanVaccineMiss()));
 
 
-//                String locationjson = context.anmLocationController().get();
-//                LocationTree locationTree = EntityUtils.fromJson(locationjson, LocationTree.class);
+                String locationjson = context.anmLocationController().get();
+                LocationTree locationTree = EntityUtils.fromJson(locationjson, LocationTree.class);
 
-//                Map<String,TreeNode<String, Location>> locationMap =
-//                        locationTree.getLocationsHierarchy();
-//                addChildToList(dialogOptionslist,locationMap);
+                Map<String,TreeNode<String, Location>> locationMap =
+                        locationTree.getLocationsHierarchy();
+                addChildToList(dialogOptionslist,locationMap);
                 DialogOption[] dialogOptions = new DialogOption[dialogOptionslist.size()];
                 for (int i = 0;i < dialogOptionslist.size();i++){
                     dialogOptions[i] = dialogOptionslist.get(i);

@@ -106,7 +106,7 @@ public class mCarePncDetailActivity extends Activity {
         hid.setText(humanize("GOB HHID: "+(womanclient.getDetails().get("Member_GoB_HHID") != null ? womanclient.getDetails().get("Member_GoB_HHID") : "").replace("+", "_")));
 
         if(womanclient.getDetails().get("Spouse_Name") != null){
-            husbandname.setText(humanize(womanclient.getDetails().get("Spouse_Name").length() > 0 ? womanclient.getDetails().get("Spouse_Name"):"N/A"));
+            husbandname.setText("Spouse Name: "+humanize(womanclient.getDetails().get("Spouse_Name").length() > 0 ? womanclient.getDetails().get("Spouse_Name"):"N/A"));
         }
 
         marriagelife.setText("Marriage Life: "+maritalStatus((womanclient.getDetails().get("Married_Life") != null ? womanclient.getDetails().get("Married_Life") : "")));

@@ -59,6 +59,8 @@ import org.ei.opensrp.view.dialog.SortOption;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.opensrp.api.domain.Location;
+import org.opensrp.api.util.EntityUtils;
+import org.opensrp.api.util.LocationTree;
 import org.opensrp.api.util.TreeNode;
 
 import java.text.ParseException;
@@ -125,32 +127,32 @@ public class dgfp_child_SmartRegisterFragment extends SecuredNativeSmartRegister
             public DialogOption[] filterOptions() {
                 ArrayList<DialogOption> dialogOptionslist = new ArrayList<DialogOption>();
                 dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_all_label),""));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filterbymarried),filterStringFormarried()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filterbyUnmarried),filterStringForunmarried()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filterbywidowed),filterStringForwidow()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.ward1),filterStringForWard("Ward-1")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.ward2),filterStringForWard("Ward-2")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.ward3),filterStringForWard("Ward-3")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block1ka),filterStringForBlock("1-KA")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block1kha),filterStringForBlock("1-KHA")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block2ka),filterStringForBlock("2-KA")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block2kha),filterStringForBlock("2-KHA")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block3ka),filterStringForBlock("3-KA")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block3kha),filterStringForBlock("3-KHA")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block4ka),filterStringForBlock("4-KA")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block4kha),filterStringForBlock("4-KHA")));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.todayssession),filterStringForTodaySession()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.single_vaccine_miss),filterStringForSingleVaccineMiss()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.double_vaccine_miss),filterStringForDoubleVaccineMiss()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.triple_vaccine_miss),filterStringForMoreThanVaccineMiss()));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filterbymarried),filterStringFormarried()));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filterbyUnmarried),filterStringForunmarried()));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filterbywidowed),filterStringForwidow()));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.ward1),filterStringForWard("Ward-1")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.ward2),filterStringForWard("Ward-2")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.ward3),filterStringForWard("Ward-3")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block1ka),filterStringForBlock("1-KA")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block1kha),filterStringForBlock("1-KHA")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block2ka),filterStringForBlock("2-KA")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block2kha),filterStringForBlock("2-KHA")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block3ka),filterStringForBlock("3-KA")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block3kha),filterStringForBlock("3-KHA")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block4ka),filterStringForBlock("4-KA")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.block4kha),filterStringForBlock("4-KHA")));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.todayssession),filterStringForTodaySession()));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.single_vaccine_miss),filterStringForSingleVaccineMiss()));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.double_vaccine_miss),filterStringForDoubleVaccineMiss()));
+//                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.triple_vaccine_miss),filterStringForMoreThanVaccineMiss()));
 
 
-//                String locationjson = context.anmLocationController().get();
-//                LocationTree locationTree = EntityUtils.fromJson(locationjson, LocationTree.class);
+                String locationjson = context.anmLocationController().get();
+                LocationTree locationTree = EntityUtils.fromJson(locationjson, LocationTree.class);
 
-//                Map<String,TreeNode<String, Location>> locationMap =
-//                        locationTree.getLocationsHierarchy();
-//                addChildToList(dialogOptionslist,locationMap);
+                Map<String,TreeNode<String, Location>> locationMap =
+                        locationTree.getLocationsHierarchy();
+                addChildToList(dialogOptionslist,locationMap);
                 DialogOption[] dialogOptions = new DialogOption[dialogOptionslist.size()];
                 for (int i = 0;i < dialogOptionslist.size();i++){
                     dialogOptions[i] = dialogOptionslist.get(i);

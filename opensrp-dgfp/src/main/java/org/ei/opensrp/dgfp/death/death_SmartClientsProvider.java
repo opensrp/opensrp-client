@@ -22,6 +22,7 @@ import org.ei.opensrp.dgfp.hh_member.HouseHoldDetailActivity;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.service.AlertService;
+import org.ei.opensrp.util.DateUtil;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.contract.SmartRegisterClients;
 import org.ei.opensrp.view.dialog.FilterOption;
@@ -38,6 +39,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.ei.opensrp.dgfp.child.ChildDetailActivity.calculateage;
 import static org.ei.opensrp.util.StringUtil.humanize;
 
 /**
@@ -128,7 +131,27 @@ public class death_SmartClientsProvider implements SmartRegisterCLientsProviderF
 
         date_of_death.setText(pc.getDetails().get("Date_Death") != null ? pc.getDetails().get("Date_Death") : "");
 
-        age.setText(pc.getDetails().get("Calc_Age_Confirm") != null ? "("+pc.getDetails().get("Calc_Age_Confirm")+")" : "");
+
+        try {
+            String datetocalc = "";
+            String dateofdeath = pc.getDetails().get("Date_Death") != null ? pc.getDetails().get("Date_Death") : "";
+            if(!isBlank(dateofdeath)) {
+                if (datetocalc.equalsIgnoreCase("")) {
+                    datetocalc = (pc.getColumnmaps().get("Calc_Dob_Confirm") != null ? pc.getColumnmaps().get("Calc_Dob_Confirm") : "");
+                }
+                DateUtil.setDefaultDateFormat("yyyy-MM-dd");
+                int days = DateUtil.dayDifference(DateUtil.getLocalDate(datetocalc), DateUtil.getLocalDate(dateofdeath));
+                int calc_age = days / 365;
+                String agetodisplay = calculateage(days);
+                age.setText(agetodisplay);
+            }else{
+                age.setText(pc.getDetails().get("Calc_Age_Confirm") != null ? "("+pc.getDetails().get("Calc_Age_Confirm")+")" : "");
+            }
+        }catch (Exception e){
+            age.setText(pc.getDetails().get("Calc_Age_Confirm") != null ? "("+pc.getDetails().get("Calc_Age_Confirm")+")" : "");
+
+        }
+
 
         nid.setText("NID: " + (pc.getDetails().get("ELCO_NID") != null ? pc.getDetails().get("ELCO_NID") : ""));
         brid.setText("BRID: " + (pc.getDetails().get("ELCO_BRID") != null ? pc.getDetails().get("ELCO_BRID") : ""));

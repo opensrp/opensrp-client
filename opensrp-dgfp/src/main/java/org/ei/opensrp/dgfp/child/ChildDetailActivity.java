@@ -95,7 +95,11 @@ public class ChildDetailActivity extends Activity {
         brid.setText(StringUtil.humanize("BRID: " + (ChildClient.getDetails().get("Mem_BRID") != null ? (String) ChildClient.getDetails().get("Mem_BRID") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
         fathersname.setText(StringUtil.humanize("Mother Name : " + (ChildClient.getDetails().get("Child_Mother") != null ? (String) ChildClient.getDetails().get("Child_Mother") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
         mothersname.setText(StringUtil.humanize("Father Name : " + (ChildClient.getDetails().get("Child_Father") != null ? (String) ChildClient.getDetails().get("Child_Father") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
-        age.setText(StringUtil.humanize("Age : " + calculateage(age(ChildClient).intValue())));
+        try {
+            age.setText(StringUtil.humanize("Age : " + calculateage(age(ChildClient).intValue())));
+        }catch (Exception e){
+            age.setText("");
+        }
         godhhid.setText(StringUtil.humanize("HHID-Government : " + (ChildClient.getDetails().get("Member_GoB_HHID") != null ? (String) ChildClient.getDetails().get("Member_GoB_HHID") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
         address.setText(StringUtil.humanize("Address : " + (ChildClient.getDetails().get("Final_Vill") != null ? (String) ChildClient.getDetails().get("Final_Vill") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR) + "," + (ChildClient.getDetails().get("Mem_Mauzapara") != null ? (String) ChildClient.getDetails().get("Mem_Mauzapara") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR) + "," + (ChildClient.getDetails().get("Mem_Upazilla") != null ? (String) ChildClient.getDetails().get("Mem_Upazilla") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR) + "," + (ChildClient.getDetails().get("Mem_Union") != null ? (String) ChildClient.getDetails().get("Mem_Union") : BuildConfig.FLAVOR).replace("+", EventsFilesManager.ROLL_OVER_FILE_NAME_SEPARATOR)));
         String type_of_delivery;

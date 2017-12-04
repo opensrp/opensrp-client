@@ -163,7 +163,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            style="@style/CustomFontTextViewStyle"
+            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
             android:id="@+id/c_brid"
             android:layout_marginTop="3dp"
             android:textSize="12sp" />
@@ -171,14 +171,14 @@
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/CustomFontTextViewStyle"
+            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
             android:text="New Text"
             android:id="@+id/m_brid"
             android:textSize="12sp" />
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/CustomFontTextViewStyle"
+            style="@style/CustomFontTextViewStyle.ListView.Normal.MultipleLines"
             android:text="New Text"
             android:id="@+id/m_nid"
             android:textSize="12sp" />

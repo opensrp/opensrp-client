@@ -149,7 +149,7 @@ public class dgfpPNCSmartRegisterFragment extends SecuredNativeSmartRegisterCurs
 
             @Override
             public String searchHint() {
-                return getString(R.string.str_ec_search_hint);
+                return getString(R.string.search_register);
             }
         };
     }
