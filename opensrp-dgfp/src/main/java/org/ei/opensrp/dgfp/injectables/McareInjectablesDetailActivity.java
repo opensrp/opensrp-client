@@ -108,7 +108,7 @@ public class McareInjectablesDetailActivity extends Activity {
             }
         });
 
-        ImageView householdview = (ImageView) findViewById(R.id.householdprofileview);
+        ImageView householdview = (ImageView) findViewById(R.id.womandetailprofileview);
         if (injectableClient.getDetails().get("profilepic") != null) {
             setImagetoHolder(this, (String) injectableClient.getDetails().get("profilepic"), householdview, R.mipmap.woman_placeholder);
         }

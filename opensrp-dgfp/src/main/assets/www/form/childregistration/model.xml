@@ -29,7 +29,7 @@
             <Today openmrs_entity="encounter" openmrs_entity_id="encounter_date" />
             <start openmrs_entity="concept" openmrs_entity_id="163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
             <end openmrs_entity="concept" openmrs_entity_id="163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
-            <Reg_Newborn openmrs_entity="person" openmrs_entity_id="Child Vital Status">
+            <Reg_Newborn template="" openmrs_entity="person" openmrs_entity_id="Child Vital Status">
                 <Child_Vital_Status openmrs_entity="concept" openmrs_entity_id="159926AAAAAAAAAAAAAAAAAAAAAAAAAA" />
                 <Child_Weight />
                 <Premature_Birth />

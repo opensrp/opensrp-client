@@ -83,7 +83,7 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
         TextView maritalstatus = (TextView)itemView.findViewById(R.id.marital_status);
         TextView general = (TextView)itemView.findViewById(R.id.general);
 
-        ListView childlist = (ListView)itemView.findViewById(R.id.childlist);
+        LinearLayout childlist = (LinearLayout) itemView.findViewById(R.id.childlist);
 
         ImageView ischildof = (ImageView) itemView.findViewById(R.id.ischildofarrow);
 
@@ -96,7 +96,7 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
 
         final CommonPersonObjectClient pc = (CommonPersonObjectClient) smartRegisterClient;
 
-        childlist.setAdapter(adapter(pc.getCaseId(),pc));
+
 
         general.setOnClickListener(onClickListener);
         general.setTag(smartRegisterClient);
@@ -104,11 +104,14 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
 
         profilepic.setOnClickListener(onClickListener);
         profilepic.setTag(smartRegisterClient);
-
+        childlist.setVisibility(View.VISIBLE);
+        childlist.removeAllViews();
         if(pc.getDetails().get("mother_UUID")!=null){
             ischildof.setVisibility(View.VISIBLE);
+            childlist.setVisibility(View.INVISIBLE);
         }else{
             ischildof.setVisibility(View.GONE);
+            adapter(pc.getCaseId(),childlist);
 
         }
 
@@ -551,12 +554,12 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
             this.alertstatus = alertstatus;
         }
     }
-    protected SmartRegisterPaginatedCursorAdapter adapter(String relationalid,SmartRegisterClient pc) {
+    protected SmartRegisterPaginatedCursorAdapter adapter(String relationalid,LinearLayout childlist) {
         CommonRepository commonRepository = org.ei.opensrp.Context.getInstance().commonrepository("members");
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
         queryBUilder.SelectInitiateMainTable("members", new String[]{"relationalid", "details", "Mem_F_Name", "EDD","Calc_Dob_Confirm", "Child_calc_age","calc_age_confirm", "Member_GOB_HHID", "Marital_status", "Pregnancy_Status"});
         queryBUilder.joinwithALerts("members", "FW CENSUS");
-        String mainSelect = queryBUilder.mainCondition("  (details like '%\"mother_UUID\":\""+pc.entityId()+"\"%') ");
+        String mainSelect = queryBUilder.mainCondition("  (details like '%\"mother_UUID\":\""+relationalid+"\"%') ");
         queryBUilder.addCondition("");
 //        String Sortqueries = sortByAlertmethod();
 //        currentquery  = queryBUilder.orderbyCondition(Sortqueries);
@@ -564,6 +567,10 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
         HH_member_detail_SmartClientsProvider hhscp = new HH_member_detail_SmartClientsProvider(context,onClickListener,org.ei.opensrp.Context.getInstance().alertService());
         SmartRegisterPaginatedCursorAdapter clientAdapter = new SmartRegisterPaginatedCursorAdapter(context, c, hhscp, new CommonRepository("members",new String []{"Mem_F_Name","EDD","Calc_Dob_Confirm","Child_calc_age","calc_age_confirm","Member_GOB_HHID","Marital_status","Pregnancy_Status"}));
 
+        for(int i = 0;i<clientAdapter.getCount();i++){
+            childlist.addView(clientAdapter.getView(i,null,null));
+        }
+//        Log.v(((CommonPersonObjectClient)pc).getColumnmaps().get("Mem_F_Name")+ "lenght",clientAdapter.getCount()+"");
 
         return  clientAdapter;
 //        return new SmartRegisterPaginatedAdapter(new HouseholdDetailsSmartClientsProvider(this,paginationViewHandler ,householdcontroller));
