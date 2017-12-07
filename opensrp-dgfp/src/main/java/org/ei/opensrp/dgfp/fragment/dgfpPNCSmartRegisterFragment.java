@@ -366,11 +366,11 @@ public class dgfpPNCSmartRegisterFragment extends SecuredNativeSmartRegisterCurs
         setTablename("members");
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder(pncMainCountWithJoins());
         countSelect = countqueryBUilder.mainCondition("(members.Mem_F_Name not null ) AND details like '%\"Is_PNC\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%')  ");
-        mainCondition = "(members.Mem_F_Name not null ) AND details like '%\"Is_PNC\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%')  ";
+        mainCondition = "(members.Mem_F_Name not null ) AND details like '%\"Is_PNC\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%' or details like '%\"Visit_Status\":\"8\"%')  ";
         super.CountExecute();
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder(pncMainSelectWithJoins());
-        mainSelect = queryBUilder.mainCondition("(members.Mem_F_Name not null ) AND details like '%\"Is_PNC\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%')  ");
+        mainSelect = queryBUilder.mainCondition("(members.Mem_F_Name not null ) AND details like '%\"Is_PNC\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%' or details like '%\"Visit_Status\":\"8\"%')  ");
         Sortqueries = sortByFWWOMFNAME();
 
         currentlimit = 20;

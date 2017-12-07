@@ -189,7 +189,8 @@
       },
       {
         "name": "Eligible",
-        "bind": "/model/instance/BirthNotification/Eligible"
+        "bind": "/model/instance/BirthNotification/Eligible",
+        "shouldLoadValue": true
       },
       {
         "name": "Calc_Age_Newmom",

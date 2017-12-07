@@ -210,45 +210,50 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
     private void assignRegisterButtons(LinearLayout registerButtonHolder, CommonPersonObjectClient pc) {
         GridView gridView = (GridView) registerButtonHolder.findViewById(R.id.gridview);
         ArrayList<String> buttons = new ArrayList<String>();
-        if ((pc.getDetails().get("Eligible") != null ? pc.getDetails().get("Eligible") : "").equalsIgnoreCase("1")) {
+        if((pc.getDetails().get("Visit_Status") != null ? pc.getDetails().get("Visit_Status") : "").equalsIgnoreCase("8")) {
+            buttons.add("Permanently Moved");
+        }else {
 
-            buttons.add("ELCO");
+            if ((pc.getDetails().get("Eligible") != null ? pc.getDetails().get("Eligible") : "").equalsIgnoreCase("1")) {
 
-        }
-        if ((pc.getDetails().get("Preg_Status") != null ? pc.getDetails().get("Preg_Status") : "").equalsIgnoreCase("1")) {
+                buttons.add("ELCO");
 
-            buttons.add("ANC");
+            }
+            if ((pc.getDetails().get("Preg_Status") != null ? pc.getDetails().get("Preg_Status") : "").equalsIgnoreCase("1")) {
 
-        }
-        if ((pc.getDetails().get("Is_PNC") != null ? pc.getDetails().get("Is_PNC") : "").equalsIgnoreCase("1")) {
+                buttons.add("ANC");
 
-            buttons.add("PNC");
+            }
+            if ((pc.getDetails().get("Is_PNC") != null ? pc.getDetails().get("Is_PNC") : "").equalsIgnoreCase("1")) {
 
-        }
-        if ((pc.getDetails().get("Child") != null ? pc.getDetails().get("Child") : "").equalsIgnoreCase("1")) {
+                buttons.add("PNC");
 
-            buttons.add("Child");
+            }
+            if ((pc.getDetails().get("Child") != null ? pc.getDetails().get("Child") : "").equalsIgnoreCase("1")) {
 
-        }
-        if ((pc.getDetails().get("Nutrition") != null ? pc.getDetails().get("Nutrition") : "").equalsIgnoreCase("1")) {
+                buttons.add("Child");
 
-            buttons.add("Nutrition");
+            }
+            if ((pc.getDetails().get("Nutrition") != null ? pc.getDetails().get("Nutrition") : "").equalsIgnoreCase("1")) {
 
-        }
-        if ((pc.getDetails().get("Is_Eligible_Injectables") != null ? pc.getDetails().get("Is_Eligible_Injectables") : "").equalsIgnoreCase("1")) {
+                buttons.add("Nutrition");
 
-            buttons.add("Injectable");
+            }
+            if ((pc.getDetails().get("Is_Eligible_Injectables") != null ? pc.getDetails().get("Is_Eligible_Injectables") : "").equalsIgnoreCase("1")) {
 
-        }
-        if ((pc.getDetails().get("Adolescent") != null ? pc.getDetails().get("Adolescent") : "").equalsIgnoreCase("1")) {
+                buttons.add("Injectable");
 
-            buttons.add("Adolescent");
+            }
+            if ((pc.getDetails().get("Adolescent") != null ? pc.getDetails().get("Adolescent") : "").equalsIgnoreCase("1")) {
 
-        }
-        if (((pc.getDetails().get("Visit_Status") != null ? pc.getDetails().get("Visit_Status") : "").equalsIgnoreCase("10"))||((pc.getDetails().get("Visit_Status") != null ? pc.getDetails().get("Visit_Status") : "").equalsIgnoreCase("11"))) {
+                buttons.add("Adolescent");
 
-            buttons.add("Death");
+            }
+            if (((pc.getDetails().get("Visit_Status") != null ? pc.getDetails().get("Visit_Status") : "").equalsIgnoreCase("10")) || ((pc.getDetails().get("Visit_Status") != null ? pc.getDetails().get("Visit_Status") : "").equalsIgnoreCase("11"))) {
 
+                buttons.add("Death");
+
+            }
         }
         String [] buttonnames = new String[buttons.size()];
         buttonnames = buttons.toArray(buttonnames);
@@ -560,7 +565,7 @@ public class HH_member_detail_SmartClientsProvider implements SmartRegisterCLien
         queryBUilder.SelectInitiateMainTable("members", new String[]{"relationalid", "details", "Mem_F_Name", "EDD","Calc_Dob_Confirm", "Child_calc_age","calc_age_confirm", "Member_GOB_HHID", "Marital_status", "Pregnancy_Status"});
         queryBUilder.joinwithALerts("members", "FW CENSUS");
         String mainSelect = queryBUilder.mainCondition("  (details like '%\"mother_UUID\":\""+relationalid+"\"%') ");
-        queryBUilder.addCondition("");
+//        mainSelect = queryBUilder.addCondition("and Not (details like '%\"Visit_Status\":\"8\"%')  ");
 //        String Sortqueries = sortByAlertmethod();
 //        currentquery  = queryBUilder.orderbyCondition(Sortqueries);
         Cursor c = commonRepository.RawCustomQueryForAdapter(queryBUilder.Endquery(queryBUilder.addlimitandOffset(mainSelect, 200, 0)));

@@ -384,7 +384,7 @@ public class dgfp_adolescent_SmartRegisterFragment extends SecuredNativeSmartReg
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
         countqueryBUilder.SelectInitiateMainTableCounts("members");
         countqueryBUilder.joinwithALerts("members", "FW CENSUS");
-        countSelect = countqueryBUilder.mainCondition(" details like '%\"Adolescent\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%')   ");
+        countSelect = countqueryBUilder.mainCondition(" details like '%\"Adolescent\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%' or details like '%\"Visit_Status\":\"8\"%')   ");
         Sortqueries = sortByAlertmethod();
 
         CountExecute();
@@ -393,7 +393,7 @@ public class dgfp_adolescent_SmartRegisterFragment extends SecuredNativeSmartReg
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
         queryBUilder.SelectInitiateMainTable("members", new String[]{"relationalid", "details", "Mem_F_Name", "EDD","Calc_Dob_Confirm", "calc_age_confirm","Child_mother_name", "Member_GOB_HHID", "Marital_status", "Pregnancy_Status","missedCount"});
         queryBUilder.joinwithALerts("members", "FW CENSUS");
-        mainSelect = queryBUilder.mainCondition(" details like '%\"Adolescent\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%')  ");
+        mainSelect = queryBUilder.mainCondition(" details like '%\"Adolescent\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%' or details like '%\"Visit_Status\":\"8\"%')  ");
         queryBUilder.addCondition(filters);
         Sortqueries = sortByAlertmethod();
         currentquery  = queryBUilder.orderbyCondition(Sortqueries);

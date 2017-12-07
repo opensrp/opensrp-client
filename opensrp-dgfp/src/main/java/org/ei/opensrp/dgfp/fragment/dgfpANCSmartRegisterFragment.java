@@ -377,11 +377,11 @@ public class dgfpANCSmartRegisterFragment extends SecuredNativeSmartRegisterCurs
         setTablename("members");
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder(ancMainCountWithJoins());
         countSelect = countqueryBUilder.mainCondition("(members.Mem_F_Name not null ) AND members.details  LIKE '%\"Preg_Status\":\"1\"%'");
-        mainCondition = "(members.Mem_F_Name not null ) AND members.details  LIKE '%\"PW\":\"1\"%' and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%')  ";
+        mainCondition = "(members.Mem_F_Name not null ) AND members.details  LIKE '%\"PW\":\"1\"%' and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%' or details like '%\"Visit_Status\":\"8\"%')  ";
         super.CountExecute();
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder(ancMainSelectWithJoins());
-        mainSelect = queryBUilder.mainCondition("(members.Mem_F_Name not null ) AND members.details  LIKE '%\"Preg_Status\":\"1\"%' and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%')  ");
+        mainSelect = queryBUilder.mainCondition("(members.Mem_F_Name not null ) AND members.details  LIKE '%\"Preg_Status\":\"1\"%' and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%' or details like '%\"Visit_Status\":\"8\"%')  ");
         Sortqueries = sortByFWWOMFNAME();
 
         currentlimit = 20;

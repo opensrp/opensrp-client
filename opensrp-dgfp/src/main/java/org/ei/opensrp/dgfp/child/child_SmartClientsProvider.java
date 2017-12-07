@@ -14,6 +14,7 @@ import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
+import org.ei.opensrp.commonregistry.CommonRepository;
 import org.ei.opensrp.cursoradapter.SmartRegisterCLientsProviderForCursorAdapter;
 import org.ei.opensrp.dgfp.R;
 import org.ei.opensrp.dgfp.elco.HH_woman_member_SmartRegisterActivity;
@@ -143,8 +144,18 @@ public class child_SmartClientsProvider implements SmartRegisterCLientsProviderF
 
         age.setVisibility(View.INVISIBLE);
         cBRID.setText("C_BRID: " + (pc.getDetails().get("Mem_BRID") != null ? pc.getDetails().get("Mem_BRID") : ""));
-        mBRID.setText("M_BRID: " + (pc.getDetails().get("ELCO_BRID") != null ? pc.getDetails().get("ELCO_BRID") : ""));
-        mNID.setText("M_NID:" + (pc.getDetails().get("ELCO_NID") != null ? pc.getDetails().get("ELCO_NID") : ""));
+
+        String motherID = (pc.getDetails().get("mother_UUID") != null ? pc.getDetails().get("mother_UUID") : "");
+        CommonRepository commonRepository = org.ei.opensrp.Context.getInstance().commonrepository("members");
+        CommonPersonObject commonPersonObject = commonRepository.findByCaseID(motherID);
+        if(commonPersonObject != null) {
+            mBRID.setText("M_BRID: " + (commonPersonObject.getDetails().get("Mem_BRID") != null ? commonPersonObject.getDetails().get("Mem_BRID") : ""));
+            mNID.setText("M_NID:" + (commonPersonObject.getDetails().get("Mem_NID") != null ? commonPersonObject.getDetails().get("Mem_NID") : ""));
+        }else {
+
+            mBRID.setText("M_BRID: " +  "");
+            mNID.setText("M_NID:" + "");
+        }
 
         String datetoconvert = "";
         String scheduledate = "";

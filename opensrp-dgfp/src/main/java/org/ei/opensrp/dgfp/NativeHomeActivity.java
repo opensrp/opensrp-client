@@ -211,7 +211,7 @@ public class NativeHomeActivity extends SecuredActivity {
         hhcountcursor.close();
         HouseholdRegisterClientCountView.setText(valueOf(hhcount));
 
-        Cursor elcocountcursor = context.commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members","(members.Mem_F_Name not null ) AND  (members.Mem_F_Name != \"\" ) AND details like '%\"Eligible\":\"1\"%' and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%') "));
+        Cursor elcocountcursor = context.commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members","(members.Mem_F_Name not null ) AND  (members.Mem_F_Name != \"\" ) AND details like '%\"Eligible\":\"1\"%' and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%' or details like '%\"Visit_Status\":\"8\"%') "));
         elcocountcursor.moveToFirst();
         womancount= elcocountcursor.getInt(0);
         elcocountcursor.close();
@@ -221,37 +221,37 @@ public class NativeHomeActivity extends SecuredActivity {
 
 //        ecRegisterClientCountView.setText(valueOf(hhcount));
 //        fpRegisterClientCountView.setText(valueOf(womancount));
-        Cursor anccountcursor = context.commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members","(members.Mem_F_Name not null ) AND  (members.Mem_F_Name != \"\" ) AND details like '%\"Preg_Status\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%')  "));
+        Cursor anccountcursor = context.commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members","(members.Mem_F_Name not null ) AND  (members.Mem_F_Name != \"\" ) AND details like '%\"Preg_Status\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%' or details like '%\"Visit_Status\":\"8\"%')  "));
         anccountcursor.moveToFirst();
         anccount = anccountcursor.getInt(0);
         anccountcursor.close();
         AncRegisterClientCountView.setText(valueOf(anccount));
 
-        Cursor pnccountcursor = context.commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members","(members.Mem_F_Name not null ) AND  (members.Mem_F_Name != \"\" ) AND details like '%\"Is_PNC\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%')  "));
+        Cursor pnccountcursor = context.commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members","(members.Mem_F_Name not null ) AND  (members.Mem_F_Name != \"\" ) AND details like '%\"Is_PNC\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%' or details like '%\"Visit_Status\":\"8\"%')  "));
         pnccountcursor.moveToFirst();
         pnccount = pnccountcursor.getInt(0);
         pnccountcursor.close();
         PncRegisterClientCountView.setText(valueOf(pnccount));
 
-        Cursor childcountcursor = context.commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members","(members.Mem_F_Name not null ) AND  (members.Mem_F_Name != \"\" ) AND details like '%\"Child\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%')  "));
+        Cursor childcountcursor = context.commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members","(members.Mem_F_Name not null ) AND  (members.Mem_F_Name != \"\" ) AND details like '%\"Child\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%' or details like '%\"Visit_Status\":\"8\"%')  "));
         childcountcursor.moveToFirst();
         childcount = childcountcursor.getInt(0);
         childcountcursor.close();
         ChildRegisterClientCountView.setText(valueOf(childcount));
 
-        Cursor nutritioncursor = context.commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members","(members.Mem_F_Name not null )  AND  (members.Mem_F_Name != \"\" ) AND details like '%\"Nutrition\":\"1\"%' and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%')  "));
+        Cursor nutritioncursor = context.commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members","(members.Mem_F_Name not null )  AND  (members.Mem_F_Name != \"\" ) AND details like '%\"Nutrition\":\"1\"%' and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%' or details like '%\"Visit_Status\":\"8\"%')  "));
         nutritioncursor.moveToFirst();
         nutritioncount = nutritioncursor.getInt(0);
         nutritioncursor.close();
         nutritionClientCountView.setText(valueOf(nutritioncount));
 
-        Cursor injectablecursor = context.commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members","(members.Mem_F_Name not null ) AND  (members.Mem_F_Name != \"\" ) AND details like '%\"Is_Eligible_Injectables\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%')   "));
+        Cursor injectablecursor = context.commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members","(members.Mem_F_Name not null ) AND  (members.Mem_F_Name != \"\" ) AND details like '%\"Is_Eligible_Injectables\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%' or details like '%\"Visit_Status\":\"8\"%')   "));
         injectablecursor.moveToFirst();
         injectablecount = injectablecursor.getInt(0);
         injectablecursor.close();
         injectableClientCountView.setText(valueOf(injectablecount));
 
-        Cursor deathcursor = context.commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members","(members.Mem_F_Name not null ) AND  (members.Mem_F_Name != \"\" ) AND ((details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%'))"));
+        Cursor deathcursor = context.commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members","(members.Mem_F_Name not null ) AND  (members.Mem_F_Name != \"\" ) AND ((details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%' or details like '%\"Visit_Status\":\"8\"%'))"));
         deathcursor.moveToFirst();
         deathcount = deathcursor.getInt(0);
         deathcursor.close();
@@ -260,7 +260,7 @@ public class NativeHomeActivity extends SecuredActivity {
 
 
 
-        Cursor adolescentcursor = context.commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members","(members.Mem_F_Name not null ) AND  (members.Mem_F_Name != \"\" ) AND details like '%\"Adolescent\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%')  "));
+        Cursor adolescentcursor = context.commonrepository("members").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("members","(members.Mem_F_Name not null ) AND  (members.Mem_F_Name != \"\" ) AND details like '%\"Adolescent\":\"1\"%'  and Not (details like '%\"Visit_Status\":\"10\"%' or details like '%\"Visit_Status\":\"11\"%' or details like '%\"Visit_Status\":\"8\"%')  "));
         adolescentcursor.moveToFirst();
         adolescentcount = adolescentcursor.getInt(0);
         adolescentcursor.close();
