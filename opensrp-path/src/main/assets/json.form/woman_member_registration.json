@@ -190,7 +190,11 @@
         "openmrs_entity_id": "",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "আপনি কি আপনার জন্ম তারিখ বলতে পারেন?",
+        "hint": "আপনি কি আপনার জন্ম তারিখ বলতে পারেন? *",
+        "v_required": {
+          "value": true,
+          "err": "Please answer this question"
+        },
         "values": [
           "YES",
           "NO"
@@ -296,7 +300,11 @@
         "openmrs_entity_id": "",
         "openmrs_data_type": "text",
         "type": "spinner",
-        "hint": "বৈবাহিক অবস্থা",
+        "hint": "বৈবাহিক অবস্থা *",
+        "v_required": {
+          "value": true,
+          "err": "Please Enter birth date"
+        },
         "values": [
           "Unmarried",
           "Married",

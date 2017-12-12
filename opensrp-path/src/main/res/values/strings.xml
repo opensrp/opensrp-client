@@ -231,4 +231,8 @@
     <string name="hh_registration_date">Registration Date</string>
     <string name="household">Household</string>
     <string name="label_openmrsid">OpenMRS ID</string>
+    <string name="openmrs_unique_id_source">3</string>
+    <string name="vaccine_sync_time"></string>
+    <string name="openmrs_url"></string>
+    <string name="serverPreferenceScreen">serverPreferenceScreen</string>
 </resources>

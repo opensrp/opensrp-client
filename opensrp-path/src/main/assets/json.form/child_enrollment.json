@@ -176,8 +176,8 @@
       {
         "key": "Mother_Guardian_First_Name",
         "openmrs_entity_parent": "",
-        "openmrs_entity": "person",
-        "openmrs_entity_id": "first_name",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "1593AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "household_id":"",
         "entity_id": "mother",
         "type": "edit_text",

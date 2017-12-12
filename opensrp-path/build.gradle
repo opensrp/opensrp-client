@@ -50,12 +50,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", 'opensrp_url', '"http://103.247.238.31:9979/opensrp/"'
-            buildConfigField "String", 'OPENMRS_URL', '"http://103.247.238.30:1969/openmrs"'
+            buildConfigField "String", 'OPENMRS_URL', '""'
             buildConfigField "String", 'OPENMRS_IDGEN_URL', '"/module/idgen/exportIdentifiers.form"'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_INITIAL_BATCH_SIZE", '250'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_BATCH_SIZE", '100'
-            buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'
-            buildConfigField "int", "VACCINE_SYNC_TIME", '12'
+            buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '3'
+            buildConfigField "int", "VACCINE_SYNC_TIME", '0'
             buildConfigField "int", "DATABASE_VERSION", '8'
             buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
             buildConfigField "boolean", "TIME_CHECK", "false"
@@ -63,11 +63,11 @@ android {
 
         debug {
             resValue "string", 'opensrp_url', '"http://103.247.238.31:9979/opensrp/"'
-            buildConfigField "String", 'OPENMRS_URL', '"http://103.247.238.30:1969/openmrs"'
+            buildConfigField "String", 'OPENMRS_URL', '""'
             buildConfigField "String", 'OPENMRS_IDGEN_URL', '"/module/idgen/exportIdentifiers.form"'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_INITIAL_BATCH_SIZE", '250'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_BATCH_SIZE", '100'
-            buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'
+            buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '3'
             buildConfigField "int", "VACCINE_SYNC_TIME", '0'
             buildConfigField "int", "DATABASE_VERSION", '8'
             buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"

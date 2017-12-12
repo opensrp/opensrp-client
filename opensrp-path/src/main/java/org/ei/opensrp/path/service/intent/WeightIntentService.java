@@ -35,7 +35,7 @@ public class WeightIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
 
         try {
-            List<Weight> weights = weightRepository.findUnSyncedBeforeTime(PathConstants.VACCINE_SYNC_TIME);
+            List<Weight> weights = weightRepository.findUnSyncedBeforeTime(PathConstants.vaccine_Sync_Time());
             if (!weights.isEmpty()) {
                 for (Weight weight : weights) {
 

@@ -51,7 +51,7 @@ public class VaccineIntentService extends IntentService {
         final String concept = "concept";
 
         try {
-            List<Vaccine> vaccines = vaccineRepository.findUnSyncedBeforeTime(PathConstants.VACCINE_SYNC_TIME);
+            List<Vaccine> vaccines = vaccineRepository.findUnSyncedBeforeTime(PathConstants.vaccine_Sync_Time());
             if (!vaccines.isEmpty()) {
                 for (Vaccine vaccine : vaccines) {
 

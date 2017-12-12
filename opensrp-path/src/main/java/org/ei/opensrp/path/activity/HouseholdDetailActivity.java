@@ -391,19 +391,18 @@ public class HouseholdDetailActivity extends BaseActivity {
                 DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(pClient.entityId(), OpenSRPImageLoader.getStaticImageListener((ImageView) profileImageIV, R.drawable.woman_path_register_logo, R.drawable.woman_path_register_logo));
 
             }
+            LinearLayout child_added = (LinearLayout) view.findViewById(R.id.children_added);
+            child_added.removeAllViews();
+            addChild(child_added,pClient.entityId());
         }
 
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
             Log.e("------------","new view call");
-            CommonRepository commonRepository = org.ei.opensrp.Context.getInstance().commonrepository(PathConstants.MOTHER_TABLE_NAME);
-            CommonPersonObject personinlist = commonRepository.readAllcommonforCursorAdapter(cursor);
-            final CommonPersonObjectClient pClient = new CommonPersonObjectClient(personinlist.getCaseId(), personinlist.getDetails(), personinlist.getDetails().get("FWHOHFNAME"));
-            pClient.setColumnmaps(personinlist.getColumnmaps());
+
 
             View view = inflater.inflate(R.layout.household_details_list_row,parent,false);
-            LinearLayout household_details_list_row = (LinearLayout) view.findViewById(R.id.child_holder);
-            addChild(household_details_list_row,pClient.entityId());
+
             return  view;
         }
 

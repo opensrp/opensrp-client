@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="@string/serverPreferenceScreen"
+    >
     <PreferenceCategory android:title="Server">
 
         <EditTextPreference
@@ -11,5 +13,36 @@
             android:defaultValue="@string/opensrp_url"
             android:persistent="true"/>
 
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="hidden_preference"
+        android:title="Hidden Preference">
+        <EditTextPreference
+            android:key="OPENMRS_URL"
+            android:title="OpenMRS base URL"
+            android:summary="Defines the base server url that handles ID requests"
+            android:dialogTitle="OpenMRS base URL"
+            android:dialogMessage="Enter Base Server Url"
+            android:defaultValue="@string/openmrs_url"
+            android:persistent="true"/>
+        <EditTextPreference
+            android:key="OPENMRS_UNIQUE_ID_SOURCE"
+            android:title="OpenSRP Unique ID Source"
+            android:summary="Defines the base Source that handles ID"
+            android:dialogTitle="OpenMRS ID Source"
+            android:dialogMessage="Enter ID Source"
+            android:inputType="number"
+            android:defaultValue="@string/openmrs_unique_id_source"
+            android:persistent="true"/>
+        <EditTextPreference
+            android:key="VACCINE_SYNC_TIME"
+            android:title="Vaccine Sync Time"
+            android:summary="Defines the Vaccine Sync Time"
+            android:dialogTitle="VACCINE SYNC TIME"
+            android:dialogMessage="Enter Time in Hours For Vaccine Sync"
+            android:inputType="number"
+            android:defaultValue="@string/vaccine_sync_time"
+            android:persistent="true"/>
     </PreferenceCategory>
 </PreferenceScreen>

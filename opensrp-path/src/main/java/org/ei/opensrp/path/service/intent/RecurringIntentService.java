@@ -61,7 +61,7 @@ public class RecurringIntentService extends IntentService {
         final String DATE_DATA_TYPE = "date";
 
         try {
-            List<ServiceRecord> serviceRecordList = recurringServiceRecordRepository.findUnSyncedBeforeTime(PathConstants.VACCINE_SYNC_TIME);
+            List<ServiceRecord> serviceRecordList = recurringServiceRecordRepository.findUnSyncedBeforeTime(PathConstants.vaccine_Sync_Time());
             if (!serviceRecordList.isEmpty()) {
                 for (ServiceRecord serviceRecord : serviceRecordList) {
 

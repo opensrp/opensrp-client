@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.util.Log;
 
 import org.ei.opensrp.Context;
+import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.repository.UniqueIdRepository;
+import org.ei.opensrp.service.HTTPAgent;
 import org.ei.opensrp.util.FileUtilities;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,6 +32,9 @@ import util.PathConstants;
  */
 public class PullUniqueIdsIntentService extends IntentService {
     private static final String TAG = PullUniqueIdsIntentService.class.getCanonicalName();
+
+    public static final String ID_URL = "/uniqueids/get";
+    public static final String IDENTIFIERS = "identifiers";
     private UniqueIdRepository uniqueIdRepo;
 
 
@@ -42,69 +47,59 @@ public class PullUniqueIdsIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        URL localURL;
         try {
-            int numberToGenerate = 0;
-
-            if (uniqueIdRepo.countUnUsedIds() == 0) {// first time pull no ids at all
+            int numberToGenerate;
+            if (uniqueIdRepo.countUnUsedIds() == 0) { // first time pull no ids at all
                 numberToGenerate = PathConstants.OPENMRS_UNIQUE_ID_INITIAL_BATCH_SIZE;
             } else if (uniqueIdRepo.countUnUsedIds() <= 250) { //maintain a minimum of 250 else skip this pull
                 numberToGenerate = PathConstants.OPENMRS_UNIQUE_ID_BATCH_SIZE;
             } else {
                 return;
             }
+            JSONObject ids = fetchOpenMRSIds(PathConstants.openMRS_ID_Source(), numberToGenerate);
+            if (ids != null && ids.has(IDENTIFIERS)) {
+                parseResponse(ids);
+            }
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
+    private JSONObject fetchOpenMRSIds(int source, int numberToGenerate) throws Exception {
+        HTTPAgent httpAgent = VaccinatorApplication.getInstance().context().getHttpAgent();
+        String baseUrl = VaccinatorApplication.getInstance().context().
+                configuration().dristhiBaseURL();
+        String endString = "/";
+        if (baseUrl.endsWith(endString)) {
+            baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf(endString));
+        }
+
+        String url = baseUrl + ID_URL + "?source=" + source + "&numberToGenerate=" + numberToGenerate;
+        Log.i(PullUniqueIdsIntentService.class.getName(), "URL: " + url);
+
+        if (httpAgent == null) {
+            throw new Exception(ID_URL + " http agent is null");
+        }
+
+
+        Response resp = httpAgent.fetch(url);
+        if (resp.isFailure()) {
 
             String userName = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
             String password = Context.getInstance().allSettings().fetchANMPassword();
 
-            String localUrlString = PathConstants.openmrsUrl() +  PathConstants.OPENMRS_IDGEN_URL + "?source="+PathConstants.OPENMRS_UNIQUE_ID_SOURCE+"&numberToGenerate=" + numberToGenerate + "&username=" + userName + "&password=" + password;
+            String localUrlString = PathConstants.openmrsUrl() +  PathConstants.OPENMRS_IDGEN_URL + "?source="+PathConstants.openMRS_ID_Source()+"&numberToGenerate=" + numberToGenerate + "&username=" + userName + "&password=" + password;
 //           // Convert the incoming data string to a URL.
-
-            localURL = new URL(localUrlString);
-             /*
-             * Tries to open a connection to the URL. If an IO error occurs, this throws an
-             * IOException
-             */
-            URLConnection localURLConnection = localURL.openConnection();
-
-            // If the connection is an HTTP connection, continue
-            if ((localURLConnection instanceof HttpURLConnection)) {
-
-
-                // Casts the connection to a HTTP connection
-                HttpURLConnection localHttpURLConnection = (HttpURLConnection) localURLConnection;
-
-                // Sets the user agent for this request.
-                localHttpURLConnection.setRequestProperty("User-Agent", FileUtilities.getUserAgent(Context.getInstance().applicationContext()));
-
-
-                // Gets a response code from the RSS server
-                int responseCode = localHttpURLConnection.getResponseCode();
-
-                switch (responseCode) {
-
-                    // If the response is OK
-                    case HttpURLConnection.HTTP_OK:
-                        // Gets the last modified data for the URL
-                        parseResponse(localHttpURLConnection);
-
-                        break;
-                    default:
-                        Log.e(TAG, "Error when fetching unique ids from openmrs server " + localUrlString + " Response code" + responseCode);
-
-                }
-
-                // Reports that the feed retrieval is complete.
+            resp = httpAgent.fetch(localUrlString);
+//            localURL = new URL(localUrlString);
+            if (resp.isFailure()) {
+                throw new Exception( ID_URL + " not returned data");
             }
-
-
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage(), e);
         }
 
 
-    }
 
+        return new JSONObject((String) resp.payload());
+    }
     /**
      * @param connection object; note: before calling this function,
      *                   ensure that the connection is already be open, and any writes to
@@ -141,12 +136,10 @@ public class PullUniqueIdsIntentService extends IntentService {
         return result;
     }
 
-    private void parseResponse(HttpURLConnection connection) throws Exception {
-        String response = readInputStreamToString(connection);
-        JSONObject responseJson = new JSONObject(response);
-        JSONArray jsonArray = responseJson.getJSONArray("identifiers");
+    private void parseResponse(JSONObject idsFromOMRS) throws Exception {
+        JSONArray jsonArray = idsFromOMRS.getJSONArray(IDENTIFIERS);
         if (jsonArray != null && jsonArray.length() > 0) {
-            List<String> ids = new ArrayList<String>();
+            List<String> ids = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
                 ids.add(jsonArray.getString(i));
             }

@@ -1,7 +1,9 @@
 package util;
 
 import org.ei.opensrp.AllConstants;
+import org.ei.opensrp.Context;
 import org.ei.opensrp.path.BuildConfig;
+import org.ei.opensrp.repository.AllSharedPreferences;
 
 /**
  * Created by coder on 2/14/17.
@@ -12,9 +14,30 @@ public class PathConstants extends AllConstants {
 
     public static String openmrsUrl() {
         String baseUrl = org.ei.opensrp.Context.getInstance().allSharedPreferences().fetchBaseURL("");
+        String openmrsUrl = org.ei.opensrp.Context.getInstance().allSharedPreferences().getPreference("OPENMRS_URL");
+
         int lastIndex = baseUrl.lastIndexOf("/");
         baseUrl = baseUrl.substring(0, lastIndex) + "/openmrs";
+        if(!(openmrsUrl.isEmpty() || openmrsUrl == null)){
+            return openmrsUrl;
+        }
         return OPENMRS_URL.isEmpty() || OPENMRS_URL == null ? baseUrl : OPENMRS_URL;
+    }
+    public static int openMRS_ID_Source(){
+        String openmrs_UNIQUE_ID_SOURCE_preference = org.ei.opensrp.Context.getInstance().allSharedPreferences().getPreference("OPENMRS_UNIQUE_ID_SOURCE");
+        try{
+            return Integer.parseInt(openmrs_UNIQUE_ID_SOURCE_preference);
+        }catch (Exception e){
+            return OPENMRS_UNIQUE_ID_SOURCE;
+        }
+    }
+    public static int vaccine_Sync_Time(){
+        String openmrs_Vaccine_sync_time_preference = org.ei.opensrp.Context.getInstance().allSharedPreferences().getPreference("VACCINE_SYNC_TIME");
+        try{
+            return Integer.parseInt(openmrs_Vaccine_sync_time_preference);
+        }catch (Exception e){
+            return VACCINE_SYNC_TIME;
+        }
     }
 
     public static final String OPENMRS_IDGEN_URL = BuildConfig.OPENMRS_IDGEN_URL;
@@ -30,6 +53,12 @@ public class PathConstants extends AllConstants {
     public static final String CHILD_TABLE_NAME = "ec_child";
     public static final String MOTHER_TABLE_NAME = "ec_mother";
     public static final String CURRENT_LOCATION_ID = "CURRENT_LOCATION_ID";
+
+//    public static String source(){
+//        AllSharedPreferences allSharedPreferences = Context.getInstance().allSharedPreferences();
+//        allSharedPreferences.
+//        return OPENMRS_UNIQUE_ID_SOURCE.isEmpty() || OPENMRS_UNIQUE_ID_SOURCE == null ? baseUrl : OPENMRS_URL;
+//    }
 
     public static final class ServiceType {
 
