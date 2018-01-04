@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import org.ei.opensrp.domain.Report;
 import org.ei.opensrp.domain.ReportIndicator;
 import org.ei.opensrp.domain.ReportsCategory;
-import org.ei.drishti.dto.MonthSummaryDatum;
+import org.opensrp.dto.MonthSummaryDatum;
 import org.ei.opensrp.repository.AllReports;
 import org.ei.opensrp.view.activity.ReportIndicatorDetailActivity;
 import org.ei.opensrp.view.contract.CategoryReports;

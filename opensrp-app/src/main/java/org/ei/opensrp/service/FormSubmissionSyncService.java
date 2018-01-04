@@ -6,7 +6,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.ei.drishti.dto.form.FormSubmissionDTO;
+import org.opensrp.dto.form.FormSubmissionDTO;
 import org.ei.opensrp.DristhiConfiguration;
 import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.domain.Response;
@@ -107,9 +107,9 @@ public class FormSubmissionSyncService {
     }
 
     private String mapToFormSubmissionDTO(List<FormSubmission> pendingFormSubmissions) {
-        List<org.ei.drishti.dto.form.FormSubmissionDTO> formSubmissions = new ArrayList<org.ei.drishti.dto.form.FormSubmissionDTO>();
+        List<org.opensrp.dto.form.FormSubmissionDTO> formSubmissions = new ArrayList<org.opensrp.dto.form.FormSubmissionDTO>();
         for (FormSubmission pendingFormSubmission : pendingFormSubmissions) {
-            formSubmissions.add(new org.ei.drishti.dto.form.FormSubmissionDTO(allSharedPreferences.fetchRegisteredANM(), pendingFormSubmission.instanceId(),
+            formSubmissions.add(new org.opensrp.dto.form.FormSubmissionDTO(allSharedPreferences.fetchRegisteredANM(), pendingFormSubmission.instanceId(),
                     pendingFormSubmission.entityId(), pendingFormSubmission.formName(), pendingFormSubmission.instance(), pendingFormSubmission.version(),
                     pendingFormSubmission.formDataDefinitionVersion()));
         }

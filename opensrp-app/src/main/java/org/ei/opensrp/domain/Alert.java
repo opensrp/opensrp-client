@@ -3,9 +3,9 @@ package org.ei.opensrp.domain;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.ei.drishti.dto.AlertStatus;
+import org.opensrp.dto.AlertStatus;
 
-import static org.ei.drishti.dto.AlertStatus.complete;
+import static org.opensrp.dto.AlertStatus.complete;
 
 public class Alert {
     private String caseID;

@@ -2,7 +2,7 @@ package org.ei.opensrp.repository;
 
 import org.ei.opensrp.domain.Report;
 import org.ei.opensrp.domain.ReportIndicator;
-import org.ei.drishti.dto.Action;
+import org.opensrp.dto.Action;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -4,7 +4,7 @@ import org.ei.opensrp.repository.AllSharedPreferences;
 import org.robolectric.RobolectricTestRunner;
 import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.domain.ResponseStatus;
-import org.ei.drishti.dto.Action;
+import org.opensrp.dto.Action;
 import org.ei.opensrp.repository.AllEligibleCouples;
 import org.ei.opensrp.repository.AllReports;
 import org.ei.opensrp.repository.AllSettings;

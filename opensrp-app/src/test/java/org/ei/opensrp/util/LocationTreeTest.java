@@ -5,7 +5,7 @@ import com.google.gson.reflect.TypeToken;
 
 import junit.framework.Assert;
 
-import org.ei.drishti.dto.form.FormSubmissionDTO;
+import org.opensrp.dto.form.FormSubmissionDTO;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

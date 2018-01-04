@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.ei.drishti.dto.AlertStatus.normal;
+import static org.opensrp.dto.AlertStatus.normal;
 
 public class RepositoryTest extends AndroidTestCase {
     public void testShouldCheckPassword() throws Exception {

@@ -1,6 +1,6 @@
 package org.ei.opensrp.convertor;
 
-import org.ei.drishti.dto.form.FormSubmissionDTO;
+import org.opensrp.dto.form.FormSubmissionDTO;
 
 import java.util.ArrayList;
 import java.util.List;

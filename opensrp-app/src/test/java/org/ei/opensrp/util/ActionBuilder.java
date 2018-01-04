@@ -1,15 +1,15 @@
 package org.ei.opensrp.util;
 
-import org.ei.drishti.dto.Action;
-import org.ei.drishti.dto.ActionData;
-import org.ei.drishti.dto.AlertStatus;
-import org.ei.drishti.dto.BeneficiaryType;
+import org.opensrp.dto.Action;
+import org.opensrp.dto.ActionData;
+import org.opensrp.dto.AlertStatus;
+import org.opensrp.dto.BeneficiaryType;
 import org.joda.time.DateTime;
 
 import java.util.HashMap;
 
-import static org.ei.drishti.dto.ActionData.createAlert;
-import static org.ei.drishti.dto.ActionData.markAlertAsClosed;
+import static org.opensrp.dto.ActionData.createAlert;
+import static org.opensrp.dto.ActionData.markAlertAsClosed;
 
 public class ActionBuilder {
     public static Action actionForCreateAlert(String caseID, String alertStatus, String beneficiaryType, String scheduleName, String visitCode, String startDate, String expiryDate, String index) {
