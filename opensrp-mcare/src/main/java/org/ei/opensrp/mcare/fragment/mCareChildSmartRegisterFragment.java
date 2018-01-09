@@ -264,12 +264,12 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
 
                 if (cs.toString().equalsIgnoreCase("")) {
                     filters = "";
-                    mainCondition = " FWBNFGEN is not null ";
+                    mainCondition = " FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' ";
                 } else {
                     //filters = "and FWWOMFNAME Like '%" + cs.toString() + "%' or GOBHHID Like '%" + cs.toString() + "%'  or JiVitAHHID Like '%" + cs.toString() + "%' ";
                     filters = cs.toString();
                     filters = "";
-                    mainCondition = " FWBNFGEN is not null ";
+                    mainCondition = " FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' ";
                     mainCondition += " AND (("+ CommonFtsObject.idColumn +" IN (SELECT "+CommonRepository.ID_COLUMN+ " FROM " + "mcarechild"+ " WHERE details LIKE '%" + cs.toString()+ "%' )) " +
                             "or ("+ CommonFtsObject.relationalIdColumn +" IN (SELECT "+CommonRepository.ID_COLUMN+ " FROM " + "mcaremother"+ " WHERE FWWOMFNAME LIKE '%" + cs.toString()+ "%' ))" +
                             "or ("+ CommonFtsObject.relationalIdColumn +" IN (SELECT "+CommonRepository.ID_COLUMN+ " FROM " + "mcaremother"+ " WHERE GOBHHID LIKE '%" + cs.toString()+ "%' ))" +
