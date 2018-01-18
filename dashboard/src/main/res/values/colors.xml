@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="mainblue">#2ea0da</color>
+    <color name="titlebarblue">#379cca</color>
+    <color name="mainbluedivide">#489eef</color>
+    <color name="backgroundcolor">#f0eeef</color>
+    <color name="textcolor">#ffffff</color>
+    <color name="topbar">#389cca</color>
+    <color name="iconcolorsused">#e44445</color>
+    <color name="tableborder">#bdbdbd</color>
+    <color name="alttablerow">#f0f3fa</color>
+    <color name="greencardcolor">#0e9e49</color>
+    <color name="pinkcardcolor">#e61954</color>
+    <color name="purplecardcolor">#6b5796</color>
+    <color name="lightgreencardcolor">#8fc73e</color>
+    <color name="lightbluecardcolor">#34c2d0</color>
+    <color name="completedgraphbarcolor">#4971b7</color>
+    <color name="duegraphbarcolor">#54823a</color>
+    <color name="postduegraphbarcolor">#fec110</color>
+    <color name="expiredgraphbarcolor">#c45c29</color>
+    <color name="darkblue">#5d85c3</color>
+    <color name="selectedlistred">#d13f3f</color>
+    <color name="focuseddatemonthcolor">#999999</color>
+    <color name="unfocuseddatemonthcolor">#cfcfcf</color>
+    <color name="datepickeralttablerow">#e1dfe0</color>
+</resources>
