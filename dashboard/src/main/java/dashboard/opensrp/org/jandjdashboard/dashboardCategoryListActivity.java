@@ -103,23 +103,18 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                // User chose the "Settings" item, show the app settings UI...
-                return true;
+        int i = item.getItemId();
+        if (i == R.id.action_settings) {// User chose the "Settings" item, show the app settings UI...
+            return true;
+        } else if (i == R.id.date_filter) {
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            calendarPoPUpWindow calendarPoPUpWindow = new calendarPoPUpWindow(this);
+            calendarPoPUpWindow.showAsDropDown(toolbar);
 
-            case R.id.date_filter:
-                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-                calendarPoPUpWindow calendarPoPUpWindow = new calendarPoPUpWindow(this);
-                calendarPoPUpWindow.showAsDropDown(toolbar);
-
-                return true;
-
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return false;
-
+            return true;
+        } else {// If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            return false;
         }
     }
 

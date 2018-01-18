@@ -190,7 +190,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
                 android:id="@+id/btn_reporting"
@@ -205,6 +205,7 @@
                 style="@style/CustomFontTextViewStyle.Home.Buttons"/>
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
+                android:visibility="gone"
                 android:id="@+id/btn_videos"
                 android:layout_width="0dp"
                 android:layout_height="50dp"

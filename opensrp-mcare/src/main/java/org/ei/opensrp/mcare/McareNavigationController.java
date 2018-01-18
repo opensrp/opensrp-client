@@ -15,6 +15,8 @@ import org.ei.opensrp.view.activity.NativePNCSmartRegisterActivity;
 import org.ei.opensrp.view.controller.ANMController;
 
 
+import dashboard.opensrp.org.jandjdashboard.dashboardCategoryListActivity;
+
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class McareNavigationController extends org.ei.opensrp.view.controller.NavigationController {
@@ -45,6 +47,10 @@ public class McareNavigationController extends org.ei.opensrp.view.controller.Na
     @Override
     public void startANCSmartRegistry() {
         activity.startActivity(new Intent(activity, mCareANCSmartRegisterActivity.class));
+    }
+    @Override
+    public void startReports() {
+        activity.startActivity(new Intent(activity, dashboardCategoryListActivity.class));
     }
     public void startPNCSmartRegistry() {
         activity.startActivity(new Intent(activity, mCarePNCSmartRegisterActivity.class));

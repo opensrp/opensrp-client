@@ -63,7 +63,7 @@ public class calendarPoPUpWindow extends PopupWindow {
                 for(int i = 0 ;i < periodSelector.length;i++){
                     if(!periodSelector[i].equals(daily)){
                         periodSelector[i].setBackgroundColor(context.getResources().getColor(R.color.cardview_light_background));
-                        periodSelector[i].setTextColor(context.getResources().getColor(android.support.design.R.color.secondary_text_default_material_light));
+                        periodSelector[i].setTextColor(context.getResources().getColor(R.color.secondary_text_default_material_light));
                     }
                 }
             }
@@ -77,7 +77,7 @@ public class calendarPoPUpWindow extends PopupWindow {
                 for(int i = 0 ;i < periodSelector.length;i++){
                     if(!periodSelector[i].equals(weekly)){
                         periodSelector[i].setBackgroundColor(context.getResources().getColor(R.color.cardview_light_background));
-                        periodSelector[i].setTextColor(context.getResources().getColor(android.support.design.R.color.secondary_text_default_material_light));
+                        periodSelector[i].setTextColor(context.getResources().getColor(R.color.secondary_text_default_material_light));
                     }
                 }
             }
@@ -91,7 +91,7 @@ public class calendarPoPUpWindow extends PopupWindow {
                 for(int i = 0 ;i < periodSelector.length;i++){
                     if(!periodSelector[i].equals(monthly)){
                         periodSelector[i].setBackgroundColor(context.getResources().getColor(R.color.cardview_light_background));
-                        periodSelector[i].setTextColor(context.getResources().getColor(android.support.design.R.color.secondary_text_default_material_light));
+                        periodSelector[i].setTextColor(context.getResources().getColor(R.color.secondary_text_default_material_light));
                     }
                 }
             }
@@ -104,7 +104,7 @@ public class calendarPoPUpWindow extends PopupWindow {
                 for(int i = 0 ;i < periodSelector.length;i++){
                     if(!periodSelector[i].equals(cycle)){
                         periodSelector[i].setBackgroundColor(context.getResources().getColor(R.color.cardview_light_background));
-                        periodSelector[i].setTextColor(context.getResources().getColor(android.support.design.R.color.secondary_text_default_material_light));
+                        periodSelector[i].setTextColor(context.getResources().getColor(R.color.secondary_text_default_material_light));
                     }
                 }
             }
@@ -118,7 +118,7 @@ public class calendarPoPUpWindow extends PopupWindow {
                 for(int i = 0 ;i < periodSelector.length;i++){
                     if(!periodSelector[i].equals(yearly)){
                         periodSelector[i].setBackgroundColor(context.getResources().getColor(R.color.cardview_light_background));
-                        periodSelector[i].setTextColor(context.getResources().getColor(android.support.design.R.color.secondary_text_default_material_light));
+                        periodSelector[i].setTextColor(context.getResources().getColor(R.color.secondary_text_default_material_light));
                     }
                 }
             }

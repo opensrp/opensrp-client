@@ -4,9 +4,8 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:1.2.3"
+        classpath "com.android.tools.build:gradle:2.3.0"
         classpath 'org.apache.commons:commons-lang3:3.3.2'
-        classpath 'org.robolectric:robolectric-gradle-plugin:1.1.0'
         classpath 'io.fabric.tools:gradle:1.+'
     }
 }
@@ -19,14 +18,14 @@ repositories {
 
 
 configurations.all {
-    resolutionStrategy.force 'com.android.support:support-annotations:21.0.3'
+    resolutionStrategy.force 'com.android.support:support-annotations:26.+'
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':opensrp-app')
-
-    compile 'com.android.support:support-annotations:21.0.3'
+    compile project(':dashboard')
+    compile 'com.android.support:support-annotations:26.+'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.1'
@@ -34,6 +33,7 @@ dependencies {
         transitive = true;
     }
 
+    compile project(path: ':dashboard')
 }
 android {
     compileSdkVersion androidCompileSdkVersion
@@ -41,8 +41,8 @@ android {
 
     defaultConfig {
         applicationId "org.ei.opensrp.mcare"
-        minSdkVersion 16
-        targetSdkVersion 21
+        minSdkVersion 18
+        targetSdkVersion 26
 
         versionCode 43
         versionName "44.00"
@@ -59,6 +59,7 @@ android {
             applicationId = "org.ei.opensrp.mcare"
         }
     }
+
     buildTypes {
         release {
             minifyEnabled false

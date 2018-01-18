@@ -6,19 +6,19 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:1.2.3"
+        classpath 'com.android.tools.build:gradle:2.3.0'
         classpath 'org.apache.commons:commons-lang3:3.3.2'
-        classpath 'org.robolectric:robolectric-gradle-plugin:1.1.0'
+//        classpath 'org.robolectric:robolectric-gradle-plugin:1.1.0'
     }
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'org.robolectric'
+//apply plugin: 'org.robolectric'
 
 android {
     compileSdkVersion androidCompileSdkVersion
     buildToolsVersion androidBuildToolsVersion
-
+    useLibrary  'org.apache.http.legacy'
     signingConfigs {
         config {
             keyAlias 'androiddebugkey'
@@ -50,8 +50,8 @@ android {
     defaultConfig {
         // multiDexEnabled = true
         //applicationId "org.ei.opensrp"
-        minSdkVersion 16
-        targetSdkVersion 21
+        minSdkVersion 18
+        targetSdkVersion 26
         versionCode 1
         versionName "3.0.1"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -101,14 +101,17 @@ task copyTestResources() {
     }
 }
 
-assembleDebug.dependsOn(copyTestResources)
+afterEvaluate {
+    assembleDebug.dependsOn(copyTestResources)
+}
 
 configurations.all {
     resolutionStrategy.force 'commons-codec:commons-codec:1.6'
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:design:26.+'
     compile "org.apache.httpcomponents:httpmime:4.2.3"
     compile 'commons-io:commons-io:2.1'
     compile 'com.google.code.gson:gson:2.3'
@@ -134,6 +137,7 @@ dependencies {
     testCompile 'org.mockito:mockito-core:1.9.5'
     testCompile('com.squareup:fest-android:1.0.+') { exclude module: 'support-v4' }
     testCompile 'org.robolectric:robolectric:2.4'
+    compile project(path: ':dashboard')
 }
 task clearJar(type: Delete) {
     delete 'build/libs/myCompiledLibrary.jar'
