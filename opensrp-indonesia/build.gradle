@@ -4,14 +4,14 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:1.2.3"
+        classpath "com.android.tools.build:gradle:2.3.2"
         classpath 'org.apache.commons:commons-lang3:3.3.2'
-        classpath 'org.robolectric:robolectric-gradle-plugin:1.1.0'
         classpath 'io.fabric.tools:gradle:1.+'
     }
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+
 repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
@@ -29,7 +29,7 @@ android {
 
     defaultConfig {
         applicationId "org.ei.opensrp.indonesia"
-        minSdkVersion 16
+        minSdkVersion 18
         targetSdkVersion 21
 
         versionCode 5
