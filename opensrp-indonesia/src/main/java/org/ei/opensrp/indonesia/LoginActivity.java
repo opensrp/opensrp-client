@@ -105,7 +105,21 @@ public class LoginActivity extends Activity {
 //        debugApp();
 
     }
+    private void debugApp() {
+        //    String uname = getResources().getString(R.string.uname);
+        //   String pwd = getResources().getString(R.string.pwd);
+        String uname = "demo_ec";
+        String pwd = "Satu2345";
 
+        LayoutInflater layoutInflater = getLayoutInflater();
+        View view = layoutInflater.inflate(R.layout.login, null);
+
+        if (context.userService().hasARegisteredUser()) {
+            localLogin(view, uname, pwd);
+        } else {
+            remoteLogin(view, uname, pwd);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)

@@ -1058,27 +1058,27 @@ public class SmartShutterActivity extends Activity implements Camera.PreviewCall
 
     }
 
-    public void loadAlbum() {
-//        Toast.makeText(this, "Load FacialActivity Album", Toast.LENGTH_SHORT).show();
-        Log.e(TAG, "loadAlbum: start");
-        SharedPreferences settings = getSharedPreferences(FaceConstants.ALBUM_NAME, 0);
-        String arrayOfString = settings.getString(FaceConstants.ALBUM_ARRAY, null);
-
-        Log.e(TAG, "loadAlbum: " + arrayOfString);
-        byte[] albumArray;
-        if (arrayOfString != null) {
-            String[] splitStringArray = arrayOfString.substring(1,
-                    arrayOfString.length() - 1).split(", ");
-
-            albumArray = new byte[splitStringArray.length];
-            for (int i = 0; i < splitStringArray.length; i++) {
-                albumArray[i] = Byte.parseByte(splitStringArray[i]);
-            }
-            // Boolean
-            SmartShutterActivity.faceProc.deserializeRecognitionAlbum(albumArray);
-            Log.e(TAG, "De-Serialized Album Success! " + albumArray.toString());
-        }
-    }
+//    public void loadAlbum() {
+////        Toast.makeText(this, "Load FacialActivity Album", Toast.LENGTH_SHORT).show();
+//        Log.e(TAG, "loadAlbum: start");
+//        SharedPreferences settings = getSharedPreferences(FaceConstants.ALBUM_NAME, 0);
+//        String arrayOfString = settings.getString(FaceConstants.ALBUM_ARRAY, null);
+//
+//        Log.e(TAG, "loadAlbum: " + arrayOfString);
+//        byte[] albumArray;
+//        if (arrayOfString != null) {
+//            String[] splitStringArray = arrayOfString.substring(1,
+//                    arrayOfString.length() - 1).split(", ");
+//
+//            albumArray = new byte[splitStringArray.length];
+//            for (int i = 0; i < splitStringArray.length; i++) {
+//                albumArray[i] = Byte.parseByte(splitStringArray[i]);
+//            }
+//            // Boolean
+//            faceProc.deserializeRecognitionAlbum(albumArray);
+//            Log.e(TAG, "De-Serialized Album Success! " + albumArray.toString());
+//        }
+//    }
 
 
     /**

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="@dimen/list_item_height"
-              android:weightSum="@integer/ec_list_item_weight_count"
-              android:background="#ffffff">
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_height"
+    android:background="#ffffff"
+    android:orientation="horizontal"
+    android:weightSum="@integer/ec_list_item_weight_count">
 
-    <include layout="@layout/smart_register_client_profile_ki"/>
+    <include layout="@layout/smart_register_client_profile_ki" />
 
     <ImageView
-            android:layout_width="@dimen/smart_register_client_divider_height"
-            android:layout_height="fill_parent"
-            android:src="@color/smart_register_client_divider_color"/>
+        android:layout_width="@dimen/smart_register_client_divider_height"
+        android:layout_height="fill_parent"
+        android:src="@color/smart_register_client_divider_color" />
 
     <RelativeLayout
         android:id="@+id/id_detail_layout"
@@ -21,43 +21,44 @@
         android:layout_weight="@integer/ec_list_ec_no_view_weight"
         android:orientation="horizontal"
         android:weightSum="1">
+
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:id="@+id/label_no_ibu"
+            style="@style/CustomFontTextViewStyle.ListView.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:paddingLeft="5dp"
             android:layout_marginTop="5dp"
-            android:text="@string/header_no_ibu"
-            style="@style/CustomFontTextViewStyle.ListView.Small"/>
+            android:paddingLeft="5dp"
+            android:text="@string/header_no_ibu" />
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:id="@+id/no_ibu"
+            style="@style/CustomFontTextViewStyle.ListView.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/label_no_ibu"
-            android:paddingLeft="5dp"
-            style="@style/CustomFontTextViewStyle.ListView.Small"/>
+            android:paddingLeft="5dp" />
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:id="@+id/label_unique_id"
+            style="@style/CustomFontTextViewStyle.ListView.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/no_ibu"
             android:paddingLeft="5dp"
-            android:text="Unique Id: "
-            style="@style/CustomFontTextViewStyle.ListView.Small"/>
+            android:text="Unique Id: " />
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:id="@+id/unique_id"
+            style="@style/CustomFontTextViewStyle.ListView.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="@integer/ec_list_ec_no_view_weight"
             android:layout_below="@+id/label_unique_id"
+            android:layout_weight="@integer/ec_list_ec_no_view_weight"
             android:paddingLeft="5dp"
             android:text="3123142"
-            style="@style/CustomFontTextViewStyle.ListView.Small"
             android:textSize="10dp" />
 
     </RelativeLayout>
@@ -65,21 +66,20 @@
     <ImageView
         android:layout_width="@dimen/smart_register_client_divider_height"
         android:layout_height="fill_parent"
-        android:src="@color/smart_register_client_divider_color"/>
+        android:src="@color/smart_register_client_divider_color" />
 
-    <include layout="@layout/smart_register_client_obsetri_layout"/>
+    <include layout="@layout/smart_register_client_obsetri_layout" />
 
     <ImageView
         android:layout_width="@dimen/smart_register_client_divider_height"
         android:layout_height="fill_parent"
-        android:src="@color/smart_register_client_divider_color"/>
+        android:src="@color/smart_register_client_divider_color" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="130"
-        android:padding="5dp"
-        >
+        android:padding="5dp">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -93,17 +93,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text=""/>
+                android:text="" />
 
             <TextView
                 android:id="@+id/txt_edd_due"
-                android:textSize="15sp"
-                android:textColor = "@color/alert_urgent_red"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:paddingLeft="5dp"
-                android:text=""/>
+                android:text=""
+                android:textColor="@color/alert_urgent_red"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -113,33 +113,33 @@
     <ImageView
         android:layout_width="@dimen/smart_register_client_divider_height"
         android:layout_height="fill_parent"
-        android:src="@color/smart_register_client_divider_color"/>
+        android:src="@color/smart_register_client_divider_color" />
 
-    <include layout="@layout/smart_register_client_children_layout_ki"/>
+    <include layout="@layout/smart_register_client_children_layout_ki" />
 
     <ImageView
         android:layout_width="@dimen/smart_register_client_divider_height"
         android:layout_height="fill_parent"
-        android:src="@color/smart_register_client_divider_color"/>
+        android:src="@color/smart_register_client_divider_color" />
 
-        <include layout="@layout/smart_register_client_status_layout_ki"/>
+    <include layout="@layout/smart_register_client_status_layout_ki" />
 
-        <ImageView
-            android:layout_width="@dimen/smart_register_client_divider_height"
-            android:layout_height="fill_parent"
-            android:src="@color/smart_register_client_divider_color"/>
+    <ImageView
+        android:layout_width="@dimen/smart_register_client_divider_height"
+        android:layout_height="fill_parent"
+        android:src="@color/smart_register_client_divider_color" />
 
-        <ImageButton
-            android:id="@+id/btn_edit"
-            android:layout_width="@dimen/list_edit_icon_view_width"
-            android:layout_height="fill_parent"
-            android:layout_weight="80"
-            android:scaleType="center"
-            android:gravity="center"
-            android:layout_margin="5dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="@drawable/edit_button_background"/>
+    <ImageButton
+        android:id="@+id/btn_edit"
+        android:layout_width="@dimen/list_edit_icon_view_width"
+        android:layout_height="fill_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="80"
+        android:background="@drawable/edit_button_background"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:scaleType="center" />
 
 
-    </LinearLayout>
+</LinearLayout>

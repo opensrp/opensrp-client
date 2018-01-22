@@ -13,8 +13,8 @@ import static org.ei.opensrp.util.Log.logInfo;
 
 public class AllSharedPreferences {
     public static final String ANM_IDENTIFIER_PREFERENCE_KEY = "anmIdentifier";
-    private static final String HOST = "HOST";
-    private static final String PORT = "PORT";
+    private static final String HOST = "http://118.91.130.18/opensrp";
+    private static final String PORT = "9090";
     private static final String LAST_SYNC_DATE = "LAST_SYNC_DATE";
     private SharedPreferences preferences;
 

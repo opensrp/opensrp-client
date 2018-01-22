@@ -382,14 +382,15 @@ public class Tools {
 
             albumArray = new byte[splitStringArray.length];
 
-
             for (int i = 0; i < splitStringArray.length; i++) {
                 albumArray[i] = Byte.parseByte(splitStringArray[i]);
             }
 
+            if (SmartShutterActivity.faceProc == null) SmartShutterActivity.faceProc = FacialProcessing.getInstance();
+
             boolean result = SmartShutterActivity.faceProc.deserializeRecognitionAlbum(albumArray);
 
-            if (result) Log.e(TAG, "loadAlbum: "+"Succes" );
+            if (result) Log.e(TAG, "loadAlbum: "+"Success" );
 
         } else {
             Log.e(TAG, "loadAlbum: " + "is it your first record ? if no, there is problem happen.");
