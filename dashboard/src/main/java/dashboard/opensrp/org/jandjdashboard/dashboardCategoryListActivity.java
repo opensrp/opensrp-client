@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import dashboard.opensrp.org.jandjdashboard.controller.controllerHolders;
 import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
 import dashboard.opensrp.org.jandjdashboard.fragments.anc_pnc_encc_StatusDetailFragment;
 import dashboard.opensrp.org.jandjdashboard.fragments.familyPlanningStatusDetailFragment;
@@ -43,12 +45,19 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
+    public String fromdate;
+    public String todate;
+    public static String currentFragmentName = "";
+    public static Fragment currentFragment;
     private boolean mTwoPane;
     public static View previousViewSelectedInLIST = null;
+    public controllerHolders controllerholder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent i = getIntent();
+        controllerholder = (controllerHolders) i.getSerializableExtra("controller_holder");
         addDrawables(this);
         setContentView(R.layout.activity_dashboardcategory_list);
 
@@ -69,10 +78,14 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
             // large-screen layouts (res/values-w900dp).
             // If this view is present, then the
             // activity should be in two-pane mode.
+
                 Bundle arguments = new Bundle();
                 arguments.putString(upcomingScheduleStatusDetailFragment.ARG_ITEM_ID,"" );
+                arguments.putSerializable("controller_holder",controllerholder);
                 upcomingScheduleStatusDetailFragment fragment = new upcomingScheduleStatusDetailFragment();
                 fragment.setArguments(arguments);
+                currentFragmentName = "upcomingScheduleStatusDetailFragment";
+                currentFragment = fragment;
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.dashboardcategory_detail_container, fragment)
                         .commit();
@@ -108,14 +121,15 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
         }
     }
 
-    private void assignfontTOCalendarMonth(CalendarView calendarView) {
-        ViewGroup vg = (ViewGroup)calendarView.getChildAt(0);
-        View child = vg.getChildAt(0);
-        if(child instanceof TextView){
-            ((TextView)child).setTextSize(12);
-            ((TextView)child).setTextColor(getResources().getColor(R.color.focuseddatemonthcolor));
+    public void refresh(String fromdate,String todate){
+        this.fromdate = fromdate;
+        this.todate = todate;
+        if(currentFragmentName.equalsIgnoreCase("upcomingScheduleStatusDetailFragment")){
+            ((upcomingScheduleStatusDetailFragment)currentFragment).refresh(fromdate,todate);
         }
+
     }
+
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
@@ -155,8 +169,11 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
                             case 0: {
                                 Bundle arguments = new Bundle();
                                 arguments.putString(upcomingScheduleStatusDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                                arguments.putSerializable("controller_holder",controllerholder);
                                 upcomingScheduleStatusDetailFragment fragment = new upcomingScheduleStatusDetailFragment();
                                 fragment.setArguments(arguments);
+                                currentFragmentName = "upcomingScheduleStatusDetailFragment";
+                                currentFragment = fragment;
                                 getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.dashboardcategory_detail_container, fragment)
                                         .commit();

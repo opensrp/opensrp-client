@@ -12,8 +12,8 @@
         android:width="24dp"
         android:height="24dp"
         android:right="215dp"
-        android:top="25dp"
-        android:bottom="25dp"
+        android:top="35dp"
+        android:bottom="35dp"
         >
         <rotate
             android:fromDegrees="0"

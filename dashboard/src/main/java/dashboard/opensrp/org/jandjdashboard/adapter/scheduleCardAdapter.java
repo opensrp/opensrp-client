@@ -21,6 +21,8 @@ public class scheduleCardAdapter extends RecyclerView.Adapter<scheduleCardAdapte
     private Context mContext;
     private List<Drawable> drawableList;
     private List<String> cardtitles;
+    private List<String> counts;
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, count;
@@ -35,10 +37,11 @@ public class scheduleCardAdapter extends RecyclerView.Adapter<scheduleCardAdapte
     }
 
 
-    public scheduleCardAdapter(Context mContext, List<Drawable> albumList, List<String> cardtitles) {
+    public scheduleCardAdapter(Context mContext, List<Drawable> albumList, List<String> cardtitles, List<String> counts) {
         this.mContext = mContext;
         this.drawableList = albumList;
         this.cardtitles = cardtitles;
+        this.counts = counts;
     }
 
     @Override
@@ -54,7 +57,12 @@ public class scheduleCardAdapter extends RecyclerView.Adapter<scheduleCardAdapte
         Drawable album = drawableList.get(position);
         String title = cardtitles.get(position);
         holder.thumbnail.setImageDrawable(album);
+        if(counts.get(position).equalsIgnoreCase("N/A")){
+            holder.count.setTextColor(mContext.getResources().getColor(R.color.unfocuseddatemonthcolor));
+            holder.title.setTextColor(mContext.getResources().getColor(R.color.unfocuseddatemonthcolor));
+        }
         holder.count.setText(title);
+        holder.title.setText(counts.get(position));
 //        holder.count.setText(album.getNumOfSongs() + " songs");
 
         // loading album cover using Glide library

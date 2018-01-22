@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import org.ei.opensrp.mcare.anc.mCareANCSmartRegisterActivity;
 import org.ei.opensrp.mcare.child.mCareChildSmartRegisterActivity;
+import org.ei.opensrp.mcare.dashboard.controllers.upcomingScheduleStatusControllerForDashBoardModule;
 import org.ei.opensrp.mcare.elco.ElcoSmartRegisterActivity;
 import org.ei.opensrp.mcare.household.HouseHoldSmartRegisterActivity;
 import org.ei.opensrp.mcare.household.tutorial.tutorialCircleViewFlow;
@@ -15,6 +16,10 @@ import org.ei.opensrp.view.activity.NativePNCSmartRegisterActivity;
 import org.ei.opensrp.view.controller.ANMController;
 
 
+import java.util.HashMap;
+
+import dashboard.opensrp.org.jandjdashboard.controller.controllerHolders;
+import dashboard.opensrp.org.jandjdashboard.controller.dashboardControllers;
 import dashboard.opensrp.org.jandjdashboard.dashboardCategoryListActivity;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
@@ -50,13 +55,24 @@ public class McareNavigationController extends org.ei.opensrp.view.controller.Na
     }
     @Override
     public void startReports() {
-        activity.startActivity(new Intent(activity, dashboardCategoryListActivity.class));
+        Intent i = new Intent(activity, dashboardCategoryListActivity.class);
+        i.putExtra("controller_holder", initializeControllersForDashboard());
+        activity.startActivity(i);
     }
+
     public void startPNCSmartRegistry() {
         activity.startActivity(new Intent(activity, mCarePNCSmartRegisterActivity.class));
     }
     public void startChildSmartRegistry() {
         activity.startActivity(new Intent(activity, mCareChildSmartRegisterActivity.class));
+    }
+    private controllerHolders initializeControllersForDashboard() {
+        controllerHolders controllerHolder = new controllerHolders();
+        upcomingScheduleStatusControllerForDashBoardModule usscontrollerForDashBoardModule = new upcomingScheduleStatusControllerForDashBoardModule();
+        HashMap<String,dashboardControllers> stringdashboardControllersHashMap = new HashMap<String,dashboardControllers>();
+        stringdashboardControllersHashMap.put("upcomingScheduleStatusController",usscontrollerForDashBoardModule);
+        controllerHolder.setControllersHashMap(stringdashboardControllersHashMap);
+        return controllerHolder;
     }
 
 

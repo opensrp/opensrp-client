@@ -6,7 +6,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import dashboard.opensrp.org.jandjdashboard.R;
+import dashboard.opensrp.org.jandjdashboard.dashboardCategoryListActivity;
 
 /**
  * Created by raihan on 1/17/18.
@@ -27,10 +30,15 @@ public class calendarPoPUpWindow extends PopupWindow {
     private final CalendarView tocalendarView;
     private final CalendarView fromcalendarView;;
     TextView daily,weekly,monthly,cycle,yearly;
+    EditText fromdateselected,todateselected;
     TextView date_in_words_label;
     TextView [] periodSelector ;
+    Context mContext;
     View popupView;
+    private Button apply;
+
     public calendarPoPUpWindow(Context context){
+        mContext = context;
         popupView = ((Activity)context).getLayoutInflater().inflate(R.layout.advanced_date_picker, null);
         setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setContentView(popupView);
@@ -45,6 +53,7 @@ public class calendarPoPUpWindow extends PopupWindow {
         setFocusable(true);
         setPeriodSelector(context);
 
+
     }
     public void setPeriodSelector(final Context context){
         daily = (TextView) popupView.findViewById(R.id.date_picker_daily_label);
@@ -53,6 +62,10 @@ public class calendarPoPUpWindow extends PopupWindow {
         monthly = (TextView)popupView.findViewById(R.id.date_picker_monthly_label);
         cycle = (TextView)popupView.findViewById(R.id.date_picker_cyle_label);
         yearly = (TextView)popupView.findViewById(R.id.date_picker_year_label);
+        fromdateselected = (EditText) popupView.findViewById(R.id.from_date_selected);
+        todateselected = (EditText) popupView.findViewById(R.id.to_date_selected);
+        apply = (Button) popupView.findViewById(R.id.applybutton);
+
         periodSelector = new TextView[]{daily,weekly,monthly,cycle,yearly};
         daily.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +137,16 @@ public class calendarPoPUpWindow extends PopupWindow {
             }
         });
         daily.performClick();
+        apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SimpleDateFormat simpleformat = new SimpleDateFormat("yyyy-MM-dd");
+                if(mContext instanceof dashboardCategoryListActivity) {
+                    ((dashboardCategoryListActivity) mContext).refresh(simpleformat.format(fromdate), simpleformat.format(todate));
+                }
+                dismiss();
+            }
+        });
     }
 
     private void addToDate(int daysToAdd) {
@@ -133,6 +156,9 @@ public class calendarPoPUpWindow extends PopupWindow {
         fromdate = new Date(fromcalendarView.getDate());
         SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy");
         date_in_words_label.setText(format.format(fromdate)+ " - "+format.format(todate));
+        SimpleDateFormat simpleformat = new SimpleDateFormat("yyyy-MM-dd");
+        fromdateselected.setText(simpleformat.format(fromdate));
+        todateselected.setText(simpleformat.format(todate));
     }
 
     private void assignfontTOCalendarMonth(CalendarView calendarView,Context context) {
