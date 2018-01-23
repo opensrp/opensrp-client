@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.ihealth.communication.manager.iHealthDevicesCallback;
 import com.ihealth.communication.manager.iHealthDevicesManager;
+
 import org.smartregister.indonesia.R;
 
 import java.lang.reflect.Field;

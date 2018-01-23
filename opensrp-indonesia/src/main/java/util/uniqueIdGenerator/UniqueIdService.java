@@ -1,5 +1,8 @@
 package util.uniqueIdGenerator;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.smartregister.DristhiConfiguration;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.domain.Response;
@@ -8,9 +11,6 @@ import org.smartregister.indonesia.LoginActivity;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.service.HTTPAgent;
 import org.smartregister.sync.AdditionalSyncService;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import static java.text.MessageFormat.format;
 import static org.smartregister.domain.FetchStatus.fetched;

@@ -130,6 +130,8 @@
         <activity android:name=".device.BP7" android:label="Wireless Blood Pressure Wrist Monitor BP7"/>
         <activity android:name=".device.BP5" android:label="BP5"/>
         <activity android:name=".device.TestBPM" />
+        <activity android:name=".activity.SettingsActivity"
+            android:screenOrientation="landscape"/>
 
     </application>
 

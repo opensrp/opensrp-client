@@ -11,7 +11,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
         android:background="@drawable/listview_background_rounded">
 
         <TableRow>
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -22,7 +22,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
                 android:textSize="14sp"
                 android:textColor="@color/text_black" />
 
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -35,7 +35,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
 
         </TableRow>
         <TableRow>
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -45,7 +45,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
                 android:textSize="14sp"
                 android:layout_margin="5dp"
                 android:textColor="@color/text_black" />
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -59,7 +59,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
         </TableRow>
         <TableRow>
 
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -70,7 +70,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
                 android:layout_margin="5dp"
                 android:textColor="@color/text_black" />
 
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -86,7 +86,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
         <TableRow>
 
 
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -98,7 +98,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
                 android:textColor="@color/text_black" />
 
 
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -115,7 +115,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
 
 
 
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -127,7 +127,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
                 android:textColor="@color/text_black" />
 
 
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -141,7 +141,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
         </TableRow>
 
         <TableRow>
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -151,7 +151,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
                 android:textSize="14sp"
                 android:layout_margin="5dp"
                 android:textColor="@color/text_black" />
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -165,7 +165,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
         </TableRow>
 
         <TableRow>
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -175,7 +175,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
                 android:textSize="14sp"
                 android:layout_margin="5dp"
                 android:textColor="@color/text_black" />
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -189,7 +189,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
         </TableRow>
 
         <TableRow>
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -199,7 +199,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
                 android:textSize="14sp"
                 android:layout_margin="5dp"
                 android:textColor="@color/text_black" />
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -213,7 +213,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
         </TableRow>
 
         <TableRow>
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -223,7 +223,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
                 android:textSize="14sp"
                 android:layout_margin="5dp"
                 android:textColor="@color/text_black" />
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -237,7 +237,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
         </TableRow>
 
         <TableRow>
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -247,7 +247,7 @@ android:layout_width="match_parent" android:layout_height="match_parent"
                 android:textSize="14sp"
                 android:layout_margin="5dp"
                 android:textColor="@color/text_black" />
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"

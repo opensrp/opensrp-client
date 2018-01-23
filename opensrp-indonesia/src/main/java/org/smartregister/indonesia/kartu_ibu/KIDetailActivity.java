@@ -19,7 +19,6 @@ import org.smartregister.indonesia.face.camera.SmartShutterActivity;
 import org.smartregister.indonesia.face.camera.utils.Tools;
 import org.smartregister.indonesia.lib.FlurryFacade;
 import org.smartregister.repository.DetailsRepository;
-import org.smartregister.util.OpenSRPImageLoader;
 import org.smartregister.view.activity.DrishtiApplication;
 
 import java.io.File;
@@ -28,7 +27,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
 
 import static org.smartregister.util.StringUtil.humanize;
 

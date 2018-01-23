@@ -2,14 +2,9 @@ package org.smartregister.indonesia.child;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
@@ -21,20 +16,18 @@ import org.smartregister.commonregistry.AllCommonsRepository;
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.indonesia.R;
-//import org.smartregister.gizi.face.camera.SmartShutterActivity;
 import org.smartregister.repository.DetailsRepository;
 import org.smartregister.util.Log;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import util.ImageCache;
 import util.ImageFetcher;
 import util.growthChart.GrowthChartGenerator;
+
+//import org.smartregister.gizi.face.camera.SmartShutterActivity;
 
 /**
  * Created by Iq on 26/04/16.

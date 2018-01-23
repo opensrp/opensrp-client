@@ -3,6 +3,7 @@ package org.smartregister.indonesia.lib;
 import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
+
 import io.fabric.sdk.android.Fabric;
 
 /**

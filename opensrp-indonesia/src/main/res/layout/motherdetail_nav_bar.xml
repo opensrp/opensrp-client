@@ -35,7 +35,7 @@
             android:orientation="horizontal"
             android:background="@drawable/transparent_gray_background">
 
-        <org.smartregister.view.customControls.CustomFontTextView
+        <org.smartregister.view.customcontrols.CustomFontTextView
                 android:id="@+id/txt_title_label"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

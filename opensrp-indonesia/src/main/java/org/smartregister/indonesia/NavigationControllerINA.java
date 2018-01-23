@@ -1,10 +1,11 @@
 package org.smartregister.indonesia;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 
-
+import org.json.JSONObject;
 import org.smartregister.Context;
 import org.smartregister.indonesia.anc.NativeKIANCSmartRegisterActivity;
 import org.smartregister.indonesia.child.NativeKIAnakSmartRegisterActivity;
@@ -12,8 +13,6 @@ import org.smartregister.indonesia.kartu_ibu.NativeKISmartRegisterActivity;
 import org.smartregister.indonesia.kb.NativeKBSmartRegisterActivity;
 import org.smartregister.indonesia.pnc.NativeKIPNCSmartRegisterActivity;
 import org.smartregister.view.controller.ANMController;
-import org.json.JSONObject;
-
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 

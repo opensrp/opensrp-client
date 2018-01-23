@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:layout_weight="0.15">
 
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -36,7 +36,7 @@
                 android:textSize="14sp"
                 android:textColor="@color/text_black" />
 
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -47,7 +47,7 @@
                 android:layout_margin="5dp"
                 android:textColor="@color/text_black" />
 
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -58,7 +58,7 @@
                 android:layout_margin="5dp"
                 android:textColor="@color/text_black" />
 
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -68,7 +68,7 @@
                 android:textSize="14sp"
                 android:layout_margin="5dp"
                 android:textColor="@color/text_black" />
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -84,7 +84,7 @@
             android:orientation="vertical"
             android:layout_width="330dp"
             android:layout_height="match_parent">
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -95,7 +95,7 @@
                 android:textColor="@color/alert_urgent_red"
                 android:textSize="14sp"
                 />
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -104,7 +104,7 @@
                 android:id="@+id/txt_risk1"
                 android:textSize="14sp"
                 android:textColor="@color/text_black" />
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -113,7 +113,7 @@
                 android:id="@+id/txt_risk2"
                 android:textSize="14sp"
                 android:textColor="@color/text_black" />
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -122,7 +122,7 @@
                 android:id="@+id/txt_risk3"
                 android:textSize="14sp"
                 android:textColor="@color/text_black" />
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -131,7 +131,7 @@
                 android:id="@+id/txt_risk4"
                 android:textSize="14sp"
                 android:textColor="@color/text_black" />
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -140,7 +140,7 @@
                 android:textColor="@color/alert_urgent_red"
                 android:id="@+id/show_more"
                 android:textSize="18sp"/>
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"

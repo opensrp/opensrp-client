@@ -15,7 +15,7 @@
         android:paddingRight="5dp"
         android:background="@color/light_pink">
 
-    <org.smartregister.view.customControls.CustomFontTextView
+    <org.smartregister.view.customcontrols.CustomFontTextView
         android:id="@+id/label_gravida"
         android:layout_width="@dimen/obsetri_item_width"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
         style="@style/CustomFontTextViewStyle.ListView.Normal.Obsetri"
         android:text="@string/str_gravida_full"/>
 
-    <org.smartregister.view.customControls.CustomFontTextView
+    <org.smartregister.view.customcontrols.CustomFontTextView
         android:id="@+id/label_parity"
         android:layout_width="@dimen/obsetri_item_width"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         style="@style/CustomFontTextViewStyle.ListView.Normal.Obsetri"
         android:text="@string/str_parity_full"/>
 
-    <org.smartregister.view.customControls.CustomFontTextView
+    <org.smartregister.view.customcontrols.CustomFontTextView
         android:id="@+id/label_number_of_abortus"
         android:layout_width="@dimen/obsetri_item_width"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
         style="@style/CustomFontTextViewStyle.ListView.Normal.Obsetri"
         android:text="@string/str_abortus_full"/>
 
-    <org.smartregister.view.customControls.CustomFontTextView
+    <org.smartregister.view.customcontrols.CustomFontTextView
         android:id="@+id/label_number_of_alive"
         android:layout_width="@dimen/obsetri_item_width"
         android:layout_height="wrap_content"
@@ -47,14 +47,14 @@
         style="@style/CustomFontTextViewStyle.ListView.Normal.Obsetri"
         android:text="@string/str_alive_full"/>
 
-    <org.smartregister.view.customControls.CustomFontTextView
+    <org.smartregister.view.customcontrols.CustomFontTextView
         android:id="@+id/txt_gravida"
         android:layout_width="@dimen/gplsa_item_width"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/label_gravida"
         style="@style/CustomFontTextViewStyle.ListView.Normal.Obsetri"/>
 
-    <org.smartregister.view.customControls.CustomFontTextView
+    <org.smartregister.view.customcontrols.CustomFontTextView
         android:id="@+id/txt_parity"
         android:layout_width="@dimen/gplsa_item_width"
         android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
         android:layout_below="@id/txt_gravida"
         style="@style/CustomFontTextViewStyle.ListView.Normal.Obsetri"/>
 
-    <org.smartregister.view.customControls.CustomFontTextView
+    <org.smartregister.view.customcontrols.CustomFontTextView
         android:id="@+id/txt_number_of_abortus"
         android:layout_width="@dimen/gplsa_item_width"
         android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
         android:layout_below="@id/txt_parity"
         style="@style/CustomFontTextViewStyle.ListView.Normal.Obsetri"/>
 
-    <org.smartregister.view.customControls.CustomFontTextView
+    <org.smartregister.view.customcontrols.CustomFontTextView
         android:id="@+id/txt_number_of_alive"
         android:layout_width="@dimen/gplsa_item_width"
         android:layout_height="wrap_content"

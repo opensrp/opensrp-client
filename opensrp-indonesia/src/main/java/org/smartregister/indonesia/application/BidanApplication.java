@@ -1,21 +1,31 @@
 package org.smartregister.indonesia.application;
+
 import android.content.Intent;
 import android.content.res.Configuration;
 
-import org.acra.ACRA;
+import com.crashlytics.android.Crashlytics;
+
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.smartregister.Context;
+import org.smartregister.CoreLibrary;
 import org.smartregister.commonregistry.CommonFtsObject;
 import org.smartregister.indonesia.LoginActivity;
 import org.smartregister.indonesia.lib.ErrorReportingFacade;
 import org.smartregister.indonesia.lib.FlurryFacade;
+import org.smartregister.indonesia.repository.BidanRepository;
+import org.smartregister.repository.Repository;
+import org.smartregister.repository.SettingsRepository;
 import org.smartregister.sync.DrishtiSyncScheduler;
 import org.smartregister.view.activity.DrishtiApplication;
 import org.smartregister.view.receiver.SyncBroadcastReceiver;
-import static org.smartregister.util.Log.logInfo;
 
 import java.util.Locale;
+
+import io.fabric.sdk.android.Fabric;
+
+import static org.smartregister.util.Log.logError;
+import static org.smartregister.util.Log.logInfo;
 @ReportsCrashes(
         formKey = "",
         formUri = "https://drishtiapp.cloudant.com/acra-drishtiapp/_design/acra-storage/_update/report",
@@ -28,20 +38,97 @@ import java.util.Locale;
 
 public class BidanApplication extends DrishtiApplication {
 
+    private static final String TAG = BidanApplication.class.getName();
+    private static SettingsRepository settingsRepository;
+//    private UniqueIdRepository uniqueIdRepository;
+
+    private static String[] getFtsSearchFields(String tableName) {
+        if (tableName.equals("ec_kartu_ibu")) {
+            return new String[]{"namalengkap", "namaSuami"};
+        } else if (tableName.equals("ec_anak")) {
+            return new String[]{"namaBayi"};
+        } else if (tableName.equals("ec_ibu")) {
+            return new String[]{"namalengkap", "namaSuami"};
+        } else if (tableName.equals("ec_pnc")) {
+            return new String[]{"namalengkap", "namaSuami"};
+        }
+        return null;
+    }
+
+    private static String[] getFtsSortFields(String tableName) {
+        if (tableName.equals("ec_kartu_ibu")) {
+            return new String[]{"namalengkap", "umur", "noIbu", "htp"};
+        } else if (tableName.equals("ec_anak")) {
+            return new String[]{"namaBayi", "tanggalLahirAnak"};
+        } else if (tableName.equals("ec_ibu")) {
+            return new String[]{"namalengkap", "umur", "noIbu", "pptest", "htp"};
+        } else if (tableName.equals("ec_pnc")) {
+            return new String[]{"namalengkap", "umur", "noIbu", "keadaanIbu"};
+        }
+        return null;
+    }
+
+    private static String[] getFtsMainConditions(String tableName) {
+        if (tableName.equals("ec_kartu_ibu")) {
+            return new String[]{"is_closed", "jenisKontrasepsi"};
+        } else if (tableName.equals("ec_anak")) {
+            return new String[]{"is_closed", "relational_id"};
+        } else if (tableName.equals("ec_ibu")) {
+            return new String[]{"is_closed", "type", "pptest", "kartuIbuId"};
+        } else if (tableName.equals("ec_pnc")) {
+            return new String[]{"is_closed", "keadaanIbu", "type"};
+        }
+        return null;
+    }
+
+    private static String[] getFtsTables() {
+        return new String[]{"ec_kartu_ibu", "ec_anak", "ec_ibu", "ec_pnc"};
+    }
+
+    public static CommonFtsObject createCommonFtsObject() {
+        CommonFtsObject commonFtsObject = new CommonFtsObject(getFtsTables());
+        for (String ftsTable : commonFtsObject.getTables()) {
+            commonFtsObject.updateSearchFields(ftsTable, getFtsSearchFields(ftsTable));
+            commonFtsObject.updateSortFields(ftsTable, getFtsSortFields(ftsTable));
+            commonFtsObject.updateMainConditions(ftsTable, getFtsMainConditions(ftsTable));
+        }
+        return commonFtsObject;
+    }
+
+    public static Repository initializeRepositoryForUniqueId() {
+        return null;
+    }
+
+    public static synchronized BidanApplication getInstance() {
+        return (BidanApplication) mInstance;
+    }
+
+    public static SettingsRepository getSettingsRepositoryforUniqueId() {
+        return settingsRepository();
+    }
+
+    protected static SettingsRepository settingsRepository() {
+        if (settingsRepository == null) {
+            settingsRepository = new SettingsRepository();
+        }
+        return settingsRepository;
+    }
+
     @Override
     public void onCreate() {
-        DrishtiSyncScheduler.setReceiverClass(SyncBroadcastReceiver.class);
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
-        //  ACRA.init(this);
-
-        DrishtiSyncScheduler.setReceiverClass(SyncBroadcastReceiver.class);
-        ErrorReportingFacade.initErrorHandler(getApplicationContext());
-        FlurryFacade.init(this);
+        mInstance = this;
 
         context = Context.getInstance();
         context.updateApplicationContext(getApplicationContext());
         context.updateCommonFtsObject(createCommonFtsObject());
+
+        //Initialize Modules
+        CoreLibrary.init(context());
+
+        DrishtiSyncScheduler.setReceiverClass(SyncBroadcastReceiver.class);
 
         applyUserLanguagePreference();
         cleanUpSyncState();
@@ -49,7 +136,21 @@ public class BidanApplication extends DrishtiApplication {
     }
 
     @Override
-    public void logoutCurrentUser(){
+    public Repository getRepository() {
+        try {
+            if (repository == null) {
+                repository = new BidanRepository(getInstance().getApplicationContext(), context());
+
+            }
+        } catch (UnsatisfiedLinkError e) {
+            logError("Error on getRepository: " + e);
+
+        }
+        return repository;
+    }
+
+    @Override
+    public void logoutCurrentUser() {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplicationContext().startActivity(intent);
@@ -60,6 +161,13 @@ public class BidanApplication extends DrishtiApplication {
         DrishtiSyncScheduler.stop(getApplicationContext());
         context.allSharedPreferences().saveIsSyncInProgress(false);
     }
+
+  /*  public UniqueIdRepository uniqueIdRepository() {
+        if (uniqueIdRepository == null) {
+            uniqueIdRepository = new UniqueIdRepository((BidanRepository) getRepository());
+        }
+        return uniqueIdRepository;
+    }*/
 
     @Override
     public void onTerminate() {
@@ -78,6 +186,22 @@ public class BidanApplication extends DrishtiApplication {
         }
     }
 
+   /* @Override
+    public Repository getRepository() {
+
+        try {
+            if (repository == null) {
+                repository = new BidanRepository(getInstance().getApplicationContext(), context());
+                uniqueIdRepository();
+//                eventClientRepository();
+            }
+        } catch (UnsatisfiedLinkError e) {
+            logError("Error on getRepository: " + e);
+
+        }
+        return repository;
+    }*/
+
     private void updateConfiguration(Configuration config) {
         config.locale = locale;
         Locale.setDefault(locale);
@@ -85,84 +209,9 @@ public class BidanApplication extends DrishtiApplication {
                 getBaseContext().getResources().getDisplayMetrics());
     }
 
-    private String[] getFtsSearchFields(String tableName){
-        if(tableName.equals("ec_kartu_ibu")){
-            String[] ftsSearchFields =  { "namalengkap", "namaSuami" };
-            return ftsSearchFields;
-        } else if(tableName.equals("ec_anak")){
-            String[] ftsSearchFields =  { "namaBayi" };
-            return ftsSearchFields;
-        } else if (tableName.equals("ec_ibu")){
-            String[] ftsSearchFields =  { "namalengkap", "namaSuami"};
-            return ftsSearchFields;
-        }
-        else if (tableName.equals("ec_pnc")) {
-            String[] ftsSearchFields = {"namalengkap", "namaSuami"};
-            return ftsSearchFields;
-        }
-        return null;
+    public Context context() {
+        return context;
     }
 
-    private String[] getFtsSortFields(String tableName){
-        if(tableName.equals("ec_kartu_ibu")) {
-            String[] sortFields = { "namalengkap", "umur",  "noIbu", "htp"};
-            return sortFields;
-        } else if(tableName.equals("ec_anak")){
-            String[] sortFields = { "namaBayi", "tanggalLahirAnak" };
-            return sortFields;
-        } else if(tableName.equals("ec_ibu")){
-            String[] sortFields = { "namalengkap", "umur", "noIbu", "pptest" , "htp" };
-            return sortFields;
-        } else if(tableName.equals("ec_pnc")){
-            String[] sortFields = { "namalengkap", "umur", "noIbu", "keadaanIbu"};
-            return sortFields;
-        }
-        return null;
-    }
-
-    private String[] getFtsMainConditions(String tableName){
-        if(tableName.equals("ec_kartu_ibu")) {
-            String[] mainConditions = { "is_closed", "jenisKontrasepsi" };
-            return mainConditions;
-        } else if(tableName.equals("ec_anak")){
-            String[] mainConditions = { "is_closed", "relational_id" };
-            return mainConditions;
-        } else if(tableName.equals("ec_ibu")){
-            String[] mainConditions = { "is_closed", "type", "pptest" , "kartuIbuId" };
-            return mainConditions;
-        } else if(tableName.equals("ec_pnc")){
-            String[] mainConditions = { "is_closed","keadaanIbu" , "type"};
-            return mainConditions;
-        }
-        return null;
-    }
-
-    private String getFtsCustomRelationalId(String tableName){
-        if(tableName.equals("ec_anak")){
-            String customRelationalId = "relational_id";
-            return customRelationalId;
-        } else if(tableName.equals("ec_ibu")){
-            String customRelationalId =  "kartuIbuId" ;
-            return customRelationalId;
-        }
-        return null;
-    }
-
-
-    private String[] getFtsTables(){
-        String[] ftsTables = { "ec_kartu_ibu", "ec_anak", "ec_ibu", "ec_pnc" };
-        return ftsTables;
-    }
-
-    private CommonFtsObject createCommonFtsObject(){
-        CommonFtsObject commonFtsObject = new CommonFtsObject(getFtsTables());
-        for(String ftsTable: commonFtsObject.getTables()){
-            commonFtsObject.updateSearchFields(ftsTable, getFtsSearchFields(ftsTable));
-            commonFtsObject.updateSortFields(ftsTable, getFtsSortFields(ftsTable));
-            commonFtsObject.updateMainConditions(ftsTable, getFtsMainConditions(ftsTable));
-          //  commonFtsObject.updateCustomRelationalId(ftsTable, getFtsCustomRelationalId(ftsTable));
-        }
-        return commonFtsObject;
-    }
 
 }

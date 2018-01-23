@@ -18,43 +18,25 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-import com.qualcomm.snapdragon.sdk.face.FaceData;
 import com.qualcomm.snapdragon.sdk.face.FacialProcessing;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.smartregister.Context;
-import org.smartregister.domain.ProfileImage;
-import org.smartregister.indonesia.BidanHomeActivity;
-import org.smartregister.indonesia.R;
-import org.smartregister.indonesia.anc.ANCDetailActivity;
-import org.smartregister.indonesia.anc.NativeKIANCSmartRegisterActivity;
-import org.smartregister.indonesia.child.AnakDetailActivity;
-import org.smartregister.indonesia.child.NativeKIAnakSmartRegisterActivity;
-import org.smartregister.indonesia.face.camera.ClientsList;
-import org.smartregister.indonesia.face.camera.ImageConfirmation;
-import org.smartregister.indonesia.face.camera.SmartShutterActivity;
-import org.smartregister.indonesia.fragment.NativeKBSmartRegisterFragment;
-import org.smartregister.indonesia.fragment.NativeKIANCSmartRegisterFragment;
-import org.smartregister.indonesia.fragment.NativeKIAnakSmartRegisterFragment;
-import org.smartregister.indonesia.fragment.NativeKIPNCSmartRegisterFragment;
-import org.smartregister.indonesia.fragment.NativeKISmartRegisterFragment;
-import org.smartregister.indonesia.kartu_ibu.KIDetailActivity;
-import org.smartregister.indonesia.kartu_ibu.NativeKISmartRegisterActivity;
-import org.smartregister.indonesia.kb.KBDetailActivity;
-import org.smartregister.indonesia.kb.NativeKBSmartRegisterActivity;
-import org.smartregister.indonesia.pnc.NativeKIPNCSmartRegisterActivity;
-import org.smartregister.indonesia.pnc.PNCDetailActivity;
-import org.smartregister.repository.ImageRepository;
-import org.smartregister.util.OpenSRPImageLoader;
-import org.smartregister.view.activity.DrishtiApplication;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.Context;
+import org.smartregister.domain.ProfileImage;
+import org.smartregister.indonesia.R;
+import org.smartregister.indonesia.child.AnakDetailActivity;
+import org.smartregister.indonesia.face.camera.ClientsList;
+import org.smartregister.indonesia.face.camera.ImageConfirmation;
+import org.smartregister.indonesia.face.camera.SmartShutterActivity;
+import org.smartregister.indonesia.kartu_ibu.KIDetailActivity;
+import org.smartregister.repository.ImageRepository;
+import org.smartregister.util.OpenSRPImageLoader;
+import org.smartregister.view.activity.DrishtiApplication;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -68,19 +50,10 @@ import java.util.Map;
 import java.util.UUID;
 
 import cz.msebera.android.httpclient.Header;
-import okhttp3.Authenticator;
-import okhttp3.Credentials;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 import okhttp3.ResponseBody;
-import okhttp3.Route;
 import util.formula.Support;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
-import static org.smartregister.indonesia.face.camera.utils.Tools.appContext;
 
 
 /**
@@ -108,7 +81,7 @@ public class Tools {
     private List<ProfileImage> list;
     private static String anmId = Context.getInstance().allSharedPreferences().fetchRegisteredANM();
     private static ProfileImage profileImage = new ProfileImage();
-    private static ImageRepository imageRepo = (ImageRepository) org.smartregister.Context.imageRepository();
+    private static ImageRepository imageRepo;
 //    private FaceRepository faceRepo = (FaceRepository) new FaceRepository().faceRepository();
 
     static String emptyAlbum = "[32, 0, 0, 0, 76, 65, -68, -20, 77, 116, 46, 83, 105, 110, 97, 105, 6, 0, 0, 0, -24, 3, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0]";
@@ -119,11 +92,11 @@ public class Tools {
 
     public Tools() {
         Log.e(TAG, "Tools: 1");
-        imageRepo = (ImageRepository) org.smartregister.Context.imageRepository();
+        imageRepo = new ImageRepository();
     }
 
     public Tools(org.smartregister.Context appContext) {
-        imageRepo = (ImageRepository) org.smartregister.Context.imageRepository();
+        imageRepo = new ImageRepository();
         Tools.appContext = appContext;
     }
 
@@ -191,12 +164,12 @@ public class Tools {
             profileImage.setContenttype("jpeg");
             profileImage.setFilepath(absoluteFileName);
             profileImage.setFilecategory("profilepic");
-            profileImage.setFilevector(faceVector);
+//            profileImage.setContenttype(faceVector);
             profileImage.setSyncStatus(ImageRepository.TYPE_Unsynced);
 
-            imageRepo.add(profileImage, entityId);
+            imageRepo.add(profileImage);
         } else {
-            imageRepo.updateByEntityId(entityId, faceVector);
+//            TODO Updated
         }
         Log.e(TAG, "saveToDb: " + "done");
 
@@ -541,7 +514,7 @@ public class Tools {
 ////                profileImage.setSyncStatus(ImageRepository.TYPE_Synced);
 //
 //                // TODO : fetch vector from imagebitmap
-//                profileImage.setFilevector(faceVector);
+//                profileImage.setContenttype(faceVector);
 //
 ////                imageRepo.createOrUpdate(profileImage, uid);
 //                imageRepo.add(profileImage, uid);
@@ -619,10 +592,11 @@ public class Tools {
 //                profileImage.setSyncStatus(ImageRepository.TYPE_Synced);
 
                 // TODO : fetch vector from imagebitmap
-                profileImage.setFilevector(faceVector);
+//                profileImage.setContenttype(faceVector);
+                profileImage.setContenttype(faceVector);
 
 //                imageRepo.createOrUpdate(profileImage, uid);
-                imageRepo.add(profileImage, uid);
+                imageRepo.add(profileImage);
 
             }
 
@@ -751,7 +725,7 @@ public class Tools {
     public static void setVectorsBuffered() {
         Log.e(TAG, "setVectorsBuffered: START" );
 
-        List<ProfileImage> vectorList = imageRepo.getAllVectorImages();
+        List<ProfileImage> vectorList = imageRepo.findAllUnSynced();
 
         if (vectorList.size() != 0) {
 
@@ -762,9 +736,9 @@ public class Tools {
             int i = 0;
             for (ProfileImage profileImage : vectorList) {
                 String[] vectorFace = new String[]{};
-                if (profileImage.getFilevector() != null) {
+                if (profileImage.getContenttype() != null) {
 
-                    vectorFace = profileImage.getFilevector().substring(1, profileImage.getFilevector().length() - 1).split(", ");
+                    vectorFace = profileImage.getContenttype().substring(1, profileImage.getContenttype().length() - 1).split(", ");
 
                     // First index value of Vector Body
                     vectorFace[0] = String.valueOf(i);
@@ -864,11 +838,10 @@ public class Tools {
                     profileImage.setContenttype("jpeg");
                     profileImage.setFilepath(absoluteFileName);
                     profileImage.setFilecategory("profilepic");
-                    profileImage.setFilevector(Arrays.toString(faceVector));
+                    profileImage.setContenttype(Arrays.toString(faceVector));
                     profileImage.setSyncStatus(ImageRepository.TYPE_Unsynced);
 
-                    ImageRepository imageRepo = (ImageRepository) org.smartregister.Context.imageRepository();
-                    imageRepo.add(profileImage, entityId);
+                    imageRepo.add(profileImage);
                 }
 
             } catch (FileNotFoundException e) {
@@ -889,12 +862,13 @@ public class Tools {
     public static void download_images() {
         Log.e(TAG, "download_images: START" );
         try {
-            List<String> images = imageRepo.findAllUnDownloaded();
-            for (String uid : images){
+            List<ProfileImage> images = imageRepo.findAllUnSynced();
+            for (ProfileImage uid : images){
                 ImageView iv = new ImageView(appContext.applicationContext());
                 // TODO setTag+"The key must be an application-specific resource id"
                 iv.setTag(R.id.entity_id, uid);
-                DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(uid, OpenSRPImageLoader.getStaticImageListener(iv, 0, 0));
+                DrishtiApplication.getCachedImageLoaderInstance().getImageByClientId(uid.getEntityID(),
+                        OpenSRPImageLoader.getStaticImageListener(iv, 0, 0));
                 Log.e(TAG, "download_images: undownload "+ uid );
 
             }

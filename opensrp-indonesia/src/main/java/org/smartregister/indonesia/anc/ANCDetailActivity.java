@@ -12,28 +12,16 @@ import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
 
+import org.json.JSONObject;
 import org.smartregister.Context;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
-import org.smartregister.domain.form.FormSubmission;
 import org.smartregister.indonesia.R;
-//import org.smartregister.indonesia.face.bpm.MainBPMActivity;
-import org.smartregister.indonesia.device.BpmTestMainActivity;
 import org.smartregister.indonesia.device.MainBPM;
-import org.smartregister.indonesia.device.TestBPM;
 import org.smartregister.indonesia.kartu_ibu.KIDetailActivity;
 import org.smartregister.indonesia.lib.FlurryFacade;
 import org.smartregister.repository.DetailsRepository;
 import org.smartregister.util.FormUtils;
-import org.smartregister.util.OpenSRPImageLoader;
 import org.smartregister.view.activity.DrishtiApplication;
-import org.smartregister.view.contract.ANCDetail;
-import org.smartregister.view.fragment.DisplayFormFragment;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
-import org.json.JSONObject;
-//import org.opensrp.id.MainActivity;
-//import org.opensrp.bpm.MainBPM;
-//import org.opensrp.id.MainBPMActivity;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -45,12 +33,15 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
-//import example.com.mylibrary.MainBPMActivity;
-
-//import example.com.sidlibrary.MainBPMActivity;
-
 import static org.smartregister.util.StringUtil.humanize;
 import static org.smartregister.util.StringUtil.humanizeAndDoUPPERCASE;
+
+//import org.smartregister.indonesia.face.bpm.MainBPMActivity;
+//import org.opensrp.id.MainActivity;
+//import org.opensrp.bpm.MainBPM;
+//import org.opensrp.id.MainBPMActivity;
+//import example.com.mylibrary.MainBPMActivity;
+//import example.com.sidlibrary.MainBPMActivity;
 
 
 

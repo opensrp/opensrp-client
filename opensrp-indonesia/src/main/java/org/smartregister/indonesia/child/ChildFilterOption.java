@@ -1,8 +1,5 @@
 package org.smartregister.indonesia.child;
 
-import android.provider.Settings;
-import android.util.Log;
-
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.cursoradapter.CursorFilterOption;
 import org.smartregister.view.contract.SmartRegisterClient;

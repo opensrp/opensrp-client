@@ -19,8 +19,6 @@ import org.smartregister.indonesia.face.camera.utils.Tools;
 import org.smartregister.indonesia.kartu_ibu.KIDetailActivity;
 import org.smartregister.indonesia.lib.FlurryFacade;
 import org.smartregister.repository.DetailsRepository;
-import org.smartregister.util.OpenSRPImageLoader;
-import org.smartregister.view.activity.ChildDetailActivity;
 import org.smartregister.view.activity.DrishtiApplication;
 
 import java.io.File;

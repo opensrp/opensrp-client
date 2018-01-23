@@ -2,12 +2,7 @@ package org.smartregister.indonesia.pnc;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -16,35 +11,26 @@ import android.widget.TextView;
 
 import com.flurry.android.FlurryAgent;
 
+import org.json.JSONObject;
 import org.smartregister.Context;
 import org.smartregister.commonregistry.AllCommonsRepository;
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
-import org.smartregister.domain.ProfileImage;
 import org.smartregister.indonesia.R;
-import org.smartregister.indonesia.anc.ANCDetailActivity;
-import org.smartregister.indonesia.anc.NativeKIANCSmartRegisterActivity;
 import org.smartregister.indonesia.device.MainBPM;
-import org.smartregister.indonesia.face.camera.SmartShutterActivity;
 import org.smartregister.indonesia.kartu_ibu.KIDetailActivity;
-import org.smartregister.indonesia.kartu_ibu.NativeKISmartRegisterActivity;
 import org.smartregister.indonesia.lib.FlurryFacade;
 import org.smartregister.repository.DetailsRepository;
-import org.smartregister.repository.ImageRepository;
 import org.smartregister.util.FormUtils;
-import org.smartregister.util.OpenSRPImageLoader;
 import org.smartregister.view.activity.DrishtiApplication;
-import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import util.ImageCache;
 import util.ImageFetcher;
 
 import static org.smartregister.util.StringUtil.humanize;

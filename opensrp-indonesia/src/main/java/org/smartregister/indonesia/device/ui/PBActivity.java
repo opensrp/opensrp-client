@@ -3,7 +3,9 @@ package org.smartregister.indonesia.device.ui;
 import android.app.Activity;
 import android.os.Bundle;
 
-;import org.smartregister.indonesia.R;
+import org.smartregister.indonesia.R;
+
+;
 
 public class PBActivity extends Activity {
 

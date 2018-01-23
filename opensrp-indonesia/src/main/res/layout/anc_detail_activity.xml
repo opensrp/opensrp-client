@@ -21,7 +21,7 @@
         android:weightSum="4"
         android:orientation="horizontal">
 
-        <org.smartregister.view.customControls.CustomFontTextView
+        <org.smartregister.view.customcontrols.CustomFontTextView
             android:layout_weight="1.05"
             android:layout_width="0dp"
 
@@ -40,7 +40,7 @@
 
 
 
-        <org.smartregister.view.customControls.CustomFontTextView
+        <org.smartregister.view.customcontrols.CustomFontTextView
             android:layout_weight="0.87"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -53,7 +53,7 @@
             android:layout_marginTop="2dp"
             android:textStyle="bold"
             android:textSize="16sp" />
-        <org.smartregister.view.customControls.CustomFontTextView
+        <org.smartregister.view.customcontrols.CustomFontTextView
             android:layout_weight="0.98"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -94,7 +94,7 @@
             android:layout_marginRight="@dimen/list_view_margin_left_and_right"
             android:orientation="horizontal">
 
-        <org.smartregister.view.customControls.CustomFontTextView
+        <org.smartregister.view.customcontrols.CustomFontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/elco_details_summary"

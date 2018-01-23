@@ -1,7 +1,7 @@
 package org.smartregister.indonesia;
+
 import android.database.Cursor;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,11 +11,13 @@ import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
 
-import org.smartregister.AllConstants;
+import org.json.JSONObject;
+import org.opensrp.api.util.EntityUtils;
+import org.opensrp.api.util.LocationTree;
 import org.smartregister.Context;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
+import org.smartregister.enketo.view.fragment.DisplayFormFragment;
 import org.smartregister.event.Listener;
-
 import org.smartregister.indonesia.face.camera.utils.Tools;
 import org.smartregister.indonesia.lib.FlurryFacade;
 import org.smartregister.service.PendingFormSubmissionService;
@@ -26,12 +28,6 @@ import org.smartregister.view.activity.SecuredActivity;
 import org.smartregister.view.contract.HomeContext;
 import org.smartregister.view.controller.NativeAfterANMDetailsFetchListener;
 import org.smartregister.view.controller.NativeUpdateANMDetailsTask;
-import org.smartregister.view.fragment.DisplayFormFragment;
-import org.json.JSONObject;
-import org.opensrp.api.domain.Location;
-import org.opensrp.api.util.EntityUtils;
-import org.opensrp.api.util.LocationTree;
-import org.opensrp.api.util.TreeNode;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -56,8 +52,8 @@ public class BidanHomeActivity extends SecuredActivity {
         @Override
         public void onEvent(Boolean data) {
             Support.ONSYNC = true;
-            AllConstants.IDLE = false;
-            AllConstants.SLEEP_TIME = 15000;
+            AllConstantsINA.IDLE = false;
+            AllConstantsINA.SLEEP_TIME = 15000;
             if (updateMenuItem != null) {
                 updateMenuItem.setActionView(R.layout.progress);
             }
@@ -80,7 +76,7 @@ public class BidanHomeActivity extends SecuredActivity {
             Tools.setVectorfromAPI(getApplicationContext());
 //            Tools.download_images();
 //            Tools.setVectorsBuffered();
-//            AllConstants.SLEEP_TIME = AllConstants.WAITING_TIME;
+//            AllConstantsINA.SLEEP_TIME = AllConstantsINA.WAITING_TIME;
             flagActivator();
 
         }
@@ -90,10 +86,10 @@ public class BidanHomeActivity extends SecuredActivity {
         new Thread(){
             public void run(){
                 try{
-                    while(AllConstants.SLEEP_TIME>0){
+                    while(AllConstantsINA.SLEEP_TIME>0){
                         sleep(1000);
-                        if(AllConstants.IDLE)
-                            AllConstants.SLEEP_TIME-=1000;
+                        if(AllConstantsINA.IDLE)
+                            AllConstantsINA.SLEEP_TIME-=1000;
                     }
                     Support.ONSYNC=false;
                 }catch (InterruptedException ie){
@@ -123,11 +119,6 @@ public class BidanHomeActivity extends SecuredActivity {
     private TextView kartuIbuPNCRegisterClientCountView;
     private TextView anakRegisterClientCountView;
     private TextView kohortKbCountView;
-//    public static CommonPersonObjectController kicontroller;
-//    public static CommonPersonObjectController anccontroller;
-//    public static CommonPersonObjectController kbcontroller;
-//    public static CommonPersonObjectController childcontroller;
-//    public static CommonPersonObjectController pnccontroller;
     public static int kicount;
 
     @Override
@@ -203,7 +194,6 @@ public class BidanHomeActivity extends SecuredActivity {
         new Tools(context());
     }
 
-
     private void updateRegisterCounts() {
         NativeUpdateANMDetailsTask task = new NativeUpdateANMDetailsTask(Context.getInstance().anmController());
         task.fetch(new NativeAfterANMDetailsFetchListener() {
@@ -216,27 +206,27 @@ public class BidanHomeActivity extends SecuredActivity {
 
     private void updateRegisterCounts(HomeContext homeContext) {
         SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder();
-        Cursor kicountcursor = context().commonrepository("ec_kartu_ibu").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("ec_kartu_ibu_search", "ec_kartu_ibu_search.is_closed=0"));
+        Cursor kicountcursor = context().commonrepository("ec_kartu_ibu").rawCustomQueryForAdapter(sqb.queryForCountOnRegisters("ec_kartu_ibu_search", "ec_kartu_ibu_search.is_closed=0"));
         kicountcursor.moveToFirst();
         kicount= kicountcursor.getInt(0);
         kicountcursor.close();
 
-        Cursor kbcountcursor = context().commonrepository("ec_kartu_ibu").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("ec_kartu_ibu_search", "ec_kartu_ibu_search.is_closed=0 and jenisKontrasepsi !='0'" ));
+        Cursor kbcountcursor = context().commonrepository("ec_kartu_ibu").rawCustomQueryForAdapter(sqb.queryForCountOnRegisters("ec_kartu_ibu_search", "ec_kartu_ibu_search.is_closed=0 and jenisKontrasepsi !='0'" ));
         kbcountcursor.moveToFirst();
         int kbcount = kbcountcursor.getInt(0);
         kbcountcursor.close();
 
-        Cursor anccountcursor = context().commonrepository("ec_ibu").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("ec_ibu_search", "ec_ibu_search.is_closed=0 "));
+        Cursor anccountcursor = context().commonrepository("ec_ibu").rawCustomQueryForAdapter(sqb.queryForCountOnRegisters("ec_ibu_search", "ec_ibu_search.is_closed=0 "));
         anccountcursor.moveToFirst();
         int anccount = anccountcursor.getInt(0);
         anccountcursor.close();
 
-        Cursor pnccountcursor = context().commonrepository("ec_pnc").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("ec_pnc_search", "ec_pnc_search.is_closed=0 AND (ec_pnc_search.keadaanIbu ='hidup' OR ec_pnc_search.keadaanIbu IS NULL) ")); // and ec_pnc_search.keadaanIbu LIKE '%hidup%'
+        Cursor pnccountcursor = context().commonrepository("ec_pnc").rawCustomQueryForAdapter(sqb.queryForCountOnRegisters("ec_pnc_search", "ec_pnc_search.is_closed=0 AND (ec_pnc_search.keadaanIbu ='hidup' OR ec_pnc_search.keadaanIbu IS NULL) ")); // and ec_pnc_search.keadaanIbu LIKE '%hidup%'
         pnccountcursor.moveToFirst();
         int pnccount = pnccountcursor.getInt(0);
         pnccountcursor.close();
 
-        Cursor childcountcursor = context().commonrepository("anak").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("ec_anak_search", "ec_anak_search.is_closed=0"));
+        Cursor childcountcursor = context().commonrepository("anak").rawCustomQueryForAdapter(sqb.queryForCountOnRegisters("ec_anak_search", "ec_anak_search.is_closed=0"));
         childcountcursor.moveToFirst();
         int childcount = childcountcursor.getInt(0);
         childcountcursor.close();
@@ -305,8 +295,8 @@ public class BidanHomeActivity extends SecuredActivity {
 //        Map<String,TreeNode<String, Location>> locationMap =
 //                locationTree.getLocationsHierarchy();
 
-        if(LoginActivity.generator.uniqueIdController().needToRefillUniqueId(LoginActivity.generator.UNIQUE_ID_LIMIT))  // unique id part
-            LoginActivity.generator.requestUniqueId();                                                                  // unique id part
+//        if(LoginActivity.generator.uniqueIdController().needToRefillUniqueId(LoginActivity.generator.UNIQUE_ID_LIMIT))  // unique id part
+//            LoginActivity.generator.requestUniqueId();                                                                  // unique id part
     }
 
     @Override

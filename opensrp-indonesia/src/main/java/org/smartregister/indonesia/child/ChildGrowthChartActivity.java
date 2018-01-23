@@ -15,10 +15,6 @@ import org.smartregister.Context;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.indonesia.R;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import util.growthChart.GraphConstant;
 import util.growthChart.GrowthChartGenerator;
 

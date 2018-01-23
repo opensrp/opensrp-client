@@ -10,7 +10,7 @@
         android:layout_margin="5dp"
         android:background="@color/status_bar_text_almost_white">
 
-    <org.smartregister.view.customControls.CustomFontTextView
+    <org.smartregister.view.customcontrols.CustomFontTextView
         android:id="@+id/mother_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,14 +19,14 @@
         android:layout_alignParentTop="true"
         android:text=""
         style="@style/CustomFontTextViewStyle.ListView.Small"/>
-    <org.smartregister.view.customControls.CustomFontTextView
+    <org.smartregister.view.customcontrols.CustomFontTextView
         android:id="@+id/last_visit_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/mother_status"
         android:text=""
         style="@style/CustomFontTextViewStyle.ListView.Small"/>
-    <org.smartregister.view.customControls.CustomFontTextView
+    <org.smartregister.view.customcontrols.CustomFontTextView
         android:id="@+id/visit_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

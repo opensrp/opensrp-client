@@ -5,10 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-//import android.support.design.widget.FloatingActionButton;
-//import android.support.design.widget.Snackbar;
-//import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,11 +18,15 @@ import com.ihealth.communication.control.BpProfile;
 import com.ihealth.communication.manager.iHealthDevicesCallback;
 import com.ihealth.communication.manager.iHealthDevicesManager;
 
-import org.smartregister.indonesia.R;
-import org.smartregister.indonesia.device.manager.DeviceService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.indonesia.R;
+import org.smartregister.indonesia.device.manager.DeviceService;
+
+//import android.support.design.widget.FloatingActionButton;
+//import android.support.design.widget.Snackbar;
+//import android.support.v7.app.AppCompatActivity;
 
 public class BP5 extends Activity implements View.OnClickListener {
 

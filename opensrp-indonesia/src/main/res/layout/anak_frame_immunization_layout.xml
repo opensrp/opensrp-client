@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_weight="@integer/child_list_dob_view_weight">
 
-        <org.smartregister.view.customControls.CustomFontTextView
+        <org.smartregister.view.customcontrols.CustomFontTextView
             android:id="@+id/txt_immunization_pending"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -33,7 +33,7 @@
                 android:src="@drawable/ic_yes_large"
                 android:background="@android:color/transparent"/>
 
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:id="@+id/txt_immunization_done"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                 style="@style/CustomFontTextViewStyle.ListView.Medium.FourLine"
                 android:textSize="13sp"/>
 
-            <org.smartregister.view.customControls.CustomFontTextView
+            <org.smartregister.view.customcontrols.CustomFontTextView
                 android:id="@+id/txt_immunization_on"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -16,6 +16,10 @@ import android.widget.EditText;
 
 import com.flurry.android.FlurryAgent;
 
+import org.opensrp.api.domain.Location;
+import org.opensrp.api.util.EntityUtils;
+import org.opensrp.api.util.LocationTree;
+import org.opensrp.api.util.TreeNode;
 import org.smartregister.Context;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonPersonObjectController;
@@ -50,10 +54,6 @@ import org.smartregister.view.dialog.LocationSelectorDialogFragment;
 import org.smartregister.view.dialog.NameSort;
 import org.smartregister.view.dialog.ServiceModeOption;
 import org.smartregister.view.dialog.SortOption;
-import org.opensrp.api.domain.Location;
-import org.opensrp.api.util.EntityUtils;
-import org.opensrp.api.util.LocationTree;
-import org.opensrp.api.util.TreeNode;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

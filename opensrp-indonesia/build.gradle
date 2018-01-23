@@ -77,6 +77,16 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            resValue "string", 'opensrp_url', '"http://118.91.130.18:9090/opensrp"'
+            resValue "string", 'uname', '"demo_test"'
+            resValue "string", 'pwd', '"Demo@123"'
+//            buildConfigField "int", "DATABASE_VERSION", '1'
+//            buildConfigField "boolean", "SYNC_WAIT", 'false'
+//            buildConfigField "boolean", "UNIQUE_ID", 'false'
+//            testCoverageEnabled true
+
+        }
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'

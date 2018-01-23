@@ -2,9 +2,9 @@ package util.uniqueIdGenerator;
 
 import android.support.annotation.Nullable;
 
-import org.smartregister.util.Cache;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.util.Cache;
 
 import java.util.Arrays;
 import java.util.Collections;

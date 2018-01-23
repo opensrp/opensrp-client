@@ -12,7 +12,9 @@ import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
 
+import org.json.JSONObject;
 import org.smartregister.domain.form.FormSubmission;
+import org.smartregister.enketo.view.fragment.DisplayFormFragment;
 import org.smartregister.indonesia.LoginActivity;
 import org.smartregister.indonesia.R;
 import org.smartregister.indonesia.fragment.NativeKIANCSmartRegisterFragment;
@@ -24,10 +26,8 @@ import org.smartregister.util.FormUtils;
 import org.smartregister.view.activity.SecuredNativeSmartRegisterActivity;
 import org.smartregister.view.dialog.DialogOption;
 import org.smartregister.view.dialog.OpenFormOption;
-import org.smartregister.view.fragment.DisplayFormFragment;
 import org.smartregister.view.fragment.SecuredNativeSmartRegisterFragment;
 import org.smartregister.view.viewpager.OpenSRPViewPager;
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import org.smartregister.view.fragment.DisplayFormFragment;
+import org.smartregister.enketo.view.fragment.DisplayFormFragment;
 
 
 

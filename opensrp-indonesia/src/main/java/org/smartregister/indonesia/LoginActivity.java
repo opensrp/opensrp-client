@@ -31,14 +31,13 @@ import org.smartregister.domain.Response;
 import org.smartregister.domain.ResponseStatus;
 import org.smartregister.event.Listener;
 import org.smartregister.indonesia.lib.ErrorReportingFacade;
-import org.smartregister.indonesia.lib.FlurryFacade;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.sync.DrishtiSyncScheduler;
 import org.smartregister.util.Log;
 import org.smartregister.view.BackgroundAction;
 import org.smartregister.view.LockingBackgroundTask;
 import org.smartregister.view.ProgressIndicator;
-import org.smartregister.view.activity.SettingsActivity;
+import org.smartregister.indonesia.activity.SettingsActivity;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -56,7 +55,6 @@ import static org.smartregister.domain.LoginResponse.UNAUTHORIZED;
 import static org.smartregister.domain.LoginResponse.UNKNOWN_RESPONSE;
 import static org.smartregister.util.Log.logError;
 import static org.smartregister.util.Log.logVerbose;
-
 public class LoginActivity extends Activity {
     private Context context;
     private EditText userNameEditText;
@@ -131,7 +129,7 @@ public class LoginActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getTitle().toString().equalsIgnoreCase("Settings")){
-            startActivity(new Intent(this,SettingsActivity.class));
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

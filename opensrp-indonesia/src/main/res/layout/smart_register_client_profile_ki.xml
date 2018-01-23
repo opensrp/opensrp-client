@@ -109,7 +109,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginLeft="-5dp">
 
-        <org.smartregister.view.customControls.CustomFontTextView
+        <org.smartregister.view.customcontrols.CustomFontTextView
             android:id="@+id/wife_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -119,14 +119,14 @@
             android:textStyle="bold"
             style="@style/CustomFontTextViewStyle.ListView.Medium"/>
 
-        <org.smartregister.view.customControls.CustomFontTextView
+        <org.smartregister.view.customcontrols.CustomFontTextView
             android:id="@+id/txt_husband_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/wife_name"
             style="@style/CustomFontTextViewStyle.ListView.Small"/>
 
-        <org.smartregister.view.customControls.CustomFontTextView
+        <org.smartregister.view.customcontrols.CustomFontTextView
             android:id="@+id/txt_village_name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
             android:layout_marginBottom="@dimen/client_profile_village_margin"
             style="@style/CustomFontTextViewStyle.ListView.Small"/>
 
-        <org.smartregister.view.customControls.CustomFontTextView
+        <org.smartregister.view.customcontrols.CustomFontTextView
             android:id="@+id/wife_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -148,7 +148,7 @@
             android:background="#FFFFFF"
             style="@style/CustomFontTextViewStyle.ListView.Small.NoHeight"/>
 
-        <org.smartregister.view.customControls.CustomFontTextView
+        <org.smartregister.view.customcontrols.CustomFontTextView
             android:id="@+id/is_out_of_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

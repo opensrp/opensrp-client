@@ -16,12 +16,12 @@ import com.ihealth.communication.control.Bp7Control;
 import com.ihealth.communication.control.BpProfile;
 import com.ihealth.communication.manager.iHealthDevicesCallback;
 import com.ihealth.communication.manager.iHealthDevicesManager;
-import org.smartregister.indonesia.R;
 
-import org.smartregister.indonesia.device.manager.DeviceService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.indonesia.R;
+import org.smartregister.indonesia.device.manager.DeviceService;
 
 //import android.support.design.widget.FloatingActionButton;
 //import android.support.design.widget.Snackbar;

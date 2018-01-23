@@ -1,9 +1,11 @@
 package org.smartregister.indonesia;
 
+import org.smartregister.AllConstants;
+
 /**
  * Created by Dimas Ciputra on 9/12/15.
  */
-public class AllConstantsINA {
+public class AllConstantsINA extends AllConstants {
 
     public static final String BOOLEAN_TRUE = "yes";
     public static final String BOOLEAN_FALSE = "no";
@@ -36,6 +38,8 @@ public class AllConstantsINA {
 
    //  Flurry Key Bidan EC Prototype 1
     public static final String FLURRY_KEY = "7N8KZP67BP6QRJPB2RXX";
+    public static boolean IDLE;
+    public static int SLEEP_TIME;
 
     public class KeluargaBerencanaFields {
         public static final String CONTRACEPTION_METHOD = "jenisKontrasepsi";
