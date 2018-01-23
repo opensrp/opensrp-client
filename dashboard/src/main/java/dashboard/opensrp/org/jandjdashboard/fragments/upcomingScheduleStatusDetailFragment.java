@@ -106,7 +106,7 @@ public class upcomingScheduleStatusDetailFragment extends Fragment {
         Date today = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(today);
-        cal.add(Calendar.DATE, -1);
+        cal.add(Calendar.DATE, -(365*10));
         Date yesterday = cal.getTime();
 
         prepareAlbums(uSSController.format.format(yesterday.getTime()),uSSController.format.format(today.getTime()));
