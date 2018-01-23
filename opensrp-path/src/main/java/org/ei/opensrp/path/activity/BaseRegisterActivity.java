@@ -211,6 +211,14 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
                 context().allFormVersionSyncService());
         pathUpdateActionsTask.updateFromServer(pathAfterFetchListener);
     }
+    private void sendAnouncement() {
+        PathUpdateActionsTask pathUpdateActionsTask = new PathUpdateActionsTask(
+                this, context().actionService(),
+                context().formSubmissionSyncService(),
+                new SyncProgressIndicator(),
+                context().allFormVersionSyncService());
+        pathUpdateActionsTask.sendAnouncement();
+    }
 //////////////////////////////////for navigation menu items///////////////////////////
 //    private void refreshSyncStatusViews(FetchStatus fetchStatus) {
 //        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -314,6 +322,15 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
             @Override
             public void onClick(View v) {
                 startFormActivity("child_enrollment", null, null);
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
+        });
+        LinearLayout anouncementbutton = (LinearLayout) drawer.findViewById(R.id.nav_anouncement);
+        anouncementbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendAnouncement();
                 drawer.closeDrawer(GravityCompat.START);
 
             }

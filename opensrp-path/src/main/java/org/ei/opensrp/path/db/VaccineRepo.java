@@ -8,6 +8,7 @@ public class VaccineRepo {
         opv0("OPV 0", null, 13, 0, 0, "child"),
 
         opv1("OPV 1", null, 1768, 42, 0, "child"),
+        fipv1("fIPV 1", null, 1768, 42, 0, "child"),
         penta1("PENTA 1", null, 1768, 42, 0, "child"),
         pcv1("PCV 1", null, 1768, 42, 0, "child"),
         rota1("ROTA 1", null, 213, 42, 0, "child"),
@@ -18,6 +19,7 @@ public class VaccineRepo {
         rota2("ROTA 2", rota1, 244, 70, 28, "child"),
 
         opv3("OPV 3", opv2, 1830, 98, 28, "child"),
+        fipv2("fIPV 2", fipv1, 1830, 98, 56, "child"),
         penta3("PENTA 3", penta2, 1830, 98, 28, "child"),
         pcv3("PCV 3", pcv2, 1830, 98, 28, "child"),
 

@@ -3,13 +3,16 @@ package org.ei.opensrp.path.sync;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.domain.DownloadStatus;
 import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.domain.Response;
+import org.ei.opensrp.domain.ResponseStatus;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Stock;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
@@ -56,6 +59,7 @@ public class PathUpdateActionsTask {
     private static final String REPORTS_SYNC_PATH = "/rest/report/add";
     private static final String STOCK_Add_PATH = "/rest/stockresource/add/";
     private static final String STOCK_SYNC_PATH = "rest/stockresource/sync/";
+    private static final String anouncement_PATH = "message-announcement";
     private final LockingBackgroundTask task;
     private ActionService actionService;
     private Context context;
@@ -463,4 +467,56 @@ public class PathUpdateActionsTask {
         VaccinatorAlarmReceiver.setAlarm(context, 2, PathConstants.ServiceType.RECURRING_SERVICES_SYNC_PROCESSING);
     }
 
+    public void sendAnouncement() {
+
+
+        while (true) {
+
+            (new AsyncTask() {
+                boolean sentmessages = false;
+                @Override
+                protected Object doInBackground(Object[] params) {
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                    AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
+                    String anmId = allSharedPreferences.fetchRegisteredANM();
+                    String baseUrl = org.ei.opensrp.Context.getInstance().configuration().dristhiBaseURL();
+                    if (baseUrl.endsWith("/")) {
+                        baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("/"));
+                    }
+                    String uri = format("{0}/{1}?provider={2}",
+                            baseUrl,
+                            anouncement_PATH,
+                            anmId
+                    );
+                    Response<String> response = httpAgent.fetch(uri);
+                    if(response.isFailure())
+
+                    {
+                        sentmessages = false;
+                        logError(format("error returned in calling anouncement"));
+                    }
+
+                    else if(response.status()==ResponseStatus.success)
+
+                    {
+                        sentmessages = true;
+                        logError(format("called anouncement"));
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Object o) {
+                    super.onPostExecute(o);
+                    if(sentmessages){
+                        Toast.makeText(context,"anouncement messages sent",Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+
+            ).execute();
+            return;
+        }
+    }
 }

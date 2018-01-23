@@ -73,6 +73,7 @@ android {
             buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
             buildConfigField "boolean", "TIME_CHECK", "false"
             testCoverageEnabled true
+            zipAlignEnabled true
         }
     }
     packagingOptions {

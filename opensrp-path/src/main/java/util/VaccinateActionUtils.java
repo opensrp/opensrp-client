@@ -256,6 +256,7 @@ public class VaccinateActionUtils {
         switch (vaccine) {
             case penta1:
             case pcv1:
+            case fipv1:
             case opv1:
                 if (age > 35)
                     addHook = true;
@@ -269,6 +270,7 @@ public class VaccinateActionUtils {
             case penta3:
             case pcv3:
             case opv3:
+            case fipv2:
             case ipv:
                 if (age > 91)
                     addHook = true;
@@ -300,6 +302,7 @@ public class VaccinateActionUtils {
 
             case opv1:
             case penta1:
+            case fipv1:
             case pcv1:
             case rota1:
                 return "6 weeks";
@@ -311,6 +314,7 @@ public class VaccinateActionUtils {
                 return "10 weeks";
 
             case opv3:
+            case fipv2:
             case penta3:
             case pcv3:
                 return "14 weeks";
