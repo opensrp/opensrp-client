@@ -24,7 +24,7 @@
         android:src="@drawable/ic_no_small"
         />
 
-    <org.ei.opensrp.view.customControls.CustomFontTextView
+    <org.smartregister.view.customControls.CustomFontTextView
         android:id="@+id/is_pol3"
         style="@style/CustomFontTextViewStyle.ListView.Small"
         android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
         android:src="@drawable/ic_no_small"
         />
 
-    <org.ei.opensrp.view.customControls.CustomFontTextView
+    <org.smartregister.view.customControls.CustomFontTextView
         android:id="@+id/is_pol4"
         style="@style/CustomFontTextViewStyle.ListView.Small"
         android:layout_width="wrap_content"
@@ -76,7 +76,7 @@
         android:src="@drawable/ic_no_small"
         />
 
-    <org.ei.opensrp.view.customControls.CustomFontTextView
+    <org.smartregister.view.customControls.CustomFontTextView
         android:id="@+id/iscampak"
         style="@style/CustomFontTextViewStyle.ListView.Small"
         android:layout_width="wrap_content"
@@ -103,7 +103,7 @@
         android:src="@drawable/ic_no_small"
         />
 
-    <org.ei.opensrp.view.customControls.CustomFontTextView
+    <org.smartregister.view.customControls.CustomFontTextView
         android:id="@+id/is_ivp"
         style="@style/CustomFontTextViewStyle.ListView.Small"
         android:layout_width="wrap_content"

@@ -1,8 +1,8 @@
 package util.uniqueIdGenerator;
 
-import org.ei.opensrp.repository.AllSettings;
-import org.ei.opensrp.repository.AllSharedPreferences;
-import org.ei.opensrp.repository.SettingsRepository;
+import org.smartregister.repository.AllSettings;
+import org.smartregister.repository.AllSharedPreferences;
+import org.smartregister.repository.SettingsRepository;
 
 /**
   * Created by Dimas on 9/17/2015.

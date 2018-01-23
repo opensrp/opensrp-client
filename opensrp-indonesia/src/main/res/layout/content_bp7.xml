@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="org.ei.opensrp.indonesia.device.BP7">
+    tools:context="org.smartregister.indonesia.device.BP7">
     <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
 
 

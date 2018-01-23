@@ -32,7 +32,7 @@
         android:layout_height="@dimen/smart_register_client_divider_height"
         android:src="@color/smart_register_client_divider_color"
         android:id="@+id/imageView3" />
-    <org.ei.opensrp.view.customControls.CustomFontTextView
+    <org.smartregister.view.customControls.CustomFontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -59,7 +59,7 @@
         android:id="@+id/graph"
         android:layout_weight="0.91" />
 
-    <org.ei.opensrp.view.customControls.CustomFontTextView
+    <org.smartregister.view.customControls.CustomFontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"

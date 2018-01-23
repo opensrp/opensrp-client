@@ -1,25 +1,25 @@
 package util.uniqueIdGenerator;
 
-import org.ei.opensrp.DristhiConfiguration;
-import org.ei.opensrp.domain.FetchStatus;
-import org.ei.opensrp.domain.Response;
-import org.ei.opensrp.domain.ResponseStatus;
-import org.ei.opensrp.indonesia.LoginActivity;
-import org.ei.opensrp.repository.AllSharedPreferences;
-import org.ei.opensrp.service.HTTPAgent;
-import org.ei.opensrp.sync.AdditionalSyncService;
+import org.smartregister.DristhiConfiguration;
+import org.smartregister.domain.FetchStatus;
+import org.smartregister.domain.Response;
+import org.smartregister.domain.ResponseStatus;
+import org.smartregister.indonesia.LoginActivity;
+import org.smartregister.repository.AllSharedPreferences;
+import org.smartregister.service.HTTPAgent;
+import org.smartregister.sync.AdditionalSyncService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import static java.text.MessageFormat.format;
-import static org.ei.opensrp.domain.FetchStatus.fetched;
-import static org.ei.opensrp.domain.FetchStatus.fetchedFailed;
-import static org.ei.opensrp.domain.FetchStatus.nothingFetched;
-import static org.ei.opensrp.domain.ResponseStatus.failure;
-import static org.ei.opensrp.util.Log.logDebug;
-import static org.ei.opensrp.util.Log.logError;
-import static org.ei.opensrp.util.Log.logInfo;
+import static org.smartregister.domain.FetchStatus.fetched;
+import static org.smartregister.domain.FetchStatus.fetchedFailed;
+import static org.smartregister.domain.FetchStatus.nothingFetched;
+import static org.smartregister.domain.ResponseStatus.failure;
+import static org.smartregister.util.Log.logDebug;
+import static org.smartregister.util.Log.logError;
+import static org.smartregister.util.Log.logInfo;
 
 /**
   * Created by Dimas on 9/7/2015.

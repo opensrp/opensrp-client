@@ -9,7 +9,7 @@
     android:orientation="horizontal"
     android:weightSum="100">
 
-<org.ei.opensrp.view.customControls.CustomFontTextView
+<org.smartregister.view.customControls.CustomFontTextView
     android:id="@+id/txt_children_age_left"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
     android:layout_alignParentTop="true"
     android:text=""
     style="@style/CustomFontTextViewStyle.ListView.Small"/>
-<org.ei.opensrp.view.customControls.CustomFontTextView
+<org.smartregister.view.customControls.CustomFontTextView
     android:id="@+id/txt_children_age_right"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"

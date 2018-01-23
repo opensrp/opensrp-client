@@ -22,7 +22,7 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
+        <org.smartregister.view.customControls.CustomFontTextView
             android:id="@+id/label_no_ibu"
             style="@style/CustomFontTextViewStyle.ListView.Small"
             android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
             android:paddingLeft="5dp"
             android:text="@string/header_no_ibu" />
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
+        <org.smartregister.view.customControls.CustomFontTextView
             android:id="@+id/no_ibu"
             style="@style/CustomFontTextViewStyle.ListView.Small"
             android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
             android:layout_below="@+id/label_no_ibu"
             android:paddingLeft="5dp" />
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
+        <org.smartregister.view.customControls.CustomFontTextView
             android:id="@+id/label_unique_id"
             style="@style/CustomFontTextViewStyle.ListView.Small"
             android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
             android:paddingLeft="5dp"
             android:text="Unique Id: " />
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
+        <org.smartregister.view.customControls.CustomFontTextView
             android:id="@+id/unique_id"
             style="@style/CustomFontTextViewStyle.ListView.Small"
             android:layout_width="wrap_content"
@@ -87,7 +87,7 @@
             android:background="@color/status_bar_text_almost_white"
             android:orientation="vertical">
 
-            <org.ei.opensrp.view.customControls.CustomFontTextView
+            <org.smartregister.view.customControls.CustomFontTextView
                 android:id="@+id/txt_edd"
                 style="@style/CustomFontTextViewStyle.ListView.Medium.TwoLine"
                 android:layout_width="match_parent"

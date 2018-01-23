@@ -24,7 +24,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.util.Log;
 
-import org.ei.opensrp.BuildConfig;
+import org.smartregister.BuildConfig;
 
 import java.io.FileDescriptor;
 

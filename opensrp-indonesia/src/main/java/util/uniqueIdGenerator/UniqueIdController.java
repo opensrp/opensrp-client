@@ -2,7 +2,7 @@ package util.uniqueIdGenerator;
 
 import android.support.annotation.Nullable;
 
-import org.ei.opensrp.util.Cache;
+import org.smartregister.util.Cache;
 import org.json.JSONException;
 import org.json.JSONObject;
 

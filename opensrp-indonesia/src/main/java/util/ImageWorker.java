@@ -29,7 +29,7 @@ import android.graphics.drawable.TransitionDrawable;
 import android.util.Log;
 import android.widget.ImageView;
 
-import org.ei.opensrp.BuildConfig;
+import org.smartregister.BuildConfig;
 
 import java.lang.ref.WeakReference;
 

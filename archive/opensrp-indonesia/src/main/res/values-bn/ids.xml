@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <item name="textforPncRegister" type="id">091234</item>
-    <item name="AlertStatustextforPncRegister" type="id">AlertStatustextforPncRegister</item>
-    <item name="AlertStatustextforEnccRegister" type="id">AlertStatustextforEnccRegister</item>
-    <item name="textforEnccRegister" type="id">textforEnccRegister</item>
-    <item name="warnid" type="id">warnid</item>
-</resources>

@@ -21,7 +21,7 @@
         android:layout_weight="90"
         android:orientation="horizontal"
         android:weightSum="1">
-        <org.ei.opensrp.view.customControls.CustomFontTextView
+        <org.smartregister.view.customControls.CustomFontTextView
             android:id="@+id/label_no_ibu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
             android:text="@string/header_no_ibu"
             style="@style/CustomFontTextViewStyle.ListView.Small"/>
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
+        <org.smartregister.view.customControls.CustomFontTextView
             android:id="@+id/no_ibu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
             android:paddingLeft="5dp"
             style="@style/CustomFontTextViewStyle.ListView.Small"/>
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
+        <org.smartregister.view.customControls.CustomFontTextView
             android:id="@+id/label_unique_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
             android:text="Unique Id: "
             style="@style/CustomFontTextViewStyle.ListView.Small"/>
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
+        <org.smartregister.view.customControls.CustomFontTextView
             android:id="@+id/unique_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
             android:layout_marginTop="5dp"
             android:orientation="vertical">
 
-            <org.ei.opensrp.view.customControls.CustomFontTextView
+            <org.smartregister.view.customControls.CustomFontTextView
                 android:id="@+id/txt_usia_klinis"
                 style="@style/CustomFontTextViewStyle.ListView.Small"
                 android:layout_width="match_parent"
@@ -88,20 +88,20 @@
                 android:text="12 Minggu"/>
 
 
-            <org.ei.opensrp.view.customControls.CustomFontTextView
+            <org.smartregister.view.customControls.CustomFontTextView
                 android:id="@+id/lbl_htpt"
                 style="@style/CustomFontTextViewStyle.ListView.Small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/edd_label"/>
 
-            <org.ei.opensrp.view.customControls.CustomFontTextView
+            <org.smartregister.view.customControls.CustomFontTextView
                 android:id="@+id/txt_htpt"
                 style="@style/CustomFontTextViewStyle.ListView.Small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="14/08/2014"/>
-            <org.ei.opensrp.view.customControls.CustomFontTextView
+            <org.smartregister.view.customControls.CustomFontTextView
                 android:id="@+id/txt_edd_due"
                 style="@style/CustomFontTextViewStyle.ListView.Small"
                 android:layout_width="match_parent"
@@ -131,7 +131,7 @@
             android:background="@color/status_bar_text_almost_white"
             android:orientation="vertical">
 
-            <org.ei.opensrp.view.customControls.CustomFontTextView
+            <org.smartregister.view.customControls.CustomFontTextView
                 android:id="@+id/lbl_ki_lila_bb"
                 style="@style/CustomFontTextViewStyle.ListView.Small"
                 android:layout_width="match_parent"
@@ -139,14 +139,14 @@
                 android:text="@string/lila"/>
 
 
-            <org.ei.opensrp.view.customControls.CustomFontTextView
+            <org.smartregister.view.customControls.CustomFontTextView
                 android:id="@+id/txt_ki_lila_bb"
                 style="@style/CustomFontTextViewStyle.ListView.Small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="11"/>
 
-            <org.ei.opensrp.view.customControls.CustomFontTextView
+            <org.smartregister.view.customControls.CustomFontTextView
                 android:id="@+id/lbl_ki_beratbadan_tb"
                 style="@style/CustomFontTextViewStyle.ListView.VerySmall"
                 android:layout_width="match_parent"
@@ -154,7 +154,7 @@
                 android:text="@string/mother_weight"/>
 
 
-            <org.ei.opensrp.view.customControls.CustomFontTextView
+            <org.smartregister.view.customControls.CustomFontTextView
                 android:id="@+id/txt_ki_beratbadan_tb"
                 style="@style/CustomFontTextViewStyle.ListView.Small"
                 android:layout_width="match_parent"
@@ -185,7 +185,7 @@
             android:orientation="vertical">
 
 
-            <org.ei.opensrp.view.customControls.CustomFontTextView
+            <org.smartregister.view.customControls.CustomFontTextView
                 android:id="@+id/txt_tanggal_kunjungan_anc"
                 android:layout_marginTop="-2dp"
                 style="@style/CustomFontTextViewStyle.ListView.Small"
@@ -194,7 +194,7 @@
                 android:textSize="14sp"
                 android:text=" "/>
 
-            <org.ei.opensrp.view.customControls.CustomFontTextView
+            <org.smartregister.view.customControls.CustomFontTextView
                 android:id="@+id/txt_anc_number"
                 android:layout_marginTop="-2dp"
                 style="@style/CustomFontTextViewStyle.ListView.Small"
@@ -203,7 +203,7 @@
                 android:textSize="14sp"
                 android:text=" "/>
 
-            <org.ei.opensrp.view.customControls.CustomFontTextView
+            <org.smartregister.view.customControls.CustomFontTextView
                 android:id="@+id/txt_kunjugan_ke"
                 android:layout_marginTop="-2dp"
                 style="@style/CustomFontTextViewStyle.ListView.Small"
@@ -230,7 +230,7 @@
         android:id="@+id/anc_status_layout"
         >
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
+        <org.smartregister.view.customControls.CustomFontTextView
             android:id="@+id/txt_status_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -239,7 +239,7 @@
             android:text="ANC"
             style="@style/CustomFontTextViewStyle.ListView.Medium"/>
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
+        <org.smartregister.view.customControls.CustomFontTextView
             android:id="@+id/label_status_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -248,7 +248,7 @@
             android:text="Start:"
             style="@style/CustomFontTextViewStyle.ListView.Small"/>
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
+        <org.smartregister.view.customControls.CustomFontTextView
             android:id="@+id/txt_status_date_anc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -256,7 +256,7 @@
             android:layout_toRightOf="@id/label_status_date"
             style="@style/CustomFontTextViewStyle.ListView.Small"/>
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
+        <org.smartregister.view.customControls.CustomFontTextView
             android:id="@+id/txt_alert_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

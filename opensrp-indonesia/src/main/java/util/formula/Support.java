@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.net.Uri;
 import android.widget.ImageView;
 
-import org.ei.opensrp.commonregistry.CommonPersonObject;
-import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
-import org.ei.opensrp.util.Log;
+import org.smartregister.commonregistry.CommonPersonObject;
+import org.smartregister.commonregistry.CommonPersonObjectClient;
+import org.smartregister.util.Log;
 
 import java.io.File;
 

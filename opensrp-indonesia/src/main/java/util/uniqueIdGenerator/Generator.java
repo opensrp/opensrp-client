@@ -10,9 +10,9 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.ei.opensrp.Context;
-import org.ei.opensrp.indonesia.LoginActivity;
-import org.ei.opensrp.util.Cache;
+import org.smartregister.Context;
+import org.smartregister.indonesia.LoginActivity;
+import org.smartregister.util.Cache;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,9 +51,10 @@ public class Generator {
                 "&password="+password;
     }
     public AllSettingsINA allSettingsINA() {
-        context.initializeRepositoryForUniqueId();
-        if(allSettingsINA == null)
-            allSettingsINA = new AllSettingsINA(context.allSharedPreferences(), context.getSettingsRepositoryforUniqueId());
+        // TODO
+//        context.initializeRepositoryForUniqueId();
+//        if(allSettingsINA == null)
+//            allSettingsINA = new AllSettingsINA(context.allSharedPreferences(), context.getSettingsRepositoryforUniqueId());
 
         return allSettingsINA;
     }

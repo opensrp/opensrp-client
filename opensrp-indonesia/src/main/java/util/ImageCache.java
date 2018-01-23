@@ -32,7 +32,7 @@ import android.os.StatFs;
 import android.util.Log;
 import android.util.LruCache;
 
-import org.ei.opensrp.BuildConfig;
+import org.smartregister.BuildConfig;
 
 import java.io.File;
 import java.io.FileDescriptor;

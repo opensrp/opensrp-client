@@ -35,7 +35,7 @@
             android:orientation="horizontal"
             android:background="@drawable/transparent_gray_background">
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
+        <org.smartregister.view.customControls.CustomFontTextView
                 android:id="@+id/txt_title_label"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -44,7 +44,7 @@
             android:text="@string/child_title"
             android:paddingRight="100dp" />
 
-        <org.ei.opensrp.view.customControls.CustomFontTextView
+        <org.smartregister.view.customControls.CustomFontTextView
             android:id="@+id/chart_label"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
