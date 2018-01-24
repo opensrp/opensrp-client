@@ -105,6 +105,8 @@ public class VaccineCardAdapter extends BaseAdapter {
                 VaccineRepo.Vaccine vaccine = null;
                 ArrayList<VaccineRepo.Vaccine> vaccines = VaccineRepo.getVaccines(type);
                 for(int i = 0;i<vaccines.size();i++){
+                    String displayvaccine = vaccines.get(i).display();
+                    String wrappervaccinename =vaccineWrapper.getName();
                     if(vaccines.get(i).display().equalsIgnoreCase(vaccineWrapper.getName())){
                         vaccine = vaccines.get(i);
                     }else if(vaccines.get(i).display().toLowerCase().contains("measles") || vaccines.get(i).display().toLowerCase().contains("mr")){

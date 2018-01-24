@@ -339,14 +339,14 @@ public static interface OnVaccineUndoClickListener {
 
         String dobString = Utils.getValue(getChildDetails().getColumnmaps(), "dob", false);
         List<Map<String, Object>> sch = generateScheduleList(type, new DateTime(dobString), recievedVaccines, alertList);
-
         for (Map<String, Object> m : sch) {
             VaccineRepo.Vaccine vaccine = (VaccineRepo.Vaccine) m.get("vaccine");
-            if (tag.getName().toLowerCase().contains(vaccine.display().toLowerCase())) {
+            if ((tag.getName().toLowerCase().contains(vaccine.display().toLowerCase()))) {
                 if (vaccine.equals(VaccineRepo.Vaccine.measles2)
                         || vaccine.equals(VaccineRepo.Vaccine.mr2)
                         || vaccine.equals(VaccineRepo.Vaccine.measles1)
-                        || vaccine.equals(VaccineRepo.Vaccine.mr1)) {
+                        || vaccine.equals(VaccineRepo.Vaccine.mr1)
+                        || vaccine.equals(VaccineRepo.Vaccine.ipv)) {
                     if (tag.getAlert() != null && tag.getStatus() != null) {
                         break;
                     }
