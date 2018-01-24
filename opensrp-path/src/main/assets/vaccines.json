@@ -35,7 +35,7 @@
           "conditions": [
             {
               "type": "not_given",
-              "vaccine": "OPV 4"
+              "vaccine": "OPV 1"
             }
           ]
         }
