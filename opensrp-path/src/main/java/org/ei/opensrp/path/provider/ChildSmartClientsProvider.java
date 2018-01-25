@@ -200,6 +200,17 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
         Map<String, Date> recievedVaccines = receivedVaccines(vaccines);
 
         List<Map<String, Object>> sch = generateScheduleList("child", new DateTime(dobString), recievedVaccines, alertList);
+        int indexOFOPV0schedule = -1;
+        if(recievedVaccines.get("opv 1") != null){
+            for(int i = 0;i < sch.size();i++){
+                if(((VaccineRepo.Vaccine)sch.get(i).get("vaccine")).equals(VaccineRepo.Vaccine.opv0)){
+                    indexOFOPV0schedule = i;
+                }
+            }
+            if(indexOFOPV0schedule != -1){
+                sch.remove(indexOFOPV0schedule);
+            }
+        }
 
         State state = State.FULLY_IMMUNIZED;
         String stateKey = null;

@@ -542,7 +542,7 @@ public class VaccinatorUtils {
         try {
             for (Map<String, Object> m : schedule) {
                 if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
-                    if (m.get("vaccine") != null && (((Vaccine) m.get("vaccine")).equals(Vaccine.bcg2) || ((Vaccine) m.get("vaccine")).equals(Vaccine.ipv) || ((Vaccine) m.get("vaccine")).equals(Vaccine.opv0))) {
+                    if (m.get("vaccine") != null && (((Vaccine) m.get("vaccine")).equals(Vaccine.bcg2) || ((Vaccine) m.get("vaccine")).equals(Vaccine.ipv) )) {
                         // bcg2 is a special alert and should not be considered as the next vaccine
                         continue;
                     }
