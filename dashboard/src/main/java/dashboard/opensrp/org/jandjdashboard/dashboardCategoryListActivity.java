@@ -193,6 +193,7 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
                                 Bundle arguments = new Bundle();
                                 arguments.putString(anc_pnc_encc_StatusDetailFragment.ARG_ITEM_ID, holder.mItem.id);
                                 anc_pnc_encc_StatusDetailFragment fragment = new anc_pnc_encc_StatusDetailFragment();
+                                arguments.putSerializable("controller_holder",controllerholder);
                                 fragment.setArguments(arguments);
                                 getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.dashboardcategory_detail_container, fragment)

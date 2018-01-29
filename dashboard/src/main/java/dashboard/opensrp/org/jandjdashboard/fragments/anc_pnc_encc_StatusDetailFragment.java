@@ -24,11 +24,16 @@ import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import dashboard.opensrp.org.jandjdashboard.R;
 import dashboard.opensrp.org.jandjdashboard.adapter.scheduleCardAdapter;
+import dashboard.opensrp.org.jandjdashboard.controller.controllerHolders;
+import dashboard.opensrp.org.jandjdashboard.controller.reminderVisitStatusController;
+import dashboard.opensrp.org.jandjdashboard.controller.upcomingScheduleStatusController;
 import dashboard.opensrp.org.jandjdashboard.dashboardCategoryDetailActivity;
 import dashboard.opensrp.org.jandjdashboard.dashboardCategoryListActivity;
 import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
@@ -55,6 +60,10 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
     private ArrayList<Drawable> iconList;
     private ArrayList<String> titleList;
     private Spinner risk_status;
+    private String controller_holder_key = "controller_holder";
+    private String reminderVisitStatusControllerKey = "reminderVisitStatusController";
+    reminderVisitStatusController rVSController;
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -78,6 +87,12 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
             if (appBarLayout != null) {
                 appBarLayout.setTitle(mItem.content);
             }
+        }
+        if (getArguments().containsKey(controller_holder_key)) {
+            // Load the dummy content specified by the fragment
+            // arguments. In a real-world scenario, use a Loader
+            // to load content from a content provider.
+            rVSController = (reminderVisitStatusController) ((controllerHolders)getArguments().getSerializable(controller_holder_key)).getControllersHashMap().get(reminderVisitStatusControllerKey);
         }
     }
 
@@ -119,14 +134,20 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
         risk_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Date today = new Date();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(today);
+                cal.add(Calendar.DATE, -(365*10));
+                Date yesterday = cal.getTime();
                 if(list.get(i).equalsIgnoreCase("ANC")){
-                    launchAncGraphs(mainview);
+
+                    launchAncGraphs(mainview,yesterday,today,"normal");
                 }
                 if(list.get(i).equalsIgnoreCase("PNC")){
-                    launchPncGraphs(mainview);
+                    launchPncGraphs(mainview,yesterday,today,"normal");
                 }
                 if(list.get(i).equalsIgnoreCase("ENCC")){
-                    launchEnccGraphs(mainview);
+                    launchEnccGraphs(mainview,yesterday,today,"normal");
                 }
             }
 
@@ -137,50 +158,94 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
         });
     }
 
-    private void launchEnccGraphs(View view) {
+    private void launchEnccGraphs(View view, Date from, Date to, String riskFlag) {
+        HashMap<String,HashMap<String,String>> pncMap = rVSController.neonatalVisitQuery(from, to, riskFlag);
         LinearLayout graphHolder = (LinearLayout) view.findViewById(R.id.graph_holder);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.weight = 1;
         graphHolder.removeAllViews();
-        final HashMap<String,DataPoint> stringDataPointHashMap = new HashMap<String,DataPoint>();
-        stringDataPointHashMap.put("Completed",new DataPoint(0, 20));
-        stringDataPointHashMap.put("Due",new DataPoint(1, 10));
-        stringDataPointHashMap.put("Post Due",new DataPoint(2, 14));
-        stringDataPointHashMap.put("Expired",new DataPoint(3, 10));
-        graphHolder.addView(addAncGraphs(stringDataPointHashMap,"ENCC 1"),layoutParams);
-        graphHolder.addView(addAncGraphs(stringDataPointHashMap,"ENCC 2"),layoutParams);
-        graphHolder.addView(addAncGraphs(stringDataPointHashMap,"ENCC 3"),layoutParams);
+        HashMap<String,DataPoint> encc1stringDataPointHashMap = new HashMap<String,DataPoint>();
+        encc1stringDataPointHashMap.put("Completed",new DataPoint(0, Integer.parseInt(pncMap.get("ENCC1").get("Completed"))));
+        encc1stringDataPointHashMap.put("Due",new DataPoint(1, Integer.parseInt(pncMap.get("ENCC1").get("Due"))));
+        encc1stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(pncMap.get("ENCC1").get("Post Due"))));
+        encc1stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(pncMap.get("ENCC1").get("Expired"))));
+        HashMap<String,DataPoint> encc2stringDataPointHashMap = new HashMap<String,DataPoint>();
+        encc2stringDataPointHashMap.put("Completed",new DataPoint(0, Integer.parseInt(pncMap.get("ENCC2").get("Completed"))));
+        encc2stringDataPointHashMap.put("Due",new DataPoint(1, Integer.parseInt(pncMap.get("ENCC2").get("Due"))));
+        encc2stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(pncMap.get("ENCC2").get("Post Due"))));
+        encc2stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(pncMap.get("ENCC2").get("Expired"))));
+        HashMap<String,DataPoint> encc3stringDataPointHashMap = new HashMap<String,DataPoint>();
+        encc3stringDataPointHashMap.put("Completed",new DataPoint(0, Integer.parseInt(pncMap.get("ENCC3").get("Completed"))));
+        encc3stringDataPointHashMap.put("Due",new DataPoint(1, Integer.parseInt(pncMap.get("ENCC3").get("Due"))));
+        encc3stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(pncMap.get("ENCC3").get("Post Due"))));
+        encc3stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(pncMap.get("ENCC3").get("Expired"))));
+
+        graphHolder.addView(addAncGraphs(encc1stringDataPointHashMap,"ENCC 1"),layoutParams);
+        graphHolder.addView(addAncGraphs(encc2stringDataPointHashMap,"ENCC 2"),layoutParams);
+        graphHolder.addView(addAncGraphs(encc3stringDataPointHashMap,"ENCC 3"),layoutParams);
     }
 
-    private void launchPncGraphs(View view) {
+    private void launchPncGraphs(View view, Date from, Date to, String riskFlag) {
+        HashMap<String,HashMap<String,String>> pncMap = rVSController.pncVisitQuery(from, to, riskFlag);
         LinearLayout graphHolder = (LinearLayout) view.findViewById(R.id.graph_holder);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.weight = 1;
         graphHolder.removeAllViews();
-        final HashMap<String,DataPoint> stringDataPointHashMap = new HashMap<String,DataPoint>();
-        stringDataPointHashMap.put("Completed",new DataPoint(0, 20));
-        stringDataPointHashMap.put("Due",new DataPoint(1, 10));
-        stringDataPointHashMap.put("Post Due",new DataPoint(2, 14));
-        stringDataPointHashMap.put("Expired",new DataPoint(3, 10));
-        graphHolder.addView(addAncGraphs(stringDataPointHashMap,"PNC 1"),layoutParams);
-        graphHolder.addView(addAncGraphs(stringDataPointHashMap,"PNC 2"),layoutParams);
-        graphHolder.addView(addAncGraphs(stringDataPointHashMap,"PNC 3"),layoutParams);
+        HashMap<String,DataPoint> pnc1stringDataPointHashMap = new HashMap<String,DataPoint>();
+        pnc1stringDataPointHashMap.put("Completed",new DataPoint(0, Integer.parseInt(pncMap.get("PNC1").get("Completed"))));
+        pnc1stringDataPointHashMap.put("Due",new DataPoint(1, Integer.parseInt(pncMap.get("PNC1").get("Due"))));
+        pnc1stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(pncMap.get("PNC1").get("Post Due"))));
+        pnc1stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(pncMap.get("PNC1").get("Expired"))));
+        HashMap<String,DataPoint> pnc2stringDataPointHashMap = new HashMap<String,DataPoint>();
+        pnc2stringDataPointHashMap.put("Completed",new DataPoint(0, Integer.parseInt(pncMap.get("PNC2").get("Completed"))));
+        pnc2stringDataPointHashMap.put("Due",new DataPoint(1, Integer.parseInt(pncMap.get("PNC2").get("Due"))));
+        pnc2stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(pncMap.get("PNC2").get("Post Due"))));
+        pnc2stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(pncMap.get("PNC2").get("Expired"))));
+        HashMap<String,DataPoint> pnc3stringDataPointHashMap = new HashMap<String,DataPoint>();
+        pnc3stringDataPointHashMap.put("Completed",new DataPoint(0, Integer.parseInt(pncMap.get("PNC3").get("Completed"))));
+        pnc3stringDataPointHashMap.put("Due",new DataPoint(1, Integer.parseInt(pncMap.get("PNC3").get("Due"))));
+        pnc3stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(pncMap.get("PNC3").get("Post Due"))));
+        pnc3stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(pncMap.get("PNC3").get("Expired"))));
+
+        graphHolder.addView(addAncGraphs(pnc1stringDataPointHashMap,"PNC 1"),layoutParams);
+        graphHolder.addView(addAncGraphs(pnc2stringDataPointHashMap,"PNC 2"),layoutParams);
+        graphHolder.addView(addAncGraphs(pnc3stringDataPointHashMap,"PNC 3"),layoutParams);
     }
 
-    private void launchAncGraphs(View view) {
+    private void launchAncGraphs(View view, Date from, Date to, String riskFlag) {
+        HashMap<String,HashMap<String,String>> ancMap = rVSController.ancVisitQuery(from, to, riskFlag);
         LinearLayout graphHolder = (LinearLayout) view.findViewById(R.id.graph_holder);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.weight = 1;
         graphHolder.removeAllViews();
-        final HashMap<String,DataPoint> stringDataPointHashMap = new HashMap<String,DataPoint>();
-        stringDataPointHashMap.put("Completed",new DataPoint(0, 20));
-        stringDataPointHashMap.put("Due",new DataPoint(1, 10));
-        stringDataPointHashMap.put("Post Due",new DataPoint(2, 14));
-        stringDataPointHashMap.put("Expired",new DataPoint(3, 10));
-        graphHolder.addView(addAncGraphs(stringDataPointHashMap,"ANC 1"),layoutParams);
-        graphHolder.addView(addAncGraphs(stringDataPointHashMap,"ANC 2"),layoutParams);
-        graphHolder.addView(addAncGraphs(stringDataPointHashMap,"ANC 3"),layoutParams);
-        graphHolder.addView(addAncGraphs(stringDataPointHashMap,"ANC 4"),layoutParams);
+        HashMap<String,DataPoint> anc1stringDataPointHashMap = new HashMap<String,DataPoint>();
+        anc1stringDataPointHashMap.put("Completed",new DataPoint(0, Integer.parseInt(ancMap.get("ANC1").get("Completed"))));
+        anc1stringDataPointHashMap.put("Due",new DataPoint(1, Integer.parseInt(ancMap.get("ANC1").get("Due"))));
+        anc1stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(ancMap.get("ANC1").get("Post Due"))));
+        anc1stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(ancMap.get("ANC1").get("Expired"))));
+        HashMap<String,DataPoint> anc2stringDataPointHashMap = new HashMap<String,DataPoint>();
+        anc2stringDataPointHashMap.put("Completed",new DataPoint(0, Integer.parseInt(ancMap.get("ANC2").get("Completed"))));
+        anc2stringDataPointHashMap.put("Due",new DataPoint(1, Integer.parseInt(ancMap.get("ANC2").get("Due"))));
+        anc2stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(ancMap.get("ANC2").get("Post Due"))));
+        anc2stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(ancMap.get("ANC2").get("Expired"))));
+
+        HashMap<String,DataPoint> anc3stringDataPointHashMap = new HashMap<String,DataPoint>();
+        anc3stringDataPointHashMap.put("Completed",new DataPoint(0, Integer.parseInt(ancMap.get("ANC3").get("Completed"))));
+        anc3stringDataPointHashMap.put("Due",new DataPoint(1, Integer.parseInt(ancMap.get("ANC3").get("Due"))));
+        anc3stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(ancMap.get("ANC3").get("Post Due"))));
+        anc3stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(ancMap.get("ANC3").get("Expired"))));
+
+        HashMap<String,DataPoint> anc4stringDataPointHashMap = new HashMap<String,DataPoint>();
+        anc4stringDataPointHashMap.put("Completed",new DataPoint(0, Integer.parseInt(ancMap.get("ANC4").get("Completed"))));
+        anc4stringDataPointHashMap.put("Due",new DataPoint(1, Integer.parseInt(ancMap.get("ANC4").get("Due"))));
+        anc4stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(ancMap.get("ANC4").get("Post Due"))));
+        anc4stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(ancMap.get("ANC4").get("Expired"))));
+
+
+        graphHolder.addView(addAncGraphs(anc1stringDataPointHashMap,"ANC 1"),layoutParams);
+        graphHolder.addView(addAncGraphs(anc2stringDataPointHashMap,"ANC 2"),layoutParams);
+        graphHolder.addView(addAncGraphs(anc3stringDataPointHashMap,"ANC 3"),layoutParams);
+        graphHolder.addView(addAncGraphs(anc4stringDataPointHashMap,"ANC 4"),layoutParams);
 
     }
 

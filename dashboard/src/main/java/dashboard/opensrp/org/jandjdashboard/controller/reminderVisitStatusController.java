@@ -30,8 +30,8 @@ public abstract class reminderVisitStatusController extends dashboardControllers
 
 
 
-    public abstract HashMap<String,String> ancVisitQuery(Date from, Date to, String riskflag);
-    public abstract HashMap<String,String> pncVisitQuery(Date from, Date to, String riskflag);
-    public abstract HashMap<String,String> neonatalVisitQuery(Date from, Date to, String riskflag);
+    public abstract HashMap<String, HashMap<String, String>> ancVisitQuery(Date from, Date to, String riskflag);
+    public abstract HashMap<String, HashMap<String, String>> pncVisitQuery(Date from, Date to, String riskflag);
+    public abstract HashMap<String, HashMap<String, String>> neonatalVisitQuery(Date from, Date to, String riskflag);
 
 }
