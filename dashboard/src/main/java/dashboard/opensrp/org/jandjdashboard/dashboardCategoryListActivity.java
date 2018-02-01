@@ -127,6 +127,9 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
         if(currentFragmentName.equalsIgnoreCase("upcomingScheduleStatusDetailFragment")){
             ((upcomingScheduleStatusDetailFragment)currentFragment).refresh(fromdate,todate);
         }
+        if(currentFragmentName.equalsIgnoreCase("anc_pnc_encc_StatusDetailFragment")){
+            ((anc_pnc_encc_StatusDetailFragment)currentFragment).refresh(fromdate,todate);
+        }
 
     }
 
@@ -195,6 +198,8 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
                                 anc_pnc_encc_StatusDetailFragment fragment = new anc_pnc_encc_StatusDetailFragment();
                                 arguments.putSerializable("controller_holder",controllerholder);
                                 fragment.setArguments(arguments);
+                                currentFragmentName = "anc_pnc_encc_StatusDetailFragment";
+                                currentFragment = fragment;
                                 getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.dashboardcategory_detail_container, fragment)
                                         .commit();

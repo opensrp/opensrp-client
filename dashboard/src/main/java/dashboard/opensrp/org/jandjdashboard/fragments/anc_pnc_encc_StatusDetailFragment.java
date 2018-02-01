@@ -23,6 +23,8 @@ import com.jjoe64.graphview.ValueDependentColor;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -63,6 +65,10 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
     private String controller_holder_key = "controller_holder";
     private String reminderVisitStatusControllerKey = "reminderVisitStatusController";
     reminderVisitStatusController rVSController;
+    public SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    private Date to;
+    private Date from;
+    private View rootView;
 
 
     /**
@@ -99,9 +105,14 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.anc_pnc_encc_reminder_status_detail, container, false);
+        rootView = inflater.inflate(R.layout.anc_pnc_encc_reminder_status_detail, container, false);
         addItemsOnRiskStatusSpinner(rootView);
         addItemsOnScheduleTypeSpinner(rootView);
+        to = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(to);
+        cal.add(Calendar.DATE, -(365*10));
+        from = cal.getTime();
 
 
         return rootView;
@@ -134,20 +145,16 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
         risk_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Date today = new Date();
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(today);
-                cal.add(Calendar.DATE, -(365*10));
-                Date yesterday = cal.getTime();
+
                 if(list.get(i).equalsIgnoreCase("ANC")){
 
-                    launchAncGraphs(mainview,yesterday,today,"normal");
+                    launchAncGraphs(mainview,from,to,"normal");
                 }
                 if(list.get(i).equalsIgnoreCase("PNC")){
-                    launchPncGraphs(mainview,yesterday,today,"normal");
+                    launchPncGraphs(mainview,from,to,"normal");
                 }
                 if(list.get(i).equalsIgnoreCase("ENCC")){
-                    launchEnccGraphs(mainview,yesterday,today,"normal");
+                    launchEnccGraphs(mainview,from,to,"normal");
                 }
             }
 
@@ -301,8 +308,15 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
     }
 
 
+    public void refresh(String fromdate, String todate) {
+        try {
+            from = format.parse(fromdate);
+            to = format.parse(todate);
+            addItemsOnRiskStatusSpinner(rootView);
+            addItemsOnScheduleTypeSpinner(rootView);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-
-
-
+    }
 }
