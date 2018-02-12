@@ -1020,10 +1020,12 @@ public class ChildImmunizationActivity extends BaseActivity
 
             Pair<ArrayList<VaccineWrapper>, List<Vaccine>> pair = new Pair<>(list, vaccineList);
             String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+
             if (!TextUtils.isEmpty(dobString)) {
                 DateTime dateTime = new DateTime(dobString);
                 affectedVaccines = VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "child");
             }
+
             vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
             alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
                     VaccinateActionUtils.allAlertNames("child"));
@@ -1259,6 +1261,8 @@ public class ChildImmunizationActivity extends BaseActivity
                 if (tag.getDbKey() != null) {
                     Long dbKey = tag.getDbKey();
                     vaccineRepository.deleteVaccine(dbKey);
+                    deleteDependantVaccines(tag.getDefaultName());
+
                     String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
                     if (!TextUtils.isEmpty(dobString)) {
                         DateTime dateTime = new DateTime(dobString);
@@ -1270,6 +1274,30 @@ public class ChildImmunizationActivity extends BaseActivity
                 }
             }
             return null;
+        }
+
+        private void deleteDependantVaccines(String VaccineName) {
+            List<Vaccine> givenvaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
+            ArrayList<VaccineRepo.Vaccine> vaccinesforChild = VaccineRepo.getVaccines("child");
+            ArrayList<VaccineRepo.Vaccine> dependantVaccine = new ArrayList<VaccineRepo.Vaccine>();
+            for(int i = 0;i<vaccinesforChild.size();i++){
+                if(vaccinesforChild.get(i).prerequisite()!=null){
+                    if(vaccinesforChild.get(i).prerequisite().display().equalsIgnoreCase(VaccineName)){
+                        dependantVaccine.add(vaccinesforChild.get(i));
+                    }
+                }
+            }
+
+            for(int i = 0;i<givenvaccineList.size();i++){
+                String givenvaccineName = givenvaccineList.get(i).getName();
+                for(int j= 0;j<dependantVaccine.size();j++){
+                    if(dependantVaccine.get(j).display().equalsIgnoreCase(givenvaccineName)){
+                        vaccineRepository.deleteVaccine(givenvaccineList.get(i).getId());
+                        deleteDependantVaccines(givenvaccineName);
+                    }
+                }
+
+            }
         }
 
         @Override

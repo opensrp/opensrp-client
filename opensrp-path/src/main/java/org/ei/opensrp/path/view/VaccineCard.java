@@ -109,7 +109,7 @@ public class VaccineCard extends LinearLayout {
                         } else if (alert.status().value().equalsIgnoreCase("normal")) {
                             state = State.DUE;
                         } else if (alert.status().value().equalsIgnoreCase("upcoming")) {
-                            //state = State.UPCOMING;
+                            state = State.DUE;
                         } else if (alert.status().value().equalsIgnoreCase("urgent")) {
                             state = State.OVERDUE;
                         } else if (alert.status().value().equalsIgnoreCase("expired")) {
