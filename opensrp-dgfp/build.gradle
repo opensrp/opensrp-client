@@ -73,8 +73,8 @@ android {
         applicationId "org.ei.opensrp.dgfp"
         minSdkVersion 16
         targetSdkVersion 21
-        versionCode 25
-        versionName "25.0"
+        versionCode 26
+        versionName "26.0"
         multiDexEnabled true
     }
     buildTypes {
