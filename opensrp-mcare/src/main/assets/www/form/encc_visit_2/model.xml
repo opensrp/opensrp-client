@@ -12,6 +12,7 @@
             <today openmrs_entity="encounter" openmrs_entity_id="encounter_date"/>
             <FWENC2DATE openmrs_entity="concept" openmrs_entity_id="160753AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
             <FWENC2STS openmrs_entity="concept" openmrs_entity_id="161641AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+            <encc>
             <behavior>
                 <DISPLAYTEXT1/>
                 <FWENC2BFINTN openmrs_entity="concept" openmrs_entity_id="5632AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
@@ -53,6 +54,7 @@
                 <FWENC2DELCOMP/>
                 <last_note/>
             </danger_signs>
+            </encc>
             <encc2_current_formStatus/>
             <meta>
                 <instanceID/>
