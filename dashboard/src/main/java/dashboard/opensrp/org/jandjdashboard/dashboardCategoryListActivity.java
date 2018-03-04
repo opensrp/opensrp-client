@@ -23,6 +23,7 @@ import dashboard.opensrp.org.jandjdashboard.controller.controllerHolders;
 import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
 import dashboard.opensrp.org.jandjdashboard.fragments.anc_pnc_encc_StatusDetailFragment;
 import dashboard.opensrp.org.jandjdashboard.fragments.familyPlanningStatusDetailFragment;
+import dashboard.opensrp.org.jandjdashboard.fragments.reproductive_health_service_Fragment;
 import dashboard.opensrp.org.jandjdashboard.fragments.upcomingScheduleStatusDetailFragment;
 import dashboard.opensrp.org.jandjdashboard.widgets.calendarPoPUpWindow;
 
@@ -199,6 +200,19 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
                                 arguments.putSerializable("controller_holder",controllerholder);
                                 fragment.setArguments(arguments);
                                 currentFragmentName = "anc_pnc_encc_StatusDetailFragment";
+                                currentFragment = fragment;
+                                getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.dashboardcategory_detail_container, fragment)
+                                        .commit();
+                                break;
+                            }
+                            case 3: {
+                                Bundle arguments = new Bundle();
+                                arguments.putString(reproductive_health_service_Fragment.ARG_ITEM_ID, holder.mItem.id);
+                                reproductive_health_service_Fragment fragment = new reproductive_health_service_Fragment();
+                                arguments.putSerializable("controller_holder",controllerholder);
+                                fragment.setArguments(arguments);
+                                currentFragmentName = "reproductive_health_service_Fragment";
                                 currentFragment = fragment;
                                 getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.dashboardcategory_detail_container, fragment)

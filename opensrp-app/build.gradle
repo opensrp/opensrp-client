@@ -110,7 +110,7 @@ configurations.all {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:appcompat-v7:26.0.0-beta1'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support:design:26.+'
     compile group: 'org.jacoco', name: 'org.jacoco.agent', version: '0.7.5.201505241946'
