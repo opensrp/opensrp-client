@@ -36,11 +36,11 @@ public class VerticalTextView extends android.support.v7.widget.AppCompatTextVie
         final int viewHeight = getHeight();
         final TextPaint paint = getPaint();
         paint.setColor(color);
-        paint.setTextAlign(Paint.Align.CENTER);
         final float bottom = viewWidth * 9.0f / 11.0f;
         Path p = new Path();
         p.moveTo(bottom, viewHeight - paddingBottom - paddingTop);
         p.lineTo(bottom, paddingTop);
+        paint.setTextAlign(Paint.Align.CENTER);
         canvas.drawTextOnPath(getText().toString(), p, 0, 0, paint);
     }
 }
