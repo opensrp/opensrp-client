@@ -22,6 +22,7 @@ import android.widget.TextView;
 import dashboard.opensrp.org.jandjdashboard.controller.controllerHolders;
 import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
 import dashboard.opensrp.org.jandjdashboard.fragments.anc_pnc_encc_StatusDetailFragment;
+import dashboard.opensrp.org.jandjdashboard.fragments.delivery_status_detail_Fragment;
 import dashboard.opensrp.org.jandjdashboard.fragments.familyPlanningStatusDetailFragment;
 import dashboard.opensrp.org.jandjdashboard.fragments.reproductive_health_service_Fragment;
 import dashboard.opensrp.org.jandjdashboard.fragments.upcomingScheduleStatusDetailFragment;
@@ -213,6 +214,19 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
                                 arguments.putSerializable("controller_holder",controllerholder);
                                 fragment.setArguments(arguments);
                                 currentFragmentName = "reproductive_health_service_Fragment";
+                                currentFragment = fragment;
+                                getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.dashboardcategory_detail_container, fragment)
+                                        .commit();
+                                break;
+                            }
+                            case 4: {
+                                Bundle arguments = new Bundle();
+                                arguments.putString(reproductive_health_service_Fragment.ARG_ITEM_ID, holder.mItem.id);
+                                delivery_status_detail_Fragment fragment = new delivery_status_detail_Fragment();
+                                arguments.putSerializable("controller_holder",controllerholder);
+                                fragment.setArguments(arguments);
+                                currentFragmentName = "delivery_status_detail_Fragment";
                                 currentFragment = fragment;
                                 getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.dashboardcategory_detail_container, fragment)
