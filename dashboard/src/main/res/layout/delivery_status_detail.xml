@@ -266,14 +266,13 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2.5"
+            android:layout_weight="3"
             android:background="@color/tableborder"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="50dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -290,12 +289,11 @@
 
                 <TextView
                     android:id="@+id/infolabel"
-                    android:layout_width="0dp"
+                    android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="1dp"
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
-                    android:layout_weight="1"
                     android:background="@color/alttablerow"
                     android:gravity="center"
                     android:text="Info" />
@@ -321,12 +319,11 @@
 
                 <TextView
                     android:id="@+id/total_live_birth_info"
-                    android:layout_width="0dp"
+                    android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="1dp"
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
-                    android:layout_weight="1"
                     android:background="@color/cardview_light_background"
                     android:gravity="center"
                     android:text="" />
@@ -352,12 +349,11 @@
 
                 <TextView
                     android:id="@+id/low_birthweight_info"
-                    android:layout_width="0dp"
+                    android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="1dp"
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
-                    android:layout_weight="1"
                     android:background="@color/alttablerow"
                     android:gravity="center"
                     android:text="" />
@@ -383,12 +379,11 @@
 
                 <TextView
                     android:id="@+id/immature_info"
-                    android:layout_width="0dp"
+                    android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="1dp"
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
-                    android:layout_weight="1"
                     android:background="@color/cardview_light_background"
                     android:gravity="center"
                     android:text="" />
@@ -415,13 +410,12 @@
 
                 <TextView
                     android:id="@+id/still_birth_info"
-                    android:layout_width="0dp"
+                    android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="1dp"
                     android:layout_marginLeft="1dp"
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
-                    android:layout_weight="1"
                     android:background="@color/alttablerow"
                     android:gravity="center"
                     android:text="" />
@@ -432,12 +426,12 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
+            android:background="@color/tableborder"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_height="50dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -454,17 +448,313 @@
 
                 <TextView
                     android:id="@+id/infolabel2"
-                    android:layout_width="0dp"
+                    android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="1dp"
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
-                    android:layout_weight="1"
                     android:background="@color/alttablerow"
                     android:gravity="center"
                     android:text="Info" />
             </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/cardview_light_background"
+                    android:orientation="vertical">
+
+                    <dashboard.opensrp.org.jandjdashboard.widgets.VerticalTextView
+                        android:id="@+id/number_of_death_label"
+                        android:layout_width="12dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@color/cardview_light_background"
+                        android:gravity="center"
+                        android:text="Total Number of Death" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="80dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/cardview_light_background"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="15dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:background="@color/cardview_light_background"
+                                android:orientation="vertical">
+
+                                <dashboard.opensrp.org.jandjdashboard.widgets.VerticalTextView
+                                    android:id="@+id/number_of_infant_death_label"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="1dp"
+                                    android:background="@color/cardview_light_background"
+                                    android:gravity="center"
+                                    android:text="Child Death under 1"
+                                    android:textSize="13dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/zero_to_seven_days_label"
+                                    android:layout_width="60dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="1dp"
+                                    android:layout_marginRight="1dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/cardview_light_background"
+                                    android:gravity="center"
+                                    android:text="0-7 days" />
+
+                                <TextView
+                                    android:id="@+id/zero_to_seven_days_info"
+                                    android:layout_width="60dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="1dp"
+                                    android:layout_marginRight="1dp"
+                                    android:background="@color/cardview_light_background"
+                                    android:gravity="center"
+                                    android:text="" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/eight_to28days_label"
+                                    android:layout_width="60dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="1dp"
+                                    android:layout_marginRight="1dp"
+                                    android:layout_marginTop="1dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/alttablerow"
+                                    android:gravity="center"
+                                    android:text="8-28 days" />
+
+                                <TextView
+                                    android:id="@+id/eight_to28days_info"
+                                    android:layout_width="60dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="1dp"
+                                    android:layout_marginRight="1dp"
+                                    android:layout_marginTop="1dp"
+                                    android:background="@color/alttablerow"
+                                    android:gravity="center"
+                                    android:text="" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/twentyninedays_to_year_label"
+                                    android:layout_width="60dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="1dp"
+                                    android:layout_marginRight="1dp"
+                                    android:layout_marginTop="1dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/cardview_light_background"
+                                    android:gravity="center"
+                                    android:text="29 days to 1 year" />
+
+                                <TextView
+                                    android:id="@+id/twentyninedays_to_year_info"
+                                    android:layout_width="60dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="1dp"
+                                    android:layout_marginRight="1dp"
+                                    android:layout_marginTop="1dp"
+                                    android:background="@color/cardview_light_background"
+                                    android:gravity="center"
+                                    android:text="" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/total_label"
+                                    android:layout_width="60dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="1dp"
+                                    android:layout_marginRight="1dp"
+                                    android:layout_marginTop="1dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/alttablerow"
+                                    android:gravity="center"
+                                    android:text="Total" />
+
+                                <TextView
+                                    android:id="@+id/total_info"
+                                    android:layout_width="60dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="1dp"
+                                    android:layout_marginRight="1dp"
+                                    android:layout_marginTop="1dp"
+                                    android:background="@color/alttablerow"
+                                    android:gravity="center"
+                                    android:text="" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/number_of_child_death_1_to_5_label"
+                                android:layout_width="60dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginRight="1dp"
+                                android:layout_marginTop="1dp"
+                                android:layout_weight="1"
+                                android:background="@color/cardview_light_background"
+                                android:gravity="center"
+                                android:text="Number of 1 to 5 years Child Death" />
+
+                            <TextView
+                                android:id="@+id/number_of_child_death_1_to_5_info"
+                                android:layout_width="60dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginRight="1dp"
+                                android:layout_marginTop="1dp"
+                                android:background="@color/cardview_light_background"
+                                android:gravity="center"
+                                android:text="" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/number_of_mother_death_label"
+                                android:layout_width="60dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginRight="1dp"
+                                android:layout_marginTop="1dp"
+                                android:layout_weight="1"
+                                android:background="@color/alttablerow"
+                                android:gravity="center"
+                                android:text="Number of Mother Death" />
+
+                            <TextView
+                                android:id="@+id/number_of_mother_death_info"
+                                android:layout_width="60dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginRight="1dp"
+                                android:layout_marginTop="1dp"
+                                android:background="@color/alttablerow"
+                                android:gravity="center"
+                                android:text="" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/number_of_other_death_label"
+                                android:layout_width="60dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="1dp"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginRight="1dp"
+                                android:layout_marginTop="1dp"
+                                android:layout_weight="1"
+                                android:background="@color/cardview_light_background"
+                                android:gravity="center"
+                                android:text="Number of Other Death" />
+
+                            <TextView
+                                android:id="@+id/number_of_other_death_info"
+                                android:layout_width="60dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="1dp"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginRight="1dp"
+                                android:layout_marginTop="1dp"
+                                android:background="@color/cardview_light_background"
+                                android:gravity="center"
+                                android:text="" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+</LinearLayout>
 </LinearLayout>
