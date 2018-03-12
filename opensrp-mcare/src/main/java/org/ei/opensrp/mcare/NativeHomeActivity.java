@@ -91,7 +91,8 @@ public class NativeHomeActivity extends SecuredActivity {
             updateRegisterCounts();
         }
     };
-
+    private TextView formsyncedtime;
+    private TextView alertsyncedtime;
     private TextView ecRegisterClientCountView;
     private TextView ancRegisterClientCountView;
     private TextView pncRegisterClientCountView;
@@ -148,6 +149,8 @@ public class NativeHomeActivity extends SecuredActivity {
     }
 
     private void setupViews() {
+        formsyncedtime = (TextView)findViewById(R.id.formsyncedtime);
+        alertsyncedtime =  (TextView)findViewById(R.id.alertsyncedtime);
         findViewById(R.id.btn_ec_register).setOnClickListener(onRegisterStartListener);
         findViewById(R.id.btn_pnc_register).setOnClickListener(onRegisterStartListener);
         findViewById(R.id.btn_anc_register).setOnClickListener(onRegisterStartListener);
@@ -234,6 +237,8 @@ public class NativeHomeActivity extends SecuredActivity {
                         ancRegisterClientCountView.setText(valueOf(anccount));
                         fpRegisterClientCountView.setText(valueOf(elcocount));
                         childRegisterClientCountView.setText(valueOf(childcount));
+                        formsyncedtime.setText(Context.getInstance().allSettings().fetchPreviousFormSyncIndex());
+                        alertsyncedtime.setText(Context.getInstance().allSettings().fetchPreviousFetchIndex());
                     }
                 };
                 mainHandler.post(myRunnable);
