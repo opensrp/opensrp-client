@@ -17,6 +17,9 @@ import java.util.ArrayList;
 
 import dashboard.opensrp.org.jandjdashboard.R;
 import dashboard.opensrp.org.jandjdashboard.adapter.scheduleCardAdapter;
+import dashboard.opensrp.org.jandjdashboard.controller.controllerHolders;
+import dashboard.opensrp.org.jandjdashboard.controller.reproductiveHealthServiceController;
+import dashboard.opensrp.org.jandjdashboard.controller.upcomingScheduleStatusController;
 import dashboard.opensrp.org.jandjdashboard.dashboardCategoryDetailActivity;
 import dashboard.opensrp.org.jandjdashboard.dashboardCategoryListActivity;
 import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
@@ -38,10 +41,11 @@ public class reproductive_health_service_Fragment extends Fragment {
      * The dummy content this fragment is presenting.
      */
     private DummyContent.DummyItem mItem;
-    private RecyclerView recyclerView;
-    private scheduleCardAdapter adapter;
-    private ArrayList<Drawable> iconList;
-    private ArrayList<String> titleList;
+
+    reproductiveHealthServiceController rhsController;
+    private String controller_holder_key = "controller_holder";
+    private String reproductiveHealthServiceControllerKey = "reproductiveHealthServiceController";
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -66,57 +70,25 @@ public class reproductive_health_service_Fragment extends Fragment {
                 appBarLayout.setTitle(mItem.content);
             }
         }
+        if (getArguments().containsKey(controller_holder_key)) {
+            // Load the dummy content specified by the fragment
+            // arguments. In a real-world scenario, use a Loader
+            // to load content from a content provider.
+            rhsController = (reproductiveHealthServiceController) ((controllerHolders)getArguments().getSerializable(controller_holder_key)).getControllersHashMap().get(reproductiveHealthServiceControllerKey);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.reproductive_health_service, container, false);
+        updateView(rootView);
         return rootView;
     }
-    private void prepareAlbums() {
 
+    private void updateView(View rootView) {
 
     }
 
 
-    private int dpToPx(int dp) {
-        Resources r = getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
-    }
-
-    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
-
-        private int spanCount;
-        private int spacing;
-        private boolean includeEdge;
-
-        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
-            this.spanCount = spanCount;
-            this.spacing = spacing;
-            this.includeEdge = includeEdge;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int position = parent.getChildAdapterPosition(view); // item position
-            int column = position % spanCount; // item column
-
-            if (includeEdge) {
-                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
-                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
-
-                if (position < spanCount) { // top edge
-                    outRect.top = spacing;
-                }
-                outRect.bottom = spacing; // item bottom
-            } else {
-                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
-                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
-                if (position >= spanCount) {
-                    outRect.top = spacing; // item top
-                }
-            }
-        }
-    }
 }
