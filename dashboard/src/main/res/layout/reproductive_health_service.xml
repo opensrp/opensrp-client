@@ -157,6 +157,7 @@
                             android:layout_marginRight="1dp"
                             android:layout_marginTop="1dp"
                             android:background="@color/cardview_light_background"
+                            android:gravity="center"
                             android:text="" />
 
                         <TextView
@@ -167,6 +168,7 @@
                             android:layout_marginRight="1dp"
                             android:layout_marginTop="1dp"
                             android:background="@color/cardview_light_background"
+                            android:gravity="center"
                             android:text="" />
 
                     </LinearLayout>
@@ -196,6 +198,7 @@
                             android:layout_marginRight="1dp"
                             android:layout_marginTop="1dp"
                             android:background="@color/alttablerow"
+                            android:gravity="center"
                             android:text="" />
 
                         <TextView
@@ -206,6 +209,7 @@
                             android:layout_marginRight="1dp"
                             android:layout_marginTop="1dp"
                             android:background="@color/alttablerow"
+                            android:gravity="center"
                             android:text="" />
                     </LinearLayout>
                     <LinearLayout
@@ -234,6 +238,7 @@
                             android:layout_marginRight="1dp"
                             android:layout_marginTop="1dp"
                             android:background="@color/cardview_light_background"
+                            android:gravity="center"
                             android:text="" />
 
                         <TextView
@@ -244,6 +249,7 @@
                             android:layout_marginRight="1dp"
                             android:layout_marginTop="1dp"
                             android:background="@color/cardview_light_background"
+                            android:gravity="center"
                             android:text="" />
                     </LinearLayout>
                     <LinearLayout
@@ -271,6 +277,7 @@
                             android:layout_marginRight="1dp"
                             android:layout_marginTop="1dp"
                             android:background="@color/alttablerow"
+                            android:gravity="center"
                             android:text="" />
 
                         <TextView
@@ -281,6 +288,7 @@
                             android:layout_marginRight="1dp"
                             android:layout_marginTop="1dp"
                             android:background="@color/alttablerow"
+                            android:gravity="center"
                             android:text="" />
                     </LinearLayout>
                 </LinearLayout>
@@ -332,6 +340,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="1dp"
                             android:background="@color/cardview_light_background"
+                            android:gravity="center"
                             android:text="" />
 
                         <TextView
@@ -340,6 +349,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="1dp"
                             android:background="@color/cardview_light_background"
+                            android:gravity="center"
                             android:text="" />
                     </LinearLayout>
 
@@ -365,6 +375,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="1dp"
                             android:background="@color/alttablerow"
+                            android:gravity="center"
                             android:text="" />
 
                         <TextView
@@ -373,6 +384,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="1dp"
                             android:background="@color/alttablerow"
+                            android:gravity="center"
                             android:text="" />
                     </LinearLayout>
 
@@ -398,6 +410,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="1dp"
                             android:background="@color/cardview_light_background"
+                            android:gravity="center"
                             android:text="" />
 
                         <TextView
@@ -406,6 +419,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="1dp"
                             android:background="@color/cardview_light_background"
+                            android:gravity="center"
                             android:text="" />
                     </LinearLayout>
 
@@ -431,6 +445,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="1dp"
                             android:background="@color/alttablerow"
+                            android:gravity="center"
                             android:text="" />
 
                         <TextView
@@ -439,6 +454,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="1dp"
                             android:background="@color/alttablerow"
+                            android:gravity="center"
                             android:text="" />
                     </LinearLayout>
 
@@ -464,6 +480,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="1dp"
                             android:background="@color/cardview_light_background"
+                            android:gravity="center"
                             android:text="" />
 
                         <TextView
@@ -472,6 +489,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="1dp"
                             android:background="@color/cardview_light_background"
+                            android:gravity="center"
                             android:text="" />
                     </LinearLayout>
                 </LinearLayout>
@@ -501,6 +519,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="1dp"
                     android:background="@color/alttablerow"
+                    android:gravity="center"
                     android:text="" />
 
                 <TextView
@@ -509,6 +528,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="1dp"
                     android:background="@color/alttablerow"
+                    android:gravity="center"
                     android:text="" />
             </LinearLayout>
 
@@ -529,19 +549,23 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="20dp"
                     android:text="Number of Misoprostol Tablet Receptors" />
+
                 <TextView
                     android:id="@+id/misoprostol_receptor_info"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:layout_margin="1dp"
                     android:background="@color/cardview_light_background"
+                    android:gravity="center"
                     android:text="" />
+
                 <TextView
                     android:id="@+id/misoprostol_receptor_service"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:layout_margin="1dp"
                     android:background="@color/cardview_light_background"
+                    android:gravity="center"
                     android:text="" />
             </LinearLayout>
 
@@ -590,6 +614,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="1dp"
                             android:background="@color/cardview_light_background"
+                            android:gravity="center"
                             android:text="" />
 
                         <TextView
@@ -598,6 +623,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="1dp"
                             android:background="@color/cardview_light_background"
+                            android:gravity="center"
                             android:text="" />
                     </LinearLayout>
                     <LinearLayout
@@ -610,22 +636,26 @@
                         android:layout_height="match_parent"
                         android:background="@color/cardview_light_background"
                         android:layout_margin="1dp"
-                        android:gravity="center"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:text="Referred" />
+
                         <TextView
                             android:id="@+id/infertile_couple_referred_info"
                             android:layout_width="60dp"
                             android:layout_height="match_parent"
                             android:layout_margin="1dp"
                             android:background="@color/cardview_light_background"
-                            android:text="" />
+                            android:text=""
+                            android:gravity="center" />
+
                         <TextView
                             android:id="@+id/infertile_couple_referred_service"
                             android:layout_width="60dp"
                             android:layout_height="match_parent"
                             android:layout_margin="1dp"
                             android:background="@color/cardview_light_background"
+                            android:gravity="center"
                             android:text="" />
                     </LinearLayout>
                 </LinearLayout>
@@ -709,20 +739,22 @@
                     android:id="@+id/pnc_current_visit_one"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
-                    android:background="@color/cardview_light_background"
                     android:layout_marginLeft="1dp"
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
+                    android:background="@color/cardview_light_background"
+                    android:gravity="center"
                     android:text="" />
 
                 <TextView
                     android:id="@+id/pnc_service_visit_one"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
-                    android:background="@color/cardview_light_background"
                     android:layout_marginLeft="1dp"
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
+                    android:background="@color/cardview_light_background"
+                    android:gravity="center"
                     android:text="" />
 
             </LinearLayout>
@@ -754,6 +786,7 @@
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
                     android:background="@color/alttablerow"
+                    android:gravity="center"
                     android:text="" />
 
                 <TextView
@@ -764,6 +797,7 @@
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
                     android:background="@color/alttablerow"
+                    android:gravity="center"
                     android:text="" />
             </LinearLayout>
 
@@ -794,6 +828,7 @@
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
                     android:background="@color/cardview_light_background"
+                    android:gravity="center"
                     android:text="" />
 
                 <TextView
@@ -804,6 +839,7 @@
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
                     android:background="@color/cardview_light_background"
+                    android:gravity="center"
                     android:text="" />
             </LinearLayout>
 
@@ -834,6 +870,7 @@
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
                     android:background="@color/alttablerow"
+                    android:gravity="center"
                     android:text="" />
 
                 <TextView
@@ -844,6 +881,7 @@
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
                     android:background="@color/alttablerow"
+                    android:gravity="center"
                     android:text="" />
             </LinearLayout>
 
@@ -874,6 +912,7 @@
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
                     android:background="@color/cardview_light_background"
+                    android:gravity="center"
                     android:text="" />
 
                 <TextView
@@ -884,6 +923,7 @@
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
                     android:background="@color/cardview_light_background"
+                    android:gravity="center"
                     android:text="" />
 
             </LinearLayout>
@@ -915,6 +955,7 @@
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
                     android:background="@color/alttablerow"
+                    android:gravity="center"
                     android:text="" />
 
                 <TextView
@@ -925,6 +966,7 @@
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
                     android:background="@color/alttablerow"
+                    android:gravity="center"
                     android:text="" />
 
             </LinearLayout>
@@ -956,6 +998,7 @@
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
                     android:background="@color/cardview_light_background"
+                    android:gravity="center"
                     android:text="" />
 
                 <TextView
@@ -966,6 +1009,7 @@
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
                     android:background="@color/cardview_light_background"
+                    android:gravity="center"
                     android:text="" />
             </LinearLayout>
 
@@ -998,6 +1042,7 @@
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
                     android:background="@color/alttablerow"
+                    android:gravity="center"
                     android:text="" />
 
                 <TextView
@@ -1009,6 +1054,7 @@
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
                     android:background="@color/alttablerow"
+                    android:gravity="center"
                     android:text="" />
             </LinearLayout>
         </LinearLayout>

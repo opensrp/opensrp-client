@@ -131,6 +131,8 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
         }
         if(currentFragmentName.equalsIgnoreCase("anc_pnc_encc_StatusDetailFragment")){
             ((anc_pnc_encc_StatusDetailFragment)currentFragment).refresh(fromdate,todate);
+        }if(currentFragmentName.equalsIgnoreCase("reproductive_health_service_Fragment")){
+            ((reproductive_health_service_Fragment)currentFragment).refresh(fromdate,todate);
         }
 
     }
