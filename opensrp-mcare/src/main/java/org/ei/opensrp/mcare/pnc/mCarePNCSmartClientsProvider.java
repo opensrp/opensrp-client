@@ -228,7 +228,6 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
                 }else if(pc.getDetails().get("pnc1_current_formStatus").equalsIgnoreCase("urgent")){
 //                    anc1tick.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
                     anc1tick.setImageResource(R.mipmap.notdoneintime);
-                    anc1text.setText("urgent");
                     anc1tick.setVisibility(View.VISIBLE);
                     anc1text.setVisibility(View.VISIBLE);
                 }
@@ -259,8 +258,42 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
             } else {
                 anc1text.setVisibility(View.GONE);
                 anc1tick.setVisibility(View.GONE);
+                if(checkPNC1Expired(pc)){
+                    anc1tick.setImageResource(R.mipmap.cross);
+                    alertDate = pncdate((pc.getColumnmaps().get("FWBNFDTOO") != null ? pc.getColumnmaps().get("FWBNFDTOO") : ""),2);
+//                    anc1tick.setText("✘");
+//                    anc1tick.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
+                    anc1text.setText( "PNC1: " + alertDate);
+                    anc1tick.setVisibility(View.VISIBLE);
+                    anc1text.setVisibility(View.VISIBLE);
+                }
             }
         }
+    }
+    private boolean checkPNC1Expired(CommonPersonObjectClient pc) {
+        List<Alert> alertlist = org.ei.opensrp.Context.getInstance().alertService().findByEntityIdAndAlertNames(pc.entityId(), "pncrv_2");
+        if(alertlist.size()>0 || (pc.getDetails().get("FWPNC2DATE")!=null)){
+            return true;
+        }
+        alertlist = org.ei.opensrp.Context.getInstance().alertService().findByEntityIdAndAlertNames(pc.entityId(), "pncrv_3");
+        if(alertlist.size()>0 || (pc.getDetails().get("FWPNC3DATE")!=null)){
+            return true;
+        }
+        Date today = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date pnc_date = format.parse((pc.getColumnmaps().get("FWBNFDTOO") != null ? pc.getColumnmaps().get("FWBNFDTOO") : ""));
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.setTime(pnc_date);
+            calendar.add(Calendar.DATE, 2);
+            pnc_date.setTime(calendar.getTime().getTime());
+            if(today.after(pnc_date)){
+                return true;
+            }
+        }catch (Exception e){
+
+        }
+        return false;
     }
     private void checkPnc2StatusAndform(ImageView anc2tick, TextView anc2text, CommonPersonObjectClient pc) {
         if(pc.getDetails().get("FWPNC2DATE")!=null){
@@ -306,8 +339,38 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
             } else {
                 anc2text.setVisibility(View.GONE);
                 anc2tick.setVisibility(View.GONE);
+                if(checkPNC2Expired(pc)){
+                    anc2tick.setImageResource(R.mipmap.cross);
+                    alertDate = pncdate((pc.getColumnmaps().get("FWBNFDTOO") != null ? pc.getColumnmaps().get("FWBNFDTOO") : ""),6);
+//                    anc2tick.setText("✘");
+//                    anc2tick.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
+                    anc2text.setText( "PNC2: " + alertDate);
+                    anc2tick.setVisibility(View.VISIBLE);
+                    anc2text.setVisibility(View.VISIBLE);
+                }
             }
         }
+    }
+    private boolean checkPNC2Expired(CommonPersonObjectClient pc) {
+        List<Alert> alertlist = org.ei.opensrp.Context.getInstance().alertService().findByEntityIdAndAlertNames(pc.entityId(), "pncrv_3");
+        if(alertlist.size()>0 || (pc.getDetails().get("FWPNC3DATE")!=null)){
+            return true;
+        }
+        Date today = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date pnc_date = format.parse((pc.getColumnmaps().get("FWBNFDTOO") != null ? pc.getColumnmaps().get("FWBNFDTOO") : ""));
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.setTime(pnc_date);
+            calendar.add(Calendar.DATE, 6);
+            pnc_date.setTime(calendar.getTime().getTime());
+            if(today.after(pnc_date)){
+                return true;
+            }
+        }catch (Exception e){
+
+        }
+        return false;
     }
     private void checkPnc3StatusAndform(ImageView anc3tick, TextView anc3text, CommonPersonObjectClient pc) {
         if(pc.getDetails().get("FWPNC3DATE")!=null){
@@ -353,8 +416,34 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
             } else {
                 anc3text.setVisibility(View.GONE);
                 anc3tick.setVisibility(View.GONE);
+                if(checkPNC3Expired(pc)){
+                    anc3tick.setImageResource(R.mipmap.cross);
+                    alertDate = pncdate((pc.getColumnmaps().get("FWBNFDTOO") != null ? pc.getColumnmaps().get("FWBNFDTOO") : ""),9);
+//                    anc2tick.setText("✘");
+//                    anc2tick.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
+                    anc3text.setText( "PNC3: " + alertDate);
+                    anc3tick.setVisibility(View.VISIBLE);
+                    anc3text.setVisibility(View.VISIBLE);
+                }
             }
         }
+    }
+    private boolean checkPNC3Expired(CommonPersonObjectClient pc) {
+        Date today = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date pnc_date = format.parse((pc.getColumnmaps().get("FWBNFDTOO") != null ? pc.getColumnmaps().get("FWBNFDTOO") : ""));
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.setTime(pnc_date);
+            calendar.add(Calendar.DATE, 9);
+            pnc_date.setTime(calendar.getTime().getTime());
+            if(today.after(pnc_date)){
+                return true;
+            }
+        }catch (Exception e){
+
+        }
+        return false;
     }
 
     private void constructPNCReminderDueBlock(String dateofoutcome,CommonPersonObjectClient pc, View itemView) {
@@ -379,6 +468,13 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
 
         CustomFontTextView pncreminderDueDate = (CustomFontTextView)itemView.findViewById(R.id.pnc_reminder_due_date);
         setalerttextandColorInView(pncreminderDueDate, alerttextstatus,pc);
+        if((pc.getDetails().get("FWPNC3DATE")!=null)&& pncreminderDueDate.getText().toString().contains("PNC3")){
+            pncreminderDueDate.setText("PNC3"+ "\n"+pc.getDetails().get("FWPNC3DATE"));
+        }else if((pc.getDetails().get("FWPNC2DATE")!=null)&& pncreminderDueDate.getText().toString().contains("PNC2")){
+            pncreminderDueDate.setText("PNC2"+ "\n"+pc.getDetails().get("FWPNC2DATE"));
+        }else if((pc.getDetails().get("FWPNC1DATE")!=null) && pncreminderDueDate.getText().toString().contains("PNC1")){
+            pncreminderDueDate.setText("PNC1"+ "\n"+pc.getDetails().get("FWPNC1DATE"));
+        }
         pncreminderDueDate.setText(McareApplication.convertToEnglishDigits(pncreminderDueDate.getText().toString()));
 
 

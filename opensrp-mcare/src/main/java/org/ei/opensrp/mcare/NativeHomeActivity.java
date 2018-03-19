@@ -45,6 +45,11 @@ import org.ei.opensrp.view.controller.NativeAfterANMDetailsFetchListener;
 import org.ei.opensrp.view.controller.NativeUpdateANMDetailsTask;
 import org.ei.opensrp.view.fragment.DisplayFormFragment;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
 import static android.widget.Toast.LENGTH_SHORT;
 import static java.lang.String.valueOf;
 import static org.ei.opensrp.event.Event.ACTION_HANDLED;
@@ -91,7 +96,8 @@ public class NativeHomeActivity extends SecuredActivity {
             updateRegisterCounts();
         }
     };
-
+    private TextView formsyncedtime;
+    private TextView alertsyncedtime;
     private TextView ecRegisterClientCountView;
     private TextView ancRegisterClientCountView;
     private TextView pncRegisterClientCountView;
@@ -148,6 +154,8 @@ public class NativeHomeActivity extends SecuredActivity {
     }
 
     private void setupViews() {
+        formsyncedtime = (TextView)findViewById(R.id.formsyncedtime);
+        alertsyncedtime =  (TextView)findViewById(R.id.alertsyncedtime);
         findViewById(R.id.btn_ec_register).setOnClickListener(onRegisterStartListener);
         findViewById(R.id.btn_pnc_register).setOnClickListener(onRegisterStartListener);
         findViewById(R.id.btn_anc_register).setOnClickListener(onRegisterStartListener);
@@ -234,11 +242,26 @@ public class NativeHomeActivity extends SecuredActivity {
                         ancRegisterClientCountView.setText(valueOf(anccount));
                         fpRegisterClientCountView.setText(valueOf(elcocount));
                         childRegisterClientCountView.setText(valueOf(childcount));
+                        formsyncedtime.setText("Forms Last Synced: "+getDateCurrentTimeZone(Long.parseLong(Context.getInstance().allSettings().fetchPreviousFormSyncIndex())));
+                        alertsyncedtime.setText("Alerts Last Synced: "+getDateCurrentTimeZone(Long.parseLong(Context.getInstance().allSettings().fetchPreviousFetchIndex())));
                     }
                 };
                 mainHandler.post(myRunnable);
             }
         }).start();
+    }
+    public  String getDateCurrentTimeZone(long timestamp) {
+        try{
+            Calendar calendar = Calendar.getInstance();
+            TimeZone tz = TimeZone.getTimeZone("Etc/GMT");
+            calendar.setTimeInMillis(timestamp);
+            calendar.add(Calendar.MILLISECOND, tz.getOffset(calendar.getTimeInMillis()));
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date currenTimeZone = (Date) calendar.getTime();
+            return sdf.format(currenTimeZone);
+        }catch (Exception e) {
+        }
+        return "";
     }
 
     @Override

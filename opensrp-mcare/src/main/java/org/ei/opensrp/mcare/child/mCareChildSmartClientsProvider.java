@@ -34,6 +34,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -260,9 +261,58 @@ public class mCareChildSmartClientsProvider implements SmartRegisterCLientsProvi
             } else {
                 anc1text.setVisibility(View.GONE);
                 anc1tick.setVisibility(View.GONE);
+                if(checkENCC1Expired(pc)){
+                    alertDate = encdateCalc((pc.getDetails().get("FWBNFDOB") != null ? pc.getDetails().get("FWBNFDOB") : ""),2);
+                    anc1tick.setImageResource(R.mipmap.cross);
+                    anc1tick.setVisibility(View.VISIBLE);
+                    anc1text.setVisibility(View.VISIBLE);
+                    anc1text.setText( "ENCC1: " + alertDate);
+                }
             }
         }
     }
+    private boolean checkENCC1Expired(CommonPersonObjectClient pc) {
+        List<Alert> alertlist = org.ei.opensrp.Context.getInstance().alertService().findByEntityIdAndAlertNames(pc.entityId(), "enccrv_2");
+        if(alertlist.size()>0 || (pc.getDetails().get("FWENC2DATE")!=null)){
+            return true;
+        }
+        alertlist = org.ei.opensrp.Context.getInstance().alertService().findByEntityIdAndAlertNames(pc.entityId(), "enccrv_3");
+        if(alertlist.size()>0 || (pc.getDetails().get("FWENC3DATE")!=null)){
+            return true;
+        }
+        Date today = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date encc_date = format.parse((pc.getDetails().get("FWBNFDOB") != null ? pc.getDetails().get("FWBNFDOB") : ""));
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.setTime(encc_date);
+            calendar.add(Calendar.DATE, 2);
+            encc_date.setTime(calendar.getTime().getTime());
+            if(today.after(encc_date)){
+                return true;
+            }
+        }catch (Exception e){
+
+        }
+        return false;
+    }
+    public String encdateCalc(String date,int day){
+        String pncdate = "";
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date pnc_date = format.parse(date);
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.setTime(pnc_date);
+            calendar.add(Calendar.DATE, day);
+            pnc_date.setTime(calendar.getTime().getTime());
+            pncdate = format.format(pnc_date);
+        } catch (Exception e) {
+            Log.e(getClass().getName(), "Exception", e);
+            pncdate = "";
+        }
+        return pncdate;
+    }
+
     private void checkEncc2StatusAndform(ImageView anc2tick, TextView anc2text, CommonPersonObjectClient pc) {
         if(pc.getDetails().get("FWENC2DATE")!=null){
             anc2text.setText("ENCC2: "+pc.getDetails().get("FWENC2DATE"));
@@ -303,8 +353,36 @@ public class mCareChildSmartClientsProvider implements SmartRegisterCLientsProvi
             } else {
                 anc2text.setVisibility(View.GONE);
                 anc2tick.setVisibility(View.GONE);
+                if(checkENCC2Expired(pc)){
+                    alertDate = encdateCalc((pc.getDetails().get("FWBNFDOB") != null ? pc.getDetails().get("FWBNFDOB") : ""),5);
+                    anc2tick.setImageResource(R.mipmap.cross);
+                    anc2text.setText( "ENCC2: " + alertDate);
+                    anc2tick.setVisibility(View.VISIBLE);
+                    anc2text.setVisibility(View.VISIBLE);
+                }
             }
         }
+    }
+    private boolean checkENCC2Expired(CommonPersonObjectClient pc) {
+        List<Alert> alertlist = org.ei.opensrp.Context.getInstance().alertService().findByEntityIdAndAlertNames(pc.entityId(), "enccrv_3");
+        if(alertlist.size()>0 || (pc.getDetails().get("FWENC3DATE")!=null)){
+            return true;
+        }
+        Date today = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date encc_date = format.parse((pc.getDetails().get("FWBNFDOB") != null ? pc.getDetails().get("FWBNFDOB") : ""));
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.setTime(encc_date);
+            calendar.add(Calendar.DATE, 5);
+            encc_date.setTime(calendar.getTime().getTime());
+            if(today.after(encc_date)){
+                return true;
+            }
+        }catch (Exception e){
+
+        }
+        return false;
     }
     private void checkEncc3StatusAndform(ImageView anc3tick, TextView anc3text, CommonPersonObjectClient pc) {
         if(pc.getDetails().get("FWENC3DATE")!=null){
@@ -345,8 +423,33 @@ public class mCareChildSmartClientsProvider implements SmartRegisterCLientsProvi
             } else {
                 anc3text.setVisibility(View.GONE);
                 anc3tick.setVisibility(View.GONE);
+                if(checkENCC3Expired(pc)){
+                    alertDate = encdateCalc((pc.getDetails().get("FWBNFDOB") != null ? pc.getDetails().get("FWBNFDOB") : ""),9);
+                    anc3tick.setImageResource(R.mipmap.cross);
+                    anc3text.setText( "ENCC3: " + alertDate);
+                    anc3tick.setVisibility(View.VISIBLE);
+                    anc3text.setVisibility(View.VISIBLE);
+                }
             }
         }
+    }
+
+    private boolean checkENCC3Expired(CommonPersonObjectClient pc) {
+        Date today = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date encc_date = format.parse((pc.getDetails().get("FWBNFDOB") != null ? pc.getDetails().get("FWBNFDOB") : ""));
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.setTime(encc_date);
+            calendar.add(Calendar.DATE, 9);
+            encc_date.setTime(calendar.getTime().getTime());
+            if(today.after(encc_date)){
+                return true;
+            }
+        }catch (Exception e){
+
+        }
+        return false;
     }
 
     private void constructENCCReminderDueBlock(CommonPersonObjectClient pc, View itemView) {
@@ -372,6 +475,13 @@ public class mCareChildSmartClientsProvider implements SmartRegisterCLientsProvi
         CustomFontTextView pncreminderDueDate = (CustomFontTextView)itemView.findViewById(R.id.encc_reminder_due_date);
         pncreminderDueDate.setVisibility(View.VISIBLE);
         setalerttextandColorInView(pncreminderDueDate, alerttextstatus, pc);
+        if((pc.getDetails().get("FWENC3DATE")!=null)&& pncreminderDueDate.getText().toString().contains("ENCC3")){
+            pncreminderDueDate.setText("ENCC3"+ "\n"+pc.getDetails().get("FWENC3DATE"));
+        }else if((pc.getDetails().get("FWENC2DATE")!=null)&& pncreminderDueDate.getText().toString().contains("ENCC2")){
+            pncreminderDueDate.setText("ENCC2"+ "\n"+pc.getDetails().get("FWENC2DATE"));
+        }else if((pc.getDetails().get("FWENC1DATE")!=null) && pncreminderDueDate.getText().toString().contains("ENCC1")){
+            pncreminderDueDate.setText("ENCC1"+ "\n"+pc.getDetails().get("FWENC1DATE"));
+        }
         pncreminderDueDate.setText(McareApplication.convertToEnglishDigits(pncreminderDueDate.getText().toString()));
 
 

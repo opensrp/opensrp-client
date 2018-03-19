@@ -349,7 +349,9 @@ public class ElcoSmartRegisterActivity extends SecuredNativeSmartRegisterActivit
     }
     @Override
     public void onBackPressed() {
-        if (currentPage > 1){
+        if (currentPage == 0) {
+            super.onBackPressed(); // allow back key only if we are
+        }else if (currentPage > 1){
             retrieveAndSaveUnsubmittedFormData();
             String BENGALI_LOCALE = "bn";
             AllSharedPreferences allSharedPreferences = new AllSharedPreferences(getDefaultSharedPreferences(Context.getInstance().applicationContext()));
@@ -395,8 +397,6 @@ public class ElcoSmartRegisterActivity extends SecuredNativeSmartRegisterActivit
                         .show();
             }
 //            switchToBaseFragment(null);
-        }else if (currentPage == 0) {
-            super.onBackPressed(); // allow back key only if we are
         }else if (currentPage == 1) {
             switchToBaseFragment(null); // allow back key only if we are
         }
@@ -439,6 +439,12 @@ public class ElcoSmartRegisterActivity extends SecuredNativeSmartRegisterActivit
     protected void onPause() {
         super.onPause();
         retrieveAndSaveUnsubmittedFormData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Runtime.getRuntime().gc();
     }
 
     public void showProfileView() {
