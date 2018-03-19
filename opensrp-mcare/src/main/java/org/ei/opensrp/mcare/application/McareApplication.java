@@ -36,7 +36,7 @@ public class McareApplication extends DrishtiApplication {
 
     @Override
     public void onCreate() {
-        DrishtiSyncScheduler.setReceiverClass(SyncBroadcastReceiver.class);
+
         super.onCreate();
         Fabric.with(this, new Crashlytics());
 //        ACRA.init(this);
