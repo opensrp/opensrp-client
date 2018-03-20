@@ -17,11 +17,21 @@ import dashboard.opensrp.org.jandjdashboard.controller.upcomingScheduleStatusCon
 
 public class reproductiveHealthServiceControllerForDashBoardModule extends reproductiveHealthServiceController {
 
-
     @Override
     public String ecpReceptors(Date from, Date to) {
-        return null;
-    }
+        CommonRepository commonRepository = Context.getInstance().commonrepository("household");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from form_submission where form_submission.formName = 'mis_census' and form_submission.instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"08\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%'and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
+        cursor.moveToFirst();
+        try {
+            String countofecpreceptor = cursor.getString(0);
+
+            cursor.close();
+            return countofecpreceptor;
+        } catch (Exception e) {
+            cursor.close();
+            return "0";
+        }
+            }
 
     @Override
     public HashMap<String, String> ttquery(Date from, Date to) {

@@ -12,11 +12,17 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import dashboard.opensrp.org.jandjdashboard.R;
 import dashboard.opensrp.org.jandjdashboard.adapter.scheduleCardAdapter;
+import dashboard.opensrp.org.jandjdashboard.controller.controllerHolders;
+import dashboard.opensrp.org.jandjdashboard.controller.deliveryStatusController;
+import dashboard.opensrp.org.jandjdashboard.controller.reproductiveHealthServiceController;
 import dashboard.opensrp.org.jandjdashboard.dashboardCategoryDetailActivity;
 import dashboard.opensrp.org.jandjdashboard.dashboardCategoryListActivity;
 import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
@@ -43,6 +49,14 @@ public class delivery_status_detail_Fragment extends Fragment {
     private ArrayList<Drawable> iconList;
     private ArrayList<String> titleList;
 
+    deliveryStatusController dsController;
+    private String controller_holder_key = "controller_holder";
+    private String deliveryStatusControllerKey = "deliveryStatusController";
+
+    TextView totalNumberOfLiveBirth,numberofNewBornswithLowBirthWeight,numberofImmatureBirth,
+            numberofStillBirth,numberofDeathUnder7Days,numberofDeathBetween8to28Days,
+            numberofDeathBetween29daysto1year,numberofTotalDeath,numberofChildDeathBetween1to5year,
+            numberofMotherDeath,numberofOtherDeath;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -66,57 +80,63 @@ public class delivery_status_detail_Fragment extends Fragment {
                 appBarLayout.setTitle(mItem.content);
             }
         }
+        if (getArguments().containsKey(controller_holder_key)) {
+            // Load the dummy content specified by the fragment
+            // arguments. In a real-world scenario, use a Loader
+            // to load content from a content provider.
+            dsController = (deliveryStatusController) ((controllerHolders)getArguments().getSerializable(controller_holder_key)).getControllersHashMap().get(deliveryStatusControllerKey);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.delivery_status_detail, container, false);
+        setupviews(rootView);
+        Date today = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(today);
+        cal.add(Calendar.DATE, -(365*10));
+        Date yesterday = cal.getTime();
+        refresh(dsController.format.format(yesterday.getTime()),dsController.format.format(today.getTime()));
+
         return rootView;
     }
-    private void prepareAlbums() {
 
-
+    private void setupviews(View rootView) {
+        totalNumberOfLiveBirth = (TextView)rootView.findViewById(R.id.total_live_birth_info);
+        numberofNewBornswithLowBirthWeight = (TextView)rootView.findViewById(R.id.low_birthweight_info);
+        numberofImmatureBirth = (TextView)rootView.findViewById(R.id.immature_info);
+        numberofStillBirth =  (TextView)rootView.findViewById(R.id.still_birth_info);
+        numberofDeathUnder7Days = (TextView)rootView.findViewById(R.id.zero_to_seven_days_info);
+        numberofDeathBetween8to28Days =  (TextView)rootView.findViewById(R.id.eight_to28days_info);
+        numberofDeathBetween29daysto1year =  (TextView)rootView.findViewById(R.id.twentyninedays_to_year_info);
+        numberofTotalDeath =  (TextView)rootView.findViewById(R.id.total_info);
+        numberofChildDeathBetween1to5year =  (TextView)rootView.findViewById(R.id.number_of_child_death_1_to_5_info);
+        numberofMotherDeath = (TextView)rootView.findViewById(R.id.number_of_mother_death_info);
+        numberofOtherDeath =  (TextView)rootView.findViewById(R.id.number_of_other_death_info);
     }
 
+    public void refresh(String from,String to) {
+        try {
+            Date fromdate = dsController.format.parse(from);
+            Date todate = dsController.format.parse(to);
 
-    private int dpToPx(int dp) {
-        Resources r = getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
-    }
+            totalNumberOfLiveBirth.setText(dsController.numberofLiveBirth(fromdate,todate));
+            numberofNewBornswithLowBirthWeight.setText(dsController.numberofNewBornswithLowBirthWeight(fromdate,todate));
+            numberofImmatureBirth.setText(dsController.numberofImmatureBirth(fromdate,todate));
+            numberofStillBirth.setText(dsController.numberofStillBirth(fromdate,todate));
+            numberofDeathUnder7Days.setText(dsController.numberofDeathUnder7Days(fromdate,todate));
+            numberofDeathBetween8to28Days.setText(dsController.numberofDeathBetween8to28Days(fromdate,todate));
+            numberofDeathBetween29daysto1year.setText(dsController.numberofDeathBetween29daysto1year(fromdate,todate));
+            numberofTotalDeath.setText(dsController.numberofTotalDeath(fromdate,todate));
+            numberofChildDeathBetween1to5year.setText(dsController.numberofChildDeathBetween1to5year(fromdate,todate));
+            numberofMotherDeath.setText(dsController.numberofMotherDeath(fromdate,todate));
+            numberofOtherDeath.setText(dsController.numberofOtherDeath(fromdate,todate));
+        }catch (Exception e){
 
-    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
-
-        private int spanCount;
-        private int spacing;
-        private boolean includeEdge;
-
-        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
-            this.spanCount = spanCount;
-            this.spacing = spacing;
-            this.includeEdge = includeEdge;
         }
 
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int position = parent.getChildAdapterPosition(view); // item position
-            int column = position % spanCount; // item column
-
-            if (includeEdge) {
-                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
-                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
-
-                if (position < spanCount) { // top edge
-                    outRect.top = spacing;
-                }
-                outRect.bottom = spacing; // item bottom
-            } else {
-                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
-                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
-                if (position >= spanCount) {
-                    outRect.top = spacing; // item top
-                }
-            }
-        }
     }
+
 }

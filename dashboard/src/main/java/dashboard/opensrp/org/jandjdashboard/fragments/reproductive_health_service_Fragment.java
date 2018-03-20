@@ -51,7 +51,7 @@ public class reproductive_health_service_Fragment extends Fragment {
     TextView anc1Service,anc1Info,anc2Service,anc2Info,anc3Service,anc3Info,anc4Service,anc4Info,
             pnc1Service,pnc1Info,pnc2Service,pnc2Info,pnc3Service,pnc3Info,encc1Service,encc1Info,
             encc2Service,encc2Info,encc3Service,encc3Info,tt1info,tt1service,tt2info,tt2service,tt3info,tt3service
-            ,tt4info,tt4service,tt5info,tt5service;
+            ,tt4info,tt4service,tt5info,tt5service,ecpreceptorservice,ecpreceptorinfo;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -132,6 +132,9 @@ public class reproductive_health_service_Fragment extends Fragment {
         tt4service = (TextView)rootView.findViewById(R.id.tt_received_4_service);
         tt5info = (TextView)rootView.findViewById(R.id.tt_received_5_info);
         tt5service = (TextView)rootView.findViewById(R.id.tt_received_5_service);
+
+        ecpreceptorinfo = (TextView)rootView.findViewById(R.id.ecp_receptor_info);
+        ecpreceptorservice = (TextView)rootView.findViewById(R.id.ecp_receptor_service);
     }
 
     public void refresh(String from,String to) {
@@ -172,6 +175,9 @@ public class reproductive_health_service_Fragment extends Fragment {
         tt4info.setText(rhsController.ttquery(fromdate,todate).get("tt4given"));
         tt5service.setText(rhsController.ttquery(fromdate,todate).get("tt5given"));
         tt5info.setText(rhsController.ttquery(fromdate,todate).get("tt5given"));
+
+        ecpreceptorinfo.setText(rhsController.ecpReceptors(fromdate,todate));
+        ecpreceptorservice.setText(rhsController.ecpReceptors(fromdate,todate));
         } catch (ParseException e) {
             e.printStackTrace();
         }

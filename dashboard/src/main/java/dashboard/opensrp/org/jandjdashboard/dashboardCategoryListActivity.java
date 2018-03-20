@@ -133,6 +133,8 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
             ((anc_pnc_encc_StatusDetailFragment)currentFragment).refresh(fromdate,todate);
         }if(currentFragmentName.equalsIgnoreCase("reproductive_health_service_Fragment")){
             ((reproductive_health_service_Fragment)currentFragment).refresh(fromdate,todate);
+        }if(currentFragmentName.equalsIgnoreCase("delivery_status_detail_Fragment")){
+            ((delivery_status_detail_Fragment)currentFragment).refresh(fromdate,todate);
         }
 
     }
