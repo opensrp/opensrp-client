@@ -24,6 +24,7 @@ import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
 import dashboard.opensrp.org.jandjdashboard.fragments.anc_pnc_encc_StatusDetailFragment;
 import dashboard.opensrp.org.jandjdashboard.fragments.delivery_status_detail_Fragment;
 import dashboard.opensrp.org.jandjdashboard.fragments.familyPlanningStatusDetailFragment;
+import dashboard.opensrp.org.jandjdashboard.fragments.nutritionDetailFragment;
 import dashboard.opensrp.org.jandjdashboard.fragments.reproductive_health_service_Fragment;
 import dashboard.opensrp.org.jandjdashboard.fragments.upcomingScheduleStatusDetailFragment;
 import dashboard.opensrp.org.jandjdashboard.widgets.calendarPoPUpWindow;
@@ -135,6 +136,8 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
             ((reproductive_health_service_Fragment)currentFragment).refresh(fromdate,todate);
         }if(currentFragmentName.equalsIgnoreCase("delivery_status_detail_Fragment")){
             ((delivery_status_detail_Fragment)currentFragment).refresh(fromdate,todate);
+        }if(currentFragmentName.equalsIgnoreCase("nutrition_detail_Fragment")){
+            ((nutritionDetailFragment)currentFragment).refresh(fromdate,todate);
         }
 
     }
@@ -231,6 +234,19 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
                                 arguments.putSerializable("controller_holder",controllerholder);
                                 fragment.setArguments(arguments);
                                 currentFragmentName = "delivery_status_detail_Fragment";
+                                currentFragment = fragment;
+                                getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.dashboardcategory_detail_container, fragment)
+                                        .commit();
+                                break;
+                            }
+                            case 7: {
+                                Bundle arguments = new Bundle();
+                                arguments.putString(reproductive_health_service_Fragment.ARG_ITEM_ID, holder.mItem.id);
+                                nutritionDetailFragment fragment = new nutritionDetailFragment();
+                                arguments.putSerializable("controller_holder",controllerholder);
+                                fragment.setArguments(arguments);
+                                currentFragmentName = "nutrition_detail_Fragment";
                                 currentFragment = fragment;
                                 getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.dashboardcategory_detail_container, fragment)

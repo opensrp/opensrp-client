@@ -8,6 +8,7 @@ import org.ei.opensrp.mcare.anc.mCareANCSmartRegisterActivity;
 import org.ei.opensrp.mcare.child.mCareChildSmartRegisterActivity;
 import org.ei.opensrp.mcare.dashboard.controllers.anc_pnc_encc_reminder_StatusControllerForDashBoardModule;
 import org.ei.opensrp.mcare.dashboard.controllers.deliveryStatusControllerForDashBoardModule;
+import org.ei.opensrp.mcare.dashboard.controllers.nutritionDetailControllerForDashBoardModule;
 import org.ei.opensrp.mcare.dashboard.controllers.reproductiveHealthServiceControllerForDashBoardModule;
 import org.ei.opensrp.mcare.dashboard.controllers.upcomingScheduleStatusControllerForDashBoardModule;
 import org.ei.opensrp.mcare.elco.ElcoSmartRegisterActivity;
@@ -75,12 +76,14 @@ public class McareNavigationController extends org.ei.opensrp.view.controller.Na
         anc_pnc_encc_reminder_StatusControllerForDashBoardModule ancpnc_encc_rsForDashBoardModule = new anc_pnc_encc_reminder_StatusControllerForDashBoardModule();
         reproductiveHealthServiceControllerForDashBoardModule ReproductiveHealthServiceControllerForDashBoardModule = new reproductiveHealthServiceControllerForDashBoardModule();
         deliveryStatusControllerForDashBoardModule deliveryStatusControllerForDashBoardModule = new deliveryStatusControllerForDashBoardModule();
+        nutritionDetailControllerForDashBoardModule nutritionDetailControllerForDashBoardModule = new nutritionDetailControllerForDashBoardModule();
 
         HashMap<String,dashboardControllers> stringdashboardControllersHashMap = new HashMap<String,dashboardControllers>();
         stringdashboardControllersHashMap.put("upcomingScheduleStatusController",usscontrollerForDashBoardModule);
         stringdashboardControllersHashMap.put("reminderVisitStatusController",ancpnc_encc_rsForDashBoardModule);
         stringdashboardControllersHashMap.put("reproductiveHealthServiceController",ReproductiveHealthServiceControllerForDashBoardModule);
         stringdashboardControllersHashMap.put("deliveryStatusController",deliveryStatusControllerForDashBoardModule);
+        stringdashboardControllersHashMap.put("nutritionDetailController",nutritionDetailControllerForDashBoardModule);
         controllerHolder.setControllersHashMap(stringdashboardControllersHashMap);
         return controllerHolder;
     }
