@@ -273,14 +273,14 @@
             <TextView
                 android:id="@+id/pregnant_and_mother_label"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="22dp"
                 android:background="@color/selectedlistred"
                 android:gravity="center"
                 android:text="Pregnant and Mother 0-23 months"
                 android:textColor="@color/cardview_light_background" />
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -491,14 +491,14 @@
             <TextView
                 android:id="@+id/children_label"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="22dp"
                 android:textColor="@color/cardview_light_background"
                 android:background="@color/selectedlistred"
                 android:gravity="center"
                 android:text="Children 0-59 months" />
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -522,7 +522,7 @@
                     android:layout_marginTop="1dp"
                     android:background="@color/alttablerow"
                     android:gravity="center"
-                    android:padding="3dp"
+                    android:padding="2dp"
                     android:text="0 - 6 months" />
 
                 <TextView
@@ -590,7 +590,7 @@
                                     android:layout_weight="1"
                                     android:background="@color/cardview_light_background"
                                     android:gravity="center"
-                                    android:padding="3dp"
+                                    android:padding="2dp"
                                     android:text="Feed Colostrum Milk within 1 hour after birth" />
 
                                 <TextView
@@ -638,7 +638,7 @@
                                     android:layout_weight="1"
                                     android:background="@color/alttablerow"
                                     android:gravity="center"
-                                    android:padding="3dp"
+                                    android:padding="2dp"
                                     android:text="Breastfeeding up to 6 months" />
 
                                 <TextView
@@ -689,8 +689,8 @@
                                     android:layout_weight="1"
                                     android:background="@color/cardview_light_background"
                                     android:gravity="center"
-                                    android:text="Providing extra complimentary food along with the breast milk after 6 months"
-                                    android:padding="3dp" />
+                                    android:padding="2dp"
+                                    android:text="Providing extra complimentary food along with the breast milk after 6 months" />
 
                                 <TextView
                                     android:id="@+id/providing_extra_complimentary_food_zero_to_6_months_info"
@@ -741,7 +741,7 @@
                                     android:layout_weight="1"
                                     android:background="@color/alttablerow"
                                     android:gravity="center"
-                                    android:padding="3dp"
+                                    android:padding="2dp"
                                     android:text="Received Multiple Micronutrient Powder(MNP)" />
 
                                 <TextView
