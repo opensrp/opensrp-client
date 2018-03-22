@@ -1,6 +1,7 @@
 package org.ei.opensrp.indonesia.application;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.util.Log;
 
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
@@ -71,9 +72,10 @@ public class BidanApplication extends DrishtiApplication {
     private void applyUserLanguagePreference() {
         Configuration config = getBaseContext().getResources().getConfiguration();
 
+        context.allSharedPreferences().saveLanguagePreference(LoginActivity.BAHASA_LOCALE);
         String lang = context.allSharedPreferences().fetchLanguagePreference();
         if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
-            locale = new Locale(lang);
+            locale = new Locale(LoginActivity.BAHASA_LOCALE);
             updateConfiguration(config);
         }
     }
