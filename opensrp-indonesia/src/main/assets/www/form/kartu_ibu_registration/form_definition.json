@@ -24,7 +24,7 @@
       },
       {
         "name": "lokasiPeriksa",
-        "bind": "/model/instance/Kartu_ibu/Lokasi_periksa"
+        "bind": "/model/instance/Kartu_ibu/lokasi_periksa"
       },
       {
         "name": "pasienWilayah",
