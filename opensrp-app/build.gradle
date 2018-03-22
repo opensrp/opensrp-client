@@ -128,6 +128,9 @@ dependencies {
     compile 'com.mcxiaoke.volley:library:1.0.+'
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
+    compile 'com.cloudant:cloudant-client:2.7.0'
+    compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+
 }
 
 dependencies {
@@ -140,6 +143,7 @@ dependencies {
     testCompile('com.squareup:fest-android:1.0.+') { exclude module: 'support-v4' }
     testCompile 'org.robolectric:robolectric:2.4'
 }
+
 task clearJar(type: Delete) {
     delete 'build/libs/myCompiledLibrary.jar'
 }

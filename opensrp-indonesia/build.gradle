@@ -4,39 +4,14 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:2.3.2"
+        classpath "com.android.tools.build:gradle:3.0.1"
         classpath 'org.apache.commons:commons-lang3:3.3.2'
         classpath 'io.fabric.tools:gradle:1.+'
     }
 }
+
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
-
-repositories {
-    maven { url 'https://maven.fabric.io/public' }
-}
-
-dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':opensrp-app')
-    //    compile project(':opensrp-devices')
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.3@aar') {
-        transitive = true;
-    }
-    compile files('libs/sd-sdk-facial-processing.jar')
-    compile 'com.loopj.android:android-async-http:1.4.9'
-    compile 'com.squareup.okhttp3:okhttp:3.8.1'
-//    compile 'com.fasterxml.jackson.core:2.7.5'
-
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.jjoe64:graphview:4.0.1'
-    compile files('libs/FlurryAnalytics-6.0.0.jar')
-    //    compile project(':sidlibrary')
-//    compile project(':opensrp-devices')
-//    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-//    compile 'com.google.android.gms:play-services:8.4.0'
-
-}
 
 android {
     compileSdkVersion androidCompileSdkVersion
@@ -85,5 +60,32 @@ android {
     }
 
 }
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':opensrp-app')
+    //    compile project(':opensrp-devices')
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.3@aar') {
+        transitive = true;
+    }
+    compile files('libs/sd-sdk-facial-processing.jar')
+    compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
+//    compile 'com.fasterxml.jackson.core:2.7.5'
+
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.jjoe64:graphview:4.0.1'
+    compile files('libs/FlurryAnalytics-6.0.0.jar')
+    //    compile project(':sidlibrary')
+//    compile project(':opensrp-devices')
+//    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+//    compile 'com.google.android.gms:play-services:8.4.0'
+
+}
+
 
 
