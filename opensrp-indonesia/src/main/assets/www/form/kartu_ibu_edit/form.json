@@ -1,0 +1,1117 @@
+{
+  "name": "Kartu_ibu",
+  "title": "Edit Ibu",
+  "sms_keyword": "Kartu_ibu",
+  "default_language": "Bahasa",
+  "instance": {
+    "encounter_type": "Edit Ibu"
+  },
+  "version": "201702121028",
+  "id_string": "Kartu_ibu",
+  "type": "survey",
+  "children": [
+    {
+      "instance": {
+        "openmrs_entity_id": "encounter_start",
+        "openmrs_entity": "encounter"
+      },
+      "type": "start",
+      "name": "start"
+    },
+    {
+      "instance": {
+        "openmrs_entity_id": "encounter_date",
+        "openmrs_entity": "encounter"
+      },
+      "type": "today",
+      "name": "today"
+    },
+    {
+      "type": "deviceid",
+      "name": "deviceid"
+    },
+    {
+      "type": "simserial",
+      "name": "simserial"
+    },
+    {
+      "type": "phonenumber",
+      "name": "phonenumber"
+    },
+    {
+      "type": "hidden",
+      "name": "Province"
+    },
+    {
+      "type": "hidden",
+      "name": "District",
+      "hint": {
+        "Bahasa": "Inject from app"
+      }
+    },
+    {
+      "type": "hidden",
+      "name": "Sub-district",
+      "hint": {
+        "Bahasa": "Inject from app"
+      }
+    },
+    {
+      "type": "hidden",
+      "name": "Village",
+      "hint": {
+        "Bahasa": "Inject from app"
+      }
+    },
+    {
+      "type": "hidden",
+      "name": "Sub-village",
+      "hint": {
+        "Bahasa": "Inject from app"
+      }
+    },
+    {
+      "type": "note",
+      "name": "generated_note_name_13",
+      "label": {
+        "Bahasa": "Desa : ${Village}"
+      }
+    },
+    {
+      "type": "note",
+      "name": "generated_note_name_14",
+      "label": {
+        "Bahasa": "Dusun : ${Sub-village}"
+      }
+    },
+    {
+      "bind": {
+        "calculate": "${Village}"
+      },
+      "type": "hidden",
+      "name": "existing_location",
+      "instance": {
+        "openmrs_entity_id": "location_id",
+        "openmrs_entity": "encounter"
+      }
+    },
+    {
+      "bind": {
+        "calculate": "${Province}"
+      },
+      "type": "calculate",
+      "name": "provinsi",
+      "instance": {
+        "openmrs_entity_parent": "usual_residence",
+        "openmrs_entity_id": "stateProvince",
+        "openmrs_entity": "person_address"
+      }
+    },
+    {
+      "bind": {
+        "calculate": "${District}"
+      },
+      "type": "calculate",
+      "name": "kabupaten",
+      "instance": {
+        "openmrs_entity_parent": "usual_residence",
+        "openmrs_entity_id": "countyDistrict",
+        "openmrs_entity": "person_address"
+      }
+    },
+    {
+      "bind": {
+        "calculate": "${Village}"
+      },
+      "type": "calculate",
+      "name": "desa",
+      "instance": {
+        "openmrs_entity_parent": "usual_residence",
+        "openmrs_entity_id": "cityVillage",
+        "openmrs_entity": "person_address"
+      }
+    },
+    {
+      "bind": {
+        "calculate": "${Sub-village}"
+      },
+      "type": "calculate",
+      "name": "dusun",
+      "instance": {
+        "openmrs_entity_parent": "usual_residence",
+        "openmrs_entity_id": "address1",
+        "openmrs_entity": "person_address"
+      }
+    },
+    {
+      "bind": {
+        "calculate": "${Sub-district}"
+      },
+      "type": "calculate",
+      "name": "kecamatan",
+      "instance": {
+        "openmrs_entity_parent": "usual_residence",
+        "openmrs_entity_id": "address2",
+        "openmrs_entity": "person_address"
+      }
+    },
+    {
+      "name": "pasien_wilayah",
+      "bind": {
+        "required": "yes"
+      },
+      "label": {
+        "Bahasa": "Apakah ibu adalah pasien wilayah Anda?",
+        "English": "Is the mother living in your catchment area?"
+      },
+      "instance": {
+        "openmrs_entity_id": "160637AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "160635AAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "pasien_wilayah_desa",
+          "label": {
+            "Bahasa": "Ya",
+            "English": "Yes"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "160636AAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "pasien_luar_wilayah",
+          "label": {
+            "Bahasa": "Tidak",
+            "English": "No"
+          }
+        }
+      ]
+    },
+    {
+      "name": "pasien_pindahan",
+      "bind": {
+        "required": "yes"
+      },
+      "label": {
+        "Bahasa": "Apakah ibu adalah warga pindahan dari desa lain?",
+        "English": "Is the mother moving in to this village?"
+      },
+      "instance": {
+        "openmrs_entity_id": "160563AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "Ya",
+            "English": "Yes"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "Tidak",
+            "English": "No"
+          }
+        }
+      ]
+    },
+    {
+      "name": "tgl_pindah",
+      "hint": {
+        "Bahasa": "Tuliskan tanggal ibu pindah ke desa ini",
+        "English": "Write the date when the mother moved into this village"
+      },
+      "bind": {
+        "relevant": "${pasien_pindahan}='Yes'",
+        "required": "yes",
+        "constraint": ".<${today}"
+      },
+      "label": {
+        "Bahasa": "Sejak kapan ibu pindah ke sini?",
+        "English": "Since when did she move this village?"
+      },
+      "instance": {
+        "openmrs_entity_id": "160534AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "date"
+    },
+    {
+      "bind": {
+        "required": "yes",
+        "constraint": ".<=${today}"
+      },
+      "type": "date",
+      "instance": {
+        "openmrs_entity_id": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "name": "tanggal_periksa",
+      "label": {
+        "Bahasa": "Tanggal Registrasi",
+        "English": "Date of Registration"
+      }
+    },
+    {
+      "name": "lokasi_periksa",
+      "bind": {
+        "required": "yes"
+      },
+      "label": {
+        "Bahasa": "Lokasi Periksa",
+        "English": "Location of Service"
+      },
+      "instance": {
+        "openmrs_entity_id": "161010AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "163121AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Posyandu",
+          "label": {
+            "Bahasa": "Posyandu",
+            "English": "Village Outreach Post"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1588AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Polindes",
+          "label": {
+            "Bahasa": "Polindes",
+            "English": "Health Clinic Post"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1537AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Puskesmas",
+          "label": {
+            "Bahasa": "Puskesmas",
+            "English": "Health Facility"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1536AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Rumah_Ibu",
+          "label": {
+            "Bahasa": "Rumah Ibu",
+            "English": "Mother House"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1589AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Rumah_Sakit",
+          "label": {
+            "Bahasa": "Rumah Sakit",
+            "English": "Hospital"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Lainnya",
+          "label": {
+            "Bahasa": "Lainnya",
+            "English": "Other"
+          }
+        }
+      ]
+    },
+    {
+      "name": "lokasi_periksa_other",
+      "hint": {
+        "Bahasa": "Lainnya",
+        "English": "Write other location"
+      },
+      "bind": {
+        "relevant": "${lokasi_periksa}='Lainnya'"
+      },
+      "label": {
+        "Bahasa": "Lainnya",
+        "English": "Other"
+      },
+      "instance": {
+        "openmrs_entity_parent": "161010AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "text"
+    },
+    {
+      "instance": {
+        "openmrs_entity_id": "UniqueId",
+        "openmrs_entity": "person_attribute"
+      },
+      "type": "hidden",
+      "name": "unique_id",
+      "hint": {
+        "Bahasa": "Injected from client app",
+        "English": "Injected from client app"
+      }
+    },
+    {
+      "type": "note",
+      "name": "generated_note_name_32",
+      "label": {
+        "Bahasa": "Unique ID: ${unique_id}",
+        "English": "Unique ID: ${unique_id}"
+      }
+    },
+    {
+      "name": "puskesmas",
+      "hint": {
+        "Bahasa": "Nama puskesmas tempat ibu melakukan pemeriksaan",
+        "English": "Name of primary health center where mother does a check-up"
+      },
+      "bind": {
+        "required": "yes"
+      },
+      "label": {
+        "Bahasa": "Puskesmas",
+        "English": "Primary Health Center (PHC)"
+      },
+      "instance": {
+        "openmrs_entity_id": "162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "text"
+    },
+    {
+      "instance": {
+        "openmrs_entity_id": "NoIbu",
+        "openmrs_entity": "person_attribute"
+      },
+      "type": "integer",
+      "name": "no_ibu",
+      "label": {
+        "Bahasa": "No. Ibu",
+        "English": "Mother's Number"
+      }
+    },
+    {
+      "instance": {
+        "openmrs_entity_id": "nik",
+        "openmrs_entity": "person_attribute"
+      },
+      "type": "integer",
+      "name": "nik",
+      "label": {
+        "Bahasa": "NIK",
+        "English": "National Id Number"
+      }
+    },
+    {
+      "name": "nama_lengkap",
+      "hint": {
+        "Bahasa": "Nama lengkap Ibu",
+        "English": "Mother's full name"
+      },
+      "bind": {
+        "required": "yes"
+      },
+      "label": {
+        "Bahasa": "Nama lengkap",
+        "English": "Full name"
+      },
+      "instance": {
+        "openmrs_entity_id": "first_name",
+        "openmrs_entity": "person"
+      },
+      "type": "text"
+    },
+    {
+      "name": "nama_suami",
+      "hint": {
+        "Bahasa": "Nama lengkap suami",
+        "English": "Husband's full name"
+      },
+      "bind": {
+        "required": "yes"
+      },
+      "label": {
+        "Bahasa": "Nama suami",
+        "English": "Name of husband"
+      },
+      "instance": {
+        "openmrs_entity_id": "last_name",
+        "openmrs_entity": "person"
+      },
+      "type": "text"
+    },
+    {
+      "name": "tanggal_lahir_ibu",
+      "hint": {
+        "Bahasa": "Tanggal lahir Ibu",
+        "English": "Mother's date of birth"
+      },
+      "bind": {
+        "required": "yes"
+      },
+      "label": {
+        "Bahasa": "Tanggal lahir",
+        "English": "DOB"
+      },
+      "instance": {
+        "openmrs_entity_id": "birthdate",
+        "openmrs_entity": "person"
+      },
+      "type": "date"
+    },
+    {
+      "bind": {
+        "calculate": "int((${today} - ${tanggal_lahir_ibu}) div 365.25)"
+      },
+      "type": "calculate",
+      "name": "umur",
+      "instance": {
+        "openmrs_entity_id": "1532AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      }
+    },
+    {
+      "type": "note",
+      "name": "generated_note_name_40",
+      "label": {
+        "Bahasa": "Umur: ${umur}",
+        "English": "Age"
+      }
+    },
+    {
+      "instance": {
+        "openmrs_entity_parent": "usual_residence",
+        "openmrs_entity_id": "address3",
+        "openmrs_entity": "person_address"
+      },
+      "label": {
+        "Bahasa": "Alamat domisili",
+        "English": "Address"
+      },
+      "type": "text",
+      "name": "alamat_domisili",
+      "hint": {
+        "Bahasa": "Alamat tempat tinggal (rumah) Ibu",
+        "English": "Mother's address"
+      }
+    },
+    {
+      "control": {
+        "appearance": "minimal"
+      },
+      "name": "pendidikan",
+      "hint": {
+        "Bahasa": "Pendidikan Terakhir Ibu",
+        "English": "Mother's highest education"
+      },
+      "label": {
+        "Bahasa": "Pendidikan",
+        "English": "Education"
+      },
+      "instance": {
+        "openmrs_entity_id": "1712AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1713AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Sekolah_Dasar",
+          "label": {
+            "Bahasa": "Sekolah Dasar (SD)",
+            "English": "Primary School"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "163122AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Sekolah_Menengah_Pertama",
+          "label": {
+            "Bahasa": "Sekolah Menengah Pertama (SMP)",
+            "English": "Junior High School"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "163123AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Sekolah_Menengah_Atas",
+          "label": {
+            "Bahasa": "Sekolah Menengah Atas (SMA)",
+            "English": "Senior High School"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "159785AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Perguruan_Tinggi",
+          "label": {
+            "Bahasa": "Perguruan Tinggi",
+            "English": "College/University"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "160294AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Tidak_sekolah",
+          "label": {
+            "Bahasa": "Tidak sekolah",
+            "English": "No Formal Education"
+          }
+        }
+      ]
+    },
+    {
+      "control": {
+        "appearance": "minimal"
+      },
+      "name": "agama",
+      "hint": {
+        "Bahasa": "Agama Ibu",
+        "English": "Mother's religion"
+      },
+      "label": {
+        "Bahasa": "Agama",
+        "English": "Religion"
+      },
+      "instance": {
+        "openmrs_entity_id": "162929AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "162933AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Islam",
+          "label": {
+            "Bahasa": "Islam",
+            "English": "Islam (I)"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "163124AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Hindu",
+          "label": {
+            "Bahasa": "Hindu",
+            "English": "Hinduism (H);"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "163125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Kristen",
+          "label": {
+            "Bahasa": "Kristen",
+            "English": "Christianity (K)"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "162931AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Katolik",
+          "label": {
+            "Bahasa": "Katolik",
+            "English": "Catholic"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "163098AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Budha",
+          "label": {
+            "Bahasa": "Budha",
+            "English": "Buddhism (B)"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Lainnya",
+          "label": {
+            "Bahasa": "Lainnya",
+            "English": "Other"
+          }
+        }
+      ]
+    },
+    {
+      "control": {
+        "appearance": "minimal"
+      },
+      "name": "pekerjaan",
+      "hint": {
+        "Bahasa": "Pekerjaan Ibu",
+        "English": "Mother's occupation"
+      },
+      "default": "Ibu rumah tangga",
+      "label": {
+        "Bahasa": "Pekerjaan",
+        "English": "Occupation"
+      },
+      "instance": {
+        "openmrs_entity_id": "1542AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "159464AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Ibu_Rumah_Tangga",
+          "label": {
+            "Bahasa": "Ibu rumah tangga",
+            "English": "Housewife"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1538AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Petani",
+          "label": {
+            "Bahasa": "Petani",
+            "English": "Farmer"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "159674AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Nelayan",
+          "label": {
+            "Bahasa": "Nelayan",
+            "English": "Fisherman"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1539AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Pedagang",
+          "label": {
+            "Bahasa": "Pedagang",
+            "English": "Merchant"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "162944AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "PNS",
+          "label": {
+            "Bahasa": "PNS",
+            "English": "Civil Servant"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "163127AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Swasta",
+          "label": {
+            "Bahasa": "Swasta",
+            "English": "Private Employee"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Lainnya",
+          "label": {
+            "Bahasa": "Lainnya",
+            "English": "Other"
+          }
+        }
+      ]
+    },
+    {
+      "name": "pekerjaan_other",
+      "hint": {
+        "Bahasa": "Lainya",
+        "English": "Write other location"
+      },
+      "bind": {
+        "relevant": "${pekerjaan}='Lainnya'"
+      },
+      "label": {
+        "Bahasa": "Lainnya",
+        "English": "Other"
+      },
+      "instance": {
+        "openmrs_entity_parent": "1542AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity_id": "160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "text"
+    },
+    {
+      "name": "gakin_tidak",
+      "hint": {
+        "Bahasa": "Apakah Ibu termasuk keluarga miskin atau tidak",
+        "English": "Does mother belong to poor family or not? (Low-Income Population / Financially poor)"
+      },
+      "label": {
+        "Bahasa": "Gakin/ Tidak",
+        "English": "Poor Family/not"
+      },
+      "instance": {
+        "openmrs_entity_id": "162956AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Yes",
+          "label": {
+            "Bahasa": "Ya",
+            "English": "Yes"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "No",
+          "label": {
+            "Bahasa": "Tidak",
+            "English": "No"
+          }
+        }
+      ]
+    },
+    {
+      "name": "posyandu",
+      "hint": {
+        "Bahasa": "Nama Posyandu tempat Ibu menerima pelayanan kesehatan",
+        "English": "Name of Health Post where mother receives health care"
+      },
+      "bind": {
+        "required": "yes"
+      },
+      "label": {
+        "Bahasa": "Posyandu",
+        "English": "Name of Outreach Post"
+      },
+      "instance": {
+        "openmrs_entity_id": "162724AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "text"
+    },
+    {
+      "instance": {
+        "openmrs_entity_id": "Nama Kader",
+        "openmrs_entity": "person_identifier"
+      },
+      "label": {
+        "Bahasa": "Nama Kader",
+        "English": "Name of Community Volunteer"
+      },
+      "type": "text",
+      "name": "nama_kader",
+      "hint": {
+        "Bahasa": "Nama kader Posyandu yang memberi Ibu pelayanan kesehatan",
+        "English": "Name of community health worker that gives health service"
+      }
+    },
+    {
+      "instance": {
+        "openmrs_entity_id": "Nama Dukun",
+        "openmrs_entity": "person_identifier"
+      },
+      "label": {
+        "Bahasa": "Nama Dukun",
+        "English": "Name of Traditional Birth Attendant"
+      },
+      "type": "text",
+      "name": "nama_dukun",
+      "hint": {
+        "Bahasa": "Nama dukun yang menemani Ibu pada saat menerima pelayanan kesehatan",
+        "English": "Name of traditional birth attendant that accompany mother during health care service"
+      }
+    },
+    {
+      "control": {
+        "appearance": "minimal"
+      },
+      "name": "asuransi_jiwa",
+      "hint": {
+        "Bahasa": "Jenis asuransi yang dimiliki Ibu",
+        "English": "Type insurance that mother has"
+      },
+      "label": {
+        "Bahasa": "Asuransi Jiwa",
+        "English": "Insurance"
+      },
+      "instance": {
+        "openmrs_entity_id": "159356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "1917AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Jaminan_Kesehatan_Masyarakat",
+          "label": {
+            "Bahasa": "Jaminan Kesehatan Masyarakat (Jamkesmas)",
+            "English": "National Health Insurance for the Poor"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "163128AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Jamsostek",
+          "label": {
+            "Bahasa": "Jaminan Sosial dan Ketenagakerjaan (Jamsostek)",
+            "English": "Social Insurance for Private Sector Workers"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "163129AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Jaminan_Kesehatan_Daerah",
+          "label": {
+            "Bahasa": "Jaminan Kesehatan Daerah (Jamkesda)",
+            "English": "Regional Health Insurance for the Poor"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "163130AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Asuransi_Kesehatan",
+          "label": {
+            "Bahasa": "Asuransi Kesehatan (Askes)",
+            "English": "Health Insurance for Civil Servants and Retired Armed Forces Personnel"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "163131AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Jaminan_Persalinan",
+          "label": {
+            "Bahasa": "Jaminan Persalinan (Jampersal)",
+            "English": "Health Insurance for Pregnant Women and Newborns"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1107AAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "Tidak_Ada_Asuransi",
+          "label": {
+            "Bahasa": "Tidak memiliki asuransi/pembiayaan",
+            "English": "No Insurance"
+          }
+        }
+      ]
+    },
+    {
+      "control": {
+        "appearance": "minimal"
+      },
+      "name": "golongan_darah",
+      "hint": {
+        "Bahasa": "Menunjukan golongan darah Ibu",
+        "English": "Mother's blood type"
+      },
+      "bind": {
+        "required": "yes"
+      },
+      "label": {
+        "Bahasa": "Golongan Darah",
+        "English": "Blood Type"
+      },
+      "instance": {
+        "openmrs_entity_id": "300AAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "select one",
+      "children": [
+        {
+          "instance": {
+            "openmrs_code": "163115AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "A",
+          "label": {
+            "Bahasa": "A",
+            "English": "A"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "163116AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "B",
+          "label": {
+            "Bahasa": "B",
+            "English": "B"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "163117AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "AB",
+          "label": {
+            "Bahasa": "AB",
+            "English": "AB"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "163118AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "O",
+          "label": {
+            "Bahasa": "O",
+            "English": "O"
+          }
+        },
+        {
+          "instance": {
+            "openmrs_code": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "name": "NA",
+          "label": {
+            "Bahasa": "Belum diketahui",
+            "English": "Unknown"
+          }
+        }
+      ]
+    },
+    {
+      "name": "nomor_telpon_hp",
+      "hint": {
+        "Bahasa": "Nomor telpon/Hp yang dimiliki oleh Ibu atau No telpon Keluarga",
+        "English": "Mother's contact number"
+      },
+      "bind": {
+        "jr:constraintMsg": {
+          "Bahasa": "Nomer teelpon tidak boleh lebih dari 12 digit",
+          "English": "Contact number should be no more than 12 digits"
+        },
+        "constraint": ".>0 and .<100000000000"
+      },
+      "label": {
+        "Bahasa": "Nomor Telpon/Hp",
+        "English": "Landline/Cell Phone Number"
+      },
+      "instance": {
+        "openmrs_entity_id": "159635AAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "text"
+    },
+    {
+      "default": "0",
+      "instance": {
+        "openmrs_entity_id": "374AAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      },
+      "type": "hidden",
+      "name": "jenis_kontrasepsi"
+    },
+    {
+      "bind": {
+        "calculate": "if(${umur} <20, 'yes','no')"
+      },
+      "type": "calculate",
+      "name": "high_risk_pregnancy_young_maternal_age",
+      "instance": {
+        "openmrs_entity_id": "163119AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      }
+    },
+    {
+      "bind": {
+        "calculate": "if(${umur} >35, 'yes','no')"
+      },
+      "type": "calculate",
+      "name": "high_risk_pregnancy_old_maternal_age",
+      "instance": {
+        "openmrs_entity_id": "163120AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "openmrs_entity": "concept"
+      }
+    },
+    {
+      "bind": {
+        "calculate": "${today}"
+      },
+      "type": "calculate",
+      "name": "reg_date"
+    },
+    {
+      "instance": {
+        "openmrs_entity_id": "encounter_end",
+        "openmrs_entity": "encounter"
+      },
+      "type": "end",
+      "name": "end"
+    },
+    {
+      "control": {
+        "bodyless": true
+      },
+      "type": "group",
+      "children": [
+        {
+          "bind": {
+            "readonly": "true()",
+            "calculate": "concat('uuid:', uuid())"
+          },
+          "type": "calculate",
+          "name": "instanceID"
+        }
+      ],
+      "name": "meta"
+    }
+  ]
+}

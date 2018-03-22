@@ -1,7 +1,8 @@
 {
-  "form_data_definition_version": "1",
+  "form_data_definition_version": "3",
   "form": {
     "bind_type": "kartu_ibu",
+    "ec_bind_type": "ec_kartu_ibu",
     "default_bind_path": "/model/instance/Kartu_ibu/",
     "fields": [
       {
@@ -9,9 +10,42 @@
         "shouldLoadValue": true
       },
       {
+        "name": "start",
+        "bind": "/model/instance/Kartu_ibu/start"
+      },
+      {
+        "name": "end",
+        "bind": "/model/instance/Kartu_ibu/end"
+      },
+      {
+        "name": "existing_location",
+        "bind": "/model/instance/Kartu_ibu/existing_location",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "lokasiPeriksa",
+        "bind": "/model/instance/Kartu_ibu/lokasi_periksa",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "pasienWilayah",
+        "bind": "/model/instance/Kartu_ibu/pasien_wilayah",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "pasienPindahan",
+        "bind": "/model/instance/Kartu_ibu/pasien_pindahan",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "tglPindah",
+        "bind": "/model/instance/Kartu_ibu/tgl_pindah",
+        "shouldLoadValue": true
+      },
+      {
         "name": "unique_id",
         "bind": "/model/instance/Kartu_ibu/unique_id",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "Village",
@@ -21,6 +55,11 @@
       {
         "name": "Province",
         "bind": "/model/instance/Kartu_ibu/Province",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "nik",
+        "bind": "/model/instance/Kartu_ibu/nik",
         "shouldLoadValue": true
       },
       {
@@ -41,141 +80,147 @@
       {
         "name": "dusun",
         "bind": "/model/instance/Kartu_ibu/dusun",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "provinsi",
         "bind": "/model/instance/Kartu_ibu/provinsi",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "kabupaten",
         "bind": "/model/instance/Kartu_ibu/kabupaten",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "kecamatan",
         "bind": "/model/instance/Kartu_ibu/kecamatan",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "desa",
         "bind": "/model/instance/Kartu_ibu/desa",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "puskesmas",
         "bind": "/model/instance/Kartu_ibu/puskesmas",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "noIbu",
         "bind": "/model/instance/Kartu_ibu/no_ibu",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "namalengkap",
         "bind": "/model/instance/Kartu_ibu/nama_lengkap",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "namaSuami",
         "bind": "/model/instance/Kartu_ibu/nama_suami",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "tanggalLahir",
         "bind": "/model/instance/Kartu_ibu/tanggal_lahir_ibu",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "umur",
         "bind": "/model/instance/Kartu_ibu/umur",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "alamatDomisili",
         "bind": "/model/instance/Kartu_ibu/alamat_domisili",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "pendidikan",
         "bind": "/model/instance/Kartu_ibu/pendidikan",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "agama",
         "bind": "/model/instance/Kartu_ibu/agama",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "pekerjaan",
         "bind": "/model/instance/Kartu_ibu/pekerjaan",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "gakinTidak",
         "bind": "/model/instance/Kartu_ibu/gakin_tidak",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "posyandu",
         "bind": "/model/instance/Kartu_ibu/posyandu",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "namaKader",
         "bind": "/model/instance/Kartu_ibu/nama_kader",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "namaDukun",
         "bind": "/model/instance/Kartu_ibu/nama_dukun",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "asuransiJiwa",
         "bind": "/model/instance/Kartu_ibu/asuransi_jiwa",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "golonganDarah",
         "bind": "/model/instance/Kartu_ibu/golongan_darah",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "NomorTelponHp",
         "bind": "/model/instance/Kartu_ibu/nomor_telpon_hp",
-        "shouldLoadValue" : true
-      },
-      {
-        "name": "pptest",
-        "bind": "/model/instance/Kartu_ibu/pptest",
-        "shouldLoadValue" : true
+        "shouldLoadValue": true
       },
       {
         "name": "highRiskPregnancyYoungMaternalAge",
-        "bind": "/model/instance/Kartu_ibu/High_Risk_Pregnancy_Young_maternal_age"
+        "bind": "/model/instance/Kartu_ibu/High_Risk_Pregnancy_Young_maternal_age",
+        "shouldLoadValue": true
       },
       {
         "name": "highRiskPregnancyOldMaternalAge",
-        "bind": "/model/instance/Kartu_ibu/High_Risk_Pregnancy_Old_maternal_age"
+        "bind": "/model/instance/Kartu_ibu/High_Risk_Pregnancy_Old_maternal_age",
+        "shouldLoadValue": true
+      },
+      {
+        "name": "jenisKontrasepsi",
+        "bind": "/model/instance/Kartu_ibu/jenis_kontrasepsi",
+        "shouldLoadValue": true
       },
       {
         "name": "isOutOfArea",
-        "value": "false"
+        "value": "false",
+        "shouldLoadValue": true
       },
       {
         "name": "isClosed",
-        "value": "false"
+        "value": "false",
+        "shouldLoadValue": true
       },
       {
         "name": "submissionDate",
-        "bind": "/model/instance/Kartu_ibu/today"
+        "bind": "/model/instance/Kartu_ibu/today",
+        "shouldLoadValue": true
       },
       {
-        "name": "registrationDate",
-        "bind": "/model/instance/Kartu_ibu/reg_date"
+        "name": "reg_date",
+        "bind": "/model/instance/Kartu_ibu/reg_date",
+        "shouldLoadValue": true
       }
     ]
   }

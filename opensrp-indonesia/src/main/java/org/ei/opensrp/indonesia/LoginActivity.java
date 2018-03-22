@@ -102,8 +102,8 @@ public class LoginActivity extends Activity {
 
     }
     private void debugApp() {
-        String uname = "demo_ec";
-        String pwd = "Satu2345";
+        String uname = "";
+        String pwd = "";
 
         LayoutInflater layoutInflater = getLayoutInflater();
         @SuppressLint("InflateParams")

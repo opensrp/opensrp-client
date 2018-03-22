@@ -1,53 +1,93 @@
 <model>
-  <instance>
-    <Kartu_ibu encounter_type="Identitas Ibu" id="Kartu_ibu" version="201511260619">
-      <formhub>
-        <uuid/>
-      </formhub>
-      <start/>
-      <today/>
-      <deviceid/>
-      <simserial/>
-      <phonenumber/>
-      <unique_id/>
-      <generated_note_name_8/>
-      <Village/>
-      <generated_note_name_10/>
-      <Sub-village/>
-      <generated_note_name_12/>
-      <Province/>
-      <District/>
-      <Sub-district/>
-      <puskesmas/>
-      <no_ibu/>
-      <nama_lengkap/>
-      <nama_suami/>
-      <tanggal_lahir_ibu/>
-      <umur/>
-      <generated_note_name_22/>
-      <alamat_domisili/>
-      <pendidikan/>
-      <agama/>
-      <pekerjaan>Ibu rumah tangga</pekerjaan>
-      <gakin_tidak/>
-      <posyandu/>
-      <nama_kader/>
-      <nama_dukun/>
-      <asuransi_jiwa/>
-      <golongan_darah/>
-      <nomor_telpon_hp/>
-      <pptest/>
-      <High_Risk_Pregnancy_Young_maternal_age/>
-      <High_Risk_Pregnancy_Old_maternal_age/>
-      <dusun/>
-      <desa/>
-      <provinsi/>
-      <kabupaten/>
-      <kecamatan/>
-      <end/>
-      <meta>
-        <instanceID/>
-      </meta>
-    </Kartu_ibu>
-  </instance>
+    <instance>
+        <Kartu_ibu encounter_type="Edit Ibu" id="Kartu_ibu" version="201702121028">
+            <formhub>
+                <uuid />
+            </formhub>
+            <start openmrs_entity="encounter" openmrs_entity_id="encounter_start" />
+            <today openmrs_entity="encounter" openmrs_entity_id="encounter_date" />
+            <deviceid />
+            <simserial />
+            <phonenumber />
+            <Province />
+            <District />
+            <Sub-district />
+            <Village />
+            <Sub-village />
+            <generated_note_name_13 />
+            <generated_note_name_14 />
+            <existing_location openmrs_entity="encounter" openmrs_entity_id="location_id" />
+            <provinsi openmrs_entity="person_address" openmrs_entity_id="stateProvince"
+                openmrs_entity_parent="usual_residence" />
+            <kabupaten openmrs_entity="person_address" openmrs_entity_id="countyDistrict"
+                openmrs_entity_parent="usual_residence" />
+            <desa openmrs_entity="person_address" openmrs_entity_id="cityVillage"
+                openmrs_entity_parent="usual_residence" />
+            <dusun openmrs_entity="person_address" openmrs_entity_id="address1"
+                openmrs_entity_parent="usual_residence" />
+            <kecamatan openmrs_entity="person_address" openmrs_entity_id="address2"
+                openmrs_entity_parent="usual_residence" />
+            <pasien_wilayah openmrs_entity="concept"
+                openmrs_entity_id="160637AAAAAAAAAAAAAAAAAAAAAAAAAA" />
+            <pasien_pindahan openmrs_entity="concept"
+                openmrs_entity_id="160563AAAAAAAAAAAAAAAAAAAAAAAAAA" />
+            <tgl_pindah openmrs_entity="concept"
+                openmrs_entity_id="160534AAAAAAAAAAAAAAAAAAAAAAAAAA" />
+            <tanggal_periksa openmrs_entity="concept"
+                openmrs_entity_id="160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+            <lokasi_periksa openmrs_entity="concept"
+                openmrs_entity_id="161010AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+            <lokasi_periksa_other openmrs_entity="concept"
+                openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                openmrs_entity_parent="161010AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+            <unique_id openmrs_entity="person_attribute" openmrs_entity_id="UniqueId" />
+            <generated_note_name_32 />
+            <puskesmas openmrs_entity="concept"
+                openmrs_entity_id="162724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+            <no_ibu openmrs_entity="person_attribute" openmrs_entity_id="NoIbu" />
+            <nik openmrs_entity="person_attribute" openmrs_entity_id="nik" />
+            <nama_lengkap openmrs_entity="person" openmrs_entity_id="first_name" />
+            <nama_suami openmrs_entity="person" openmrs_entity_id="last_name" />
+            <tanggal_lahir_ibu openmrs_entity="person" openmrs_entity_id="birthdate" />
+            <umur openmrs_entity="concept"
+                openmrs_entity_id="1532AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+            <generated_note_name_40 />
+            <alamat_domisili openmrs_entity="person_address" openmrs_entity_id="address3"
+                openmrs_entity_parent="usual_residence" />
+            <pendidikan openmrs_entity="concept"
+                openmrs_entity_id="1712AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+            <agama openmrs_entity="concept"
+                openmrs_entity_id="162929AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+            <pekerjaan openmrs_entity="concept"
+                openmrs_entity_id="1542AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">Ibu rumah tangga
+            </pekerjaan>
+            <pekerjaan_other openmrs_entity="concept"
+                openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                openmrs_entity_parent="1542AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+            <gakin_tidak openmrs_entity="concept"
+                openmrs_entity_id="162956AAAAAAAAAAAAAAAAAAAAAAAAAA" />
+            <posyandu openmrs_entity="concept"
+                openmrs_entity_id="162724AAAAAAAAAAAAAAAAAAAAAAAAAA" />
+            <nama_kader openmrs_entity="person_identifier" openmrs_entity_id="Nama Kader" />
+            <nama_dukun openmrs_entity="person_identifier" openmrs_entity_id="Nama Dukun" />
+            <asuransi_jiwa openmrs_entity="concept"
+                openmrs_entity_id="159356AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+            <golongan_darah openmrs_entity="concept"
+                openmrs_entity_id="300AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+            <nomor_telpon_hp openmrs_entity="concept"
+                openmrs_entity_id="159635AAAAAAAAAAAAAAAAAAAAAAAAAA" />
+            <jenis_kontrasepsi openmrs_entity="concept"
+                openmrs_entity_id="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAA">0
+            </jenis_kontrasepsi>
+            <high_risk_pregnancy_young_maternal_age openmrs_entity="concept"
+                openmrs_entity_id="163119AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+            <high_risk_pregnancy_old_maternal_age openmrs_entity="concept"
+                openmrs_entity_id="163120AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+            <reg_date />
+            <end openmrs_entity="encounter" openmrs_entity_id="encounter_end" />
+            <meta>
+                <instanceID />
+            </meta>
+        </Kartu_ibu>
+    </instance>
 </model>
