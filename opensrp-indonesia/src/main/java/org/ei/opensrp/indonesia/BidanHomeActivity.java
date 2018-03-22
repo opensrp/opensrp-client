@@ -55,7 +55,7 @@ public class BidanHomeActivity extends SecuredActivity {
     private Listener<Boolean> onSyncStartListener = new Listener<Boolean>() {
         @Override
         public void onEvent(Boolean data) {
-            Support.ONSYNC = true;
+//            Support.ONSYNC = true;
             AllConstants.IDLE = false;
             AllConstants.SLEEP_TIME = 15000;
             if (updateMenuItem != null) {

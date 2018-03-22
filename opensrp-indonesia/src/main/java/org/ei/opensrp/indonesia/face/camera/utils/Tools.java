@@ -474,7 +474,7 @@ public class Tools {
     public static void setVectorfromAPI(final android.content.Context context) {
         Log.e(TAG, "setVectorfromAPI: Start" );
 //        AllSharedPreferences allSharedPreferences;
-        Support.ONSYNC = true;
+//        Support.ONSYNC = true;
         String DRISTHI_BASE_URL = appContext.configuration().dristhiBaseURL();
         String user = appContext.allSharedPreferences().fetchRegisteredANM();
         String location = appContext.allSharedPreferences().getPreference("locationId");
