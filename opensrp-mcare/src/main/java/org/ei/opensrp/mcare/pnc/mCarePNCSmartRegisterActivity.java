@@ -150,7 +150,7 @@ public class mCarePNCSmartRegisterActivity extends SecuredNativeSmartRegisterAct
         };
     }
     public DialogOption[] getEditOptionsforpnc(String visittext,String alertstatus) {
-        String ancvisittext = "Not Synced";
+        String ancvisittext = "Not Active";
         String ancalertstatus = alertstatus;
         ancvisittext = visittext;
 
@@ -326,9 +326,12 @@ public class mCarePNCSmartRegisterActivity extends SecuredNativeSmartRegisterAct
         });
 
     }
+
     @Override
     public void onBackPressed() {
-        if (currentPage != 0){
+        if (currentPage == 0) {
+            super.onBackPressed(); // allow back key only if we are
+        }else if(currentPage != 0){
             retrieveAndSaveUnsubmittedFormData();
             String BENGALI_LOCALE = "bn";
             AllSharedPreferences allSharedPreferences = new AllSharedPreferences(getDefaultSharedPreferences(Context.getInstance().applicationContext()));
@@ -374,9 +377,13 @@ public class mCarePNCSmartRegisterActivity extends SecuredNativeSmartRegisterAct
                         .show();
             }
 
-        }else if (currentPage == 0) {
-            super.onBackPressed(); // allow back key only if we are
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Runtime.getRuntime().gc();
     }
 
     public android.support.v4.app.Fragment findFragmentByPosition(int position) {

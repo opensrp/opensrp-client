@@ -300,7 +300,7 @@ public class LoginActivity extends Activity {
     }
 
     private void goToHome() {
-        McareApplication.setCrashlyticsUser(context);
+//        McareApplication.setCrashlyticsUser(context);
         startActivity(new Intent(this, NativeHomeActivity.class));
         finish();
     }

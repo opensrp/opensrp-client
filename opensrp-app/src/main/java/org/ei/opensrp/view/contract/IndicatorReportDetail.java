@@ -1,6 +1,6 @@
 package org.ei.opensrp.view.contract;
 
-import org.ei.drishti.dto.MonthSummaryDatum;
+import org.opensrp.dto.MonthSummaryDatum;
 
 import java.util.List;
 

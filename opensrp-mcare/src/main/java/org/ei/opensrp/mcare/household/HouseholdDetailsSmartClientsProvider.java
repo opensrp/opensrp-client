@@ -28,7 +28,6 @@ import org.ei.opensrp.mcare.child.mCareChildSmartRegisterActivity;
 import org.ei.opensrp.mcare.elco.ElcoSmartRegisterActivity;
 import org.ei.opensrp.mcare.pnc.mCarePNCSmartRegisterActivity;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
-import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.util.DateUtil;
 import org.ei.opensrp.view.activity.ANCSmartRegisterActivity;
 import org.ei.opensrp.view.contract.SmartRegisterClient;
@@ -44,7 +43,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -82,7 +80,7 @@ public class HouseholdDetailsSmartClientsProvider implements SmartRegisterClient
         ViewGroup itemView = viewGroup;
 
         CommonPersonObjectClient pc = (CommonPersonObjectClient) smartRegisterClient;
-        if(pc.getDetails().get("FWELIGIBLE2") != null && pc.getDetails().get("FWELIGIBLE2").equalsIgnoreCase("1")) {
+        if(pc.getDetails().get("FWELIGIBLE").equalsIgnoreCase("1")) {
 
             itemView = (ViewGroup) inflater().inflate(R.layout.household_inhabitants_register_clients, null);
             TextView name = (TextView) itemView.findViewById(R.id.name);
@@ -117,24 +115,31 @@ public class HouseholdDetailsSmartClientsProvider implements SmartRegisterClient
             profilepic.setTag(smartRegisterClient);
 
             name.setText(humanize(pc.getColumnmaps().get("FWWOMFNAME") != null ? pc.getColumnmaps().get("FWWOMFNAME") : ""));
+
             age.setText("("+(pc.getDetails().get("FWWOMAGE") != null ? pc.getDetails().get("FWWOMAGE") : "")+")");
+            DateUtil.setDefaultDateFormat("yyyy-MM-dd");
+            try {
+                int days = DateUtil.dayDifference(DateUtil.getLocalDate((pc.getDetails().get("FWBIRTHDATE") != null ?  pc.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
+                int calc_age = days / 365;
+                age.setText("("+calc_age+")");
+            }catch (Exception e){
+
+            }
 
             LinearLayout child_parent_carrier = (LinearLayout)itemView.findViewById(R.id.child_parent_holder);
             ArrayList<String> stringList = new ArrayList<String>();
             stringList.add(pc.getCaseId());
-            List <CommonPersonObject> commonPersonObjects = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_elco").findByRelational_IDs(stringList);
+            List <CommonPersonObject> commonPersonObjects = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByRelationalIDs(stringList);
             if(commonPersonObjects.size()>0) {
                 CommonPersonObject mcaremother = commonPersonObjects.get(0);
-                updateDetails(mcaremother);
-                addchildrenifany(child_parent_carrier,mcaremother);
+                addchildrenifany(child_parent_carrier,mcaremother,smartRegisterClient);
             }
         }else{
             ArrayList<String> stringList = new ArrayList<String>();
             stringList.add(pc.getCaseId());
-            List <CommonPersonObject> commonPersonObjects = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_elco").findByRelational_IDs(stringList);
+            List <CommonPersonObject> commonPersonObjects = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByRelationalIDs(stringList);
             if(commonPersonObjects.size()>0){
                 CommonPersonObject mcaremother = commonPersonObjects.get(0);
-                updateDetails(mcaremother);
                 if(mcaremother.getDetails().get("FWWOMVALID").equalsIgnoreCase("1")) {
                     itemView = (ViewGroup) inflater().inflate(R.layout.household_inhabitants_register_clients, null);
                     TextView name = (TextView) itemView.findViewById(R.id.name);
@@ -195,7 +200,7 @@ public class HouseholdDetailsSmartClientsProvider implements SmartRegisterClient
 
                     }
                     LinearLayout child_parent_carrier = (LinearLayout)itemView.findViewById(R.id.child_parent_holder);
-                    addchildrenifany(child_parent_carrier,mcaremother);
+                    addchildrenifany(child_parent_carrier,mcaremother,smartRegisterClient);
                 }else {
 
                     itemView = (ViewGroup) inflater().inflate(R.layout.household_inhabitants_nonregister_clients, null);
@@ -264,17 +269,14 @@ public class HouseholdDetailsSmartClientsProvider implements SmartRegisterClient
         return itemView;
     }
 
-    private void addchildrenifany(LinearLayout child_parent_carrier, CommonPersonObject mcaremother) {
+    private void addchildrenifany(LinearLayout child_parent_carrier, CommonPersonObject mcaremother,SmartRegisterClient smartRegisterClient) {
         ArrayList<String> listofmcaremother = new ArrayList<String>();
         listofmcaremother.add(mcaremother.getCaseId());
-        List <CommonPersonObject> mcarechildren = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_mcarechild").findByRelational_IDs(listofmcaremother);
+        List <CommonPersonObject> mcarechildren = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("mcarechild").findByRelationalIDs(listofmcaremother);
         for(int i = 0;i<mcarechildren.size();i++){
-            CommonPersonObject mcareChild = mcarechildren.get(i);
-            updateDetails(mcareChild);
-
             Log.v("here is log!!", "children here");
             LinearLayout childrenLayout = (LinearLayout)inflater().inflate(R.layout.household_inhabitants_child_clients, null);
-            ImageView childpic = (ImageView)childrenLayout.findViewById(R.id.profilepic);
+            ImageView childpic = (ImageView)childrenLayout.findViewById(R.id.profilepic_child);
             TextView childname = (TextView)childrenLayout.findViewById(R.id.childname);
             TextView age = (TextView)childrenLayout.findViewById(R.id.age);
             TextView childRegisterLink = (TextView)childrenLayout.findViewById(R.id.linktoregister);
@@ -294,18 +296,27 @@ public class HouseholdDetailsSmartClientsProvider implements SmartRegisterClient
 
                 }
             });
-            age.setText("(" + childage(mcareChild) + " days)");
+            age.setText("(" + childage(mcarechildren.get(i)) + " days)");
 
-            childname.setText(mcareChild.getDetails().get("FWBNFCHILDNAME") != null ? mcareChild.getDetails().get("FWBNFCHILDNAME") : "");
+            childname.setText(mcarechildren.get(i).getDetails().get("FWBNFCHILDNAME") != null ? mcarechildren.get(i).getDetails().get("FWBNFCHILDNAME") : "");
 
-            if(mcareChild.getColumnmaps().get("FWBNFGEN")!=null){
-                if(mcareChild.getColumnmaps().get("FWBNFGEN").equalsIgnoreCase("1")){
+            if(mcarechildren.get(i).getColumnmaps().get("FWBNFGEN")!=null){
+                if(mcarechildren.get(i).getColumnmaps().get("FWBNFGEN").equalsIgnoreCase("1")){
                     childpic.setImageResource(R.drawable.child_boy_infant);
+                    if (mcarechildren.get(i).getDetails().get("profilepic") != null) {
+                        HouseHoldDetailActivity.setImagetoHolderFromUri((Activity) context, mcarechildren.get(i).getDetails().get("profilepic"), childpic, R.drawable.child_boy_infant);
+                    }
                 }
-                if(mcareChild.getColumnmaps().get("FWBNFGEN").equalsIgnoreCase("2")){
+                if(mcarechildren.get(i).getColumnmaps().get("FWBNFGEN").equalsIgnoreCase("2")){
                     childpic.setImageResource(R.drawable.child_girl_infant);
+                    if (mcarechildren.get(i).getDetails().get("profilepic") != null) {
+                        HouseHoldDetailActivity.setImagetoHolderFromUri((Activity) context, mcarechildren.get(i).getDetails().get("profilepic"), childpic, R.drawable.child_girl_infant);
+                    }
                 }
             }
+
+            childpic.setOnClickListener(onClickListener);
+            childpic.setTag(mcarechildren.get(i));
 
             child_parent_carrier.addView(childrenLayout);
 //            TextView txt = (new TextView(context));
@@ -362,16 +373,5 @@ public class HouseholdDetailsSmartClientsProvider implements SmartRegisterClient
 
     public LayoutInflater inflater() {
         return inflater;
-    }
-
-    private void updateDetails(CommonPersonObject pc) {
-        DetailsRepository detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
-        Map<String, String> details = detailsRepository.getAllDetailsForClient(pc.getCaseId());
-
-        if (pc.getDetails() != null) {
-            pc.getDetails().putAll(details);
-        } else {
-            pc.setDetails(details);
-        }
     }
 }

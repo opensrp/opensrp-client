@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
+import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
 import org.ei.opensrp.domain.ProfileImage;
@@ -219,6 +220,13 @@ public class HouseHoldDetailActivity extends Activity {
 //                    mImageView.setTag("womanpic");
                     dispatchTakePictureIntent((ImageView) view);
                     break;
+                case R.id.profilepic_child:
+                    entityid = ((CommonPersonObject)view.getTag()).getCaseId();
+                    bindobject = "mcarechild";
+                    mImageView = (ImageView)view;
+//                    mImageView.setTag("womanpic");
+                    dispatchTakePictureIntent((ImageView) view);
+                    break;
                 case R.id.registerlink:
                     startActivity(new Intent(HouseHoldDetailActivity.this, ElcoSmartRegisterActivity.class));
                     break;
@@ -318,26 +326,14 @@ public class HouseHoldDetailActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-//            Bundle extras = data.getExtras();
-//            String imageBitmap = (String) extras.get(MediaStore.EXTRA_OUTPUT);
-//            Toast.makeText(this,imageBitmap,Toast.LENGTH_LONG).show();
             HashMap <String,String> details = new HashMap<String,String>();
             details.put("profilepic",currentfile.getAbsolutePath());
             saveimagereference(bindobject,entityid,details);
-//            BitmapFactory.Options options = new BitmapFactory.Options();
-//            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-//            Bitmap bitmap = BitmapFactory.decodeFile(currentfile.getPath(), options);
-//            mImageView.setImageBitmap(bitmap);
-//            setImagetoHolder(this,currentfile.getAbsolutePath(),mImageView,R.drawable.householdload);
-//            Log.v("see imageview",""+(String)mImageView.getTag());
             Log.v("see imageview", "" + currentfile.getAbsolutePath());
             setImagetoHolderFromUri(this, currentfile.getAbsolutePath(), mImageView, R.mipmap.householdload);
             recalladapterinitialization();
         }else  if (requestCode == REQUEST_TAKE_PHOTO_NID && resultCode == RESULT_OK) {
 
-//            Bundle extras = data.getExtras();
-//            String imageBitmap = (String) extras.get(MediaStore.EXTRA_OUTPUT);
-//            Toast.makeText(this,imageBitmap,Toast.LENGTH_LONG).show();
             HashMap <String,String> details = new HashMap<String,String>();
             details.put("nidImage",currentfile.getAbsolutePath());
             saveimagereferenceforNID(bindobject,entityid,details);

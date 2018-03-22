@@ -15,11 +15,11 @@ subprojects {
 
     group = 'org.ei.opensrp'
 
-    ext.androidToolsBuildGradle     = '21.1.2'
-    ext.androidBuildToolsVersion    = '21.1.2'
-    ext.androidMinSdkVersion        = 16
-    ext.androidCompileSdkVersion    = 22
-    ext.androidTargetSdkVersion     = 21
+    ext.androidToolsBuildGradle     = '27.0.0'
+    ext.androidBuildToolsVersion    = '27.0.0'
+    ext.androidMinSdkVersion        = 18
+    ext.androidCompileSdkVersion    = 27
+    ext.androidTargetSdkVersion     = 26
 
     ext.androidAnnotationsVersion = '3.0.1';
     ext.androidAnnotationsAPIVersion = '3.0.1';
@@ -31,7 +31,6 @@ subprojects {
         maven { url "http://nexus.motechproject.org/content/repositories/snapshots" }
         maven { url "http://acra.googlecode.com/svn/repository/releases" }
         maven { url "http://repo.maven.apache.org/maven2" }
-        maven { url "http://cloudant.github.io/cloudant-sync-eap/repository" }
         maven {
             url "${projectDir}/opensrp-app/../libs/"
         }
@@ -39,6 +38,7 @@ subprojects {
             url "${projectDir}/opensrp-app-it/../libs/"
         }
         mavenLocal()
+        google()
     }
 
     // Improve build server performance by allowing disabling of pre-dexing
@@ -53,11 +53,23 @@ subprojects {
 }
 
 apply plugin : 'java'
-apply plugin : 'build-dashboard'
 
-buildDashboard {
-    reports.html.destination = "build/"
-}
 
 test.reports.html.enabled = false
 test.reports.junitXml.enabled = false
+
+repositories {
+    maven {
+        url 'https://maven.google.com/'
+        name 'Google'
+    }
+}
+buildscript {
+    repositories {
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
+        google()
+    }
+}

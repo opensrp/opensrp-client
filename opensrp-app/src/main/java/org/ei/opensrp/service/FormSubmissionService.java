@@ -1,5 +1,7 @@
 package org.ei.opensrp.service;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.ei.opensrp.commonregistry.AllCommonsRepository;
@@ -9,6 +11,7 @@ import org.ei.opensrp.domain.form.FormSubmission;
 import org.ei.opensrp.domain.form.SubForm;
 import org.ei.opensrp.repository.AllSettings;
 import org.ei.opensrp.repository.FormDataRepository;
+import org.joda.time.DateTime;
 
 import java.util.List;
 import java.util.Map;
@@ -40,6 +43,7 @@ public class FormSubmissionService {
 
     public void processSubmissions(List<FormSubmission> formSubmissions) {
         for (FormSubmission submission : formSubmissions) {
+
             if (!formDataRepository.submissionExists(submission.instanceId())) {
                 try {
                     ziggyService.saveForm(getParams(submission), submission.instance());
@@ -53,7 +57,12 @@ public class FormSubmissionService {
                 }
             }
             formDataRepository.updateServerVersion(submission.instanceId(), submission.serverVersion());
-            allSettings.savePreviousFormSyncIndex(submission.serverVersion());
+            Long previoussync = Long.parseLong(allSettings.fetchPreviousFormSyncIndex());
+            Long currentsync = Long.parseLong(submission.serverVersion());
+            if(currentsync>previoussync) {
+                allSettings.savePreviousFormSyncIndex(submission.serverVersion());
+            }
+//            break;
         }
     }
 

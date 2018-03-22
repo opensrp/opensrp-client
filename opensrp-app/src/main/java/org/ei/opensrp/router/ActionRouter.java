@@ -2,7 +2,7 @@ package org.ei.opensrp.router;
 
 import org.ei.opensrp.domain.AlertActionRoute;
 import org.ei.opensrp.domain.MotherActionRoute;
-import org.ei.drishti.dto.Action;
+import org.opensrp.dto.Action;
 
 import static org.ei.opensrp.util.Log.logWarn;
 

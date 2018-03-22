@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dashboard.opensrp.org.jandjdashboard">
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".dashboardCategoryListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".dashboardCategoryDetailActivity"
+            android:label="@string/title_dashboardcategory_detail"
+            android:parentActivityName=".dashboardCategoryListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="dashboard.opensrp.org.jandjdashboard.dashboardCategoryListActivity" />
+        </activity>
+    </application>
+
+</manifest>

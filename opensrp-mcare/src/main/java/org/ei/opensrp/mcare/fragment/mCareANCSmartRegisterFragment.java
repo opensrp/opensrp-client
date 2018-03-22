@@ -23,6 +23,7 @@ import org.ei.opensrp.cursoradapter.SmartRegisterPaginatedCursorAdapter;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.mcare.LoginActivity;
 import org.ei.opensrp.mcare.R;
+import org.ei.opensrp.mcare.anc.ANCRiskSort;
 import org.ei.opensrp.mcare.anc.mCareANCServiceModeOption;
 import org.ei.opensrp.mcare.anc.mCareANCSmartClientsProvider;
 import org.ei.opensrp.mcare.anc.mCareANCSmartRegisterActivity;
@@ -91,7 +92,7 @@ public class mCareANCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
 
             @Override
             public SortOption sortOption() {
-                return new ElcoPSRFDueDateSort();
+                return new ANCRiskSort();
 
             }
 
@@ -110,10 +111,10 @@ public class mCareANCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
             public DialogOption[] filterOptions() {
                 ArrayList<DialogOption> dialogOptionslist = new ArrayList<DialogOption>();
                 dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_all_label),""));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_anc1),filterStringForANCRV1()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_anc2),filterStringForANCRV2()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_anc3),filterStringForANCRV3()));
-                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_anc4),filterStringForANCRV4()));
+                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_anc1),filterStringForANCRV1withoutfts()));
+                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_anc2),filterStringForANCRV2withoutfts()));
+                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_anc3),filterStringForANCRV3withoutfts()));
+                dialogOptionslist.add(new CursorCommonObjectFilterOption(getString(R.string.filter_by_anc4),filterStringForANCRV4withoutfts()));
 
                 String locationjson = context().anmLocationController().get();
                 LocationTree locationTree = EntityUtils.fromJson(locationjson, LocationTree.class);
@@ -138,7 +139,7 @@ public class mCareANCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
             public DialogOption[] sortingOptions() {
                 return new DialogOption[]{
 //                        new ElcoPSRFDueDateSort(),
-                        new CursorCommonObjectSort(getString(R.string.due_status),sortByAlertmethod()),
+                        new CursorCommonObjectSort(getString(R.string.due_status),sortByAlertmethodWithoutFTS()),
                         new CursorCommonObjectSort(Context.getInstance().applicationContext().getString(R.string.elco_alphabetical_sort),sortByFWWOMFNAME()),
                         new CursorCommonObjectSort(Context.getInstance().applicationContext().getString(R.string.hh_fwGobhhid_sort),sortByGOBHHID()),
                         new CursorCommonObjectSort( Context.getInstance().applicationContext().getString(R.string.hh_fwJivhhid_sort),sortByJiVitAHHID()),
@@ -283,11 +284,11 @@ public class mCareANCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
                 if(cs.toString().equalsIgnoreCase("")){
                     filters = "";
                 }else {
-                    //filters = "and FWWOMFNAME Like '%" + cs.toString() + "%' or GOBHHID Like '%" + cs.toString() + "%'  or JiVitAHHID Like '%" + cs.toString() + "%' ";
-                    filters = cs.toString();
+                    filters = "and (FWWOMFNAME Like '%" + cs.toString() + "%' or GOBHHID Like '%" + cs.toString() + "%'  or JiVitAHHID Like '%" + cs.toString() + "%' )";
+//                    filters = cs.toString();
                 }
                 joinTable = "";
-                mainCondition = " is_closed=0 AND FWWOMFNAME not null and FWWOMFNAME != \"\" ";
+                mainCondition = "(Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%'";
 
                 getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
                 CountExecute();
@@ -310,7 +311,7 @@ public class mCareANCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
             }else{
                 StringUtil.humanize(entry.getValue().getLabel());
                 String name = StringUtil.humanize(entry.getValue().getLabel());
-                dialogOptionslist.add(new ElcoMauzaCommonObjectFilterOption(name,"location_name", name, "ec_elco"));
+                dialogOptionslist.add(new ElcoMauzaCommonObjectFilterOption(name,"location_name", name));
 
             }
         }
@@ -336,47 +337,50 @@ public class mCareANCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
         }
     }
     public String ancMainSelectWithJoins(){
-        return "Select ec_elco.id as _id, ec_mcaremother.relationalid,ec_elco.FWWOMNID,ec_elco.FWWOMBID, ec_elco.FWWOMFNAME, ec_elco.FWWOMMAUZA_PARA as mauza, ec_mcaremother.FWPSRLMP, ec_elco.JiVitAHHID, ec_elco.GOBHHID \n" +
-                "from ec_mcaremother Left Join ec_elco on  ec_mcaremother.id = ec_elco.id \n";
+        return "Select id as _id,relationalid,details,FWWOMFNAME,FWPSRLMP,FWSORTVALUE,JiVitAHHID,GOBHHID,Is_PNC,FWBNFSTS,FWBNFDTOO \n" +
+                "from mcaremother\n";
     }
     public String ancMainCountWithJoins(){
         return "Select Count(*) \n" +
-                "from ec_mcaremother Left Join ec_elco on  ec_mcaremother.id = ec_elco.id \n";
+                "from mcaremother\n";
+    }
+    public String ancMainSelectWithJoinswithoutFTS(){
+        return "Select id as _id,relationalid,details,FWWOMFNAME,FWPSRLMP,FWSORTVALUE,JiVitAHHID,GOBHHID,Is_PNC,FWBNFSTS,FWBNFDTOO \n" +
+                "from mcaremother\n" +
+                "Left Join alerts on alerts.caseID = mcaremother.id and alerts.scheduleName = 'Ante Natal Care Reminder Visit'\n" +
+                "Left Join alerts as alerts2 on alerts2.caseID = mcaremother.id and alerts2.scheduleName = 'BirthNotificationPregnancyStatusFollowUp'";
+    }
+    public String ancMainCountWithJoinswithoutFTS(){
+        return "Select Count(*) \n" +
+                "from mcaremother\n";
     }
     public void initializeQueries(){
-        try {
-            mCareANCSmartClientsProvider hhscp = new mCareANCSmartClientsProvider(getActivity(),clientActionHandler,context().alertService());
-            clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, hhscp, new CommonRepository("ec_mcaremother",new String []{"FWWOMFNAME","FWWOMNID","mauza","FWPSRLMP","JiVitAHHID","GOBHHID"}));
-            clientsView.setAdapter(clientAdapter);
+        mCareANCSmartClientsProvider hhscp = new mCareANCSmartClientsProvider(getActivity(),
+                clientActionHandler,context().alertService());
+        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, hhscp, new CommonRepository("mcaremother",new String []{"FWWOMFNAME","FWPSRLMP","FWSORTVALUE","JiVitAHHID","GOBHHID","Is_PNC","FWBNFSTS","FWBNFDTOO"}));
+        clientsView.setAdapter(clientAdapter);
 
-            setTablename("ec_mcaremother");
-            SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder(ancMainCountWithJoins());
-            mainCondition = " is_closed=0 AND FWWOMFNAME not null and FWWOMFNAME != \"\" ";
-            joinTable = "";
-            countSelect = countqueryBUilder.mainCondition(mainCondition);
-            super.CountExecute();
+        setTablename("mcaremother");
+        SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder(ancMainCountWithJoinswithoutFTS());
+        countSelect = countqueryBUilder.mainCondition("(mcaremother.Is_PNC is null or mcaremother.Is_PNC = '0') and mcaremother.FWWOMFNAME not null and mcaremother.FWWOMFNAME != \"\"   AND mcaremother.details  LIKE '%\"FWWOMVALID\":\"1\"%'");
+        mainCondition = "( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%'";
+        super.CountExecute();
 
-            SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder(ancMainSelectWithJoins());
-            mainSelect = queryBUilder.mainCondition(" ec_mcaremother.is_closed=0 AND ec_elco.FWWOMFNAME not null and ec_elco.FWWOMFNAME != \"\" ");
-            Sortqueries = sortByFWWOMFNAME();
+        SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder(ancMainSelectWithJoinswithoutFTS());
+        mainSelect = queryBUilder.mainCondition("( mcaremother.Is_PNC is null or mcaremother.Is_PNC = '0') and mcaremother.FWWOMFNAME not null and mcaremother.FWWOMFNAME != \"\"   AND mcaremother.details  LIKE '%\"FWWOMVALID\":\"1\"%'");
+        Sortqueries = sortBySortValue();
 
-            currentlimit = 20;
-            currentoffset = 0;
+        currentlimit = 20;
+        currentoffset = 0;
 
-            super.filterandSortInInitializeQueries();
+        super.filterandSortInInitializeQueries();
 
-            updateSearchView();
-            refresh();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        finally {
-
-        }
+        updateSearchView();
+        refresh();
 
     }
     private String sortBySortValue(){
-        return " FWSORTVALUE ASC";
+        return " ABS(FWSORTVALUE) DESC";
     }
     private String sortByFWWOMFNAME(){
         return " FWWOMFNAME ASC";
@@ -399,6 +403,22 @@ public class mCareANCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
     private String filterStringForANCRV4(){
         return "ancrv_4";
     }
+
+    private String filterStringForANCRV1withoutfts(){
+        return "and alerts.visitCode LIKE '%ancrv_1%'";
+    }
+    private String filterStringForANCRV2withoutfts(){
+        return "and alerts.visitCode LIKE '%ancrv_2%'";
+    }
+    private String filterStringForANCRV3withoutfts(){
+        return "and alerts.visitCode LIKE '%ancrv_3%'";
+    }
+    private String filterStringForANCRV4withoutfts(){
+        return "and alerts.visitCode LIKE '%ancrv_4%'";
+    }
+
+
+
     private String sortByGOBHHID(){
         return " GOBHHID ASC";
     }
@@ -433,13 +453,85 @@ public class mCareANCSmartRegisterFragment extends SecuredNativeSmartRegisterCur
 //                "WHEN BirthNotificationPregnancyStatusFollowUp is null THEN '18'\n" +
                 "Else Ante_Natal_Care_Reminder_Visit END ASC";
     }
+    private String sortByAlertmethodWithoutFTS() {
+        return " CASE WHEN alerts.status = 'urgent' and alerts2.status = 'urgent' THEN 1 "
+                +
+                "WHEN alerts.status = 'upcoming' and alerts2.status = 'urgent' THEN  2\n" +
+                "WHEN alerts.status = 'normal' and alerts2.status = 'urgent' THEN 3\n" +
+                "WHEN alerts.status = 'expired' and alerts2.status = 'urgent' THEN 4\n" +
+                "WHEN alerts.status is null and alerts2.status = 'urgent' THEN 5\n" +
+
+                "WHEN alerts.status = 'urgent' and alerts2.status = 'upcoming' THEN 6\n" +
+                "WHEN alerts.status = 'upcoming' and alerts2.status = 'upcoming' THEN 7\n" +
+                "WHEN alerts.status = 'normal' and alerts2.status = 'upcoming' THEN 8\n" +
+                "WHEN alerts.status = 'expired' and alerts2.status = 'upcoming' THEN 9\n" +
+                "WHEN alerts.status is null and alerts2.status = 'upcoming' THEN 10\n" +
+
+                "WHEN alerts.status = 'urgent' and alerts2.status = 'normal' THEN 11\n" +
+                "WHEN alerts.status = 'upcoming' and alerts2.status = 'normal' THEN 12\n" +
+                "WHEN alerts.status = 'normal' and alerts2.status = 'normal' THEN 13\n" +
+                "WHEN alerts.status = 'expired' and alerts2.status = 'normal' THEN 14\n" +
+                "WHEN alerts.status is null and alerts2.status = 'normal' THEN 15\n" +
+
+                "WHEN alerts.status = 'urgent' and alerts2.status = 'expired' THEN 16\n" +
+                "WHEN alerts.status = 'upcoming' and alerts2.status = 'expired' THEN 17\n" +
+                "WHEN alerts.status = 'normal' and alerts2.status = 'expired' THEN 18\n" +
+                "WHEN alerts.status = 'expired' and alerts2.status = 'expired' THEN 19\n" +
+                "WHEN alerts.status is null and alerts2.status = 'expired' THEN 20\n" +
+
+                "WHEN alerts2.status is null THEN 9999\n" +
+                "WHEN alerts.status = \"\" THEN 99999\n" +
+//                "WHEN alerts2.status is null THEN '18'\n" +
+                "Else alerts.status END ASC";
+    }
+
+    private String sortByAlertmethodWithoutFTSandSortValue() {
+        return " CASE WHEN alerts.status = 'urgent' and alerts2.status = 'urgent' THEN 1 "
+                +
+                "WHEN alerts.status = 'upcoming' and alerts2.status = 'urgent' THEN  2\n" +
+                "WHEN alerts.status = 'normal' and alerts2.status = 'urgent' THEN 3\n" +
+                "WHEN alerts.status = 'expired' and alerts2.status = 'urgent' THEN 4\n" +
+                "WHEN alerts.status is null and alerts2.status = 'urgent' THEN 5\n" +
+
+                "WHEN alerts.status = 'urgent' and alerts2.status = 'upcoming' THEN 6\n" +
+                "WHEN alerts.status = 'upcoming' and alerts2.status = 'upcoming' THEN 7\n" +
+                "WHEN alerts.status = 'normal' and alerts2.status = 'upcoming' THEN 8\n" +
+                "WHEN alerts.status = 'expired' and alerts2.status = 'upcoming' THEN 9\n" +
+                "WHEN alerts.status is null and alerts2.status = 'upcoming' THEN 10\n" +
+
+                "WHEN alerts.status = 'urgent' and alerts2.status = 'normal' THEN 11\n" +
+                "WHEN alerts.status = 'upcoming' and alerts2.status = 'normal' THEN 12\n" +
+                "WHEN alerts.status = 'normal' and alerts2.status = 'normal' THEN 13\n" +
+                "WHEN alerts.status = 'expired' and alerts2.status = 'normal' THEN 14\n" +
+                "WHEN alerts.status is null and alerts2.status = 'normal' THEN 15\n" +
+
+                "WHEN alerts.status = 'urgent' and alerts2.status = 'expired' THEN 16\n" +
+                "WHEN alerts.status = 'upcoming' and alerts2.status = 'expired' THEN 17\n" +
+                "WHEN alerts.status = 'normal' and alerts2.status = 'expired' THEN 18\n" +
+                "WHEN alerts.status = 'expired' and alerts2.status = 'expired' THEN 19\n" +
+                "WHEN alerts.status is null and alerts2.status = 'expired' THEN 20\n" +
+
+                "WHEN alerts2.status is null THEN 9999\n" +
+                "WHEN alerts.status = \"\" THEN 99999\n" +
+//                "WHEN alerts2.status is null THEN '18'\n" +
+                "Else alerts.status END ASC , ABS(FWSORTVALUE) DESC";
+    }
 
     /**
      * Override filter to capture fts filter by location
      * @param filter
      */
-    @Override
-    public void onFilterSelection(FilterOption filter) {
-        super.onFilterSelection(filter);
-    }
+//    @Override
+//    public void onFilterSelection(FilterOption filter) {
+//        appliedVillageFilterView.setText(filter.name());
+//        filters = ((CursorFilterOption)filter).filter();
+//        mainCondition = "( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%'";
+//
+//        if(StringUtils.isNotBlank(filters) && filters.contains(" and details LIKE ")){
+//            mainCondition += filters;
+//            filters = "";
+//        }
+//        CountExecute();
+//        filterandSortExecute();
+//    }
 }

@@ -1,8 +1,13 @@
 package org.ei.opensrp.mcare.elco;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +27,10 @@ import org.ei.opensrp.view.fragment.SecuredFragment;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import util.ImageCache;
 import util.ImageFetcher;
@@ -106,17 +112,17 @@ public class ElcoDetailActivity extends SecuredFragment implements View.OnClickL
         }else{
             nid.setVisibility(View.GONE);
         }
-        husbandname.setText(Html.fromHtml(getString(R.string.elco_details_husband_name_label) + " " + humanize((Elcoclient.getDetails().get("FWHUSNAME") != null ? Elcoclient.getDetails().get("FWHUSNAME") : ""))));
-        age.setText(Html.fromHtml(getString(R.string.elco_age_label)+ " " + (Elcoclient.getDetails().get("FWWOMAGE") != null ? Elcoclient.getDetails().get("FWWOMAGE") : "")));
 
-        if(Elcoclient.getDetails().get("FWBIRTHDATE") != null) {
-            try {
-                int days = DateUtil.dayDifference(DateUtil.getLocalDate((Elcoclient.getDetails().get("FWBIRTHDATE") != null ? Elcoclient.getDetails().get("FWBIRTHDATE") : "")), DateUtil.today());
-                int calc_age = days / 365;
-                age.setText(Html.fromHtml(getString(R.string.elco_age_label) + " " + calc_age));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        husbandname.setText(Html.fromHtml(getString(R.string.elco_details_husband_name_label) + " " + humanize((Elcoclient.getDetails().get("FWHUSNAME") != null ? Elcoclient.getDetails().get("FWHUSNAME") : ""))));
+
+        DateUtil.setDefaultDateFormat("yyyy-MM-dd");
+        age.setText(Html.fromHtml(getString(R.string.elco_age_label)+ " " + Elcoclient.getDetails().get("FWWOMAGE") != null ? Elcoclient.getDetails().get("FWWOMAGE"):""));
+        try {
+            int days = DateUtil.dayDifference(DateUtil.getLocalDate((Elcoclient.getDetails().get("FWBIRTHDATE") != null ?  Elcoclient.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
+            int calc_age = days / 365;
+            age.setText(Html.fromHtml(getString(R.string.elco_age_label)+ " " + calc_age));
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
 
@@ -147,7 +153,7 @@ public class ElcoDetailActivity extends SecuredFragment implements View.OnClickL
             ((LinearLayout)mView.findViewById(R.id.census_completeholder)).setVisibility(View.GONE);
 
             mis_census.setOnClickListener(this);
-            mis_census.setBackgroundColor(getResources().getColor(R.color.alert_upcoming_dark_blue));
+            mis_census.setBackgroundColor(getResources().getColor(R.color.alert_upcoming_yellow));
             mis_census.setTextColor(getResources().getColor(R.color.status_bar_text_almost_white));
             mis_census.setText(getResources().getString(R.string.launch_mis_census_form));
             mis_census.setTag(Elcoclient);
@@ -155,15 +161,18 @@ public class ElcoDetailActivity extends SecuredFragment implements View.OnClickL
 
 //        village.setText(humanize(Elcoclient.getDetails().get("location_name") != null ? Elcoclient.getDetails().get("location_name") : ""));
             /////from househld
-        AllCommonsRepository householdrep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_household");
-        CommonPersonObject householdparent = householdrep.findByCaseID(Elcoclient.getColumnmaps().get("relational_id"));
+        AllCommonsRepository allelcoRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("elco");
+        CommonPersonObject elcoobject = allelcoRepository.findByCaseID(Elcoclient.entityId());
+        AllCommonsRepository householdrep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("household");
+        CommonPersonObject householdparent = householdrep.findByCaseID(elcoobject.getRelationalId());
         String location = "";
-        if(householdparent.getColumnmaps().get("existing_Mauzapara") != null) {
-            location = householdparent.getColumnmaps().get("existing_Mauzapara");
+        if(householdparent.getDetails().get("existing_Mauzapara") != null) {
+            location = householdparent.getDetails().get("existing_Mauzapara");
         }
         village.setText(Html.fromHtml(getString(R.string.elco_details_mauza)+ " "+humanize(location.replace("+","_"))));
 
-        mw_reg_date.setText((Elcoclient.getDetails().get("WomanREGDATE") != null ? formatDate(Elcoclient.getDetails().get("WomanREGDATE")) : ""));
+
+        mw_reg_date.setText((Elcoclient.getDetails().get("WomanREGDATE") != null ? Elcoclient.getDetails().get("WomanREGDATE") : ""));
         ///////////////////////////////////////////////////
 
 
@@ -295,15 +304,5 @@ public class ElcoDetailActivity extends SecuredFragment implements View.OnClickL
     @Override
     protected void onResumption() {
 
-    }
-
-    private String formatDate(String dateString){
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = format.parse(dateString);
-            return format.format(date);
-        }catch (ParseException e){
-            return dateString;
-        }
     }
 }

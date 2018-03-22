@@ -247,6 +247,7 @@ public class HouseHoldSmartRegisterFragment extends SecuredNativeSmartRegisterCu
 
     @Override
     public void startRegistration() {
+        if(true) return;
         FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
         Fragment prev = getActivity().getFragmentManager().findFragmentByTag(locationDialogTAG);
         if (prev != null) {
@@ -258,6 +259,7 @@ public class HouseHoldSmartRegisterFragment extends SecuredNativeSmartRegisterCu
                         EditDialogOptionModel(), context().anmLocationController().get(),
                         "new_household_registration")
                 .show(ft, locationDialogTAG);
+
     }
     
     private class ClientActionHandler implements View.OnClickListener {
@@ -271,9 +273,9 @@ public class HouseHoldSmartRegisterFragment extends SecuredNativeSmartRegisterCu
                     getActivity().finish();
                     break;
                 case R.id.hh_due_date:
-                    HouseHoldDetailActivity.householdclient = (CommonPersonObjectClient)view.getTag();
+                    //HouseHoldDetailActivity.householdclient = (CommonPersonObjectClient)view.getTag();
 
-                    showFragmentDialog(new EditDialogOptionModel(), view.getTag());
+                    //showFragmentDialog(new EditDialogOptionModel(), view.getTag());
                     break;
             }
         }

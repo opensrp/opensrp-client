@@ -526,11 +526,11 @@ public abstract class SecuredNativeSmartRegisterCursorAdapterFragment extends Se
                 query = sqb.orderbyCondition(Sortqueries);
                 query = sqb.Endquery(sqb.addlimitandOffset(query,currentlimit,currentoffset));
 
+
             }
         }catch (Exception e){
             Log.e(getClass().getName(), e.toString(), e);
         }
-
         return query;
     }
 

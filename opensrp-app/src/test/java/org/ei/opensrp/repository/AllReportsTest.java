@@ -2,7 +2,7 @@ package org.ei.opensrp.repository;
 
 import org.robolectric.RobolectricTestRunner;
 import org.ei.opensrp.domain.Report;
-import org.ei.drishti.dto.Action;
+import org.opensrp.dto.Action;
 import org.ei.opensrp.util.ActionBuilder;
 import org.junit.Before;
 import org.junit.Test;

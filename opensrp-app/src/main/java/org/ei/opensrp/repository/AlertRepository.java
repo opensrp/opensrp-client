@@ -14,9 +14,9 @@ import java.util.List;
 import static java.lang.String.format;
 import static org.apache.commons.lang3.ArrayUtils.addAll;
 import static org.apache.commons.lang3.StringUtils.repeat;
-import static org.ei.drishti.dto.AlertStatus.complete;
-import static org.ei.drishti.dto.AlertStatus.from;
-import static org.ei.drishti.dto.AlertStatus.inProcess;
+import static org.opensrp.dto.AlertStatus.complete;
+import static org.opensrp.dto.AlertStatus.from;
+import static org.opensrp.dto.AlertStatus.inProcess;
 
 public class AlertRepository extends DrishtiRepository {
     private static final String ALERTS_SQL = "CREATE TABLE alerts (caseID VARCHAR, scheduleName VARCHAR, visitCode VARCHAR, status VARCHAR, startDate VARCHAR, expiryDate VARCHAR, completionDate VARCHAR)";

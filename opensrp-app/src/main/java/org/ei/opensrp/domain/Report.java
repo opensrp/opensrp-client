@@ -5,7 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.ei.drishti.dto.MonthSummaryDatum;
+import org.opensrp.dto.MonthSummaryDatum;
 
 import java.io.Serializable;
 import java.util.List;

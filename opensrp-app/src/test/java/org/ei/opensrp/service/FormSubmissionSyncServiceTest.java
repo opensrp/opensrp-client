@@ -8,7 +8,7 @@ import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.domain.ResponseStatus;
 import org.ei.opensrp.domain.form.FormSubmission;
-import org.ei.drishti.dto.form.FormSubmissionDTO;
+import org.opensrp.dto.form.FormSubmissionDTO;
 import org.ei.opensrp.repository.AllSettings;
 import org.ei.opensrp.repository.FormDataRepository;
 import org.junit.Before;

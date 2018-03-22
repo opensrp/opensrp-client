@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">OpenSRP</string>
+    <string name="app_name">OpenSRP-mCare</string>
     <string name="userNameEditText">ব্যবহারকারীর নাম</string>
     <string name="passwordEditText">পাসওয়ার্ড</string>
     <string name="login_text">লগইন করুন </string>
@@ -73,7 +73,7 @@
     <string name="anc_reminder_status">ANC অবস্থা</string>
     <string name="anc_edd_ga">ইডিডি &amp; জি এ</string>
     <string name="anc_reminder_due">ANC ভিজিট</string>
-    <string name="anc_nbnf_due_date"> বার্থ নোটিফিকেশন</string>
+    <string name="anc_nbnf_due_date">NBNF</string>
     <string name="nbnf">NBNF form</string>
     <string name="anc4form">ANC visit 4 form</string>
     <string name="anc3form">ANC visit 3 Form</string>
@@ -94,9 +94,9 @@
     <string name="mcare_pnc_liveBirth">জীবিত বাচ্চা জন্ম দিয়েছেন</string>
     <string name="mcare_pnc_Stillbirth">গর্ভনষ্ট হয়েছে / মৃতবাচ্চা প্রসব হয়েছে</string>
     <string name="all_mcare_pnc">Postnatal Women</string>
-    <string name="pnc3form">PNC visit 1 form</string>
+    <string name="pnc3form">PNC visit 3 form</string>
     <string name="pnc2form">PNC visit 2 form</string>
-    <string name="pnc1form">PNC visit 3 form</string>
+    <string name="pnc1form">PNC visit 1 form</string>
     <string name="mcarechild_dob">জন্মতারিখ</string>
     <string name="encc_reminder_status">ENCC অবস্থা</string>
     <string name="encc_due_date">ENCC ভিজিট</string>
@@ -132,4 +132,5 @@
     <string name="date_of_birth">জন্মতারিখ</string>
     <string name="child_details_mothers_name_label">Mমাতার নাম:</string>
     <string name="pnc_Details_date_of_outcome">ফলাফলের তারিখ</string>
+    <string name="risk_status">কত ঝুঁকিপূর্ণ</string>
 </resources>

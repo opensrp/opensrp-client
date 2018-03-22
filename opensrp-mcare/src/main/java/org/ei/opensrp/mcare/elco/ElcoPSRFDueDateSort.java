@@ -30,7 +30,7 @@ public class ElcoPSRFDueDateSort implements SortOption {
 
     @Override
     public String name() {
-        return Context.getInstance().applicationContext().getResources().getString(R.string.due_status);
+        return Context.getInstance().applicationContext().getResources().getString(R.string.risk_status);
     }
 
     @Override

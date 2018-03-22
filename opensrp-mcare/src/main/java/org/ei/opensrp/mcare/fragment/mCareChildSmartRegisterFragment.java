@@ -7,8 +7,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
+import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.adapter.SmartRegisterPaginatedAdapter;
+import org.ei.opensrp.commonregistry.CommonFtsObject;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
@@ -16,16 +18,17 @@ import org.ei.opensrp.commonregistry.CommonRepository;
 import org.ei.opensrp.commonregistry.ControllerFilterMap;
 import org.ei.opensrp.cursoradapter.CursorCommonObjectFilterOption;
 import org.ei.opensrp.cursoradapter.CursorCommonObjectSort;
+import org.ei.opensrp.cursoradapter.CursorFilterOption;
 import org.ei.opensrp.cursoradapter.SecuredNativeSmartRegisterCursorAdapterFragment;
 import org.ei.opensrp.cursoradapter.SmartRegisterPaginatedCursorAdapter;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.mcare.LoginActivity;
 import org.ei.opensrp.mcare.R;
 import org.ei.opensrp.mcare.child.ChildDetailActivity;
+import org.ei.opensrp.mcare.child.childSort;
 import org.ei.opensrp.mcare.child.mCareChildServiceModeOption;
 import org.ei.opensrp.mcare.child.mCareChildSmartClientsProvider;
 import org.ei.opensrp.mcare.child.mCareChildSmartRegisterActivity;
-import org.ei.opensrp.mcare.elco.ElcoMauzaCommonObjectFilterOption;
 import org.ei.opensrp.mcare.elco.ElcoPSRFDueDateSort;
 import org.ei.opensrp.mcare.elco.ElcoSmartRegisterActivity;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
@@ -88,7 +91,7 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
 
             @Override
             public SortOption sortOption() {
-                return new ElcoPSRFDueDateSort();
+                return new childSort();
 
             }
 
@@ -261,12 +264,23 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
 
                 if (cs.toString().equalsIgnoreCase("")) {
                     filters = "";
+                    mainCondition = " FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' ";
                 } else {
                     //filters = "and FWWOMFNAME Like '%" + cs.toString() + "%' or GOBHHID Like '%" + cs.toString() + "%'  or JiVitAHHID Like '%" + cs.toString() + "%' ";
                     filters = cs.toString();
+                    filters = "";
+                    mainCondition = " FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' ";
+                    mainCondition += " AND (("+ CommonFtsObject.idColumn +" IN (SELECT "+CommonRepository.ID_COLUMN+ " FROM " + "mcarechild"+ " WHERE details LIKE '%" + cs.toString()+ "%' )) " +
+                            "or ("+ CommonFtsObject.relationalIdColumn +" IN (SELECT "+CommonRepository.ID_COLUMN+ " FROM " + "mcaremother"+ " WHERE FWWOMFNAME LIKE '%" + cs.toString()+ "%' ))" +
+                            "or ("+ CommonFtsObject.relationalIdColumn +" IN (SELECT "+CommonRepository.ID_COLUMN+ " FROM " + "mcaremother"+ " WHERE GOBHHID LIKE '%" + cs.toString()+ "%' ))" +
+                            "or ("+ CommonFtsObject.relationalIdColumn +" IN (SELECT "+CommonRepository.ID_COLUMN+ " FROM " + "mcaremother"+ " WHERE JiVitAHHID LIKE '%" + cs.toString()+ "%' ))" +
+                            ")";
+
+
                 }
                 joinTable = "";
-                mainCondition = " FWBNFGEN is not null ";
+//                mainCondition = " FWBNFGEN is not null ";
+
 
                 getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
                 CountExecute();
@@ -289,7 +303,7 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
             }else{
                 StringUtil.humanize(entry.getValue().getLabel());
                 String name = StringUtil.humanize(entry.getValue().getLabel());
-                dialogOptionslist.add(new ElcoMauzaCommonObjectFilterOption(name,"location_name",name,"ec_elco"));
+                dialogOptionslist.add(new CursorCommonObjectFilterOption(name," and mcaremother.details like '%"+name +"%'"));
 
             }
         }
@@ -317,19 +331,20 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
         }
     }
     public void initializeQueries(){
-        mCareChildSmartClientsProvider hhscp = new mCareChildSmartClientsProvider(getActivity(),clientActionHandler,context().alertService());
-        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, hhscp, new CommonRepository("ec_mcarechild",new String []{ "FWBNFGEN"}));
+        mCareChildSmartClientsProvider hhscp = new mCareChildSmartClientsProvider(getActivity(),
+                clientActionHandler,context().alertService());
+        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, hhscp, new CommonRepository("mcarechild",new String []{ "FWBNFGEN"}));
         clientsView.setAdapter(clientAdapter);
 
-        setTablename("ec_mcarechild");
+        setTablename("mcarechild");
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder(childMainCountWithJoins());
-        mainCondition = " FWBNFGEN is not null ";
-        countSelect = countqueryBUilder.mainCondition(mainCondition);
+        countSelect = countqueryBUilder.mainCondition(" mcarechild.FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' ");
+        mainCondition = " FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' ";
         super.CountExecute();
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder(childMainSelectWithJoins());
-        mainSelect = queryBUilder.mainCondition(mainCondition);
-        Sortqueries = sortByFWWOMFNAME();
+        mainSelect = queryBUilder.mainCondition(" mcarechild.FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' ");
+        Sortqueries = sortByAlertmethod();
 
         currentlimit = 20;
         currentoffset = 0;
@@ -351,20 +366,16 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
                 "Else Essential_Newborn_Care_Checklist END ASC";
     }
     public String childMainSelectWithJoins(){
-        return "Select ec_mcarechild.id as _id,ec_mcarechild.relational_id as relationalid,ec_mcarechild.details,ec_mcarechild.FWBNFGEN \n" +
-                " ,ec_elco.FWWOMFNAME,ec_elco.GOBHHID,ec_elco.FWHUSNAME,ec_elco.FWWOMBID,ec_elco.JiVitAHHID,hh.existing_mauzapara,ec_elco.FWWOMAGE,pnc.FWBNFDTOO,ec_elco.FWWOMNID from ec_mcarechild \n" +
-                "Left Join ec_elco on ec_mcarechild.relational_id = ec_elco.id \n" +
-                "Left Join ec_household hh on hh.id=ec_elco.relational_id "+
-                "Left Join ec_pnc pnc on pnc.id=ec_mcarechild.relational_id \n";
+        return "Select mcarechild.id as _id,mcarechild.relationalid,mcarechild.details,mcarechild.FWBNFGEN \n" +
+                "from mcarechild\n";
     }
     public String childMainCountWithJoins() {
         return "Select Count(*) \n" +
-                "from ec_mcarechild \n";
+                "from mcarechild\n";
     }
 
     private String sortBySortValue(){
-       // return " FWSORTVALUE ASC";
-        return " ec_mcarechild.id ASC";
+        return " ABS(FWSORTVALUE) DESC";
     }
     private String sortByFWWOMFNAME(){
         return " FWWOMFNAME ASC";
@@ -391,7 +402,17 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
      */
     @Override
     public void onFilterSelection(FilterOption filter) {
-        super.onFilterSelection(filter);
+        appliedVillageFilterView.setText(filter.name());
+        filters = ((CursorFilterOption)filter).filter();
+        mainCondition = " FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' ";
+
+        if(StringUtils.isNotBlank(filters) && filters.contains(" and mcaremother.details like ")){
+            String searchString = filters.replace(" and mcaremother.details like ", "");
+            mainCondition += " AND "+ CommonFtsObject.relationalIdColumn +" IN (SELECT "+CommonRepository.ID_COLUMN+ " FROM " + "mcaremother"+ " WHERE details LIKE " + searchString+ " ) ";
+            filters = "";
+        }
+        CountExecute();
+        filterandSortExecute();
     }
 
 }

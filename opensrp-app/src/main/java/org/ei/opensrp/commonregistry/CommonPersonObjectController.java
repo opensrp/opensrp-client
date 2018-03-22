@@ -326,11 +326,13 @@ public class CommonPersonObjectController {
                         case byrelationalid:
                             for (CommonPersonObject personinlist : p) {
                                 if (!isnull(personinlist)) {
-                                    if (personinlist.getRelationalId().equalsIgnoreCase(filtervalue) ==filtercase) {
-                                        CommonPersonObjectClient pClient = new CommonPersonObjectClient(personinlist.getCaseId(), personinlist.getDetails(), personinlist.getDetails().get(nameString));
-                                        pClient.setColumnmaps(personinlist.getColumnmaps());
-                                        pClients.add(pClient);
+                                    if(personinlist.getRelationalId() != null) {
+                                        if (personinlist.getRelationalId().equalsIgnoreCase(filtervalue) == filtercase) {
+                                            CommonPersonObjectClient pClient = new CommonPersonObjectClient(personinlist.getCaseId(), personinlist.getDetails(), personinlist.getDetails().get(nameString));
+                                            pClient.setColumnmaps(personinlist.getColumnmaps());
+                                            pClients.add(pClient);
 
+                                        }
                                     }
                                 }
                             }

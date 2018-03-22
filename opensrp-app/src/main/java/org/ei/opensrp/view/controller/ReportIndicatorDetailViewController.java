@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import com.google.gson.Gson;
 import org.ei.opensrp.domain.Report;
-import org.ei.drishti.dto.MonthSummaryDatum;
+import org.opensrp.dto.MonthSummaryDatum;
 import org.ei.opensrp.view.activity.ReportIndicatorCaseListActivity;
 import org.ei.opensrp.view.contract.IndicatorReportDetail;
 

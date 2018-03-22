@@ -324,8 +324,15 @@ public class mCareANCSmartRegisterActivity extends SecuredNativeSmartRegisterAct
 
     }
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Runtime.getRuntime().gc();
+    }
+    @Override
     public void onBackPressed() {
-        if (currentPage != 0){
+        if (currentPage == 0) {
+            super.onBackPressed(); // allow back key only if we are
+        }else if (currentPage != 0){
             retrieveAndSaveUnsubmittedFormData();
             String BENGALI_LOCALE = "bn";
             AllSharedPreferences allSharedPreferences = new AllSharedPreferences(getDefaultSharedPreferences(Context.getInstance().applicationContext()));
@@ -371,8 +378,6 @@ public class mCareANCSmartRegisterActivity extends SecuredNativeSmartRegisterAct
                         .show();
             }
 
-        }else if (currentPage == 0) {
-            super.onBackPressed(); // allow back key only if we are
         }
     }
 

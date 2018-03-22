@@ -2,8 +2,8 @@ package org.ei.opensrp.service;
 
 import org.robolectric.RobolectricTestRunner;
 import org.ei.opensrp.domain.Alert;
-import org.ei.drishti.dto.Action;
-import org.ei.drishti.dto.BeneficiaryType;
+import org.opensrp.dto.Action;
+import org.opensrp.dto.BeneficiaryType;
 import org.ei.opensrp.repository.AlertRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,8 +12,8 @@ import org.mockito.Mock;
 
 import java.util.HashMap;
 
-import static org.ei.drishti.dto.AlertStatus.normal;
-import static org.ei.drishti.dto.AlertStatus.urgent;
+import static org.opensrp.dto.AlertStatus.normal;
+import static org.opensrp.dto.AlertStatus.urgent;
 import static org.ei.opensrp.util.ActionBuilder.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;

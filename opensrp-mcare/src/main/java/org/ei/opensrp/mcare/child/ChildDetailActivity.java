@@ -21,7 +21,7 @@ import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.domain.Alert;
 import org.ei.opensrp.mcare.R;
-import org.ei.opensrp.repository.DetailsRepository;
+import org.ei.opensrp.mcare.household.HouseHoldDetailActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -64,6 +64,7 @@ public class ChildDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         Context context = Context.getInstance();
         setContentView(R.layout.child_detail_activity);
+        ImageView profilepic = (ImageView) findViewById(R.id.householdprofileview);
         TextView name = (TextView) findViewById(R.id.childid);
         TextView fathersname = (TextView) findViewById(R.id.fathersname);
         TextView mothersname = (TextView) findViewById(R.id.mothersname);
@@ -82,18 +83,21 @@ public class ChildDetailActivity extends Activity {
             }
         });
 
-        DetailsRepository detailsRepository = Context.getInstance().detailsRepository();
-        Map<String, String> details = detailsRepository.getAllDetailsForClient(ChildClient.getColumnmaps().get("relationalid"));
+        AllCommonsRepository allchildRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("mcarechild");
+        CommonPersonObject childobject = allchildRepository.findByCaseID(ChildClient.entityId());
+        AllCommonsRepository motherrep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("mcaremother");
+        final CommonPersonObject mcaremotherObject = motherrep.findByCaseID(childobject.getRelationalId());
+
 
         name.setText(humanize((ChildClient.getDetails().get("FWBNFCHILDNAME") != null ? ChildClient.getDetails().get("FWBNFCHILDNAME") : "").replace("+", "_")));
-        fathersname.setText(Html.fromHtml(getString(R.string.child_details_fathers_name_label) + "<b> " + humanize((ChildClient.getDetails().get("FWHUSNAME") != null ? ChildClient.getDetails().get("FWHUSNAME") : "")) + "</b>"));
-        mothersname.setText(Html.fromHtml(getString(R.string.child_details_mothers_name_label) + "<b> " + humanize((ChildClient.getColumnmaps().get("FWWOMFNAME") != null ? ChildClient.getColumnmaps().get("FWWOMFNAME") : "")) + "</b>"));
+        fathersname.setText(Html.fromHtml(getString(R.string.child_details_fathers_name_label) + "<b> " + humanize((mcaremotherObject.getDetails().get("FWHUSNAME") != null ? mcaremotherObject.getDetails().get("FWHUSNAME") : "")) + "</b>"));
+        mothersname.setText(Html.fromHtml(getString(R.string.child_details_mothers_name_label) +"<b> "+ humanize((mcaremotherObject.getColumnmaps().get("FWWOMFNAME") != null ? mcaremotherObject.getColumnmaps().get("FWWOMFNAME") : ""))+ "</b>"));
 
         age.setText(Html.fromHtml(getString(R.string.elco_age_label) +"<b> "+ age(ChildClient) + " days "+ "</b>"));
-        godhhid.setText(Html.fromHtml(getString(R.string.hhid_gob_elco_label) +"<b> "+ (ChildClient.getColumnmaps().get("GOBHHID")!=null?ChildClient.getColumnmaps().get("GOBHHID"):"")+ "</b>"));
-        jivitahhid.setText(Html.fromHtml(getString(R.string.hhiid_jivita_elco_label)+"<b> "+(ChildClient.getColumnmaps().get("FWJIVHHID")!=null?ChildClient.getColumnmaps().get("FWJIVHHID"):"")+ "</b>"));
-        village.setText(Html.fromHtml(getString(R.string.elco_details_mauza) + "<b> " + humanize((ChildClient.getDetails().get("existing_Mauzapara") != null ? ChildClient.getDetails().get("existing_Mauzapara") : "").replace("+", "_"))+ "</b>"));
-        String type_of_delivery = details.get("FWPNC1DELTYPE") != null ? details.get("FWPNC1DELTYPE") : "";
+        godhhid.setText(Html.fromHtml(getString(R.string.hhid_gob_elco_label) +"<b> "+ (mcaremotherObject.getColumnmaps().get("GOBHHID")!=null?mcaremotherObject.getColumnmaps().get("GOBHHID"):"")+ "</b>"));
+        jivitahhid.setText(Html.fromHtml(getString(R.string.hhiid_jivita_elco_label)+"<b> "+(mcaremotherObject.getColumnmaps().get("JiVitAHHID")!=null?mcaremotherObject.getColumnmaps().get("JiVitAHHID"):"")+ "</b>"));
+        village.setText(Html.fromHtml(getString(R.string.elco_details_mauza) + "<b> " + humanize((mcaremotherObject.getDetails().get("mauza") != null ? mcaremotherObject.getDetails().get("mauza") : "").replace("+", "_"))+ "</b>"));
+        String type_of_delivery = mcaremotherObject.getDetails().get("FWPNC1DELTYPE") != null ? mcaremotherObject.getDetails().get("FWPNC1DELTYPE") : "";
         if (type_of_delivery.equalsIgnoreCase("1")){
             TypeOfDelivery.setText(getString(R.string.norma_birth));
         } else if (type_of_delivery.equalsIgnoreCase("2")){
@@ -116,7 +120,14 @@ public class ChildDetailActivity extends Activity {
 //        if (ChildClient.getDetails().get("profilepic") != null) {
 //            setImagetoHolder(ChildDetailActivity.this, ChildClient.getDetails().get("profilepic"), householdview, R.mipmap.woman_placeholder);
 //        }
-
+        if((ChildClient.getColumnmaps().get("FWBNFGEN")!=null?ChildClient.getColumnmaps().get("FWBNFGEN"):"").equalsIgnoreCase("2")){
+            profilepic.setImageResource(R.drawable.child_girl_infant);
+        }else if((ChildClient.getColumnmaps().get("FWBNFGEN")!=null?ChildClient.getColumnmaps().get("FWBNFGEN"):"").equalsIgnoreCase("1")){
+            profilepic.setImageResource(R.drawable.child_boy_infant);
+        }
+        if (childobject.getDetails().get("profilepic") != null) {
+            HouseHoldDetailActivity.setImagetoHolderFromUri(ChildDetailActivity.this, childobject.getDetails().get("profilepic"), profilepic, R.drawable.child_boy_infant);
+        }
 
 
     }
@@ -124,7 +135,7 @@ public class ChildDetailActivity extends Activity {
     private Long age(CommonPersonObjectClient ancclient) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Date edd_date = format.parse(ancclient.getColumnmaps().get("FWBNFDTOO")!=null?ancclient.getColumnmaps().get("FWBNFDTOO"):"");
+            Date edd_date = format.parse(ancclient.getDetails().get("FWBNFDOB")!=null?ancclient.getDetails().get("FWBNFDOB"):"");
             Calendar thatDay = Calendar.getInstance();
             thatDay.setTime(edd_date);
 
@@ -137,7 +148,7 @@ public class ChildDetailActivity extends Activity {
             return days;
         } catch (ParseException e) {
             e.printStackTrace();
-            return 0l;
+            return null;
         }
 
     }
@@ -146,7 +157,7 @@ public class ChildDetailActivity extends Activity {
         TextView edd = (TextView)findViewById(R.id.date_of_outcome);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Date edd_date = format.parse(ancclient.getColumnmaps().get("FWBNFDTOO")!=null?ancclient.getColumnmaps().get("FWBNFDTOO"):"");
+            Date edd_date = format.parse(ancclient.getDetails().get("FWBNFDOB")!=null?ancclient.getDetails().get("FWBNFDOB"):"");
             GregorianCalendar calendar = new GregorianCalendar();
             calendar.setTime(edd_date);
             edd_date.setTime(calendar.getTime().getTime());
@@ -362,5 +373,4 @@ public class ChildDetailActivity extends Activity {
 //        Bitmap bitmap = BitmapFactory.decodeFile(file, options);
 //        view.setImageBitmap(bitmap);
     }
-
 }

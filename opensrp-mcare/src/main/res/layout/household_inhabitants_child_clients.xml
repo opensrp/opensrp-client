@@ -20,7 +20,7 @@
         <ImageView
             android:layout_width="@dimen/client_profile_pic_width"
             android:layout_height="fill_parent"
-            android:id="@+id/profilepic"
+            android:id="@+id/profilepic_child"
             android:src="@mipmap/child_boy"
             android:layout_gravity="center_vertical"
             android:layout_margin="2dp"

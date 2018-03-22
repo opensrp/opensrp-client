@@ -6,19 +6,19 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:1.2.3"
+        classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'org.apache.commons:commons-lang3:3.3.2'
-        classpath 'org.robolectric:robolectric-gradle-plugin:1.1.0'
+//        classpath 'org.robolectric:robolectric-gradle-plugin:1.1.0'
     }
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'org.robolectric'
+//apply plugin: 'org.robolectric'
 
 android {
     compileSdkVersion androidCompileSdkVersion
     buildToolsVersion androidBuildToolsVersion
-
+    useLibrary  'org.apache.http.legacy'
     signingConfigs {
         config {
             keyAlias 'androiddebugkey'
@@ -48,11 +48,10 @@ android {
     }
 
     defaultConfig {
-        // Enabling multidex support.
-        multiDexEnabled true
+        // multiDexEnabled = true
         //applicationId "org.ei.opensrp"
-        minSdkVersion 16
-        targetSdkVersion 22
+        minSdkVersion 18
+        targetSdkVersion 26
         versionCode 1
         versionName "3.0.1"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -102,42 +101,37 @@ task copyTestResources() {
     }
 }
 
-assembleDebug.dependsOn(copyTestResources)
+afterEvaluate {
+    assembleDebug.dependsOn(copyTestResources)
+}
 
 configurations.all {
-    resolutionStrategy.force 'commons-codec:commons-codec:1.10'
+    resolutionStrategy.force 'commons-codec:commons-codec:1.6'
 }
 
 dependencies {
-//    compile 'net.zetetic:android-database-sqlcipher:3.5.6@aar'
-    compile 'com.android.support:multidex:1.0.0'
-    compile 'org.ei.drishti:drishti-interface:0.1-SNAPSHOT'
-    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:appcompat-v7:26.0.0-beta1'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:design:26.+'
+    compile group: 'org.jacoco', name: 'org.jacoco.agent', version: '0.7.5.201505241946'
     compile "org.apache.httpcomponents:httpmime:4.2.3"
+    compile 'commons-io:commons-io:2.1'
     compile 'com.google.code.gson:gson:2.3'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.1.1'
-    compile group: 'commons-codec', name: 'commons-codec', version:'1.10'
-    compile group: 'com.google.guava', name: 'guava', version:'15.0'
-    compile group: 'commons-io', name: 'commons-io', version:'2.4'
-    compile 'org.apache.commons:commons-lang3:3.2'
-    compile 'org.mozilla:rhino:1.7R4'
+    compile 'org.apache.commons:commons-lang3:3.1'
     compile 'com.ocpsoft:ocpsoft-pretty-time:1.0.7'
     compile 'joda-time:joda-time:2.3'
+    compile 'org.mozilla:rhino:1.7R4'
     compile 'com.github.bmelnychuk:atv:1.2.+'
     compile 'com.github.johnkil.print:print:1.2.3'
     compile 'ch.acra:acra:4.5.0'
-
     compile 'com.google.guava:guava:18.0'
     compile 'com.mcxiaoke.volley:library:1.0.+'
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.cloudant:cloudant-http:2.7.0'
 
 }
 
 dependencies {
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:4.3'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.0'
-    androidTestCompile 'junit:junit:4.11'
 
     testCompile group: 'com.google.android', name: 'android-test', version:'4.1.1.4'
     testCompile 'junit:junit:4.11'

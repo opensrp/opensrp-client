@@ -2,7 +2,7 @@ package org.ei.opensrp.view.activity;
 
 import android.app.Application;
 import android.os.Build;
-import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import org.ei.opensrp.AllConstants;
@@ -15,7 +15,7 @@ import java.io.File;
 import java.util.Locale;
 
 
-public abstract class DrishtiApplication extends Application {
+public abstract class DrishtiApplication extends MultiDexApplication {
     private static final String TAG = "DrishtiApplication";
 
     protected Locale locale = null;
@@ -34,14 +34,6 @@ public abstract class DrishtiApplication extends Application {
     }
 
     public abstract void logoutCurrentUser();
-
-
-    @Override
-    protected void attachBaseContext(android.content.Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-    }
-
 
     public static BitmapImageCache getMemoryCacheInstance() {
         if (memoryImageCache == null) {
@@ -63,5 +55,4 @@ public abstract class DrishtiApplication extends Application {
 
         return cachedImageLoader;
     }
-
 }

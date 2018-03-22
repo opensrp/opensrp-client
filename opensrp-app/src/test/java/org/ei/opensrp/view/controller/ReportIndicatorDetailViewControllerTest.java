@@ -3,7 +3,7 @@ package org.ei.opensrp.view.controller;
 import android.content.Context;
 import com.google.gson.Gson;
 import org.ei.opensrp.domain.Report;
-import org.ei.drishti.dto.MonthSummaryDatum;
+import org.opensrp.dto.MonthSummaryDatum;
 import org.ei.opensrp.view.contract.IndicatorReportDetail;
 import org.junit.Before;
 import org.junit.Test;

@@ -3,7 +3,7 @@ package org.ei.opensrp.service;
 import com.google.gson.Gson;
 import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.domain.Response;
-import org.ei.drishti.dto.Action;
+import org.opensrp.dto.Action;
 import org.ei.opensrp.repository.AllReports;
 import org.ei.opensrp.repository.AllSettings;
 import org.ei.opensrp.repository.AllSharedPreferences;

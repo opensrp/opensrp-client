@@ -2,15 +2,15 @@ package org.ei.opensrp.util;
 
 import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.domain.ResponseStatus;
-import org.ei.drishti.dto.Action;
-import org.ei.drishti.dto.AlertStatus;
-import org.ei.drishti.dto.BeneficiaryType;
+import org.opensrp.dto.Action;
+import org.opensrp.dto.AlertStatus;
+import org.opensrp.dto.BeneficiaryType;
 import org.ei.opensrp.service.DrishtiService;
 import org.joda.time.DateTime;
 
 import java.util.*;
 
-import static org.ei.drishti.dto.ActionData.createAlert;
+import static org.opensrp.dto.ActionData.createAlert;
 
 public class FakeDrishtiService extends DrishtiService {
     private List<Expectation> expectations;

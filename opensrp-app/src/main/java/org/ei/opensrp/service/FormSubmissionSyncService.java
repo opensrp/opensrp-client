@@ -6,21 +6,21 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.ei.drishti.dto.form.FormSubmissionDTO;
-import org.ei.opensrp.Context;
+import org.opensrp.dto.form.FormSubmissionDTO;
 import org.ei.opensrp.DristhiConfiguration;
-import org.ei.opensrp.sync.CloudantSyncHandler;
 import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.domain.form.FormSubmission;
 import org.ei.opensrp.repository.AllSettings;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.repository.FormDataRepository;
+import org.ei.opensrp.util.StringUtil;
 import org.ei.opensrp.view.activity.DrishtiApplication;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 import static java.text.MessageFormat.format;
 import static org.ei.opensrp.convertor.FormSubmissionConvertor.toDomain;
@@ -51,23 +51,10 @@ public class FormSubmissionSyncService {
     }
 
     public FetchStatus sync() {
-        try{
-            CloudantSyncHandler mCloudantSyncHandler = CloudantSyncHandler.getInstance(Context.getInstance().applicationContext());
-            CountDownLatch mCountDownLatch = new CountDownLatch(2);
-            mCloudantSyncHandler.setCountDownLatch(mCountDownLatch);
-            mCloudantSyncHandler.startPullReplication();
-            mCloudantSyncHandler.startPushReplication();
-
-            mCountDownLatch.await();
-            //pushToServer();
-            Intent intent = new Intent(DrishtiApplication.getInstance().getApplicationContext(), ImageUploadSyncService.class);
-            Log.e("TAG", "sync: here" );
-            DrishtiApplication.getInstance().getApplicationContext().startService(intent);
-            return FetchStatus.fetched;
-        }catch (Exception e) {
-            return FetchStatus.fetchedFailed;
-        }
-
+        pushToServer();
+        Intent intent = new Intent(DrishtiApplication.getInstance().getApplicationContext(),ImageUploadSyncService.class);
+        DrishtiApplication.getInstance().getApplicationContext().startService(intent);
+        return pullFromServer();
     }
 
     public void pushToServer() {
@@ -95,6 +82,7 @@ public class FormSubmissionSyncService {
         int downloadBatchSize = configuration.syncDownloadBatchSize();
         String baseURL = configuration.dristhiBaseURL();
         while (true) {
+
             String uri = format("{0}/{1}?anm-id={2}&timestamp={3}&batch-size={4}",
                     baseURL,
                     FORM_SUBMISSIONS_PATH,
@@ -119,9 +107,9 @@ public class FormSubmissionSyncService {
     }
 
     private String mapToFormSubmissionDTO(List<FormSubmission> pendingFormSubmissions) {
-        List<org.ei.drishti.dto.form.FormSubmissionDTO> formSubmissions = new ArrayList<org.ei.drishti.dto.form.FormSubmissionDTO>();
+        List<org.opensrp.dto.form.FormSubmissionDTO> formSubmissions = new ArrayList<org.opensrp.dto.form.FormSubmissionDTO>();
         for (FormSubmission pendingFormSubmission : pendingFormSubmissions) {
-            formSubmissions.add(new org.ei.drishti.dto.form.FormSubmissionDTO(allSharedPreferences.fetchRegisteredANM(), pendingFormSubmission.instanceId(),
+            formSubmissions.add(new org.opensrp.dto.form.FormSubmissionDTO(allSharedPreferences.fetchRegisteredANM(), pendingFormSubmission.instanceId(),
                     pendingFormSubmission.entityId(), pendingFormSubmission.formName(), pendingFormSubmission.instance(), pendingFormSubmission.version(),
                     pendingFormSubmission.formDataDefinitionVersion()));
         }
