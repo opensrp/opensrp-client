@@ -75,7 +75,18 @@ public class nutritionDetailControllerForDashBoardModule extends nutritionDetail
 
     @Override
     public String breastfeeding_up_to_6_months_zero_to_six_months_info(Date fromdate, Date todate) {
-        return "";
+        CommonRepository commonRepository = Context.getInstance().commonrepository("household");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(Distinct instanceId) from form_submission where (formName like '%encc_visit%') and (instance like '%{\"name\":\"FWENC1BFINTN\",\"value\":\"1\",\"source\":\"mcarechild.FWENC1BFINTN\"}%' or instance like '%{\"name\":\"FWENC2BFINTN\",\"value\":\"1\",\"source\":\"mcarechild.FWENC2BFINTN\"}%' or instance like '%{\"name\":\"FWENC3BFINTN\",\"value\":\"1\",\"source\":\"mcarechild.FWENC3BFINTN\"}%')  and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(fromdate) + "') and date('" + format.format(todate) + "'))");
+        cursor.moveToFirst();
+        try {
+            String countofecpreceptor = cursor.getString(0);
+
+            cursor.close();
+            return countofecpreceptor;
+        } catch (Exception e) {
+            cursor.close();
+            return "0";
+        }
     }
 
     @Override
