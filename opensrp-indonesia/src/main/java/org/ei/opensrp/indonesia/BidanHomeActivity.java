@@ -287,6 +287,7 @@ public class BidanHomeActivity extends SecuredActivity {
                     anmID = "undefined";
                 }
                 Toast.makeText(this, String.format("%s current user = %s",context().getStringResource(R.string.app_name),anmID), LENGTH_SHORT).show();
+                Tools.getDbRecord(context());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

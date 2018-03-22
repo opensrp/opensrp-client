@@ -487,7 +487,7 @@ public class Context {
         return httpAgent;
     }
 
-    protected Repository initRepository() {
+    public Repository initRepository() {
         if(configuration().appName().equals(AllConstants.APP_NAME_INDONESIA)) {
             return null;
         }
