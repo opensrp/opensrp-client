@@ -58,6 +58,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            resValue "string", 'opensrp_url', '"http://118.91.130.18:9090/opensrp"'
+
+
+        }
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'

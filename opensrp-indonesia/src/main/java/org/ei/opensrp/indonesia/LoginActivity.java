@@ -1,5 +1,6 @@
 package org.ei.opensrp.indonesia;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -31,7 +32,6 @@ import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.domain.ResponseStatus;
 import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.indonesia.lib.ErrorReportingFacade;
-import org.ei.opensrp.indonesia.lib.FlurryFacade;
 import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
 import org.ei.opensrp.util.Log;
@@ -63,12 +63,8 @@ public class LoginActivity extends Activity {
     private EditText passwordEditText;
     private ProgressDialog progressDialog;
     public static final String ENGLISH_LOCALE = "en";
-    public static final String KANNADA_LOCALE = "kn";
-    public static final String BENGALI_LOCALE = "bn";
     public static final String BAHASA_LOCALE = "in";
     public static final String ENGLISH_LANGUAGE = "English";
-    public static final String KANNADA_LANGUAGE = "Kannada";
-    public static final String Bengali_LANGUAGE = "Bengali";
     public static final String Bahasa_LANGUAGE = "Bahasa";
 
     public static Generator generator;
@@ -87,7 +83,7 @@ public class LoginActivity extends Activity {
             conf.locale = new Locale(preferredLocale);
             res.updateConfiguration(conf, dm);
         }catch(Exception e){
-
+            e.printStackTrace();
         }
         setContentView(org.ei.opensrp.R.layout.login);
         ImageView loginglogo = (ImageView)findViewById(R.id.login_logo);
@@ -102,16 +98,15 @@ public class LoginActivity extends Activity {
         getActionBar().setBackgroundDrawable(getResources().getDrawable(org.ei.opensrp.indonesia.R.color.action_bar_background));
         setLanguage();
 
-//        debugApp();
+        debugApp();
 
     }
     private void debugApp() {
-        //    String uname = getResources().getString(R.string.uname);
-        //   String pwd = getResources().getString(R.string.pwd);
         String uname = "demo_ec";
         String pwd = "Satu2345";
 
         LayoutInflater layoutInflater = getLayoutInflater();
+        @SuppressLint("InflateParams")
         View view = layoutInflater.inflate(R.layout.login, null);
 
         if (context.userService().hasARegisteredUser()) {
