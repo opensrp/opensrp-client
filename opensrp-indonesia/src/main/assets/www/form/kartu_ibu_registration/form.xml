@@ -150,7 +150,7 @@
         <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
     </label>
     <label class="question non-select ">
-        <span class="required">*</span>
+        <!--<span class="required">*</span>-->
         <span lang="Bahasa" class="question-label active" data-itext-id="/Kartu_ibu/no_ibu:label">No. Ibu</span>
         <span lang="en" class="question-label " data-itext-id="/Kartu_ibu/no_ibu:label">Mother's Number</span>
         <input type="number" name="/Kartu_ibu/no_ibu" data-type-xml="int"/>
