@@ -7,11 +7,11 @@
 
     <group
         android:name="@string/groupCheckCross"
-        android:pivotX="@integer/viewport_center_x"
-        android:pivotY="@integer/viewport_center_y">
+        android:pivotX="12"
+        android:pivotY="12">
 
         <path
-            android:name="@string/cross"
+            android:name="cross"
             android:pathData="@string/path_cross"
             android:strokeWidth="@integer/stroke_width"
             android:strokeLineCap="square"

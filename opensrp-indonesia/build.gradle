@@ -28,6 +28,7 @@ android {
         multiDexEnabled true
 
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -40,6 +41,7 @@ android {
 
         }
     }
+
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -52,11 +54,16 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
+
     lintOptions {
         checkReleaseBuilds false
         disable 'MissingTranslation'
         checkReleaseBuilds false
         abortOnError false
+    }
+
+    defaultConfig {
+        vectorDrawables.useSupportLibrary = true
     }
 
 }
