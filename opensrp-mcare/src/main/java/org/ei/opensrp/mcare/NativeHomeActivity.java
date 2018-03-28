@@ -35,6 +35,7 @@ import org.ei.opensrp.mcare.household.tutorial.tutorialCircleViewFlow;
 import org.ei.opensrp.mcare.pnc.pnc1handler;
 import org.ei.opensrp.mcare.pnc.pnc2handler;
 import org.ei.opensrp.mcare.pnc.pnc3handler;
+import org.ei.opensrp.service.FormSubmissionService;
 import org.ei.opensrp.service.PendingFormSubmissionService;
 import org.ei.opensrp.sync.SyncAfterFetchListener;
 import org.ei.opensrp.sync.SyncProgressIndicator;
@@ -116,6 +117,7 @@ public class NativeHomeActivity extends SecuredActivity {
 
     @Override
     protected void onCreation() {
+        FormSubmissionService.isInRegister = false;
         setContentView(R.layout.smart_registers_home);
         navigationController = new McareNavigationController(this,anmController);
         setupViews();
@@ -173,6 +175,7 @@ public class NativeHomeActivity extends SecuredActivity {
     }
 
     private void initialize() {
+        FormSubmissionService.isInRegister = false;
         pendingFormSubmissionService = context().pendingFormSubmissionService();
         SYNC_STARTED.addListener(onSyncStartListener);
         SYNC_COMPLETED.addListener(onSyncCompleteListener);
@@ -188,10 +191,21 @@ public class NativeHomeActivity extends SecuredActivity {
 
     @Override
     protected void onResumption() {
+        FormSubmissionService.isInRegister = false;
+        if(onSyncStartListener!=null){
+        SYNC_STARTED.addListener(onSyncStartListener);}
+        if(onSyncCompleteListener!=null){
+        SYNC_COMPLETED.addListener(onSyncCompleteListener);}
+        if(onFormSubmittedListener!=null){
+        FORM_SUBMITTED.addListener(onFormSubmittedListener);}
+        if(updateANMDetailsListener!=null){
+        ACTION_HANDLED.addListener(updateANMDetailsListener);}
         LoginActivity.setLanguage();
         updateRegisterCounts();
         updateSyncIndicator();
         updateRemainingFormsToSyncCount();
+
+
     }
 
     private void updateRegisterCounts() {
@@ -320,6 +334,15 @@ public class NativeHomeActivity extends SecuredActivity {
         ACTION_HANDLED.removeListener(updateANMDetailsListener);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SYNC_STARTED.removeListener(onSyncStartListener);
+        SYNC_COMPLETED.removeListener(onSyncCompleteListener);
+        FORM_SUBMITTED.removeListener(onFormSubmittedListener);
+        ACTION_HANDLED.removeListener(updateANMDetailsListener);
+    }
+
     private void updateSyncIndicator() {
         if (updateMenuItem != null) {
             if (context().allSharedPreferences().fetchIsSyncInProgress()) {
@@ -386,46 +409,5 @@ public class NativeHomeActivity extends SecuredActivity {
             }
         }
     };
-    class pncControllerfiltermap extends ControllerFilterMap {
 
-        @Override
-        public boolean filtermapLogic(CommonPersonObject commonPersonObject) {
-            boolean returnvalue = false;
-            if(commonPersonObject.getDetails().get("FWWOMVALID") != null){
-                if(commonPersonObject.getDetails().get("FWWOMVALID").equalsIgnoreCase("1")){
-                    returnvalue = true;
-                    if(commonPersonObject.getDetails().get("Is_PNC")!=null){
-                        if(commonPersonObject.getDetails().get("Is_PNC").equalsIgnoreCase("1")){
-                            returnvalue = true;
-                        }
-
-                    }else{
-                        returnvalue = false;
-                    }
-                }
-            }
-            Log.v("the filter", "" + returnvalue);
-            return returnvalue;
-        }
-    }
-    class ancControllerfiltermap extends ControllerFilterMap{
-
-        @Override
-        public boolean filtermapLogic(CommonPersonObject commonPersonObject) {
-            boolean returnvalue = false;
-            if(commonPersonObject.getDetails().get("FWWOMVALID") != null){
-                if(commonPersonObject.getDetails().get("FWWOMVALID").equalsIgnoreCase("1")){
-                    returnvalue = true;
-                    if(commonPersonObject.getDetails().get("Is_PNC")!=null){
-                        if(commonPersonObject.getDetails().get("Is_PNC").equalsIgnoreCase("1")){
-                            returnvalue = false;
-                        }
-
-                    }
-                }
-            }
-            Log.v("the filter",""+returnvalue);
-            return returnvalue;
-        }
-    }
 }

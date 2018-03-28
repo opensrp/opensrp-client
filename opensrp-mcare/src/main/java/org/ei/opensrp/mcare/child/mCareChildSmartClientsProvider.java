@@ -73,7 +73,9 @@ public class mCareChildSmartClientsProvider implements SmartRegisterCLientsProvi
     public void getView(final SmartRegisterClient smartRegisterClient, View convertView) {
         View itemView = convertView;
 
-        LinearLayout profileinfolayout = (LinearLayout)itemView.findViewById(R.id.profile_info_layout);
+        if ((itemView.getTag(R.id.childlayoutclient) != null && !itemView.getTag(R.id.childlayoutclient).equals(smartRegisterClient))||itemView.getTag(R.id.childlayoutclient)==null) {
+
+            LinearLayout profileinfolayout = (LinearLayout)itemView.findViewById(R.id.profile_info_layout);
 
         ImageView profilepic = (ImageView)itemView.findViewById(R.id.profilepic);
         TextView mothername = (TextView)itemView.findViewById(R.id.mother_name);
@@ -139,6 +141,8 @@ public class mCareChildSmartClientsProvider implements SmartRegisterCLientsProvi
 
 
         itemView.setLayoutParams(clientViewLayoutParams);
+            itemView.setTag(R.id.childlayoutclient, smartRegisterClient);
+        }
     }
 
     private void constructENCCVisitStatusBlock(CommonPersonObjectClient pc, View itemview) {

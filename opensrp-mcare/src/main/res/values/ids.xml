@@ -12,4 +12,7 @@
     <item name="textforEnccRegister" type="id">textforEnccRegister</item>
     <item name="warnid" type="id">warnid</item>
     <item name="AlertStatustextforMIS_ELCO" type="id">id_mis_elco</item>
+    <item name="pnclayoutclient" type="id">pnclayoutclient</item>
+    <item name="anclayoutclient" type="id">anclayoutcient</item>
+    <item name="childlayoutclient" type="id">childlayoutclient</item>
 </resources>

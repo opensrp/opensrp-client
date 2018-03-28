@@ -76,7 +76,9 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
         View itemView;
         itemView = convertView;
 //        itemView = (ViewGroup) inflater().inflate(R.layout.smart_register_mcare_anc_client, null);
-        LinearLayout profileinfolayout = (LinearLayout)itemView.findViewById(R.id.profile_info_layout);
+        if ((itemView.getTag(R.id.anclayoutclient) != null && !itemView.getTag(R.id.anclayoutclient).equals(smartRegisterClient))||itemView.getTag(R.id.anclayoutclient)==null) {
+
+            LinearLayout profileinfolayout = (LinearLayout)itemView.findViewById(R.id.profile_info_layout);
 
         ImageView profilepic = (ImageView)itemView.findViewById(R.id.profilepic);
         TextView name = (TextView)itemView.findViewById(R.id.name);
@@ -193,6 +195,8 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
 
 
         itemView.setLayoutParams(clientViewLayoutParams);
+            itemView.setTag(R.id.anclayoutclient, smartRegisterClient);
+        }
     }
 
     @Override
