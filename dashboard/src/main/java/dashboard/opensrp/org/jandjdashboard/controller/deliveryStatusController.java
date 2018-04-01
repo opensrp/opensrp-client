@@ -10,7 +10,6 @@ import java.util.HashMap;
 
 public abstract class deliveryStatusController extends dashboardControllers{
 
-    public SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
 
     public abstract String numberofLiveBirth(Date from, Date to);

@@ -9,8 +9,6 @@ import java.util.Date;
 
 public abstract class nutritionDetailController extends dashboardControllers{
 
-    public SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
     public abstract String iron_and_folic_acid_pregnant_woman_info(Date fromdate, Date todate);
     public abstract String iron_and_folic_acid_mother_info(Date fromdate, Date todate);
     public abstract String distributed_iron_and_folic_acid_pregnant_woman_info(Date fromdate, Date todate);

@@ -139,6 +139,8 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
             ((delivery_status_detail_Fragment)currentFragment).refresh(fromdate,todate);
         }if(currentFragmentName.equalsIgnoreCase("nutrition_detail_Fragment")){
             ((nutritionDetailFragment)currentFragment).refresh(fromdate,todate);
+        }if(currentFragmentName.equalsIgnoreCase("contraceptive_supply_status_detailFragment")){
+            ((contraceptiveSupplyStatusDetailFragment)currentFragment).refresh(fromdate,todate);
         }
 
     }

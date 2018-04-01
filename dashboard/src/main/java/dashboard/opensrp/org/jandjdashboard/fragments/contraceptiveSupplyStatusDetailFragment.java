@@ -12,11 +12,17 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import dashboard.opensrp.org.jandjdashboard.R;
 import dashboard.opensrp.org.jandjdashboard.adapter.scheduleCardAdapter;
+import dashboard.opensrp.org.jandjdashboard.controller.contraceptiveSupplyStatusController;
+import dashboard.opensrp.org.jandjdashboard.controller.controllerHolders;
+import dashboard.opensrp.org.jandjdashboard.controller.reproductiveHealthServiceController;
 import dashboard.opensrp.org.jandjdashboard.dashboardCategoryDetailActivity;
 import dashboard.opensrp.org.jandjdashboard.dashboardCategoryListActivity;
 import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
@@ -38,10 +44,11 @@ public class contraceptiveSupplyStatusDetailFragment extends Fragment {
      * The dummy content this fragment is presenting.
      */
     private DummyContent.DummyItem mItem;
-    private RecyclerView recyclerView;
-    private scheduleCardAdapter adapter;
-    private ArrayList<Drawable> iconList;
-    private ArrayList<String> titleList;
+    contraceptiveSupplyStatusController cssController;
+    private String controller_holder_key = "controller_holder";
+    private String contraceptiveSupplyStatusControllerKey = "contraceptiveSupplyStatusController";
+
+    TextView oralpillshukhiCurrentMonth,oralpillAponCurrentMonth,condomNirapodCurrentMonth;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -66,6 +73,12 @@ public class contraceptiveSupplyStatusDetailFragment extends Fragment {
                 appBarLayout.setTitle(mItem.content);
             }
         }
+        if (getArguments().containsKey(controller_holder_key)) {
+            // Load the dummy content specified by the fragment
+            // arguments. In a real-world scenario, use a Loader
+            // to load content from a content provider.
+            cssController = (contraceptiveSupplyStatusController) ((controllerHolders)getArguments().getSerializable(controller_holder_key)).getControllersHashMap().get(contraceptiveSupplyStatusControllerKey);
+        }
     }
 
     @Override
@@ -74,9 +87,33 @@ public class contraceptiveSupplyStatusDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.contraceptive_supply_status_detail, container, false);
 
 
+        setupViews(rootView);
+        Date today = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(today);
+        cal.add(Calendar.DATE, -(365*10));
+        Date yesterday = cal.getTime();
+        refresh(cssController.format.format(yesterday.getTime()),cssController.format.format(today.getTime()));
 
 
         return rootView;
+    }
+
+    private void setupViews(View rootView) {
+        oralpillshukhiCurrentMonth = (TextView)rootView.findViewById(R.id.found_in_current_month_shukhi);
+        oralpillAponCurrentMonth = (TextView)rootView.findViewById(R.id.found_in_current_month_apon);
+        condomNirapodCurrentMonth = (TextView)rootView.findViewById(R.id.found_in_current_month_condom);
+    }
+    public void refresh(String from,String to) {
+        try {
+            Date fromdate = cssController.format.parse(from);
+            Date todate = cssController.format.parse(to);
+            oralpillshukhiCurrentMonth.setText(cssController.oralpillshukhiCurrentMonthQuery(fromdate,todate));
+            oralpillAponCurrentMonth.setText(cssController.oralpillAponCurrentMonthQuery(fromdate,todate));
+            condomNirapodCurrentMonth.setText(cssController.condomNirapodCurrentMonthQuery(fromdate,todate));
+
+        }catch (Exception e){
+        }
     }
 
 }
