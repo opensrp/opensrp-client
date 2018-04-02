@@ -133,14 +133,21 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
         }
         if(currentFragmentName.equalsIgnoreCase("anc_pnc_encc_StatusDetailFragment")){
             ((anc_pnc_encc_StatusDetailFragment)currentFragment).refresh(fromdate,todate);
-        }if(currentFragmentName.equalsIgnoreCase("reproductive_health_service_Fragment")){
+        }
+        if(currentFragmentName.equalsIgnoreCase("reproductive_health_service_Fragment")){
             ((reproductive_health_service_Fragment)currentFragment).refresh(fromdate,todate);
-        }if(currentFragmentName.equalsIgnoreCase("delivery_status_detail_Fragment")){
+        }
+        if(currentFragmentName.equalsIgnoreCase("delivery_status_detail_Fragment")){
             ((delivery_status_detail_Fragment)currentFragment).refresh(fromdate,todate);
-        }if(currentFragmentName.equalsIgnoreCase("nutrition_detail_Fragment")){
+        }
+        if(currentFragmentName.equalsIgnoreCase("nutrition_detail_Fragment")){
             ((nutritionDetailFragment)currentFragment).refresh(fromdate,todate);
-        }if(currentFragmentName.equalsIgnoreCase("contraceptive_supply_status_detailFragment")){
+        }
+        if(currentFragmentName.equalsIgnoreCase("contraceptive_supply_status_detailFragment")){
             ((contraceptiveSupplyStatusDetailFragment)currentFragment).refresh(fromdate,todate);
+        }
+        if(currentFragmentName.equalsIgnoreCase("family_planning_StatusDetailFragment")){
+            ((familyPlanningStatusDetailFragment)currentFragment).refresh(fromdate,todate);
         }
 
     }
@@ -198,7 +205,10 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
                                 Bundle arguments = new Bundle();
                                 arguments.putString(familyPlanningStatusDetailFragment.ARG_ITEM_ID, holder.mItem.id);
                                 familyPlanningStatusDetailFragment fragment = new familyPlanningStatusDetailFragment();
+                                arguments.putSerializable("controller_holder",controllerholder);
                                 fragment.setArguments(arguments);
+                                currentFragmentName = "family_planning_StatusDetailFragment";
+                                currentFragment = fragment;
                                 getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.dashboardcategory_detail_container, fragment)
                                         .commit();

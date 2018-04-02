@@ -14,11 +14,17 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import dashboard.opensrp.org.jandjdashboard.R;
 import dashboard.opensrp.org.jandjdashboard.adapter.scheduleCardAdapter;
+import dashboard.opensrp.org.jandjdashboard.controller.controllerHolders;
+import dashboard.opensrp.org.jandjdashboard.controller.familyPlanningStatusController;
+import dashboard.opensrp.org.jandjdashboard.controller.nutritionDetailController;
 import dashboard.opensrp.org.jandjdashboard.dashboardCategoryDetailActivity;
 import dashboard.opensrp.org.jandjdashboard.dashboardCategoryListActivity;
 import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
@@ -35,15 +41,16 @@ public class familyPlanningStatusDetailFragment extends Fragment {
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
+    private String controller_holder_key = "controller_holder";
+    private String familyPlanningStatusControllerKey = "familyPlanningStatusController";
+    familyPlanningStatusController fPSController;
 
+    TextView pill_old,pill_new,pill_unit_total,pill_not_using_any_method,pill_using_other_method,pill_referred_for_method,pill_referred_for_side_effects;
+    TextView condom_old,condom_new,condom_unit_total,condom_not_using_any_method,condom_using_other_method,condom_referred_for_method,condom_referred_for_side_effects;
     /**
      * The dummy content this fragment is presenting.
      */
     private DummyContent.DummyItem mItem;
-    private RecyclerView recyclerView;
-    private scheduleCardAdapter adapter;
-    private ArrayList<Drawable> iconList;
-    private ArrayList<String> titleList;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -68,6 +75,12 @@ public class familyPlanningStatusDetailFragment extends Fragment {
                 appBarLayout.setTitle(mItem.content);
             }
         }
+        if (getArguments().containsKey(controller_holder_key)) {
+            // Load the dummy content specified by the fragment
+            // arguments. In a real-world scenario, use a Loader
+            // to load content from a content provider.
+            fPSController = (familyPlanningStatusController) ((controllerHolders)getArguments().getSerializable(controller_holder_key)).getControllersHashMap().get(familyPlanningStatusControllerKey);
+        }
     }
 
     @Override
@@ -75,71 +88,54 @@ public class familyPlanningStatusDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.family_planning_status_detail, container, false);
 
-
+        setupViews(rootView);
+        Date today = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(today);
+        cal.add(Calendar.DATE, -(365*10));
+        Date yesterday = cal.getTime();
+        refresh(fPSController.format.format(yesterday.getTime()),fPSController.format.format(today.getTime()));
 
 
         return rootView;
     }
-    private void prepareAlbums() {
 
-        titleList.add("Household Visit");
-        titleList.add("ELCO Visit");
-        titleList.add("EDD");
-        titleList.add("ANC Visit");
-        titleList.add("PNC Visit");
-        titleList.add("Neonatal Visit");
-        titleList.add("TT Vaccine");
-        titleList.add("Vaccine For Child");
+    private void setupViews(View rootView) {
+        ///////////pill textviews ///////////////////////////////
+        pill_old = (TextView)rootView.findViewById(R.id.pill_old);
+        pill_new = (TextView)rootView.findViewById(R.id.pill_new);
+        pill_unit_total = (TextView)rootView.findViewById(R.id.pill_unit_total);
+        pill_not_using_any_method = (TextView)rootView.findViewById(R.id.pill_left_not_using_any_method);
+        pill_using_other_method = (TextView)rootView.findViewById(R.id.pill_left_using_other_method);
+        pill_referred_for_method = (TextView)rootView.findViewById(R.id.pill_referred_for_method);
+        pill_referred_for_side_effects = (TextView)rootView.findViewById(R.id.pill_referred_for_side_effects);
+        ////////////////////////////////////////////////////////
 
-        iconList.add(getResources().getDrawable(R.drawable.householdschedulecard));
-        iconList.add(getResources().getDrawable(R.drawable.elcovisit));
-        iconList.add(getResources().getDrawable(R.drawable.edd));
-        iconList.add(getResources().getDrawable(R.drawable.ancvisit));
-        iconList.add(getResources().getDrawable(R.drawable.pncvisit));
-        iconList.add(getResources().getDrawable(R.drawable.neonatalvisit));
-        iconList.add(getResources().getDrawable(R.drawable.ttvaccine));
-        iconList.add(getResources().getDrawable(R.drawable.vaccine));
-        adapter.notifyDataSetChanged();
+        //////////condom textviews ////////////////////////////
+        condom_old = (TextView)rootView.findViewById(R.id.condom_old);
+        condom_new = (TextView)rootView.findViewById(R.id.condom_new);
+        condom_unit_total = (TextView)rootView.findViewById(R.id.condom_unit_total);
+        condom_not_using_any_method = (TextView)rootView.findViewById(R.id.condom_left_not_using_any_method);
+        condom_using_other_method = (TextView)rootView.findViewById(R.id.condom_left_using_other_method);
+        condom_referred_for_method = (TextView)rootView.findViewById(R.id.condom_referred_for_method);
+        condom_referred_for_side_effects = (TextView)rootView.findViewById(R.id.condom_referred_for_side_effects);
+        //////////////////////////////////////////////////////
+
     }
+    public void refresh(String from, String to) {
+        try {
+            Date fromdate = fPSController.format.parse(from);
+            Date todate = fPSController.format.parse(to);
 
+            pill_old.setText(fPSController.pill_old_Query(fromdate,todate));
+            pill_new.setText(fPSController.pill_new_Query(fromdate,todate));
+            pill_unit_total.setText(fPSController.pill_unit_totalQuery(fromdate,todate));
+            pill_not_using_any_method.setText(fPSController.pill_not_using_any_methodQuery(fromdate,todate));
+            pill_using_other_method.setText(fPSController.pill_using_other_methodQuery(fromdate,todate));
+            pill_referred_for_method.setText(fPSController.pill_referred_for_methodQuery(fromdate,todate));
+            pill_referred_for_side_effects.setText(fPSController.pill_referred_for_side_effectsQuery(fromdate,todate));
 
-    private int dpToPx(int dp) {
-        Resources r = getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
-    }
-
-    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
-
-        private int spanCount;
-        private int spacing;
-        private boolean includeEdge;
-
-        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
-            this.spanCount = spanCount;
-            this.spacing = spacing;
-            this.includeEdge = includeEdge;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int position = parent.getChildAdapterPosition(view); // item position
-            int column = position % spanCount; // item column
-
-            if (includeEdge) {
-                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
-                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
-
-                if (position < spanCount) { // top edge
-                    outRect.top = spacing;
-                }
-                outRect.bottom = spacing; // item bottom
-            } else {
-                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
-                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
-                if (position >= spanCount) {
-                    outRect.top = spacing; // item top
-                }
-            }
+        }catch (Exception e){
         }
     }
 }

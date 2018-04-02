@@ -9,6 +9,7 @@ import org.ei.opensrp.mcare.child.mCareChildSmartRegisterActivity;
 import org.ei.opensrp.mcare.dashboard.controllers.anc_pnc_encc_reminder_StatusControllerForDashBoardModule;
 import org.ei.opensrp.mcare.dashboard.controllers.contraceptiveSupplyStatusControllerForDashBoardModule;
 import org.ei.opensrp.mcare.dashboard.controllers.deliveryStatusControllerForDashBoardModule;
+import org.ei.opensrp.mcare.dashboard.controllers.familyPlanningStatusControllerForDashBoardModule;
 import org.ei.opensrp.mcare.dashboard.controllers.nutritionDetailControllerForDashBoardModule;
 import org.ei.opensrp.mcare.dashboard.controllers.reproductiveHealthServiceControllerForDashBoardModule;
 import org.ei.opensrp.mcare.dashboard.controllers.upcomingScheduleStatusControllerForDashBoardModule;
@@ -74,6 +75,7 @@ public class McareNavigationController extends org.ei.opensrp.view.controller.Na
     private controllerHolders initializeControllersForDashboard() {
         controllerHolders controllerHolder = new controllerHolders();
         upcomingScheduleStatusControllerForDashBoardModule usscontrollerForDashBoardModule = new upcomingScheduleStatusControllerForDashBoardModule();
+        familyPlanningStatusControllerForDashBoardModule fpsControllerForDashBoardModule = new familyPlanningStatusControllerForDashBoardModule();
         anc_pnc_encc_reminder_StatusControllerForDashBoardModule ancpnc_encc_rsForDashBoardModule = new anc_pnc_encc_reminder_StatusControllerForDashBoardModule();
         reproductiveHealthServiceControllerForDashBoardModule ReproductiveHealthServiceControllerForDashBoardModule = new reproductiveHealthServiceControllerForDashBoardModule();
         deliveryStatusControllerForDashBoardModule deliveryStatusControllerForDashBoardModule = new deliveryStatusControllerForDashBoardModule();
@@ -88,6 +90,7 @@ public class McareNavigationController extends org.ei.opensrp.view.controller.Na
         stringdashboardControllersHashMap.put("deliveryStatusController",deliveryStatusControllerForDashBoardModule);
         stringdashboardControllersHashMap.put("nutritionDetailController",nutritionDetailControllerForDashBoardModule);
         stringdashboardControllersHashMap.put("contraceptiveSupplyStatusController",contraceptiveSupplyStatusControllerForDashBoardModule);
+        stringdashboardControllersHashMap.put("familyPlanningStatusController",fpsControllerForDashBoardModule);
 
         controllerHolder.setControllersHashMap(stringdashboardControllersHashMap);
         return controllerHolder;
