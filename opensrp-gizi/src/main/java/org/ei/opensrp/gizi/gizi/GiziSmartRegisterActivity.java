@@ -238,10 +238,10 @@ public class GiziSmartRegisterActivity extends SecuredNativeSmartRegisterActivit
 
     @Override
     public void startFormActivity(final String formName, final String entityId, final String metaData) {
-        if(Support.ONSYNC) {
+      /*  if(Support.ONSYNC) {
             Toast.makeText(this, "Data still Synchronizing, please wait", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
 
         String start = timer.format(new Date());
         Map<String, String> FS = new HashMap<String, String>();

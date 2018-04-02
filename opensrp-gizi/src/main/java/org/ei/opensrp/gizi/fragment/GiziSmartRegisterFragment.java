@@ -262,10 +262,10 @@ public class GiziSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
 
     @Override
     public void startRegistration() {
-        if(Support.ONSYNC) {
+       /* if(Support.ONSYNC) {
             Toast.makeText(getActivity(), "Data still Synchronizing, please wait", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
 
         FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
         Fragment prev = getActivity().getFragmentManager().findFragmentByTag(locationDialogTAG);

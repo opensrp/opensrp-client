@@ -61,7 +61,7 @@ public class GiziHomeActivity extends SecuredActivity {
     private Listener<Boolean> onSyncStartListener = new Listener<Boolean>() {
         @Override
         public void onEvent(Boolean data) {
-            Support.ONSYNC = true;
+          //  Support.ONSYNC = true;
             AllConstants.SLEEP_TIME = 15000;
             if (updateMenuItem != null) {
                 updateMenuItem.setActionView(R.layout.progress);
@@ -73,7 +73,7 @@ public class GiziHomeActivity extends SecuredActivity {
         @Override
         public void onEvent(Boolean data) {
             //#TODO: RemainingFormsToSyncCount cannot be updated from a back ground thread!!
-            Support.ONSYNC = true;
+           // Support.ONSYNC = true;
             updateRemainingFormsToSyncCount();
             if (updateMenuItem != null) {
                 updateMenuItem.setActionView(null);
@@ -85,7 +85,7 @@ public class GiziHomeActivity extends SecuredActivity {
             Tools.setVectorfromAPI(getApplicationContext());
 //            AllConstants.SLEEP_TIME = AllConstants.WAITING_TIME;
 //            Tools.setVectorsBuffered();
-            flagActivator();
+           // flagActivator();
         }
     };
 
@@ -98,7 +98,7 @@ public class GiziHomeActivity extends SecuredActivity {
                         if(AllConstants.IDLE)
                             AllConstants.SLEEP_TIME-=1000;
                     }
-                    Support.ONSYNC=false;
+                 //   Support.ONSYNC=false;
                 }catch (InterruptedException ie){
 
                 }
