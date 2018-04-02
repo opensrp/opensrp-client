@@ -58,7 +58,7 @@ public class VaksinatorHomeActivity extends SecuredActivity {
     private Listener<Boolean> onSyncStartListener = new Listener<Boolean>() {
         @Override
         public void onEvent(Boolean data) {
-            Support.ONSYNC = true;
+          //  Support.ONSYNC = true;
             AllConstants.SLEEP_TIME = 15000;
             if (updateMenuItem != null) {
                 updateMenuItem.setActionView(R.layout.progress);
@@ -81,12 +81,12 @@ public class VaksinatorHomeActivity extends SecuredActivity {
             Tools.setVectorfromAPI(getApplicationContext());
 //            Tools.setVectorsBuffered();
             AllConstants.SLEEP_TIME = AllConstants.WAITING_TIME;
-            flagActivator();
+          //  flagActivator();
 
         }
     };
 
-    private void flagActivator(){
+    /*private void flagActivator(){
         Log.i(LOG_TAG,"flag activator executed");
         new Thread(){
             public void run(){
@@ -102,7 +102,7 @@ public class VaksinatorHomeActivity extends SecuredActivity {
                 }
             }
         }.start();
-    }
+    }*/
 
     private Listener<String> onFormSubmittedListener = new Listener<String>() {
         @Override

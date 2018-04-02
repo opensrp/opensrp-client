@@ -55,7 +55,7 @@ public class BidanHomeActivity extends SecuredActivity {
     private Listener<Boolean> onSyncStartListener = new Listener<Boolean>() {
         @Override
         public void onEvent(Boolean data) {
-            Support.ONSYNC = true;
+          //  Support.ONSYNC = true;
             AllConstants.IDLE = false;
             AllConstants.SLEEP_TIME = 15000;
             if (updateMenuItem != null) {
@@ -81,12 +81,12 @@ public class BidanHomeActivity extends SecuredActivity {
 //            Tools.download_images();
 //            Tools.setVectorsBuffered();
 //            AllConstants.SLEEP_TIME = AllConstants.WAITING_TIME;
-            flagActivator();
+           // flagActivator();
 
         }
     };
 
-    private void flagActivator(){
+   /* private void flagActivator(){
         new Thread(){
             public void run(){
                 try{
@@ -95,13 +95,13 @@ public class BidanHomeActivity extends SecuredActivity {
                         if(AllConstants.IDLE)
                             AllConstants.SLEEP_TIME-=1000;
                     }
-                    Support.ONSYNC=false;
+                  //  Support.ONSYNC=false;
                 }catch (InterruptedException ie){
 
                 }
             }
         }.start();
-    }
+    }*/
 
     private Listener<String> onFormSubmittedListener = new Listener<String>() {
         @Override

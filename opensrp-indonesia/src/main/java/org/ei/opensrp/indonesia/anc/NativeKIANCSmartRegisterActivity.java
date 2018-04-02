@@ -234,10 +234,10 @@ public class NativeKIANCSmartRegisterActivity extends SecuredNativeSmartRegister
     public void startFormActivity(String formName, String entityId, String metaData) {
 //        Log.v("fieldoverride", metaData);
         //  FlurryFacade.logEvent(formName);
-        if(Support.ONSYNC) {
+       /* if(Support.ONSYNC) {
             Toast.makeText(this, "Data still Synchronizing, please wait", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
         String start = timer.format(new Date());
         Map<String, String> FS = new HashMap<String, String>();
         FS.put("start", start);

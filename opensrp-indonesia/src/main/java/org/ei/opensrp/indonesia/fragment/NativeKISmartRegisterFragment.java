@@ -179,10 +179,10 @@ public class NativeKISmartRegisterFragment extends SecuredNativeSmartRegisterCur
 
     @Override
     public void startRegistration() {
-        if(Support.ONSYNC) {
+       /* if(Support.ONSYNC) {
             Toast.makeText(getActivity(), "Data still Synchronizing, please wait", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
 
         String uniqueIdJson = LoginActivity.generator.uniqueIdController().getUniqueIdJson();
         if (uniqueIdJson == null || uniqueIdJson.isEmpty()) {
