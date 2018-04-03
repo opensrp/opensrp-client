@@ -47,6 +47,13 @@ public class familyPlanningStatusDetailFragment extends Fragment {
 
     TextView pill_old,pill_new,pill_unit_total,pill_not_using_any_method,pill_using_other_method,pill_referred_for_method,pill_referred_for_side_effects;
     TextView condom_old,condom_new,condom_unit_total,condom_not_using_any_method,condom_using_other_method,condom_referred_for_method,condom_referred_for_side_effects;
+    TextView injectable_old,injectable_new,injectable_unit_total,injectable_not_using_any_method,injectable_using_other_method,injectable_referred_for_method,injectable_referred_for_side_effects;
+    TextView iud_old,iud_new,iud_unit_total,iud_not_using_any_method,iud_using_other_method,iud_referred_for_method,iud_referred_for_side_effects;
+    TextView implant_old,implant_new,implant_unit_total,implant_not_using_any_method,implant_using_other_method,implant_referred_for_method,implant_referred_for_side_effects;
+    TextView pm_male_old,pm_male_new,pm_male_unit_total,pm_male_not_using_any_method,pm_male_using_other_method,pm_male_referred_for_method,pm_male_referred_for_side_effects;
+    TextView pm_female_old,pm_female_new,pm_female_unit_total,pm_female_not_using_any_method,pm_female_using_other_method,pm_female_referred_for_method,pm_female_referred_for_side_effects;
+    TextView total_old,total_new,total_unit_total,total_not_using_any_method,total_using_other_method,total_referred_for_method,total_referred_for_side_effects;
+
     /**
      * The dummy content this fragment is presenting.
      */
@@ -121,6 +128,66 @@ public class familyPlanningStatusDetailFragment extends Fragment {
         condom_referred_for_side_effects = (TextView)rootView.findViewById(R.id.condom_referred_for_side_effects);
         //////////////////////////////////////////////////////
 
+        //////////injectable textviews ////////////////////////////
+        injectable_old = (TextView)rootView.findViewById(R.id.injectable_old);
+        injectable_new = (TextView)rootView.findViewById(R.id.injectable_new);
+        injectable_unit_total = (TextView)rootView.findViewById(R.id.injectable_unit_total);
+        injectable_not_using_any_method = (TextView)rootView.findViewById(R.id.injectable_left_not_using_any_method);
+        injectable_using_other_method = (TextView)rootView.findViewById(R.id.injectable_left_using_other_method);
+        injectable_referred_for_method = (TextView)rootView.findViewById(R.id.injectable_referred_for_method);
+        injectable_referred_for_side_effects = (TextView)rootView.findViewById(R.id.injectable_referred_for_side_effects);
+        //////////////////////////////////////////////////////
+
+        //////////iud textviews ////////////////////////////
+        iud_old = (TextView)rootView.findViewById(R.id.iud_old);
+        iud_new = (TextView)rootView.findViewById(R.id.iud_new);
+        iud_unit_total = (TextView)rootView.findViewById(R.id.iud_unit_total);
+        iud_not_using_any_method = (TextView)rootView.findViewById(R.id.iud_left_not_using_any_method);
+        iud_using_other_method = (TextView)rootView.findViewById(R.id.iud_left_using_other_method);
+        iud_referred_for_method = (TextView)rootView.findViewById(R.id.iud_referred_for_method);
+        iud_referred_for_side_effects = (TextView)rootView.findViewById(R.id.iud_referred_for_side_effects);
+        //////////////////////////////////////////////////////
+
+        //////////implant textviews ////////////////////////////
+        implant_old = (TextView)rootView.findViewById(R.id.implant_old);
+        implant_new = (TextView)rootView.findViewById(R.id.implant_new);
+        implant_unit_total = (TextView)rootView.findViewById(R.id.implant_unit_total);
+        implant_not_using_any_method = (TextView)rootView.findViewById(R.id.implant_left_not_using_any_method);
+        implant_using_other_method = (TextView)rootView.findViewById(R.id.implant_left_using_other_method);
+        implant_referred_for_method = (TextView)rootView.findViewById(R.id.implant_referred_for_method);
+        implant_referred_for_side_effects = (TextView)rootView.findViewById(R.id.implant_referred_for_side_effects);
+        //////////////////////////////////////////////////////
+
+        //////////pm_male textviews ////////////////////////////
+        pm_male_old = (TextView)rootView.findViewById(R.id.pm_male_old);
+        pm_male_new = (TextView)rootView.findViewById(R.id.pm_male_new);
+        pm_male_unit_total = (TextView)rootView.findViewById(R.id.pm_male_unit_total);
+        pm_male_not_using_any_method = (TextView)rootView.findViewById(R.id.pm_male_left_not_using_any_method);
+        pm_male_using_other_method = (TextView)rootView.findViewById(R.id.pm_male_left_using_other_method);
+        pm_male_referred_for_method = (TextView)rootView.findViewById(R.id.pm_male_referred_for_method);
+        pm_male_referred_for_side_effects = (TextView)rootView.findViewById(R.id.pm_male_referred_for_side_effects);
+        //////////////////////////////////////////////////////
+
+        //////////pm_female textviews ////////////////////////////
+        pm_female_old = (TextView)rootView.findViewById(R.id.pm_female_old);
+        pm_female_new = (TextView)rootView.findViewById(R.id.pm_female_new);
+        pm_female_unit_total = (TextView)rootView.findViewById(R.id.pm_female_unit_total);
+        pm_female_not_using_any_method = (TextView)rootView.findViewById(R.id.pm_female_left_not_using_any_method);
+        pm_female_using_other_method = (TextView)rootView.findViewById(R.id.pm_female_left_using_other_method);
+        pm_female_referred_for_method = (TextView)rootView.findViewById(R.id.pm_female_referred_for_method);
+        pm_female_referred_for_side_effects = (TextView)rootView.findViewById(R.id.pm_female_referred_for_side_effects);
+        //////////////////////////////////////////////////////
+
+        total_old = (TextView)rootView.findViewById(R.id.total_old);
+        total_new = (TextView)rootView.findViewById(R.id.total_new);
+        total_unit_total = (TextView)rootView.findViewById(R.id.total_unit_total);
+        total_not_using_any_method = (TextView)rootView.findViewById(R.id.total_left_not_using_any_method);
+        total_using_other_method = (TextView)rootView.findViewById(R.id.total_left_using_other_method);
+        total_referred_for_method = (TextView)rootView.findViewById(R.id.total_referred_for_method);
+        total_referred_for_side_effects = (TextView)rootView.findViewById(R.id.total_referred_for_side_effects);
+
+
+
     }
     public void refresh(String from, String to) {
         try {
@@ -134,6 +201,96 @@ public class familyPlanningStatusDetailFragment extends Fragment {
             pill_using_other_method.setText(fPSController.pill_using_other_methodQuery(fromdate,todate));
             pill_referred_for_method.setText(fPSController.pill_referred_for_methodQuery(fromdate,todate));
             pill_referred_for_side_effects.setText(fPSController.pill_referred_for_side_effectsQuery(fromdate,todate));
+
+            condom_old.setText(fPSController.condom_old_Query(fromdate,todate));
+            condom_new.setText(fPSController.condom_new_Query(fromdate,todate));
+            condom_unit_total.setText(fPSController.condom_unit_totalQuery(fromdate,todate));
+            condom_not_using_any_method.setText(fPSController.condom_not_using_any_methodQuery(fromdate,todate));
+            condom_using_other_method.setText(fPSController.condom_using_other_methodQuery(fromdate,todate));
+            condom_referred_for_method.setText(fPSController.condom_referred_for_methodQuery(fromdate,todate));
+            condom_referred_for_side_effects.setText(fPSController.condom_referred_for_side_effectsQuery(fromdate,todate));
+
+            injectable_old.setText(fPSController.injectable_old_Query(fromdate,todate));
+            injectable_new.setText(fPSController.injectable_new_Query(fromdate,todate));
+            injectable_unit_total.setText(fPSController.injectable_unit_totalQuery(fromdate,todate));
+            injectable_not_using_any_method.setText(fPSController.injectable_not_using_any_methodQuery(fromdate,todate));
+            injectable_using_other_method.setText(fPSController.injectable_using_other_methodQuery(fromdate,todate));
+            injectable_referred_for_method.setText(fPSController.injectable_referred_for_methodQuery(fromdate,todate));
+            injectable_referred_for_side_effects.setText(fPSController.injectable_referred_for_side_effectsQuery(fromdate,todate));
+
+            iud_old.setText(fPSController.iud_old_Query(fromdate,todate));
+            iud_new.setText(fPSController.iud_new_Query(fromdate,todate));
+            iud_unit_total.setText(fPSController.iud_unit_totalQuery(fromdate,todate));
+            iud_not_using_any_method.setText(fPSController.iud_not_using_any_methodQuery(fromdate,todate));
+            iud_using_other_method.setText(fPSController.iud_using_other_methodQuery(fromdate,todate));
+            iud_referred_for_method.setText(fPSController.iud_referred_for_methodQuery(fromdate,todate));
+            iud_referred_for_side_effects.setText(fPSController.iud_referred_for_side_effectsQuery(fromdate,todate));
+
+            implant_old.setText(fPSController.implant_old_Query(fromdate,todate));
+            implant_new.setText(fPSController.implant_new_Query(fromdate,todate));
+            implant_unit_total.setText(fPSController.implant_unit_totalQuery(fromdate,todate));
+            implant_not_using_any_method.setText(fPSController.implant_not_using_any_methodQuery(fromdate,todate));
+            implant_using_other_method.setText(fPSController.implant_using_other_methodQuery(fromdate,todate));
+            implant_referred_for_method.setText(fPSController.implant_referred_for_methodQuery(fromdate,todate));
+            implant_referred_for_side_effects.setText(fPSController.implant_referred_for_side_effectsQuery(fromdate,todate));
+
+
+            pm_male_old.setText(fPSController.pm_male_old_Query(fromdate,todate));
+            pm_male_new.setText(fPSController.pm_male_new_Query(fromdate,todate));
+            pm_male_unit_total.setText(fPSController.pm_male_unit_totalQuery(fromdate,todate));
+            pm_male_not_using_any_method.setText(fPSController.pm_male_not_using_any_methodQuery(fromdate,todate));
+            pm_male_using_other_method.setText(fPSController.pm_male_using_other_methodQuery(fromdate,todate));
+            pm_male_referred_for_method.setText(fPSController.pm_male_referred_for_methodQuery(fromdate,todate));
+            pm_male_referred_for_side_effects.setText(fPSController.pm_male_referred_for_side_effectsQuery(fromdate,todate));
+
+            pm_female_old.setText(fPSController.pm_female_old_Query(fromdate,todate));
+            pm_female_new.setText(fPSController.pm_female_new_Query(fromdate,todate));
+            pm_female_unit_total.setText(fPSController.pm_female_unit_totalQuery(fromdate,todate));
+            pm_female_not_using_any_method.setText(fPSController.pm_female_not_using_any_methodQuery(fromdate,todate));
+            pm_female_using_other_method.setText(fPSController.pm_female_using_other_methodQuery(fromdate,todate));
+            pm_female_referred_for_method.setText(fPSController.pm_female_referred_for_methodQuery(fromdate,todate));
+            pm_female_referred_for_side_effects.setText(fPSController.pm_female_referred_for_side_effectsQuery(fromdate,todate));
+
+
+            total_old.setText(""+(Integer.parseInt(pill_old.getText().toString())+
+                    Integer.parseInt(condom_old.getText().toString())+
+                    Integer.parseInt(injectable_old.getText().toString())+
+                    Integer.parseInt(iud_old.getText().toString())+
+                    Integer.parseInt(implant_old.getText().toString())+
+                    Integer.parseInt(pm_male_old.getText().toString())+
+                    Integer.parseInt(pm_female_old.getText().toString())));
+            total_new.setText(""+(Integer.parseInt(pill_new.getText().toString())+
+                    Integer.parseInt(condom_new.getText().toString())+
+                    Integer.parseInt(injectable_new.getText().toString())+
+                    Integer.parseInt(iud_new.getText().toString())+
+                    Integer.parseInt(implant_new.getText().toString())+
+                    Integer.parseInt(pm_male_new.getText().toString())+
+                    Integer.parseInt(pm_female_new.getText().toString())));
+            total_unit_total.setText(""+(Integer.parseInt(pill_unit_total.getText().toString())+
+                    Integer.parseInt(condom_unit_total.getText().toString())+
+                    Integer.parseInt(injectable_unit_total.getText().toString())+
+                    Integer.parseInt(iud_unit_total.getText().toString())+
+                    Integer.parseInt(implant_unit_total.getText().toString())+
+                    Integer.parseInt(pm_male_unit_total.getText().toString())+
+                    Integer.parseInt(pm_female_unit_total.getText().toString())));
+            total_not_using_any_method.setText(""+(Integer.parseInt(pill_not_using_any_method.getText().toString())+
+                    Integer.parseInt(condom_not_using_any_method.getText().toString())+
+                    Integer.parseInt(injectable_not_using_any_method.getText().toString())+
+                    Integer.parseInt(iud_not_using_any_method.getText().toString())+
+                    Integer.parseInt(implant_not_using_any_method.getText().toString())+
+                    Integer.parseInt(pm_male_not_using_any_method.getText().toString())+
+                    Integer.parseInt(pm_female_not_using_any_method.getText().toString())));
+            total_using_other_method.setText(""+(Integer.parseInt(pill_using_other_method.getText().toString())+
+                    Integer.parseInt(condom_using_other_method.getText().toString())+
+                    Integer.parseInt(injectable_using_other_method.getText().toString())+
+                    Integer.parseInt(iud_using_other_method.getText().toString())+
+                    Integer.parseInt(implant_using_other_method.getText().toString())+
+                    Integer.parseInt(pm_male_using_other_method.getText().toString())+
+                    Integer.parseInt(pm_female_using_other_method.getText().toString())));
+            total_referred_for_method.setText("");
+            total_referred_for_side_effects.setText("");
+
+
 
         }catch (Exception e){
         }

@@ -17,4 +17,52 @@ public abstract class familyPlanningStatusController extends dashboardController
     public abstract String pill_referred_for_methodQuery(Date from, Date to);
     public abstract String pill_referred_for_side_effectsQuery(Date from, Date to);
 
+    public abstract String condom_old_Query(Date from, Date to);
+    public abstract String condom_new_Query(Date from, Date to);
+    public abstract String condom_unit_totalQuery(Date from, Date to);
+    public abstract String condom_not_using_any_methodQuery(Date from, Date to);
+    public abstract String condom_using_other_methodQuery(Date from, Date to);
+    public abstract String condom_referred_for_methodQuery(Date from, Date to);
+    public abstract String condom_referred_for_side_effectsQuery(Date from, Date to);
+
+    public abstract String injectable_old_Query(Date from, Date to);
+    public abstract String injectable_new_Query(Date from, Date to);
+    public abstract String injectable_unit_totalQuery(Date from, Date to);
+    public abstract String injectable_not_using_any_methodQuery(Date from, Date to);
+    public abstract String injectable_using_other_methodQuery(Date from, Date to);
+    public abstract String injectable_referred_for_methodQuery(Date from, Date to);
+    public abstract String injectable_referred_for_side_effectsQuery(Date from, Date to);
+
+    public abstract String iud_old_Query(Date from, Date to);
+    public abstract String iud_new_Query(Date from, Date to);
+    public abstract String iud_unit_totalQuery(Date from, Date to);
+    public abstract String iud_not_using_any_methodQuery(Date from, Date to);
+    public abstract String iud_using_other_methodQuery(Date from, Date to);
+    public abstract String iud_referred_for_methodQuery(Date from, Date to);
+    public abstract String iud_referred_for_side_effectsQuery(Date from, Date to);
+
+    public abstract String implant_old_Query(Date from, Date to);
+    public abstract String implant_new_Query(Date from, Date to);
+    public abstract String implant_unit_totalQuery(Date from, Date to);
+    public abstract String implant_not_using_any_methodQuery(Date from, Date to);
+    public abstract String implant_using_other_methodQuery(Date from, Date to);
+    public abstract String implant_referred_for_methodQuery(Date from, Date to);
+    public abstract String implant_referred_for_side_effectsQuery(Date from, Date to);
+
+    public abstract String pm_male_old_Query(Date from, Date to);
+    public abstract String pm_male_new_Query(Date from, Date to);
+    public abstract String pm_male_unit_totalQuery(Date from, Date to);
+    public abstract String pm_male_not_using_any_methodQuery(Date from, Date to);
+    public abstract String pm_male_using_other_methodQuery(Date from, Date to);
+    public abstract String pm_male_referred_for_methodQuery(Date from, Date to);
+    public abstract String pm_male_referred_for_side_effectsQuery(Date from, Date to);
+
+    public abstract String pm_female_old_Query(Date from, Date to);
+    public abstract String pm_female_new_Query(Date from, Date to);
+    public abstract String pm_female_unit_totalQuery(Date from, Date to);
+    public abstract String pm_female_not_using_any_methodQuery(Date from, Date to);
+    public abstract String pm_female_using_other_methodQuery(Date from, Date to);
+    public abstract String pm_female_referred_for_methodQuery(Date from, Date to);
+    public abstract String pm_female_referred_for_side_effectsQuery(Date from, Date to);
+
 }

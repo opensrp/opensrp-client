@@ -726,11 +726,11 @@
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
+
                 <TextView
-                    android:text="20"
+                    android:id="@+id/pill_current_month_total"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/pill_current_month_total"
                     android:layout_margin="2dp"
                     android:gravity="center" />
             </TableRow>
@@ -860,11 +860,11 @@
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
+
                 <TextView
-                    android:text="30"
+                    android:id="@+id/condom_current_month_total"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/condom_current_month_total"
                     android:layout_margin="2dp"
                     android:gravity="center" />
             </TableRow>
@@ -994,11 +994,11 @@
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
+
                 <TextView
-                    android:text="40"
+                    android:id="@+id/injectable_current_month_total"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/injectable_current_month_total"
                     android:layout_margin="2dp"
                     android:gravity="center" />
             </TableRow>
@@ -1129,11 +1129,11 @@
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
+
                 <TextView
-                    android:text="50"
+                    android:id="@+id/iud_current_month_total"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/iud_current_month_total"
                     android:layout_margin="2dp"
                     android:gravity="center" />
             </TableRow>
@@ -1263,11 +1263,11 @@
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
+
                 <TextView
-                    android:text="60"
+                    android:id="@+id/implant_current_month_total"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/implant_current_month_total"
                     android:layout_margin="2dp"
                     android:gravity="center" />
             </TableRow>
@@ -1398,11 +1398,11 @@
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
+
                 <TextView
-                    android:text="50"
+                    android:id="@+id/pm_male_current_month_total"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/pm_male_current_month_total"
                     android:layout_margin="2dp"
                     android:gravity="center" />
             </TableRow>
@@ -1532,11 +1532,11 @@
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
+
                 <TextView
-                    android:text="70"
+                    android:id="@+id/pm_female_current_month_total"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/pm_female_current_month_total"
                     android:layout_margin="2dp"
                     android:gravity="center" />
             </TableRow>
@@ -1669,11 +1669,11 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1"
                 android:layout_marginRight="1dp">
+
                 <TextView
-                    android:text="100"
+                    android:id="@+id/total_current_month_total"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/total_current_month_total"
                     android:layout_margin="2dp"
                     android:gravity="center" />
             </TableRow>
