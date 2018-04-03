@@ -281,7 +281,7 @@ public class GiziSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
 
         ft.addToBackStack(null);
         LocationSelectorDialogFragment
-                .newInstance((GiziSmartRegisterActivity) getActivity(), new EditDialogOptionModel(), context().anmLocationController().get(), "registrasi_gizi")
+                .newInstance((GiziSmartRegisterActivity) getActivity(),  ((GiziSmartRegisterActivity)getActivity()).new EditDialogOptionModel(), context().anmLocationController().get(), "registrasi_gizi")
                 .show(ft, locationDialogTAG);
     }
 
@@ -318,7 +318,7 @@ public class GiziSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
                 //untuk follow up button
                 case R.id.btn_edit:
                   //  FlurryFacade.logEvent("click_button_edit_vaksinator");
-                    showFragmentDialog(new EditDialogOptionModel(), view.getTag());
+                    showFragmentDialog( ((GiziSmartRegisterActivity)getActivity()).new EditDialogOptionModel(), view.getTag());
                     break;
             }
         }
@@ -355,7 +355,7 @@ public class GiziSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
     }
 
 
-    private class EditDialogOptionModel implements DialogOptionModel {
+   /* private class EditDialogOptionModel implements DialogOptionModel {
         @Override
         public DialogOption[] getDialogOptions() {
             return getEditOptions();
@@ -364,7 +364,7 @@ public class GiziSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
         public void onDialogOptionSelection(DialogOption option, Object tag) {
 
 
-            /*if(option.name().equalsIgnoreCase(getString(R.string.str_register_anc_form)) ) {
+            *//*if(option.name().equalsIgnoreCase(getString(R.string.str_register_anc_form)) ) {
                 CommonPersonObjectClient pc = KIDetailActivity.kiclient;
                 if(pc.getDetails().get("ibu.type")!= null) {
                     if (pc.getDetails().get("ibu.type").equals("anc") || pc.getDetails().get("ibu.type").equals("pnc")) {
@@ -372,10 +372,10 @@ public class GiziSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
                         return;
                     }
                 }
-            }*/
+            }*//*
             onEditSelection((EditOption) option, (SmartRegisterClient) tag);
         }
-    }
+    }*/
 
     @Override
     protected void onResumption() {

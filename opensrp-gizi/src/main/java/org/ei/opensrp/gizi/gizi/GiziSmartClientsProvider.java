@@ -144,7 +144,7 @@ public class GiziSmartClientsProvider implements SmartRegisterCLientsProviderFor
 
         AllCommonsRepository kirep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_kartu_ibu");
         final CommonPersonObject kiparent = kirep.findByCaseID(Support.getColumnmaps(childobject, "relational_id"));
-
+        Log.i("ibu",kiparent.getCaseId() + "anak" + pc.entityId());
         if (kiparent != null) {
             detailsRepository.updateDetails(kiparent);
             String namaayah = Support.getDetails(kiparent, "namaSuami") != null ? Support.getDetails(kiparent, "namaSuami") : "";

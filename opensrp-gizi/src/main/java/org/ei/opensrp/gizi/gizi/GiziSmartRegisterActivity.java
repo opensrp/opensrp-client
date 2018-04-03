@@ -13,6 +13,9 @@ import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
 
+import org.ei.opensrp.commonregistry.AllCommonsRepository;
+import org.ei.opensrp.commonregistry.CommonPersonObject;
+import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.domain.form.FormSubmission;
@@ -21,11 +24,16 @@ import org.ei.opensrp.gizi.R;
 import org.ei.opensrp.gizi.fragment.GiziSmartRegisterFragment;
 import org.ei.opensrp.gizi.pageradapter.BaseRegisterActivityPagerAdapter;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
+import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.service.ZiggyService;
 import org.ei.opensrp.sync.ClientProcessor;
 import org.ei.opensrp.util.FormUtils;
+import org.ei.opensrp.util.VaksinatorFormUtils;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
+import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.dialog.DialogOption;
+import org.ei.opensrp.view.dialog.DialogOptionModel;
+import org.ei.opensrp.view.dialog.EditOption;
 import org.ei.opensrp.view.dialog.LocationSelectorDialogFragment;
 import org.ei.opensrp.view.dialog.OpenFormOption;
 import org.ei.opensrp.view.fragment.DisplayFormFragment;
@@ -158,6 +166,7 @@ public class GiziSmartRegisterActivity extends SecuredNativeSmartRegisterActivit
     public DialogOption[] getEditOptions() {
             return new DialogOption[]{
                 new OpenFormOption(getString(R.string.monthly_visit), "kunjungan_gizi", formController),
+                    new OpenFormOption(getString(R.string.register_label), "child_edit", formController),
                 new OpenFormOption(getString(R.string.close_form),"close_form",formController)
             };
     }
@@ -168,7 +177,9 @@ public class GiziSmartRegisterActivity extends SecuredNativeSmartRegisterActivit
         Log.v("fieldoverride", fieldOverrides.toString());
         // save the form
         try{
-            FormUtils formUtils = FormUtils.getInstance(getApplicationContext());
+            VaksinatorFormUtils formUtils = VaksinatorFormUtils.getInstance(getApplicationContext());
+
+           // FormUtils formUtils = FormUtils.getInstance(getApplicationContext());
             FormSubmission submission = formUtils.generateFormSubmisionFromXMLString(id, formSubmission, formName, fieldOverrides);
 
             ClientProcessor.getInstance(getApplicationContext()).processClient();
@@ -275,13 +286,14 @@ public class GiziSmartRegisterActivity extends SecuredNativeSmartRegisterActivit
     }
 
     private void activatingForm(String formName, String entityId, String metaData){
+        Log.d(TAG, "activatingForm: metaData="+metaData);
         try {
-            int formIndex = FormUtils.getIndexForFormName(formName, formNames) + 1; // add the offset
+            int formIndex = VaksinatorFormUtils.getIndexForFormName(formName, formNames) + 1; // add the offset
             if (entityId != null || metaData != null){
                 String data = null;
                 data = getPreviouslySavedDataForForm(formName, metaData, entityId);
                 if (data == null){
-                    data = FormUtils.getInstance(getApplicationContext()).generateXMLInputForFormWithEntityId(entityId, formName, metaData);
+                    data = VaksinatorFormUtils.getInstance(getApplicationContext()).generateXMLInputForFormWithEntityId(entityId, formName, metaData);
                 }
 
                 DisplayFormFragment displayFormFragment = getDisplayFormFragmentAtIndex(formIndex);
@@ -385,6 +397,7 @@ public class GiziSmartRegisterActivity extends SecuredNativeSmartRegisterActivit
     private String[] buildFormNameList(){
         List<String> formNames = new ArrayList<String>();
         formNames.add("registrasi_gizi");
+        formNames.add("child_edit");
         formNames.add("kunjungan_gizi");
         formNames.add("close_form");
         return formNames.toArray(new String[formNames.size()]);
@@ -448,5 +461,60 @@ public class GiziSmartRegisterActivity extends SecuredNativeSmartRegisterActivit
         }
     };
 
+    public class EditDialogOptionModel implements DialogOptionModel {
+        @Override
+        public DialogOption[] getDialogOptions() {
+            return getEditOptions();
+        }
+        @Override
+        public void onDialogOptionSelection(DialogOption option, Object tag) {
+            CommonPersonObjectClient pc = (CommonPersonObjectClient) tag;
+            DetailsRepository detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
+            detailsRepository.updateDetails(pc);
+            AllCommonsRepository childRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_anak");
+            CommonPersonObject childobject = childRepository.findByCaseID(pc.entityId());
+
+
+            String ibuCaseId = pc.getDetails().get("relational_id");
+            Log.i("relaso",ibuCaseId + "asdasd" + pc.entityId());
+
+           /* AllCommonsRepository kirep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_kartu_ibu");
+            final CommonPersonObject kiparent = kirep.findByCaseID(Support.getColumnmaps(childobject, "relational_id"));
+            
+         //   String namaibu = pc.getColumnmaps().get("first_name");
+           Log.i("NAMA",kiparent.getCaseId());
+            String namas = kiparent.getDetails().get("namaSuami");
+            Log.i("NAMAAAAAAAAAAAA",namas);*/
+                    //getValue(pc.getColumnmaps(), "relational_id", true).toLowerCase();
+            Log.d(TAG, "onDialogOptionSelection: "+pc.getDetails());
+            JSONObject fieldOverrides = new JSONObject();
+            try {
+                fieldOverrides.put("Province", pc.getDetails().get("stateProvince"));
+                fieldOverrides.put("District", pc.getDetails().get("countyDistrict"));
+                fieldOverrides.put("Sub-district", pc.getDetails().get("address2"));
+                fieldOverrides.put("Village", pc.getDetails().get("cityVillage"));
+                fieldOverrides.put("Sub-village", pc.getDetails().get("address1"));
+                /*fieldOverrides.put("jenis_kelamin", pc.getDetails().get("gender"));
+                fieldOverrides.put("namaSuami", pc.getDetails().get("namaSuami"));
+                fieldOverrides.put("namalengkap", pc.getDetails().get("namalengkap"));*/
+
+
+                //anak
+                fieldOverrides.put("namaBayi", pc.getColumnmaps().get("namaBayi"));
+                fieldOverrides.put("jenisKelamin", pc.getColumnmaps().get("gender"));
+                fieldOverrides.put("desa_anak", pc.getDetails().get("desa_anak"));
+                fieldOverrides.put("tanggalLahirAnak", pc.getDetails().get("tanggalLahirAnak"));
+                fieldOverrides.put("beratLahir", pc.getDetails().get("beratLahir"));
+
+
+                fieldOverrides.put("ibuCaseId", ibuCaseId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            FieldOverrides fo = new FieldOverrides(fieldOverrides.toString());
+            Log.i("obs",fo.getJSONString());
+            onEditSelectionWithMetadata((EditOption) option, (SmartRegisterClient) tag, fo.getJSONString());
+        }
+    }
 
 }

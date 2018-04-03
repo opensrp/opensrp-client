@@ -99,6 +99,11 @@
           },
           {
             "field":"eventType",
+            "field_value": "Child Edit",
+            "creates_case":["ec_anak"]
+          },
+          {
+            "field":"eventType",
             "field_value": "Penutupan Anak",
             "closes_case":["ec_anak"]
           }
