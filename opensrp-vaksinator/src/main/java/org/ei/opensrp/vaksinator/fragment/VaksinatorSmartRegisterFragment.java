@@ -263,7 +263,7 @@ public class VaksinatorSmartRegisterFragment extends SecuredNativeSmartRegisterC
         }
         ft.addToBackStack(null);
         LocationSelectorDialogFragment
-                .newInstance((VaksinatorSmartRegisterActivity) getActivity(), new EditDialogOptionModel(), context().anmLocationController().get(), "registrasi_jurim")
+                .newInstance((VaksinatorSmartRegisterActivity) getActivity(), ((VaksinatorSmartRegisterActivity)getActivity()).new EditDialogOptionModel(), context().anmLocationController().get(), "registrasi_jurim")
                 .show(ft, locationDialogTAG);
     }
 
@@ -281,7 +281,7 @@ public class VaksinatorSmartRegisterFragment extends SecuredNativeSmartRegisterC
                 //untuk follow up button
                 case R.id.btn_edit:
                     FlurryFacade.logEvent("click_button_edit_vaksinator");
-                    showFragmentDialog(new EditDialogOptionModel(), view.getTag());
+                    showFragmentDialog(((VaksinatorSmartRegisterActivity)getActivity()).new EditDialogOptionModel(), view.getTag());
                     break;
             }
         }
@@ -314,7 +314,7 @@ public class VaksinatorSmartRegisterFragment extends SecuredNativeSmartRegisterC
     }
 
 
-    private class EditDialogOptionModel implements DialogOptionModel {
+    /*private class EditDialogOptionModel implements DialogOptionModel {
         @Override
         public DialogOption[] getDialogOptions() {
             return getEditOptions();
@@ -323,7 +323,7 @@ public class VaksinatorSmartRegisterFragment extends SecuredNativeSmartRegisterC
         public void onDialogOptionSelection(DialogOption option, Object tag) {
             onEditSelection((EditOption) option, (SmartRegisterClient) tag);
         }
-    }
+    }*/
 
     @Override
     protected void onResumption() {

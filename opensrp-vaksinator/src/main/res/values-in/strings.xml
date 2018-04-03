@@ -467,6 +467,7 @@
     </string-array>
 
     <string name="year_list_2015_prompt">Year</string>
+    <string name="edit_child">Edit Anak</string>
     <string-array name="year_list_2015_entry">
         <item>2015</item>
         <item>2016</item>

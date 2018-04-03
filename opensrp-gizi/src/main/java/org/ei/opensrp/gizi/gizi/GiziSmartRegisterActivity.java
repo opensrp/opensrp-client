@@ -166,7 +166,7 @@ public class GiziSmartRegisterActivity extends SecuredNativeSmartRegisterActivit
     public DialogOption[] getEditOptions() {
             return new DialogOption[]{
                 new OpenFormOption(getString(R.string.monthly_visit), "kunjungan_gizi", formController),
-                    new OpenFormOption(getString(R.string.register_label), "child_edit", formController),
+                    new OpenFormOption(getString(R.string.edit_child), "child_edit", formController),
                 new OpenFormOption(getString(R.string.close_form),"close_form",formController)
             };
     }
@@ -494,10 +494,6 @@ public class GiziSmartRegisterActivity extends SecuredNativeSmartRegisterActivit
                 fieldOverrides.put("Sub-district", pc.getDetails().get("address2"));
                 fieldOverrides.put("Village", pc.getDetails().get("cityVillage"));
                 fieldOverrides.put("Sub-village", pc.getDetails().get("address1"));
-                /*fieldOverrides.put("jenis_kelamin", pc.getDetails().get("gender"));
-                fieldOverrides.put("namaSuami", pc.getDetails().get("namaSuami"));
-                fieldOverrides.put("namalengkap", pc.getDetails().get("namalengkap"));*/
-
 
                 //anak
                 fieldOverrides.put("namaBayi", pc.getColumnmaps().get("namaBayi"));

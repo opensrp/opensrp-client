@@ -13,19 +13,27 @@ import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
 
+import org.ei.opensrp.commonregistry.AllCommonsRepository;
+import org.ei.opensrp.commonregistry.CommonPersonObject;
+import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.domain.form.FormSubmission;
 import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
+import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.service.ZiggyService;
 import org.ei.opensrp.sync.ClientProcessor;
+import org.ei.opensrp.util.VaksinatorFormUtils;
 import org.ei.opensrp.vaksinator.LoginActivity;
 import org.ei.opensrp.vaksinator.R;
 import org.ei.opensrp.vaksinator.fragment.VaksinatorSmartRegisterFragment;
 import org.ei.opensrp.vaksinator.pageradapter.BaseRegisterActivityPagerAdapter;
 import org.ei.opensrp.util.FormUtils;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
+import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.dialog.DialogOption;
+import org.ei.opensrp.view.dialog.DialogOptionModel;
+import org.ei.opensrp.view.dialog.EditOption;
 import org.ei.opensrp.view.dialog.LocationSelectorDialogFragment;
 import org.ei.opensrp.view.dialog.OpenFormOption;
 import org.ei.opensrp.view.fragment.DisplayFormFragment;
@@ -166,6 +174,8 @@ public class VaksinatorSmartRegisterActivity extends SecuredNativeSmartRegisterA
     public DialogOption[] getEditOptions() {
             return new DialogOption[]{
                 new OpenFormOption(context().getStringResource(R.string.str_child_immunizations), "kohort_bayi_immunization", formController),
+
+                    new OpenFormOption(getString(R.string.edit_child), "child_edit", formController),
                 new OpenFormOption(context().getStringResource(R.string.str_child_close), "close_form", formController)
 
         };
@@ -201,7 +211,7 @@ public class VaksinatorSmartRegisterActivity extends SecuredNativeSmartRegisterA
         Log.v("fieldoverride", fieldOverrides.toString());
         // save the form
         try{
-            FormUtils formUtils = FormUtils.getInstance(getApplicationContext());
+            VaksinatorFormUtils formUtils = VaksinatorFormUtils.getInstance(getApplicationContext());
             FormSubmission submission = formUtils.generateFormSubmisionFromXMLString(id, formSubmission, formName, fieldOverrides);
             ziggyService.saveForm(getParams(submission), submission.instance());
             ClientProcessor.getInstance(getApplicationContext()).processClient();
@@ -307,13 +317,13 @@ public class VaksinatorSmartRegisterActivity extends SecuredNativeSmartRegisterA
 
     private void activatingForm(String formName, String entityId, String metaData){
         try {
-            int formIndex = FormUtils.getIndexForFormName(formName, formNames) + 1; // add the offset
+            int formIndex = VaksinatorFormUtils.getIndexForFormName(formName, formNames) + 1; // add the offset
             if (entityId != null || metaData != null){
                 String data = null;
                 //check if there is previously saved data for the form
                 data = getPreviouslySavedDataForForm(formName, metaData, entityId);
                 if (data == null){
-                    data = FormUtils.getInstance(getApplicationContext()).generateXMLInputForFormWithEntityId(entityId, formName, metaData);
+                    data = VaksinatorFormUtils.getInstance(getApplicationContext()).generateXMLInputForFormWithEntityId(entityId, formName, metaData);
                 }
 
                 DisplayFormFragment displayFormFragment = getDisplayFormFragmentAtIndex(formIndex);
@@ -415,10 +425,11 @@ public class VaksinatorSmartRegisterActivity extends SecuredNativeSmartRegisterA
         formNames.add("registrasi_jurim");
        formNames.add("close_form");
         formNames.add("kohort_bayi_immunization");
+        formNames.add("child_edit");
 //        DialogOption[] options = getEditOptions();
 //        for (int i = 0; i < options.length; i++){
 //            formNames.add(((OpenFormOption) options[i]).getFormName());
-//        }
+//        }child_edit
         return formNames.toArray(new String[formNames.size()]);
     }
 
@@ -475,5 +486,55 @@ public class VaksinatorSmartRegisterActivity extends SecuredNativeSmartRegisterA
 
         }
     };
+    public class EditDialogOptionModel implements DialogOptionModel {
+        @Override
+        public DialogOption[] getDialogOptions() {
+            return getEditOptions();
+        }
+        @Override
+        public void onDialogOptionSelection(DialogOption option, Object tag) {
+            CommonPersonObjectClient pc = (CommonPersonObjectClient) tag;
+            DetailsRepository detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
+            detailsRepository.updateDetails(pc);
+            AllCommonsRepository childRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_anak");
+            CommonPersonObject childobject = childRepository.findByCaseID(pc.entityId());
 
+
+            String ibuCaseId = pc.getDetails().get("relational_id");
+            Log.i("relaso",ibuCaseId + "asdasd" + pc.entityId());
+
+           /* AllCommonsRepository kirep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_kartu_ibu");
+            final CommonPersonObject kiparent = kirep.findByCaseID(Support.getColumnmaps(childobject, "relational_id"));
+
+         //   String namaibu = pc.getColumnmaps().get("first_name");
+           Log.i("NAMA",kiparent.getCaseId());
+            String namas = kiparent.getDetails().get("namaSuami");
+            Log.i("NAMAAAAAAAAAAAA",namas);*/
+            //getValue(pc.getColumnmaps(), "relational_id", true).toLowerCase();
+            Log.d(TAG, "onDialogOptionSelection: "+pc.getDetails());
+            JSONObject fieldOverrides = new JSONObject();
+            try {
+                fieldOverrides.put("Province", pc.getDetails().get("stateProvince"));
+                fieldOverrides.put("District", pc.getDetails().get("countyDistrict"));
+                fieldOverrides.put("Sub-district", pc.getDetails().get("address2"));
+                fieldOverrides.put("Village", pc.getDetails().get("cityVillage"));
+                fieldOverrides.put("Sub-village", pc.getDetails().get("address1"));
+
+                //anak
+                fieldOverrides.put("namaBayi", pc.getColumnmaps().get("namaBayi"));
+                fieldOverrides.put("jenisKelamin", pc.getColumnmaps().get("gender"));
+                fieldOverrides.put("desa_anak", pc.getDetails().get("desa_anak"));
+                fieldOverrides.put("tanggalLahirAnak", pc.getDetails().get("tanggalLahirAnak"));
+                fieldOverrides.put("beratLahir", pc.getDetails().get("beratLahir"));
+
+
+                fieldOverrides.put("ibuCaseId", ibuCaseId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            FieldOverrides fo = new FieldOverrides(fieldOverrides.toString());
+            Log.i("obs",fo.getJSONString());
+            onEditSelectionWithMetadata((EditOption) option, (SmartRegisterClient) tag, fo.getJSONString());
+        }
+    }
 }
