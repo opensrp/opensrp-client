@@ -9,6 +9,10 @@ import java.util.Date;
 
 public abstract class familyPlanningStatusController extends dashboardControllers{
 
+    public abstract String total_elco_Query(Date from, Date to);
+    public abstract String total_new_elco_Query(Date fromdate, Date todate);
+    public abstract String total_elco_visited_Query(Date from, Date to);
+
     public abstract String pill_old_Query(Date from, Date to);
     public abstract String pill_new_Query(Date from, Date to);
     public abstract String pill_unit_totalQuery(Date from, Date to);
@@ -64,5 +68,6 @@ public abstract class familyPlanningStatusController extends dashboardController
     public abstract String pm_female_using_other_methodQuery(Date from, Date to);
     public abstract String pm_female_referred_for_methodQuery(Date from, Date to);
     public abstract String pm_female_referred_for_side_effectsQuery(Date from, Date to);
+
 
 }

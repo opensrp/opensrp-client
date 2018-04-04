@@ -45,6 +45,7 @@ public class familyPlanningStatusDetailFragment extends Fragment {
     private String familyPlanningStatusControllerKey = "familyPlanningStatusController";
     familyPlanningStatusController fPSController;
 
+    TextView total_elco,total_new_elco,total_elco_visited;
     TextView pill_old,pill_new,pill_unit_total,pill_not_using_any_method,pill_using_other_method,pill_referred_for_method,pill_referred_for_side_effects;
     TextView condom_old,condom_new,condom_unit_total,condom_not_using_any_method,condom_using_other_method,condom_referred_for_method,condom_referred_for_side_effects;
     TextView injectable_old,injectable_new,injectable_unit_total,injectable_not_using_any_method,injectable_using_other_method,injectable_referred_for_method,injectable_referred_for_side_effects;
@@ -99,6 +100,8 @@ public class familyPlanningStatusDetailFragment extends Fragment {
         Date today = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(today);
+        cal.add(Calendar.DATE,1);
+        today = cal.getTime();
         cal.add(Calendar.DATE, -(365*10));
         Date yesterday = cal.getTime();
         refresh(fPSController.format.format(yesterday.getTime()),fPSController.format.format(today.getTime()));
@@ -108,6 +111,10 @@ public class familyPlanningStatusDetailFragment extends Fragment {
     }
 
     private void setupViews(View rootView) {
+
+        total_elco = (TextView)rootView.findViewById(R.id.elco_count);
+        total_new_elco = (TextView)rootView.findViewById(R.id.newly_registered_count);
+        total_elco_visited = (TextView)rootView.findViewById(R.id.total_elco_visited_count);
         ///////////pill textviews ///////////////////////////////
         pill_old = (TextView)rootView.findViewById(R.id.pill_old);
         pill_new = (TextView)rootView.findViewById(R.id.pill_new);
@@ -193,6 +200,11 @@ public class familyPlanningStatusDetailFragment extends Fragment {
         try {
             Date fromdate = fPSController.format.parse(from);
             Date todate = fPSController.format.parse(to);
+
+            total_elco.setText(fPSController.total_elco_Query(fromdate,todate));
+            total_new_elco.setText(fPSController.total_new_elco_Query(fromdate,todate));
+            total_elco_visited.setText(fPSController.total_elco_visited_Query(fromdate,todate));
+
 
             pill_old.setText(fPSController.pill_old_Query(fromdate,todate));
             pill_new.setText(fPSController.pill_new_Query(fromdate,todate));
