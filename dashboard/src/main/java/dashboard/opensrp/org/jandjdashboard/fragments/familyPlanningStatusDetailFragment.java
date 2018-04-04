@@ -45,7 +45,7 @@ public class familyPlanningStatusDetailFragment extends Fragment {
     private String familyPlanningStatusControllerKey = "familyPlanningStatusController";
     familyPlanningStatusController fPSController;
 
-    TextView total_elco,total_new_elco,total_elco_visited;
+    TextView total_elco,total_new_elco,total_elco_visited,contraceptive_acceptance_rate,referred_for_contraceptive_side_effects;
     TextView pill_old,pill_new,pill_unit_total,pill_not_using_any_method,pill_using_other_method,pill_referred_for_method,pill_referred_for_side_effects;
     TextView condom_old,condom_new,condom_unit_total,condom_not_using_any_method,condom_using_other_method,condom_referred_for_method,condom_referred_for_side_effects;
     TextView injectable_old,injectable_new,injectable_unit_total,injectable_not_using_any_method,injectable_using_other_method,injectable_referred_for_method,injectable_referred_for_side_effects;
@@ -115,6 +115,8 @@ public class familyPlanningStatusDetailFragment extends Fragment {
         total_elco = (TextView)rootView.findViewById(R.id.elco_count);
         total_new_elco = (TextView)rootView.findViewById(R.id.newly_registered_count);
         total_elco_visited = (TextView)rootView.findViewById(R.id.total_elco_visited_count);
+        contraceptive_acceptance_rate = (TextView)rootView.findViewById(R.id.contraceptive_acceptance_count);
+        referred_for_contraceptive_side_effects = (TextView)rootView.findViewById(R.id.referred_for_contraceptive_side_effects_count);
         ///////////pill textviews ///////////////////////////////
         pill_old = (TextView)rootView.findViewById(R.id.pill_old);
         pill_new = (TextView)rootView.findViewById(R.id.pill_new);
@@ -204,7 +206,8 @@ public class familyPlanningStatusDetailFragment extends Fragment {
             total_elco.setText(fPSController.total_elco_Query(fromdate,todate));
             total_new_elco.setText(fPSController.total_new_elco_Query(fromdate,todate));
             total_elco_visited.setText(fPSController.total_elco_visited_Query(fromdate,todate));
-
+            contraceptive_acceptance_rate.setText(fPSController.contraceptive_acceptance_rate_Query(fromdate,todate));
+            referred_for_contraceptive_side_effects.setText(fPSController.referred_for_contraceptive_side_effects_Query(fromdate,todate));
 
             pill_old.setText(fPSController.pill_old_Query(fromdate,todate));
             pill_new.setText(fPSController.pill_new_Query(fromdate,todate));

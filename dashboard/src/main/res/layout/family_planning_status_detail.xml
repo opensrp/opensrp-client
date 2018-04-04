@@ -279,17 +279,17 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:text="100"
+                    android:id="@+id/referred_for_contraceptive_side_effects_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textcolor"
-                    android:textAppearance="?android:attr/textAppearanceListItem"
-                    android:id="@+id/referred_for_contraceptive_side_effects_count"
+                    android:layout_gravity="top|right"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_gravity="top|right"
+                    android:layout_marginTop="10dp"
                     android:padding="2dp"
-                    android:layout_marginTop="10dp" />
+                    android:text="100"
+                    android:textAppearance="?android:attr/textAppearanceListItem"
+                    android:textColor="@color/textcolor" />
 
                 <TextView
                     android:text="Referred For Contraceptive Side Effects"

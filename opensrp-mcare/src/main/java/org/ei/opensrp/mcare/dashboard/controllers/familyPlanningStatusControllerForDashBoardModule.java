@@ -8,6 +8,7 @@ import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import dashboard.opensrp.org.jandjdashboard.controller.familyPlanningStatusController;
@@ -87,6 +88,41 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
             }
             return "0";
         }
+    }
+
+    @Override
+    public String contraceptive_acceptance_rate_Query(Date from, Date to) {
+        CommonRepository commonRepository = Context.getInstance().commonrepository("household");
+        Cursor cursor = null;
+        try {
+            cursor = commonRepository.RawCustomQueryForAdapter("select count (distinct form_submission.entityId) from form_submission where form_submission.formName = 'mis_elco' and instance not like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"99\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
+            cursor.moveToFirst();
+            String countofelcovisited = cursor.getString(0);
+            cursor.close();
+            Date today = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(today);
+            cal.add(Calendar.DATE, -(365*10));
+            Date yesterday = cal.getTime();
+
+            Float totalelcoQuery = Float.parseFloat(total_new_elco_Query(yesterday,to));
+            if(totalelcoQuery >0) {
+                Float contraceptiveacceptanerate = (Integer.parseInt(countofelcovisited) / totalelcoQuery) * 100;
+                return String.format("%.2f", contraceptiveacceptanerate) + "%";
+            }else{
+                return "0%";
+            }
+        } catch (Exception e) {
+            if(cursor!=null) {
+                cursor.close();
+            }
+            return "0 %";
+        }
+    }
+
+    @Override
+    public String referred_for_contraceptive_side_effects_Query(Date from, Date to) {
+        return "N/A";
     }
 
     @Override

@@ -48,6 +48,7 @@ public class contraceptiveSupplyStatusDetailFragment extends Fragment {
     private String controller_holder_key = "controller_holder";
     private String contraceptiveSupplyStatusControllerKey = "contraceptiveSupplyStatusController";
 
+    TextView total_elco,total_new_elco,total_elco_visited,contraceptive_acceptance_rate,referred_for_contraceptive_side_effects;
     TextView oralpillshukhiCurrentMonth,oralpillAponCurrentMonth,condomNirapodCurrentMonth;
 
     /**
@@ -91,6 +92,8 @@ public class contraceptiveSupplyStatusDetailFragment extends Fragment {
         Date today = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(today);
+        cal.add(Calendar.DATE,1);
+        today = cal.getTime();
         cal.add(Calendar.DATE, -(365*10));
         Date yesterday = cal.getTime();
         refresh(cssController.format.format(yesterday.getTime()),cssController.format.format(today.getTime()));
@@ -100,6 +103,12 @@ public class contraceptiveSupplyStatusDetailFragment extends Fragment {
     }
 
     private void setupViews(View rootView) {
+        total_elco = (TextView)rootView.findViewById(R.id.elco_count);
+        total_new_elco = (TextView)rootView.findViewById(R.id.newly_registered_count);
+        total_elco_visited = (TextView)rootView.findViewById(R.id.total_elco_visited_count);
+        contraceptive_acceptance_rate = (TextView)rootView.findViewById(R.id.contraceptive_acceptance_count);
+        referred_for_contraceptive_side_effects = (TextView)rootView.findViewById(R.id.referred_for_contraceptive_side_effects_count);
+
         oralpillshukhiCurrentMonth = (TextView)rootView.findViewById(R.id.found_in_current_month_shukhi);
         oralpillAponCurrentMonth = (TextView)rootView.findViewById(R.id.found_in_current_month_apon);
         condomNirapodCurrentMonth = (TextView)rootView.findViewById(R.id.found_in_current_month_condom);
@@ -108,6 +117,13 @@ public class contraceptiveSupplyStatusDetailFragment extends Fragment {
         try {
             Date fromdate = cssController.format.parse(from);
             Date todate = cssController.format.parse(to);
+
+            total_elco.setText(cssController.total_elco_Query(fromdate,todate));
+            total_new_elco.setText(cssController.total_new_elco_Query(fromdate,todate));
+            total_elco_visited.setText(cssController.total_elco_visited_Query(fromdate,todate));
+            contraceptive_acceptance_rate.setText(cssController.contraceptive_acceptance_rate_Query(fromdate,todate));
+            referred_for_contraceptive_side_effects.setText(cssController.referred_for_contraceptive_side_effects_Query(fromdate,todate));
+
             oralpillshukhiCurrentMonth.setText(cssController.oralpillshukhiCurrentMonthQuery(fromdate,todate));
             oralpillAponCurrentMonth.setText(cssController.oralpillAponCurrentMonthQuery(fromdate,todate));
             condomNirapodCurrentMonth.setText(cssController.condomNirapodCurrentMonthQuery(fromdate,todate));

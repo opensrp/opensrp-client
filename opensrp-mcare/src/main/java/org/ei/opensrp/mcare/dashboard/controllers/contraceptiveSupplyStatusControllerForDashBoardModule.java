@@ -4,9 +4,11 @@ import android.database.Cursor;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonRepository;
+import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import dashboard.opensrp.org.jandjdashboard.controller.contraceptiveSupplyStatusController;
@@ -18,6 +20,110 @@ import dashboard.opensrp.org.jandjdashboard.controller.nutritionDetailController
 
 public class contraceptiveSupplyStatusControllerForDashBoardModule extends contraceptiveSupplyStatusController {
 
+    @Override
+    public String total_elco_Query(Date from, Date to) {
+        SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder();
+        CommonRepository commonRepository = Context.getInstance().commonrepository("household");
+        Cursor cursor = null;
+        try {
+            cursor =commonRepository.RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("elco","elco.FWWOMFNAME NOT NULL and elco.FWWOMFNAME !=''  AND elco.details  LIKE '%\"FWELIGIBLE\":\"1\"%'"));
+            cursor.moveToFirst();
+            String countofelcovisited = cursor.getString(0);
+            cursor.close();
+            return countofelcovisited;
+        } catch (Exception e) {
+            if(cursor!=null) {
+                cursor.close();
+            }
+            return "0";
+        }
+    }
+
+    @Override
+    public String total_new_elco_Query(Date fromdate, Date todate) {
+        CommonRepository commonRepository = Context.getInstance().commonrepository("household");
+        Cursor cursor = null;
+        try {
+            int countofelcovisited = 0;
+            cursor = commonRepository.RawCustomQueryForAdapter("select details from elco where details like '%\"FWELIGIBLE\":\"1\"%' and elco.FWWOMFNAME != ''");
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()) {
+                String details = cursor.getString(0);
+                JSONObject detailobject = new JSONObject(details);
+                String womanRegdate = detailobject.getString("WomanREGDATE");
+                Date datewomanregdate = format.parse(womanRegdate);
+                if(datewomanregdate.after(fromdate) && datewomanregdate.before(todate)){
+                    countofelcovisited++;
+                }
+                cursor.moveToNext();
+            }
+            cursor.close();
+            return ""+countofelcovisited;
+        } catch (Exception e) {
+            if(cursor!=null) {
+                cursor.close();
+            }
+            return "0";
+        }
+    }
+
+    @Override
+    public String total_elco_visited_Query(Date from, Date to) {
+        CommonRepository commonRepository = Context.getInstance().commonrepository("household");
+        Cursor cursor = null;
+        try {
+            cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from form_submission where form_submission.formName = 'psrf_form' and form_submission.instance like '%{\"name\":\"user_type\",\"value\":\"FWA\",\"source\":\"elco.user_type\"}%'and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
+            cursor.moveToFirst();
+            String countofelcovisited = cursor.getString(0);
+            cursor.close();
+            cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from form_submission where form_submission.formName = 'mis_elco' and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
+            cursor.moveToFirst();
+            countofelcovisited = ""+(Integer.parseInt(countofelcovisited)+Integer.parseInt(cursor.getString(0)));
+            cursor.close();
+
+            return countofelcovisited;
+        } catch (Exception e) {
+            if(cursor!=null) {
+                cursor.close();
+            }
+            return "0";
+        }
+    }
+
+    @Override
+    public String contraceptive_acceptance_rate_Query(Date from, Date to) {
+        CommonRepository commonRepository = Context.getInstance().commonrepository("household");
+        Cursor cursor = null;
+        try {
+            cursor = commonRepository.RawCustomQueryForAdapter("select count (distinct form_submission.entityId) from form_submission where form_submission.formName = 'mis_elco' and instance not like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"99\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
+            cursor.moveToFirst();
+            String countofelcovisited = cursor.getString(0);
+            cursor.close();
+            Date today = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(today);
+            cal.add(Calendar.DATE, -(365*10));
+            Date yesterday = cal.getTime();
+
+            Float totalelcoQuery = Float.parseFloat(total_new_elco_Query(yesterday,to));
+            if(totalelcoQuery >0) {
+                Float contraceptiveacceptanerate = (Integer.parseInt(countofelcovisited) / totalelcoQuery) * 100;
+                return String.format("%.2f", contraceptiveacceptanerate) + "%";
+            }else{
+                return "0%";
+            }
+        } catch (Exception e) {
+            if(cursor!=null) {
+                cursor.close();
+            }
+            return "0 %";
+        }
+    }
+
+    @Override
+    public String referred_for_contraceptive_side_effects_Query(Date from, Date to) {
+        return "N/A";
+    }
 
     @Override
     public String oralpillshukhiCurrentMonthQuery(Date from, Date to) {
