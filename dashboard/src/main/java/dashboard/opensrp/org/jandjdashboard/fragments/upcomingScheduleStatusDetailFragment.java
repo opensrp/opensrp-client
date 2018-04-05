@@ -55,6 +55,7 @@ public class upcomingScheduleStatusDetailFragment extends Fragment {
     private ArrayList<String> counts;
     private String controller_holder_key = "controller_holder";
     private String upcomingScheduleStatusControllerKey = "upcomingScheduleStatusController";
+    private TextView filtertitle;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -108,6 +109,7 @@ public class upcomingScheduleStatusDetailFragment extends Fragment {
         cal.setTime(today);
         cal.add(Calendar.DATE, -(365*10));
         Date yesterday = cal.getTime();
+        filtertitle = (TextView)rootView.findViewById(R.id.filtertitle);
 
         prepareAlbums(uSSController.format.format(yesterday.getTime()),uSSController.format.format(today.getTime()));
 
@@ -116,6 +118,8 @@ public class upcomingScheduleStatusDetailFragment extends Fragment {
         return rootView;
     }
     private void prepareAlbums(String fromdate,String todate) {
+        filtertitle.setText(fromdate+" to "+todate);
+
         recyclerView.removeAllViews();
         titleList.removeAll(titleList);
         counts.removeAll(counts);

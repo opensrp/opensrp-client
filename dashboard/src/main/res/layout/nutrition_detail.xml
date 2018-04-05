@@ -62,11 +62,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/elco_count"
+                    android:id="@+id/unit_total_livebirth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|right"
@@ -74,7 +74,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:padding="2dp"
-                    android:text="1300"
                     android:textAppearance="?android:attr/textAppearanceListItem"
                     android:textColor="@color/textcolor" />
 
@@ -85,7 +84,7 @@
                     android:layout_gravity="bottom|end"
                     android:layout_marginLeft="10dp"
                     android:padding="2dp"
-                    android:text="Total ELCO"
+                    android:text="Unit's total number of livebirth"
                     android:textAlignment="textEnd"
                     android:textAppearance="?android:attr/textAppearanceListItemSmall"
                     android:textColor="@color/textcolor"
@@ -116,11 +115,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/newly_registered_count"
+                    android:id="@+id/total_livebirth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|right"
@@ -128,7 +127,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:padding="2dp"
-                    android:text="400"
                     android:textAppearance="?android:attr/textAppearanceListItem"
                     android:textColor="@color/textcolor" />
 
@@ -139,7 +137,7 @@
                     android:layout_gravity="bottom|end"
                     android:layout_marginLeft="10dp"
                     android:padding="2dp"
-                    android:text="Newly Registered ELCO"
+                    android:text="Total number of livebirth"
                     android:textAlignment="textEnd"
                     android:textAppearance="?android:attr/textAppearanceListItemSmall"
                     android:textColor="@color/textcolor"
@@ -170,11 +168,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/total_elco_visited_count"
+                    android:id="@+id/unit_total_death"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|right"
@@ -182,7 +180,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:padding="2dp"
-                    android:text="1300"
                     android:textAppearance="?android:attr/textAppearanceListItem"
                     android:textColor="@color/textcolor" />
 
@@ -193,7 +190,7 @@
                     android:layout_gravity="bottom|end"
                     android:layout_marginLeft="10dp"
                     android:padding="2dp"
-                    android:text="Total ELCO visited"
+                    android:text="Unit's total number of death"
                     android:textAlignment="textEnd"
                     android:textAppearance="?android:attr/textAppearanceListItemSmall"
                     android:textColor="@color/textcolor"
@@ -224,11 +221,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/contraceptive_acceptance_count"
+                    android:id="@+id/total_death"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|right"
@@ -236,7 +233,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:padding="2dp"
-                    android:text="70%"
                     android:textAppearance="?android:attr/textAppearanceListItem"
                     android:textColor="@color/textcolor" />
 
@@ -247,7 +243,7 @@
                     android:layout_gravity="bottom|end"
                     android:layout_marginLeft="10dp"
                     android:padding="2dp"
-                    android:text="Contraceptive Acceptance Rate"
+                    android:text="Total number of death"
                     android:textAlignment="textEnd"
                     android:textAppearance="?android:attr/textAppearanceListItemSmall"
                     android:textColor="@color/textcolor"

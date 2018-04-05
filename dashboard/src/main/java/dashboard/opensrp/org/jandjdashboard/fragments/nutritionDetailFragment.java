@@ -46,6 +46,7 @@ public class nutritionDetailFragment extends Fragment {
      * The dummy content this fragment is presenting.
      */
     private DummyContent.DummyItem mItem;
+    TextView unittotalnumberoflivebirth,unitstotalnumberofdeath,totalnumberoflivebirth,totalnumberofdeath;
     TextView iron_and_folic_acid_pregnant_woman_info,
             iron_and_folic_acid_mother_info,
             distributed_iron_and_folic_acid_pregnant_woman_info,
@@ -68,6 +69,8 @@ public class nutritionDetailFragment extends Fragment {
             received_multiple_mnr_24_to_50months_info;
 
     nutritionDetailController ndController;
+    private TextView filtertitle;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -117,6 +120,15 @@ public class nutritionDetailFragment extends Fragment {
         try {
             Date fromdate = ndController.format.parse(from);
             Date todate = ndController.format.parse(to);
+            filtertitle.setText(from+" to "+to);
+
+            unittotalnumberoflivebirth.setText(ndController.numberofLiveBirth(fromdate,todate));
+            unitstotalnumberofdeath.setText(ndController.numberofTotalDeath(fromdate,todate));
+            totalnumberoflivebirth.setText(ndController.totalnumberofLiveBirth(fromdate,todate));
+            totalnumberofdeath.setText(ndController.overallnumberofTotalDeath(fromdate,todate));
+
+
+
             iron_and_folic_acid_pregnant_woman_info.setText(ndController.iron_and_folic_acid_pregnant_woman_info(fromdate,todate));
             iron_and_folic_acid_mother_info.setText(ndController.iron_and_folic_acid_mother_info(fromdate,todate));
             distributed_iron_and_folic_acid_pregnant_woman_info.setText(ndController.distributed_iron_and_folic_acid_pregnant_woman_info(fromdate,todate));
@@ -141,6 +153,15 @@ public class nutritionDetailFragment extends Fragment {
     }
 
     private void setupviews(View rootView) {
+        unittotalnumberoflivebirth = (TextView)rootView.findViewById(R.id.unit_total_livebirth);
+        unitstotalnumberofdeath= (TextView)rootView.findViewById(R.id.unit_total_death);
+        totalnumberoflivebirth = (TextView)rootView.findViewById(R.id.total_livebirth);
+        totalnumberofdeath= (TextView)rootView.findViewById(R.id.total_death);
+        filtertitle = (TextView)rootView.findViewById(R.id.filtertitle);
+
+
+
+
         iron_and_folic_acid_pregnant_woman_info = (TextView)rootView.findViewById(R.id.iron_and_folic_acid_pregnant_woman_info);
         iron_and_folic_acid_mother_info = (TextView)rootView.findViewById(R.id.iron_and_folic_acid_mother_info);
         distributed_iron_and_folic_acid_pregnant_woman_info = (TextView)rootView.findViewById(R.id.distributed_iron_and_folic_acid_pregnant_woman_info);

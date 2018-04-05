@@ -9,6 +9,12 @@ import java.util.Date;
 
 public abstract class nutritionDetailController extends dashboardControllers{
 
+
+    public abstract String numberofLiveBirth(Date from, Date to);
+    public abstract String totalnumberofLiveBirth(Date fromdate, Date todate);
+    public abstract String overallnumberofTotalDeath(Date fromdate, Date todate);
+    public abstract String numberofTotalDeath(Date from, Date to);
+
     public abstract String iron_and_folic_acid_pregnant_woman_info(Date fromdate, Date todate);
     public abstract String iron_and_folic_acid_mother_info(Date fromdate, Date todate);
     public abstract String distributed_iron_and_folic_acid_pregnant_woman_info(Date fromdate, Date todate);

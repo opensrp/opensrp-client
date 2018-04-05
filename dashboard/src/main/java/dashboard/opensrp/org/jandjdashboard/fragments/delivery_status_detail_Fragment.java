@@ -52,7 +52,8 @@ public class delivery_status_detail_Fragment extends Fragment {
     deliveryStatusController dsController;
     private String controller_holder_key = "controller_holder";
     private String deliveryStatusControllerKey = "deliveryStatusController";
-
+    TextView filtertitle;
+    TextView unittotalnumberoflivebirth,unitstotalnumberofdeath,totalnumberoflivebirth,totalnumberofdeath;
     TextView totalNumberOfLiveBirth,numberofNewBornswithLowBirthWeight,numberofImmatureBirth,
             numberofStillBirth,numberofDeathUnder7Days,numberofDeathBetween8to28Days,
             numberofDeathBetween29daysto1year,numberofTotalDeath,numberofChildDeathBetween1to5year,
@@ -104,6 +105,12 @@ public class delivery_status_detail_Fragment extends Fragment {
     }
 
     private void setupviews(View rootView) {
+        unittotalnumberoflivebirth = (TextView)rootView.findViewById(R.id.unit_total_livebirth);
+        unitstotalnumberofdeath= (TextView)rootView.findViewById(R.id.unit_total_death);
+        totalnumberoflivebirth = (TextView)rootView.findViewById(R.id.total_livebirth);
+        totalnumberofdeath= (TextView)rootView.findViewById(R.id.total_death);
+        filtertitle = (TextView)rootView.findViewById(R.id.filtertitle);
+
         totalNumberOfLiveBirth = (TextView)rootView.findViewById(R.id.total_live_birth_info);
         numberofNewBornswithLowBirthWeight = (TextView)rootView.findViewById(R.id.low_birthweight_info);
         numberofImmatureBirth = (TextView)rootView.findViewById(R.id.immature_info);
@@ -121,6 +128,15 @@ public class delivery_status_detail_Fragment extends Fragment {
         try {
             Date fromdate = dsController.format.parse(from);
             Date todate = dsController.format.parse(to);
+
+            filtertitle.setText(from+" to "+to);
+
+
+            unittotalnumberoflivebirth.setText(dsController.numberofLiveBirth(fromdate,todate));
+            unitstotalnumberofdeath.setText(dsController.numberofTotalDeath(fromdate,todate));
+            totalnumberoflivebirth.setText(dsController.totalnumberofLiveBirth(fromdate,todate));
+            totalnumberofdeath.setText(dsController.overallnumberofTotalDeath(fromdate,todate));
+
 
             totalNumberOfLiveBirth.setText(dsController.numberofLiveBirth(fromdate,todate));
             numberofNewBornswithLowBirthWeight.setText(dsController.numberofNewBornswithLowBirthWeight(fromdate,todate));

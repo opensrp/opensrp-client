@@ -128,4 +128,36 @@ public class nutritionDetailControllerForDashBoardModule extends nutritionDetail
     public String received_multiple_mnr_24_to_50months_info(Date fromdate, Date todate) {
         return "";
     }
+
+    @Override
+    public String totalnumberofLiveBirth(Date fromdate, Date todate) {
+        return "N/A";
+    }
+
+    @Override
+    public String overallnumberofTotalDeath(Date fromdate, Date todate) {
+        return "N/A";
+    }
+
+
+    @Override
+    public String numberofTotalDeath(Date from, Date to) {
+        return "";
+    }
+
+    @Override
+    public String numberofLiveBirth(Date from, Date to) {
+        CommonRepository commonRepository = Context.getInstance().commonrepository("household");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from form_submission where form_submission.formName = 'birthnotificationpregnancystatusfollowup' and form_submission.instance like '%{\"name\":\"FWBNFSTS\",\"value\":\"3\",\"source\":\"mcaremother.FWBNFSTS\"}%'and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
+        cursor.moveToFirst();
+        try {
+            String numberofLiveBirth = cursor.getString(0);
+
+            cursor.close();
+            return numberofLiveBirth;
+        } catch (Exception e) {
+            cursor.close();
+            return "0";
+        }
+    }
 }

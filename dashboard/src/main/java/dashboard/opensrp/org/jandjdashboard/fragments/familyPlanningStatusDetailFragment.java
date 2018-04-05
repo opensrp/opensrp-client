@@ -59,6 +59,7 @@ public class familyPlanningStatusDetailFragment extends Fragment {
      * The dummy content this fragment is presenting.
      */
     private DummyContent.DummyItem mItem;
+    private TextView filtertitle;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -195,13 +196,15 @@ public class familyPlanningStatusDetailFragment extends Fragment {
         total_referred_for_method = (TextView)rootView.findViewById(R.id.total_referred_for_method);
         total_referred_for_side_effects = (TextView)rootView.findViewById(R.id.total_referred_for_side_effects);
 
-
+        filtertitle = (TextView)rootView.findViewById(R.id.filtertitle);
 
     }
     public void refresh(String from, String to) {
         try {
             Date fromdate = fPSController.format.parse(from);
             Date todate = fPSController.format.parse(to);
+
+            filtertitle.setText(from+" to "+to);
 
             total_elco.setText(fPSController.total_elco_Query(fromdate,todate));
             total_new_elco.setText(fPSController.total_new_elco_Query(fromdate,todate));

@@ -22,15 +22,15 @@
         android:padding="20dp">
 
         <TextView
-            android:text="Month: this Week"
+            android:id="@+id/filtertitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/iconcolorsused"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/filtertitle"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:text="Month: this Week"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/iconcolorsused" />
 
     </android.support.v7.widget.CardView>
 
@@ -65,17 +65,17 @@
                 android:layout_marginRight="10dp">
 
                 <TextView
-                    android:text="1300"
+                    android:id="@+id/scheduled_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textcolor"
-                    android:textAppearance="?android:attr/textAppearanceListItem"
-                    android:id="@+id/scheduled_count"
+                    android:layout_gravity="top|right"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_gravity="top|right"
+                    android:layout_marginTop="10dp"
                     android:padding="2dp"
-                    android:layout_marginTop="10dp" />
+                    android:text="1300"
+                    android:textAppearance="?android:attr/textAppearanceListItem"
+                    android:textColor="@color/textcolor" />
 
                 <TextView
                     android:text="Scheduled"
@@ -118,17 +118,17 @@
                 >
 
                 <TextView
-                    android:text="400"
+                    android:id="@+id/completed_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textcolor"
-                    android:textAppearance="?android:attr/textAppearanceListItem"
-                    android:id="@+id/completed_count"
+                    android:layout_gravity="top|right"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_gravity="top|right"
+                    android:layout_marginTop="10dp"
                     android:padding="2dp"
-                    android:layout_marginTop="10dp" />
+                    android:text="400"
+                    android:textAppearance="?android:attr/textAppearanceListItem"
+                    android:textColor="@color/textcolor" />
 
                 <TextView
                     android:text="Completed"
@@ -172,17 +172,17 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:text="1300"
+                    android:id="@+id/due_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textcolor"
-                    android:textAppearance="?android:attr/textAppearanceListItem"
-                    android:id="@+id/due_count"
+                    android:layout_gravity="top|right"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_gravity="top|right"
+                    android:layout_marginTop="10dp"
                     android:padding="2dp"
-                    android:layout_marginTop="10dp" />
+                    android:text="1300"
+                    android:textAppearance="?android:attr/textAppearanceListItem"
+                    android:textColor="@color/textcolor" />
 
                 <TextView
                     android:text="Due"

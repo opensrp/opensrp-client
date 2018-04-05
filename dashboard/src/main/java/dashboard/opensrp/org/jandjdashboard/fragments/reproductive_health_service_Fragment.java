@@ -52,6 +52,7 @@ public class reproductive_health_service_Fragment extends Fragment {
             pnc1Service,pnc1Info,pnc2Service,pnc2Info,pnc3Service,pnc3Info,encc1Service,encc1Info,
             encc2Service,encc2Info,encc3Service,encc3Info,tt1info,tt1service,tt2info,tt2service,tt3info,tt3service
             ,tt4info,tt4service,tt5info,tt5service,ecpreceptorservice,ecpreceptorinfo;
+    private TextView filtertitle;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -135,12 +136,16 @@ public class reproductive_health_service_Fragment extends Fragment {
 
         ecpreceptorinfo = (TextView)rootView.findViewById(R.id.ecp_receptor_info);
         ecpreceptorservice = (TextView)rootView.findViewById(R.id.ecp_receptor_service);
+        filtertitle = (TextView)rootView.findViewById(R.id.filtertitle);
+
     }
 
     public void refresh(String from,String to) {
         try {
         Date fromdate = rhsController.format.parse(from);
         Date todate =  rhsController.format.parse(to);
+
+            filtertitle.setText(from+" to "+to);
 
         anc1Service.setText(rhsController.ancVisitQuery(fromdate,todate).get("anc1visit"));
         anc1Info.setText(rhsController.ancVisitQuery(fromdate,todate).get("anc1visit"));

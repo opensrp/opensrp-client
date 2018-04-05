@@ -25,4 +25,7 @@ public abstract class deliveryStatusController extends dashboardControllers{
     public abstract String numberofOtherDeath(Date from, Date to);
 
 
+    public abstract String totalnumberofLiveBirth(Date fromdate, Date todate);
+
+    public abstract String overallnumberofTotalDeath(Date fromdate, Date todate);
 }

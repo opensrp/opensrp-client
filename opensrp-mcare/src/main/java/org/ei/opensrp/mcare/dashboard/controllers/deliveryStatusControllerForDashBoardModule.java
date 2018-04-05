@@ -168,4 +168,14 @@ public class deliveryStatusControllerForDashBoardModule extends deliveryStatusCo
     public String numberofOtherDeath(Date from, Date to) {
         return null;
     }
+
+    @Override
+    public String totalnumberofLiveBirth(Date fromdate, Date todate) {
+        return "N/A";
+    }
+
+    @Override
+    public String overallnumberofTotalDeath(Date fromdate, Date todate) {
+        return "N/A";
+    }
 }

@@ -50,7 +50,7 @@ public class contraceptiveSupplyStatusDetailFragment extends Fragment {
 
     TextView total_elco,total_new_elco,total_elco_visited,contraceptive_acceptance_rate,referred_for_contraceptive_side_effects;
     TextView oralpillshukhiCurrentMonth,oralpillAponCurrentMonth,condomNirapodCurrentMonth;
-
+    TextView filtertitle;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -103,6 +103,7 @@ public class contraceptiveSupplyStatusDetailFragment extends Fragment {
     }
 
     private void setupViews(View rootView) {
+        filtertitle = (TextView)rootView.findViewById(R.id.filtertitle);
         total_elco = (TextView)rootView.findViewById(R.id.elco_count);
         total_new_elco = (TextView)rootView.findViewById(R.id.newly_registered_count);
         total_elco_visited = (TextView)rootView.findViewById(R.id.total_elco_visited_count);
@@ -117,6 +118,7 @@ public class contraceptiveSupplyStatusDetailFragment extends Fragment {
         try {
             Date fromdate = cssController.format.parse(from);
             Date todate = cssController.format.parse(to);
+            filtertitle.setText(from+" to "+to);
 
             total_elco.setText(cssController.total_elco_Query(fromdate,todate));
             total_new_elco.setText(cssController.total_new_elco_Query(fromdate,todate));
