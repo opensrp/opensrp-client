@@ -1,0 +1,37 @@
+<model><instance>
+    <registrasi_anak encounter_type="Child Edit" id="child_edit" version="201703131313">
+        <formhub>
+            <uuid/>
+        </formhub>
+        <start openmrs_entity="encounter" openmrs_entity_id="encounter_start"/>
+        <today openmrs_entity="encounter" openmrs_entity_id="encounter_date"/>
+        <deviceid/>
+        <simserial/>
+        <phonenumber/>
+        <Province/>
+        <District/>
+        <Sub-district/>
+        <Village/>
+        <Sub-village/>
+        <ibuCaseId/>
+        <unique_id openmrs_entity="person_attribute" openmrs_entity_id="UniqueId"/>
+        <desa_anak openmrs_entity="Concept" openmrs_entity_id="160632AAAAAAAAAAAAAAAAAAAAAAAAAA" openmrs_entity_parent="cityVillage"/>
+        <generated_note_name_45/>
+        <generated_note_name_46/>
+        <nama_bayi openmrs_entity="Concept" openmrs_entity_id="1586AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+        <jenis_kelamin openmrs_entity="person" openmrs_entity_id="gender"/>
+        <tanggal_lahir openmrs_entity="person" openmrs_entity_id="birthdate"/>
+        <berat_badan_saat_lahir openmrs_entity="concept" openmrs_entity_id="5916AAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+        <kartu_ibu_id openmrs_entity="person_relationship" openmrs_entity_id="ibuCaseId"/>
+        <existing_location openmrs_entity="encounter" openmrs_entity_id="location_id"/>
+        <provinsi openmrs_entity="person_address" openmrs_entity_id="stateProvince" openmrs_entity_parent="usual_residence"/>
+        <kabupaten openmrs_entity="person_address" openmrs_entity_id="countyDistrict" openmrs_entity_parent="usual_residence"/>
+        <desa openmrs_entity="person_address" openmrs_entity_id="cityVillage" openmrs_entity_parent="usual_residence"/>
+        <dusun openmrs_entity="person_address" openmrs_entity_id="address1" openmrs_entity_parent="usual_residence"/>
+        <kecamatan openmrs_entity="person_address" openmrs_entity_id="address2" openmrs_entity_parent="usual_residence"/>
+        <end openmrs_entity="encounter" openmrs_entity_id="encounter_end"/>
+        <meta>
+            <instanceID/>
+        </meta>
+    </registrasi_anak>
+</instance></model>

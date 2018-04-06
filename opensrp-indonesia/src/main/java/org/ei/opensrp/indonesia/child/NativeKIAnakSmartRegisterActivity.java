@@ -12,6 +12,10 @@ import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
 
+import org.ei.opensrp.commonregistry.AllCommonsRepository;
+import org.ei.opensrp.commonregistry.CommonPersonObject;
+import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
+import org.ei.opensrp.domain.form.FieldOverrides;
 import org.ei.opensrp.domain.form.FormSubmission;
 import org.ei.opensrp.indonesia.LoginActivity;
 import org.ei.opensrp.indonesia.R;
@@ -19,15 +23,21 @@ import org.ei.opensrp.indonesia.fragment.NativeKIAnakSmartRegisterFragment;
 import org.ei.opensrp.indonesia.lib.FlurryFacade;
 import org.ei.opensrp.indonesia.pageradapter.BaseRegisterActivityPagerAdapter;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
+import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.service.ZiggyService;
 import org.ei.opensrp.sync.ClientProcessor;
 import org.ei.opensrp.util.FormUtils;
+import org.ei.opensrp.util.VaksinatorFormUtils;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
+import org.ei.opensrp.view.contract.SmartRegisterClient;
 import org.ei.opensrp.view.dialog.DialogOption;
+import org.ei.opensrp.view.dialog.DialogOptionModel;
+import org.ei.opensrp.view.dialog.EditOption;
 import org.ei.opensrp.view.dialog.OpenFormOption;
 import org.ei.opensrp.view.fragment.DisplayFormFragment;
 import org.ei.opensrp.view.fragment.SecuredNativeSmartRegisterFragment;
 import org.ei.opensrp.view.viewpager.OpenSRPViewPager;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -182,7 +192,7 @@ public class NativeKIAnakSmartRegisterActivity extends SecuredNativeSmartRegiste
                 new OpenFormOption(getString(R.string.str_anak_neonatal), BAYI_NEONATAL_PERIOD, formController),
                 new OpenFormOption(getString(R.string.str_anak_bayi_visit), KOHORT_BAYI_KUNJUNGAN, formController),
                 new OpenFormOption(getString(R.string.str_anak_balita_visit), BALITA_KUNJUNGAN, formController),
-          //      new OpenFormOption(getString(R.string.str_anak_edit), KOHORT_BAYI_EDIT, formController),
+               new OpenFormOption(getString(R.string.str_anak_edit), "child_edit", formController),
                 new OpenFormOption(getString(R.string.str_child_immunizations), BAYI_IMUNISASI, formController),
                 new OpenFormOption(getString(R.string.str_child_close), KARTU_IBU_ANAK_CLOSE, formController),
             //    new OpenFormOption(getString(R.string.str_tutup_anak),
@@ -196,7 +206,7 @@ public class NativeKIAnakSmartRegisterActivity extends SecuredNativeSmartRegiste
         Log.v("fieldoverride", fieldOverrides.toString());
         // save the form
         try{
-            FormUtils formUtils = FormUtils.getInstance(getApplicationContext());
+            VaksinatorFormUtils formUtils = VaksinatorFormUtils.getInstance(getApplicationContext());
             FormSubmission submission = formUtils.generateFormSubmisionFromXMLString(id, formSubmission, formName, fieldOverrides);
             ziggyService.saveForm(getParams(submission), submission.instance());
             ClientProcessor.getInstance(getApplicationContext()).processClient();
@@ -236,13 +246,13 @@ public class NativeKIAnakSmartRegisterActivity extends SecuredNativeSmartRegiste
 
 //        Log.v("fieldoverride", metaData);
         try {
-            int formIndex = FormUtils.getIndexForFormName(formName, formNames) + 1; // add the offset
+            int formIndex = VaksinatorFormUtils.getIndexForFormName(formName, formNames) + 1; // add the offset
             if (entityId != null || metaData != null){
                 String data = null;
                 //check if there is previously saved data for the form
                 data = getPreviouslySavedDataForForm(formName, metaData, entityId);
                 if (data == null){
-                    data = FormUtils.getInstance(getApplicationContext()).generateXMLInputForFormWithEntityId(entityId, formName, metaData);
+                    data = VaksinatorFormUtils.getInstance(getApplicationContext()).generateXMLInputForFormWithEntityId(entityId, formName, metaData);
                 }
 
                 DisplayFormFragment displayFormFragment = getDisplayFormFragmentAtIndex(formIndex);
@@ -311,6 +321,7 @@ public class NativeKIAnakSmartRegisterActivity extends SecuredNativeSmartRegiste
         formNames.add(BALITA_KUNJUNGAN);
         formNames.add(KARTU_IBU_ANAK_CLOSE);
         formNames.add(BAYI_IMUNISASI);
+        formNames.add("child_edit");
 
     //    DialogOption[] options = getEditOptions();
       //  for (int i = 0; i < options.length; i++) {
@@ -365,6 +376,47 @@ public class NativeKIAnakSmartRegisterActivity extends SecuredNativeSmartRegiste
 
         }
     };
+    public class EditDialogOptionModel implements DialogOptionModel {
+        @Override
+        public DialogOption[] getDialogOptions() {
+            return getEditOptions();
+        }
+        @Override
+        public void onDialogOptionSelection(DialogOption option, Object tag) {
+            CommonPersonObjectClient pc = (CommonPersonObjectClient) tag;
+            DetailsRepository detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
+            detailsRepository.updateDetails(pc);
+            AllCommonsRepository childRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_anak");
+            CommonPersonObject childobject = childRepository.findByCaseID(pc.entityId());
 
+
+            String ibuCaseId = pc.getDetails().get("relational_id");
+            Log.i("relaso",ibuCaseId + "asdasd" + pc.entityId());
+            Log.d(TAG, "onDialogOptionSelection: "+pc.getDetails());
+            JSONObject fieldOverrides = new JSONObject();
+            try {
+                fieldOverrides.put("Province", pc.getDetails().get("stateProvince"));
+                fieldOverrides.put("District", pc.getDetails().get("countyDistrict"));
+                fieldOverrides.put("Sub-district", pc.getDetails().get("address2"));
+                fieldOverrides.put("Village", pc.getDetails().get("cityVillage"));
+                fieldOverrides.put("Sub-village", pc.getDetails().get("address1"));
+
+                //anak
+                fieldOverrides.put("namaBayi", pc.getColumnmaps().get("namaBayi"));
+                fieldOverrides.put("jenis_kelamin", pc.getDetails().get("gender"));
+                fieldOverrides.put("desa_anak", pc.getDetails().get("desa_anak"));
+                fieldOverrides.put("tanggalLahirAnak", pc.getDetails().get("birthdate"));
+                fieldOverrides.put("beratLahir", pc.getDetails().get("beratLahir"));
+
+
+                fieldOverrides.put("ibuCaseId", ibuCaseId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            FieldOverrides fo = new FieldOverrides(fieldOverrides.toString());
+            Log.i("obs",fo.getJSONString());
+            onEditSelectionWithMetadata((EditOption) option, (SmartRegisterClient) tag, fo.getJSONString());
+        }
+    }
 
 }

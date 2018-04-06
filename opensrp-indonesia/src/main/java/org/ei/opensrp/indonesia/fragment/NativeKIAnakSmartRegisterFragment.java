@@ -290,7 +290,7 @@ public class NativeKIAnakSmartRegisterFragment extends SecuredNativeSmartRegiste
                     break;
                 case R.id.btn_edit:
                     FlurryFacade.logEvent("click_visit_button_on_kohort_anak_dashboard");
-                    showFragmentDialog(new EditDialogOptionModel(), view.getTag());
+                    showFragmentDialog(((NativeKIAnakSmartRegisterActivity)getActivity()).new EditDialogOptionModel(), view.getTag());
                     break;
             }
         }
@@ -309,7 +309,7 @@ public class NativeKIAnakSmartRegisterFragment extends SecuredNativeSmartRegiste
         return " namaBayi DESC";
     }
 
-    private class EditDialogOptionModel implements DialogOptionModel {
+    /*private class EditDialogOptionModel implements DialogOptionModel {
         @Override
         public DialogOption[] getDialogOptions() {
             return getEditOptions();
@@ -319,7 +319,7 @@ public class NativeKIAnakSmartRegisterFragment extends SecuredNativeSmartRegiste
         public void onDialogOptionSelection(DialogOption option, Object tag) {
             onEditSelection((EditOption) option, (SmartRegisterClient) tag);
         }
-    }
+    }*/
 
     @Override
     protected void onResumption() {

@@ -43,12 +43,12 @@
             </legend>
             <div class="option-wrapper">
                 <label class="">
-                    <input type="radio" name="/dok_persalinan_reviewed/keadaan_ibu" data-name="/dok_persalinan_reviewed/keadaan_ibu" value="hidup" data-required="true()" data-type-xml="select1"/>
+                    <input type="radio" name="/dok_persalinan_reviewed/keadaan_ibu" data-name="/dok_persalinan_reviewed/keadaan_ibu" value="hidup" required="required" data-type-xml="select1"/>
                     <span lang="Bahasa" class="option-label active" data-itext-id="/dok_persalinan_reviewed/keadaan_ibu/hidup:label">Hidup (H)</span>
                     <span lang="en" class="option-label " data-itext-id="/dok_persalinan_reviewed/keadaan_ibu/hidup:label">Alive (A)</span>
                 </label>
                 <label class="">
-                    <input type="radio" name="/dok_persalinan_reviewed/keadaan_ibu" data-name="/dok_persalinan_reviewed/keadaan_ibu" value="mati" data-required="true()" data-type-xml="select1"/>
+                    <input type="radio" name="/dok_persalinan_reviewed/keadaan_ibu" data-name="/dok_persalinan_reviewed/keadaan_ibu" value="mati" required="required" data-type-xml="select1"/>
                     <span lang="Bahasa" class="option-label active" data-itext-id="/dok_persalinan_reviewed/keadaan_ibu/mati:label">Mati (M)</span>
                     <span lang="en" class="option-label " data-itext-id="/dok_persalinan_reviewed/keadaan_ibu/mati:label">Dead (D)</span>
                 </label>
@@ -489,12 +489,12 @@
             </legend>
             <div class="option-wrapper">
                 <label class="">
-                    <input type="radio" name="/dok_persalinan_reviewed/keadaan_bayi" data-name="/dok_persalinan_reviewed/keadaan_bayi" value="hidup" data-required="true()" data-type-xml="select1"/>
+                    <input type="radio" name="/dok_persalinan_reviewed/keadaan_bayi" data-name="/dok_persalinan_reviewed/keadaan_bayi" value="hidup" required="required" data-type-xml="select1"/>
                     <span lang="Bahasa" class="option-label active" data-itext-id="/dok_persalinan_reviewed/keadaan_bayi/hidup:label">Hidup (H)</span>
                     <span lang="en" class="option-label " data-itext-id="/dok_persalinan_reviewed/keadaan_bayi/hidup:label">Alive (A)</span>
                 </label>
                 <label class="">
-                    <input type="radio" name="/dok_persalinan_reviewed/keadaan_bayi" data-name="/dok_persalinan_reviewed/keadaan_bayi" value="mati" data-required="true()" data-type-xml="select1"/>
+                    <input type="radio" name="/dok_persalinan_reviewed/keadaan_bayi" data-name="/dok_persalinan_reviewed/keadaan_bayi" value="mati" required="required" data-type-xml="select1"/>
                     <span lang="Bahasa" class="option-label active" data-itext-id="/dok_persalinan_reviewed/keadaan_bayi/mati:label">Mati (M)</span>
                     <span lang="en" class="option-label " data-itext-id="/dok_persalinan_reviewed/keadaan_bayi/mati:label">Dead (D)</span>
                 </label>
@@ -517,7 +517,7 @@
                 <span class="required">*</span>
                 <span lang="Bahasa" class="or-hint active" data-itext-id="/dok_persalinan_reviewed/child_registration/nama_bayi:hint">Nama Bayi yang diberikan Imunisasi</span>
                 <span lang="en" class="or-hint " data-itext-id="/dok_persalinan_reviewed/child_registration/nama_bayi:hint">Name of Baby Receiving Immunization</span>
-                <input type="text" name="/dok_persalinan_reviewed/child_registration/nama_bayi" data-required="true()" data-type-xml="string"/>
+                <input type="text" name="/dok_persalinan_reviewed/child_registration/nama_bayi" required="required" data-type-xml="string"/>
                 <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
             </label>
             <fieldset class="question simple-select ">
@@ -531,12 +531,12 @@
                     </legend>
                     <div class="option-wrapper">
                         <label class="">
-                            <input type="radio" name="/dok_persalinan_reviewed/child_registration/jenis_kelamin" data-name="/dok_persalinan_reviewed/child_registration/jenis_kelamin" value="male" data-required="true()" data-type-xml="select1"/>
+                            <input type="radio" name="/dok_persalinan_reviewed/child_registration/jenis_kelamin" data-name="/dok_persalinan_reviewed/child_registration/jenis_kelamin" value="male" required="required" data-type-xml="select1"/>
                             <span lang="Bahasa" class="option-label active" data-itext-id="/dok_persalinan_reviewed/child_registration/jenis_kelamin/male:label">Laki-Laki (L)</span>
                             <span lang="en" class="option-label " data-itext-id="/dok_persalinan_reviewed/child_registration/jenis_kelamin/male:label">Male (M)</span>
                         </label>
                         <label class="">
-                            <input type="radio" name="/dok_persalinan_reviewed/child_registration/jenis_kelamin" data-name="/dok_persalinan_reviewed/child_registration/jenis_kelamin" value="female" data-required="true()" data-type-xml="select1"/>
+                            <input type="radio" name="/dok_persalinan_reviewed/child_registration/jenis_kelamin" data-name="/dok_persalinan_reviewed/child_registration/jenis_kelamin" value="female" required="required" data-type-xml="select1"/>
                             <span lang="Bahasa" class="option-label active" data-itext-id="/dok_persalinan_reviewed/child_registration/jenis_kelamin/female:label">Perempuan ( P)</span>
                             <span lang="en" class="option-label " data-itext-id="/dok_persalinan_reviewed/child_registration/jenis_kelamin/female:label">Female (F)</span>
                         </label>
@@ -550,7 +550,7 @@
                 <span class="required">*</span>
                 <span lang="Bahasa" class="or-hint active" data-itext-id="/dok_persalinan_reviewed/child_registration/tanggal_lahir:hint">Tanggal lahir Bayi</span>
                 <span lang="en" class="or-hint " data-itext-id="/dok_persalinan_reviewed/child_registration/tanggal_lahir:hint">Baby's date of birth</span>
-                <input type="date" name="/dok_persalinan_reviewed/child_registration/tanggal_lahir" data-required="true()" data-constraint=".&lt; /dok_persalinan_reviewed/today " data-type-xml="date"/>
+                <input type="date" name="/dok_persalinan_reviewed/child_registration/tanggal_lahir" required="required" data-constraint=".&lt;= /dok_persalinan_reviewed/today " data-type-xml="date"/>
                 <span class="or-constraint-msg active" lang="" data-i18n="constraint.invalid">Value not allowed</span>
                 <span class="or-required-msg active" lang="" data-i18n="constraint.required">This field is required</span>
             </label>
