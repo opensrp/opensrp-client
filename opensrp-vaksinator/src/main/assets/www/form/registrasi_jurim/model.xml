@@ -29,6 +29,8 @@
     <nama_ibu openmrs_entity="person" openmrs_entity_id="first_name"/>
     <no_ibu openmrs_entity="person_attribute" openmrs_entity_id="NoIbu"/>
     <nik openmrs_entity="person_identifier" openmrs_entity_id="nik"/>
+
+    <nomor_telpon_hp openmrs_entity="concept" openmrs_entity_id="159635AAAAAAAAAAAAAAAAAAAAAAAAAA"/>
     <umur openmrs_entity="concept" openmrs_entity_id="1532AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">0</umur>
     <jenis_kontrasepsi openmrs_entity="concept" openmrs_entity_id="374AAAAAAAAAAAAAAAAAAAAAAAAAAAAA">0</jenis_kontrasepsi>
     <child_registration openmrs_entity="person" openmrs_entity_id="Child Registration">

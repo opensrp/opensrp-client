@@ -104,6 +104,10 @@
         "bind": "/model/instance/registrasi_vaksinator/nik"
       },
       {
+        "name": "NomorTelponHp",
+        "bind": "/model/instance/registrasi_vaksinator/nomor_telpon_hp"
+      },
+      {
         "name": "jenisKontrasepsi",
         "bind": "/model/instance/registrasi_vaksinator/jenis_kontrasepsi"
       },
