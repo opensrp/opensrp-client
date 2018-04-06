@@ -292,6 +292,24 @@ public class CloudantDataHandler {
      * @param client Client to create
      * @return new revision of the document
      */
+    /*public Client createClientDocument(Client client) {
+        DocumentRevision rev = new DocumentRevision();
+        rev.setBody(DocumentBodyFactory.create(client.asMap()));
+        try {
+            //save the model only once if it already exist ignore, or merge the document
+            Client c = getClientDocumentByBaseEntityId(client.getBaseEntityId());
+
+            if (c == null) {
+                DocumentRevision created = this.mDatastore.createDocumentFromRevision(rev);
+                return Client.fromRevision(created);
+            }
+
+        } catch (Exception e) {
+            Log.e(TAG, e.toString(), e);
+        }
+
+        return null;
+    }*/
     public Client createClientDocument(Client client) {
         DocumentRevision rev = new DocumentRevision();
         rev.setBody(DocumentBodyFactory.create(client.asMap()));
@@ -302,6 +320,15 @@ public class CloudantDataHandler {
             if (c == null) {
                 DocumentRevision created = this.mDatastore.createDocumentFromRevision(rev);
                 return Client.fromRevision(created);
+            } else {
+                //TODO: merge/update the client document
+//                DocumentRevision created = this.mDatastore.createDocumentFromRevision(rev);
+//                return Client.fromRevision(created);
+                DocumentRevision revupdate = c.getDocumentRevision();
+                revupdate.setBody(DocumentBodyFactory.create(client.asMap()));
+                DocumentRevision updated = this.mDatastore.updateDocumentFromRevision(revupdate);
+                return Client.fromRevision(updated);
+//                return c;
             }
 
         } catch (Exception e) {
