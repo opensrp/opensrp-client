@@ -185,9 +185,9 @@ public class GiziSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
         return null;
     }
 
-    private DialogOption[] getEditOptions() {
+    /*private DialogOption[] getEditOptions() {
         return ((GiziSmartRegisterActivity)getActivity()).getEditOptions();
-    }
+    }*/
 
     @Override
     protected void onInitialization() {

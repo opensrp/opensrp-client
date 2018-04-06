@@ -476,16 +476,10 @@ public class GiziSmartRegisterActivity extends SecuredNativeSmartRegisterActivit
 
 
             String ibuCaseId = pc.getDetails().get("relational_id");
-            Log.i("relaso",ibuCaseId + "asdasd" + pc.entityId());
+            Log.i("relaso",pc.getDetails().get("tanggalLahirAnak") + "||asdasd  " + pc.getColumnmaps().get("birthdate")+ "||asdasd  " + pc.getDetails().get("birthdate"));
+            String Tgl = Support.getDetails(pc, "tanggalLahirAnak");
+            Tgl = Tgl.substring(0, Tgl.indexOf("T"));
 
-           /* AllCommonsRepository kirep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_kartu_ibu");
-            final CommonPersonObject kiparent = kirep.findByCaseID(Support.getColumnmaps(childobject, "relational_id"));
-            
-         //   String namaibu = pc.getColumnmaps().get("first_name");
-           Log.i("NAMA",kiparent.getCaseId());
-            String namas = kiparent.getDetails().get("namaSuami");
-            Log.i("NAMAAAAAAAAAAAA",namas);*/
-                    //getValue(pc.getColumnmaps(), "relational_id", true).toLowerCase();
             Log.d(TAG, "onDialogOptionSelection: "+pc.getDetails());
             JSONObject fieldOverrides = new JSONObject();
             try {
@@ -497,9 +491,9 @@ public class GiziSmartRegisterActivity extends SecuredNativeSmartRegisterActivit
 
                 //anak
                 fieldOverrides.put("namaBayi", pc.getColumnmaps().get("namaBayi"));
-                fieldOverrides.put("jenisKelamin", pc.getColumnmaps().get("gender"));
+                fieldOverrides.put("jenis_kelamin", pc.getDetails().get("gender"));
                 fieldOverrides.put("desa_anak", pc.getDetails().get("desa_anak"));
-                fieldOverrides.put("tanggalLahirAnak", pc.getDetails().get("tanggalLahirAnak"));
+                fieldOverrides.put("tanggalLahirAnak", pc.getDetails().get("birthdate"));
                 fieldOverrides.put("beratLahir", pc.getDetails().get("beratLahir"));
 
 

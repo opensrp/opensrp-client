@@ -40,7 +40,7 @@ public class Generator {
     public Generator(Context context, String username, String password){
         this.context=context;
         String  DRISTHI_BASE_URL = context.configuration().dristhiBaseURL().replaceFirst("[^/]*$", "openmrs");
-        url =   DRISTHI_BASE_URL+
+        url =   "http://118.91.130.18:9090/openmrs"+
                 "/module/idgen/exportIdentifiers.form?source=1"+
                 "&numberToGenerate="+Integer.toString(UNIQUE_ID_LENGTH_REQUEST)+
                 "&username="+username+

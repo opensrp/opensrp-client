@@ -154,7 +154,7 @@ public class GiziSmartClientsProvider implements SmartRegisterCLientsProviderFor
             viewHolder.subVillage.setText(Support.getDetails(kiparent, "address1") != null ? Support.getDetails(kiparent, "address1") : "");
         }
 
-
+        Log.i("LAHIRRR",Support.getDetails(pc, "birthdate"));
         String Tgl = Support.getDetails(pc, "tanggalLahirAnak");
 
         if (Tgl.length() > 7) {

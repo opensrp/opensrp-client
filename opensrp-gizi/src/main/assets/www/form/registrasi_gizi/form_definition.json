@@ -100,6 +100,10 @@
         "bind": "/model/instance/Registrasi_Gizi-NewStructure-map/nik"
       },
       {
+        "name": "NomorTelponHp",
+        "bind": "/model/instance/Registrasi_Gizi-NewStructure-map/nomor_telpon_hp"
+      },
+      {
         "name": "jenisKontrasepsi",
         "bind": "/model/instance/Registrasi_Gizi-NewStructure-map/jenis_kontrasepsi"
       },
