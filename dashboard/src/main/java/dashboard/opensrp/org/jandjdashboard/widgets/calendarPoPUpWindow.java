@@ -147,6 +147,27 @@ public class calendarPoPUpWindow extends PopupWindow {
                 dismiss();
             }
         });
+        tocalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView calendarView, int i, int i1, int i2) {
+                SimpleDateFormat simpleformat = new SimpleDateFormat("yyyy-MM-dd");
+                todate = new Date(calendarView.getDate());
+                todateselected.setText(simpleformat.format(calendarView.getDate()));
+                SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy");
+                date_in_words_label.setText(format.format(fromdate)+ " - "+format.format(todate));
+            }
+        });
+        fromcalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView calendarView, int i, int i1, int i2) {
+                SimpleDateFormat simpleformat = new SimpleDateFormat("yyyy-MM-dd");
+                fromdate = new Date(calendarView.getDate());
+                fromdateselected.setText(simpleformat.format(calendarView.getDate()));
+                SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy");
+                date_in_words_label.setText(format.format(fromdate)+ " - "+format.format(todate));
+
+            }
+        });
     }
 
     private void addToDate(int daysToAdd) {
