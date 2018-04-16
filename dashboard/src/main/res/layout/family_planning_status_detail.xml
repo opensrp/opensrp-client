@@ -64,7 +64,7 @@
                 android:layout_marginRight="10dp">
 
                 <TextView
-                    android:text="1300"
+                    android:text=""
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/textcolor"
@@ -117,7 +117,7 @@
                 >
 
                 <TextView
-                    android:text="400"
+                    android:text=""
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/textcolor"
@@ -171,7 +171,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:text="1300"
+                    android:text=""
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/textcolor"
@@ -225,7 +225,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:text="70%"
+                    android:text=""
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/textcolor"
@@ -287,7 +287,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:padding="2dp"
-                    android:text="100"
+                    android:text=""
                     android:textAppearance="?android:attr/textAppearanceListItem"
                     android:textColor="@color/textcolor" />
 
@@ -695,7 +695,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="20"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pill_old"
@@ -711,7 +711,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="20"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pill_new"
@@ -743,7 +743,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="20"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pill_unit_total"
@@ -759,7 +759,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="20"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pill_left_using_other_method"
@@ -775,7 +775,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="20"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pill_left_not_using_any_method"
@@ -791,7 +791,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="20"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pill_referred_for_method"
@@ -807,7 +807,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="20"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pill_referred_for_side_effects"
@@ -829,7 +829,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="30"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/condom_old"
@@ -845,7 +845,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="30"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/condom_new"
@@ -877,7 +877,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="30"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/condom_unit_total"
@@ -893,7 +893,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="30"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/condom_left_using_other_method"
@@ -909,7 +909,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="30"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/condom_left_not_using_any_method"
@@ -925,7 +925,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="30"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/condom_referred_for_method"
@@ -941,7 +941,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="30"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/condom_referred_for_side_effects"
@@ -963,7 +963,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="40"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/injectable_new"
@@ -979,7 +979,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="40"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/injectable_old"
@@ -1011,7 +1011,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="40"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/injectable_unit_total"
@@ -1027,7 +1027,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="40"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/injectable_left_using_other_method"
@@ -1043,7 +1043,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="40"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/injectable_left_not_using_any_method"
@@ -1059,7 +1059,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="40"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/injectable_referred_for_method"
@@ -1075,7 +1075,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="40"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/injectable_referred_for_side_effects"
@@ -1097,7 +1097,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="50"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/iud_old"
@@ -1114,7 +1114,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="50"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/iud_new"
@@ -1146,7 +1146,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="50"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/iud_unit_total"
@@ -1162,7 +1162,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="50"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/iud_left_using_other_method"
@@ -1178,7 +1178,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="50"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/iud_left_not_using_any_method"
@@ -1194,7 +1194,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="50"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/iud_referred_for_method"
@@ -1210,7 +1210,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="50"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/iud_referred_for_side_effects"
@@ -1232,7 +1232,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="60"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/implant_old"
@@ -1248,7 +1248,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="60"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/implant_new"
@@ -1280,7 +1280,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="60"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/implant_unit_total"
@@ -1296,7 +1296,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="60"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/implant_left_using_other_method"
@@ -1312,7 +1312,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="60"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/implant_left_not_using_any_method"
@@ -1328,7 +1328,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="60"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/implant_referred_for_method"
@@ -1344,7 +1344,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="60"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/implant_referred_for_side_effects"
@@ -1367,7 +1367,7 @@
                 android:layout_weight="1"
                 >
                 <TextView
-                    android:text="50"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
@@ -1383,7 +1383,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="50"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pm_male_new"
@@ -1415,7 +1415,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="50"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pm_male_unit_total"
@@ -1431,7 +1431,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="50"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pm_male_left_using_other_method"
@@ -1447,7 +1447,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="50"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pm_male_left_not_using_any_method"
@@ -1463,7 +1463,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="50"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pm_male_referred_for_method"
@@ -1479,7 +1479,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="50"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pm_male_referred_for_side_effects"
@@ -1501,7 +1501,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="70"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pm_female_new"
@@ -1517,7 +1517,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="70"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pm_female_old"
@@ -1549,7 +1549,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="70"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pm_female_unit_total"
@@ -1565,7 +1565,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="70"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pm_female_left_using_other_method"
@@ -1581,7 +1581,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="70"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pm_female_left_not_using_any_method"
@@ -1597,7 +1597,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="70"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pm_female_referred_for_method"
@@ -1613,7 +1613,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <TextView
-                    android:text="70"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pm_female_referred_for_side_effects"
@@ -1636,7 +1636,7 @@
                 android:layout_weight="1"
                 android:layout_marginRight="1dp">
                 <TextView
-                    android:text="100"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/total_old"
@@ -1653,7 +1653,7 @@
                 android:layout_weight="1"
                 android:layout_marginRight="1dp">
                 <TextView
-                    android:text="100"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/total_new"
@@ -1687,7 +1687,7 @@
                 android:layout_weight="1"
                 android:layout_marginRight="1dp">
                 <TextView
-                    android:text="100"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/total_unit_total"
@@ -1704,7 +1704,7 @@
                 android:layout_weight="1"
                 android:layout_marginRight="1dp">
                 <TextView
-                    android:text="100"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/total_left_using_other_method"
@@ -1721,7 +1721,7 @@
                 android:layout_weight="1"
                 android:layout_marginRight="1dp">
                 <TextView
-                    android:text="100"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/total_left_not_using_any_method"
@@ -1738,7 +1738,7 @@
                 android:layout_weight="1"
                 android:layout_marginRight="1dp">
                 <TextView
-                    android:text="100"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/total_referred_for_method"
@@ -1755,7 +1755,7 @@
                 android:layout_weight="1"
                 android:layout_marginRight="1dp">
                 <TextView
-                    android:text="100"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/total_referred_for_side_effects"

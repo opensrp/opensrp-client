@@ -2,10 +2,13 @@ package dashboard.opensrp.org.jandjdashboard.fragments;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -55,9 +58,16 @@ public class familyPlanningStatusDetailFragment extends Fragment {
     TextView pm_female_old,pm_female_new,pm_female_unit_total,pm_female_not_using_any_method,pm_female_using_other_method,pm_female_referred_for_method,pm_female_referred_for_side_effects;
     TextView total_old,total_new,total_unit_total,total_not_using_any_method,total_using_other_method,total_referred_for_method,total_referred_for_side_effects;
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
+    String var_total_elco,var_total_new_elco,var_total_elco_visited,var_contraceptive_acceptance_rate,var_referred_for_contraceptive_side_effects,
+            var_pill_old,var_pill_new,var_pill_unit_total,var_pill_not_using_any_method,var_pill_using_other_method,var_pill_referred_for_method,var_pill_referred_for_side_effects,
+            var_condom_old,var_condom_new,var_condom_unit_total,var_condom_not_using_any_method,var_condom_using_other_method,var_condom_referred_for_method,var_condom_referred_for_side_effects,
+            var_injectable_old,var_injectable_new,var_injectable_unit_total,var_injectable_not_using_any_method,var_injectable_using_other_method,var_injectable_referred_for_method,var_injectable_referred_for_side_effects,
+            var_iud_old,var_iud_new,var_iud_unit_total,var_iud_not_using_any_method,var_iud_using_other_method,var_iud_referred_for_method,var_iud_referred_for_side_effects,
+            var_implant_old,var_implant_new,var_implant_unit_total,var_implant_not_using_any_method,var_implant_using_other_method,var_implant_referred_for_method,var_implant_referred_for_side_effects,
+            var_pm_male_old,var_pm_male_new,var_pm_male_unit_total,var_pm_male_not_using_any_method,var_pm_male_using_other_method,var_pm_male_referred_for_method,var_pm_male_referred_for_side_effects,
+            var_pm_female_old,var_pm_female_new,var_pm_female_unit_total,var_pm_female_not_using_any_method,var_pm_female_using_other_method,var_pm_female_referred_for_method,var_pm_female_referred_for_side_effects,
+            var_total_old,var_total_new,var_total_unit_total,var_total_not_using_any_method,var_total_using_other_method,var_total_referred_for_method,var_total_referred_for_side_effects;
+
     private DummyContent.DummyItem mItem;
     private TextView filtertitle;
 
@@ -201,114 +211,196 @@ public class familyPlanningStatusDetailFragment extends Fragment {
     }
     public void refresh(String from, String to) {
         try {
-            Date fromdate = fPSController.format.parse(from);
-            Date todate = fPSController.format.parse(to);
+            final Date fromdate = fPSController.format.parse(from);
+            final Date todate = fPSController.format.parse(to);
 
             filtertitle.setText(from+" to "+to);
+            (new AsyncTask(){
+                Snackbar snackbar;
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content), "Processing Data Please Wait", Snackbar.LENGTH_INDEFINITE)
+                            .setAction("Submit", null)
+                            .setActionTextColor(Color.RED);
+                    snackbar.show();
+                }
 
-            total_elco.setText(fPSController.total_elco_Query(fromdate,todate));
-            total_new_elco.setText(fPSController.total_new_elco_Query(fromdate,todate));
-            total_elco_visited.setText(fPSController.total_elco_visited_Query(fromdate,todate));
-            contraceptive_acceptance_rate.setText(fPSController.contraceptive_acceptance_rate_Query(fromdate,todate));
-            referred_for_contraceptive_side_effects.setText(fPSController.referred_for_contraceptive_side_effects_Query(fromdate,todate));
+                @Override
+                protected Object doInBackground(Object[] objects) {
+                    var_total_elco = fPSController.total_elco_Query(fromdate,todate);
+                    var_total_new_elco = fPSController.total_new_elco_Query(fromdate,todate);
+                    var_total_elco_visited = fPSController.total_elco_visited_Query(fromdate,todate);
+                    var_contraceptive_acceptance_rate = fPSController.contraceptive_acceptance_rate_Query(fromdate,todate);
+                    var_referred_for_contraceptive_side_effects = fPSController.referred_for_contraceptive_side_effects_Query(fromdate,todate);
 
-            pill_old.setText(fPSController.pill_old_Query(fromdate,todate));
-            pill_new.setText(fPSController.pill_new_Query(fromdate,todate));
-            pill_unit_total.setText(fPSController.pill_unit_totalQuery(fromdate,todate));
-            pill_not_using_any_method.setText(fPSController.pill_not_using_any_methodQuery(fromdate,todate));
-            pill_using_other_method.setText(fPSController.pill_using_other_methodQuery(fromdate,todate));
-            pill_referred_for_method.setText(fPSController.pill_referred_for_methodQuery(fromdate,todate));
-            pill_referred_for_side_effects.setText(fPSController.pill_referred_for_side_effectsQuery(fromdate,todate));
+                    var_pill_old = fPSController.pill_old_Query(fromdate,todate);
+                    var_pill_new = fPSController.pill_new_Query(fromdate,todate);
+                    var_pill_unit_total = fPSController.pill_unit_totalQuery(fromdate,todate);
+                    var_pill_not_using_any_method = fPSController.pill_not_using_any_methodQuery(fromdate,todate);
+                    var_pill_using_other_method = fPSController.pill_using_other_methodQuery(fromdate,todate);
+                    var_pill_referred_for_method = fPSController.pill_referred_for_methodQuery(fromdate,todate);
+                    var_pill_referred_for_side_effects = fPSController.pill_referred_for_side_effectsQuery(fromdate,todate);
 
-            condom_old.setText(fPSController.condom_old_Query(fromdate,todate));
-            condom_new.setText(fPSController.condom_new_Query(fromdate,todate));
-            condom_unit_total.setText(fPSController.condom_unit_totalQuery(fromdate,todate));
-            condom_not_using_any_method.setText(fPSController.condom_not_using_any_methodQuery(fromdate,todate));
-            condom_using_other_method.setText(fPSController.condom_using_other_methodQuery(fromdate,todate));
-            condom_referred_for_method.setText(fPSController.condom_referred_for_methodQuery(fromdate,todate));
-            condom_referred_for_side_effects.setText(fPSController.condom_referred_for_side_effectsQuery(fromdate,todate));
+                    var_condom_old = fPSController.condom_old_Query(fromdate,todate);
+                    var_condom_new = fPSController.condom_new_Query(fromdate,todate);
+                    var_condom_unit_total = fPSController.condom_unit_totalQuery(fromdate,todate);
+                    var_condom_not_using_any_method = fPSController.condom_not_using_any_methodQuery(fromdate,todate);
+                    var_condom_using_other_method = fPSController.condom_using_other_methodQuery(fromdate,todate);
+                    var_condom_referred_for_method = fPSController.condom_referred_for_methodQuery(fromdate,todate);
+                    var_condom_referred_for_side_effects = fPSController.condom_referred_for_side_effectsQuery(fromdate,todate);
 
-            injectable_old.setText(fPSController.injectable_old_Query(fromdate,todate));
-            injectable_new.setText(fPSController.injectable_new_Query(fromdate,todate));
-            injectable_unit_total.setText(fPSController.injectable_unit_totalQuery(fromdate,todate));
-            injectable_not_using_any_method.setText(fPSController.injectable_not_using_any_methodQuery(fromdate,todate));
-            injectable_using_other_method.setText(fPSController.injectable_using_other_methodQuery(fromdate,todate));
-            injectable_referred_for_method.setText(fPSController.injectable_referred_for_methodQuery(fromdate,todate));
-            injectable_referred_for_side_effects.setText(fPSController.injectable_referred_for_side_effectsQuery(fromdate,todate));
+                    var_injectable_old = fPSController.injectable_old_Query(fromdate,todate);
+                    var_injectable_new = fPSController.injectable_new_Query(fromdate,todate);
+                    var_injectable_unit_total = fPSController.injectable_unit_totalQuery(fromdate,todate);
+                    var_injectable_not_using_any_method = fPSController.injectable_not_using_any_methodQuery(fromdate,todate);
+                    var_injectable_using_other_method = fPSController.injectable_using_other_methodQuery(fromdate,todate);
+                    var_injectable_referred_for_method = fPSController.injectable_referred_for_methodQuery(fromdate,todate);
+                    var_injectable_referred_for_side_effects = fPSController.injectable_referred_for_side_effectsQuery(fromdate,todate);
 
-            iud_old.setText(fPSController.iud_old_Query(fromdate,todate));
-            iud_new.setText(fPSController.iud_new_Query(fromdate,todate));
-            iud_unit_total.setText(fPSController.iud_unit_totalQuery(fromdate,todate));
-            iud_not_using_any_method.setText(fPSController.iud_not_using_any_methodQuery(fromdate,todate));
-            iud_using_other_method.setText(fPSController.iud_using_other_methodQuery(fromdate,todate));
-            iud_referred_for_method.setText(fPSController.iud_referred_for_methodQuery(fromdate,todate));
-            iud_referred_for_side_effects.setText(fPSController.iud_referred_for_side_effectsQuery(fromdate,todate));
+                    var_iud_old = fPSController.iud_old_Query(fromdate,todate);
+                    var_iud_new = fPSController.iud_new_Query(fromdate,todate);
+                    var_iud_unit_total = fPSController.iud_unit_totalQuery(fromdate,todate);
+                    var_iud_not_using_any_method = fPSController.iud_not_using_any_methodQuery(fromdate,todate);
+                    var_iud_using_other_method = fPSController.iud_using_other_methodQuery(fromdate,todate);
+                    var_iud_referred_for_method = fPSController.iud_referred_for_methodQuery(fromdate,todate);
+                    var_iud_referred_for_side_effects = fPSController.iud_referred_for_side_effectsQuery(fromdate,todate);
 
-            implant_old.setText(fPSController.implant_old_Query(fromdate,todate));
-            implant_new.setText(fPSController.implant_new_Query(fromdate,todate));
-            implant_unit_total.setText(fPSController.implant_unit_totalQuery(fromdate,todate));
-            implant_not_using_any_method.setText(fPSController.implant_not_using_any_methodQuery(fromdate,todate));
-            implant_using_other_method.setText(fPSController.implant_using_other_methodQuery(fromdate,todate));
-            implant_referred_for_method.setText(fPSController.implant_referred_for_methodQuery(fromdate,todate));
-            implant_referred_for_side_effects.setText(fPSController.implant_referred_for_side_effectsQuery(fromdate,todate));
-
-
-            pm_male_old.setText(fPSController.pm_male_old_Query(fromdate,todate));
-            pm_male_new.setText(fPSController.pm_male_new_Query(fromdate,todate));
-            pm_male_unit_total.setText(fPSController.pm_male_unit_totalQuery(fromdate,todate));
-            pm_male_not_using_any_method.setText(fPSController.pm_male_not_using_any_methodQuery(fromdate,todate));
-            pm_male_using_other_method.setText(fPSController.pm_male_using_other_methodQuery(fromdate,todate));
-            pm_male_referred_for_method.setText(fPSController.pm_male_referred_for_methodQuery(fromdate,todate));
-            pm_male_referred_for_side_effects.setText(fPSController.pm_male_referred_for_side_effectsQuery(fromdate,todate));
-
-            pm_female_old.setText(fPSController.pm_female_old_Query(fromdate,todate));
-            pm_female_new.setText(fPSController.pm_female_new_Query(fromdate,todate));
-            pm_female_unit_total.setText(fPSController.pm_female_unit_totalQuery(fromdate,todate));
-            pm_female_not_using_any_method.setText(fPSController.pm_female_not_using_any_methodQuery(fromdate,todate));
-            pm_female_using_other_method.setText(fPSController.pm_female_using_other_methodQuery(fromdate,todate));
-            pm_female_referred_for_method.setText(fPSController.pm_female_referred_for_methodQuery(fromdate,todate));
-            pm_female_referred_for_side_effects.setText(fPSController.pm_female_referred_for_side_effectsQuery(fromdate,todate));
+                    var_implant_old = fPSController.implant_old_Query(fromdate,todate);
+                    var_implant_new = fPSController.implant_new_Query(fromdate,todate);
+                    var_implant_unit_total = fPSController.implant_unit_totalQuery(fromdate,todate);
+                    var_implant_not_using_any_method = fPSController.implant_not_using_any_methodQuery(fromdate,todate);
+                    var_implant_using_other_method = fPSController.implant_using_other_methodQuery(fromdate,todate);
+                    var_implant_referred_for_method = fPSController.implant_referred_for_methodQuery(fromdate,todate);
+                    var_implant_referred_for_side_effects = fPSController.implant_referred_for_side_effectsQuery(fromdate,todate);
 
 
-            total_old.setText(""+(Integer.parseInt(pill_old.getText().toString())+
-                    Integer.parseInt(condom_old.getText().toString())+
-                    Integer.parseInt(injectable_old.getText().toString())+
-                    Integer.parseInt(iud_old.getText().toString())+
-                    Integer.parseInt(implant_old.getText().toString())+
-                    Integer.parseInt(pm_male_old.getText().toString())+
-                    Integer.parseInt(pm_female_old.getText().toString())));
-            total_new.setText(""+(Integer.parseInt(pill_new.getText().toString())+
-                    Integer.parseInt(condom_new.getText().toString())+
-                    Integer.parseInt(injectable_new.getText().toString())+
-                    Integer.parseInt(iud_new.getText().toString())+
-                    Integer.parseInt(implant_new.getText().toString())+
-                    Integer.parseInt(pm_male_new.getText().toString())+
-                    Integer.parseInt(pm_female_new.getText().toString())));
-            total_unit_total.setText(""+(Integer.parseInt(pill_unit_total.getText().toString())+
-                    Integer.parseInt(condom_unit_total.getText().toString())+
-                    Integer.parseInt(injectable_unit_total.getText().toString())+
-                    Integer.parseInt(iud_unit_total.getText().toString())+
-                    Integer.parseInt(implant_unit_total.getText().toString())+
-                    Integer.parseInt(pm_male_unit_total.getText().toString())+
-                    Integer.parseInt(pm_female_unit_total.getText().toString())));
-            total_not_using_any_method.setText(""+(Integer.parseInt(pill_not_using_any_method.getText().toString())+
-                    Integer.parseInt(condom_not_using_any_method.getText().toString())+
-                    Integer.parseInt(injectable_not_using_any_method.getText().toString())+
-                    Integer.parseInt(iud_not_using_any_method.getText().toString())+
-                    Integer.parseInt(implant_not_using_any_method.getText().toString())+
-                    Integer.parseInt(pm_male_not_using_any_method.getText().toString())+
-                    Integer.parseInt(pm_female_not_using_any_method.getText().toString())));
-            total_using_other_method.setText(""+(Integer.parseInt(pill_using_other_method.getText().toString())+
-                    Integer.parseInt(condom_using_other_method.getText().toString())+
-                    Integer.parseInt(injectable_using_other_method.getText().toString())+
-                    Integer.parseInt(iud_using_other_method.getText().toString())+
-                    Integer.parseInt(implant_using_other_method.getText().toString())+
-                    Integer.parseInt(pm_male_using_other_method.getText().toString())+
-                    Integer.parseInt(pm_female_using_other_method.getText().toString())));
-            total_referred_for_method.setText("");
-            total_referred_for_side_effects.setText("");
+                    var_pm_male_old = fPSController.pm_male_old_Query(fromdate,todate);
+                    var_pm_male_new = fPSController.pm_male_new_Query(fromdate,todate);
+                    var_pm_male_unit_total = fPSController.pm_male_unit_totalQuery(fromdate,todate);
+                    var_pm_male_not_using_any_method = fPSController.pm_male_not_using_any_methodQuery(fromdate,todate);
+                    var_pm_male_using_other_method = fPSController.pm_male_using_other_methodQuery(fromdate,todate);
+                    var_pm_male_referred_for_method = fPSController.pm_male_referred_for_methodQuery(fromdate,todate);
+                    var_pm_male_referred_for_side_effects = fPSController.pm_male_referred_for_side_effectsQuery(fromdate,todate);
+
+                    var_pm_female_old = fPSController.pm_female_old_Query(fromdate,todate);
+                    var_pm_female_new = fPSController.pm_female_new_Query(fromdate,todate);
+                    var_pm_female_unit_total = fPSController.pm_female_unit_totalQuery(fromdate,todate);
+                    var_pm_female_not_using_any_method = fPSController.pm_female_not_using_any_methodQuery(fromdate,todate);
+                    var_pm_female_using_other_method = fPSController.pm_female_using_other_methodQuery(fromdate,todate);
+                    var_pm_female_referred_for_method = fPSController.pm_female_referred_for_methodQuery(fromdate,todate);
+                    var_pm_female_referred_for_side_effects = fPSController.pm_female_referred_for_side_effectsQuery(fromdate,todate);
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Object o) {
+                    super.onPostExecute(o);
+                    total_elco.setText(var_total_elco);
+                    total_new_elco.setText(var_total_new_elco);
+                    total_elco_visited.setText(var_total_elco_visited);
+                    contraceptive_acceptance_rate.setText(var_contraceptive_acceptance_rate);
+                    referred_for_contraceptive_side_effects.setText(var_referred_for_contraceptive_side_effects);
+
+                    pill_old.setText(var_pill_old);
+                    pill_new.setText(var_pill_new);
+                    pill_unit_total.setText(var_pill_unit_total);
+                    pill_not_using_any_method.setText(var_pill_not_using_any_method);
+                    pill_using_other_method.setText(var_pill_using_other_method);
+                    pill_referred_for_method.setText(var_pill_referred_for_method);
+                    pill_referred_for_side_effects.setText(var_pill_referred_for_side_effects);
+
+                    condom_old.setText(var_condom_old);
+                    condom_new.setText(var_condom_new);
+                    condom_unit_total.setText(var_condom_unit_total);
+                    condom_not_using_any_method.setText(var_condom_not_using_any_method);
+                    condom_using_other_method.setText(var_condom_using_other_method);
+                    condom_referred_for_method.setText(var_condom_referred_for_method);
+                    condom_referred_for_side_effects.setText(var_condom_referred_for_side_effects);
+
+                    injectable_old.setText(var_injectable_old);
+                    injectable_new.setText(var_injectable_new);
+                    injectable_unit_total.setText(var_injectable_unit_total);
+                    injectable_not_using_any_method.setText(var_injectable_not_using_any_method);
+                    injectable_using_other_method.setText(var_injectable_using_other_method);
+                    injectable_referred_for_method.setText(var_injectable_referred_for_method);
+                    injectable_referred_for_side_effects.setText(var_injectable_referred_for_side_effects);
+
+                    iud_old.setText(var_iud_old);
+                    iud_new.setText(var_iud_new);
+                    iud_unit_total.setText(var_iud_unit_total);
+                    iud_not_using_any_method.setText(var_iud_not_using_any_method);
+                    iud_using_other_method.setText(var_iud_using_other_method);
+                    iud_referred_for_method.setText(var_iud_referred_for_method);
+                    iud_referred_for_side_effects.setText(var_iud_referred_for_side_effects);
+
+                    implant_old.setText(var_implant_old);
+                    implant_new.setText(var_implant_new);
+                    implant_unit_total.setText(var_implant_unit_total);
+                    implant_not_using_any_method.setText(var_implant_not_using_any_method);
+                    implant_using_other_method.setText(var_implant_using_other_method);
+                    implant_referred_for_method.setText(var_implant_referred_for_method);
+                    implant_referred_for_side_effects.setText(var_implant_referred_for_side_effects);
 
 
+                    pm_male_old.setText(var_pm_male_old);
+                    pm_male_new.setText(var_pm_male_new);
+                    pm_male_unit_total.setText(var_pm_male_unit_total);
+                    pm_male_not_using_any_method.setText(var_pm_male_not_using_any_method);
+                    pm_male_using_other_method.setText(var_pm_male_using_other_method);
+                    pm_male_referred_for_method.setText(var_pm_male_referred_for_method);
+                    pm_male_referred_for_side_effects.setText(var_pm_male_referred_for_side_effects);
+
+                    pm_female_old.setText(var_pm_female_old);
+                    pm_female_new.setText(var_pm_female_new);
+                    pm_female_unit_total.setText(var_pm_female_unit_total);
+                    pm_female_not_using_any_method.setText(var_pm_female_not_using_any_method);
+                    pm_female_using_other_method.setText(var_pm_female_using_other_method);
+                    pm_female_referred_for_method.setText(var_pm_female_referred_for_method);
+                    pm_female_referred_for_side_effects.setText(var_pm_female_referred_for_side_effects);
+
+
+                    total_old.setText(""+(Integer.parseInt(pill_old.getText().toString())+
+                            Integer.parseInt(condom_old.getText().toString())+
+                            Integer.parseInt(injectable_old.getText().toString())+
+                            Integer.parseInt(iud_old.getText().toString())+
+                            Integer.parseInt(implant_old.getText().toString())+
+                            Integer.parseInt(pm_male_old.getText().toString())+
+                            Integer.parseInt(pm_female_old.getText().toString())));
+                    total_new.setText(""+(Integer.parseInt(pill_new.getText().toString())+
+                            Integer.parseInt(condom_new.getText().toString())+
+                            Integer.parseInt(injectable_new.getText().toString())+
+                            Integer.parseInt(iud_new.getText().toString())+
+                            Integer.parseInt(implant_new.getText().toString())+
+                            Integer.parseInt(pm_male_new.getText().toString())+
+                            Integer.parseInt(pm_female_new.getText().toString())));
+                    total_unit_total.setText(""+(Integer.parseInt(pill_unit_total.getText().toString())+
+                            Integer.parseInt(condom_unit_total.getText().toString())+
+                            Integer.parseInt(injectable_unit_total.getText().toString())+
+                            Integer.parseInt(iud_unit_total.getText().toString())+
+                            Integer.parseInt(implant_unit_total.getText().toString())+
+                            Integer.parseInt(pm_male_unit_total.getText().toString())+
+                            Integer.parseInt(pm_female_unit_total.getText().toString())));
+                    total_not_using_any_method.setText(""+(Integer.parseInt(pill_not_using_any_method.getText().toString())+
+                            Integer.parseInt(condom_not_using_any_method.getText().toString())+
+                            Integer.parseInt(injectable_not_using_any_method.getText().toString())+
+                            Integer.parseInt(iud_not_using_any_method.getText().toString())+
+                            Integer.parseInt(implant_not_using_any_method.getText().toString())+
+                            Integer.parseInt(pm_male_not_using_any_method.getText().toString())+
+                            Integer.parseInt(pm_female_not_using_any_method.getText().toString())));
+                    total_using_other_method.setText(""+(Integer.parseInt(pill_using_other_method.getText().toString())+
+                            Integer.parseInt(condom_using_other_method.getText().toString())+
+                            Integer.parseInt(injectable_using_other_method.getText().toString())+
+                            Integer.parseInt(iud_using_other_method.getText().toString())+
+                            Integer.parseInt(implant_using_other_method.getText().toString())+
+                            Integer.parseInt(pm_male_using_other_method.getText().toString())+
+                            Integer.parseInt(pm_female_using_other_method.getText().toString())));
+                    total_referred_for_method.setText("");
+                    total_referred_for_side_effects.setText("");
+                    snackbar.dismiss();
+                }
+            }).execute();
 
         }catch (Exception e){
         }
