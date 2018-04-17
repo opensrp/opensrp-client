@@ -1,33 +1,24 @@
 package dashboard.opensrp.org.jandjdashboard.fragments;
 
 import android.app.Activity;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import dashboard.opensrp.org.jandjdashboard.R;
-import dashboard.opensrp.org.jandjdashboard.adapter.scheduleCardAdapter;
 import dashboard.opensrp.org.jandjdashboard.controller.controllerHolders;
 import dashboard.opensrp.org.jandjdashboard.controller.familyPlanningStatusController;
-import dashboard.opensrp.org.jandjdashboard.controller.nutritionDetailController;
 import dashboard.opensrp.org.jandjdashboard.dashboardCategoryDetailActivity;
 import dashboard.opensrp.org.jandjdashboard.dashboardCategoryListActivity;
 import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
@@ -47,6 +38,7 @@ public class familyPlanningStatusDetailFragment extends Fragment {
     private String controller_holder_key = "controller_holder";
     private String familyPlanningStatusControllerKey = "familyPlanningStatusController";
     familyPlanningStatusController fPSController;
+    public static Date fromdate_forFragment = new Date(), todate_forFragment = new Date();
 
     TextView total_elco,total_new_elco,total_elco_visited,contraceptive_acceptance_rate,referred_for_contraceptive_side_effects;
     TextView pill_old,pill_new,pill_unit_total,pill_not_using_any_method,pill_using_other_method,pill_referred_for_method,pill_referred_for_side_effects;
@@ -58,7 +50,7 @@ public class familyPlanningStatusDetailFragment extends Fragment {
     TextView pm_female_old,pm_female_new,pm_female_unit_total,pm_female_not_using_any_method,pm_female_using_other_method,pm_female_referred_for_method,pm_female_referred_for_side_effects;
     TextView total_old,total_new,total_unit_total,total_not_using_any_method,total_using_other_method,total_referred_for_method,total_referred_for_side_effects;
 
-    String var_total_elco,var_total_new_elco,var_total_elco_visited,var_contraceptive_acceptance_rate,var_referred_for_contraceptive_side_effects,
+    static String var_total_elco,var_total_new_elco,var_total_elco_visited,var_contraceptive_acceptance_rate,var_referred_for_contraceptive_side_effects,
             var_pill_old,var_pill_new,var_pill_unit_total,var_pill_not_using_any_method,var_pill_using_other_method,var_pill_referred_for_method,var_pill_referred_for_side_effects,
             var_condom_old,var_condom_new,var_condom_unit_total,var_condom_not_using_any_method,var_condom_using_other_method,var_condom_referred_for_method,var_condom_referred_for_side_effects,
             var_injectable_old,var_injectable_new,var_injectable_unit_total,var_injectable_not_using_any_method,var_injectable_using_other_method,var_injectable_referred_for_method,var_injectable_referred_for_side_effects,
@@ -115,9 +107,8 @@ public class familyPlanningStatusDetailFragment extends Fragment {
         today = cal.getTime();
         cal.add(Calendar.DATE, -(365*10));
         Date yesterday = cal.getTime();
+
         refresh(fPSController.format.format(yesterday.getTime()),fPSController.format.format(today.getTime()));
-
-
         return rootView;
     }
 
@@ -209,10 +200,18 @@ public class familyPlanningStatusDetailFragment extends Fragment {
         filtertitle = (TextView)rootView.findViewById(R.id.filtertitle);
 
     }
+    boolean datechanged = true;
     public void refresh(String from, String to) {
         try {
             final Date fromdate = fPSController.format.parse(from);
             final Date todate = fPSController.format.parse(to);
+            datechanged = true;
+            if(samedate(todate_forFragment,todate)  && samedate(fromdate,fromdate_forFragment)){
+                datechanged = false;
+            }else{
+                fromdate_forFragment = fromdate;
+                todate_forFragment = todate;
+            }
 
             filtertitle.setText(from+" to "+to);
             (new AsyncTask(){
@@ -228,69 +227,71 @@ public class familyPlanningStatusDetailFragment extends Fragment {
 
                 @Override
                 protected Object doInBackground(Object[] objects) {
-                    var_total_elco = fPSController.total_elco_Query(fromdate,todate);
-                    var_total_new_elco = fPSController.total_new_elco_Query(fromdate,todate);
-                    var_total_elco_visited = fPSController.total_elco_visited_Query(fromdate,todate);
-                    var_contraceptive_acceptance_rate = fPSController.contraceptive_acceptance_rate_Query(fromdate,todate);
-                    var_referred_for_contraceptive_side_effects = fPSController.referred_for_contraceptive_side_effects_Query(fromdate,todate);
+                    if(datechanged) {
+                        var_total_elco = fPSController.total_elco_Query(fromdate, todate);
+                        var_total_new_elco = fPSController.total_new_elco_Query(fromdate, todate);
+                        var_total_elco_visited = fPSController.total_elco_visited_Query(fromdate, todate);
+                        var_contraceptive_acceptance_rate = fPSController.contraceptive_acceptance_rate_Query(fromdate, todate);
+                        var_referred_for_contraceptive_side_effects = fPSController.referred_for_contraceptive_side_effects_Query(fromdate, todate);
 
-                    var_pill_old = fPSController.pill_old_Query(fromdate,todate);
-                    var_pill_new = fPSController.pill_new_Query(fromdate,todate);
-                    var_pill_unit_total = fPSController.pill_unit_totalQuery(fromdate,todate);
-                    var_pill_not_using_any_method = fPSController.pill_not_using_any_methodQuery(fromdate,todate);
-                    var_pill_using_other_method = fPSController.pill_using_other_methodQuery(fromdate,todate);
-                    var_pill_referred_for_method = fPSController.pill_referred_for_methodQuery(fromdate,todate);
-                    var_pill_referred_for_side_effects = fPSController.pill_referred_for_side_effectsQuery(fromdate,todate);
+                        var_pill_old = fPSController.pill_old_Query(fromdate, todate);
+                        var_pill_new = fPSController.pill_new_Query(fromdate, todate);
+                        var_pill_unit_total = fPSController.pill_unit_totalQuery(fromdate, todate);
+                        var_pill_not_using_any_method = fPSController.pill_not_using_any_methodQuery(fromdate, todate);
+                        var_pill_using_other_method = fPSController.pill_using_other_methodQuery(fromdate, todate);
+                        var_pill_referred_for_method = fPSController.pill_referred_for_methodQuery(fromdate, todate);
+                        var_pill_referred_for_side_effects = fPSController.pill_referred_for_side_effectsQuery(fromdate, todate);
 
-                    var_condom_old = fPSController.condom_old_Query(fromdate,todate);
-                    var_condom_new = fPSController.condom_new_Query(fromdate,todate);
-                    var_condom_unit_total = fPSController.condom_unit_totalQuery(fromdate,todate);
-                    var_condom_not_using_any_method = fPSController.condom_not_using_any_methodQuery(fromdate,todate);
-                    var_condom_using_other_method = fPSController.condom_using_other_methodQuery(fromdate,todate);
-                    var_condom_referred_for_method = fPSController.condom_referred_for_methodQuery(fromdate,todate);
-                    var_condom_referred_for_side_effects = fPSController.condom_referred_for_side_effectsQuery(fromdate,todate);
+                        var_condom_old = fPSController.condom_old_Query(fromdate, todate);
+                        var_condom_new = fPSController.condom_new_Query(fromdate, todate);
+                        var_condom_unit_total = fPSController.condom_unit_totalQuery(fromdate, todate);
+                        var_condom_not_using_any_method = fPSController.condom_not_using_any_methodQuery(fromdate, todate);
+                        var_condom_using_other_method = fPSController.condom_using_other_methodQuery(fromdate, todate);
+                        var_condom_referred_for_method = fPSController.condom_referred_for_methodQuery(fromdate, todate);
+                        var_condom_referred_for_side_effects = fPSController.condom_referred_for_side_effectsQuery(fromdate, todate);
 
-                    var_injectable_old = fPSController.injectable_old_Query(fromdate,todate);
-                    var_injectable_new = fPSController.injectable_new_Query(fromdate,todate);
-                    var_injectable_unit_total = fPSController.injectable_unit_totalQuery(fromdate,todate);
-                    var_injectable_not_using_any_method = fPSController.injectable_not_using_any_methodQuery(fromdate,todate);
-                    var_injectable_using_other_method = fPSController.injectable_using_other_methodQuery(fromdate,todate);
-                    var_injectable_referred_for_method = fPSController.injectable_referred_for_methodQuery(fromdate,todate);
-                    var_injectable_referred_for_side_effects = fPSController.injectable_referred_for_side_effectsQuery(fromdate,todate);
+                        var_injectable_old = fPSController.injectable_old_Query(fromdate, todate);
+                        var_injectable_new = fPSController.injectable_new_Query(fromdate, todate);
+                        var_injectable_unit_total = fPSController.injectable_unit_totalQuery(fromdate, todate);
+                        var_injectable_not_using_any_method = fPSController.injectable_not_using_any_methodQuery(fromdate, todate);
+                        var_injectable_using_other_method = fPSController.injectable_using_other_methodQuery(fromdate, todate);
+                        var_injectable_referred_for_method = fPSController.injectable_referred_for_methodQuery(fromdate, todate);
+                        var_injectable_referred_for_side_effects = fPSController.injectable_referred_for_side_effectsQuery(fromdate, todate);
 
-                    var_iud_old = fPSController.iud_old_Query(fromdate,todate);
-                    var_iud_new = fPSController.iud_new_Query(fromdate,todate);
-                    var_iud_unit_total = fPSController.iud_unit_totalQuery(fromdate,todate);
-                    var_iud_not_using_any_method = fPSController.iud_not_using_any_methodQuery(fromdate,todate);
-                    var_iud_using_other_method = fPSController.iud_using_other_methodQuery(fromdate,todate);
-                    var_iud_referred_for_method = fPSController.iud_referred_for_methodQuery(fromdate,todate);
-                    var_iud_referred_for_side_effects = fPSController.iud_referred_for_side_effectsQuery(fromdate,todate);
+                        var_iud_old = fPSController.iud_old_Query(fromdate, todate);
+                        var_iud_new = fPSController.iud_new_Query(fromdate, todate);
+                        var_iud_unit_total = fPSController.iud_unit_totalQuery(fromdate, todate);
+                        var_iud_not_using_any_method = fPSController.iud_not_using_any_methodQuery(fromdate, todate);
+                        var_iud_using_other_method = fPSController.iud_using_other_methodQuery(fromdate, todate);
+                        var_iud_referred_for_method = fPSController.iud_referred_for_methodQuery(fromdate, todate);
+                        var_iud_referred_for_side_effects = fPSController.iud_referred_for_side_effectsQuery(fromdate, todate);
 
-                    var_implant_old = fPSController.implant_old_Query(fromdate,todate);
-                    var_implant_new = fPSController.implant_new_Query(fromdate,todate);
-                    var_implant_unit_total = fPSController.implant_unit_totalQuery(fromdate,todate);
-                    var_implant_not_using_any_method = fPSController.implant_not_using_any_methodQuery(fromdate,todate);
-                    var_implant_using_other_method = fPSController.implant_using_other_methodQuery(fromdate,todate);
-                    var_implant_referred_for_method = fPSController.implant_referred_for_methodQuery(fromdate,todate);
-                    var_implant_referred_for_side_effects = fPSController.implant_referred_for_side_effectsQuery(fromdate,todate);
+                        var_implant_old = fPSController.implant_old_Query(fromdate, todate);
+                        var_implant_new = fPSController.implant_new_Query(fromdate, todate);
+                        var_implant_unit_total = fPSController.implant_unit_totalQuery(fromdate, todate);
+                        var_implant_not_using_any_method = fPSController.implant_not_using_any_methodQuery(fromdate, todate);
+                        var_implant_using_other_method = fPSController.implant_using_other_methodQuery(fromdate, todate);
+                        var_implant_referred_for_method = fPSController.implant_referred_for_methodQuery(fromdate, todate);
+                        var_implant_referred_for_side_effects = fPSController.implant_referred_for_side_effectsQuery(fromdate, todate);
 
 
-                    var_pm_male_old = fPSController.pm_male_old_Query(fromdate,todate);
-                    var_pm_male_new = fPSController.pm_male_new_Query(fromdate,todate);
-                    var_pm_male_unit_total = fPSController.pm_male_unit_totalQuery(fromdate,todate);
-                    var_pm_male_not_using_any_method = fPSController.pm_male_not_using_any_methodQuery(fromdate,todate);
-                    var_pm_male_using_other_method = fPSController.pm_male_using_other_methodQuery(fromdate,todate);
-                    var_pm_male_referred_for_method = fPSController.pm_male_referred_for_methodQuery(fromdate,todate);
-                    var_pm_male_referred_for_side_effects = fPSController.pm_male_referred_for_side_effectsQuery(fromdate,todate);
+                        var_pm_male_old = fPSController.pm_male_old_Query(fromdate, todate);
+                        var_pm_male_new = fPSController.pm_male_new_Query(fromdate, todate);
+                        var_pm_male_unit_total = fPSController.pm_male_unit_totalQuery(fromdate, todate);
+                        var_pm_male_not_using_any_method = fPSController.pm_male_not_using_any_methodQuery(fromdate, todate);
+                        var_pm_male_using_other_method = fPSController.pm_male_using_other_methodQuery(fromdate, todate);
+                        var_pm_male_referred_for_method = fPSController.pm_male_referred_for_methodQuery(fromdate, todate);
+                        var_pm_male_referred_for_side_effects = fPSController.pm_male_referred_for_side_effectsQuery(fromdate, todate);
 
-                    var_pm_female_old = fPSController.pm_female_old_Query(fromdate,todate);
-                    var_pm_female_new = fPSController.pm_female_new_Query(fromdate,todate);
-                    var_pm_female_unit_total = fPSController.pm_female_unit_totalQuery(fromdate,todate);
-                    var_pm_female_not_using_any_method = fPSController.pm_female_not_using_any_methodQuery(fromdate,todate);
-                    var_pm_female_using_other_method = fPSController.pm_female_using_other_methodQuery(fromdate,todate);
-                    var_pm_female_referred_for_method = fPSController.pm_female_referred_for_methodQuery(fromdate,todate);
-                    var_pm_female_referred_for_side_effects = fPSController.pm_female_referred_for_side_effectsQuery(fromdate,todate);
+                        var_pm_female_old = fPSController.pm_female_old_Query(fromdate, todate);
+                        var_pm_female_new = fPSController.pm_female_new_Query(fromdate, todate);
+                        var_pm_female_unit_total = fPSController.pm_female_unit_totalQuery(fromdate, todate);
+                        var_pm_female_not_using_any_method = fPSController.pm_female_not_using_any_methodQuery(fromdate, todate);
+                        var_pm_female_using_other_method = fPSController.pm_female_using_other_methodQuery(fromdate, todate);
+                        var_pm_female_referred_for_method = fPSController.pm_female_referred_for_methodQuery(fromdate, todate);
+                        var_pm_female_referred_for_side_effects = fPSController.pm_female_referred_for_side_effectsQuery(fromdate, todate);
 
+                    }
                     return null;
                 }
 
@@ -404,5 +405,9 @@ public class familyPlanningStatusDetailFragment extends Fragment {
 
         }catch (Exception e){
         }
+    }
+    public boolean samedate(Date date1, Date date2){
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+        return fmt.format(date1).equals(fmt.format(date2));
     }
 }
