@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="5dp"
     android:textIsSelectable="true"
-    tools:context="dashboard.opensrp.org.jandjdashboard.fragments.dashboardCategoryDetailFragment" >
+    tools:context="dashboard.opensrp.org.jandjdashboard.fragments.dashboardCategoryDetailFragment">
+
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
@@ -18,20 +19,21 @@
         android:padding="20dp">
 
         <TextView
-            android:text="Month: this Week"
+            android:id="@+id/filtertitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/iconcolorsused"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/filtertitle"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:text="Month: this Week"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/iconcolorsused" />
     </android.support.v7.widget.CardView>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:scrollbars="vertical" />
-    </LinearLayout>
+</LinearLayout>

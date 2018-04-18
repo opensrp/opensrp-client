@@ -1,15 +1,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dashboardcategory_detail"
     style="?android:attr/textAppearanceLarge"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/alttablerow"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="5dp"
     android:textIsSelectable="true"
-    tools:context="dashboard.opensrp.org.jandjdashboard.fragments.dashboardCategoryDetailFragment"
-    android:background="@color/alttablerow">
+    tools:context="dashboard.opensrp.org.jandjdashboard.fragments.dashboardCategoryDetailFragment">
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
@@ -34,113 +34,116 @@
     </android.support.v7.widget.CardView>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
         <android.support.v7.widget.CardView
             android:id="@+id/elco_card"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_margin="2dp"
-            app:cardBackgroundColor="@color/greencardcolor"
+            android:layout_weight="1"
             android:elevation="3dp"
             android:padding="10dp"
-            android:layout_weight="1">
+            app:cardBackgroundColor="@color/greencardcolor">
+
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:scaleType="fitEnd"
                 android:layout_gravity="bottom"
-                android:src="@drawable/numberlivebirth"
-                />
+                android:scaleType="fitEnd"
+                android:src="@drawable/numberlivebirth" />
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp">
+                android:orientation="vertical">
 
                 <TextView
-                    android:text="1300"
+                    android:id="@+id/elco_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textcolor"
-                    android:textAppearance="?android:attr/textAppearanceListItem"
-                    android:id="@+id/elco_count"
+                    android:layout_gravity="top|right"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_gravity="top|right"
+                    android:layout_marginTop="10dp"
                     android:padding="2dp"
-                    android:layout_marginTop="10dp" />
+                    android:text="1300"
+                    android:textAppearance="?android:attr/textAppearanceListItem"
+                    android:textColor="@color/textcolor" />
 
                 <TextView
-                    android:text="Total ELCO"
+                    android:id="@+id/elco_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textcolor"
-                    android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                    android:id="@+id/elco_label"
-                    android:layout_marginLeft="10dp"
                     android:layout_gravity="bottom|end"
+                    android:layout_marginLeft="10dp"
                     android:padding="2dp"
-                    android:textSize="10sp"
-                    android:textAlignment="textEnd" />
+                    android:text="Total ELCO"
+                    android:textAlignment="textEnd"
+                    android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                    android:textColor="@color/textcolor"
+                    android:textSize="10sp" />
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
+
         <android.support.v7.widget.CardView
             android:id="@+id/new_registered_elco_card"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_margin="2dp"
-            app:cardBackgroundColor="@color/pinkcardcolor"
+            android:layout_weight="1"
             android:elevation="3dp"
             android:padding="10dp"
-            android:layout_weight="1">
+            app:cardBackgroundColor="@color/pinkcardcolor">
+
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:scaleType="fitEnd"
                 android:layout_gravity="bottom"
-                android:src="@drawable/newelcotranscard"
-                />
+                android:scaleType="fitEnd"
+                android:src="@drawable/newelcotranscard" />
+
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                >
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:text="400"
+                    android:id="@+id/newly_registered_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textcolor"
-                    android:textAppearance="?android:attr/textAppearanceListItem"
-                    android:id="@+id/newly_registered_count"
+                    android:layout_gravity="top|right"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_gravity="top|right"
+                    android:layout_marginTop="10dp"
                     android:padding="2dp"
-                    android:layout_marginTop="10dp" />
+                    android:text="400"
+                    android:textAppearance="?android:attr/textAppearanceListItem"
+                    android:textColor="@color/textcolor" />
 
                 <TextView
-                    android:text="Newly Registered ELCO"
+                    android:id="@+id/newly_registered_elco_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textcolor"
-                    android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                    android:id="@+id/newly_registered_elco_label"
-                    android:layout_marginLeft="10dp"
                     android:layout_gravity="bottom|end"
+                    android:layout_marginLeft="10dp"
                     android:padding="2dp"
-                    android:textSize="10sp"
-                    android:textAlignment="textEnd" />
+                    android:text="Newly Registered ELCO"
+                    android:textAlignment="textEnd"
+                    android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                    android:textColor="@color/textcolor"
+                    android:textSize="10sp" />
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
@@ -151,50 +154,50 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_margin="2dp"
-            app:cardBackgroundColor="@color/purplecardcolor"
+            android:layout_weight="1"
             android:elevation="3dp"
             android:padding="10dp"
-            android:layout_weight="1">
+            app:cardBackgroundColor="@color/purplecardcolor">
+
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:scaleType="fitEnd"
                 android:layout_gravity="bottom"
-                android:src="@drawable/numberdeath"
-                />
+                android:scaleType="fitEnd"
+                android:src="@drawable/numberdeath" />
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:text="1300"
+                    android:id="@+id/total_elco_visited_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textcolor"
-                    android:textAppearance="?android:attr/textAppearanceListItem"
-                    android:id="@+id/total_elco_visited_count"
+                    android:layout_gravity="top|right"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_gravity="top|right"
+                    android:layout_marginTop="10dp"
                     android:padding="2dp"
-                    android:layout_marginTop="10dp" />
+                    android:text="1300"
+                    android:textAppearance="?android:attr/textAppearanceListItem"
+                    android:textColor="@color/textcolor" />
 
                 <TextView
-                    android:text="Total ELCO visited"
+                    android:id="@+id/total_elco_visited_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textcolor"
-                    android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                    android:id="@+id/total_elco_visited_label"
-                    android:layout_marginLeft="10dp"
                     android:layout_gravity="bottom|end"
+                    android:layout_marginLeft="10dp"
                     android:padding="2dp"
-                    android:textSize="10sp"
-                    android:textAlignment="textEnd" />
+                    android:text="Total ELCO visited"
+                    android:textAlignment="textEnd"
+                    android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                    android:textColor="@color/textcolor"
+                    android:textSize="10sp" />
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
@@ -205,50 +208,50 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_margin="2dp"
-            app:cardBackgroundColor="@color/lightgreencardcolor"
+            android:layout_weight="1"
             android:elevation="3dp"
             android:padding="10dp"
-            android:layout_weight="1">
+            app:cardBackgroundColor="@color/lightgreencardcolor">
+
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:scaleType="fitEnd"
                 android:layout_gravity="bottom"
-                android:src="@drawable/deathcard"
-                />
+                android:scaleType="fitEnd"
+                android:src="@drawable/deathcard" />
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:text="70%"
+                    android:id="@+id/contraceptive_acceptance_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textcolor"
-                    android:textAppearance="?android:attr/textAppearanceListItem"
-                    android:id="@+id/contraceptive_acceptance_count"
+                    android:layout_gravity="top|right"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_gravity="top|right"
+                    android:layout_marginTop="10dp"
                     android:padding="2dp"
-                    android:layout_marginTop="10dp" />
+                    android:text="70%"
+                    android:textAppearance="?android:attr/textAppearanceListItem"
+                    android:textColor="@color/textcolor" />
 
                 <TextView
-                    android:text="Contraceptive Acceptance Rate"
+                    android:id="@+id/contraceptive_acceptance_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textcolor"
-                    android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                    android:id="@+id/contraceptive_acceptance_label"
-                    android:layout_marginLeft="10dp"
                     android:layout_gravity="bottom|end"
+                    android:layout_marginLeft="10dp"
                     android:padding="2dp"
-                    android:textSize="10sp"
-                    android:textAlignment="textEnd" />
+                    android:text="Contraceptive Acceptance Rate"
+                    android:textAlignment="textEnd"
+                    android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                    android:textColor="@color/textcolor"
+                    android:textSize="10sp" />
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
@@ -259,54 +262,55 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_margin="2dp"
-            app:cardBackgroundColor="@color/lightbluecardcolor"
+            android:layout_weight="1"
             android:elevation="3dp"
             android:padding="10dp"
-            android:layout_weight="1">
+            app:cardBackgroundColor="@color/lightbluecardcolor">
+
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:scaleType="fitEnd"
                 android:layout_gravity="bottom"
-                android:src="@drawable/deathcardblue"
-                />
+                android:scaleType="fitEnd"
+                android:src="@drawable/deathcardblue" />
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:text="100"
+                    android:id="@+id/referred_for_contraceptive_side_effects_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textcolor"
-                    android:textAppearance="?android:attr/textAppearanceListItem"
-                    android:id="@+id/referred_for_contraceptive_side_effects_count"
+                    android:layout_gravity="top|right"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_gravity="top|right"
+                    android:layout_marginTop="10dp"
                     android:padding="2dp"
-                    android:layout_marginTop="10dp" />
+                    android:text="100"
+                    android:textAppearance="?android:attr/textAppearanceListItem"
+                    android:textColor="@color/textcolor" />
 
                 <TextView
-                    android:text="Referred For Contraceptive Side Effects"
+                    android:id="@+id/referred_for_contraceptive_side_effects_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textcolor"
-                    android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                    android:id="@+id/referred_for_contraceptive_side_effects_label"
-                    android:layout_marginLeft="10dp"
                     android:layout_gravity="bottom|end"
+                    android:layout_marginLeft="10dp"
                     android:padding="2dp"
-                    android:textSize="10sp"
-                    android:textAlignment="textEnd" />
+                    android:text="Referred For Contraceptive Side Effects"
+                    android:textAlignment="textEnd"
+                    android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                    android:textColor="@color/textcolor"
+                    android:textSize="10sp" />
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -1123,8 +1127,8 @@
                         android:id="@+id/coordination_minus_shukhi"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="1dp"
                         android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
                         android:layout_marginTop="1dp"
                         android:layout_weight="1"
                         android:background="@color/cardview_light_background"
@@ -1623,4 +1627,4 @@
         </LinearLayout>
 
     </LinearLayout>
-    </LinearLayout>
+</LinearLayout>

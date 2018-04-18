@@ -1,14 +1,11 @@
 package dashboard.opensrp.org.jandjdashboard.fragments;
 
 import android.app.Activity;
-import android.content.res.Resources;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +33,6 @@ import dashboard.opensrp.org.jandjdashboard.R;
 import dashboard.opensrp.org.jandjdashboard.adapter.scheduleCardAdapter;
 import dashboard.opensrp.org.jandjdashboard.controller.controllerHolders;
 import dashboard.opensrp.org.jandjdashboard.controller.reminderVisitStatusController;
-import dashboard.opensrp.org.jandjdashboard.controller.upcomingScheduleStatusController;
 import dashboard.opensrp.org.jandjdashboard.dashboardCategoryDetailActivity;
 import dashboard.opensrp.org.jandjdashboard.dashboardCategoryListActivity;
 import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
@@ -212,9 +208,10 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
         encc3stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(enccmap.get("ENCC3").get("Post Due"))));
         encc3stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(enccmap.get("ENCC3").get("Expired"))));
 
-        graphHolder.addView(addAncGraphs(encc1stringDataPointHashMap,"ENCC 1"),layoutParams);
-        graphHolder.addView(addAncGraphs(encc2stringDataPointHashMap,"ENCC 2"),layoutParams);
-        graphHolder.addView(addAncGraphs(encc3stringDataPointHashMap,"ENCC 3"),layoutParams);
+        int enccmax = findHighestInENCCMAP(enccmap);
+        graphHolder.addView(addGraphs(encc1stringDataPointHashMap,"ENCC 1",enccmax),layoutParams);
+        graphHolder.addView(addGraphs(encc2stringDataPointHashMap,"ENCC 2",enccmax),layoutParams);
+        graphHolder.addView(addGraphs(encc3stringDataPointHashMap,"ENCC 3",enccmax),layoutParams);
     }
 
     private void launchPncGraphs(View view, Date from, Date to, String riskFlag) {
@@ -239,9 +236,10 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
         pnc3stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(pncMap.get("PNC3").get("Post Due"))));
         pnc3stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(pncMap.get("PNC3").get("Expired"))));
 
-        graphHolder.addView(addAncGraphs(pnc1stringDataPointHashMap,"PNC 1"),layoutParams);
-        graphHolder.addView(addAncGraphs(pnc2stringDataPointHashMap,"PNC 2"),layoutParams);
-        graphHolder.addView(addAncGraphs(pnc3stringDataPointHashMap,"PNC 3"),layoutParams);
+        int pncmax = findHighestInPNCMAP(pncMap);
+        graphHolder.addView(addGraphs(pnc1stringDataPointHashMap,"PNC 1",pncmax),layoutParams);
+        graphHolder.addView(addGraphs(pnc2stringDataPointHashMap,"PNC 2",pncmax),layoutParams);
+        graphHolder.addView(addGraphs(pnc3stringDataPointHashMap,"PNC 3",pncmax),layoutParams);
     }
 
     private void launchAncGraphs(View view, Date from, Date to, String riskFlag) {
@@ -272,16 +270,16 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
         anc4stringDataPointHashMap.put("Due",new DataPoint(1, Integer.parseInt(ancMap.get("ANC4").get("Due"))));
         anc4stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(ancMap.get("ANC4").get("Post Due"))));
         anc4stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(ancMap.get("ANC4").get("Expired"))));
+        int ancmax = findHighestInANCMAP(ancMap);
 
-
-        graphHolder.addView(addAncGraphs(anc1stringDataPointHashMap,"ANC 1"),layoutParams);
-        graphHolder.addView(addAncGraphs(anc2stringDataPointHashMap,"ANC 2"),layoutParams);
-        graphHolder.addView(addAncGraphs(anc3stringDataPointHashMap,"ANC 3"),layoutParams);
-        graphHolder.addView(addAncGraphs(anc4stringDataPointHashMap,"ANC 4"),layoutParams);
+        graphHolder.addView(addGraphs(anc1stringDataPointHashMap,"ANC 1",ancmax),layoutParams);
+        graphHolder.addView(addGraphs(anc2stringDataPointHashMap,"ANC 2",ancmax),layoutParams);
+        graphHolder.addView(addGraphs(anc3stringDataPointHashMap,"ANC 3",ancmax),layoutParams);
+        graphHolder.addView(addGraphs(anc4stringDataPointHashMap,"ANC 4",ancmax),layoutParams);
 
     }
 
-    public GraphView addAncGraphs(final HashMap<String,DataPoint> stringDataPointHashMap,String Label){
+    public GraphView addGraphs(final HashMap<String,DataPoint> stringDataPointHashMap, String Label , int yAxisMax){
         GraphView graph = new GraphView(getActivity());
         graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
         graph.getViewport().setDrawBorder(true);
@@ -318,6 +316,7 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
             // Hide xLabels for now as no longer centered in the grid, but left aligned per the other types
             graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
             graph.getViewport().setMinY(0);
+            graph.getViewport().setMaxY(yAxisMax);
             // Shunt the viewport, per v3.1.3 to show the full width of the first and last bars.
             graph.getViewport().setMinX(series.getLowestValueX() - (xInterval/2.0));
             graph.getViewport().setMaxX(series.getHighestValueX() + (xInterval/2.0));
@@ -343,6 +342,8 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
             ancMap = rVSController.ancVisitQuery(from, to, riskFlag);
             pncMap = rVSController.pncVisitQuery(from, to, riskFlag);
             enccmap = rVSController.neonatalVisitQuery(from, to, riskFlag);
+
+            findHighestInANCMAP(ancMap);
 
             int ancdue = Integer.parseInt(ancMap.get("ANC1").get("Due"))+
                     Integer.parseInt(ancMap.get("ANC2").get("Due"))+
@@ -424,5 +425,56 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
             e.printStackTrace();
         }
 
+    }
+
+    private int findHighestInANCMAP(HashMap<String, HashMap<String, String>> ancMap) {
+        int highest = 0;
+        for(int i = 1; i<5;i++) {
+            int [] temparray = new int [4];
+            temparray [0] = Integer.parseInt(ancMap.get("ANC"+i).get("Due"));
+            temparray [1] = Integer.parseInt(ancMap.get("ANC"+i).get("Post Due"));
+            temparray [2]= Integer.parseInt(ancMap.get("ANC"+i).get("Completed"));
+            temparray [3] = Integer.parseInt(ancMap.get("ANC"+i).get("Expired"));
+            for(int j = 0; j<temparray.length;j++){
+                if(temparray[j]>highest){
+                    highest = temparray[j];
+                }
+            }
+        }
+        return highest;
+    }
+
+    private int findHighestInPNCMAP(HashMap<String, HashMap<String, String>> pncMap) {
+        int highest = 0;
+        for(int i = 1; i<4;i++) {
+            int [] temparray = new int [4];
+            temparray [0] = Integer.parseInt(pncMap.get("PNC"+i).get("Due"));
+            temparray [1] = Integer.parseInt(pncMap.get("PNC"+i).get("Post Due"));
+            temparray [2]= Integer.parseInt(pncMap.get("PNC"+i).get("Completed"));
+            temparray [3] = Integer.parseInt(pncMap.get("PNC"+i).get("Expired"));
+            for(int j = 0; j<temparray.length;j++){
+                if(temparray[j]>highest){
+                    highest = temparray[j];
+                }
+            }
+        }
+        return highest;
+    }
+
+    private int findHighestInENCCMAP(HashMap<String, HashMap<String, String>> enccMap) {
+        int highest = 0;
+        for(int i = 1; i<4;i++) {
+            int [] temparray = new int [4];
+            temparray [0] = Integer.parseInt(enccMap.get("ENCC"+i).get("Due"));
+            temparray [1] = Integer.parseInt(enccMap.get("ENCC"+i).get("Post Due"));
+            temparray [2]= Integer.parseInt(enccMap.get("ENCC"+i).get("Completed"));
+            temparray [3] = Integer.parseInt(enccMap.get("ENCC"+i).get("Expired"));
+            for(int j = 0; j<temparray.length;j++){
+                if(temparray[j]>highest){
+                    highest = temparray[j];
+                }
+            }
+        }
+        return highest;
     }
 }

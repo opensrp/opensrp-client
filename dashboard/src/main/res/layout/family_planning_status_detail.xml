@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="5dp"
     android:textIsSelectable="true"
     tools:context="dashboard.opensrp.org.jandjdashboard.fragments.dashboardCategoryDetailFragment"
     android:background="@color/alttablerow">
@@ -525,40 +525,45 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:background="@color/tableborder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/tableborder"
+        android:orientation="horizontal">
 
-        <TableLayout android:layout_height="match_parent"
-            android:layout_width="190dp">
+        <TableLayout
+            android:layout_width="190dp"
+            android:layout_height="match_parent">
 
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp">
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text="Old"
+                    android:id="@+id/oldlabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/oldlabel"
-                    android:layout_margin="2dp" />
+                    android:layout_margin="2dp"
+                    android:text="Old" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/alttablerow"
                 android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp">
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
                 <TextView
+                    android:id="@+id/newlabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/newlabel"
                     android:layout_margin="2dp"
                     android:text="New" />
             </TableRow>
@@ -566,86 +571,94 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp">
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text="Current Month's Total"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/current_month_label"
-                    android:layout_margin="2dp" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/alttablerow"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp">
-                <TextView
-                    android:text="Unit's Total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/unit_total"
-                    android:layout_margin="2dp" />
+                    android:layout_margin="2dp"
+                    android:text="Current Month's Total" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                >
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
+                <TextView
+                    android:id="@+id/unit_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:text="Unit's Total" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:text="Left"
+                        android:id="@+id/left_label"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:background="@color/cardview_light_background"
-                        android:id="@+id/left_label"
-                        android:layout_marginTop="1dp"
                         android:layout_marginLeft="1dp"
-                        android:paddingRight="2dp"
+                        android:layout_marginTop="1dp"
+                        android:background="@color/cardview_light_background"
+                        android:gravity="center"
                         android:paddingLeft="2dp"
-                        android:gravity="center" />
+                        android:paddingRight="2dp"
+                        android:text="Left" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:orientation="vertical">
+
                         <TableRow
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/cardview_light_background"
+                            android:layout_height="match_parent"
                             android:layout_marginLeft="1dp"
-                            android:layout_marginTop="1dp">
+                            android:layout_marginTop="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/cardview_light_background">
 
                             <TextView
-                                android:text="Using Other Methods"
+                                android:id="@+id/left_left_using_other_method"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/left_left_using_other_method"
-                                android:layout_margin="2dp" />
+                                android:layout_margin="2dp"
+                                android:text="Using Other Methods" />
                         </TableRow>
 
                         <TableRow
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@color/cardview_light_background"
                             android:layout_marginLeft="1dp"
-                            android:layout_marginTop="1dp">
+                            android:layout_marginTop="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/cardview_light_background">
 
                             <TextView
-                                android:text="Not Using Any Method"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
                                 android:id="@+id/left_not_using_any_method_label"
-                                android:layout_margin="2dp" />
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1"
+                                android:text="Not Using Any Method" />
                         </TableRow>
                     </LinearLayout>
                 </LinearLayout>
@@ -655,29 +668,37 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/alttablerow"
                 android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp">
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
                 <TextView
-                    android:text="Referred For Method"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/referred_for_method_label"
-                    android:layout_margin="2dp" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="3dp"
+                    android:text="Referred For Method" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
+                android:layout_marginBottom="1dp"
                 android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp">
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text="Referred For Side Effects"
+                    android:id="@+id/referred_for_side_effects_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/referred_for_side_effects_label"
-                    android:layout_margin="2dp" />
+                    android:layout_margin="2dp"
+                    android:text="Referred For Side Effects" />
 
             </TableRow>
 
@@ -690,42 +711,44 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/pill_old"
-                    android:layout_margin="2dp"
-                    android:gravity="center" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/alttablerow"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_weight="1">
-                <TextView
-                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/pill_new"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
+                <TextView
+                    android:id="@+id/pill_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:gravity="center"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
 
                 <TextView
                     android:id="@+id/pill_current_month_total"
@@ -738,81 +761,87 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/alttablerow"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/pill_unit_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/pill_left_using_other_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/pill_left_not_using_any_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/alttablerow"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/pill_referred_for_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
+                android:layout_marginBottom="1dp"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
+                    android:id="@+id/pill_referred_for_side_effects"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/pill_referred_for_side_effects"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
         </TableLayout>
@@ -824,42 +853,44 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/condom_old"
-                    android:layout_margin="2dp"
-                    android:gravity="center" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/alttablerow"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_weight="1">
-                <TextView
-                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/condom_new"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
+                <TextView
+                    android:id="@+id/condom_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:gravity="center"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
 
                 <TextView
                     android:id="@+id/condom_current_month_total"
@@ -872,81 +903,87 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/alttablerow"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/condom_unit_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/condom_left_using_other_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/condom_left_not_using_any_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/alttablerow"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/condom_referred_for_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
+                android:layout_marginBottom="1dp"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
+                    android:id="@+id/condom_referred_for_side_effects"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/condom_referred_for_side_effects"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
         </TableLayout>
@@ -958,42 +995,44 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/injectable_new"
-                    android:layout_margin="2dp"
-                    android:gravity="center" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/alttablerow"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_weight="1">
-                <TextView
-                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/injectable_old"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
+                <TextView
+                    android:id="@+id/injectable_old"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:gravity="center"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
 
                 <TextView
                     android:id="@+id/injectable_current_month_total"
@@ -1006,81 +1045,87 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/alttablerow"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/injectable_unit_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/injectable_left_using_other_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/injectable_left_not_using_any_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/alttablerow"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/injectable_referred_for_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
+                android:layout_marginBottom="1dp"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
+                    android:id="@+id/injectable_referred_for_side_effects"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/injectable_referred_for_side_effects"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
         </TableLayout>
@@ -1092,43 +1137,45 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/iud_old"
-                    android:layout_margin="2dp"
-                    android:gravity="center" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/alttablerow"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_weight="1">
-                <TextView
-                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/iud_new"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
+
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
+                <TextView
+                    android:id="@+id/iud_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:gravity="center"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
 
                 <TextView
                     android:id="@+id/iud_current_month_total"
@@ -1141,81 +1188,87 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/alttablerow"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/iud_unit_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/iud_left_using_other_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/iud_left_not_using_any_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/alttablerow"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/iud_referred_for_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
+                android:layout_marginBottom="1dp"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
+                    android:id="@+id/iud_referred_for_side_effects"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/iud_referred_for_side_effects"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
         </TableLayout>
@@ -1227,42 +1280,44 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/implant_old"
-                    android:layout_margin="2dp"
-                    android:gravity="center" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/alttablerow"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_weight="1">
-                <TextView
-                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/implant_new"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
+                <TextView
+                    android:id="@+id/implant_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:gravity="center"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
 
                 <TextView
                     android:id="@+id/implant_current_month_total"
@@ -1275,81 +1330,87 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/alttablerow"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/implant_unit_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/implant_left_using_other_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/implant_left_not_using_any_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/alttablerow"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/implant_referred_for_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
+                android:layout_marginBottom="1dp"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
+                    android:id="@+id/implant_referred_for_side_effects"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/implant_referred_for_side_effects"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
         </TableLayout>
@@ -1361,43 +1422,44 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
                 android:layout_weight="1"
-                >
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
+                    android:id="@+id/pm_male_old"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
                     android:gravity="center"
-                    android:id="@+id/pm_male_old" />
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/alttablerow"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
                 <TextView
-                    android:text=""
+                    android:id="@+id/pm_male_new"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/pm_male_new"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
 
                 <TextView
                     android:id="@+id/pm_male_current_month_total"
@@ -1410,81 +1472,87 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/alttablerow"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/pm_male_unit_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/pm_male_left_using_other_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/pm_male_left_not_using_any_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/alttablerow"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/pm_male_referred_for_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
+                android:layout_marginBottom="1dp"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
+                    android:id="@+id/pm_male_referred_for_side_effects"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/pm_male_referred_for_side_effects"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
         </TableLayout>
@@ -1496,42 +1564,44 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/pm_female_new"
-                    android:layout_margin="2dp"
-                    android:gravity="center" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/alttablerow"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_weight="1">
-                <TextView
-                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/pm_female_old"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
+                <TextView
+                    android:id="@+id/pm_female_old"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:gravity="center"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
 
                 <TextView
                     android:id="@+id/pm_female_current_month_total"
@@ -1544,81 +1614,87 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/alttablerow"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/pm_female_unit_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/pm_female_left_using_other_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/pm_female_left_not_using_any_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/alttablerow"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/alttablerow">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/pm_female_referred_for_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
+                android:layout_marginBottom="1dp"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
+                    android:id="@+id/pm_female_referred_for_side_effects"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/pm_female_referred_for_side_effects"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
         </TableLayout>
@@ -1630,45 +1706,47 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
                 android:layout_marginTop="1dp"
                 android:layout_weight="1"
-                android:layout_marginRight="1dp">
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/total_old"
-                    android:layout_margin="2dp"
-                    android:gravity="center" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/alttablerow"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_weight="1"
-                android:layout_marginRight="1dp">
-                <TextView
-                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/total_new"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
                 android:layout_marginTop="1dp"
                 android:layout_weight="1"
-                android:layout_marginRight="1dp">
+                android:background="@color/alttablerow">
+
+                <TextView
+                    android:id="@+id/total_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:gravity="center"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background">
 
                 <TextView
                     android:id="@+id/total_current_month_total"
@@ -1681,86 +1759,92 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/alttablerow"
                 android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
                 android:layout_marginTop="1dp"
                 android:layout_weight="1"
-                android:layout_marginRight="1dp">
+                android:background="@color/alttablerow">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/total_unit_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
                 android:layout_marginTop="1dp"
                 android:layout_weight="1"
-                android:layout_marginRight="1dp">
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/total_left_using_other_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
                 android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
                 android:layout_marginTop="1dp"
                 android:layout_weight="1"
-                android:layout_marginRight="1dp">
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/total_left_not_using_any_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/alttablerow"
                 android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
                 android:layout_marginTop="1dp"
                 android:layout_weight="1"
-                android:layout_marginRight="1dp">
+                android:background="@color/alttablerow">
+
                 <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/total_referred_for_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/cardview_light_background"
+                android:layout_marginBottom="1dp"
                 android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
                 android:layout_marginTop="1dp"
                 android:layout_weight="1"
-                android:layout_marginRight="1dp">
+                android:background="@color/cardview_light_background">
+
                 <TextView
-                    android:text=""
+                    android:id="@+id/total_referred_for_side_effects"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/total_referred_for_side_effects"
                     android:layout_margin="2dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="" />
             </TableRow>
 
         </TableLayout>
