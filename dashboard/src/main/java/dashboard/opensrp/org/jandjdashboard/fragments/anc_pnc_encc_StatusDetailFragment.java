@@ -43,7 +43,7 @@ import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
  * in two-pane mode (on tablets) or a {@link dashboardCategoryDetailActivity}
  * on handsets.
  */
-public class anc_pnc_encc_StatusDetailFragment extends Fragment {
+public class anc_pnc_encc_StatusDetailFragment extends dashboardFragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -331,7 +331,7 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
         return graph;
     }
 
-
+    @Override
     public void refresh(String fromdate, String todate) {
         try {
             from = format.parse(fromdate);
