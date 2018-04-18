@@ -199,7 +199,7 @@ public class upcomingScheduleStatusDetailFragment extends dashboardFragment {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
-    
+
     @Override
     public void refresh(String fromdate, String todate) {
         prepareAlbums(fromdate,todate);
