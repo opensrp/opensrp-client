@@ -29,7 +29,7 @@ import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
  * in two-pane mode (on tablets) or a {@link dashboardCategoryDetailActivity}
  * on handsets.
  */
-public class familyPlanningStatusDetailFragment extends Fragment {
+public class familyPlanningStatusDetailFragment extends dashboardFragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -201,6 +201,8 @@ public class familyPlanningStatusDetailFragment extends Fragment {
 
     }
     boolean datechanged = true;
+
+    @Override
     public void refresh(String from, String to) {
         try {
             final Date fromdate = fPSController.format.parse(from);
@@ -406,8 +408,5 @@ public class familyPlanningStatusDetailFragment extends Fragment {
         }catch (Exception e){
         }
     }
-    public boolean samedate(Date date1, Date date2){
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
-        return fmt.format(date1).equals(fmt.format(date2));
-    }
+
 }
