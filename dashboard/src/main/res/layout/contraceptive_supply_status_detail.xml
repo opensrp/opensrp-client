@@ -74,7 +74,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:padding="2dp"
-                    android:text="1300"
                     android:textAppearance="?android:attr/textAppearanceListItem"
                     android:textColor="@color/textcolor" />
 
@@ -128,7 +127,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:padding="2dp"
-                    android:text="400"
                     android:textAppearance="?android:attr/textAppearanceListItem"
                     android:textColor="@color/textcolor" />
 
@@ -182,7 +180,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:padding="2dp"
-                    android:text="1300"
                     android:textAppearance="?android:attr/textAppearanceListItem"
                     android:textColor="@color/textcolor" />
 
@@ -236,7 +233,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:padding="2dp"
-                    android:text="70%"
                     android:textAppearance="?android:attr/textAppearanceListItem"
                     android:textColor="@color/textcolor" />
 
@@ -290,7 +286,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:padding="2dp"
-                    android:text="100"
                     android:textAppearance="?android:attr/textAppearanceListItem"
                     android:textColor="@color/textcolor" />
 

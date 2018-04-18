@@ -2,10 +2,13 @@ package dashboard.opensrp.org.jandjdashboard.fragments;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -33,7 +36,7 @@ import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
  * in two-pane mode (on tablets) or a {@link dashboardCategoryDetailActivity}
  * on handsets.
  */
-public class contraceptiveSupplyStatusDetailFragment extends Fragment {
+public class contraceptiveSupplyStatusDetailFragment extends dashboardFragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -47,10 +50,15 @@ public class contraceptiveSupplyStatusDetailFragment extends Fragment {
     contraceptiveSupplyStatusController cssController;
     private String controller_holder_key = "controller_holder";
     private String contraceptiveSupplyStatusControllerKey = "contraceptiveSupplyStatusController";
+    public static Date fromdate_forFragment = new Date(), todate_forFragment = new Date();
 
     TextView total_elco,total_new_elco,total_elco_visited,contraceptive_acceptance_rate,referred_for_contraceptive_side_effects;
     TextView oralpillshukhiCurrentMonth,oralpillAponCurrentMonth,condomNirapodCurrentMonth;
     TextView filtertitle;
+
+    static String var_total_elco,var_total_new_elco,var_total_elco_visited,var_contraceptive_acceptance_rate,var_referred_for_contraceptive_side_effects;
+    static String var_oralpillshukhiCurrentMonth,var_oralpillAponCurrentMonth,var_condomNirapodCurrentMonth;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -114,22 +122,64 @@ public class contraceptiveSupplyStatusDetailFragment extends Fragment {
         oralpillAponCurrentMonth = (TextView)rootView.findViewById(R.id.found_in_current_month_apon);
         condomNirapodCurrentMonth = (TextView)rootView.findViewById(R.id.found_in_current_month_condom);
     }
+    boolean datechanged = true;
+    @Override
     public void refresh(String from,String to) {
         try {
-            Date fromdate = cssController.format.parse(from);
-            Date todate = cssController.format.parse(to);
+            final Date fromdate = cssController.format.parse(from);
+            final Date todate = cssController.format.parse(to);
+            datechanged = true;
+            if(samedate(todate_forFragment,todate)  && samedate(fromdate,fromdate_forFragment)){
+                datechanged = false;
+            }else{
+                fromdate_forFragment = fromdate;
+                todate_forFragment = todate;
+            }
             filtertitle.setText(from+" to "+to);
 
-            total_elco.setText(cssController.total_elco_Query(fromdate,todate));
-            total_new_elco.setText(cssController.total_new_elco_Query(fromdate,todate));
-            total_elco_visited.setText(cssController.total_elco_visited_Query(fromdate,todate));
-            contraceptive_acceptance_rate.setText(cssController.contraceptive_acceptance_rate_Query(fromdate,todate));
-            referred_for_contraceptive_side_effects.setText(cssController.referred_for_contraceptive_side_effects_Query(fromdate,todate));
 
-            oralpillshukhiCurrentMonth.setText(cssController.oralpillshukhiCurrentMonthQuery(fromdate,todate));
-            oralpillAponCurrentMonth.setText(cssController.oralpillAponCurrentMonthQuery(fromdate,todate));
-            condomNirapodCurrentMonth.setText(cssController.condomNirapodCurrentMonthQuery(fromdate,todate));
+            (new AsyncTask(){
+                Snackbar snackbar;
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content), "Processing Data Please Wait", Snackbar.LENGTH_INDEFINITE)
+                            .setAction("Submit", null)
+                            .setActionTextColor(Color.RED);
+                    snackbar.show();
+                }
 
+                @Override
+                protected Object doInBackground(Object[] objects) {
+                    if(datechanged) {
+                        var_total_elco = cssController.total_elco_Query(fromdate, todate);
+                        var_total_new_elco = cssController.total_new_elco_Query(fromdate, todate);
+                        var_total_elco_visited = cssController.total_elco_visited_Query(fromdate, todate);
+                        var_contraceptive_acceptance_rate = cssController.contraceptive_acceptance_rate_Query(fromdate, todate);
+                        var_referred_for_contraceptive_side_effects = cssController.referred_for_contraceptive_side_effects_Query(fromdate, todate);
+
+                        var_oralpillshukhiCurrentMonth = cssController.oralpillshukhiCurrentMonthQuery(fromdate, todate);
+                        var_oralpillAponCurrentMonth = cssController.oralpillAponCurrentMonthQuery(fromdate, todate);
+                        var_condomNirapodCurrentMonth = cssController.condomNirapodCurrentMonthQuery(fromdate, todate);
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Object o) {
+                    super.onPostExecute(o);
+                    total_elco.setText(var_total_elco);
+                    total_new_elco.setText(var_total_new_elco);
+                    total_elco_visited.setText(var_total_elco_visited);
+                    contraceptive_acceptance_rate.setText(var_contraceptive_acceptance_rate);
+                    referred_for_contraceptive_side_effects.setText(var_referred_for_contraceptive_side_effects);
+
+                    oralpillshukhiCurrentMonth.setText(var_oralpillshukhiCurrentMonth);
+                    oralpillAponCurrentMonth.setText(var_oralpillAponCurrentMonth);
+                    condomNirapodCurrentMonth.setText(var_condomNirapodCurrentMonth);
+                    snackbar.dismiss();
+                }
+            }).execute();
         }catch (Exception e){
         }
     }

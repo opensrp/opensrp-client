@@ -2,10 +2,13 @@ package dashboard.opensrp.org.jandjdashboard.fragments;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -34,7 +37,7 @@ import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
  * in two-pane mode (on tablets) or a {@link dashboardCategoryDetailActivity}
  * on handsets.
  */
-public class nutritionDetailFragment extends Fragment {
+public class nutritionDetailFragment extends dashboardFragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -42,6 +45,8 @@ public class nutritionDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
     private String controller_holder_key = "controller_holder";
     private String nutritionDetailControllerKey = "nutritionDetailController";
+    public static Date fromdate_forFragment = new Date(), todate_forFragment = new Date();
+
     /**
      * The dummy content this fragment is presenting.
      */
@@ -67,6 +72,31 @@ public class nutritionDetailFragment extends Fragment {
             received_multiple_mnr_0_to_6months_info,
             received_multiple_mnr_6_to_24months_info,
             received_multiple_mnr_24_to_50months_info;
+
+    static String var_unittotalnumberoflivebirth,
+            var_unitstotalnumberofdeath,
+            var_totalnumberoflivebirth,
+            var_totalnumberofdeath;
+    static String var_iron_and_folic_acid_pregnant_woman_info,
+            var_iron_and_folic_acid_mother_info,
+            var_distributed_iron_and_folic_acid_pregnant_woman_info,
+            var_distributed_iron_and_folic_acid_mother_info,
+            var_counselling_on_breastfeeding_and_complimentary_food_pregnant_woman_info,
+            var_counselling_on_breastfeeding_and_complimentary_food_mother_info,
+            var_counselling_on_feeding_mnp_to_children_pregnant_woman_info,
+            var_counselling_on_feeding_mnp_to_children_mother_info,
+            var_feed_colostrum_milk_zero_to_six_month_info,
+            var_feed_colostrum_milk_six_to_24_month_info,
+            var_feed_colostrum_milk_twentyfour_to_fifty_month_info,
+            var_breastfeeding_up_to_6_months_zero_to_six_months_info,
+            var_breastfeeding_up_to_6_months_six_to_twentyfour_months_info,
+            var_breastfeeding_up_to_6_months_twentyfour_to_fifty_months_info,
+            var_providing_extra_complimentary_food_zero_to_6_months_info,
+            var_providing_extra_complimentary_food_6_to_24_months_info,
+            var_providing_extra_complimentary_food_24_to_50_months_info,
+            var_received_multiple_mnr_0_to_6months_info,
+            var_received_multiple_mnr_6_to_24months_info,
+            var_received_multiple_mnr_24_to_50months_info;
 
     nutritionDetailController ndController;
     private TextView filtertitle;
@@ -116,39 +146,109 @@ public class nutritionDetailFragment extends Fragment {
         return rootView;
     }
 
+    boolean datechanged = true;
+    @Override
     public void refresh(String from, String to) {
         try {
-            Date fromdate = ndController.format.parse(from);
-            Date todate = ndController.format.parse(to);
+            final Date fromdate = ndController.format.parse(from);
+            final Date todate = ndController.format.parse(to);
+
+            datechanged = true;
+            if(samedate(todate_forFragment,todate)  && samedate(fromdate,fromdate_forFragment)){
+                datechanged = false;
+            }else{
+                fromdate_forFragment = fromdate;
+                todate_forFragment = todate;
+            }
+
             filtertitle.setText(from+" to "+to);
 
-            unittotalnumberoflivebirth.setText(ndController.numberofLiveBirth(fromdate,todate));
-            unitstotalnumberofdeath.setText(ndController.numberofTotalDeath(fromdate,todate));
-            totalnumberoflivebirth.setText(ndController.totalnumberofLiveBirth(fromdate,todate));
-            totalnumberofdeath.setText(ndController.overallnumberofTotalDeath(fromdate,todate));
+
+
+            (new AsyncTask(){
+                Snackbar snackbar;
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content), "Processing Data Please Wait", Snackbar.LENGTH_INDEFINITE)
+                            .setAction("Submit", null)
+                            .setActionTextColor(Color.RED);
+                    snackbar.show();
+                }
+
+                @Override
+                protected Object doInBackground(Object[] objects) {
+                    if(datechanged) {
+                        var_unittotalnumberoflivebirth = ndController.numberofLiveBirth(fromdate, todate);
+                        var_unitstotalnumberofdeath = ndController.numberofTotalDeath(fromdate, todate);
+                        var_totalnumberoflivebirth = ndController.totalnumberofLiveBirth(fromdate, todate);
+                        var_totalnumberofdeath = ndController.overallnumberofTotalDeath(fromdate, todate);
+
+
+                        var_iron_and_folic_acid_pregnant_woman_info = ndController.iron_and_folic_acid_pregnant_woman_info(fromdate, todate);
+                        var_iron_and_folic_acid_mother_info = ndController.iron_and_folic_acid_mother_info(fromdate, todate);
+                        var_distributed_iron_and_folic_acid_pregnant_woman_info = ndController.distributed_iron_and_folic_acid_pregnant_woman_info(fromdate, todate);
+                        var_distributed_iron_and_folic_acid_mother_info = ndController.distributed_iron_and_folic_acid_mother_info(fromdate, todate);
+                        var_counselling_on_breastfeeding_and_complimentary_food_pregnant_woman_info = ndController.counselling_on_breastfeeding_and_complimentary_food_pregnant_woman_info(fromdate, todate);
+                        var_counselling_on_breastfeeding_and_complimentary_food_mother_info = ndController.counselling_on_breastfeeding_and_complimentary_food_mother_info(fromdate, todate);
+                        var_counselling_on_feeding_mnp_to_children_pregnant_woman_info = ndController.counselling_on_feeding_mnp_to_children_pregnant_woman_info(fromdate, todate);
+                        var_counselling_on_feeding_mnp_to_children_mother_info = ndController.counselling_on_feeding_mnp_to_children_mother_info(fromdate, todate);
+                        var_feed_colostrum_milk_zero_to_six_month_info = ndController.feed_colostrum_milk_zero_to_six_month_info(fromdate, todate);
+                        var_feed_colostrum_milk_six_to_24_month_info = ndController.feed_colostrum_milk_six_to_24_month_info(fromdate, todate);
+                        var_feed_colostrum_milk_twentyfour_to_fifty_month_info = ndController.feed_colostrum_milk_twentyfour_to_fifty_month_info(fromdate, todate);
+                        var_breastfeeding_up_to_6_months_zero_to_six_months_info = ndController.breastfeeding_up_to_6_months_zero_to_six_months_info(fromdate, todate);
+                        var_breastfeeding_up_to_6_months_six_to_twentyfour_months_info = ndController.breastfeeding_up_to_6_months_six_to_twentyfour_months_info(fromdate, todate);
+                        var_breastfeeding_up_to_6_months_twentyfour_to_fifty_months_info = ndController.breastfeeding_up_to_6_months_twentyfour_to_fifty_months_info(fromdate, todate);
+                        var_providing_extra_complimentary_food_zero_to_6_months_info = ndController.providing_extra_complimentary_food_zero_to_6_months_info(fromdate, todate);
+                        var_providing_extra_complimentary_food_6_to_24_months_info = ndController.providing_extra_complimentary_food_6_to_24_months_info(fromdate, todate);
+                        var_providing_extra_complimentary_food_24_to_50_months_info = ndController.providing_extra_complimentary_food_24_to_50_months_info(fromdate, todate);
+                        var_received_multiple_mnr_0_to_6months_info = ndController.received_multiple_mnr_0_to_6months_info(fromdate, todate);
+                        var_received_multiple_mnr_6_to_24months_info = ndController.received_multiple_mnr_6_to_24months_info(fromdate, todate);
+                        var_received_multiple_mnr_24_to_50months_info = ndController.received_multiple_mnr_24_to_50months_info(fromdate, todate);
+
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Object o) {
+                    super.onPostExecute(o);
+                    unittotalnumberoflivebirth.setText(var_unittotalnumberoflivebirth);
+                    unitstotalnumberofdeath.setText(var_unitstotalnumberofdeath);
+                    totalnumberoflivebirth.setText(var_totalnumberoflivebirth);
+                    totalnumberofdeath.setText(var_totalnumberofdeath);
 
 
 
-            iron_and_folic_acid_pregnant_woman_info.setText(ndController.iron_and_folic_acid_pregnant_woman_info(fromdate,todate));
-            iron_and_folic_acid_mother_info.setText(ndController.iron_and_folic_acid_mother_info(fromdate,todate));
-            distributed_iron_and_folic_acid_pregnant_woman_info.setText(ndController.distributed_iron_and_folic_acid_pregnant_woman_info(fromdate,todate));
-            distributed_iron_and_folic_acid_mother_info.setText(ndController.distributed_iron_and_folic_acid_mother_info(fromdate,todate));
-            counselling_on_breastfeeding_and_complimentary_food_pregnant_woman_info.setText(ndController.counselling_on_breastfeeding_and_complimentary_food_pregnant_woman_info(fromdate,todate));
-            counselling_on_breastfeeding_and_complimentary_food_mother_info.setText(ndController.counselling_on_breastfeeding_and_complimentary_food_mother_info(fromdate,todate));
-            counselling_on_feeding_mnp_to_children_pregnant_woman_info.setText(ndController.counselling_on_feeding_mnp_to_children_pregnant_woman_info(fromdate,todate));
-            counselling_on_feeding_mnp_to_children_mother_info.setText(ndController.counselling_on_feeding_mnp_to_children_mother_info(fromdate,todate));
-            feed_colostrum_milk_zero_to_six_month_info.setText(ndController.feed_colostrum_milk_zero_to_six_month_info(fromdate,todate));
-            feed_colostrum_milk_six_to_24_month_info.setText(ndController.feed_colostrum_milk_six_to_24_month_info(fromdate,todate));
-            feed_colostrum_milk_twentyfour_to_fifty_month_info.setText(ndController.feed_colostrum_milk_twentyfour_to_fifty_month_info(fromdate,todate));
-            breastfeeding_up_to_6_months_zero_to_six_months_info.setText(ndController.breastfeeding_up_to_6_months_zero_to_six_months_info(fromdate,todate));
-            breastfeeding_up_to_6_months_six_to_twentyfour_months_info.setText(ndController.breastfeeding_up_to_6_months_six_to_twentyfour_months_info(fromdate,todate));
-            breastfeeding_up_to_6_months_twentyfour_to_fifty_months_info.setText(ndController.breastfeeding_up_to_6_months_twentyfour_to_fifty_months_info(fromdate,todate));
-            providing_extra_complimentary_food_zero_to_6_months_info.setText(ndController.providing_extra_complimentary_food_zero_to_6_months_info(fromdate,todate));
-            providing_extra_complimentary_food_6_to_24_months_info.setText(ndController.providing_extra_complimentary_food_6_to_24_months_info(fromdate,todate));
-            providing_extra_complimentary_food_24_to_50_months_info.setText(ndController.providing_extra_complimentary_food_24_to_50_months_info(fromdate,todate));
-            received_multiple_mnr_0_to_6months_info.setText(ndController.received_multiple_mnr_0_to_6months_info(fromdate,todate));
-            received_multiple_mnr_6_to_24months_info.setText(ndController.received_multiple_mnr_6_to_24months_info(fromdate,todate));
-            received_multiple_mnr_24_to_50months_info.setText(ndController.received_multiple_mnr_24_to_50months_info(fromdate,todate));
+                    iron_and_folic_acid_pregnant_woman_info.setText(var_iron_and_folic_acid_pregnant_woman_info);
+                    iron_and_folic_acid_mother_info.setText(var_iron_and_folic_acid_mother_info);
+                    distributed_iron_and_folic_acid_pregnant_woman_info.setText(var_distributed_iron_and_folic_acid_pregnant_woman_info);
+                    distributed_iron_and_folic_acid_mother_info.setText(var_distributed_iron_and_folic_acid_mother_info);
+                    counselling_on_breastfeeding_and_complimentary_food_pregnant_woman_info.setText(var_counselling_on_breastfeeding_and_complimentary_food_pregnant_woman_info);
+                    counselling_on_breastfeeding_and_complimentary_food_mother_info.setText(var_counselling_on_breastfeeding_and_complimentary_food_mother_info);
+                    counselling_on_feeding_mnp_to_children_pregnant_woman_info.setText(var_counselling_on_feeding_mnp_to_children_pregnant_woman_info);
+                    counselling_on_feeding_mnp_to_children_mother_info.setText(var_counselling_on_feeding_mnp_to_children_mother_info);
+                    feed_colostrum_milk_zero_to_six_month_info.setText(var_feed_colostrum_milk_zero_to_six_month_info);
+                    feed_colostrum_milk_six_to_24_month_info.setText(var_feed_colostrum_milk_six_to_24_month_info);
+                    feed_colostrum_milk_twentyfour_to_fifty_month_info.setText(var_feed_colostrum_milk_twentyfour_to_fifty_month_info);
+                    breastfeeding_up_to_6_months_zero_to_six_months_info.setText(var_breastfeeding_up_to_6_months_zero_to_six_months_info);
+                    breastfeeding_up_to_6_months_six_to_twentyfour_months_info.setText(var_breastfeeding_up_to_6_months_six_to_twentyfour_months_info);
+                    breastfeeding_up_to_6_months_twentyfour_to_fifty_months_info.setText(var_breastfeeding_up_to_6_months_twentyfour_to_fifty_months_info);
+                    providing_extra_complimentary_food_zero_to_6_months_info.setText(var_providing_extra_complimentary_food_zero_to_6_months_info);
+                    providing_extra_complimentary_food_6_to_24_months_info.setText(var_providing_extra_complimentary_food_6_to_24_months_info);
+                    providing_extra_complimentary_food_24_to_50_months_info.setText(var_providing_extra_complimentary_food_24_to_50_months_info);
+                    received_multiple_mnr_0_to_6months_info.setText(var_received_multiple_mnr_0_to_6months_info);
+                    received_multiple_mnr_6_to_24months_info.setText(var_received_multiple_mnr_6_to_24months_info);
+                    received_multiple_mnr_24_to_50months_info.setText(var_received_multiple_mnr_24_to_50months_info);
+                    snackbar.dismiss();
+                }
+            }).execute();
+
+
+
+
+
+
         }catch (Exception e){}
     }
 

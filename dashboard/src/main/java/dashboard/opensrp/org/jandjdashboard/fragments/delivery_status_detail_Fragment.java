@@ -2,10 +2,13 @@ package dashboard.opensrp.org.jandjdashboard.fragments;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -33,7 +36,7 @@ import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
  * in two-pane mode (on tablets) or a {@link dashboardCategoryDetailActivity}
  * on handsets.
  */
-public class delivery_status_detail_Fragment extends Fragment {
+public class delivery_status_detail_Fragment extends dashboardFragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -50,6 +53,8 @@ public class delivery_status_detail_Fragment extends Fragment {
     private ArrayList<String> titleList;
 
     deliveryStatusController dsController;
+    public static Date fromdate_forFragment = new Date(), todate_forFragment = new Date();
+
     private String controller_holder_key = "controller_holder";
     private String deliveryStatusControllerKey = "deliveryStatusController";
     TextView filtertitle;
@@ -58,6 +63,20 @@ public class delivery_status_detail_Fragment extends Fragment {
             numberofStillBirth,numberofDeathUnder7Days,numberofDeathBetween8to28Days,
             numberofDeathBetween29daysto1year,numberofTotalDeath,numberofChildDeathBetween1to5year,
             numberofMotherDeath,numberofOtherDeath;
+
+    static String var_unittotalnumberoflivebirth,var_unitstotalnumberofdeath,var_totalnumberoflivebirth,var_totalnumberofdeath;
+
+    static String var_totalNumberOfLiveBirth,
+            var_numberofNewBornswithLowBirthWeight,
+            var_numberofImmatureBirth,
+            var_numberofStillBirth,
+            var_numberofDeathUnder7Days,
+            var_numberofDeathBetween8to28Days,
+            var_numberofDeathBetween29daysto1year,
+            var_numberofTotalDeath,
+            var_numberofChildDeathBetween1to5year,
+            var_numberofMotherDeath,
+            var_numberofOtherDeath;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -123,32 +142,83 @@ public class delivery_status_detail_Fragment extends Fragment {
         numberofMotherDeath = (TextView)rootView.findViewById(R.id.number_of_mother_death_info);
         numberofOtherDeath =  (TextView)rootView.findViewById(R.id.number_of_other_death_info);
     }
+    boolean datechanged = true;
 
+    @Override
     public void refresh(String from,String to) {
         try {
-            Date fromdate = dsController.format.parse(from);
-            Date todate = dsController.format.parse(to);
+            final Date fromdate = dsController.format.parse(from);
+            final Date todate = dsController.format.parse(to);
+
+            datechanged = true;
+            if(samedate(todate_forFragment,todate)  && samedate(fromdate,fromdate_forFragment)){
+                datechanged = false;
+            }else{
+                fromdate_forFragment = fromdate;
+                todate_forFragment = todate;
+            }
 
             filtertitle.setText(from+" to "+to);
 
+            (new AsyncTask(){
+                Snackbar snackbar;
 
-            unittotalnumberoflivebirth.setText(dsController.numberofLiveBirth(fromdate,todate));
-            unitstotalnumberofdeath.setText(dsController.numberofTotalDeath(fromdate,todate));
-            totalnumberoflivebirth.setText(dsController.totalnumberofLiveBirth(fromdate,todate));
-            totalnumberofdeath.setText(dsController.overallnumberofTotalDeath(fromdate,todate));
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content), "Processing Data Please Wait", Snackbar.LENGTH_INDEFINITE)
+                            .setAction("Submit", null)
+                            .setActionTextColor(Color.RED);
+                    snackbar.show();
+                }
+
+                @Override
+                protected Object doInBackground(Object[] objects) {
+                    if(datechanged) {
+                        var_unittotalnumberoflivebirth = dsController.numberofLiveBirth(fromdate, todate);
+                        var_unitstotalnumberofdeath = dsController.numberofTotalDeath(fromdate, todate);
+                        var_totalnumberoflivebirth = dsController.totalnumberofLiveBirth(fromdate, todate);
+                        var_totalnumberofdeath = dsController.overallnumberofTotalDeath(fromdate, todate);
+
+                        var_totalNumberOfLiveBirth = dsController.numberofLiveBirth(fromdate, todate);
+                        var_numberofNewBornswithLowBirthWeight = dsController.numberofNewBornswithLowBirthWeight(fromdate, todate);
+                        var_numberofImmatureBirth = dsController.numberofImmatureBirth(fromdate, todate);
+                        var_numberofStillBirth = dsController.numberofStillBirth(fromdate, todate);
+                        var_numberofDeathUnder7Days = dsController.numberofDeathUnder7Days(fromdate, todate);
+                        var_numberofDeathBetween8to28Days = dsController.numberofDeathBetween8to28Days(fromdate, todate);
+                        var_numberofDeathBetween29daysto1year = dsController.numberofDeathBetween29daysto1year(fromdate, todate);
+                        var_numberofTotalDeath = dsController.numberofTotalDeath(fromdate, todate);
+                        var_numberofChildDeathBetween1to5year = dsController.numberofChildDeathBetween1to5year(fromdate, todate);
+                        var_numberofMotherDeath = dsController.numberofMotherDeath(fromdate, todate);
+                        var_numberofOtherDeath = dsController.numberofOtherDeath(fromdate, todate);
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Object o) {
+                    super.onPostExecute(o);
+                    unittotalnumberoflivebirth.setText(var_unittotalnumberoflivebirth);
+                    unitstotalnumberofdeath.setText(var_unitstotalnumberofdeath);
+                    totalnumberoflivebirth.setText(var_totalnumberoflivebirth);
+                    totalnumberofdeath.setText(var_totalnumberofdeath);
 
 
-            totalNumberOfLiveBirth.setText(dsController.numberofLiveBirth(fromdate,todate));
-            numberofNewBornswithLowBirthWeight.setText(dsController.numberofNewBornswithLowBirthWeight(fromdate,todate));
-            numberofImmatureBirth.setText(dsController.numberofImmatureBirth(fromdate,todate));
-            numberofStillBirth.setText(dsController.numberofStillBirth(fromdate,todate));
-            numberofDeathUnder7Days.setText(dsController.numberofDeathUnder7Days(fromdate,todate));
-            numberofDeathBetween8to28Days.setText(dsController.numberofDeathBetween8to28Days(fromdate,todate));
-            numberofDeathBetween29daysto1year.setText(dsController.numberofDeathBetween29daysto1year(fromdate,todate));
-            numberofTotalDeath.setText(dsController.numberofTotalDeath(fromdate,todate));
-            numberofChildDeathBetween1to5year.setText(dsController.numberofChildDeathBetween1to5year(fromdate,todate));
-            numberofMotherDeath.setText(dsController.numberofMotherDeath(fromdate,todate));
-            numberofOtherDeath.setText(dsController.numberofOtherDeath(fromdate,todate));
+                    totalNumberOfLiveBirth.setText(var_totalNumberOfLiveBirth);
+                    numberofNewBornswithLowBirthWeight.setText(var_numberofNewBornswithLowBirthWeight);
+                    numberofImmatureBirth.setText(var_numberofImmatureBirth);
+                    numberofStillBirth.setText(var_numberofStillBirth);
+                    numberofDeathUnder7Days.setText(var_numberofDeathUnder7Days);
+                    numberofDeathBetween8to28Days.setText(var_numberofDeathBetween8to28Days);
+                    numberofDeathBetween29daysto1year.setText(var_numberofDeathBetween29daysto1year);
+                    numberofTotalDeath.setText(var_numberofTotalDeath);
+                    numberofChildDeathBetween1to5year.setText(var_numberofChildDeathBetween1to5year);
+                    numberofMotherDeath.setText(var_numberofMotherDeath);
+                    numberofOtherDeath.setText(var_numberofOtherDeath);
+                    snackbar.dismiss();
+                }
+            }).execute();
+
         }catch (Exception e){
 
         }

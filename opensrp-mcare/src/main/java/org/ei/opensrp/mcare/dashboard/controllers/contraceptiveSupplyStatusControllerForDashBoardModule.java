@@ -45,18 +45,12 @@ public class contraceptiveSupplyStatusControllerForDashBoardModule extends contr
         Cursor cursor = null;
         try {
             int countofelcovisited = 0;
-            cursor = commonRepository.RawCustomQueryForAdapter("select details from elco where details like '%\"FWELIGIBLE\":\"1\"%' and elco.FWWOMFNAME != ''");
+            cursor = commonRepository.RawCustomQueryForAdapter("Select count(*) from (SELECT FWWOMFNAME,details,SUBSTR(replaced, pos+4, 10) AS WomanREGDATE from (SELECT *,FWWOMFNAME,instr(replaced,'^') AS pos\n" +
+                    "   FROM (SELECT FWWOMFNAME,details,replace(elco.details,'WomanREGDATE','^') as replaced\n" +
+                    "   FROM elco where elco.details like '%WomanREGDATE%')) where (details like '%\"FWELIGIBLE\":\"1\"%' and FWWOMFNAME != '') and (date(WomanREGDATE) BETWEEN date('" + format.format(fromdate) + "') and date('" + format.format(todate) + "')))");
             cursor.moveToFirst();
-            while(!cursor.isAfterLast()) {
-                String details = cursor.getString(0);
-                JSONObject detailobject = new JSONObject(details);
-                String womanRegdate = detailobject.getString("WomanREGDATE");
-                Date datewomanregdate = format.parse(womanRegdate);
-                if(datewomanregdate.after(fromdate) && datewomanregdate.before(todate)){
-                    countofelcovisited++;
-                }
-                cursor.moveToNext();
-            }
+            countofelcovisited = Integer.parseInt(cursor.getString(0));
+
             cursor.close();
             return ""+countofelcovisited;
         } catch (Exception e) {
