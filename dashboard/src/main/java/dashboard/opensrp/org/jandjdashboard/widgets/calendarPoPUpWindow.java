@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
 import dashboard.opensrp.org.jandjdashboard.R;
@@ -51,6 +52,7 @@ public class calendarPoPUpWindow extends PopupWindow {
         assignfontTOCalendarMonth(fromcalendarView,context);
         setOutsideTouchable(true);
         setFocusable(true);
+        fromdate = new Date();
         setPeriodSelector(context);
 
 
@@ -150,8 +152,9 @@ public class calendarPoPUpWindow extends PopupWindow {
         tocalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView calendarView, int i, int i1, int i2) {
+                GregorianCalendar calendar = new GregorianCalendar(i, i1, i2);
                 SimpleDateFormat simpleformat = new SimpleDateFormat("yyyy-MM-dd");
-                todate = new Date(calendarView.getDate());
+                todate = calendar.getTime();
                 todateselected.setText(simpleformat.format(calendarView.getDate()));
                 SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy");
                 date_in_words_label.setText(format.format(fromdate)+ " - "+format.format(todate));
@@ -160,9 +163,10 @@ public class calendarPoPUpWindow extends PopupWindow {
         fromcalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView calendarView, int i, int i1, int i2) {
+                GregorianCalendar calendar = new GregorianCalendar(i, i1, i2);
                 SimpleDateFormat simpleformat = new SimpleDateFormat("yyyy-MM-dd");
-                fromdate = new Date(calendarView.getDate());
-                fromdateselected.setText(simpleformat.format(calendarView.getDate()));
+                fromdate = calendar.getTime();
+                fromdateselected.setText(simpleformat.format(fromdate));
                 SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy");
                 date_in_words_label.setText(format.format(fromdate)+ " - "+format.format(todate));
 
@@ -171,10 +175,10 @@ public class calendarPoPUpWindow extends PopupWindow {
     }
 
     private void addToDate(int daysToAdd) {
-        Date date = new Date(fromcalendarView.getDate()+ TimeUnit.DAYS.toMillis(daysToAdd));
+        Date date = new Date(fromdate.getTime()+ TimeUnit.DAYS.toMillis(daysToAdd));
         tocalendarView.setDate(date.getTime());
-        todate = new Date(tocalendarView.getDate());
-        fromdate = new Date(fromcalendarView.getDate());
+        todate = date;
+        fromdate = new Date(fromdate.getTime());
         SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy");
         date_in_words_label.setText(format.format(fromdate)+ " - "+format.format(todate));
         SimpleDateFormat simpleformat = new SimpleDateFormat("yyyy-MM-dd");
