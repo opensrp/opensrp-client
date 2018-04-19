@@ -105,7 +105,7 @@ public class familyPlanningStatusDetailFragment extends dashboardFragment {
         cal.setTime(today);
         cal.add(Calendar.DATE,1);
         today = cal.getTime();
-        cal.add(Calendar.DATE, -(365*10));
+        cal.add(Calendar.DATE, -(365*2));
         Date yesterday = cal.getTime();
 
         refresh(fPSController.format.format(yesterday.getTime()),fPSController.format.format(today.getTime()));

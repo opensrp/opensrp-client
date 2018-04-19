@@ -137,7 +137,7 @@ public class nutritionDetailFragment extends dashboardFragment {
         Date today = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(today);
-        cal.add(Calendar.DATE, -(365*10));
+        cal.add(Calendar.DATE, -(365*2));
         Date yesterday = cal.getTime();
         refresh(ndController.format.format(yesterday.getTime()),ndController.format.format(today.getTime()));
         return rootView;

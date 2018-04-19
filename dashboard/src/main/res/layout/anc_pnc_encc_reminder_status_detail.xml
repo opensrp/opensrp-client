@@ -49,14 +49,14 @@
             android:layout_weight="1"
             android:elevation="3dp"
             android:padding="10dp"
-            app:cardBackgroundColor="@color/greencardcolor">
+            app:cardBackgroundColor="@color/total_scheduled_card_color_beta">
 
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="bottom"
                 android:scaleType="fitEnd"
-                android:src="@drawable/numberlivebirth" />
+                android:src="@drawable/totalscheduledbeta" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -103,14 +103,14 @@
             android:layout_weight="1"
             android:elevation="3dp"
             android:padding="10dp"
-            app:cardBackgroundColor="@color/pinkcardcolor">
+            app:cardBackgroundColor="@color/completed_card_color_beta">
 
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="bottom"
                 android:scaleType="fitEnd"
-                android:src="@drawable/newelcotranscard" />
+                android:src="@drawable/completedbeta" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -157,14 +157,14 @@
             android:layout_weight="1"
             android:elevation="3dp"
             android:padding="10dp"
-            app:cardBackgroundColor="@color/purplecardcolor">
+            app:cardBackgroundColor="@color/due_card_color_beta">
 
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="bottom"
                 android:scaleType="fitEnd"
-                android:src="@drawable/numberdeath" />
+                android:src="@drawable/duebeta" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -211,14 +211,14 @@
             android:layout_weight="1"
             android:elevation="3dp"
             android:padding="10dp"
-            app:cardBackgroundColor="@color/lightgreencardcolor">
+            app:cardBackgroundColor="@color/postdue_card_color_beta">
 
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="bottom"
                 android:scaleType="fitEnd"
-                android:src="@drawable/deathcard" />
+                android:src="@drawable/postduebeta" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -265,14 +265,14 @@
             android:layout_weight="1"
             android:elevation="3dp"
             android:padding="10dp"
-            app:cardBackgroundColor="@color/lightbluecardcolor">
+            app:cardBackgroundColor="@color/expired_card_color_beta">
 
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="bottom"
                 android:scaleType="fitEnd"
-                android:src="@drawable/deathcardblue" />
+                android:src="@drawable/expiredbeta" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -373,7 +373,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@color/completedgraphbarcolor" />
+                    android:src="@color/completedgraphbarcolor_beta" />
 
                 <TextView
                     android:id="@+id/textViewcomplete"
@@ -389,7 +389,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@color/duegraphbarcolor" />
+                    android:src="@color/duegraphbarcolor_beta" />
 
                 <TextView
                     android:id="@+id/textViewdue"
@@ -405,7 +405,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@color/postduegraphbarcolor" />
+                    android:src="@color/postduegraphbarcolor_beta" />
 
                 <TextView
                     android:id="@+id/postduetextView"
@@ -421,7 +421,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@color/expiredgraphbarcolor" />
+                    android:src="@color/expiredgraphbarcolor_beta" />
 
                 <TextView
                     android:id="@+id/textView"

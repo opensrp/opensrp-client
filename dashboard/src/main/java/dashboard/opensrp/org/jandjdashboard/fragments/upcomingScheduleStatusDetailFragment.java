@@ -106,9 +106,11 @@ public class upcomingScheduleStatusDetailFragment extends dashboardFragment {
         recyclerView.setAdapter(adapter);
         Date today = new Date();
         Calendar cal = Calendar.getInstance();
-        cal.setTime(today);
-        cal.add(Calendar.DATE, -(365*10));
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         Date yesterday = cal.getTime();
+//                cal.setTime(yesterday);
+        cal.add(Calendar.DATE, +7);
+        today = cal.getTime();
         filtertitle = (TextView)rootView.findViewById(R.id.filtertitle);
 
         prepareAlbums(uSSController.format.format(yesterday.getTime()),uSSController.format.format(today.getTime()));

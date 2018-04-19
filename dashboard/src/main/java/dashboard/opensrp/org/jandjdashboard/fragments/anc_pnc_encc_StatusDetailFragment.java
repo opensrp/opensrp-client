@@ -113,7 +113,7 @@ public class anc_pnc_encc_StatusDetailFragment extends dashboardFragment {
         to = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(to);
-        cal.add(Calendar.DATE, -(365*10));
+        cal.add(Calendar.DATE, -(365*2));
         from = cal.getTime();
         filtertitle = (TextView)rootView.findViewById(R.id.filtertitle);
         refresh(format.format(from),format.format(to));
@@ -295,16 +295,16 @@ public class anc_pnc_encc_StatusDetailFragment extends dashboardFragment {
             @Override
             public int get(DataPoint data) {
                 if(data.equals(stringDataPointHashMap.get("Completed"))){
-                    return getResources().getColor(R.color.completedgraphbarcolor);
+                    return getResources().getColor(R.color.completedgraphbarcolor_beta);
                 }
                 if(data.equals(stringDataPointHashMap.get("Due"))){
-                    return getResources().getColor(R.color.duegraphbarcolor);
+                    return getResources().getColor(R.color.duegraphbarcolor_beta);
                 }
                 if(data.equals(stringDataPointHashMap.get("Post Due"))){
-                    return getResources().getColor(R.color.postduegraphbarcolor);
+                    return getResources().getColor(R.color.postduegraphbarcolor_beta);
                 }
                 if(data.equals(stringDataPointHashMap.get("Expired"))){
-                    return getResources().getColor(R.color.expiredgraphbarcolor);
+                    return getResources().getColor(R.color.expiredgraphbarcolor_beta);
                 }
                 return 0;
             }

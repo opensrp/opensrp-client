@@ -103,7 +103,7 @@ public class reproductive_health_service_Fragment extends dashboardFragment {
         Date today = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(today);
-        cal.add(Calendar.DATE, -(365*10));
+        cal.add(Calendar.DATE, -(365*2));
         Date yesterday = cal.getTime();
         refresh(rhsController.format.format(yesterday.getTime()),rhsController.format.format(today.getTime()));
         return rootView;

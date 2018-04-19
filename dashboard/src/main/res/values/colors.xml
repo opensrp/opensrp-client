@@ -26,4 +26,15 @@
     <color name="focuseddatemonthcolor">#999999</color>
     <color name="unfocuseddatemonthcolor">#cfcfcf</color>
     <color name="datepickeralttablerow">#e1dfe0</color>
+
+    <color name="completedgraphbarcolor_beta">#66bb46</color>
+    <color name="duegraphbarcolor_beta">#f47320</color>
+    <color name="postduegraphbarcolor_beta">#ed2124</color>
+    <color name="expiredgraphbarcolor_beta">#989898</color>
+
+    <color name="total_scheduled_card_color_beta">#379cca</color>
+    <color name="completed_card_color_beta">#66bb46</color>
+    <color name="due_card_color_beta">#f47320</color>
+    <color name="postdue_card_color_beta">#ed2124</color>
+    <color name="expired_card_color_beta">#989898</color>
 </resources>

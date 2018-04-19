@@ -102,7 +102,7 @@ public class contraceptiveSupplyStatusDetailFragment extends dashboardFragment {
         cal.setTime(today);
         cal.add(Calendar.DATE,1);
         today = cal.getTime();
-        cal.add(Calendar.DATE, -(365*10));
+        cal.add(Calendar.DATE, -(365*2));
         Date yesterday = cal.getTime();
         refresh(cssController.format.format(yesterday.getTime()),cssController.format.format(today.getTime()));
 
