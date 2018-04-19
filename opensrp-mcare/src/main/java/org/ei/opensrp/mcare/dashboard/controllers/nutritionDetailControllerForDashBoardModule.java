@@ -130,6 +130,50 @@ public class nutritionDetailControllerForDashBoardModule extends nutritionDetail
     }
 
     @Override
+    public String totalmotherQuery(Date fromdate, Date todate) {
+        CommonRepository commonRepository = Context.getInstance().commonrepository("household");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from mcaremother where mcaremother.Is_PNC = 1 and  (date(SUBSTR(mcaremother.FWBNFDTOO, 0, 11)) BETWEEN date ('" + format.format(fromdate) + "') and date('" + format.format(todate) + "'))");
+        cursor.moveToFirst();
+        try {
+            String countofmother = cursor.getString(0);
+
+            cursor.close();
+            return countofmother;
+        } catch (Exception e) {
+            cursor.close();
+            return "0";
+        }
+    }
+
+    @Override
+    public String totalchildrenQuery(Date fromdate, Date todate) {
+        CommonRepository commonRepository = Context.getInstance().commonrepository("household");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count (*) from (SELECT SUBSTR(replaced, pos+4, 10) AS FWBNFDOB from (SELECT *,instr(replaced,'^') AS pos\n" +
+                "   FROM (SELECT replace(mcarechild.details,'FWBNFDOB','^') as replaced\n" +
+                "   FROM mcarechild where mcarechild.details like '%FWBNFDOB%' and mcarechild.details like '%\"FWBNFCHLDVITSTS\":\"1\"%' and mcarechild.details like '%\"user_type\":\"FD\"%' and mcarechild.FWBNFGEN is not null))) where (date(FWBNFDOB) BETWEEN date('" + format.format(fromdate) + "') and date('" + format.format(todate) + "'))");
+        cursor.moveToFirst();
+        try {
+            String countofmother = cursor.getString(0);
+
+            cursor.close();
+            return countofmother;
+        } catch (Exception e) {
+            cursor.close();
+            return "0";
+        }
+    }
+
+    @Override
+    public String totalsamchildrenQuery(Date fromdate, Date todate) {
+        return "N/A";
+    }
+
+    @Override
+    public String totalmamchildrenQuery(Date fromdate, Date todate) {
+        return "N/A";
+    }
+
+    @Override
     public String totalnumberofLiveBirth(Date fromdate, Date todate) {
         return "N/A";
     }

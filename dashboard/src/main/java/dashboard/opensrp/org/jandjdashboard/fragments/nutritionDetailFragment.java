@@ -51,7 +51,7 @@ public class nutritionDetailFragment extends dashboardFragment {
      * The dummy content this fragment is presenting.
      */
     private DummyContent.DummyItem mItem;
-    TextView unittotalnumberoflivebirth,unitstotalnumberofdeath,totalnumberoflivebirth,totalnumberofdeath;
+    TextView totalmother,totalchildren,totalsamchildren,totalmamchildren;
     TextView iron_and_folic_acid_pregnant_woman_info,
             iron_and_folic_acid_mother_info,
             distributed_iron_and_folic_acid_pregnant_woman_info,
@@ -73,10 +73,7 @@ public class nutritionDetailFragment extends dashboardFragment {
             received_multiple_mnr_6_to_24months_info,
             received_multiple_mnr_24_to_50months_info;
 
-    static String var_unittotalnumberoflivebirth,
-            var_unitstotalnumberofdeath,
-            var_totalnumberoflivebirth,
-            var_totalnumberofdeath;
+    static String var_totalmother,var_totalchildren,var_totalsamchildren,var_totalmamchildren;
     static String var_iron_and_folic_acid_pregnant_woman_info,
             var_iron_and_folic_acid_mother_info,
             var_distributed_iron_and_folic_acid_pregnant_woman_info,
@@ -179,10 +176,10 @@ public class nutritionDetailFragment extends dashboardFragment {
                 @Override
                 protected Object doInBackground(Object[] objects) {
                     if(datechanged) {
-                        var_unittotalnumberoflivebirth = ndController.numberofLiveBirth(fromdate, todate);
-                        var_unitstotalnumberofdeath = ndController.numberofTotalDeath(fromdate, todate);
-                        var_totalnumberoflivebirth = ndController.totalnumberofLiveBirth(fromdate, todate);
-                        var_totalnumberofdeath = ndController.overallnumberofTotalDeath(fromdate, todate);
+                        var_totalmother = ndController.totalmotherQuery(fromdate, todate);
+                        var_totalchildren = ndController.totalchildrenQuery(fromdate, todate);
+                        var_totalsamchildren = ndController.totalsamchildrenQuery(fromdate, todate);
+                        var_totalmamchildren = ndController.totalmamchildrenQuery(fromdate, todate);
 
 
                         var_iron_and_folic_acid_pregnant_woman_info = ndController.iron_and_folic_acid_pregnant_woman_info(fromdate, todate);
@@ -213,10 +210,10 @@ public class nutritionDetailFragment extends dashboardFragment {
                 @Override
                 protected void onPostExecute(Object o) {
                     super.onPostExecute(o);
-                    unittotalnumberoflivebirth.setText(var_unittotalnumberoflivebirth);
-                    unitstotalnumberofdeath.setText(var_unitstotalnumberofdeath);
-                    totalnumberoflivebirth.setText(var_totalnumberoflivebirth);
-                    totalnumberofdeath.setText(var_totalnumberofdeath);
+                    totalmother.setText(var_totalmother);
+                    totalchildren.setText(var_totalchildren);
+                    totalsamchildren.setText(var_totalsamchildren);
+                    totalmamchildren.setText(var_totalmamchildren);
 
 
 
@@ -253,14 +250,12 @@ public class nutritionDetailFragment extends dashboardFragment {
     }
 
     private void setupviews(View rootView) {
-        unittotalnumberoflivebirth = (TextView)rootView.findViewById(R.id.unit_total_livebirth);
-        unitstotalnumberofdeath= (TextView)rootView.findViewById(R.id.unit_total_death);
-        totalnumberoflivebirth = (TextView)rootView.findViewById(R.id.total_livebirth);
-        totalnumberofdeath= (TextView)rootView.findViewById(R.id.total_death);
+        totalmother = (TextView)rootView.findViewById(R.id.total_mother);
+        totalchildren= (TextView)rootView.findViewById(R.id.total_children);
+        totalsamchildren = (TextView)rootView.findViewById(R.id.total_sam_children);
+        totalmamchildren= (TextView)rootView.findViewById(R.id.total_mam_children);
+
         filtertitle = (TextView)rootView.findViewById(R.id.filtertitle);
-
-
-
 
         iron_and_folic_acid_pregnant_woman_info = (TextView)rootView.findViewById(R.id.iron_and_folic_acid_pregnant_woman_info);
         iron_and_folic_acid_mother_info = (TextView)rootView.findViewById(R.id.iron_and_folic_acid_mother_info);

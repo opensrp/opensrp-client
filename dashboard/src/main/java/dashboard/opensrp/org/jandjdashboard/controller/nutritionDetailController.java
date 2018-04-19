@@ -35,4 +35,9 @@ public abstract class nutritionDetailController extends dashboardControllers{
     public abstract String received_multiple_mnr_0_to_6months_info(Date fromdate, Date todate);
     public abstract String received_multiple_mnr_6_to_24months_info(Date fromdate, Date todate);
     public abstract String received_multiple_mnr_24_to_50months_info(Date fromdate, Date todate);
+
+    public abstract String totalmotherQuery(Date fromdate, Date todate);
+    public abstract String totalchildrenQuery(Date fromdate, Date todate);
+    public abstract String totalsamchildrenQuery(Date fromdate, Date todate);
+    public abstract String totalmamchildrenQuery(Date fromdate, Date todate);
 }
