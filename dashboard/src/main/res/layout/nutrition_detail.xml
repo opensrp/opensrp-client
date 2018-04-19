@@ -455,7 +455,7 @@
                     android:layout_weight="1"
                     android:background="@color/alttablerow"
                     android:gravity="center"
-                    android:text="Still Birth" />
+                    android:text="Counselling on Feeding MNP to Children" />
 
                 <TextView
                     android:id="@+id/counselling_on_feeding_mnp_to_children_pregnant_woman_info"

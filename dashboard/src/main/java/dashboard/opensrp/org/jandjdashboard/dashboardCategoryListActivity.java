@@ -253,7 +253,7 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
                                         .commit();
                                 break;
                             }
-                            case 7: {
+                            case 5: {
                                 Bundle arguments = new Bundle();
                                 arguments.putString(reproductive_health_service_Fragment.ARG_ITEM_ID, holder.mItem.id);
                                 nutritionDetailFragment fragment = new nutritionDetailFragment();
@@ -266,7 +266,7 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
                                         .commit();
                                 break;
                             }
-                            case 8: {
+                            case 6: {
                                 Bundle arguments = new Bundle();
                                 arguments.putString(contraceptiveSupplyStatusDetailFragment.ARG_ITEM_ID, holder.mItem.id);
                                 contraceptiveSupplyStatusDetailFragment fragment = new contraceptiveSupplyStatusDetailFragment();
