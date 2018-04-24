@@ -473,12 +473,39 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
 
         CustomFontTextView pncreminderDueDate = (CustomFontTextView)itemView.findViewById(R.id.pnc_reminder_due_date);
         setalerttextandColorInView(pncreminderDueDate, alerttextstatus,pc);
-        if((pc.getDetails().get("FWPNC3DATE")!=null)&& pncreminderDueDate.getText().toString().contains("PNC3")){
+        if((pc.getDetails().get("FWPNC3DATE")!=null)&& (pncreminderDueDate.getText().toString().contains("PNC3")
+        ||pncreminderDueDate.getText().toString().contains("PNC2")
+                ||pncreminderDueDate.getText().toString().contains("PNC1"))
+        ){
             pncreminderDueDate.setText("PNC3"+ "\n"+pc.getDetails().get("FWPNC3DATE"));
-        }else if((pc.getDetails().get("FWPNC2DATE")!=null)&& pncreminderDueDate.getText().toString().contains("PNC2")){
+            pncreminderDueDate.setBackgroundColor(context.getResources().getColor(R.color.alert_complete_green_mcare));
+            pncreminderDueDate.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+            pncreminderDueDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }else if((pc.getDetails().get("FWPNC2DATE")!=null)&& (pncreminderDueDate.getText().toString().contains("PNC2")||pncreminderDueDate.getText().toString().contains("PNC1"))){
             pncreminderDueDate.setText("PNC2"+ "\n"+pc.getDetails().get("FWPNC2DATE"));
+            pncreminderDueDate.setBackgroundColor(context.getResources().getColor(R.color.alert_complete_green_mcare));
+            pncreminderDueDate.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+            pncreminderDueDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }else if((pc.getDetails().get("FWPNC1DATE")!=null) && pncreminderDueDate.getText().toString().contains("PNC1")){
             pncreminderDueDate.setText("PNC1"+ "\n"+pc.getDetails().get("FWPNC1DATE"));
+            pncreminderDueDate.setBackgroundColor(context.getResources().getColor(R.color.alert_complete_green_mcare));
+            pncreminderDueDate.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+            pncreminderDueDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
         pncreminderDueDate.setText(McareApplication.convertToEnglishDigits(pncreminderDueDate.getText().toString()));
 
