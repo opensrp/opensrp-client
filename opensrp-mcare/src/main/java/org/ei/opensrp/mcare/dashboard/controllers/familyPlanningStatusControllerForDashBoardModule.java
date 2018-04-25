@@ -89,7 +89,7 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
         Cursor cursor = null;
         try {
-            cursor = commonRepository.RawCustomQueryForAdapter("select count (distinct form_submission.entityId) from form_submission where form_submission.formName = 'mis_elco' and instance not like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"99\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%' and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
+            cursor = commonRepository.RawCustomQueryForAdapter("select count (distinct form_submission.entityId) from form_submission where form_submission.formName = 'mis_elco' and (instance not like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"99\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance not like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"99\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%') and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
             cursor.moveToFirst();
             String countofelcovisited = cursor.getString(0);
             cursor.close();
@@ -631,7 +631,7 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
         Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISELCODATE\",\"value\":','^') as replaced " +
-                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"06\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"06\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
         int condomsgiven = 0;
         if(cursor.getCount()>0) {
@@ -639,7 +639,7 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
         }
         cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISELCODATE\",\"value\":\"','^') as replaced\n" +
-                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"06\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"06\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%')))\n" +
                 "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
         if(cursor.getCount()>0) {
@@ -654,7 +654,7 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
         Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISELCODATE\",\"value\":','^') as replaced " +
-                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"06\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"06\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
         int condomsgiven = 0;
         if(cursor.getCount()>0) {
@@ -662,7 +662,7 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
         }
         cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISELCODATE\",\"value\":\"','^') as replaced\n" +
-                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"06\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"06\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%')))\n" +
                 "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
         if(cursor.getCount()>0) {
@@ -677,7 +677,7 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
         Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISELCODATE\",\"value\":','^') as replaced " +
-                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"06\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"06\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
         int condomsgiven = 0;
         if(cursor.getCount()>0) {
@@ -685,7 +685,7 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
         }
         cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISELCODATE\",\"value\":\"','^') as replaced\n" +
-                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"06\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"06\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%')))\n" +
                 "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
         if(cursor.getCount()>0) {
@@ -733,7 +733,7 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
         Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISELCODATE\",\"value\":','^') as replaced " +
-                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"07\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"07\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
         int condomsgiven = 0;
         if(cursor.getCount()>0) {
@@ -741,7 +741,7 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
         }
         cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISELCODATE\",\"value\":\"','^') as replaced\n" +
-                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"07\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"07\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%')))\n" +
                 "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
         if(cursor.getCount()>0) {
@@ -756,7 +756,7 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
         Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISELCODATE\",\"value\":','^') as replaced " +
-                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"07\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"07\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
         int condomsgiven = 0;
         if(cursor.getCount()>0) {
@@ -764,7 +764,7 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
         }
         cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISELCODATE\",\"value\":\"','^') as replaced\n" +
-                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"07\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"07\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%')))\n" +
                 "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
         if(cursor.getCount()>0) {
@@ -779,7 +779,7 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
         Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISELCODATE\",\"value\":','^') as replaced " +
-                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"07\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"07\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
         int condomsgiven = 0;
         if(cursor.getCount()>0) {
@@ -787,7 +787,7 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
         }
         cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISELCODATE\",\"value\":\"','^') as replaced\n" +
-                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"07\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"07\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%')))\n" +
                 "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
         if(cursor.getCount()>0) {

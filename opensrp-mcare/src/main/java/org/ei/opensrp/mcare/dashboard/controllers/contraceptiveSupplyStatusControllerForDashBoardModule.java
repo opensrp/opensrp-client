@@ -89,7 +89,7 @@ public class contraceptiveSupplyStatusControllerForDashBoardModule extends contr
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
         Cursor cursor = null;
         try {
-            cursor = commonRepository.RawCustomQueryForAdapter("select count (distinct form_submission.entityId) from form_submission where form_submission.formName = 'mis_elco' and instance not like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"99\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%' and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
+            cursor = commonRepository.RawCustomQueryForAdapter("select count (distinct form_submission.entityId) from form_submission where form_submission.formName = 'mis_elco' and (instance not like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"99\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance not like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"99\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%') and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
             cursor.moveToFirst();
             String countofelcovisited = cursor.getString(0);
             cursor.close();
@@ -205,43 +205,25 @@ public class contraceptiveSupplyStatusControllerForDashBoardModule extends contr
 
     @Override
     public String condomNirapodCurrentMonthQuery(Date from, Date to) {
-        int condomsgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"02\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select sum (CondomsGiven) from (SELECT replace(replace(SUBSTR(condgivennoend, pos2+1, pos3-pos2),'name\":\"FWMISCONDGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISCONDGIVENDATE\",\"value\":','^') as replaced,replace(form_submission.instance,'\"name\":\"FWMISCONDGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"source\":\"elco.FWMISCONDGIVENNO\"','#') as condgivennoend\n" +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"02\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISCONDGIVENDATE")){
-                        String date = instancefield.getString("value");
-                        Date condomgivenDate = format.parse(date);
-                        if(condomgivenDate.after(from)&&condomgivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISCONDGIVENNO")){
-                        String condomgivenstring = instancefield.getString("value");
-                        if(isgivenInBetweenDate){
-                            condomsgiven = condomsgiven+ Integer.parseInt(condomgivenstring);
-                        }
-                    }
-                }
-            }catch (Exception e){
 
-            }
-            cursor.moveToNext();
+        int condomsgiven = 0;
+        if(cursor.getCount()>0) {
+            condomsgiven = Integer.parseInt(cursor.getString(0));
         }
+        cursor = commonRepository.RawCustomQueryForAdapter("select sum(CondomsGiven) from (SELECT replace(replace(SUBSTR(condgivennoend, pos2, pos3-pos2),'source\":\"elco.FWMISCONDGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISCONDGIVENDATE\",\"value\":\"','^') as replaced,replace(form_submission.instance,'source\":\"elco.FWMISCONDGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"bind\":\"/model/instance/MIS_ELCO/FWMISCONDGIVENNO\",\"name\":\"FWMISCONDGIVENNO\"','#') as condgivennoend\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"02\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
         return ""+condomsgiven;
     }
 }
