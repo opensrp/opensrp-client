@@ -213,7 +213,11 @@ public class contraceptiveSupplyStatusControllerForDashBoardModule extends contr
 
         int condomsgiven = 0;
         if(cursor.getCount()>0) {
-            condomsgiven = Integer.parseInt(cursor.getString(0));
+            try {
+                condomsgiven = Integer.parseInt(cursor.getString(0));
+            }catch (Exception e){
+
+            }
         }
         cursor = commonRepository.RawCustomQueryForAdapter("select sum(CondomsGiven) from (SELECT replace(replace(SUBSTR(condgivennoend, pos2, pos3-pos2),'source\":\"elco.FWMISCONDGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISCONDGIVENDATE\",\"value\":\"','^') as replaced,replace(form_submission.instance,'source\":\"elco.FWMISCONDGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"bind\":\"/model/instance/MIS_ELCO/FWMISCONDGIVENNO\",\"name\":\"FWMISCONDGIVENNO\"','#') as condgivennoend\n" +
@@ -221,7 +225,11 @@ public class contraceptiveSupplyStatusControllerForDashBoardModule extends contr
                 "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
         if(cursor.getCount()>0) {
-            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+            try {
+                condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+            }catch (Exception e){
+
+            }
         }
         cursor.close();
         return ""+condomsgiven;

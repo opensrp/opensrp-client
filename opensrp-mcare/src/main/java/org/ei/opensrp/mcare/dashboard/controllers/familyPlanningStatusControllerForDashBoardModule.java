@@ -128,14 +128,22 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
         cursor.moveToFirst();
         int pillsgiven = 0;
         if(cursor.getCount()>0) {
-            pillsgiven = Integer.parseInt(cursor.getString(0));
+            try {
+                pillsgiven = Integer.parseInt(cursor.getString(0));
+            }catch (Exception e){
+
+            }
         }
-        cursor = commonRepository.RawCustomQueryForAdapter("select * from (SELECT replace(replace(SUBSTR(condgivennoend, pos2, pos3-pos2),'source\":\"elco.FWMISPILLGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
+        cursor = commonRepository.RawCustomQueryForAdapter("select sum (CondomsGiven) from (SELECT replace(replace(SUBSTR(condgivennoend, pos2, pos3-pos2),'source\":\"elco.FWMISPILLGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISPILLGIVENDATE\",\"value\":\"','^') as replaced,replace(form_submission.instance,'source\":\"elco.FWMISPILLGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"bind\":\"/model/instance/MIS_ELCO/FWMISPILLGIVENNO\",\"name\":\"FWMISPILLGIVENNO\"','#') as condgivennoend\n" +
                 "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"01\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
         if(cursor.getCount()>0) {
-            pillsgiven = pillsgiven + Integer.parseInt(cursor.getString(0));
+            try {
+                pillsgiven = pillsgiven + Integer.parseInt(cursor.getString(0));
+            }catch (Exception e){
+
+            }
         }
         cursor.close();
         return ""+pillsgiven;
@@ -150,14 +158,22 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
         cursor.moveToFirst();
         int pillsgiven = 0;
         if(cursor.getCount()>0) {
-            pillsgiven = Integer.parseInt(cursor.getString(0));
+            try {
+                pillsgiven = Integer.parseInt(cursor.getString(0));
+            }catch (Exception e){
+
+            }
         }
-        cursor = commonRepository.RawCustomQueryForAdapter("select * from (SELECT replace(replace(SUBSTR(condgivennoend, pos2, pos3-pos2),'source\":\"elco.FWMISPILLGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
+        cursor = commonRepository.RawCustomQueryForAdapter("select sum (CondomsGiven) from (SELECT replace(replace(SUBSTR(condgivennoend, pos2, pos3-pos2),'source\":\"elco.FWMISPILLGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISPILLGIVENDATE\",\"value\":\"','^') as replaced,replace(form_submission.instance,'source\":\"elco.FWMISPILLGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"bind\":\"/model/instance/MIS_ELCO/FWMISPILLGIVENNO\",\"name\":\"FWMISPILLGIVENNO\"','#') as condgivennoend\n" +
                 "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"01\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
         if(cursor.getCount()>0) {
-            pillsgiven = pillsgiven + Integer.parseInt(cursor.getString(0));
+            try {
+                pillsgiven = pillsgiven + Integer.parseInt(cursor.getString(0));
+            }catch (Exception e){
+
+            }
         }
         cursor.close();
         return ""+pillsgiven;
@@ -172,14 +188,22 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
         cursor.moveToFirst();
         int pillsgiven = 0;
         if(cursor.getCount()>0) {
-            pillsgiven = Integer.parseInt(cursor.getString(0));
+            try {
+                pillsgiven = Integer.parseInt(cursor.getString(0));
+            }catch (Exception e){
+
+            }
         }
-        cursor = commonRepository.RawCustomQueryForAdapter("select * from (SELECT replace(replace(SUBSTR(condgivennoend, pos2, pos3-pos2),'source\":\"elco.FWMISPILLGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
+        cursor = commonRepository.RawCustomQueryForAdapter("select sum (CondomsGiven) from (SELECT replace(replace(SUBSTR(condgivennoend, pos2, pos3-pos2),'source\":\"elco.FWMISPILLGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISPILLGIVENDATE\",\"value\":\"','^') as replaced,replace(form_submission.instance,'source\":\"elco.FWMISPILLGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"bind\":\"/model/instance/MIS_ELCO/FWMISPILLGIVENNO\",\"name\":\"FWMISPILLGIVENNO\"','#') as condgivennoend\n" +
                 "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"01\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
         if(cursor.getCount()>0) {
-            pillsgiven = pillsgiven + Integer.parseInt(cursor.getString(0));
+            try {
+                pillsgiven = pillsgiven + Integer.parseInt(cursor.getString(0));
+            }catch (Exception e){
+
+            }
         }
         cursor.close();
         return ""+pillsgiven;
@@ -227,7 +251,11 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
 
         int condomsgiven = 0;
         if(cursor.getCount()>0) {
-            condomsgiven = Integer.parseInt(cursor.getString(0));
+            try {
+                condomsgiven = Integer.parseInt(cursor.getString(0));
+            }catch (Exception e){
+
+            }
         }
         cursor = commonRepository.RawCustomQueryForAdapter("select sum(CondomsGiven) from (SELECT replace(replace(SUBSTR(condgivennoend, pos2, pos3-pos2),'source\":\"elco.FWMISCONDGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISCONDGIVENDATE\",\"value\":\"','^') as replaced,replace(form_submission.instance,'source\":\"elco.FWMISCONDGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"bind\":\"/model/instance/MIS_ELCO/FWMISCONDGIVENNO\",\"name\":\"FWMISCONDGIVENNO\"','#') as condgivennoend\n" +
@@ -235,7 +263,11 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
                 "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
         if(cursor.getCount()>0) {
-            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+            try {
+                condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+            }catch (Exception e){
+
+            }
         }
         cursor.close();
         return ""+condomsgiven;
@@ -248,9 +280,14 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISCONDGIVENDATE\",\"value\":','^') as replaced,replace(form_submission.instance,'\"name\":\"FWMISCONDGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"source\":\"elco.FWMISCONDGIVENNO\"','#') as condgivennoend\n" +
                 "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"02\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
+
         int condomsgiven = 0;
         if(cursor.getCount()>0) {
-            condomsgiven = Integer.parseInt(cursor.getString(0));
+            try {
+                condomsgiven = Integer.parseInt(cursor.getString(0));
+            }catch (Exception e){
+
+            }
         }
         cursor = commonRepository.RawCustomQueryForAdapter("select sum(CondomsGiven) from (SELECT replace(replace(SUBSTR(condgivennoend, pos2, pos3-pos2),'source\":\"elco.FWMISCONDGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISCONDGIVENDATE\",\"value\":\"','^') as replaced,replace(form_submission.instance,'source\":\"elco.FWMISCONDGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"bind\":\"/model/instance/MIS_ELCO/FWMISCONDGIVENNO\",\"name\":\"FWMISCONDGIVENNO\"','#') as condgivennoend\n" +
@@ -258,7 +295,11 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
                 "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
         if(cursor.getCount()>0) {
-            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+            try {
+                condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+            }catch (Exception e){
+
+            }
         }
         cursor.close();
         return ""+condomsgiven;
@@ -271,9 +312,14 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISCONDGIVENDATE\",\"value\":','^') as replaced,replace(form_submission.instance,'\"name\":\"FWMISCONDGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"source\":\"elco.FWMISCONDGIVENNO\"','#') as condgivennoend\n" +
                 "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"02\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
+
         int condomsgiven = 0;
         if(cursor.getCount()>0) {
-            condomsgiven = Integer.parseInt(cursor.getString(0));
+            try {
+                condomsgiven = Integer.parseInt(cursor.getString(0));
+            }catch (Exception e){
+
+            }
         }
         cursor = commonRepository.RawCustomQueryForAdapter("select sum(CondomsGiven) from (SELECT replace(replace(SUBSTR(condgivennoend, pos2, pos3-pos2),'source\":\"elco.FWMISCONDGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
                 "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISCONDGIVENDATE\",\"value\":\"','^') as replaced,replace(form_submission.instance,'source\":\"elco.FWMISCONDGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"bind\":\"/model/instance/MIS_ELCO/FWMISCONDGIVENNO\",\"name\":\"FWMISCONDGIVENNO\"','#') as condgivennoend\n" +
@@ -281,7 +327,11 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
                 "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
         if(cursor.getCount()>0) {
-            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+            try {
+                condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+            }catch (Exception e){
+
+            }
         }
         cursor.close();
         return ""+condomsgiven;
