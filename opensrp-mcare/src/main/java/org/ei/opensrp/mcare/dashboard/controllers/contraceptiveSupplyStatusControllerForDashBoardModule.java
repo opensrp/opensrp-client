@@ -66,19 +66,11 @@ public class contraceptiveSupplyStatusControllerForDashBoardModule extends contr
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
         Cursor cursor = null;
         try {
-//            cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from form_submission where form_submission.formName = 'psrf_form' and form_submission.instance like '%{\"name\":\"user_type\",\"value\":\"FWA\",\"source\":\"elco.user_type\"}%'and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
-            cursor = commonRepository.RawCustomQueryForAdapter("select count(Distinct instanceId) from (SELECT instanceId,SUBSTR(replaced, pos+1, 10) AS WomanREGDATE from (SELECT *,instr(replaced,'^') AS pos\n" +
-                    "       FROM (SELECT *,replace(form_submission.instance,'\"name\":\"today\",\"value\":\"','^') as replaced\n" +
-                    "FROM form_submission where form_submission.formName like '%psrf_form%' and form_submission.instance like '%{\"name\":\"FWELIGIBLE\",\"value\":\"1\",\"source\":\"elco.FWELIGIBLE\"}%' and form_submission.instance not like '%{\"name\":\"user_type\",\"value\":\"FD\",\"source\":\"elco.user_type\"}%')) where (date(WomanREGDATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))\n" +
-                    "  ");
+            cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from form_submission where form_submission.formName = 'psrf_form' and form_submission.instance like '%{\"name\":\"user_type\",\"value\":\"FWA\",\"source\":\"elco.user_type\"}%'and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
             cursor.moveToFirst();
             String countofelcovisited = cursor.getString(0);
             cursor.close();
-//            cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from form_submission where form_submission.formName = 'mis_elco' and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
-            cursor = commonRepository.RawCustomQueryForAdapter("select count(Distinct instanceId) from (SELECT instanceId,SUBSTR(replaced, pos+1, 10) AS misElcoDATE from (SELECT *,instr(replaced,'^') AS pos\n" +
-                    "       FROM (SELECT *,replace(form_submission.instance,'\"name\":\"today\",\"value\":\"','^') as replaced\n" +
-                    "FROM form_submission where form_submission.formName like '%mis_elco%')) where (date(misElcoDATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))");
-
+            cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from form_submission where form_submission.formName = 'mis_elco' and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
             cursor.moveToFirst();
             countofelcovisited = ""+(Integer.parseInt(countofelcovisited)+Integer.parseInt(cursor.getString(0)));
             cursor.close();
@@ -97,7 +89,7 @@ public class contraceptiveSupplyStatusControllerForDashBoardModule extends contr
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
         Cursor cursor = null;
         try {
-            cursor = commonRepository.RawCustomQueryForAdapter("select count (distinct form_submission.entityId) from form_submission where form_submission.formName = 'mis_elco' and instance not like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"99\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
+            cursor = commonRepository.RawCustomQueryForAdapter("select count (distinct form_submission.entityId) from form_submission where form_submission.formName = 'mis_elco' and instance not like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"99\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%' and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
             cursor.moveToFirst();
             String countofelcovisited = cursor.getString(0);
             cursor.close();

@@ -89,7 +89,7 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
         Cursor cursor = null;
         try {
-            cursor = commonRepository.RawCustomQueryForAdapter("select count (distinct form_submission.entityId) from form_submission where form_submission.formName = 'mis_elco' and instance not like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"99\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
+            cursor = commonRepository.RawCustomQueryForAdapter("select count (distinct form_submission.entityId) from form_submission where form_submission.formName = 'mis_elco' and instance not like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"99\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%' and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
             cursor.moveToFirst();
             String countofelcovisited = cursor.getString(0);
             cursor.close();
@@ -121,127 +121,67 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
 
     @Override
     public String pill_old_Query(Date from, Date to) {
-        int pillsgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"01\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select sum (CondomsGiven) from (SELECT replace(replace(SUBSTR(condgivennoend, pos2+1, pos3-pos2),'name\":\"FWMISPILLGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISPILLGIVENDATE\",\"value\":','^') as replaced,replace(form_submission.instance,'\"name\":\"FWMISPILLGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"source\":\"elco.FWMISPILLGIVENNO\"','#') as condgivennoend\n" +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"01\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISPILLGIVENDATE")){
-                        String date = instancefield.getString("value");
-                        Date pillgivenDate = format.parse(date);
-                        if(pillgivenDate.after(from)&&pillgivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISPILLGIVENNO")){
-                        String pillsgivenstring = instancefield.getString("value");
-                        if(isgivenInBetweenDate){
-                            pillsgiven = pillsgiven+ Integer.parseInt(pillsgivenstring);
-                        }
-                    }
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int pillsgiven = 0;
+        if(cursor.getCount()>0) {
+            pillsgiven = Integer.parseInt(cursor.getString(0));
         }
+        cursor = commonRepository.RawCustomQueryForAdapter("select * from (SELECT replace(replace(SUBSTR(condgivennoend, pos2, pos3-pos2),'source\":\"elco.FWMISPILLGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISPILLGIVENDATE\",\"value\":\"','^') as replaced,replace(form_submission.instance,'source\":\"elco.FWMISPILLGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"bind\":\"/model/instance/MIS_ELCO/FWMISPILLGIVENNO\",\"name\":\"FWMISPILLGIVENNO\"','#') as condgivennoend\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"01\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            pillsgiven = pillsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
         return ""+pillsgiven;
     }
 
     @Override
     public String pill_new_Query(Date from, Date to) {
-        int pillsgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"01\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select sum (CondomsGiven) from (SELECT replace(replace(SUBSTR(condgivennoend, pos2+1, pos3-pos2),'name\":\"FWMISPILLGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISPILLGIVENDATE\",\"value\":','^') as replaced,replace(form_submission.instance,'\"name\":\"FWMISPILLGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"source\":\"elco.FWMISPILLGIVENNO\"','#') as condgivennoend\n" +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"01\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISPILLGIVENDATE")){
-                        String date = instancefield.getString("value");
-                        Date pillgivenDate = format.parse(date);
-                        if(pillgivenDate.after(from)&&pillgivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISPILLGIVENNO")){
-                        String pillsgivenstring = instancefield.getString("value");
-                        if(isgivenInBetweenDate){
-                            pillsgiven = pillsgiven+ Integer.parseInt(pillsgivenstring);
-                        }
-                    }
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int pillsgiven = 0;
+        if(cursor.getCount()>0) {
+            pillsgiven = Integer.parseInt(cursor.getString(0));
         }
+        cursor = commonRepository.RawCustomQueryForAdapter("select * from (SELECT replace(replace(SUBSTR(condgivennoend, pos2, pos3-pos2),'source\":\"elco.FWMISPILLGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISPILLGIVENDATE\",\"value\":\"','^') as replaced,replace(form_submission.instance,'source\":\"elco.FWMISPILLGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"bind\":\"/model/instance/MIS_ELCO/FWMISPILLGIVENNO\",\"name\":\"FWMISPILLGIVENNO\"','#') as condgivennoend\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"01\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            pillsgiven = pillsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
         return ""+pillsgiven;
     }
 
     @Override
     public String pill_unit_totalQuery(Date from, Date to) {
-        int pillsgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"01\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select sum (CondomsGiven) from (SELECT replace(replace(SUBSTR(condgivennoend, pos2+1, pos3-pos2),'name\":\"FWMISPILLGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISPILLGIVENDATE\",\"value\":','^') as replaced,replace(form_submission.instance,'\"name\":\"FWMISPILLGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"source\":\"elco.FWMISPILLGIVENNO\"','#') as condgivennoend\n" +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"01\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISPILLGIVENDATE")){
-                        String date = instancefield.getString("value");
-                        Date pillgivenDate = format.parse(date);
-                        if(pillgivenDate.after(from)&&pillgivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISPILLGIVENNO")){
-                        String pillsgivenstring = instancefield.getString("value");
-                        if(isgivenInBetweenDate){
-                            pillsgiven = pillsgiven+ Integer.parseInt(pillsgivenstring);
-                        }
-                    }
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int pillsgiven = 0;
+        if(cursor.getCount()>0) {
+            pillsgiven = Integer.parseInt(cursor.getString(0));
         }
+        cursor = commonRepository.RawCustomQueryForAdapter("select * from (SELECT replace(replace(SUBSTR(condgivennoend, pos2, pos3-pos2),'source\":\"elco.FWMISPILLGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISPILLGIVENDATE\",\"value\":\"','^') as replaced,replace(form_submission.instance,'source\":\"elco.FWMISPILLGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"bind\":\"/model/instance/MIS_ELCO/FWMISPILLGIVENNO\",\"name\":\"FWMISPILLGIVENNO\"','#') as condgivennoend\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"01\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            pillsgiven = pillsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
         return ""+pillsgiven;
     }
 
@@ -279,127 +219,71 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
 
     @Override
     public String condom_old_Query(Date from, Date to) {
-        int condomsgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"02\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select sum (CondomsGiven) from (SELECT replace(replace(SUBSTR(condgivennoend, pos2+1, pos3-pos2),'name\":\"FWMISCONDGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISCONDGIVENDATE\",\"value\":','^') as replaced,replace(form_submission.instance,'\"name\":\"FWMISCONDGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"source\":\"elco.FWMISCONDGIVENNO\"','#') as condgivennoend\n" +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"02\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISCONDGIVENDATE")){
-                        String date = instancefield.getString("value");
-                        Date condomgivenDate = format.parse(date);
-                        if(condomgivenDate.after(from)&&condomgivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISCONDGIVENNO")){
-                        String condomsgivenstring = instancefield.getString("value");
-                        if(isgivenInBetweenDate){
-                            condomsgiven = condomsgiven+ Integer.parseInt(condomsgivenstring);
-                        }
-                    }
-                }
-            }catch (Exception e){
 
-            }
-            cursor.moveToNext();
+        int condomsgiven = 0;
+        if(cursor.getCount()>0) {
+            condomsgiven = Integer.parseInt(cursor.getString(0));
         }
+        cursor = commonRepository.RawCustomQueryForAdapter("select sum(CondomsGiven) from (SELECT replace(replace(SUBSTR(condgivennoend, pos2, pos3-pos2),'source\":\"elco.FWMISCONDGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISCONDGIVENDATE\",\"value\":\"','^') as replaced,replace(form_submission.instance,'source\":\"elco.FWMISCONDGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"bind\":\"/model/instance/MIS_ELCO/FWMISCONDGIVENNO\",\"name\":\"FWMISCONDGIVENNO\"','#') as condgivennoend\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"02\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
         return ""+condomsgiven;
     }
 
     @Override
     public String condom_new_Query(Date from, Date to) {
-        int condomsgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"02\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select sum (CondomsGiven) from (SELECT replace(replace(SUBSTR(condgivennoend, pos2+1, pos3-pos2),'name\":\"FWMISCONDGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISCONDGIVENDATE\",\"value\":','^') as replaced,replace(form_submission.instance,'\"name\":\"FWMISCONDGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"source\":\"elco.FWMISCONDGIVENNO\"','#') as condgivennoend\n" +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"02\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISCONDGIVENDATE")){
-                        String date = instancefield.getString("value");
-                        Date condomgivenDate = format.parse(date);
-                        if(condomgivenDate.after(from)&&condomgivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISCONDGIVENNO")){
-                        String condomsgivenstring = instancefield.getString("value");
-                        if(isgivenInBetweenDate){
-                            condomsgiven = condomsgiven+ Integer.parseInt(condomsgivenstring);
-                        }
-                    }
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int condomsgiven = 0;
+        if(cursor.getCount()>0) {
+            condomsgiven = Integer.parseInt(cursor.getString(0));
         }
+        cursor = commonRepository.RawCustomQueryForAdapter("select sum(CondomsGiven) from (SELECT replace(replace(SUBSTR(condgivennoend, pos2, pos3-pos2),'source\":\"elco.FWMISCONDGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISCONDGIVENDATE\",\"value\":\"','^') as replaced,replace(form_submission.instance,'source\":\"elco.FWMISCONDGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"bind\":\"/model/instance/MIS_ELCO/FWMISCONDGIVENNO\",\"name\":\"FWMISCONDGIVENNO\"','#') as condgivennoend\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"02\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
         return ""+condomsgiven;
     }
 
     @Override
     public String condom_unit_totalQuery(Date from, Date to) {
-        int condomsgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"02\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select sum (CondomsGiven) from (SELECT replace(replace(SUBSTR(condgivennoend, pos2+1, pos3-pos2),'name\":\"FWMISCONDGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISCONDGIVENDATE\",\"value\":','^') as replaced,replace(form_submission.instance,'\"name\":\"FWMISCONDGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"source\":\"elco.FWMISCONDGIVENNO\"','#') as condgivennoend\n" +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"02\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISCONDGIVENDATE")){
-                        String date = instancefield.getString("value");
-                        Date condomgivenDate = format.parse(date);
-                        if(condomgivenDate.after(from)&&condomgivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISCONDGIVENNO")){
-                        String condomsgivenstring = instancefield.getString("value");
-                        if(isgivenInBetweenDate){
-                            condomsgiven = condomsgiven+ Integer.parseInt(condomsgivenstring);
-                        }
-                    }
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int condomsgiven = 0;
+        if(cursor.getCount()>0) {
+            condomsgiven = Integer.parseInt(cursor.getString(0));
         }
+        cursor = commonRepository.RawCustomQueryForAdapter("select sum(CondomsGiven) from (SELECT replace(replace(SUBSTR(condgivennoend, pos2, pos3-pos2),'source\":\"elco.FWMISCONDGIVENNO\",\"value\":\"',''),'#','') as CondomsGiven,SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos,instr(condgivenno,'$') AS pos2,instr(condgivennoend,'#') AS pos3\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISCONDGIVENDATE\",\"value\":\"','^') as replaced,replace(form_submission.instance,'source\":\"elco.FWMISCONDGIVENNO\",\"value\":\"','$') as condgivenno,replace(form_submission.instance,'\",\"bind\":\"/model/instance/MIS_ELCO/FWMISCONDGIVENNO\",\"name\":\"FWMISCONDGIVENNO\"','#') as condgivennoend\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"02\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
         return ""+condomsgiven;
     }
 
@@ -438,110 +322,71 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
 
     @Override
     public String injectable_old_Query(Date from, Date to) {
-        int injectablesgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"03\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISINJGIVENDATE\",\"value\":','^') as replaced " +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"03\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISINJGIVENDATE")){
-                        String date = instancefield.getString("value");
-                        Date injectablegivenDate = format.parse(date);
-                        if(injectablegivenDate.after(from)&&injectablegivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-                if(isgivenInBetweenDate){
-                  injectablesgiven = injectablesgiven+ 1;
-
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int condomsgiven = 0;
+        if(cursor.getCount()>0) {
+            condomsgiven = Integer.parseInt(cursor.getString(0));
         }
-        return ""+injectablesgiven;
+        cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISINJGIVENDATE\",\"value\":\"','^') as replaced\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"03\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
+        return ""+condomsgiven;
     }
 
     @Override
     public String injectable_new_Query(Date from, Date to) {
-        int injectablesgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"03\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISINJGIVENDATE\",\"value\":','^') as replaced " +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"03\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISINJGIVENDATE")){
-                        String date = instancefield.getString("value");
-                        Date injectablegivenDate = format.parse(date);
-                        if(injectablegivenDate.after(from)&&injectablegivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-                if (isgivenInBetweenDate) {
-                        injectablesgiven = injectablesgiven + 1;
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int condomsgiven = 0;
+        if(cursor.getCount()>0) {
+            condomsgiven = Integer.parseInt(cursor.getString(0));
         }
-        return ""+injectablesgiven;
+        cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISINJGIVENDATE\",\"value\":\"','^') as replaced\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"03\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
+        return ""+condomsgiven;
     }
 
     @Override
     public String injectable_unit_totalQuery(Date from, Date to) {
-        int injectablesgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"03\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISINJGIVENDATE\",\"value\":','^') as replaced " +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"03\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISINJGIVENDATE")){
-                        String date = instancefield.getString("value");
-                        Date injectablegivenDate = format.parse(date);
-                        if(injectablegivenDate.after(from)&&injectablegivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-
-                if(isgivenInBetweenDate){
-                 injectablesgiven = injectablesgiven+ 1;
-
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int condomsgiven = 0;
+        if(cursor.getCount()>0) {
+            condomsgiven = Integer.parseInt(cursor.getString(0));
         }
-        return ""+injectablesgiven;
+        cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISINJGIVENDATE\",\"value\":\"','^') as replaced\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"03\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
+        return ""+condomsgiven;
     }
 
     @Override
@@ -579,110 +424,71 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
 
     @Override
     public String iud_old_Query(Date from, Date to) {
-        int iudsgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"04\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISELCODATE\",\"value\":','^') as replaced " +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"04\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISELCODATE")){
-                        String date = instancefield.getString("value");
-                        Date iudgivenDate = format.parse(date);
-                        if(iudgivenDate.after(from)&&iudgivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-                if(isgivenInBetweenDate){
-                    iudsgiven = iudsgiven+ 1;
-
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int condomsgiven = 0;
+        if(cursor.getCount()>0) {
+            condomsgiven = Integer.parseInt(cursor.getString(0));
         }
-        return ""+iudsgiven;
+        cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISELCODATE\",\"value\":\"','^') as replaced\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"04\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
+        return ""+condomsgiven;
     }
 
     @Override
     public String iud_new_Query(Date from, Date to) {
-        int iudsgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"04\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISELCODATE\",\"value\":','^') as replaced " +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"04\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISELCODATE")){
-                        String date = instancefield.getString("value");
-                        Date iudgivenDate = format.parse(date);
-                        if(iudgivenDate.after(from)&&iudgivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-                if (isgivenInBetweenDate) {
-                    iudsgiven = iudsgiven + 1;
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int condomsgiven = 0;
+        if(cursor.getCount()>0) {
+            condomsgiven = Integer.parseInt(cursor.getString(0));
         }
-        return ""+iudsgiven;
+        cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISELCODATE\",\"value\":\"','^') as replaced\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"04\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
+        return ""+condomsgiven;
     }
 
     @Override
     public String iud_unit_totalQuery(Date from, Date to) {
-        int iudsgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"04\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISELCODATE\",\"value\":','^') as replaced " +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"04\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISELCODATE")){
-                        String date = instancefield.getString("value");
-                        Date iudgivenDate = format.parse(date);
-                        if(iudgivenDate.after(from)&&iudgivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-
-                if(isgivenInBetweenDate){
-                    iudsgiven = iudsgiven+ 1;
-
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int condomsgiven = 0;
+        if(cursor.getCount()>0) {
+            condomsgiven = Integer.parseInt(cursor.getString(0));
         }
-        return ""+iudsgiven;
+        cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISELCODATE\",\"value\":\"','^') as replaced\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"04\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
+        return ""+condomsgiven;
     }
 
     @Override
@@ -720,110 +526,71 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
 
     @Override
     public String implant_old_Query(Date from, Date to) {
-        int implantsgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"05\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISELCODATE\",\"value\":','^') as replaced " +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"05\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISELCODATE")){
-                        String date = instancefield.getString("value");
-                        Date implantgivenDate = format.parse(date);
-                        if(implantgivenDate.after(from)&&implantgivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-                if(isgivenInBetweenDate){
-                    implantsgiven = implantsgiven+ 1;
-
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int condomsgiven = 0;
+        if(cursor.getCount()>0) {
+            condomsgiven = Integer.parseInt(cursor.getString(0));
         }
-        return ""+implantsgiven;
+        cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISELCODATE\",\"value\":\"','^') as replaced\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"05\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
+        return ""+condomsgiven;
     }
 
     @Override
     public String implant_new_Query(Date from, Date to) {
-        int implantsgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"05\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISELCODATE\",\"value\":','^') as replaced " +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"05\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISELCODATE")){
-                        String date = instancefield.getString("value");
-                        Date implantgivenDate = format.parse(date);
-                        if(implantgivenDate.after(from)&&implantgivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-                if (isgivenInBetweenDate) {
-                    implantsgiven = implantsgiven + 1;
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int condomsgiven = 0;
+        if(cursor.getCount()>0) {
+            condomsgiven = Integer.parseInt(cursor.getString(0));
         }
-        return ""+implantsgiven;
+        cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISELCODATE\",\"value\":\"','^') as replaced\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"05\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
+        return ""+condomsgiven;
     }
 
     @Override
     public String implant_unit_totalQuery(Date from, Date to) {
-        int implantsgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"05\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISELCODATE\",\"value\":','^') as replaced " +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"05\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISELCODATE")){
-                        String date = instancefield.getString("value");
-                        Date implantgivenDate = format.parse(date);
-                        if(implantgivenDate.after(from)&&implantgivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-
-                if(isgivenInBetweenDate){
-                    implantsgiven = implantsgiven+ 1;
-
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int condomsgiven = 0;
+        if(cursor.getCount()>0) {
+            condomsgiven = Integer.parseInt(cursor.getString(0));
         }
-        return ""+implantsgiven;
+        cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISELCODATE\",\"value\":\"','^') as replaced\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"05\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
+        return ""+condomsgiven;
     }
 
     @Override
@@ -861,110 +628,71 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
 
     @Override
     public String pm_male_old_Query(Date from, Date to) {
-        int pm_malesgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"06\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISELCODATE\",\"value\":','^') as replaced " +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"06\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISELCODATE")){
-                        String date = instancefield.getString("value");
-                        Date pm_malegivenDate = format.parse(date);
-                        if(pm_malegivenDate.after(from)&&pm_malegivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-                if(isgivenInBetweenDate){
-                    pm_malesgiven = pm_malesgiven+ 1;
-
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int condomsgiven = 0;
+        if(cursor.getCount()>0) {
+            condomsgiven = Integer.parseInt(cursor.getString(0));
         }
-        return ""+pm_malesgiven;
+        cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISELCODATE\",\"value\":\"','^') as replaced\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"06\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
+        return ""+condomsgiven;
     }
 
     @Override
     public String pm_male_new_Query(Date from, Date to) {
-        int pm_malesgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"06\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISELCODATE\",\"value\":','^') as replaced " +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"06\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISELCODATE")){
-                        String date = instancefield.getString("value");
-                        Date pm_malegivenDate = format.parse(date);
-                        if(pm_malegivenDate.after(from)&&pm_malegivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-                if (isgivenInBetweenDate) {
-                    pm_malesgiven = pm_malesgiven + 1;
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int condomsgiven = 0;
+        if(cursor.getCount()>0) {
+            condomsgiven = Integer.parseInt(cursor.getString(0));
         }
-        return ""+pm_malesgiven;
+        cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISELCODATE\",\"value\":\"','^') as replaced\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"06\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
+        return ""+condomsgiven;
     }
 
     @Override
     public String pm_male_unit_totalQuery(Date from, Date to) {
-        int pm_malesgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"06\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISELCODATE\",\"value\":','^') as replaced " +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"06\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISELCODATE")){
-                        String date = instancefield.getString("value");
-                        Date pm_malegivenDate = format.parse(date);
-                        if(pm_malegivenDate.after(from)&&pm_malegivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-
-                if(isgivenInBetweenDate){
-                    pm_malesgiven = pm_malesgiven+ 1;
-
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int condomsgiven = 0;
+        if(cursor.getCount()>0) {
+            condomsgiven = Integer.parseInt(cursor.getString(0));
         }
-        return ""+pm_malesgiven;
+        cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISELCODATE\",\"value\":\"','^') as replaced\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"06\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
+        return ""+condomsgiven;
     }
 
     @Override
@@ -1002,110 +730,71 @@ public class familyPlanningStatusControllerForDashBoardModule extends familyPlan
 
     @Override
     public String pm_female_old_Query(Date from, Date to) {
-        int pm_femalesgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"07\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISELCODATE\",\"value\":','^') as replaced " +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"07\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISELCODATE")){
-                        String date = instancefield.getString("value");
-                        Date pm_femalegivenDate = format.parse(date);
-                        if(pm_femalegivenDate.after(from)&&pm_femalegivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-                if(isgivenInBetweenDate){
-                    pm_femalesgiven = pm_femalesgiven+ 1;
-
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int condomsgiven = 0;
+        if(cursor.getCount()>0) {
+            condomsgiven = Integer.parseInt(cursor.getString(0));
         }
-        return ""+pm_femalesgiven;
+        cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISELCODATE\",\"value\":\"','^') as replaced\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"07\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
+        return ""+condomsgiven;
     }
 
     @Override
     public String pm_female_new_Query(Date from, Date to) {
-        int pm_femalesgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"07\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISELCODATE\",\"value\":','^') as replaced " +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"07\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISELCODATE")){
-                        String date = instancefield.getString("value");
-                        Date pm_femalegivenDate = format.parse(date);
-                        if(pm_femalegivenDate.after(from)&&pm_femalegivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-                if (isgivenInBetweenDate) {
-                    pm_femalesgiven = pm_femalesgiven + 1;
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int condomsgiven = 0;
+        if(cursor.getCount()>0) {
+            condomsgiven = Integer.parseInt(cursor.getString(0));
         }
-        return ""+pm_femalesgiven;
+        cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISELCODATE\",\"value\":\"','^') as replaced\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"07\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
+        return ""+condomsgiven;
     }
 
     @Override
     public String pm_female_unit_totalQuery(Date from, Date to) {
-        int pm_femalesgiven = 0;
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select instance from form_submission where formName = 'mis_elco' and instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"07\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%';");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+2, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"name\":\"FWMISELCODATE\",\"value\":','^') as replaced " +
+                "   FROM form_submission where instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"07\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%' and instance like '%{\"name\":\"FWMISBCSOURCE\",\"value\":\"1\",\"source\":\"elco.FWMISBCSOURCE\"}%'))) where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            try {
-                boolean isgivenInBetweenDate = false;
-                String instance = cursor.getString(0);
-                JSONObject instanceObject = new JSONObject(instance);
-                JSONObject formObject = instanceObject.getJSONObject("form");
-                JSONArray fields = formObject.getJSONArray("fields");
-                for (int i = 0;i<fields.length();i++){
-                    JSONObject instancefield = fields.getJSONObject(i);
-                    String name = instancefield.getString("name");
-                    if(name.equalsIgnoreCase("FWMISELCODATE")){
-                        String date = instancefield.getString("value");
-                        Date pm_femalegivenDate = format.parse(date);
-                        if(pm_femalegivenDate.after(from)&&pm_femalegivenDate.before(to)){
-                            isgivenInBetweenDate = true;
-                        }
-                    }
-                }
-
-                if(isgivenInBetweenDate){
-                    pm_femalesgiven = pm_femalesgiven+ 1;
-
-                }
-            }catch (Exception e){
-
-            }
-            cursor.moveToNext();
+        int condomsgiven = 0;
+        if(cursor.getCount()>0) {
+            condomsgiven = Integer.parseInt(cursor.getString(0));
         }
-        return ""+pm_femalesgiven;
+        cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from (SELECT SUBSTR(replaced, pos+1, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                "   FROM (SELECT form_submission.instance as instance ,replace(form_submission.instance,'\"source\":\"elco.FWMISELCODATE\",\"value\":\"','^') as replaced\n" +
+                "   FROM form_submission where instance like '%{\"source\":\"elco.FWPMISBIRTHCTRL\",\"value\":\"07\",\"bind\":\"/model/instance/MIS_ELCO/FWPMISBIRTHCTRL\",\"name\":\"FWPMISBIRTHCTRL\"}%' and instance like '%{\"source\":\"elco.FWMISBCSOURCE\",\"value\":\"1\",\"bind\":\"/model/instance/MIS_ELCO/FWMISBCSOURCE\",\"name\":\"FWMISBCSOURCE\"}%')))\n" +
+                "\n where (date(FWANC4DATE) Between date('" + format.format(from) + "') and date('" + format.format(to) + "'));");
+        cursor.moveToFirst();
+        if(cursor.getCount()>0) {
+            condomsgiven = condomsgiven + Integer.parseInt(cursor.getString(0));
+        }
+        cursor.close();
+        return ""+condomsgiven;
     }
 
     @Override
