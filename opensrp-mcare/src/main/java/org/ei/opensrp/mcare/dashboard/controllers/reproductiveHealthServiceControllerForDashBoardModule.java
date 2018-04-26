@@ -43,10 +43,13 @@ public class reproductiveHealthServiceControllerForDashBoardModule extends repro
             }
             CommonRepository commonRepository = Context.getInstance().commonrepository("household");
             Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from form_submission where form_submission.formName = 'mis_census' and form_submission.instance like '%{\"source\":\"elco.FWMISCENTTDOSE\",\"value\":\""+ttnumber+"\",\"bind\":\"/model/instance/MIS_Census/FWMISCENTTDOSE\",\"name\":\"FWMISCENTTDOSE\"}%'and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
+            Cursor cursor2 = commonRepository.RawCustomQueryForAdapter("select count(*) from form_submission where form_submission.formName = 'mis_census' and form_submission.instance like '%{\"name\":\"FWMISCENTTDOSE\",\"value\":\""+ttnumber+"\",\"source\":\"elco.FWMISCENTTDOSE\"}%'and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
+            cursor2.moveToFirst();
             cursor.moveToFirst();
             try {
                 String countoftt1 = cursor.getString(0);
-                ttdoses.put("tt"+i+"given", countoftt1);
+                String countoftt1_2 = cursor2.getString(0);
+                ttdoses.put("tt"+i+"given", ""+(Integer.parseInt(countoftt1)+Integer.parseInt(countoftt1_2)));
                 cursor.close();
             } catch (Exception e) {
                 cursor.close();
