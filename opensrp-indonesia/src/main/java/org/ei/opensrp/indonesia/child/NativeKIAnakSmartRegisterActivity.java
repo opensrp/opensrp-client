@@ -405,7 +405,7 @@ public class NativeKIAnakSmartRegisterActivity extends SecuredNativeSmartRegiste
                 fieldOverrides.put("namaBayi", pc.getColumnmaps().get("namaBayi"));
                 fieldOverrides.put("jenis_kelamin", pc.getDetails().get("gender"));
                 fieldOverrides.put("desa_anak", pc.getDetails().get("desa_anak"));
-                fieldOverrides.put("tanggalLahirAnak", pc.getDetails().get("birthdate"));
+             //   fieldOverrides.put("tanggalLahirAnak", pc.getDetails().get("birthdate"));
                 fieldOverrides.put("beratLahir", pc.getDetails().get("beratLahir"));
 
 

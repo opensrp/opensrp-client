@@ -27,11 +27,6 @@
           },
           {
             "field":"eventType",
-            "field_value": "Kohort Pelayanan KB",
-            "creates_case":["ec_kartu_ibu"]
-          },
-          {
-            "field":"eventType",
             "field_value": "Penutupan KB",
             "creates_case":["ec_kartu_ibu"]
           },
