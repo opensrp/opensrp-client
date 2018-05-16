@@ -10,6 +10,7 @@ import android.view.View;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
+import org.ei.opensrp.commonregistry.CommonRepository;
 import org.ei.opensrp.cursoradapter.SecuredNativeSmartRegisterCursorAdapterFragment;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.path.R;
@@ -19,6 +20,8 @@ import org.ei.opensrp.path.view.LocationPickerView;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
 import org.json.JSONException;
+
+import java.util.List;
 
 import util.JsonFormUtils;
 import util.PathConstants;
@@ -81,6 +84,69 @@ public class BaseSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
     }
 
     @Override
+    public String filterandSortQuery(){
+        SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);
+
+        String query = "";
+        try{
+            if(isValidFilterForFts(commonRepository())){
+                String sql = sqb.searchQueryFts(tablename, joinTable, mainCondition, filters, Sortqueries, currentlimit, currentoffset);
+                List<String> ids = commonRepository().findSearchIds(sql);
+                query = sqb.toStringFts(ids, tablename + "." + CommonRepository.ID_COLUMN, Sortqueries);
+                query = sqb.Endquery(query);
+            } else {
+                sqb.addCondition(filters);
+                query = sqb.orderbyCondition(Sortqueries);
+                query = sqb.Endquery(sqb.addlimitandOffset(query,currentlimit,currentoffset));
+
+            }
+        }catch (Exception e){
+            Log.e(getClass().getName(), e.toString(), e);
+        }
+        String newLocation = clinicSelection.getSelectedItem();
+        query = query.replace(" WHERE "," WHERE "+tablename+".id in (Select base_entity_id from ec_details where value like '%"+newLocation+"%') and ");
+        return query;
+    }
+
+    @Override
+    public void CountExecute(){
+        Cursor c = null;
+
+        try {
+            SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(countSelect);
+            String query = "";
+            if (isValidFilterForFts(commonRepository())) {
+                String sql = sqb.countQueryFts(tablename, joinTable, mainCondition, filters);
+                List<String> ids = commonRepository().findSearchIds(sql);
+                query = sqb.toStringFts(ids, tablename + "." + CommonRepository.ID_COLUMN);
+                query = sqb.Endquery(query);
+            } else {
+                sqb.addCondition(filters);
+                query = sqb.orderbyCondition(Sortqueries);
+                query = sqb.Endquery(query);
+            }
+            String newLocation = clinicSelection.getSelectedItem();
+            query = query.replace(" WHERE "," WHERE "+tablename+".id in (Select base_entity_id from ec_details where value like '%"+newLocation+"%') and ");
+
+            Log.i(getClass().getName(), query);
+            c = commonRepository().RawCustomQueryForAdapter(query);
+            c.moveToFirst();
+            totalcount = c.getInt(0);
+            Log.v("total count here", "" + totalcount);
+            currentlimit = 20;
+            currentoffset = 0;
+
+        }catch (Exception e){
+            Log.e(getClass().getName(), e.toString(), e);
+        } finally {
+            if(c != null) {
+                c.close();
+            }
+        }
+    }
+
+
+    @Override
     protected void setupViews(View view) {
         super.setupViews(view);
 
@@ -89,7 +155,6 @@ public class BaseSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
 
         clinicSelection = (LocationPickerView) view.findViewById(R.id.clinic_selection);
         clinicSelection.init(context());
-
     }
 
     protected void filter(String filterString, String joinTableString, String mainConditionString) {

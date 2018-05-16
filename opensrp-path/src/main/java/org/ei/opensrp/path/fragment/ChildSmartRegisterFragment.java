@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +61,6 @@ import static android.view.View.INVISIBLE;
 
 public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implements SyncStatusBroadcastReceiver.SyncStatusListener {
     private final ClientActionHandler clientActionHandler = new ClientActionHandler();
-    private LocationPickerView clinicSelection;
     private static final long NO_RESULT_SHOW_DIALOG_DELAY = 1000l;
     private Handler showNoResultDialogHandler;
     private NotInCatchmentDialogFragment notInCatchmentDialogFragment;
@@ -207,9 +208,9 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
         super.setupViews(view);
         view.findViewById(R.id.btn_report_month).setVisibility(INVISIBLE);
         view.findViewById(R.id.service_mode_selection).setVisibility(INVISIBLE);
-        view.findViewById(R.id.register_client).setVisibility(INVISIBLE);
+        view.findViewById(R.id.register_client).setVisibility(View.GONE);
 
-        view.findViewById(R.id.filter_selection).setVisibility(INVISIBLE);
+        view.findViewById(R.id.filter_selection).setVisibility(View.GONE);
         filterSection = view.findViewById(R.id.filter_selection);
         filterSection.setOnClickListener(clientActionHandler);
 
@@ -258,6 +259,7 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
 
         View globalSearchButton = mView.findViewById(R.id.global_search);
         globalSearchButton.setOnClickListener(clientActionHandler);
+
     }
 
     @Override
@@ -297,13 +299,13 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
         setTablename(tableName);
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
         countqueryBUilder.SelectInitiateMainTableCounts(tableName);
-        mainCondition = " dod is NULL OR dod = '' ";
+        mainCondition = " (dod is NULL OR dod = '') ";
         countSelect = countqueryBUilder.mainCondition(mainCondition);
         super.CountExecute();
         countOverDue();
         countDueOverDue();
 
-        SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
+        final SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
         queryBUilder.SelectInitiateMainTable(tableName, new String[]{
                 tableName + ".relationalid",
                 tableName + ".details",
@@ -338,6 +340,27 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
         currentoffset = 0;
 
         super.filterandSortInInitializeQueries();
+        getClinicSelection().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                String newLocation = getClinicSelection().getText().toString();
+//                newLocation = "Bahadursadi:Ward-1:Kha-1:Kholapara C C-Kholapara";
+//                mainCondition =  PathConstants.CHILD_TABLE_NAME+".id in (Select base_entity_id from ec_details where value = '"+newLocation+"'))";
+                CountExecute();
+                filterandSortExecute();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
 
         updateSearchView();
         refresh();

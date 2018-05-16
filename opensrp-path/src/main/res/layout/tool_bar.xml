@@ -8,7 +8,7 @@
     android:focusableInTouchMode="true"
     tools:showIn="@layout/smart_register_nav_bar_customized">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/back_btn_layout"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -48,7 +48,7 @@
             android:layout_centerInParent="true"
             android:visibility="gone"
             android:indeterminate="true" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/title_layout"
@@ -117,32 +117,6 @@
         android:text="1"
         android:textColor="@color/white" />
 
-    <ImageView
-        android:layout_width="@dimen/smart_register_nav_bar_separator"
-        android:layout_height="fill_parent"
-        android:layout_toRightOf="@+id/filter_selection"
-        android:scaleType="fitXY"
-        android:src="@drawable/separator" />
-
-    <ImageButton
-        android:id="@+id/register_client"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_toLeftOf="@id/filter_selection"
-        android:background="@drawable/transparent_gray_background"
-        android:gravity="center"
-        android:paddingLeft="22dp"
-        android:paddingRight="22dp"
-        android:src="@drawable/ic_icon_add" />
-
-    <ImageView
-        android:layout_width="@dimen/smart_register_nav_bar_separator"
-        android:layout_height="fill_parent"
-        android:layout_toRightOf="@+id/register_client"
-        android:scaleType="fitXY"
-        android:src="@drawable/separator" />
-
-
     <ImageButton
         android:id="@+id/sort_selection"
         android:layout_width="wrap_content"
@@ -169,11 +143,9 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@id/register_client"
+        android:layout_toRightOf="@id/title_layout"
         android:background="@drawable/transparent_gray_background"
         android:gravity="center"
-        android:minWidth="@dimen/loc_picker_text_min_width"
-        android:maxWidth="@dimen/loc_picker_text_max_width"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:textSize="21sp" />
@@ -182,6 +154,31 @@
         android:layout_width="@dimen/smart_register_nav_bar_separator"
         android:layout_height="fill_parent"
         android:layout_toRightOf="@+id/clinic_selection"
+        android:scaleType="fitXY"
+        android:src="@drawable/separator" />
+    <ImageView
+        android:layout_width="@dimen/smart_register_nav_bar_separator"
+        android:layout_height="fill_parent"
+        android:layout_toRightOf="@+id/filter_selection"
+        android:scaleType="fitXY"
+        android:src="@drawable/separator" />
+
+    <ImageButton
+        android:id="@+id/register_client"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_toRightOf="@id/clinic_selection"
+        android:layout_toLeftOf="@id/global_search"
+        android:background="@drawable/transparent_gray_background"
+        android:gravity="center"
+        android:paddingLeft="22dp"
+        android:paddingRight="22dp"
+        android:src="@drawable/ic_icon_add" />
+
+    <ImageView
+        android:layout_width="@dimen/smart_register_nav_bar_separator"
+        android:layout_height="fill_parent"
+        android:layout_toRightOf="@+id/register_client"
         android:scaleType="fitXY"
         android:src="@drawable/separator" />
 

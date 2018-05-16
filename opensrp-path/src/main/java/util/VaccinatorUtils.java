@@ -515,7 +515,7 @@ public class VaccinatorUtils {
         try {
             for (Map<String, Object> m : schedule) {
                 if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
-                    if (m.get("vaccine") != null && (((Vaccine) m.get("vaccine")).equals(Vaccine.bcg2) || ((Vaccine) m.get("vaccine")).equals(Vaccine.ipv)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.rota1)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.rota2))) {
+                    if (m.get("vaccine") != null && (((Vaccine) m.get("vaccine")).equals(Vaccine.bcg2) || ((Vaccine) m.get("vaccine")).equals(Vaccine.fipv1)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.ipv)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.rota1)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.rota2))) {
                         // bcg2 is a special alert and should not be considered as the next vaccine
                         continue;
                     }
@@ -542,7 +542,7 @@ public class VaccinatorUtils {
         try {
             for (Map<String, Object> m : schedule) {
                 if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
-                    if (m.get("vaccine") != null && (((Vaccine) m.get("vaccine")).equals(Vaccine.bcg2) || ((Vaccine) m.get("vaccine")).equals(Vaccine.ipv) )) {
+                    if (m.get("vaccine") != null && (((Vaccine) m.get("vaccine")).equals(Vaccine.bcg2) || ((Vaccine) m.get("vaccine")).equals(Vaccine.fipv1)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.ipv)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.rota1)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.rota2))) {
                         // bcg2 is a special alert and should not be considered as the next vaccine
                         continue;
                     }

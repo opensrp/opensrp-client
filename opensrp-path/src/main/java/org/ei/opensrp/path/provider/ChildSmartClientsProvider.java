@@ -211,6 +211,19 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
                 sch.remove(indexOFOPV0schedule);
             }
         }
+        int indexOFfIPV1schedule = -1;
+        if(recievedVaccines.get("fipv 2") != null){
+            for(int i = 0;i < sch.size();i++){
+                if(((VaccineRepo.Vaccine)sch.get(i).get("vaccine")).equals(VaccineRepo.Vaccine.fipv1)){
+                    if(recievedVaccines.get("fipv 1")== null) {
+                        indexOFfIPV1schedule = i;
+                    }
+                }
+            }
+            if(indexOFfIPV1schedule != -1){
+                sch.remove(indexOFfIPV1schedule);
+            }
+        }
 
         State state = State.FULLY_IMMUNIZED;
         String stateKey = null;

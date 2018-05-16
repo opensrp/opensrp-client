@@ -20,7 +20,7 @@
 
     <ListView
         android:id="@+id/locations_lv"
-        android:layout_width="@dimen/loc_picker_dialog_width"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="25dp"

@@ -526,7 +526,7 @@ public abstract class SecuredNativeSmartRegisterCursorAdapterFragment extends Se
         }
     }
 
-    private String filterandSortQuery(){
+    public String filterandSortQuery(){
         SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);
 
         String query = "";

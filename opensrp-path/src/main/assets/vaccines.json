@@ -134,6 +134,12 @@
               "reference": "dob",
               "offset": "+5y"
             }
+          ],
+          "conditions": [
+            {
+              "type": "not_given",
+              "vaccine": "fIPV 2"
+            }
           ]
         }
       },
@@ -352,9 +358,8 @@
         "schedule": {
           "due": [
             {
-              "reference": "prerequisite",
-              "prerequisite": "fIPV 1",
-              "offset": "+56d",
+              "reference": "dob",
+              "offset": "+98d",
               "window": "+14d"
             }
           ],
@@ -433,7 +438,7 @@
   {
     "name": "9 Months",
     "id": "Nine_Months",
-    "days_after_birth_due": 274,
+    "days_after_birth_due": 270,
     "vaccines": [
       {
         "name": "Measles 1 / MR 1",
@@ -455,14 +460,22 @@
             "due": [
               {
                 "reference": "dob",
-                "offset": "+9m",
-                "window": "+3m"
+                "offset": "+270d",
+                "window": "+30d"
               }
             ],
             "conditions": [
               {
                 "type": "not_given",
                 "vaccine": "MR 1"
+              },
+              {
+                "type": "not_given",
+                "vaccine": "MR 2"
+              },
+              {
+                "type": "not_given",
+                "vaccine": "Measles 2"
               }
             ]
           },
@@ -470,14 +483,22 @@
             "due": [
               {
                 "reference": "dob",
-                "offset": "+9m",
-                "window": "+3m"
+                "offset": "+270d",
+                "window": "+30d"
               }
             ],
             "conditions": [
               {
                 "type": "not_given",
                 "vaccine": "Measles 1"
+              },
+              {
+                "type": "not_given",
+                "vaccine": "MR 2"
+              },
+              {
+                "type": "not_given",
+                "vaccine": "Measles 2"
               }
             ]
           }
@@ -509,15 +530,9 @@
           "Measles 2": {
             "due": [
               {
-                "reference": "prerequisite",
-                "prerequisite": "Measles 1",
-                "offset": "+6m",
-                "window": "+8m"
-              },
-              {
-                "reference": "prerequisite",
-                "prerequisite": "MR 1",
-                "offset": "+6m"
+                "reference": "dob",
+                "offset": "+450d",
+                "window": "+30d"
               }
             ],
             "conditions": [
@@ -530,15 +545,9 @@
           "MR 2": {
             "due": [
               {
-                "reference": "prerequisite",
-                "prerequisite": "MR 1",
-                "offset": "+6m",
-                "window": "+8m"
-              },
-              {
-                "reference": "prerequisite",
-                "prerequisite": "Measles 1",
-                "offset": "+6m"
+                "reference": "dob",
+                "offset": "+450d",
+                "window": "+30d"
               }
             ],
             "conditions": [
