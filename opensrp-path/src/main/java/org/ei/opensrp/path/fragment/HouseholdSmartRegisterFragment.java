@@ -196,7 +196,7 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
     public void setupViews(View view) {
         super.setupViews(view);
         view.findViewById(R.id.btn_report_month).setVisibility(INVISIBLE);
-        view.findViewById(R.id.service_mode_selection).setVisibility(INVISIBLE);
+        view.findViewById(R.id.service_mode_selection).setVisibility(View.GONE);
         view.findViewById(R.id.global_search).setVisibility(View.GONE);
         view.findViewById(R.id.filter_selection).setVisibility(View.GONE);
         view.findViewById(R.id.filter_count).setVisibility(View.GONE);
@@ -300,13 +300,33 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
                 tableName + ".Date_Of_Reg",
                 tableName + ".address1"
         });
-        mainSelect = queryBUilder.mainCondition("");
+        mainSelect = queryBUilder.mainCondition(tablename+".id in (Select base_entity_id from ec_details where value like '%Bangladesh%') ");
         Sortqueries = ((CursorSortOption) getDefaultOptionsProvider().sortOption()).sort();
 
         currentlimit = 20;
         currentoffset = 0;
 
         super.filterandSortInInitializeQueries();
+        getClinicSelection().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                String newLocation = getClinicSelection().getText().toString();
+//                newLocation = "Bahadursadi:Ward-1:Kha-1:Kholapara C C-Kholapara";
+//                mainCondition =  PathConstants.CHILD_TABLE_NAME+".id in (Select base_entity_id from ec_details where value = '"+newLocation+"'))";
+                CountExecute();
+                filterandSortExecute();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         updateSearchView();
         refresh();

@@ -467,14 +467,6 @@
             "conditions": [
               {
                 "type": "not_given",
-                "vaccine": "MR 1"
-              },
-              {
-                "type": "not_given",
-                "vaccine": "MR 2"
-              },
-              {
-                "type": "not_given",
                 "vaccine": "Measles 2"
               }
             ]
@@ -488,14 +480,6 @@
               }
             ],
             "conditions": [
-              {
-                "type": "not_given",
-                "vaccine": "Measles 1"
-              },
-              {
-                "type": "not_given",
-                "vaccine": "MR 2"
-              },
               {
                 "type": "not_given",
                 "vaccine": "Measles 2"

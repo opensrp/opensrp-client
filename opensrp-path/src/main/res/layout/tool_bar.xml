@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/register_nav_bar_container"
     android:layout_width="match_parent"
@@ -8,7 +8,7 @@
     android:focusableInTouchMode="true"
     tools:showIn="@layout/smart_register_nav_bar_customized">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/back_btn_layout"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -48,17 +48,17 @@
             android:layout_centerInParent="true"
             android:visibility="gone"
             android:indeterminate="true" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/title_layout"
-        android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_toRightOf="@id/back_btn_layout"
         android:background="@android:color/transparent"
         android:orientation="horizontal"
         android:paddingLeft="2.5dp"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:layout_weight="1"
+        android:layout_width="wrap_content">
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
             android:id="@+id/txt_title_label"
@@ -68,7 +68,6 @@
             android:background="@android:color/transparent"
             android:ellipsize="end"
             android:singleLine="true"
-            android:maxWidth="@dimen/title_label_text_max_width"
             android:text="ZEIR"/>
 
         <org.ei.opensrp.view.customControls.CustomFontTextView
@@ -82,16 +81,12 @@
     </LinearLayout>
 
 
-    <ImageButton
-        android:id="@+id/global_search"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:layout_width="@dimen/smart_register_nav_bar_separator"
         android:layout_height="fill_parent"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/transparent_gray_background"
-        android:gravity="center"
-        android:paddingLeft="22dp"
-        android:paddingRight="22dp"
-        android:src="@drawable/ic_icon_search" />
+        android:scaleType="fitXY"
+        android:src="@drawable/separator"
+        android:visibility="gone" />
 
     <ImageButton
         android:id="@+id/filter_selection"
@@ -132,19 +127,16 @@
     <ImageView
         android:layout_width="@dimen/smart_register_nav_bar_separator"
         android:layout_height="fill_parent"
-        android:layout_toRightOf="@+id/sort_selection"
         android:scaleType="fitXY"
-        android:src="@drawable/separator"
-        android:visibility="gone" />
+        android:src="@drawable/separator" />
 
     <org.ei.opensrp.path.view.LocationPickerView
         android:id="@+id/clinic_selection"
         style="@style/CustomFontTextViewStyle.NavBar.Bold"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@id/title_layout"
         android:background="@drawable/transparent_gray_background"
+        android:layout_weight="1"
         android:gravity="center"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
@@ -156,19 +148,11 @@
         android:layout_toRightOf="@+id/clinic_selection"
         android:scaleType="fitXY"
         android:src="@drawable/separator" />
-    <ImageView
-        android:layout_width="@dimen/smart_register_nav_bar_separator"
-        android:layout_height="fill_parent"
-        android:layout_toRightOf="@+id/filter_selection"
-        android:scaleType="fitXY"
-        android:src="@drawable/separator" />
 
     <ImageButton
         android:id="@+id/register_client"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_toRightOf="@id/clinic_selection"
-        android:layout_toLeftOf="@id/global_search"
         android:background="@drawable/transparent_gray_background"
         android:gravity="center"
         android:paddingLeft="22dp"
@@ -187,7 +171,9 @@
         android:layout_height="fill_parent"
         android:layout_toLeftOf="@+id/clinic_selection"
         android:scaleType="fitXY"
-        android:src="@drawable/separator" />
+        android:src="@drawable/separator"
+        android:visibility="gone"
+        />
 
     <org.ei.opensrp.view.customControls.CustomFontTextView
         android:id="@+id/service_mode_selection"
@@ -206,16 +192,23 @@
     <ImageView
         android:layout_width="@dimen/smart_register_nav_bar_separator"
         android:layout_height="fill_parent"
-        android:layout_toRightOf="@+id/service_mode_selection"
         android:scaleType="fitXY"
-        android:src="@drawable/separator"
-        android:visibility="gone" />
+        android:src="@drawable/separator" />
+
+    <ImageButton
+        android:id="@+id/global_search"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/transparent_gray_background"
+        android:gravity="center"
+        android:paddingLeft="22dp"
+        android:paddingRight="22dp"
+        android:src="@drawable/ic_icon_search" />
 
     <ImageView
         android:layout_width="@dimen/smart_register_nav_bar_separator"
         android:layout_height="fill_parent"
-        android:layout_toLeftOf="@+id/service_mode_selection"
         android:scaleType="fitXY"
-        android:src="@drawable/separator"
-        android:visibility="gone" />
-</RelativeLayout>
+        android:src="@drawable/separator" />
+</LinearLayout>

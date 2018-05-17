@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -213,7 +215,7 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
     public void setupViews(View view) {
         super.setupViews(view);
         view.findViewById(R.id.btn_report_month).setVisibility(INVISIBLE);
-        view.findViewById(R.id.service_mode_selection).setVisibility(INVISIBLE);
+        view.findViewById(R.id.service_mode_selection).setVisibility(View.GONE);
         view.findViewById(R.id.register_client).setVisibility(View.GONE);
         view.findViewById(R.id.global_search).setVisibility(View.GONE);
         view.findViewById(R.id.filter_selection).setVisibility(View.GONE);
@@ -331,6 +333,26 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
         currentoffset = 0;
 
         super.filterandSortInInitializeQueries();
+        getClinicSelection().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                String newLocation = getClinicSelection().getText().toString();
+//                newLocation = "Bahadursadi:Ward-1:Kha-1:Kholapara C C-Kholapara";
+//                mainCondition =  PathConstants.CHILD_TABLE_NAME+".id in (Select base_entity_id from ec_details where value = '"+newLocation+"'))";
+                CountExecute();
+                filterandSortExecute();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         updateSearchView();
         refresh();
