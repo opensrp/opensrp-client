@@ -25,6 +25,7 @@ import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.domain.Alert;
+import org.ei.opensrp.domain.AlertStatus;
 import org.ei.opensrp.domain.ServiceRecord;
 import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.domain.Vaccine;
@@ -92,6 +93,8 @@ import util.VaccinatorUtils;
 
 import static util.Utils.getName;
 import static util.Utils.getValue;
+import static util.VaccinatorUtils.generateScheduleList;
+import static util.VaccinatorUtils.receivedVaccines;
 
 /**
  * Created by Jason Rogena - jrogena@ona.io on 16/02/2017.
@@ -195,6 +198,20 @@ public class ChildImmunizationActivity extends BaseActivity
     @Override
     protected void onResume() {
         super.onResume();
+        if (vaccineGroups != null) {
+            LinearLayout vaccineGroupCanvasLL = (LinearLayout) findViewById(R.id.vaccine_group_canvas_ll);
+            vaccineGroupCanvasLL.removeAllViews();
+            vaccineGroups = null;
+        }
+
+        if (serviceGroups != null) {
+            LinearLayout serviceGroupCanvasLL = (LinearLayout) findViewById(R.id.service_group_canvas_ll);
+            serviceGroupCanvasLL.removeAllViews();
+            serviceGroups = null;
+        }
+        updateViews();
+    }
+    public void refreshviews(){
         if (vaccineGroups != null) {
             LinearLayout vaccineGroupCanvasLL = (LinearLayout) findViewById(R.id.vaccine_group_canvas_ll);
             vaccineGroupCanvasLL.removeAllViews();
@@ -977,6 +994,7 @@ public class ChildImmunizationActivity extends BaseActivity
         private List<String> affectedVaccines;
         private List<Vaccine> vaccineList;
         private List<Alert> alertList;
+        boolean measles2given = false;
 
         public void setView(View view) {
             this.view = view;
@@ -1005,6 +1023,9 @@ public class ChildImmunizationActivity extends BaseActivity
 
             updateVaccineGroupsUsingAlerts(affectedVaccines, vaccineList, alertList);
             showVaccineNotifications(vaccineList, alertList);
+            if(measles2given) {
+                refreshviews();
+            }
         }
 
         @Override
@@ -1026,10 +1047,23 @@ public class ChildImmunizationActivity extends BaseActivity
                 affectedVaccines = VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "child");
             }
 
+
+            Map<String, Date> recievedVaccines = receivedVaccines(vaccineList);
             vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
             alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
                     VaccinateActionUtils.allAlertNames("child"));
 
+            for(int i = 0;i < vaccineList.size();i++){
+                if(vaccineList.get(i).getName().equalsIgnoreCase("measles 2")){
+                    measles2given = true;
+                }
+                if(vaccineList.get(i).getName().equalsIgnoreCase("mr 2")){
+                    measles2given = true;
+                }
+            }
+            if(measles2given){
+                generateScheduleList("child", new DateTime(dobString), recievedVaccines, alertList);
+            }
             return pair;
         }
     }
@@ -1210,7 +1244,35 @@ public class ChildImmunizationActivity extends BaseActivity
             if (alertService != null) {
                 alertList = alertService.findByEntityId(childDetails.entityId());
             }
-
+            boolean measles2given = false;
+            for(int i = 0;i < vaccineList.size();i++){
+                if(vaccineList.get(i).getName().equalsIgnoreCase("measles 2")){
+                    measles2given = true;
+                }
+                if(vaccineList.get(i).getName().equalsIgnoreCase("mr 2")){
+                    measles2given = true;
+                }
+            }
+            if(measles2given){
+                int measles1index = -1;
+                int measles2index = -1;
+                for(int i = 0;i < alertList.size();i++){
+                    if(alertList.get(i).visitCode().equalsIgnoreCase("measles1")) {
+                        measles1index = i;
+                    }
+                }
+                for(int i = 0;i < alertList.size();i++){
+                    if(alertList.get(i).visitCode().equalsIgnoreCase("mr1")) {
+                        measles1index = i;
+                    }
+                }
+                if(measles1index != -1){
+                    alertList.remove(measles1index);
+                }
+                if(measles2index != -1){
+                    alertList.remove(measles2index);
+                }
+            }
             Map<String, NamedObject<?>> map = new HashMap<>();
 
             NamedObject<List<Vaccine>> vaccineNamedObject = new NamedObject<>(Vaccine.class.getName(), vaccineList);
@@ -1241,6 +1303,7 @@ public class ChildImmunizationActivity extends BaseActivity
         private List<Vaccine> vaccineList;
         private List<Alert> alertList;
         private List<String> affectedVaccines;
+        boolean measles2given = false;
 
         public UndoVaccineTask(VaccineWrapper tag, View v) {
             this.tag = tag;
@@ -1266,10 +1329,22 @@ public class ChildImmunizationActivity extends BaseActivity
                     String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
                     if (!TextUtils.isEmpty(dobString)) {
                         DateTime dateTime = new DateTime(dobString);
+                        Map<String, Date> recievedVaccines = receivedVaccines(vaccineList);
                         affectedVaccines = VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), dateTime, "child");
                         vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
                         alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
                                 VaccinateActionUtils.allAlertNames("child"));
+                        if(tag.getName().equalsIgnoreCase("measles 2")){
+                                measles2given = true;
+                                                    }
+                        if(tag.getName().equalsIgnoreCase("mr 2")){
+                                measles2given = true;
+                            }
+
+                        if(measles2given){
+                            generateScheduleList("child", new DateTime(dobString), recievedVaccines, alertList);
+                        }
+
                     }
                 }
             }
@@ -1315,6 +1390,10 @@ public class ChildImmunizationActivity extends BaseActivity
             updateVaccineGroupViews(view, wrappers, vaccineList, true);
             updateVaccineGroupsUsingAlerts(affectedVaccines, vaccineList, alertList);
             showVaccineNotifications(vaccineList, alertList);
+            if(measles2given){
+                refreshviews();
+            }
+
         }
     }
 

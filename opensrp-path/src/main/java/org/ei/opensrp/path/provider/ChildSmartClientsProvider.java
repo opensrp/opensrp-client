@@ -224,6 +224,24 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
                 sch.remove(indexOFfIPV1schedule);
             }
         }
+//        int indexofopv4 = -1;
+//        for(int i = 0;i < sch.size();i++){
+//            if(((VaccineRepo.Vaccine)sch.get(i).get("vaccine")).equals(VaccineRepo.Vaccine.opv4)){
+//                indexofopv4 = i;
+//            }
+//        }
+//        if(indexofopv4 != -1){
+//            sch.remove(indexofopv4);
+//        }
+//        int indexofipv = -1;
+//        for(int i = 0;i < sch.size();i++){
+//            if(((VaccineRepo.Vaccine)sch.get(i).get("vaccine")).equals(VaccineRepo.Vaccine.ipv)){
+//                indexofipv = i;
+//            }
+//        }
+//        if(indexofipv != -1){
+//            sch.remove(indexofipv);
+//        }
 
         State state = State.FULLY_IMMUNIZED;
         String stateKey = null;

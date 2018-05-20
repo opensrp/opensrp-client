@@ -301,6 +301,9 @@ public class VaccinatorUtils {
 
     public static List<Map<String, Object>> generateSchedule(String category, DateTime milestoneDate, Map<String, String> received, List<Alert> alerts) {
         List<Map<String, Object>> schedule = new ArrayList();
+        boolean m1Given = false;
+        boolean m2Given = false;
+        boolean oGiven = false;
         try {
             ArrayList<Vaccine> vl = VaccineRepo.getVaccines(category);
             for (Vaccine v : vl) {
@@ -308,6 +311,14 @@ public class VaccinatorUtils {
                 DateTime recDate = getReceivedDate(received, v);
                 if (recDate != null) {
                     m = createVaccineMap("done", null, recDate, v);
+                    if (VaccineRepo.Vaccine.measles1.equals(v) || VaccineRepo.Vaccine.mr1.equals(v)) {
+                        m1Given = true;
+                    } else if (VaccineRepo.Vaccine.measles2.equals(v) || VaccineRepo.Vaccine.mr2.equals(v)) {
+                        m1Given = true;
+                        m2Given = true;
+                    } else if (VaccineRepo.Vaccine.opv0.equals(v) || VaccineRepo.Vaccine.opv4.equals(v)) {
+                        oGiven = true;
+                    }
                 } else if (milestoneDate != null && v.expiryDays() > 0 && milestoneDate.plusDays(v.expiryDays()).isBefore(DateTime.now())) {
                     m = createVaccineMap("expired", null, milestoneDate.plusDays(v.expiryDays()), v);
                 } else if (alerts.size() > 0) {
@@ -337,14 +348,53 @@ public class VaccinatorUtils {
 
                 schedule.add(m);
             }
+            List<Map<String, Object>> toRemove = retrieveNotDoneSchedule(schedule, m1Given, m2Given, oGiven);
+            if (toRemove != null && !toRemove.isEmpty()) {
+                schedule.removeAll(toRemove);
+            }
         } catch (Exception e) {
             Log.e(VaccinatorUtils.class.getName(), e.toString(), e);
         }
         return schedule;
     }
+    private static List<Map<String, Object>> retrieveNotDoneSchedule(List<Map<String, Object>> schedule, boolean m1Given, boolean m2Given, boolean oGiven) {
+        if (schedule == null || schedule.isEmpty() || (!m1Given && !m2Given && !oGiven)) {
+            return new ArrayList<>();
+        }
+
+        final String STATUS = "status";
+        final String VACCINE = "vaccine";
+        final String DONE = "done";
+        List<Map<String, Object>> toRemove = new ArrayList<>();
+
+        for (Map<String, Object> m : schedule) {
+            if (m == null ||
+                    m.get(STATUS) == null ||
+                    m.get(VACCINE) == null ||
+                    !(m.get(VACCINE) instanceof Vaccine) ||
+                    DONE.equalsIgnoreCase(m.get(STATUS).toString())) {
+                continue;
+            }
+
+            Vaccine v = (Vaccine) m.get(VACCINE);
+
+            if (m1Given && (VaccineRepo.Vaccine.measles1.equals(v) || VaccineRepo.Vaccine.mr1.equals(v))) {
+                toRemove.add(m);
+            } else if (m2Given && (VaccineRepo.Vaccine.measles2.equals(v) || VaccineRepo.Vaccine.mr2.equals(v))) {
+                toRemove.add(m);
+            } else if (oGiven && (VaccineRepo.Vaccine.opv0.equals(v) || VaccineRepo.Vaccine.opv4.equals(v))) {
+                toRemove.add(m);
+            }
+        }
+
+        return toRemove;
+    }
 
     public static List<Map<String, Object>> generateScheduleList(String category, DateTime milestoneDate, Map<String, Date> received, List<Alert> alerts) {
         List<Map<String, Object>> schedule = new ArrayList();
+        boolean m1Given = false;
+        boolean m2Given = false;
+        boolean oGiven = false;
         try {
             ArrayList<Vaccine> vl = VaccineRepo.getVaccines(category);
             for (Vaccine v : vl) {
@@ -352,6 +402,14 @@ public class VaccinatorUtils {
                 Date recDate = received.get(v.display().toLowerCase());
                 if (recDate != null) {
                     m = createVaccineMap("done", null, new DateTime(recDate), v);
+                    if (VaccineRepo.Vaccine.measles1.equals(v) || VaccineRepo.Vaccine.mr1.equals(v)) {
+                        m1Given = true;
+                    } else if (VaccineRepo.Vaccine.measles2.equals(v) || VaccineRepo.Vaccine.mr2.equals(v)) {
+                        m1Given = true;
+                        m2Given = true;
+                    } else if (VaccineRepo.Vaccine.opv0.equals(v) || VaccineRepo.Vaccine.opv4.equals(v)) {
+                        oGiven = true;
+                    }
                 } else if (alerts.size() > 0) {
                     for (Alert a : alerts) {
                         if (a.scheduleName().replaceAll(" ", "").equalsIgnoreCase(v.name())
@@ -379,6 +437,10 @@ public class VaccinatorUtils {
                 }
 
                 schedule.add(m);
+            }
+            List<Map<String, Object>> toRemove = retrieveNotDoneSchedule(schedule, m1Given, m2Given, oGiven);
+            if (toRemove != null && !toRemove.isEmpty()) {
+                schedule.removeAll(toRemove);
             }
         } catch (Exception e) {
             Log.e(VaccinatorUtils.class.getName(), e.toString(), e);
@@ -412,6 +474,7 @@ public class VaccinatorUtils {
 
                 schedule.add(m);
             }
+
 
         } catch (Exception e) {
             Log.e(VaccinatorUtils.class.getName(), e.toString(), e);
@@ -515,7 +578,7 @@ public class VaccinatorUtils {
         try {
             for (Map<String, Object> m : schedule) {
                 if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
-                    if (m.get("vaccine") != null && (((Vaccine) m.get("vaccine")).equals(Vaccine.bcg2) || ((Vaccine) m.get("vaccine")).equals(Vaccine.fipv1)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.ipv)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.rota1)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.rota2))) {
+                    if (m.get("vaccine") != null && (((Vaccine) m.get("vaccine")).equals(Vaccine.bcg2) || ((Vaccine) m.get("vaccine")).equals(Vaccine.fipv1)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.ipv)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.rota1)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.rota2)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.opv4))) {
                         // bcg2 is a special alert and should not be considered as the next vaccine
                         continue;
                     }
@@ -542,7 +605,7 @@ public class VaccinatorUtils {
         try {
             for (Map<String, Object> m : schedule) {
                 if (m != null && m.get("status") != null && m.get("status").toString().equalsIgnoreCase("due")) {
-                    if (m.get("vaccine") != null && (((Vaccine) m.get("vaccine")).equals(Vaccine.bcg2) || ((Vaccine) m.get("vaccine")).equals(Vaccine.fipv1)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.ipv)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.rota1)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.rota2))) {
+                    if (m.get("vaccine") != null && (((Vaccine) m.get("vaccine")).equals(Vaccine.bcg2) || ((Vaccine) m.get("vaccine")).equals(Vaccine.fipv1)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.ipv)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.rota1)|| ((Vaccine) m.get("vaccine")).equals(Vaccine.rota2) || ((Vaccine) m.get("vaccine")).equals(Vaccine.rota2))) {
                         // bcg2 is a special alert and should not be considered as the next vaccine
                         continue;
                     }

@@ -23,8 +23,8 @@ public class VaccineRepo {
         penta3("PENTA 3", penta2, 1830, 98, 28, "child"),
         pcv3("PCV 3", pcv2, 1830, 98, 28, "child"),
 
-        measles1("MEASLES 1", null, -1, 274, 0, "child"),
-        mr1("MR 1", null, -1, 274, 0, "child"),
+        measles1("MEASLES 1", null, -1, 270, 0, "child"),
+        mr1("MR 1", null, -1, 270, 0, "child"),
         opv4("OPV 4", null, 1830, 274, 28, "child"),
 
         measles2("MEASLES 2", measles1, -1, 548, 274, "child"),
