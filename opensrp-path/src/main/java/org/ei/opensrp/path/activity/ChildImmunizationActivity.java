@@ -1334,12 +1334,9 @@ public class ChildImmunizationActivity extends BaseActivity
                         vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
                         alertList = alertService.findByEntityIdAndAlertNames(childDetails.entityId(),
                                 VaccinateActionUtils.allAlertNames("child"));
-                        if(tag.getName().equalsIgnoreCase("measles 2")){
+                        if(tag.getName().equalsIgnoreCase("Measles 2 / MR 2")){
                                 measles2given = true;
                                                     }
-                        if(tag.getName().equalsIgnoreCase("mr 2")){
-                                measles2given = true;
-                            }
 
                         if(measles2given){
                             generateScheduleList("child", new DateTime(dobString), recievedVaccines, alertList);
