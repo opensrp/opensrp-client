@@ -1,18 +1,25 @@
 package org.ei.opensrp.path.sync;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+
 import org.ei.opensrp.AllConstants;
+import org.ei.opensrp.commonregistry.CommonRepository;
 import org.ei.opensrp.domain.DownloadStatus;
 import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.domain.ResponseStatus;
+import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Stock;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
@@ -20,9 +27,12 @@ import org.ei.opensrp.path.receiver.VaccinatorAlarmReceiver;
 import org.ei.opensrp.path.repository.BaseRepository;
 import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.StockRepository;
+import org.ei.opensrp.path.repository.VaccineRepository;
 import org.ei.opensrp.path.service.intent.PullUniqueIdsIntentService;
 import org.ei.opensrp.path.service.intent.ZScoreRefreshIntentService;
+import org.ei.opensrp.repository.AlertRepository;
 import org.ei.opensrp.repository.AllSharedPreferences;
+import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.service.ActionService;
 import org.ei.opensrp.service.AllFormVersionSyncService;
 import org.ei.opensrp.service.FormSubmissionSyncService;
@@ -41,6 +51,7 @@ import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -53,13 +64,16 @@ import static org.ei.opensrp.domain.FetchStatus.fetchedFailed;
 import static org.ei.opensrp.domain.FetchStatus.nothingFetched;
 import static org.ei.opensrp.util.Log.logError;
 import static org.ei.opensrp.util.Log.logInfo;
+import static util.VaccinatorUtils.receivedVaccines;
 
+import java.text.SimpleDateFormat;
 public class PathUpdateActionsTask {
     private static final String EVENTS_SYNC_PATH = "/rest/event/add";
     private static final String REPORTS_SYNC_PATH = "/rest/report/add";
     private static final String STOCK_Add_PATH = "/rest/stockresource/add/";
     private static final String STOCK_SYNC_PATH = "rest/stockresource/sync/";
     private static final String anouncement_PATH = "message-announcement";
+    private static final String send_anouncement_PATH = "send-announcement";
     private final LockingBackgroundTask task;
     private ActionService actionService;
     private Context context;
@@ -468,55 +482,273 @@ public class PathUpdateActionsTask {
     }
 
     public void sendAnouncement() {
-
-
         while (true) {
-
-            (new AsyncTask() {
-                boolean sentmessages = false;
-                @Override
-                protected Object doInBackground(Object[] params) {
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-                    AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
-                    String anmId = allSharedPreferences.fetchRegisteredANM();
-                    String baseUrl = org.ei.opensrp.Context.getInstance().configuration().dristhiBaseURL();
-                    if (baseUrl.endsWith("/")) {
-                        baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("/"));
-                    }
-                    String uri = format("{0}/{1}?provider={2}",
-                            baseUrl,
-                            anouncement_PATH,
-                            anmId
-                    );
-                    Response<String> response = httpAgent.fetch(uri);
-                    if(response.isFailure())
-
-                    {
-                        sentmessages = false;
-                        logError(format("error returned in calling anouncement"));
-                    }
-
-                    else if(response.status()==ResponseStatus.success)
-
-                    {
-                        sentmessages = true;
-                        logError(format("called anouncement"));
-                    }
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Object o) {
-                    super.onPostExecute(o);
-                    if(sentmessages){
-                        Toast.makeText(context,"anouncement messages sent",Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
-
-
-            ).execute();
+//            (new AsyncTask() {
+//                boolean sentmessages = false;
+//                @Override
+//                protected Object doInBackground(Object[] params) {
+//                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+//                    AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
+//                    String anmId = allSharedPreferences.fetchRegisteredANM();
+//                    String baseUrl = org.ei.opensrp.Context.getInstance().configuration().dristhiBaseURL();
+//                    if (baseUrl.endsWith("/")) {
+//                        baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("/"));
+//                    }
+//                    String uri = format("{0}/{1}?provider={2}",
+//                            baseUrl,
+//                            anouncement_PATH,
+//                            anmId
+//                    );
+//                    Response<String> response = httpAgent.fetch(uri);
+//                    if(response.isFailure())
+//
+//                    {
+//                        sentmessages = false;
+//                        logError(format("error returned in calling anouncement"));
+//                    }
+//
+//                    else if(response.status()==ResponseStatus.success)
+//
+//                    {
+//                        sentmessages = true;
+//                        logError(format("called anouncement"));
+//                    }
+//                    return null;
+//                }
+//
+//                @Override
+//                protected void onPostExecute(Object o) {
+//                    super.onPostExecute(o);
+//                    if(sentmessages){
+//                        Toast.makeText(context,"anouncement messages sent",Toast.LENGTH_LONG).show();
+//                    }
+//                }
+//            }
+//            ).execute();
+            sendAnnouncementForBenificiaries();
             return;
         }
+    }
+    public void sendAnnouncementForBenificiaries(){
+        (new AsyncTask() {
+            boolean sentmessages = false;
+            @Override
+            protected Object doInBackground(Object[] params) {
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
+                String anmId = allSharedPreferences.fetchRegisteredANM();
+                String baseUrl = org.ei.opensrp.Context.getInstance().configuration().dristhiBaseURL();
+                if (baseUrl.endsWith("/")) {
+                    baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf("/"));
+                }
+                String uri = format("{0}/{1}?provider={2}",
+                        baseUrl,
+                        send_anouncement_PATH,
+                        anmId
+                );
+                String jsonPayload = createPayloadForAnouncement();
+                Response<String> response = httpAgent.post(uri,jsonPayload);
+                if(response.isFailure())
+
+                {
+                    sentmessages = false;
+                    logError(format("error returned in calling anouncement"));
+                }
+
+                else if(response.status()==ResponseStatus.success)
+
+                {
+                    sentmessages = true;
+                    logError(format("called anouncement"));
+                }
+                return null;
+            }
+
+            private String createPayloadForAnouncement() {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                Date today = new Date();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(today);
+                cal.add(Calendar.DATE,-(20*365));
+                today = cal.getTime();
+                cal.add(Calendar.DATE,1+(20*365));
+                Date tomorrow = cal.getTime();
+                String entityID = "";
+                JSONArray payloadArray = new JSONArray();
+                CommonRepository commonRepository = org.ei.opensrp.Context.getInstance().commonrepository("ec_child");
+                Cursor cursor = commonRepository.RawCustomQueryForAdapter("select * from alerts where alerts.caseID in (Select id from ec_child) and (date(startDate) between date ('"+format.format(today.getTime())+"') and date ('"+format.format(tomorrow.getTime())+"')) and (scheduleName not like '%ITN%' and scheduleName not like '%Deworming%' and scheduleName not like '%Vit A%' and scheduleName not like '%ROTA%' and scheduleName not like '%OPV 4%') and (alerts.status = 'normal' or alerts.status = 'urgent' or alerts.status = 'upcoming') order by caseID ");
+                cursor.moveToFirst();
+                String vaccines = "";
+                String mobileno = "";
+                JSONObject anouncementObject = new JSONObject();
+                Map<String, Date> recievedVaccinesmap = null;
+                try {
+                    while (!cursor.isAfterLast()) {
+
+                                String previousEntityID = entityID;
+                        entityID = cursor.getString(0);
+                        String startdate = format.format(tomorrow.getTime());
+                        if(!entityID.equalsIgnoreCase(previousEntityID)){
+                            if(previousEntityID.equalsIgnoreCase("")){
+                                previousEntityID = entityID;
+                                VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
+                                List<Vaccine> vaccinesgiven = vaccineRepository.findByEntityId(entityID);
+                                recievedVaccinesmap = receivedVaccines(vaccinesgiven);
+
+                                Cursor phonenumbercursor = commonRepository.RawCustomQueryForAdapter("select ec_details.value from ec_details where key = 'phoneNumber' and ec_details.base_entity_id in (select id from ec_mother where id in (Select ec_child.relational_id from ec_child where ec_child.base_entity_id = '"+entityID+"'))");
+                                phonenumbercursor.moveToFirst();
+                                if(!phonenumbercursor.isAfterLast()){
+                                    mobileno = phonenumbercursor.getString(0);
+                                }
+                                phonenumbercursor.close();
+
+                                vaccines = addToVaccine(vaccines,recievedVaccinesmap,cursor.getString(2));
+                            }else{
+
+                                anouncementObject.put("baseEntityId",previousEntityID);
+                                anouncementObject.put("mobileNo",mobileno);
+                                anouncementObject.put("clientType","child");
+                                anouncementObject.put("vaccinationDate",startdate);
+                                anouncementObject.put("vaccineDue",vaccines);
+                                payloadArray.put(anouncementObject);
+                                vaccines = "";
+                                startdate = format.format(tomorrow.getTime());
+                                previousEntityID = entityID;
+                                Cursor phonenumbercursor = commonRepository.RawCustomQueryForAdapter("select ec_details.value from ec_details where key = 'phoneNumber' and ec_details.base_entity_id in (select id from ec_mother where id in (Select ec_child.relational_id from ec_child where ec_child.base_entity_id = '"+entityID+"'))");
+                                phonenumbercursor.moveToFirst();
+                                if(!phonenumbercursor.isAfterLast()){
+                                    mobileno = phonenumbercursor.getString(0);
+                                }
+                                phonenumbercursor.close();
+                                VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
+                                List<Vaccine> vaccinesgiven = vaccineRepository.findByEntityId(entityID);
+                                recievedVaccinesmap = receivedVaccines(vaccinesgiven);
+                                anouncementObject = new JSONObject();
+                                vaccines = addToVaccine(vaccines,recievedVaccinesmap,cursor.getString(2));
+                            }
+                        }else{
+                            vaccines = addToVaccine(vaccines,recievedVaccinesmap,cursor.getString(2));
+                        }
+                        cursor.moveToNext();
+                        if(cursor.isAfterLast() && !vaccines.equalsIgnoreCase("")){
+                            anouncementObject.put("baseEntityId",previousEntityID);
+                            anouncementObject.put("mobileNo",mobileno);
+                            anouncementObject.put("clientType","child");
+                            anouncementObject.put("vaccinationDate",startdate);
+                            anouncementObject.put("vaccineDue",vaccines);
+                            payloadArray.put(anouncementObject);
+                        }
+                    }
+                    cursor.close();
+
+                    entityID = "";
+                    cursor = commonRepository.RawCustomQueryForAdapter("select * from alerts where alerts.caseID in (Select id from ec_mother) and (date(startDate) between date ('"+format.format(today.getTime())+"') and date ('"+format.format(tomorrow.getTime())+"')) and (scheduleName not like '%ITN%' and scheduleName not like '%Deworming%' and scheduleName not like '%Vit A%' and scheduleName not like '%ROTA%' and scheduleName not like '%OPV 4%') and (alerts.status = 'normal' or alerts.status = 'urgent' or alerts.status = 'upcoming') order by caseID ");
+                    cursor.moveToFirst();
+                    vaccines = "";
+                    mobileno = "";
+                    anouncementObject = new JSONObject();
+                        while (!cursor.isAfterLast()) {
+                            String previousEntityID = entityID;
+                            entityID = cursor.getString(0);
+                            String startdate = format.format(tomorrow.getTime());
+                            if(!entityID.equalsIgnoreCase(previousEntityID)){
+                                if(previousEntityID.equalsIgnoreCase("")){
+                                    previousEntityID = entityID;
+                                    VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
+                                    List<Vaccine> vaccinesgiven = vaccineRepository.findByEntityId(entityID);
+                                    recievedVaccinesmap = receivedVaccines(vaccinesgiven);
+                                    Cursor phonenumbercursor = commonRepository.RawCustomQueryForAdapter("select ec_details.value from ec_details where key = 'phoneNumber' and ec_details.base_entity_id = '"+entityID+"'");
+                                    phonenumbercursor.moveToFirst();
+                                    if(!phonenumbercursor.isAfterLast()){
+                                        mobileno = phonenumbercursor.getString(0);
+                                    }
+                                    phonenumbercursor.close();
+                                    vaccines = addToVaccine(vaccines,recievedVaccinesmap,cursor.getString(2));
+                                }else{
+
+                                    anouncementObject.put("baseEntityId",previousEntityID);
+                                    anouncementObject.put("mobileNo",mobileno);
+                                    anouncementObject.put("clientType","mother");
+                                    anouncementObject.put("vaccinationDate",startdate);
+                                    anouncementObject.put("vaccineDue",vaccines);
+                                    payloadArray.put(anouncementObject);
+                                    vaccines = "";
+                                    startdate = format.format(tomorrow.getTime());
+                                    previousEntityID = entityID;
+                                    Cursor phonenumbercursor = commonRepository.RawCustomQueryForAdapter("select ec_details.value from ec_details where key = 'phoneNumber' and ec_details.base_entity_id = '"+entityID+"'");
+                                    phonenumbercursor.moveToFirst();
+                                    if(!phonenumbercursor.isAfterLast()){
+                                        mobileno = phonenumbercursor.getString(0);
+                                    }
+                                    phonenumbercursor.close();
+                                    VaccineRepository vaccineRepository = VaccinatorApplication.getInstance().vaccineRepository();
+                                    List<Vaccine> vaccinesgiven = vaccineRepository.findByEntityId(entityID);
+                                    recievedVaccinesmap = receivedVaccines(vaccinesgiven);
+                                    anouncementObject = new JSONObject();
+                                    vaccines = addToVaccine(vaccines,recievedVaccinesmap,cursor.getString(2));
+                                }
+                            }else{
+                                vaccines = addToVaccine(vaccines,recievedVaccinesmap,cursor.getString(2));
+                            }
+                            cursor.moveToNext();
+                            if(cursor.isAfterLast() && !vaccines.equalsIgnoreCase("")){
+                                anouncementObject.put("baseEntityId",previousEntityID);
+                                anouncementObject.put("mobileNo",mobileno);
+                                anouncementObject.put("clientType","child");
+                                anouncementObject.put("vaccinationDate",startdate);
+                                anouncementObject.put("vaccineDue",vaccines);
+                                payloadArray.put(anouncementObject);
+                            }
+                        }
+                        cursor.close();
+                }catch (Exception e){
+                    cursor.close();
+                }
+
+                return payloadArray.toString();
+            }
+
+            private String addToVaccine(String vaccines, Map<String, Date> recievedVaccinesmap, String string) {
+                String givenstring = string.replaceAll("(?<=[A-Za-z])(?=[0-9])|(?<=[0-9])(?=[A-Za-z])", " ");
+                if(vaccines.equalsIgnoreCase("")){
+                    if(recievedVaccinesmap.get(string.replaceAll("(?<=[A-Za-z])(?=[0-9])|(?<=[0-9])(?=[A-Za-z])", " "))!=null || string.equalsIgnoreCase("bcg2")){
+
+                    }else {
+                        vaccines = string;
+                    }
+                }else{
+                    if(recievedVaccinesmap.get(string.replaceAll("(?<=[A-Za-z])(?=[0-9])|(?<=[0-9])(?=[A-Za-z])", " "))!=null|| string.equalsIgnoreCase("bcg2")){
+
+                    }else {
+                        vaccines = vaccines + ","+string;
+                    }
+                }
+                return vaccines;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                if(sentmessages){
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+                    builder1.setTitle("Announcement");
+                    builder1.setMessage("anouncement messages sent");
+                    builder1.setCancelable(true);
+                    builder1.setNeutralButton(android.R.string.ok,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+//                    Toast.makeText(context,"anouncement messages sent",Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+
+
+        ).execute();
     }
 }
