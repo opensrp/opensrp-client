@@ -103,8 +103,8 @@ public class BaseSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
         }catch (Exception e){
             Log.e(getClass().getName(), e.toString(), e);
         }
-        String newLocation = clinicSelection.getSelectedItem();
-        query = query.replace(" WHERE "," WHERE "+tablename+".id in (Select base_entity_id from ec_details where value like '%"+newLocation+"%') and ");
+//        String newLocation = clinicSelection.getSelectedItem();
+//        query = query.replace(" WHERE "," WHERE "+tablename+".id in (Select base_entity_id from ec_details where value like '%"+newLocation+"%') and ");
         return query;
     }
 
@@ -125,8 +125,8 @@ public class BaseSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
                 query = sqb.orderbyCondition(Sortqueries);
                 query = sqb.Endquery(query);
             }
-            String newLocation = clinicSelection.getSelectedItem();
-            query = query.replace(" WHERE "," WHERE "+tablename+".id in (Select base_entity_id from ec_details where value like '%"+newLocation+"%') and ");
+//            String newLocation = clinicSelection.getSelectedItem();
+//            query = query.replace(" WHERE "," WHERE "+tablename+".id in (Select base_entity_id from ec_details where value like '%"+newLocation+"%') and ");
 
             Log.i(getClass().getName(), query);
             c = commonRepository().RawCustomQueryForAdapter(query);

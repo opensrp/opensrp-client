@@ -96,7 +96,7 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
 
             @Override
             public SortOption sortOption() {
-                return new CursorCommonObjectSort(getResources().getString(R.string.woman_alphabetical_sort), "last_interacted_with desc");
+                return new CursorCommonObjectSort(getResources().getString(R.string.woman_alphabetical_sort), "ec_child.last_interacted_with desc");
             }
 
             @Override
@@ -259,6 +259,25 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
 
         View globalSearchButton = mView.findViewById(R.id.global_search);
         globalSearchButton.setOnClickListener(clientActionHandler);
+        getClinicSelection().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                initializeQueries();
+                filterandSortExecute();
+                CountExecute();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
 
     }
 
@@ -287,6 +306,85 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
         return getClinicSelection();
     }
 
+//    public void initializeQueries() {
+//        String tableName = PathConstants.CHILD_TABLE_NAME;
+//        String parentTableName = PathConstants.MOTHER_TABLE_NAME;
+//
+//        ChildSmartClientsProvider hhscp = new ChildSmartClientsProvider(getActivity(),
+//                clientActionHandler, context().alertService(), VaccinatorApplication.getInstance().vaccineRepository(), VaccinatorApplication.getInstance().weightRepository());
+//        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, hhscp, Context.getInstance().commonrepository(tableName));
+//        clientsView.setAdapter(clientAdapter);
+//
+//        setTablename(tableName);
+//        SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
+//        countqueryBUilder.SelectInitiateMainTableCounts(tableName);
+//        mainCondition = " (dod is NULL OR dod = '') ";
+//        countSelect = countqueryBUilder.mainCondition(mainCondition);
+//        super.CountExecute();
+//        countOverDue();
+//        countDueOverDue();
+//
+//        final SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
+//        queryBUilder.SelectInitiateMainTable(tableName, new String[]{
+//                tableName + ".relationalid",
+//                tableName + ".details",
+//                tableName + ".openmrs_id",
+//                tableName + ".relational_id",
+//                tableName + ".first_name",
+//                tableName + ".last_name",
+//                tableName + ".gender",
+//                parentTableName + ".first_name as mother_first_name",
+//                parentTableName + ".last_name as mother_last_name",
+//                parentTableName + ".dob as mother_dob",
+//                parentTableName + ".nrc_number as mother_nrc_number",
+//                tableName + ".father_name",
+//                tableName + ".dob",
+//                tableName + ".epi_card_number",
+//                tableName + ".contact_phone_number",
+//                tableName + ".pmtct_status",
+//                tableName + ".provider_uc",
+//                tableName + ".provider_town",
+//                tableName + ".provider_id",
+//                tableName + ".provider_location_id",
+//                tableName + ".client_reg_date",
+//                tableName + ".last_interacted_with",
+//                tableName + ".inactive",
+//                tableName + ".lost_to_follow_up"
+//        });
+//        queryBUilder.customJoin("LEFT JOIN " + parentTableName + " ON  " + tableName + ".relational_id =  " + parentTableName + ".id");
+//        mainSelect = queryBUilder.mainCondition(mainCondition);
+//        Sortqueries = ((CursorSortOption) getDefaultOptionsProvider().sortOption()).sort();
+//
+//        currentlimit = 20;
+//        currentoffset = 0;
+//
+//        super.filterandSortInInitializeQueries();
+//        getClinicSelection().addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+////                String newLocation = getClinicSelection().getText().toString();
+////                newLocation = "Bahadursadi:Ward-1:Kha-1:Kholapara C C-Kholapara";
+////                mainCondition =  PathConstants.CHILD_TABLE_NAME+".id in (Select base_entity_id from ec_details where value = '"+newLocation+"'))";
+//                CountExecute();
+//                filterandSortExecute();
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
+//
+//
+//        updateSearchView();
+//        refresh();
+//    }
+
     public void initializeQueries() {
         String tableName = PathConstants.CHILD_TABLE_NAME;
         String parentTableName = PathConstants.MOTHER_TABLE_NAME;
@@ -299,7 +397,7 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
         setTablename(tableName);
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
         countqueryBUilder.SelectInitiateMainTableCounts(tableName);
-        mainCondition = " (dod is NULL OR dod = '') ";
+        mainCondition = " (dod is NULL OR dod = '') and "+tablename+".id in (Select base_entity_id from ec_details where value like '%"+getClinicSelection().getSelectedItem()+"%') ";
         countSelect = countqueryBUilder.mainCondition(mainCondition);
         super.CountExecute();
         countOverDue();
@@ -340,26 +438,6 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
         currentoffset = 0;
 
         super.filterandSortInInitializeQueries();
-        getClinicSelection().addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                String newLocation = getClinicSelection().getText().toString();
-//                newLocation = "Bahadursadi:Ward-1:Kha-1:Kholapara C C-Kholapara";
-//                mainCondition =  PathConstants.CHILD_TABLE_NAME+".id in (Select base_entity_id from ec_details where value = '"+newLocation+"'))";
-                CountExecute();
-                filterandSortExecute();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
 
 
         updateSearchView();
@@ -426,6 +504,34 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
     }
 
     public void updateSearchView() {
+        textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String motherTableName = PathConstants.MOTHER_TABLE_NAME;
+                String tablename = PathConstants.CHILD_TABLE_NAME;
+                filter("and ("+motherTableName+".openmrs_id like '%"+s.toString()+"%' or "+motherTableName+".epi_card_number like '%"+s.toString()+"%'" +
+                        "or "+motherTableName+".first_name like '%"+s.toString()+"%'"
+                        +"or "+motherTableName+".last_name like '%"+s.toString()+"%'"
+                        +"or "+motherTableName+".father_name like '%"+s.toString()+"%'"
+                        +"or "+motherTableName+".husband_name like '%"+s.toString()+"%'"
+                        +"or "+motherTableName+".contact_phone_number like '%"+s.toString()+"%'"
+                        +"or "+motherTableName+".id in (select ec_details.base_entity_id from ec_details where key = 'phoneNumber' and ec_details.value like '%"+s.toString()+"%')"
+                        +"or "+tablename+".first_name like '%"+s.toString()+"%'"
+                        +"or "+tablename+".openmrs_id like '%"+s.toString()+"%'"
+                        +"or "+tablename+".epi_card_number like '%"+s.toString()+"%'"
+                        +"or "+tablename+".last_name like '%"+s.toString()+"%'"
+                        +")" ,"","");
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
         getSearchView().removeTextChangedListener(textWatcher);
         getSearchView().addTextChangedListener(textWatcher);
     }
@@ -513,6 +619,68 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
         }
 
         return mainCondition + " ) ";
+    }
+
+    @Override
+    public String filterandSortQuery(){
+        SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(mainSelect);
+
+        String query = "";
+        try{
+//            if(isValidFilterForFts(commonRepository())){
+//                String sql = sqb.searchQueryFts(tablename, joinTable, mainCondition, filters, Sortqueries, currentlimit, currentoffset);
+//                List<String> ids = commonRepository().findSearchIds(sql);
+//                query = sqb.toStringFts(ids, tablename + "." + CommonRepository.ID_COLUMN, Sortqueries);
+//                query = sqb.Endquery(query);
+//            } else {
+            sqb.addCondition(filters);
+            query = sqb.orderbyCondition(Sortqueries);
+            query = sqb.Endquery(sqb.addlimitandOffset(query,currentlimit,currentoffset));
+
+//            }
+        }catch (Exception e){
+            Log.e(getClass().getName(), e.toString(), e);
+        }
+//        String newLocation = clinicSelection.getSelectedItem();
+//        query = query.replace(" WHERE "," WHERE "+tablename+".id in (Select base_entity_id from ec_details where value like '%"+newLocation+"%') and ");
+        return query;
+    }
+
+    @Override
+    public void CountExecute(){
+        Cursor c = null;
+
+        try {
+            SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(countSelect);
+            String query = "";
+//            if (isValidFilterForFts(commonRepository())) {
+//                String sql = sqb.countQueryFts(tablename, joinTable, mainCondition, filters);
+//                List<String> ids = commonRepository().findSearchIds(sql);
+//                query = sqb.toStringFts(ids, tablename + "." + CommonRepository.ID_COLUMN);
+//                query = sqb.Endquery(query);
+//            } else {
+            sqb.addCondition(filters);
+            query = sqb.orderbyCondition(Sortqueries);
+            query = sqb.Endquery(query);
+//            }
+//            String newLocation = clinicSelection.getSelectedItem();
+//            query = query.replace(" WHERE "," WHERE "+tablename+".id in (Select base_entity_id from ec_details where value like '%"+newLocation+"%') and ");
+
+            Log.i(getClass().getName(), query);
+            c = commonRepository().RawCustomQueryForAdapter(query);
+            c.moveToFirst();
+            totalcount = c.getInt(0);
+            Log.v("total count here", "" + totalcount);
+            currentlimit = 20;
+            currentoffset = 0;
+
+        }catch (Exception e){
+            Log.e(getClass().getName(), e.toString(), e);
+        } finally {
+            if(c != null) {
+                c.close();
+            }
+        }
     }
 
 

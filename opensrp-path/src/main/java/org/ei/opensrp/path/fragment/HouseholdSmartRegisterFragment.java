@@ -244,7 +244,27 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
 
         View globalSearchButton = mView.findViewById(R.id.global_search);
         globalSearchButton.setOnClickListener(clientActionHandler);
+        getClinicSelection().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                String newLocation = getClinicSelection().getText().toString();
+//                newLocation = "Bahadursadi:Ward-1:Kha-1:Kholapara C C-Kholapara";
+//                mainCondition =  PathConstants.CHILD_TABLE_NAME+".id in (Select base_entity_id from ec_details where value = '"+newLocation+"'))";
+                initializeQueries();
+                filterandSortExecute();
+                CountExecute();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @Override
@@ -272,6 +292,66 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
         return getClinicSelection();
     }
 
+//    public void initializeQueries() {
+//        String tableName = "ec_household";
+//
+//        HouseholdSmartClientsProvider hhscp = new HouseholdSmartClientsProvider(getActivity(),
+//                clientActionHandler, context().alertService(), VaccinatorApplication.getInstance().vaccineRepository(), VaccinatorApplication.getInstance().weightRepository(),this);
+//        clientAdapter = new SmartRegisterPaginatedCursorAdapter(getActivity(), null, hhscp, Context.getInstance().commonrepository(tableName));
+//        clientsView.setAdapter(clientAdapter);
+//
+//        setTablename(tableName);
+//        SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
+//        countqueryBUilder.SelectInitiateMainTableCounts(tableName);
+//        countSelect = countqueryBUilder.mainCondition("");
+//        mainCondition = "";
+//        super.CountExecute();
+////        countOverDue();
+////        countDueOverDue();
+//
+//        SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
+//        queryBUilder.SelectInitiateMainTable(tableName, new String[]{
+//                tableName + ".relationalid",
+//                tableName + ".first_name",
+//                tableName + ".last_name",
+//                tableName + ".dob",
+//                tableName + ".details",
+//                tableName + ".HHID",
+//                tableName + ".Date_Of_Reg",
+//                tableName + ".address1"
+//        });
+//        mainSelect = queryBUilder.mainCondition(tablename+".id in (Select base_entity_id from ec_details where value like '%Bangladesh%') ");
+//        Sortqueries = ((CursorSortOption) getDefaultOptionsProvider().sortOption()).sort();
+//
+//        currentlimit = 20;
+//        currentoffset = 0;
+//
+//        super.filterandSortInInitializeQueries();
+//        getClinicSelection().addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+////                String newLocation = getClinicSelection().getText().toString();
+////                newLocation = "Bahadursadi:Ward-1:Kha-1:Kholapara C C-Kholapara";
+////                mainCondition =  PathConstants.CHILD_TABLE_NAME+".id in (Select base_entity_id from ec_details where value = '"+newLocation+"'))";
+//                filterandSortExecute();
+//                CountExecute();
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
+//
+//        updateSearchView();
+//        refresh();
+//    }
+
     public void initializeQueries() {
         String tableName = "ec_household";
 
@@ -283,8 +363,8 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
         setTablename(tableName);
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
         countqueryBUilder.SelectInitiateMainTableCounts(tableName);
-        countSelect = countqueryBUilder.mainCondition("");
-        mainCondition = "";
+        mainCondition = tablename+".id in (Select base_entity_id from ec_details where value like '%"+getClinicSelection().getSelectedItem()+"%') ";
+        countSelect = countqueryBUilder.mainCondition(mainCondition);
         super.CountExecute();
 //        countOverDue();
 //        countDueOverDue();
@@ -300,34 +380,13 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
                 tableName + ".Date_Of_Reg",
                 tableName + ".address1"
         });
-        mainSelect = queryBUilder.mainCondition(tablename+".id in (Select base_entity_id from ec_details where value like '%Bangladesh%') ");
+        mainSelect = queryBUilder.mainCondition(mainCondition);
         Sortqueries = ((CursorSortOption) getDefaultOptionsProvider().sortOption()).sort();
 
         currentlimit = 20;
         currentoffset = 0;
 
         super.filterandSortInInitializeQueries();
-        getClinicSelection().addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                String newLocation = getClinicSelection().getText().toString();
-//                newLocation = "Bahadursadi:Ward-1:Kha-1:Kholapara C C-Kholapara";
-//                mainCondition =  PathConstants.CHILD_TABLE_NAME+".id in (Select base_entity_id from ec_details where value = '"+newLocation+"'))";
-                CountExecute();
-                filterandSortExecute();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
         updateSearchView();
         refresh();
     }
@@ -365,7 +424,7 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                filter("Where ((first_name Like '%"+s.toString()+"%' or HHID Like '%"+s.toString()+"%')" +
+                filter("and ((first_name Like '%"+s.toString()+"%' or HHID Like '%"+s.toString()+"%')" +
                         " or ec_household.id in (select ec_mother.relational_id from ec_mother where ec_mother.first_name like '%" +s.toString()+"%' or ec_mother.openmrs_id like '%" +s.toString()+"%')" +
                         "or ec_household.id in (select ec_mother.relational_id from ec_mother where ec_mother.id in (select ec_child.relational_id from ec_child where ec_child.first_name like '%" +s.toString()+"%' or ec_child.openmrs_id like '%" +s.toString()+"%')))"
                         ,"","");
