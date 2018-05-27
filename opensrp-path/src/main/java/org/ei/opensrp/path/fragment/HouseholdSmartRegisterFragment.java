@@ -258,6 +258,8 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
                 initializeQueries();
                 filterandSortExecute();
                 CountExecute();
+                updateSearchView();
+                refresh();
             }
 
             @Override

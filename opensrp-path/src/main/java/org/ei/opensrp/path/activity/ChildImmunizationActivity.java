@@ -1022,7 +1022,7 @@ public class ChildImmunizationActivity extends BaseActivity
             }
 
             updateVaccineGroupsUsingAlerts(affectedVaccines, vaccineList, alertList);
-            showVaccineNotifications(vaccineList, alertList);
+//            showVaccineNotifications(vaccineList, alertList);
             if(measles2given) {
                 refreshviews();
             }

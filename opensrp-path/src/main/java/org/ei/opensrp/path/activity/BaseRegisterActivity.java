@@ -2,6 +2,7 @@ package org.ei.opensrp.path.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
@@ -19,6 +20,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import net.sqlcipher.Cursor;
+
+import org.ei.opensrp.Context;
+import org.ei.opensrp.commonregistry.CommonRepository;
 import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
@@ -377,6 +382,9 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
 //                finish();
             }
         });
+        TextView childregisterTextView = (TextView)drawer.findViewById(R.id.child_registertextview);
+        assignChildCount(childregisterTextView);
+
         LinearLayout householdregister = (LinearLayout) drawer.findViewById(R.id.household_register);
         householdregister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -391,6 +399,9 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
 //                finish();
             }
         });
+        TextView householdregisterTextView = (TextView)drawer.findViewById(R.id.household_registertextview);
+        assignHouseholdCount(householdregisterTextView);
+
         LinearLayout womanregister = (LinearLayout) drawer.findViewById(R.id.woman_register);
         womanregister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -405,6 +416,8 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
 //                finish();
             }
         });
+        TextView womanregisterTextView = (TextView)drawer.findViewById(R.id.woman_registertextview);
+        assignWomanCount(womanregisterTextView);
 
         /////disabling buttons
         outofcatchment.setVisibility(View.GONE);
@@ -412,6 +425,69 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
         hia2.setVisibility(View.GONE);
         addchild.setVisibility(View.GONE);
 
+    }
+
+    private void assignHouseholdCount(final TextView householdregisterTextView) {
+        (new AsyncTask(){
+            int count = 0;
+            @Override
+            protected Object doInBackground(Object[] params) {
+                CommonRepository repository = Context.getInstance().commonrepository("ec_household");
+                android.database.Cursor cursor = repository.RawCustomQueryForAdapter("Select count(*) from ec_household");
+                cursor.moveToFirst();
+                count = Integer.parseInt(cursor.getString(0));
+                cursor.close();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                householdregisterTextView.setText(householdregisterTextView.getText().toString()+"("+count+")");
+            }
+        }).execute();
+    }
+
+    private void assignWomanCount(final TextView womanregisterTextView) {
+        (new AsyncTask(){
+            int count = 0;
+            @Override
+            protected Object doInBackground(Object[] params) {
+                CommonRepository repository = Context.getInstance().commonrepository("ec_mother");
+                android.database.Cursor cursor = repository.RawCustomQueryForAdapter("Select count(*) from ec_mother");
+                cursor.moveToFirst();
+                count = Integer.parseInt(cursor.getString(0));
+                cursor.close();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                womanregisterTextView.setText(womanregisterTextView.getText().toString()+"("+count+")");
+            }
+        }).execute();
+    }
+
+    private void assignChildCount(final TextView childregisterTextView) {
+        (new AsyncTask(){
+            int count = 0;
+            @Override
+            protected Object doInBackground(Object[] params) {
+                CommonRepository repository = Context.getInstance().commonrepository("ec_child");
+                android.database.Cursor cursor = repository.RawCustomQueryForAdapter("Select count(*) from ec_child");
+                cursor.moveToFirst();
+                count = Integer.parseInt(cursor.getString(0));
+                cursor.close();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                childregisterTextView.setText(childregisterTextView.getText().toString()+"("+count+")");
+            }
+        }).execute();
     }
 
     private void updateLastSyncText() {

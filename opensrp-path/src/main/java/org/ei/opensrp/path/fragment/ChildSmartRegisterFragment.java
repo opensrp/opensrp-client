@@ -270,6 +270,8 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
                 initializeQueries();
                 filterandSortExecute();
                 CountExecute();
+                updateSearchView();
+                refresh();
             }
 
             @Override

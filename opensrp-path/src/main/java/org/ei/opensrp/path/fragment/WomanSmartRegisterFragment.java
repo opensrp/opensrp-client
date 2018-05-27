@@ -278,6 +278,8 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
                 initializeQueries();
                 filterandSortExecute();
                 CountExecute();
+                updateSearchView();
+                refresh();
             }
 
             @Override
