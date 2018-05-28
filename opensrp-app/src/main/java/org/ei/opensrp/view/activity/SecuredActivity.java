@@ -14,6 +14,7 @@ import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.R;
 import org.ei.opensrp.event.Listener;
+import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.view.controller.ANMController;
 import org.ei.opensrp.view.controller.FormController;
 import org.ei.opensrp.view.controller.NavigationController;
@@ -32,6 +33,7 @@ public abstract class SecuredActivity extends AppCompatActivity {
     protected ANMController anmController;
     protected NavigationController navigationController;
     protected final int MENU_ITEM_LOGOUT = 2312;
+    protected final int MENU_ITEM_LOGOUT_and_refresh_anm = 2313;
     private String metaData;
 
     @Override
@@ -82,6 +84,12 @@ public abstract class SecuredActivity extends AppCompatActivity {
             application.logoutCurrentUser();
 
             return super.onOptionsItemSelected(item);
+        } else if (i == MENU_ITEM_LOGOUT_and_refresh_anm) {
+        DrishtiApplication application = (DrishtiApplication)getApplication();
+            application.context.allSharedPreferences().updateANMUserName("");
+        application.logoutCurrentUser();
+
+        return super.onOptionsItemSelected(item);
         } else {
             return super.onOptionsItemSelected(item);
         }
@@ -94,6 +102,7 @@ public abstract class SecuredActivity extends AppCompatActivity {
      */
     protected void attachLogoutMenuItem(Menu menu) {
         menu.add(0, MENU_ITEM_LOGOUT, menu.size(), R.string.logout_text);
+        menu.add(0, MENU_ITEM_LOGOUT_and_refresh_anm, menu.size(),"Logout and Refresh");
     }
 
     @Override

@@ -76,7 +76,9 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
         View itemView;
         itemView = convertView;
 //        itemView = (ViewGroup) inflater().inflate(R.layout.smart_register_mcare_anc_client, null);
-        LinearLayout profileinfolayout = (LinearLayout)itemView.findViewById(R.id.profile_info_layout);
+        if ((itemView.getTag(R.id.anclayoutclient) != null && !itemView.getTag(R.id.anclayoutclient).equals(smartRegisterClient))||itemView.getTag(R.id.anclayoutclient)==null) {
+
+            LinearLayout profileinfolayout = (LinearLayout)itemView.findViewById(R.id.profile_info_layout);
 
         ImageView profilepic = (ImageView)itemView.findViewById(R.id.profilepic);
         TextView name = (TextView)itemView.findViewById(R.id.name);
@@ -193,6 +195,8 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
 
 
         itemView.setLayoutParams(clientViewLayoutParams);
+            itemView.setTag(R.id.anclayoutclient, smartRegisterClient);
+        }
     }
 
     @Override
@@ -537,14 +541,53 @@ public class mCareANCSmartClientsProvider implements SmartRegisterCLientsProvide
 
         CustomFontTextView ancreminderDueDate = (CustomFontTextView)itemView.findViewById(R.id.anc_reminder_due_date);
         setalerttextandColorInView(ancreminderDueDate, alerttextstatus,pc);
-        if((pc.getDetails().get("FWANC4DATE")!=null) && ancreminderDueDate.getText().toString().contains("ANC4")){
+        if((pc.getDetails().get("FWANC4DATE")!=null) && (ancreminderDueDate.getText().toString().contains("ANC4")||
+        ancreminderDueDate.getText().toString().contains("ANC3")||
+                ancreminderDueDate.getText().toString().contains("ANC2")||
+                ancreminderDueDate.getText().toString().contains("ANC1"))
+                ){
             ancreminderDueDate.setText("ANC4"+ "\n"+pc.getDetails().get("FWANC4DATE"));
-        }else if((pc.getDetails().get("FWANC3DATE")!=null)&& ancreminderDueDate.getText().toString().contains("ANC3")){
+            ancreminderDueDate.setBackgroundColor(context.getResources().getColor(R.color.alert_complete_green_mcare));
+            ancreminderDueDate.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+            ancreminderDueDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }else if((pc.getDetails().get("FWANC3DATE")!=null)&& (ancreminderDueDate.getText().toString().contains("ANC3")||
+                ancreminderDueDate.getText().toString().contains("ANC2")||
+                ancreminderDueDate.getText().toString().contains("ANC1"))){
             ancreminderDueDate.setText("ANC3"+ "\n"+pc.getDetails().get("FWANC3DATE"));
-        }else if((pc.getDetails().get("FWANC2DATE")!=null)&& ancreminderDueDate.getText().toString().contains("ANC2")){
+            ancreminderDueDate.setBackgroundColor(context.getResources().getColor(R.color.alert_complete_green_mcare));
+            ancreminderDueDate.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+            ancreminderDueDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }else if((pc.getDetails().get("FWANC2DATE")!=null)&& (ancreminderDueDate.getText().toString().contains("ANC2")||
+                ancreminderDueDate.getText().toString().contains("ANC1"))){
             ancreminderDueDate.setText("ANC2"+ "\n"+pc.getDetails().get("FWANC2DATE"));
+            ancreminderDueDate.setBackgroundColor(context.getResources().getColor(R.color.alert_complete_green_mcare));
+            ancreminderDueDate.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+            ancreminderDueDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }else if((pc.getDetails().get("FWANC1DATE")!=null) && ancreminderDueDate.getText().toString().contains("ANC1")){
             ancreminderDueDate.setText("ANC1"+ "\n"+pc.getDetails().get("FWANC1DATE"));
+            ancreminderDueDate.setBackgroundColor(context.getResources().getColor(R.color.alert_complete_green_mcare));
+            ancreminderDueDate.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+            ancreminderDueDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
         ancreminderDueDate.setText(McareApplication.convertToEnglishDigits(ancreminderDueDate.getText().toString()));
 

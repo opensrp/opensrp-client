@@ -75,6 +75,7 @@ public class mCareChildSmartRegisterActivity extends SecuredNativeSmartRegisterA
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FormSubmissionService.isInRegister = true;
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 

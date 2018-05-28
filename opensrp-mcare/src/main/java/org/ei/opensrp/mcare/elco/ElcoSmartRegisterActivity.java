@@ -71,6 +71,7 @@ public class ElcoSmartRegisterActivity extends SecuredNativeSmartRegisterActivit
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FormSubmissionService.isInRegister = true;
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 

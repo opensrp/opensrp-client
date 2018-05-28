@@ -36,25 +36,35 @@ public class ActionService {
     }
 
     public FetchStatus fetchNewActions() {
-        String previousFetchIndex = allSettings.fetchPreviousFetchIndex();
-        Response<List<Action>> response = drishtiService.fetchNewActions(allSharedPreference.fetchRegisteredANM(), previousFetchIndex);
+        if(!FormSubmissionService.isInRegister) {
+            String previousFetchIndex = allSettings.fetchPreviousFetchIndex();
+            Response<List<Action>> response = drishtiService.fetchNewActions(allSharedPreference.fetchRegisteredANM(), previousFetchIndex);
 
-        if (response.isFailure()) {
-            return fetchedFailed;
+            if (response.isFailure()) {
+                return fetchedFailed;
+            }
+
+            if (response.payload().isEmpty()) {
+                return nothingFetched;
+            }
+
+            handleActions(response);
+            response = null;
+            return FetchStatus.fetched;
+        }else{
+            return FetchStatus.fetchedFailed;
         }
-
-        if (response.payload().isEmpty()) {
-            return nothingFetched;
-        }
-
-        handleActions(response);
-        return FetchStatus.fetched;
     }
 
     private void handleActions(Response<List<Action>> response) {
         for (Action actionToUse : response.payload()) {
             try {
-                handleAction(actionToUse);
+                if(!FormSubmissionService.isInRegister) {
+                    handleAction(actionToUse);
+                }else{
+                    response = null;
+                    break;
+                }
             } catch (Exception e) {
                 Log.logError(format("Failed while handling action with target: {0} and exception: {1}", actionToUse.target(), e));
             }

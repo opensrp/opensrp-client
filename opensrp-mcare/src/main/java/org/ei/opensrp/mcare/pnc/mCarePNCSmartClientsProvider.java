@@ -75,20 +75,23 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
 
         itemView = convertView;
 
-//        itemView = (ViewGroup) inflater().inflate(R.layout.smart_register_mcare_pnc_client, null);
-        LinearLayout profileinfolayout = (LinearLayout)itemView.findViewById(R.id.profile_info_layout);
 
-        ImageView profilepic = (ImageView)itemView.findViewById(R.id.profilepic);
-        TextView name = (TextView)itemView.findViewById(R.id.name);
-        TextView spousename = (TextView)itemView.findViewById(R.id.spousename);
-        TextView gobhhid = (TextView)itemView.findViewById(R.id.gobhhid);
-        TextView jivitahhid = (TextView)itemView.findViewById(R.id.jivitahhid);
-        TextView village = (TextView)itemView.findViewById(R.id.village);
-        TextView age = (TextView)itemView.findViewById(R.id.age);
-        TextView nid = (TextView)itemView.findViewById(R.id.nid);
-        TextView brid = (TextView)itemView.findViewById(R.id.brid);
-        TextView delivery_outcome = (TextView)itemView.findViewById(R.id.deliveryoutcome);
-        TextView dateofdelivery = (TextView)itemView.findViewById(R.id.date_of_outcome);
+         if ((itemView.getTag(R.id.pnclayoutclient) != null && !itemView.getTag(R.id.pnclayoutclient).equals(smartRegisterClient))||itemView.getTag(R.id.pnclayoutclient)==null) {
+
+//        itemView = (ViewGroup) inflater().inflate(R.layout.smart_register_mcare_pnc_client, null);
+                LinearLayout profileinfolayout = (LinearLayout) itemView.findViewById(R.id.profile_info_layout);
+
+                ImageView profilepic = (ImageView) itemView.findViewById(R.id.profilepic);
+                TextView name = (TextView) itemView.findViewById(R.id.name);
+                TextView spousename = (TextView) itemView.findViewById(R.id.spousename);
+                TextView gobhhid = (TextView) itemView.findViewById(R.id.gobhhid);
+                TextView jivitahhid = (TextView) itemView.findViewById(R.id.jivitahhid);
+                TextView village = (TextView) itemView.findViewById(R.id.village);
+                TextView age = (TextView) itemView.findViewById(R.id.age);
+                TextView nid = (TextView) itemView.findViewById(R.id.nid);
+                TextView brid = (TextView) itemView.findViewById(R.id.brid);
+                TextView delivery_outcome = (TextView) itemView.findViewById(R.id.deliveryoutcome);
+                TextView dateofdelivery = (TextView) itemView.findViewById(R.id.date_of_outcome);
 
 //        TextView psrfdue = (TextView)itemView.findViewById(R.id.psrf_due_date);
 ////        Button due_visit_date = (Button)itemView.findViewById(R.id.hh_due_date);
@@ -96,84 +99,86 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
 //        ImageButton follow_up = (ImageButton)itemView.findViewById(R.id.btn_edit);
 
 
-        final CommonPersonObjectClient pc = (CommonPersonObjectClient) smartRegisterClient;
-        profilepic.setImageResource(org.ei.opensrp.R.drawable.woman_placeholder);
+                final CommonPersonObjectClient pc = (CommonPersonObjectClient) smartRegisterClient;
+                profilepic.setImageResource(org.ei.opensrp.R.drawable.woman_placeholder);
 
-        CommonPersonObject motherObject = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByCaseID(pc.entityId());
-        CommonPersonObject elco = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("elco").findByCaseID(motherObject.getRelationalId());
+                CommonPersonObject motherObject = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByCaseID(pc.entityId());
+                CommonPersonObject elco = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("elco").findByCaseID(motherObject.getRelationalId());
 
-        if(elco.getDetails().get("profilepic")!=null){
-            HouseHoldDetailActivity.setImagetoHolder((Activity) context, elco.getDetails().get("profilepic"), profilepic, R.mipmap.womanimageload);
-        }
+                if (elco.getDetails().get("profilepic") != null) {
+                    HouseHoldDetailActivity.setImagetoHolder((Activity) context, elco.getDetails().get("profilepic"), profilepic, R.mipmap.womanimageload);
+                }
 
-        profileinfolayout.setOnClickListener(onClickListener);
-        profileinfolayout.setTag(pc);
+                profileinfolayout.setOnClickListener(onClickListener);
+                profileinfolayout.setTag(pc);
 
 //        if(pc.getDetails().get("profilepic")!=null){
 //            HouseHoldDetailActivity.setImagetoHolder((Activity) context, pc.getDetails().get("profilepic"), profilepic, R.mipmap.woman_placeholder);
 //        }
 //
 //        id.setText(pc.getDetails().get("case_id")!=null?pc.getCaseId():"");
-        name.setText(humanize(pc.getColumnmaps().get("FWWOMFNAME")!=null?pc.getColumnmaps().get("FWWOMFNAME"):""));
-        spousename.setText(humanize(pc.getDetails().get("FWHUSNAME")!=null?pc.getDetails().get("FWHUSNAME"):""));
-        gobhhid.setText(" "+(pc.getColumnmaps().get("GOBHHID")!=null?pc.getColumnmaps().get("GOBHHID"):""));
-        jivitahhid.setText(pc.getColumnmaps().get("JiVitAHHID")!=null?pc.getColumnmaps().get("JiVitAHHID"):"");
-        village.setText(humanize((pc.getDetails().get("mauza") != null ? pc.getDetails().get("mauza") : "").replace("+", "_")));
+                name.setText(humanize(pc.getColumnmaps().get("FWWOMFNAME") != null ? pc.getColumnmaps().get("FWWOMFNAME") : ""));
+                spousename.setText(humanize(pc.getDetails().get("FWHUSNAME") != null ? pc.getDetails().get("FWHUSNAME") : ""));
+                gobhhid.setText(" " + (pc.getColumnmaps().get("GOBHHID") != null ? pc.getColumnmaps().get("GOBHHID") : ""));
+                jivitahhid.setText(pc.getColumnmaps().get("JiVitAHHID") != null ? pc.getColumnmaps().get("JiVitAHHID") : "");
+                village.setText(humanize((pc.getDetails().get("mauza") != null ? pc.getDetails().get("mauza") : "").replace("+", "_")));
 
-        AllCommonsRepository allmotherRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("mcaremother");
-        CommonPersonObject childobject = allmotherRepository.findByCaseID(smartRegisterClient.entityId());
-        AllCommonsRepository elcorep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("elco");
-        final CommonPersonObject elcoObject = elcorep.findByCaseID(childobject.getRelationalId());
+                AllCommonsRepository allmotherRepository = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("mcaremother");
+                CommonPersonObject childobject = allmotherRepository.findByCaseID(smartRegisterClient.entityId());
+                AllCommonsRepository elcorep = org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("elco");
+                final CommonPersonObject elcoObject = elcorep.findByCaseID(childobject.getRelationalId());
 
-        DateUtil.setDefaultDateFormat("yyyy-MM-dd");
-        age.setText("(" + pc.getDetails().get("FWWOMAGE")!=null ? pc.getDetails().get("FWWOMAGE") + ")" : "");
-        try {
-            int days = DateUtil.dayDifference(DateUtil.getLocalDate((elcoObject.getDetails().get("FWBIRTHDATE") != null ?  elcoObject.getDetails().get("FWBIRTHDATE")  : "")), DateUtil.today());
-            Log.v("days",""+days);
-            int calc_age = days / 365;
-            age.setText("("+calc_age+") ");
-        }catch (Exception e){
-            Log.e(getClass().getName(), "Exception", e);
-        }
+                DateUtil.setDefaultDateFormat("yyyy-MM-dd");
+                age.setText("(" + pc.getDetails().get("FWWOMAGE") != null ? pc.getDetails().get("FWWOMAGE") + ")" : "");
+                try {
+                    int days = DateUtil.dayDifference(DateUtil.getLocalDate((elcoObject.getDetails().get("FWBIRTHDATE") != null ? elcoObject.getDetails().get("FWBIRTHDATE") : "")), DateUtil.today());
+                    Log.v("days", "" + days);
+                    int calc_age = days / 365;
+                    age.setText("(" + calc_age + ") ");
+                } catch (Exception e) {
+                    Log.e(getClass().getName(), "Exception", e);
+                }
 
 
-        dateofdelivery.setText(pc.getColumnmaps().get("FWBNFDTOO")!=null?pc.getColumnmaps().get("FWBNFDTOO"):"");
-        String outcomevalue = pc.getColumnmaps().get("FWBNFSTS")!=null?pc.getColumnmaps().get("FWBNFSTS"):"";
-        delivery_outcome.setText("");
-        if(outcomevalue.equalsIgnoreCase("3")){
-            delivery_outcome.setText(context.getString(R.string.mcare_pnc_liveBirth));
-        }else if (outcomevalue.equalsIgnoreCase("4")){
-            delivery_outcome.setText(context.getString(R.string.mcare_pnc_Stillbirth));
-        }
+                dateofdelivery.setText(pc.getColumnmaps().get("FWBNFDTOO") != null ? pc.getColumnmaps().get("FWBNFDTOO") : "");
+                String outcomevalue = pc.getColumnmaps().get("FWBNFSTS") != null ? pc.getColumnmaps().get("FWBNFSTS") : "";
+                delivery_outcome.setText("");
+                if (outcomevalue.equalsIgnoreCase("3")) {
+                    delivery_outcome.setText(context.getString(R.string.mcare_pnc_liveBirth));
+                } else if (outcomevalue.equalsIgnoreCase("4")) {
+                    delivery_outcome.setText(context.getString(R.string.mcare_pnc_Stillbirth));
+                }
 
 
 //        delivery_outcome.setText(pc.getDetails().get("FWBNFSTS")!=null?pc.getDetails().get("FWBNFSTS"):"");
 
-        if((pc.getDetails().get("FWWOMNID") != null ? pc.getDetails().get("FWWOMNID") : "").length()>0) {
-            nid.setText(Html.fromHtml("NID:" + " " + (pc.getDetails().get("FWWOMNID") != null ? pc.getDetails().get("FWWOMNID") : "") ));
-            nid.setVisibility(View.VISIBLE);
-        }else{
-            nid.setVisibility(View.GONE);
-        }
-        if((pc.getDetails().get("FWWOMBID") != null ? pc.getDetails().get("FWWOMBID") : "").length()>0) {
-            brid.setText(Html.fromHtml("BRID:" + " " + (pc.getDetails().get("FWWOMBID") != null ? pc.getDetails().get("FWWOMBID") : "")));
-            brid.setVisibility(View.VISIBLE);
-        }else{
-            brid.setVisibility(View.GONE);
-        }
-          try {
-              dateofdelivery.setText("");
+                if ((pc.getDetails().get("FWWOMNID") != null ? pc.getDetails().get("FWWOMNID") : "").length() > 0) {
+                    nid.setText(Html.fromHtml("NID:" + " " + (pc.getDetails().get("FWWOMNID") != null ? pc.getDetails().get("FWWOMNID") : "")));
+                    nid.setVisibility(View.VISIBLE);
+                } else {
+                    nid.setVisibility(View.GONE);
+                }
+                if ((pc.getDetails().get("FWWOMBID") != null ? pc.getDetails().get("FWWOMBID") : "").length() > 0) {
+                    brid.setText(Html.fromHtml("BRID:" + " " + (pc.getDetails().get("FWWOMBID") != null ? pc.getDetails().get("FWWOMBID") : "")));
+                    brid.setVisibility(View.VISIBLE);
+                } else {
+                    brid.setVisibility(View.GONE);
+                }
+                try {
+                    dateofdelivery.setText("");
 //                    dateofdelivery.setText(Html.fromHtml("DOO:" +"<b> "+ (pc.getColumnmaps().get("FWBNFDTOO") != null ? pc.getColumnmaps().get("FWBNFDTOO") : "")+ "</b>"));
-                   dateofdelivery.setText(Html.fromHtml("" +" "+ doolay(pc)));
+                    dateofdelivery.setText(Html.fromHtml("" + " " + doolay(pc)));
 
-        } catch (Exception e) {
-              Log.e(getClass().getName(), "Exception", e);
-        }
-        itemView.setLayoutParams(clientViewLayoutParams);
-        constructRiskFlagView(pc, itemView);
-        constructPNCReminderDueBlock((pc.getColumnmaps().get("FWBNFDTOO") != null ? pc.getColumnmaps().get("FWBNFDTOO") : ""),pc, itemView);
+                } catch (Exception e) {
+                    Log.e(getClass().getName(), "Exception", e);
+                }
+                itemView.setLayoutParams(clientViewLayoutParams);
+                constructRiskFlagView(pc, itemView);
+                constructPNCReminderDueBlock((pc.getColumnmaps().get("FWBNFDTOO") != null ? pc.getColumnmaps().get("FWBNFDTOO") : ""), pc, itemView);
 //        constructNBNFDueBlock(pc, itemView);s
-        constructPncVisitStatusBlock(pc,itemView);
+                constructPncVisitStatusBlock(pc, itemView);
+                itemView.setTag(R.id.pnclayoutclient, smartRegisterClient);
+        }
 //        return itemView;
     }
     private String doolay(CommonPersonObjectClient ancclient) {
@@ -468,12 +473,39 @@ public class mCarePNCSmartClientsProvider implements SmartRegisterCLientsProvide
 
         CustomFontTextView pncreminderDueDate = (CustomFontTextView)itemView.findViewById(R.id.pnc_reminder_due_date);
         setalerttextandColorInView(pncreminderDueDate, alerttextstatus,pc);
-        if((pc.getDetails().get("FWPNC3DATE")!=null)&& pncreminderDueDate.getText().toString().contains("PNC3")){
+        if((pc.getDetails().get("FWPNC3DATE")!=null)&& (pncreminderDueDate.getText().toString().contains("PNC3")
+        ||pncreminderDueDate.getText().toString().contains("PNC2")
+                ||pncreminderDueDate.getText().toString().contains("PNC1"))
+        ){
             pncreminderDueDate.setText("PNC3"+ "\n"+pc.getDetails().get("FWPNC3DATE"));
-        }else if((pc.getDetails().get("FWPNC2DATE")!=null)&& pncreminderDueDate.getText().toString().contains("PNC2")){
+            pncreminderDueDate.setBackgroundColor(context.getResources().getColor(R.color.alert_complete_green_mcare));
+            pncreminderDueDate.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+            pncreminderDueDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }else if((pc.getDetails().get("FWPNC2DATE")!=null)&& (pncreminderDueDate.getText().toString().contains("PNC2")||pncreminderDueDate.getText().toString().contains("PNC1"))){
             pncreminderDueDate.setText("PNC2"+ "\n"+pc.getDetails().get("FWPNC2DATE"));
+            pncreminderDueDate.setBackgroundColor(context.getResources().getColor(R.color.alert_complete_green_mcare));
+            pncreminderDueDate.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+            pncreminderDueDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }else if((pc.getDetails().get("FWPNC1DATE")!=null) && pncreminderDueDate.getText().toString().contains("PNC1")){
             pncreminderDueDate.setText("PNC1"+ "\n"+pc.getDetails().get("FWPNC1DATE"));
+            pncreminderDueDate.setBackgroundColor(context.getResources().getColor(R.color.alert_complete_green_mcare));
+            pncreminderDueDate.setTextColor(context.getResources().getColor(R.color.status_bar_text_almost_white));
+            pncreminderDueDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
         pncreminderDueDate.setText(McareApplication.convertToEnglishDigits(pncreminderDueDate.getText().toString()));
 
