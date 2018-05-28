@@ -23,29 +23,29 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
 
        HashMap<String,String> anc1HashMap = new HashMap<String,String>();
        anc1HashMap.put("Completed",returnCountFromALertQueryForANC1Complete(from,to,"ancrv_1","complete",riskflag));
-       anc1HashMap.put("Due",returnCountFromALertQueryForANC(from,to,"ancrv_1","upcoming",riskflag));
-       anc1HashMap.put("Post Due",returnCountFromALertQueryForANC(from,to,"ancrv_1","urgent",riskflag));
+       anc1HashMap.put("Due",returnCountFromALertQueryForANCdue(from,to,"ancrv_1","upcoming",riskflag));
+       anc1HashMap.put("Post Due",returnCountFromALertQueryForANCdue(from,to,"ancrv_1","urgent",riskflag));
        anc1HashMap.put("Expired",returnCountFromALertQueryForANC1Expired(from,to,"ancrv_1","expired",riskflag));
        anchashMapHashMap.put("ANC1",anc1HashMap);
 
        HashMap<String,String> anc2HashMap = new HashMap<String,String>();
        anc2HashMap.put("Completed",returnCountFromALertQueryForANC2Complete(from,to,"ancrv_2","complete",riskflag));
-       anc2HashMap.put("Due",returnCountFromALertQueryForANC(from,to,"ancrv_2","upcoming",riskflag));
-       anc2HashMap.put("Post Due",returnCountFromALertQueryForANC(from,to,"ancrv_2","urgent",riskflag));
+       anc2HashMap.put("Due",returnCountFromALertQueryForANCdue(from,to,"ancrv_2","upcoming",riskflag));
+       anc2HashMap.put("Post Due",returnCountFromALertQueryForANCdue(from,to,"ancrv_2","urgent",riskflag));
        anc2HashMap.put("Expired",returnCountFromALertQueryForANC2Expired(from,to,"ancrv_2","expired",riskflag));
        anchashMapHashMap.put("ANC2",anc2HashMap);
 
        HashMap<String,String> anc3HashMap = new HashMap<String,String>();
        anc3HashMap.put("Completed",returnCountFromALertQueryForANC3Complete(from,to,"ancrv_3","complete",riskflag));
-       anc3HashMap.put("Due",returnCountFromALertQueryForANC(from,to,"ancrv_3","upcoming",riskflag));
-       anc3HashMap.put("Post Due",returnCountFromALertQueryForANC(from,to,"ancrv_3","urgent",riskflag));
+       anc3HashMap.put("Due",returnCountFromALertQueryForANCdue(from,to,"ancrv_3","upcoming",riskflag));
+       anc3HashMap.put("Post Due",returnCountFromALertQueryForANCdue(from,to,"ancrv_3","urgent",riskflag));
        anc3HashMap.put("Expired",returnCountFromALertQueryForANC3Expired(from,to,"ancrv_3","expired",riskflag));
        anchashMapHashMap.put("ANC3",anc3HashMap);
 
        HashMap<String,String> anc4HashMap = new HashMap<String,String>();
        anc4HashMap.put("Completed",returnCountFromALertQueryForANC4Complete(from,to,"ancrv_4","complete",riskflag));
-       anc4HashMap.put("Due",returnCountFromALertQueryForANC(from,to,"ancrv_4","upcoming",riskflag));
-       anc4HashMap.put("Post Due",returnCountFromALertQueryForANC(from,to,"ancrv_4","urgent",riskflag));
+       anc4HashMap.put("Due",returnCountFromALertQueryForANCdue(from,to,"ancrv_4","upcoming",riskflag));
+       anc4HashMap.put("Post Due",returnCountFromALertQueryForANCdue(from,to,"ancrv_4","urgent",riskflag));
        anc4HashMap.put("Expired",returnCountFromALertQueryForANC(from,to,"ancrv_4","expired",riskflag));
        anchashMapHashMap.put("ANC4",anc4HashMap);
 
@@ -177,11 +177,44 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
             return count;
         }
     }
+    public String returnCountFromALertQueryForANCdue(Date from, Date to, String visitcode, String status, String riskstatus){
+        if(riskstatus.equalsIgnoreCase("normal")) {
+            String count = "0";
+            CommonRepository commonRepository = Context.getInstance().commonrepository("household");
+            Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from mcaremother Left Join alerts on alerts.caseID = mcaremother.id where ( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%' and visitCode = '" + visitcode + "' and status = '" + status + "' and (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
+            cursor.moveToFirst();
+            try {
+                count = cursor.getString(0);
+                cursor.close();
+            } catch (Exception e) {
+                cursor.close();
+            }
+//        if(count.equalsIgnoreCase("0")&&visitcode.equalsIgnoreCase("ancrv_1")&&status.equalsIgnoreCase("complete")){
+//            cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from alerts where visitCode = '"+visitcode+"' and status = '"+status+"' and (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))");
+//        }
+            return count;
+        }else{
+            String count = "0";
+            CommonRepository commonRepository = Context.getInstance().commonrepository("household");
+            Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from mcaremother Left Join alerts on alerts.caseID = mcaremother.id where ( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%' and visitCode = '" + visitcode + "' and status = '" + status + "'and mcaremother.FWSORTVALUE>0 and (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
+            cursor.moveToFirst();
+            try {
+                count = cursor.getString(0);
+                cursor.close();
+            } catch (Exception e) {
+                cursor.close();
+            }
+//        if(count.equalsIgnoreCase("0")&&visitcode.equalsIgnoreCase("ancrv_1")&&status.equalsIgnoreCase("complete")){
+//            cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from alerts where visitCode = '"+visitcode+"' and status = '"+status+"' and (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))");
+//        }
+            return count;
+        }
+    }
     public String returnCountFromALertQueryForANC1Expired(Date from, Date to, String visitcode, String status, String riskstatus){
         if(riskstatus.equalsIgnoreCase("normal")) {
             String count = "0";
             CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-            Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count (*) from mcaremother Left Join alerts on alerts.caseID = mcaremother.id  where \n" +
+            Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count (*) from mcaremother Left Join alerts on alerts.caseID = mcaremother.id  where ( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%' and \n" +
                     "((visitcode = 'ancrv_1' and status = 'expired' and mcaremother.details not like '%ANC1DATE%' and  (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
                     "or (visitcode = 'ancrv_4' and status = 'upcoming' and mcaremother.details not like '%ANC1DATE%' and  (date(startDate,'-84 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
                     "or (visitcode = 'ancrv_4' and status = 'urgent' and mcaremother.details not like '%ANC1DATE%' and  (date(startDate,'-89 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
@@ -192,12 +225,25 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
                     "or (visitcode = 'ancrv_2' and status = 'upcoming' and mcaremother.details not like '%ANC1DATE%' and  (date(startDate,'-5 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))\n" +
                     "or (visitcode = 'ancrv_2' and status = 'urgent' and mcaremother.details not like '%ANC1DATE%' and  (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))\n" +
                     "or (visitcode = 'ancrv_2' and status = 'expired' and mcaremother.details not like '%ANC1DATE%' and  (date(startDate,'-56 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))\n" +
-                    "or (visitcode = 'ancrv_4' and status = 'complete' and mcaremother.details not like '%ANC1DATE%' and mcaremother.details like '%\"ANC4_current_formStatus\":\"upcoming\"%' and  (date(startDate,'-84 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
-                    "or (visitcode = 'ancrv_4' and status = 'complete' and mcaremother.details not like '%ANC1DATE%' and mcaremother.details like '%\"ANC4_current_formStatus\":\"urgent\"%' and  (date(startDate,'-89 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))\n" +
-                    "or (visitcode = 'ancrv_3' and status = 'complete' and mcaremother.details not like '%ANC1DATE%' and mcaremother.details like '%\"ANC3_current_formStatus\":\"upcoming\"%' and  (date(startDate,'-56 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
-                    "or (visitcode = 'ancrv_3' and status = 'complete' and mcaremother.details not like '%ANC1DATE%' and mcaremother.details like '%\"ANC3_current_formStatus\":\"urgent\"%' and  (date(startDate,'-61 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))\n" +
-                    "or (visitcode = 'ancrv_2' and status = 'complete' and mcaremother.details not like '%ANC1DATE%' and mcaremother.details like '%\"ANC2_current_formStatus\":\"upcoming\"%' and  (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
-                    "or (visitcode = 'ancrv_2' and status = 'complete' and mcaremother.details not like '%ANC1DATE%' and mcaremother.details like '%\"ANC2_current_formStatus\":\"urgent\"%' and  (date(startDate,'-5') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))  ");
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWANC4DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWANC4DATE%' and mcaremother.details  not like '%FWANC1DATE%') and mcaremother.details like '%\"ANC4_current_formStatus\":\"upcoming\"%' )) where (date(completedFWANC4DATE,'-84 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWANC4DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWANC4DATE%' and mcaremother.details  not like '%FWANC1DATE%') and mcaremother.details like '%\"ANC4_current_formStatus\":\"urgent\"%' )) where (date(completedFWANC4DATE,'-89 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWANC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWANC3DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWANC3DATE%' and mcaremother.details  not like '%FWANC1DATE%' and  mcaremother.details  not like '%FWANC4DATE%') and mcaremother.details like '%\"ANC3_current_formStatus\":\"upcoming\"%' )) where (date(completedFWANC3DATE,'-56 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWANC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWANC3DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWANC3DATE%' and mcaremother.details  not like '%FWANC1DATE%' and mcaremother.details  not like '%FWANC4DATE%') and mcaremother.details like '%\"ANC3_current_formStatus\":\"urgent\"%' )) where (date(completedFWANC3DATE,'-61 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWANC2DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWANC2DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWANC2DATE%' and mcaremother.details  not like '%FWANC1DATE%' and mcaremother.details  not like '%FWANC3DATE%' and mcaremother.details  not like '%FWANC4DATE%') and mcaremother.details like '%\"ANC2_current_formStatus\":\"upcoming\"%' )) where (date(completedFWANC2DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWANC2DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWANC2DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWANC2DATE%' and mcaremother.details  not like '%FWANC1DATE%' and mcaremother.details  not like '%FWANC3DATE%' and mcaremother.details  not like '%FWANC4DATE%') and mcaremother.details like '%\"ANC2_current_formStatus\":\"urgent\"%' )) where (date(completedFWANC2DATE,'-5 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    ")  ");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
@@ -213,7 +259,7 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
             String count = "0";
             CommonRepository commonRepository = Context.getInstance().commonrepository("household");
             Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count (*) from mcaremother Left Join alerts on alerts.caseID = mcaremother.id  where \n" +
-                    "mcaremother.FWSORTVALUE>0 and \n" +
+                    "mcaremother.FWSORTVALUE>0 and ( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%' and \n" +
                     "((visitcode = 'ancrv_1' and status = 'expired' and mcaremother.details not like '%ANC1DATE%' and  (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
                     "or (visitcode = 'ancrv_4' and status = 'upcoming' and mcaremother.details not like '%ANC1DATE%' and  (date(startDate,'-84 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
                     "or (visitcode = 'ancrv_4' and status = 'urgent' and mcaremother.details not like '%ANC1DATE%' and  (date(startDate,'-89 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
@@ -247,7 +293,7 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
         if(riskstatus.equalsIgnoreCase("normal")) {
             String count = "0";
             CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-            Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count (*) from mcaremother Left Join alerts on alerts.caseID = mcaremother.id  where \n" +
+            Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count (*) from mcaremother Left Join alerts on alerts.caseID = mcaremother.id  where ( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%' and \n" +
                     "((visitcode = 'ancrv_2' and status = 'expired' and mcaremother.details not like '%ANC2DATE%' and  (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
                     "or (visitcode = 'ancrv_4' and status = 'upcoming' and mcaremother.details not like '%ANC2DATE%' and  (date(startDate,'-28 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
                     "or (visitcode = 'ancrv_4' and status = 'urgent' and mcaremother.details not like '%ANC2DATE%' and  (date(startDate,'-33 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
@@ -274,7 +320,7 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
             String count = "0";
             CommonRepository commonRepository = Context.getInstance().commonrepository("household");
             Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count (*) from mcaremother Left Join alerts on alerts.caseID = mcaremother.id  where \n" +
-                    "mcaremother.FWSORTVALUE>0 and \n" +
+                    "mcaremother.FWSORTVALUE>0 and ( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%' and \n" +
                     "((visitcode = 'ancrv_2' and status = 'expired' and mcaremother.details not like '%ANC2DATE%' and  (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
                     "or (visitcode = 'ancrv_4' and status = 'upcoming' and mcaremother.details not like '%ANC2DATE%' and  (date(startDate,'-28 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
                     "or (visitcode = 'ancrv_4' and status = 'urgent' and mcaremother.details not like '%ANC2DATE%' and  (date(startDate,'-33 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
@@ -303,7 +349,7 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
         if(riskstatus.equalsIgnoreCase("normal")) {
             String count = "0";
             CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-            Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count (*) from mcaremother Left Join alerts on alerts.caseID = mcaremother.id  where \n" +
+            Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count (*) from mcaremother Left Join alerts on alerts.caseID = mcaremother.id  where ( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%' and \n" +
                     "((visitcode = 'ancrv_3' and status = 'expired' and mcaremother.details not like '%ANC3DATE%' and  (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
                     "or (visitcode = 'ancrv_4' and status = 'upcoming' and mcaremother.details not like '%ANC3DATE%' and  (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
                     "or (visitcode = 'ancrv_4' and status = 'urgent' and mcaremother.details not like '%ANC3DATE%' and  (date(startDate,'-5 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
@@ -324,7 +370,7 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
         }else{
             String count = "0";
             CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-            Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count (*) from mcaremother Left Join alerts on alerts.caseID = mcaremother.id  where \n" +
+            Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count (*) from mcaremother Left Join alerts on alerts.caseID = mcaremother.id  where ( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%' and \n" +
                     "mcaremother.FWSORTVALUE>0 and \n" +
                     "((visitcode = 'ancrv_3' and status = 'expired' and mcaremother.details not like '%ANC3DATE%' and  (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
                     "or (visitcode = 'ancrv_4' and status = 'upcoming' and mcaremother.details not like '%ANC3DATE%' and  (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
@@ -352,7 +398,7 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
             CommonRepository commonRepository = Context.getInstance().commonrepository("household");
             Cursor cursor = commonRepository.RawCustomQueryForAdapter("SELECT Count(*) FROM (SELECT SUBSTR(replaced, pos+4, 10) AS FWANC1DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
                     "   FROM (SELECT replace(mcaremother.details,'FWANC1DATE','^') as replaced\n" +
-                    "   FROM mcaremother where mcaremother.details like '%FWANC1DATE%')) where (date(FWANC1DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))");
+                    "   FROM mcaremother where mcaremother.details like '%FWANC1DATE%' and ( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%')) where (date(FWANC1DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
@@ -364,9 +410,9 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
         }else{
             String count = "0";
             CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-            Cursor cursor = commonRepository.RawCustomQueryForAdapter("SELECT Count(*) FROM (SELECT SUBSTR(replaced, pos+4, 10) AS FWANC2DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
-                    "   FROM (SELECT replace(mcaremother.details,'FWANC2DATE','^') as replaced\n" +
-                    "   FROM mcaremother where mcaremother.details like '%FWANC2DATE%' and mcaremother.FWSORTVALUE>0)) where (date(FWANC2DATE) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))");
+            Cursor cursor = commonRepository.RawCustomQueryForAdapter("SELECT Count(*) FROM (SELECT SUBSTR(replaced, pos+4, 10) AS FWANC1DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "   FROM (SELECT replace(mcaremother.details,'FWANC1DATE','^') as replaced\n" +
+                    "   FROM mcaremother where mcaremother.details like '%FWANC1DATE%' and mcaremother.FWSORTVALUE>0 and ( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%')) where (date(FWANC1DATE) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
@@ -384,7 +430,7 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
             CommonRepository commonRepository = Context.getInstance().commonrepository("household");
             Cursor cursor = commonRepository.RawCustomQueryForAdapter("SELECT Count(*) FROM (SELECT SUBSTR(replaced, pos+4, 10) AS FWANC2DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
                     "   FROM (SELECT replace(mcaremother.details,'FWANC2DATE','^') as replaced\n" +
-                    "   FROM mcaremother where mcaremother.details like '%FWANC2DATE%')) where (date(FWANC2DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))");
+                    "   FROM mcaremother where mcaremother.details like '%FWANC2DATE%' and ( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%')) where (date(FWANC2DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
@@ -398,7 +444,7 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
             CommonRepository commonRepository = Context.getInstance().commonrepository("household");
             Cursor cursor = commonRepository.RawCustomQueryForAdapter("SELECT Count(*) FROM (SELECT SUBSTR(replaced, pos+4, 10) AS FWANC2DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
                     "   FROM (SELECT replace(mcaremother.details,'FWANC2DATE','^') as replaced\n" +
-                    "   FROM mcaremother where mcaremother.details like '%FWANC2DATE%' and mcaremother.FWSORTVALUE>0)) where (date(FWANC2DATE) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))");
+                    "   FROM mcaremother where mcaremother.details like '%FWANC2DATE%' and mcaremother.FWSORTVALUE>0 and ( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%')) where (date(FWANC2DATE) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
@@ -416,7 +462,7 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
             CommonRepository commonRepository = Context.getInstance().commonrepository("household");
             Cursor cursor = commonRepository.RawCustomQueryForAdapter("SELECT Count(*) FROM (SELECT SUBSTR(replaced, pos+4, 10) AS FWANC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
                     "   FROM (SELECT replace(mcaremother.details,'FWANC3DATE','^') as replaced\n" +
-                    "   FROM mcaremother where mcaremother.details like '%FWANC3DATE%')) where (date(FWANC3DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))");
+                    "   FROM mcaremother where mcaremother.details like '%FWANC3DATE%' and ( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%')) where (date(FWANC3DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
@@ -430,7 +476,7 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
             CommonRepository commonRepository = Context.getInstance().commonrepository("household");
             Cursor cursor = commonRepository.RawCustomQueryForAdapter("SELECT Count(*) FROM (SELECT SUBSTR(replaced, pos+4, 10) AS FWANC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
                     "   FROM (SELECT replace(mcaremother.details,'FWANC3DATE','^') as replaced\n" +
-                    "   FROM mcaremother where mcaremother.details like '%FWANC3DATE%' and mcaremother.FWSORTVALUE>0)) where (date(FWANC3DATE) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))");
+                    "   FROM mcaremother where mcaremother.details like '%FWANC3DATE%' and mcaremother.FWSORTVALUE>0 and ( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%')) where (date(FWANC3DATE) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
@@ -448,7 +494,7 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
             CommonRepository commonRepository = Context.getInstance().commonrepository("household");
             Cursor cursor = commonRepository.RawCustomQueryForAdapter("SELECT Count(*) FROM (SELECT SUBSTR(replaced, pos+4, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
                     "   FROM (SELECT replace(mcaremother.details,'FWANC4DATE','^') as replaced\n" +
-                    "   FROM mcaremother where mcaremother.details like '%FWANC4DATE%')) where (date(FWANC4DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))");
+                    "   FROM mcaremother where mcaremother.details like '%FWANC4DATE%' and ( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%')) where (date(FWANC4DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
@@ -462,7 +508,7 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
             CommonRepository commonRepository = Context.getInstance().commonrepository("household");
             Cursor cursor = commonRepository.RawCustomQueryForAdapter("SELECT Count(*) FROM (SELECT SUBSTR(replaced, pos+4, 10) AS FWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
                     "   FROM (SELECT replace(mcaremother.details,'FWANC4DATE','^') as replaced\n" +
-                    "   FROM mcaremother where mcaremother.details like '%FWANC4DATE%' and mcaremother.FWSORTVALUE>0)) where (date(FWANC4DATE) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))");
+                    "   FROM mcaremother where mcaremother.details like '%FWANC4DATE%' and mcaremother.FWSORTVALUE>0 and ( Is_PNC is null or Is_PNC = '0') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%')) where (date(FWANC4DATE) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
