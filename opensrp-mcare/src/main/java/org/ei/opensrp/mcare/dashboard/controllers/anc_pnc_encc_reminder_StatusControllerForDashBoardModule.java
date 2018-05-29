@@ -314,10 +314,19 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
                     "or (visitcode = 'ancrv_3' and status = 'upcoming' and mcaremother.details not like '%ANC2DATE%' and  (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))\n" +
                     "or (visitcode = 'ancrv_3' and status = 'urgent' and mcaremother.details not like '%ANC2DATE%' and  (date(startDate,'-5 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))\n" +
                     "or (visitcode = 'ancrv_3' and status = 'expired' and mcaremother.details not like '%ANC2DATE%' and  (date(startDate,'-33') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))\n" +
-                    "or (visitcode = 'ancrv_4' and status = 'complete' and mcaremother.details not like '%ANC2DATE%' and mcaremother.details like '%\"ANC4_current_formStatus\":\"upcoming\"%' and  (date(startDate,'-84 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
-                    "or (visitcode = 'ancrv_4' and status = 'complete' and mcaremother.details not like '%ANC2DATE%' and mcaremother.details like '%\"ANC4_current_formStatus\":\"urgent\"%' and  (date(startDate,'-89 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))\n" +
-                    "or (visitcode = 'ancrv_3' and status = 'complete' and mcaremother.details not like '%ANC2DATE%' and mcaremother.details like '%\"ANC3_current_formStatus\":\"upcoming\"%' and  (date(startDate,'-56 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
-                    "or (visitcode = 'ancrv_3' and status = 'complete' and mcaremother.details not like '%ANC2DATE%' and mcaremother.details like '%\"ANC3_current_formStatus\":\"urgent\"%' and  (date(startDate,'-61 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))  ");
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWANC4DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWANC4DATE%' and mcaremother.details  not like '%FWANC2DATE%') and mcaremother.details like '%\"ANC4_current_formStatus\":\"upcoming\"%' )) where (date(completedFWANC4DATE,'-28 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWANC4DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWANC4DATE%' and mcaremother.details  not like '%FWANC2DATE%') and mcaremother.details like '%\"ANC4_current_formStatus\":\"urgent\"%' )) where (date(completedFWANC4DATE,'-33 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWANC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWANC3DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWANC3DATE%' and mcaremother.details  not like '%FWANC2DATE%' and  mcaremother.details  not like '%FWANC4DATE%') and mcaremother.details like '%\"ANC3_current_formStatus\":\"upcoming\"%' )) where (date(completedFWANC3DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWANC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWANC3DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWANC3DATE%' and mcaremother.details  not like '%FWANC2DATE%' and mcaremother.details  not like '%FWANC4DATE%') and mcaremother.details like '%\"ANC3_current_formStatus\":\"urgent\"%' )) where (date(completedFWANC3DATE,'-5 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    ")  ");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
@@ -341,10 +350,19 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
                     "or (visitcode = 'ancrv_3' and status = 'upcoming' and mcaremother.details not like '%ANC2DATE%' and  (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))\n" +
                     "or (visitcode = 'ancrv_3' and status = 'urgent' and mcaremother.details not like '%ANC2DATE%' and  (date(startDate,'-5 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))\n" +
                     "or (visitcode = 'ancrv_3' and status = 'expired' and mcaremother.details not like '%ANC2DATE%' and  (date(startDate,'-33') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))\n" +
-                    "or (visitcode = 'ancrv_4' and status = 'complete' and mcaremother.details not like '%ANC2DATE%' and mcaremother.details like '%\"ANC4_current_formStatus\":\"upcoming\"%' and  (date(startDate,'-84 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
-                    "or (visitcode = 'ancrv_4' and status = 'complete' and mcaremother.details not like '%ANC2DATE%' and mcaremother.details like '%\"ANC4_current_formStatus\":\"urgent\"%' and  (date(startDate,'-89 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))\n" +
-                    "or (visitcode = 'ancrv_3' and status = 'complete' and mcaremother.details not like '%ANC2DATE%' and mcaremother.details like '%\"ANC3_current_formStatus\":\"upcoming\"%' and  (date(startDate,'-56 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
-                    "or (visitcode = 'ancrv_3' and status = 'complete' and mcaremother.details not like '%ANC2DATE%' and mcaremother.details like '%\"ANC3_current_formStatus\":\"urgent\"%' and  (date(startDate,'-61 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))  ");
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWANC4DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWANC4DATE%' and mcaremother.details  not like '%FWANC2DATE%') and mcaremother.details like '%\"ANC4_current_formStatus\":\"upcoming\"%' )) where (date(completedFWANC4DATE,'-28 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWANC4DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWANC4DATE%' and mcaremother.details  not like '%FWANC2DATE%') and mcaremother.details like '%\"ANC4_current_formStatus\":\"urgent\"%' )) where (date(completedFWANC4DATE,'-33 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWANC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWANC3DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWANC3DATE%' and mcaremother.details  not like '%FWANC2DATE%' and  mcaremother.details  not like '%FWANC4DATE%') and mcaremother.details like '%\"ANC3_current_formStatus\":\"upcoming\"%' )) where (date(completedFWANC3DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWANC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWANC3DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWANC3DATE%' and mcaremother.details  not like '%FWANC2DATE%' and mcaremother.details  not like '%FWANC4DATE%') and mcaremother.details like '%\"ANC3_current_formStatus\":\"urgent\"%' )) where (date(completedFWANC3DATE,'-5 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    ")  ");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
@@ -367,8 +385,13 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
                     "or (visitcode = 'ancrv_4' and status = 'upcoming' and mcaremother.details not like '%ANC3DATE%' and  (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
                     "or (visitcode = 'ancrv_4' and status = 'urgent' and mcaremother.details not like '%ANC3DATE%' and  (date(startDate,'-5 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
                     "or (visitcode = 'ancrv_4' and status = 'expired' and mcaremother.details not like '%ANC3DATE%' and  (date(startDate,'-61 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))\n" +
-                    "or (visitcode = 'ancrv_4' and status = 'complete' and mcaremother.details not like '%ANC3DATE%' and mcaremother.details like '%\"ANC4_current_formStatus\":\"upcoming\"%' and  (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
-                    "or (visitcode = 'ancrv_4' and status = 'complete' and mcaremother.details not like '%ANC3DATE%' and mcaremother.details like '%\"ANC4_current_formStatus\":\"urgent\"%' and  (date(startDate,'-5 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))  ");
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWANC4DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWANC4DATE%' and mcaremother.details  not like '%FWANC3DATE%') and mcaremother.details like '%\"ANC4_current_formStatus\":\"upcoming\"%' )) where (date(completedFWANC4DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWANC4DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWANC4DATE%' and mcaremother.details  not like '%FWANC3DATE%') and mcaremother.details like '%\"ANC4_current_formStatus\":\"urgent\"%' )) where (date(completedFWANC4DATE,'-5 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    ")  ");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
@@ -389,8 +412,13 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
                     "or (visitcode = 'ancrv_4' and status = 'upcoming' and mcaremother.details not like '%ANC3DATE%' and  (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
                     "or (visitcode = 'ancrv_4' and status = 'urgent' and mcaremother.details not like '%ANC3DATE%' and  (date(startDate,'-5 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
                     "or (visitcode = 'ancrv_4' and status = 'expired' and mcaremother.details not like '%ANC3DATE%' and  (date(startDate,'-61 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))\n" +
-                    "or (visitcode = 'ancrv_4' and status = 'complete' and mcaremother.details not like '%ANC3DATE%' and mcaremother.details like '%\"ANC4_current_formStatus\":\"upcoming\"%' and  (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))) \n" +
-                    "or (visitcode = 'ancrv_4' and status = 'complete' and mcaremother.details not like '%ANC3DATE%' and mcaremother.details like '%\"ANC4_current_formStatus\":\"urgent\"%' and  (date(startDate,'-5 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))  ");
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWANC4DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWANC4DATE%' and mcaremother.details  not like '%FWANC3DATE%') and mcaremother.details like '%\"ANC4_current_formStatus\":\"upcoming\"%' )) where (date(completedFWANC4DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWANC4DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWANC4DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWANC4DATE%' and mcaremother.details  not like '%FWANC3DATE%') and mcaremother.details like '%\"ANC4_current_formStatus\":\"urgent\"%' )) where (date(completedFWANC4DATE,'-5 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    ")  ");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
@@ -640,10 +668,19 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
                     "or (visitcode = 'pncrv_2' and status = 'upcoming' and mcaremother.details not like '%PNC1DATE%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))\n" +
                     "or (visitcode = 'pncrv_2' and status = 'urgent' and mcaremother.details not like '%PNC1DATE%' and  (date(startDate,'-1 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))\n" +
                     "or (visitcode = 'pncrv_2' and status = 'expired' and mcaremother.details not like '%PNC1DATE%' and  (date(startDate,'-4 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))\n" +
-                    "or (visitcode = 'pncrv_3' and status = 'complete' and mcaremother.details not like '%PNC1DATE%' and mcaremother.details like '%\"pnc3_current_formStatus\":\"upcoming\"%' and  (date(startDate,'-4 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
-                    "or (visitcode = 'pncrv_3' and status = 'complete' and mcaremother.details not like '%PNC1DATE%' and mcaremother.details like '%\"pnc3_current_formStatus\":\"urgent\"%' and  (date(startDate,'-6 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
-                    "or (visitcode = 'pncrv_2' and status = 'complete' and mcaremother.details not like '%PNC1DATE%' and mcaremother.details like '%\"pnc2_current_formStatus\":\"upcoming\"%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
-                    "or (visitcode = 'pncrv_2' and status = 'complete' and mcaremother.details not like '%PNC1DATE%' and mcaremother.details like '%\"pnc2_current_formStatus\":\"urgent\"%' and  (date(startDate,'-1') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) ");
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWPNC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWPNC3DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWPNC3DATE%' and mcaremother.details  not like '%FWPNC1DATE%') and mcaremother.details like '%\"pnc3_current_formStatus\":\"upcoming\"%' )) where (date(completedFWPNC3DATE,'-4 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWPNC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWPNC3DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWPNC3DATE%' and mcaremother.details  not like '%FWPNC1DATE%') and mcaremother.details like '%\"pnc3_current_formStatus\":\"urgent\"%' )) where (date(completedFWPNC3DATE,'-6 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWPNC2DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWPNC2DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWPNC2DATE%' and mcaremother.details  not like '%FWPNC1DATE%' and mcaremother.details  not like '%FWPNC3DATE%') and mcaremother.details like '%\"pnc2_current_formStatus\":\"upcoming\"%' )) where (date(completedFWPNC2DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWPNC2DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWPNC2DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWPNC2DATE%' and mcaremother.details  not like '%FWPNC1DATE%' and mcaremother.details  not like '%FWPNC3DATE%') and mcaremother.details like '%\"pnc2_current_formStatus\":\"urgent\"%' )) where (date(completedFWPNC2DATE,'-1 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))" +
+                    ") ");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
@@ -663,10 +700,19 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
                     "or (visitcode = 'pncrv_2' and status = 'upcoming' and mcaremother.details not like '%PNC1DATE%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))\n" +
                     "or (visitcode = 'pncrv_2' and status = 'urgent' and mcaremother.details not like '%PNC1DATE%' and  (date(startDate,'-1 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))\n" +
                     "or (visitcode = 'pncrv_2' and status = 'expired' and mcaremother.details not like '%PNC1DATE%' and  (date(startDate,'-4 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))\n" +
-                    "or (visitcode = 'pncrv_3' and status = 'complete' and mcaremother.details not like '%PNC1DATE%' and mcaremother.details like '%\"pnc3_current_formStatus\":\"upcoming\"%' and  (date(startDate,'-4') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
-                    "or (visitcode = 'pncrv_3' and status = 'complete' and mcaremother.details not like '%PNC1DATE%' and mcaremother.details like '%\"pnc3_current_formStatus\":\"urgent\"%' and  (date(startDate,'-6') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
-                    "or (visitcode = 'pncrv_2' and status = 'complete' and mcaremother.details not like '%PNC1DATE%' and mcaremother.details like '%\"pnc2_current_formStatus\":\"upcoming\"%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
-                    "or (visitcode = 'pncrv_2' and status = 'complete' and mcaremother.details not like '%PNC1DATE%' and mcaremother.details like '%\"pnc2_current_formStatus\":\"urgent\"%' and  (date(startDate,'-1') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) ");
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWPNC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWPNC3DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWPNC3DATE%' and mcaremother.details  not like '%FWPNC1DATE%') and mcaremother.details like '%\"pnc3_current_formStatus\":\"upcoming\"%' )) where (date(completedFWPNC3DATE,'-4 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWPNC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWPNC3DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWPNC3DATE%' and mcaremother.details  not like '%FWPNC1DATE%') and mcaremother.details like '%\"pnc3_current_formStatus\":\"urgent\"%' )) where (date(completedFWPNC3DATE,'-6 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWPNC2DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWPNC2DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWPNC2DATE%' and mcaremother.details  not like '%FWPNC1DATE%' and mcaremother.details  not like '%FWPNC3DATE%') and mcaremother.details like '%\"pnc2_current_formStatus\":\"upcoming\"%' )) where (date(completedFWPNC2DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWPNC2DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWPNC2DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWPNC2DATE%' and mcaremother.details  not like '%FWPNC1DATE%' and mcaremother.details  not like '%FWPNC3DATE%') and mcaremother.details like '%\"pnc2_current_formStatus\":\"urgent\"%' )) where (date(completedFWPNC2DATE,'-1 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))" +
+                    ") ");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
@@ -687,8 +733,13 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
                     "(visitcode = 'pncrv_3' and status = 'upcoming' and mcaremother.details not like '%PNC2DATE%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
                     "or (visitcode = 'pncrv_3' and status = 'urgent' and mcaremother.details not like '%PNC2DATE%' and  (date(startDate,'-2 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
                     "or (visitcode = 'pncrv_3' and status = 'expired' and mcaremother.details not like '%PNC2DATE%' and  (date(startDate,'-3 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))\n" +
-                    "or (visitcode = 'pncrv_3' and status = 'complete' and mcaremother.details not like '%PNC2DATE%' and mcaremother.details like '%\"pnc3_current_formStatus\":\"upcoming\"%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
-                    "or (visitcode = 'pncrv_3' and status = 'complete' and mcaremother.details not like '%PNC2DATE%' and mcaremother.details like '%\"pnc3_current_formStatus\":\"urgent\"%' and  (date(startDate,'-2') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) ");
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWPNC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWPNC3DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWPNC3DATE%' and mcaremother.details  not like '%FWPNC2DATE%') and mcaremother.details like '%\"pnc3_current_formStatus\":\"upcoming\"%' )) where (date(completedFWPNC3DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWPNC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWPNC3DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWPNC3DATE%' and mcaremother.details  not like '%FWPNC2DATE%') and mcaremother.details like '%\"pnc3_current_formStatus\":\"urgent\"%' )) where (date(completedFWPNC3DATE,'-2 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))" +
+                    ") ");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
@@ -705,8 +756,13 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
                     "((visitcode = 'pncrv_3' and status = 'upcoming' and mcaremother.details not like '%PNC2DATE%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
                     "or (visitcode = 'pncrv_3' and status = 'urgent' and mcaremother.details not like '%PNC2DATE%' and  (date(startDate,'-2 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
                     "or (visitcode = 'pncrv_3' and status = 'expired' and mcaremother.details not like '%PNC2DATE%' and  (date(startDate,'-3 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))\n" +
-                    "or (visitcode = 'pncrv_3' and status = 'complete' and mcaremother.details not like '%PNC2DATE%' and mcaremother.details like '%\"pnc3_current_formStatus\":\"upcoming\"%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
-                    "or (visitcode = 'pncrv_3' and status = 'complete' and mcaremother.details not like '%PNC2DATE%' and mcaremother.details like '%\"pnc3_current_formStatus\":\"urgent\"%' and  (date(startDate,'-2') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))) ");
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWPNC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWPNC3DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWPNC3DATE%' and mcaremother.details  not like '%FWPNC2DATE%') and mcaremother.details like '%\"pnc3_current_formStatus\":\"upcoming\"%' )) where (date(completedFWPNC3DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWPNC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcaremother.details,'FWPNC3DATE','^') as replaced\n" +
+                    "  FROM mcaremother where (mcaremother.details like '%FWPNC3DATE%' and mcaremother.details  not like '%FWPNC2DATE%') and mcaremother.details like '%\"pnc3_current_formStatus\":\"urgent\"%' )) where (date(completedFWPNC3DATE,'-2 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "')))" +
+                    ") ");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
@@ -730,10 +786,19 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
                     "or (visitcode = 'enccrv_2' and status = 'upcoming' and mcarechild.details not like '%FWENC1DATE%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))\n" +
                     "or (visitcode = 'enccrv_2' and status = 'urgent' and mcarechild.details not like '%FWENC1DATE%' and  (date(startDate,'-1 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))\n" +
                     "or (visitcode = 'enccrv_2' and status = 'expired' and mcarechild.details not like '%FWENC1DATE%' and  (date(startDate,'-3 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))\n" +
-                    "or (visitcode = 'enccrv_3' and status = 'complete' and mcarechild.details not like '%FWENC1DATE%' and mcarechild.details like '%\"encc3_current_formStatus\":\"upcoming\"%' and  (date(startDate,'-4 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
-                    "or (visitcode = 'enccrv_3' and status = 'complete' and mcarechild.details not like '%FWENC1DATE%' and mcarechild.details like '%\"encc3_current_formStatus\":\"urgent\"%' and  (date(startDate,'-6 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
-                    "or (visitcode = 'enccrv_2' and status = 'complete' and mcarechild.details not like '%FWENC1DATE%' and mcarechild.details like '%\"encc2_current_formStatus\":\"upcoming\"%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
-                    "or (visitcode = 'enccrv_2' and status = 'complete' and mcarechild.details not like '%FWENC1DATE%' and mcarechild.details like '%\"encc2_current_formStatus\":\"urgent\"%' and  (date(startDate,'-1 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))) ");
+                    "or mcarechild.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWENC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcarechild.details,'FWENC3DATE','^') as replaced\n" +
+                    "  FROM mcarechild where (mcarechild.details like '%FWENC3DATE%' and mcarechild.details  not like '%FWENC1DATE%') and mcarechild.details like '%\"encc3_current_formStatus\":\"upcoming\"%' )) where (date(completedFWENC3DATE,'-4 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcarechild.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWENC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcarechild.details,'FWENC3DATE','^') as replaced\n" +
+                    "  FROM mcarechild where (mcarechild.details like '%FWENC3DATE%' and mcarechild.details  not like '%FWENC1DATE%') and mcarechild.details like '%\"encc3_current_formStatus\":\"urgent\"%' )) where (date(completedFWENC3DATE,'-6 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcarechild.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWENC2DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcarechild.details,'FWENC2DATE','^') as replaced\n" +
+                    "  FROM mcarechild where (mcarechild.details like '%FWENC2DATE%' and mcarechild.details  not like '%FWENC1DATE%' and mcarechild.details  not like '%FWENC3DATE%') and mcarechild.details like '%\"encc2_current_formStatus\":\"upcoming\"%' )) where (date(completedFWENC2DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcarechild.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWENC2DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcarechild.details,'FWENC2DATE','^') as replaced\n" +
+                    "  FROM mcarechild where (mcarechild.details like '%FWPNC2DATE%' and mcarechild.details  not like '%FWENC1DATE%' and mcarechild.details  not like '%FWENC3DATE%') and mcarechild.details like '%\"encc2_current_formStatus\":\"urgent\"%' )) where (date(completedFWENC2DATE,'-1 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    ")");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
@@ -753,10 +818,19 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
                     "or (visitcode = 'enccrv_2' and status = 'upcoming' and mcarechild.details not like '%FWENC1DATE%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))\n" +
                     "or (visitcode = 'enccrv_2' and status = 'urgent' and mcarechild.details not like '%FWENC1DATE%' and  (date(startDate,'-1 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))\n" +
                     "or (visitcode = 'enccrv_2' and status = 'expired' and mcarechild.details not like '%FWENC1DATE%' and  (date(startDate,'-3 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))\n" +
-                    "or (visitcode = 'enccrv_3' and status = 'complete' and mcarechild.details not like '%FWENC1DATE%' and mcarechild.details like '%\"encc3_current_formStatus\":\"upcoming\"%' and  (date(startDate,'-4 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
-                    "or (visitcode = 'enccrv_3' and status = 'complete' and mcarechild.details not like '%FWENC1DATE%' and mcarechild.details like '%\"encc3_current_formStatus\":\"urgent\"%' and  (date(startDate,'-6 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
-                    "or (visitcode = 'enccrv_2' and status = 'complete' and mcarechild.details not like '%FWENC1DATE%' and mcarechild.details like '%\"encc2_current_formStatus\":\"upcoming\"%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
-                    "or (visitcode = 'enccrv_2' and status = 'complete' and mcarechild.details not like '%FWENC1DATE%' and mcarechild.details like '%\"encc2_current_formStatus\":\"urgent\"%' and  (date(startDate,'-1 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))) ");
+                    "or mcarechild.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWENC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcarechild.details,'FWENC3DATE','^') as replaced\n" +
+                    "  FROM mcarechild where (mcarechild.details like '%FWENC3DATE%' and mcarechild.details  not like '%FWENC1DATE%') and mcarechild.details like '%\"encc3_current_formStatus\":\"upcoming\"%' )) where (date(completedFWENC3DATE,'-4 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcarechild.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWENC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcarechild.details,'FWENC3DATE','^') as replaced\n" +
+                    "  FROM mcarechild where (mcarechild.details like '%FWENC3DATE%' and mcarechild.details  not like '%FWENC1DATE%') and mcarechild.details like '%\"encc3_current_formStatus\":\"urgent\"%' )) where (date(completedFWENC3DATE,'-6 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcarechild.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWENC2DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcarechild.details,'FWENC2DATE','^') as replaced\n" +
+                    "  FROM mcarechild where (mcarechild.details like '%FWENC2DATE%' and mcarechild.details  not like '%FWENC1DATE%' and mcarechild.details  not like '%FWENC3DATE%') and mcarechild.details like '%\"encc2_current_formStatus\":\"upcoming\"%' )) where (date(completedFWENC2DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcarechild.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWENC2DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcarechild.details,'FWENC2DATE','^') as replaced\n" +
+                    "  FROM mcarechild where (mcarechild.details like '%FWENC2DATE%' and mcarechild.details  not like '%FWENC1DATE%' and mcarechild.details  not like '%FWENC3DATE%') and mcarechild.details like '%\"encc2_current_formStatus\":\"urgent\"%' )) where (date(completedFWENC2DATE,'-1 day') BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    ")");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
@@ -777,8 +851,13 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
                     "((visitcode = 'enccrv_3' and status = 'upcoming' and mcarechild.details not like '%FWENC2DATE%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
                     "or (visitcode = 'enccrv_3' and status = 'urgent' and mcarechild.details not like '%FWENC2DATE%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
                     "or (visitcode = 'enccrv_3' and status = 'expired' and mcarechild.details not like '%FWENC2DATE%' and  (date(startDate,'-2 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))\n" +
-                    "or (visitcode = 'enccrv_3' and status = 'complete' and mcarechild.details not like '%FWENC2DATE%' and mcarechild.details like '%\"encc3_current_formStatus\":\"upcoming\"%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
-                    "or (visitcode = 'enccrv_3' and status = 'complete' and mcarechild.details not like '%FWENC2DATE%' and mcarechild.details like '%\"encc3_current_formStatus\":\"urgent\"%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))) \n");
+                    "or mcarechild.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWENC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcarechild.details,'FWENC3DATE','^') as replaced\n" +
+                    "  FROM mcarechild where (mcarechild.details like '%FWENC3DATE%' and mcarechild.details  not like '%FWENC2DATE%') and mcarechild.details like '%\"encc3_current_formStatus\":\"upcoming\"%' )) where (date(completedFWENC3DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcarechild.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWENC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcarechild.details,'FWENC3DATE','^') as replaced\n" +
+                    "  FROM mcarechild where (mcarechild.details like '%FWENC3DATE%' and mcarechild.details  not like '%FWENC2DATE%') and mcarechild.details like '%\"encc3_current_formStatus\":\"urgent\"%' )) where (date(completedFWENC3DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    ") \n");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
@@ -795,8 +874,13 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
                     "((visitcode = 'enccrv_3' and status = 'upcoming' and mcarechild.details not like '%FWENC2DATE%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
                     "or (visitcode = 'enccrv_3' and status = 'urgent' and mcarechild.details not like '%FWENC2DATE%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
                     "or (visitcode = 'enccrv_3' and status = 'expired' and mcarechild.details not like '%FWENC2DATE%' and  (date(startDate,'-2 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))\n" +
-                    "or (visitcode = 'enccrv_3' and status = 'complete' and mcarechild.details not like '%FWENC2DATE%' and mcarechild.details like '%\"encc3_current_formStatus\":\"upcoming\"%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
-                    "or (visitcode = 'enccrv_3' and status = 'complete' and mcarechild.details not like '%FWENC2DATE%' and mcarechild.details like '%\"encc3_current_formStatus\":\"urgent\"%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))) \n");
+                    "or mcarechild.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWENC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcarechild.details,'FWENC3DATE','^') as replaced\n" +
+                    "  FROM mcarechild where (mcarechild.details like '%FWENC3DATE%' and mcarechild.details  not like '%FWENC2DATE%') and mcarechild.details like '%\"encc3_current_formStatus\":\"upcoming\"%' )) where (date(completedFWENC3DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    "or mcarechild.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWENC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
+                    "  FROM (SELECT *,replace(mcarechild.details,'FWENC3DATE','^') as replaced\n" +
+                    "  FROM mcarechild where (mcarechild.details like '%FWENC3DATE%' and mcarechild.details  not like '%FWENC2DATE%') and mcarechild.details like '%\"encc3_current_formStatus\":\"urgent\"%' )) where (date(completedFWENC3DATE) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))))" +
+                    ") \n");
             cursor.moveToFirst();
             try {
                 count = cursor.getString(0);
