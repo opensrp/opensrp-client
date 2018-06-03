@@ -80,7 +80,6 @@ android {
     compileSdkVersion androidCompileSdkVersion
     buildToolsVersion androidBuildToolsVersion
 
-
     defaultConfig {
         applicationId "org.ei.opensrp.mcare"
         minSdkVersion 18
@@ -109,13 +108,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
-
+            buildConfigField "long", "BUILD_TIMESTAMP", System.currentTimeMillis() + "L"
         }
         debug{
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
-
+            buildConfigField "long", "BUILD_TIMESTAMP", System.currentTimeMillis() + "L"
         }
     }
     dexOptions {
