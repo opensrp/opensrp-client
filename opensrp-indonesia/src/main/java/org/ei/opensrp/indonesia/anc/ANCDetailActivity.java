@@ -289,9 +289,8 @@ public class ANCDetailActivity extends Activity {
         nama.setText(String.format("%s%s", getResources().getString(R.string.name), ancclient.getColumnmaps().get("namalengkap") != null ? ancclient.getColumnmaps().get("namalengkap") : "-"));
         nik.setText(String.format("%s%s", getResources().getString(R.string.nik), ancclient.getDetails().get("nik") != null ? ancclient.getDetails().get("nik") : "-"));
         husband_name.setText(String.format("%s%s", getResources().getString(R.string.husband_name), ancclient.getColumnmaps().get("namaSuami") != null ? ancclient.getColumnmaps().get("namaSuami") : "-"));
-        String tgl = ancclient.getDetails().get("tanggalLahir") != null ? ancclient.getDetails().get("tanggalLahir") : "-";
-        String tgl_lahir = tgl.substring(0, tgl.indexOf("T"));
-        dob.setText(String.format("%s%s", getResources().getString(R.string.dob), tgl_lahir));
+        String tglLahir = ancclient.getDetails().get("tanggalLahir");
+        dob.setText(String.format("%s%s", getResources().getString(R.string.dob), (tglLahir != null && !tglLahir.isEmpty()) ? tglLahir.substring(0, tglLahir.indexOf("T")) : "-"));
 
      //   dob.setText(getResources().getString(R.string.dob)+ (ancclient.getDetails().get("tanggalLahir") != null ? ancclient.getDetails().get("tanggalLahir") : "-"));
         phone.setText(String.format("No HP: %s", ancclient.getDetails().get("NomorTelponHp") != null ? ancclient.getDetails().get("NomorTelponHp") : "-"));

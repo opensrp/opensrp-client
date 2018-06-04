@@ -146,7 +146,10 @@ public class AnakRegisterClientsProvider implements SmartRegisterCLientsProvider
 
         viewHolder.childs_name.setText(pc.getColumnmaps().get("namaBayi") != null ? pc.getColumnmaps().get("namaBayi") : "");
         //delivery documentation
-        viewHolder.anak_register_dob.setText(pc.getColumnmaps().get("tanggalLahirAnak") != null ? pc.getColumnmaps().get("tanggalLahirAnak").substring(0, pc.getColumnmaps().get("tanggalLahirAnak").indexOf("T")) : "");
+//        viewHolder.anak_register_dob.setText(pc.getColumnmaps().get("tanggalLahirAnak") != null ? pc.getColumnmaps().get("tanggalLahirAnak").substring(0, pc.getColumnmaps().get("tanggalLahirAnak").indexOf("T")) : "");
+        String tglLahir = pc.getColumnmaps().get("tanggalLahirAnak");
+        viewHolder.anak_register_dob.setText((tglLahir != null &&  !tglLahir.isEmpty()) ? tglLahir.substring(0, tglLahir.indexOf("T")) : "-");
+
         viewHolder.berat_lahir.setText(pc.getDetails().get("beratLahir") != null ? pc.getDetails().get("beratLahir") : "");
 
         //start profile image
@@ -266,8 +269,8 @@ public class AnakRegisterClientsProvider implements SmartRegisterCLientsProvider
     }
 
     void childBirth(String date, TextView birth) {
-        String childAge = date != null ? date : "-";
-        if (date != null) {
+        String childAge = ( date != null && !date.isEmpty()) ? date : "-";
+        if (date != null && !date.isEmpty()) {
             String age = childAge.substring(0, childAge.indexOf("T"));
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
             LocalDate dates = parse(age, formatter).toLocalDate();

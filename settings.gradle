@@ -4,7 +4,7 @@ include ':opensrp-app',
         ':opensrp-drishti',
         ':opensrp-mcare',
         'opensrp-indonesia',
-        ':opensrp-vaccinator',
+//        ':opensrp-vaccinator',
         ':opensrp-gizi',
         ':opensrp-vaksinator'
 

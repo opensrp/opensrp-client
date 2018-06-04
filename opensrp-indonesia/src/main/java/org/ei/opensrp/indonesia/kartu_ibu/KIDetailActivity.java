@@ -145,9 +145,12 @@ public class KIDetailActivity extends Activity {
         nama.setText(String.format("%s%s", getResources().getString(R.string.name), kiclient.getColumnmaps().get("namalengkap") != null ? kiclient.getColumnmaps().get("namalengkap") : "-"));
         nik.setText(String.format("%s%s", getResources().getString(R.string.nik), kiclient.getDetails().get("nik") != null ? kiclient.getDetails().get("nik") : "-"));
         husband_name.setText(String.format("%s%s", getResources().getString(R.string.husband_name), kiclient.getColumnmaps().get("namaSuami") != null ? kiclient.getColumnmaps().get("namaSuami") : "-"));
-        String tgl = kiclient.getDetails().get("tanggalLahir") != null ? kiclient.getDetails().get("tanggalLahir") : "-";
-        String tgl_lahir = tgl.substring(0, tgl.indexOf("T"));
-        dob.setText(String.format("%s%s", getResources().getString(R.string.dob), tgl_lahir));
+        String tglLahir = kiclient.getDetails().get("tanggalLahir");
+        dob.setText(String.format("%s%s", getResources().getString(R.string.dob), (tglLahir != null && !tglLahir.isEmpty()) ? tglLahir.substring(0, tglLahir.indexOf("T")) : "-" ));
+//        String tgl = (tglLahir != null && !tglLahir.isEmpty()) ? tglLahir : "-";
+//        String tgl_lahir = tgl.substring(0, tgl.indexOf("T"));
+//        dob.setText(String.format("%s%s", getResources().getString(R.string.dob), tgl_lahir));
+
         phone.setText(String.format("No HP: %s", kiclient.getDetails().get("NomorTelponHp") != null ? kiclient.getDetails().get("NomorTelponHp") : "-"));
 
         //risk
