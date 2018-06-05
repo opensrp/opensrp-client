@@ -39,6 +39,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import util.Utils;
+
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static org.joda.time.LocalDateTime.parse;
 
@@ -211,7 +213,7 @@ public class KIClientsProvider implements SmartRegisterCLientsProviderForCursorA
             CommonPersonObject commonPersonObject = allchild.get(i);
             detailsRepository.updateDetails(commonPersonObject);
             viewHolder.children_age_left.setText(commonPersonObject.getColumnmaps().get("namaBayi") != null ? "Name : " + commonPersonObject.getColumnmaps().get("namaBayi") : "");
-            viewHolder.children_age_right.setText(commonPersonObject.getColumnmaps().get("tanggalLahirAnak") != null ? "DOB : " + commonPersonObject.getColumnmaps().get("tanggalLahirAnak").substring(0, commonPersonObject.getColumnmaps().get("tanggalLahirAnak").indexOf("T")) : "");
+            viewHolder.children_age_right.setText(Utils.cleanStrDate(commonPersonObject.getColumnmaps().get("tanggalLahirAnak")));
         }
 
         viewHolder.hr_badge.setVisibility(View.INVISIBLE);

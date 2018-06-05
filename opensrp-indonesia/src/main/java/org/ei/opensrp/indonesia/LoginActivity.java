@@ -98,12 +98,12 @@ public class LoginActivity extends Activity {
         getActionBar().setBackgroundDrawable(getResources().getDrawable(org.ei.opensrp.indonesia.R.color.action_bar_background));
         setLanguage();
 
-        debugApp();
+//        debugApp();
 
     }
     private void debugApp() {
-        String uname = "";
-        String pwd = "";
+        String uname = "ec_bidan";
+        String pwd = "Satu2345";
 
         LayoutInflater layoutInflater = getLayoutInflater();
         @SuppressLint("InflateParams")

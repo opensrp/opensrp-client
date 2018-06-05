@@ -51,4 +51,7 @@ public class Utils {
         return Build.VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN;
     }
 
+    public static String cleanStrDate(String strDate) {
+        return (strDate != null && !strDate.isEmpty()) ? strDate.substring(0, strDate.indexOf("T")) : "-";
+    }
 }

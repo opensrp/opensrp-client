@@ -46,6 +46,7 @@ import java.util.UUID;
 
 import util.ImageCache;
 import util.ImageFetcher;
+import util.Utils;
 
 import static org.ei.opensrp.util.StringUtil.humanize;
 import static org.ei.opensrp.util.StringUtil.humanizeAndDoUPPERCASE;
@@ -269,9 +270,9 @@ public class PNCDetailActivity extends Activity {
         nama.setText(String.format("%s%s", getResources().getString(R.string.name), humanize(ibuparent.getColumnmaps().get("namalengkap") != null ? ibuparent.getColumnmaps().get("namalengkap") : "-")));
         nik.setText(String.format("%s%s", getResources().getString(R.string.nik), humanize(ibuparent.getDetails().get("nik") != null ? ibuparent.getDetails().get("nik") : "-")));
         husband_name.setText(String.format("%s%s", getResources().getString(R.string.husband_name), humanize(ibuparent.getColumnmaps().get("namaSuami") != null ? ibuparent.getColumnmaps().get("namaSuami") : "-")));
-        String tgl = ibuparent.getDetails().get("tanggalLahir") != null ? ibuparent.getDetails().get("tanggalLahir") : "-";
-        String tgl_lahir = tgl.substring(0, tgl.indexOf("T"));
-        dob.setText(String.format("%s%s", getResources().getString(R.string.dob), tgl_lahir));
+//        String tgl = ibuparent.getDetails().get("tanggalLahir") != null ? ibuparent.getDetails().get("tanggalLahir") : "-";
+//        String tgl_lahir = tgl.substring(0, tgl.indexOf("T"));
+        dob.setText(String.format("%s%s", getResources().getString(R.string.dob), Utils.cleanStrDate(ibuparent.getDetails().get("tanggalLahir"))));
         //dob.setText(getResources().getString(R.string.dob)+ humanize(ibuparent.getDetails().get("tanggalLahir") != null ? ibuparent.getDetails().get("tanggalLahir") : "-"));
         phone.setText(String.format("No HP: %s", ibuparent.getDetails().get("NomorTelponHp") != null ? ibuparent.getDetails().get("NomorTelponHp") : "-"));
 

@@ -39,6 +39,8 @@ import org.joda.time.format.DateTimeFormatter;
 import java.io.File;
 import java.text.SimpleDateFormat;
 
+import util.Utils;
+
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static org.ei.opensrp.util.StringUtil.humanize;
 import static org.joda.time.LocalDateTime.parse;
@@ -146,7 +148,7 @@ public class AnakRegisterClientsProvider implements SmartRegisterCLientsProvider
 
         viewHolder.childs_name.setText(pc.getColumnmaps().get("namaBayi") != null ? pc.getColumnmaps().get("namaBayi") : "");
         //delivery documentation
-        viewHolder.anak_register_dob.setText(pc.getColumnmaps().get("tanggalLahirAnak") != null ? pc.getColumnmaps().get("tanggalLahirAnak").substring(0, pc.getColumnmaps().get("tanggalLahirAnak").indexOf("T")) : "");
+        viewHolder.anak_register_dob.setText(Utils.cleanStrDate(pc.getColumnmaps().get("tanggalLahirAnak")));
         viewHolder.berat_lahir.setText(pc.getDetails().get("beratLahir") != null ? pc.getDetails().get("beratLahir") : "");
 
         //start profile image
@@ -267,7 +269,7 @@ public class AnakRegisterClientsProvider implements SmartRegisterCLientsProvider
 
     void childBirth(String date, TextView birth) {
         String childAge = date != null ? date : "-";
-        if (date != null) {
+        if (date != null && !date.isEmpty()) {
             String age = childAge.substring(0, childAge.indexOf("T"));
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
             LocalDate dates = parse(age, formatter).toLocalDate();

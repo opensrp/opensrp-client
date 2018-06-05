@@ -14,22 +14,14 @@ import com.flurry.android.FlurryAgent;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
-import org.ei.opensrp.domain.form.FormSubmission;
 import org.ei.opensrp.indonesia.R;
 //import org.ei.opensrp.indonesia.face.bpm.MainBPMActivity;
-import org.ei.opensrp.indonesia.device.BpmTestMainActivity;
 import org.ei.opensrp.indonesia.device.MainBPM;
-import org.ei.opensrp.indonesia.device.TestBPM;
 import org.ei.opensrp.indonesia.kartu_ibu.KIDetailActivity;
 import org.ei.opensrp.indonesia.lib.FlurryFacade;
 import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.util.FormUtils;
-import org.ei.opensrp.util.OpenSRPImageLoader;
 import org.ei.opensrp.view.activity.DrishtiApplication;
-import org.ei.opensrp.view.contract.ANCDetail;
-import org.ei.opensrp.view.fragment.DisplayFormFragment;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
 import org.json.JSONObject;
 //import org.opensrp.id.MainActivity;
 //import org.opensrp.bpm.MainBPM;
@@ -48,6 +40,8 @@ import java.util.UUID;
 //import example.com.mylibrary.MainBPMActivity;
 
 //import example.com.sidlibrary.MainBPMActivity;
+
+import util.Utils;
 
 import static org.ei.opensrp.util.StringUtil.humanize;
 import static org.ei.opensrp.util.StringUtil.humanizeAndDoUPPERCASE;
@@ -289,9 +283,10 @@ public class ANCDetailActivity extends Activity {
         nama.setText(String.format("%s%s", getResources().getString(R.string.name), ancclient.getColumnmaps().get("namalengkap") != null ? ancclient.getColumnmaps().get("namalengkap") : "-"));
         nik.setText(String.format("%s%s", getResources().getString(R.string.nik), ancclient.getDetails().get("nik") != null ? ancclient.getDetails().get("nik") : "-"));
         husband_name.setText(String.format("%s%s", getResources().getString(R.string.husband_name), ancclient.getColumnmaps().get("namaSuami") != null ? ancclient.getColumnmaps().get("namaSuami") : "-"));
-        String tgl = ancclient.getDetails().get("tanggalLahir") != null ? ancclient.getDetails().get("tanggalLahir") : "-";
-        String tgl_lahir = tgl.substring(0, tgl.indexOf("T"));
-        dob.setText(String.format("%s%s", getResources().getString(R.string.dob), tgl_lahir));
+        // Date
+//        String tglLahir = ancclient.getDetails().get("tanggalLahir");
+//        String tgl_lahir = (tglLahir != null && !tglLahir.isEmpty()) ? tglLahir.substring(0, tglLahir.indexOf("T")) : "-"; ;
+        dob.setText(String.format("%s%s", getResources().getString(R.string.dob), Utils.cleanStrDate(ancclient.getDetails().get("tanggalLahir"))));
 
      //   dob.setText(getResources().getString(R.string.dob)+ (ancclient.getDetails().get("tanggalLahir") != null ? ancclient.getDetails().get("tanggalLahir") : "-"));
         phone.setText(String.format("No HP: %s", ancclient.getDetails().get("NomorTelponHp") != null ? ancclient.getDetails().get("NomorTelponHp") : "-"));
