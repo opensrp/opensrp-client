@@ -87,7 +87,7 @@
             <legend>
                 <span lang="Bahasa" class="question-label active" data-itext-id="/Kartu_ibu/lokasi_periksa:label">Lokasi Periksa</span>
                 <span lang="en" class="question-label " data-itext-id="/Kartu_ibu/lokasi_periksa:label">Location of Service</span>
-
+                <span class="required">*</span>
             </legend>
             <div class="option-wrapper">
                 <label class="">

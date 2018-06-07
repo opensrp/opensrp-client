@@ -141,13 +141,13 @@ public class FormUtils {
         String clientVersion = String.valueOf(new Date().getTime());
         String instance = formDefinition.toString();
 
-        android.util.Log.e(TAG, "generateFormSubmisionFromXMLString: instanceId "+ instanceId);
-        android.util.Log.e(TAG, "generateFormSubmisionFromXMLString: entityId "+ entityId);
-        android.util.Log.e(TAG, "generateFormSubmisionFromXMLString: formName "+ formName);
-        android.util.Log.e(TAG, "generateFormSubmisionFromXMLString: instance "+ instance);
-        android.util.Log.e(TAG, "generateFormSubmisionFromXMLString: clientVersion "+ clientVersion);
-        android.util.Log.e(TAG, "generateFormSubmisionFromXMLString: SyncStatus.PENDING "+ SyncStatus.PENDING);
-        android.util.Log.e(TAG, "generateFormSubmisionFromXMLString: formDefinitionVersionString "+ formDefinitionVersionString);
+//        android.util.Log.e(TAG, "generateFormSubmisionFromXMLString: instanceId "+ instanceId);
+//        android.util.Log.e(TAG, "generateFormSubmisionFromXMLString: entityId "+ entityId);
+//        android.util.Log.e(TAG, "generateFormSubmisionFromXMLString: formName "+ formName);
+//        android.util.Log.e(TAG, "generateFormSubmisionFromXMLString: instance "+ instance);
+//        android.util.Log.e(TAG, "generateFormSubmisionFromXMLString: clientVersion "+ clientVersion);
+//        android.util.Log.e(TAG, "generateFormSubmisionFromXMLString: SyncStatus.PENDING "+ SyncStatus.PENDING);
+//        android.util.Log.e(TAG, "generateFormSubmisionFromXMLString: formDefinitionVersionString "+ formDefinitionVersionString);
 
         FormSubmission fs = new FormSubmission(instanceId, entityId, formName, instance, clientVersion, SyncStatus.PENDING, formDefinitionVersionString);
 
@@ -157,7 +157,6 @@ public class FormUtils {
 
         return fs;
     }
-
 
     private void generateClientAndEventModelsForFormSubmission(FormSubmission formSubmission, String formName) {
         org.ei.opensrp.clientandeventmodel.FormSubmission v2FormSubmission;
@@ -288,7 +287,6 @@ public class FormUtils {
 
         return subForms;
     }
-
 
     public String generateXMLInputForFormWithEntityId(String entityId, String formName, String overrides) {
         try {

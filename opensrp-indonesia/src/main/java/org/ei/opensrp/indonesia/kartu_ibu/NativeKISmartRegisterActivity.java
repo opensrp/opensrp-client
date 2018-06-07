@@ -301,6 +301,7 @@ public class NativeKISmartRegisterActivity extends SecuredNativeSmartRegisterAct
                 mPager.setCurrentItem(0, false);
                 SecuredNativeSmartRegisterFragment registerFragment = (SecuredNativeSmartRegisterFragment) findFragmentByPosition(0);
                 if (registerFragment != null && data != null) {
+                    // automatic refresh
                     registerFragment.refreshListView();
                 }
 

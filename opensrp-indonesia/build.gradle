@@ -45,10 +45,10 @@ android {
     defaultConfig {
         applicationId "org.ei.opensrp.indonesia"
         minSdkVersion 16
-        targetSdkVersion 21
+        targetSdkVersion 22
 
-        versionCode 7
-        versionName "6.14"
+        versionCode 8
+        versionName "6.15"
 
         multiDexEnabled true
 

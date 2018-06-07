@@ -126,6 +126,9 @@ public class KIANCClientsProvider implements SmartRegisterCLientsProviderForCurs
 
         viewHolder.profilepic.setImageDrawable(context.getResources().getDrawable(R.mipmap.woman_placeholder));
 
+        if (iconPencilDrawable == null) {
+            iconPencilDrawable = context.getResources().getDrawable(R.drawable.ic_pencil);
+        }
         viewHolder.follow_up.setOnClickListener(onClickListener);
         viewHolder.follow_up.setTag(smartRegisterClient);
         viewHolder.follow_up.setImageDrawable(iconPencilDrawable);
@@ -134,9 +137,6 @@ public class KIANCClientsProvider implements SmartRegisterCLientsProviderForCurs
         viewHolder.profilelayout.setTag(smartRegisterClient);
 
         CommonPersonObjectClient pc = (CommonPersonObjectClient) smartRegisterClient;
-        if (iconPencilDrawable == null) {
-            iconPencilDrawable = context.getResources().getDrawable(R.drawable.ic_pencil);
-        }
 
         //set image
         AllCommonsRepository allancRepository =  org.ei.opensrp.Context.getInstance().allCommonsRepositoryobjects("ec_ibu");
@@ -199,10 +199,13 @@ public class KIANCClientsProvider implements SmartRegisterCLientsProviderForCurs
 
         String edd = pc.getDetails().get("htp");
         if(StringUtils.isNotBlank(pc.getDetails().get("htp"))) {
-            String _edd = edd;
+//            String _edd = edd;
             String _dueEdd = "";
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-            LocalDate date = parse(_edd, formatter).toLocalDate();
+            // TODO : Invalid format: "Invalid Date"
+            Log.e(TAG, "getView: edd "+ edd );
+            LocalDate date = parse(edd, formatter).toLocalDate();
+            Log.e(TAG, "getView: date "+ date.toString() );
             LocalDate dateNow = LocalDate.now();
             date = date.withDayOfMonth(1);
             dateNow = dateNow.withDayOfMonth(1);
