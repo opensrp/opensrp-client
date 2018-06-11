@@ -52,6 +52,9 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
     public static final String IS_REMOTE_LOGIN = "is_remote_login";
     private PathAfterFetchListener pathAfterFetchListener;
     private Snackbar syncStatusSnackbar;
+    private TextView womanregisterTextView;
+    private TextView householdregisterTextView;
+    private TextView childregisterTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -311,6 +314,10 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
                 }
             }
         }
+        assignWomanCount();
+        assignChildCount();
+        assignHouseholdCount();
+
     }
     public void initializeCustomNavbarLIsteners(){
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -382,8 +389,8 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
 //                finish();
             }
         });
-        TextView childregisterTextView = (TextView)drawer.findViewById(R.id.child_registertextview);
-        assignChildCount(childregisterTextView);
+        childregisterTextView = (TextView)drawer.findViewById(R.id.child_registertextview);
+
 
         LinearLayout householdregister = (LinearLayout) drawer.findViewById(R.id.household_register);
         householdregister.setOnClickListener(new View.OnClickListener() {
@@ -399,8 +406,7 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
 //                finish();
             }
         });
-        TextView householdregisterTextView = (TextView)drawer.findViewById(R.id.household_registertextview);
-        assignHouseholdCount(householdregisterTextView);
+        householdregisterTextView = (TextView)drawer.findViewById(R.id.household_registertextview);
 
         LinearLayout womanregister = (LinearLayout) drawer.findViewById(R.id.woman_register);
         womanregister.setOnClickListener(new View.OnClickListener() {
@@ -416,8 +422,8 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
 //                finish();
             }
         });
-        TextView womanregisterTextView = (TextView)drawer.findViewById(R.id.woman_registertextview);
-        assignWomanCount(womanregisterTextView);
+        womanregisterTextView = (TextView)drawer.findViewById(R.id.woman_registertextview);
+
 
         /////disabling buttons
         outofcatchment.setVisibility(View.GONE);
@@ -427,7 +433,7 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
 
     }
 
-    private void assignHouseholdCount(final TextView householdregisterTextView) {
+    private void assignHouseholdCount() {
         (new AsyncTask(){
             int count = 0;
             @Override
@@ -443,12 +449,12 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-                householdregisterTextView.setText(householdregisterTextView.getText().toString()+"("+count+")");
+                householdregisterTextView.setText("Household Register "+"("+count+")");
             }
         }).execute();
     }
 
-    private void assignWomanCount(final TextView womanregisterTextView) {
+    private void assignWomanCount() {
         (new AsyncTask(){
             int count = 0;
             @Override
@@ -464,12 +470,12 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-                womanregisterTextView.setText(womanregisterTextView.getText().toString()+"("+count+")");
+                womanregisterTextView.setText("Woman Register "+"("+count+")");
             }
         }).execute();
     }
 
-    private void assignChildCount(final TextView childregisterTextView) {
+    private void assignChildCount() {
         (new AsyncTask(){
             int count = 0;
             @Override
@@ -485,7 +491,7 @@ public abstract class BaseRegisterActivity extends SecuredNativeSmartRegisterAct
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-                childregisterTextView.setText(childregisterTextView.getText().toString()+"("+count+")");
+                childregisterTextView.setText("Child Register "+"("+count+")");
             }
         }).execute();
     }
