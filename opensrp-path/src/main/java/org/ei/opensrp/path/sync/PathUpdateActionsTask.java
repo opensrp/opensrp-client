@@ -595,7 +595,7 @@ public class PathUpdateActionsTask {
                                 List<Vaccine> vaccinesgiven = vaccineRepository.findByEntityId(entityID);
                                 recievedVaccinesmap = receivedVaccines(vaccinesgiven);
 
-                                Cursor phonenumbercursor = commonRepository.RawCustomQueryForAdapter("select ec_details.value from ec_details where key = 'phoneNumber' and ec_details.base_entity_id in (select id from ec_mother where id in (Select ec_child.relational_id from ec_child where ec_child.base_entity_id = '"+entityID+"'))");
+                                Cursor phonenumbercursor = commonRepository.RawCustomQueryForAdapter("select ec_details.value from ec_details where key = 'Mother_Guardian_Number' and ec_details.base_entity_id = '"+entityID+"'");
                                 phonenumbercursor.moveToFirst();
                                 if(!phonenumbercursor.isAfterLast()){
                                     mobileno = phonenumbercursor.getString(0);
