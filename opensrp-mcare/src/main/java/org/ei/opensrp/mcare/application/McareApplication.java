@@ -5,18 +5,36 @@ import android.content.res.Configuration;
 import android.util.Pair;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import io.fabric.sdk.android.Fabric;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonFtsObject;
+import org.ei.opensrp.commonregistry.CommonPersonObject;
+import org.ei.opensrp.domain.FetchStatus;
+import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.mcare.LoginActivity;
+import org.ei.opensrp.service.FormSubmissionService;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.ei.opensrp.view.receiver.SyncBroadcastReceiver;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.opensrp.dto.form.FormSubmissionDTO;
+
+import static java.text.MessageFormat.format;
+import static org.ei.opensrp.convertor.FormSubmissionConvertor.toDomain;
+import static org.ei.opensrp.domain.FetchStatus.fetched;
+import static org.ei.opensrp.domain.FetchStatus.fetchedFailed;
+import static org.ei.opensrp.domain.FetchStatus.nothingFetched;
+import static org.ei.opensrp.util.Log.logError;
 import static org.ei.opensrp.util.Log.logInfo;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -56,6 +74,58 @@ public class McareApplication extends DrishtiApplication {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplicationContext().startActivity(intent);
         context.userService().logoutSession();
+    }
+
+    @Override
+    public FetchStatus deleteRecords() {
+        FetchStatus dataStatus = nothingFetched;
+        String anmId = context.allSharedPreferences().fetchRegisteredANM();
+        String baseURL = context.configuration().dristhiBaseURL();
+        while (!FormSubmissionService.isInRegister) {
+
+            String uri = format("{0}/{1}?provider={2}",
+                    baseURL,
+                    "api/deleting/entity/list",
+                    anmId);
+            Response<String> response = context.getHttpAgent().fetch(uri);
+            if (response.isFailure()) {
+                logError(format("deletelist pull failed"));
+                return fetchedFailed;
+            }
+            JSONArray string_of_entity_delete = null;
+            try {
+                string_of_entity_delete = new JSONArray(response.payload());
+
+             if (string_of_entity_delete.length() == 0) {
+                return dataStatus;
+                } else {
+                dataStatus = fetched;
+                 for(int i =0;i<string_of_entity_delete.length();i++){
+                     String entity_id_of_household = string_of_entity_delete.getString(i);
+                     deleteRecordsUsingHouseholdID(entity_id_of_household);
+                 }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return dataStatus;
+    }
+
+    private void deleteRecordsUsingHouseholdID(String entity_id_of_household) {
+        List<CommonPersonObject> commonPersonElcoObjects = context.commonrepository("elco").findByRelationalIDs(entity_id_of_household);
+        for (int i = 0; i < commonPersonElcoObjects.size(); i++) {
+            List<CommonPersonObject> commonPersonMcareMotherObjects = context.commonrepository("mcaremother").findByRelationalIDs();
+            for (int j = 0; j < commonPersonMcareMotherObjects.size(); j++) {
+                List<CommonPersonObject> commonPersonMcareChildObjects = context.commonrepository("mcarechild").findByRelationalIDs(commonPersonMcareMotherObjects.get(j).getCaseId());
+                for(int k = 0; k < commonPersonMcareChildObjects.size(); k++) {
+                    context.commonrepository("mcarechild").delete(commonPersonMcareChildObjects.get(k).getCaseId());
+                }
+                context.commonrepository("mcaremother").delete(commonPersonMcareMotherObjects.get(j).getCaseId());
+            }
+            context.commonrepository("elco").delete(commonPersonElcoObjects.get(i).getCaseId());
+        }
+        context.commonrepository("household").delete(entity_id_of_household);
     }
 
     private void cleanUpSyncState() {

@@ -160,6 +160,11 @@ public class CommonRepository extends DrishtiRepository {
 //        masterRepository.getWritableDatabase().update(EC_TABLE_NAME, values, ID_COLUMN + " = ?", new String[]{caseId});
     }
 
+    public void delete(String caseId) {
+//        ContentValues values = new ContentValues();
+        masterRepository.getWritableDatabase().delete(TABLE_NAME, ID_COLUMN + " = ?", new String[]{caseId});
+    }
+
     private ContentValues createValuesFor(CommonPersonObject common) {
         ContentValues values = new ContentValues();
         values.put(ID_COLUMN, common.getCaseId());

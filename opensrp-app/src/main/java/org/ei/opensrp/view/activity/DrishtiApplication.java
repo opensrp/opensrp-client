@@ -7,6 +7,7 @@ import android.util.Log;
 import org.ei.opensrp.AllConstants;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.R;
+import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.util.BitmapImageCache;
 import org.ei.opensrp.util.OpenSRPImageLoader;
 
@@ -54,4 +55,6 @@ public abstract class DrishtiApplication extends Application {
 
         return cachedImageLoader;
     }
+
+    public abstract FetchStatus deleteRecords();
 }
