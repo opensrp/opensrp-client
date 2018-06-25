@@ -352,6 +352,18 @@ public class ElcoSmartClientsProvider implements SmartRegisterCLientsProviderFor
         lmp.setText(McareApplication.convertToEnglishDigits(lmp.getText().toString()));
         psrfdue.setText(McareApplication.convertToEnglishDigits(psrfdue.getText().toString()));
         CheckMisElcoSchedule(pc, mis_elco_due, smartRegisterClient, householdparent);
+        if(pc.getDetails().get("FWPSRPREGSTS")!=null) {
+            if (pc.getDetails().get("FWPSRPREGSTS").equalsIgnoreCase("1")) {
+                try {
+                    psrfdue.setText("Pregnant");
+
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    Log.e(getClass().getName(), "Exception", e);
+                }
+
+            }
+        }
         itemView.setLayoutParams(clientViewLayoutParams);
         ;
     }

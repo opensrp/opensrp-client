@@ -2,6 +2,8 @@ package org.ei.opensrp.mcare.application;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.util.Pair;
 
 import com.crashlytics.android.Crashlytics;
@@ -12,6 +14,7 @@ import io.fabric.sdk.android.Fabric;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.ei.opensrp.Context;
+import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonFtsObject;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.domain.FetchStatus;
@@ -21,6 +24,7 @@ import org.ei.opensrp.service.FormSubmissionService;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.ei.opensrp.view.receiver.SyncBroadcastReceiver;
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.opensrp.dto.form.FormSubmissionDTO;
@@ -33,6 +37,10 @@ import static org.ei.opensrp.domain.FetchStatus.nothingFetched;
 import static org.ei.opensrp.util.Log.logError;
 import static org.ei.opensrp.util.Log.logInfo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -268,4 +276,51 @@ public class McareApplication extends DrishtiApplication {
                    }
            }
 
+    public static void checkForExpiredPNC() {
+        (new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] params) {
+
+            List<CommonPersonObject> mcaremothers = Context.getInstance().commonrepository("mcaremother").allcommon();
+            for(
+            int i = 0;
+            i<mcaremothers.size();i++)
+
+            {
+                CommonPersonObject pncmother = mcaremothers.get(i);
+                if (pncmother.getColumnmaps().get("Is_PNC").equalsIgnoreCase("1")) {
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    try {
+                        Date edd_date = format.parse(pncmother.getColumnmaps().get("FWBNFDTOO") != null ? pncmother.getColumnmaps().get("FWBNFDTOO") : "");
+                        GregorianCalendar calendar = new GregorianCalendar();
+                        calendar.setTime(edd_date);
+                        edd_date.setTime(calendar.getTime().getTime());
+                        DateTime doo = new DateTime(edd_date.getTime());
+                        if (doo.plusDays(43).isBefore(new DateTime())) {
+                            Map<String, String> overrideValue = new HashMap<String, String>();
+                            String entityID = pncmother.getCaseId();
+                            overrideValue.clear();
+                            CommonPersonObject motherObject = Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByCaseID(entityID);
+                            AllCommonsRepository motherRepo = Context.getInstance().allCommonsRepositoryobjects("mcaremother");
+                            overrideValue.put("FWWOMVALID", "0");
+                            motherRepo.mergeDetails(entityID, overrideValue);
+
+                            overrideValue.clear();
+                            CommonPersonObject elcoObject = Context.getInstance().allCommonsRepositoryobjects("elco").findByCaseID(motherObject.getRelationalId());
+                            AllCommonsRepository elcoRepo = Context.getInstance().allCommonsRepositoryobjects("elco");
+                            overrideValue.put("FWPSRPREGSTS", "0");
+                            elcoRepo.mergeDetails(motherObject.getRelationalId(), overrideValue);
+                        }
+                    } catch (ParseException e) {
+
+
+                    }
+                }
+            }
+                return null;
+            }
+
+
+        }).execute();
+    }
 }
