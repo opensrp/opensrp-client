@@ -753,7 +753,7 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
             CommonRepository commonRepository = Context.getInstance().commonrepository("household");
             Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count (*) from mcaremother Left Join alerts on alerts.caseID = mcaremother.id  where \n" +
                     "mcaremother.FWSORTVALUE>0 and \n" +
-                    "((visitcode = 'pncrv_3' and status = 'upcoming' and mcaremother.details not like '%PNC2DATE%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
+                    "(visitcode = 'pncrv_3' and status = 'upcoming' and mcaremother.details not like '%PNC2DATE%' and  (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
                     "or (visitcode = 'pncrv_3' and status = 'urgent' and mcaremother.details not like '%PNC2DATE%' and  (date(startDate,'-2 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))) \n" +
                     "or (visitcode = 'pncrv_3' and status = 'expired' and mcaremother.details not like '%PNC2DATE%' and  (date(startDate,'-3 day') BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"')))\n" +
                     "or mcaremother.id in (Select id from (SELECT id,SUBSTR(replaced, pos+4, 10) AS completedFWPNC3DATE from (SELECT *,instr(replaced,'^') AS pos\n" +
