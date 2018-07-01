@@ -57,6 +57,7 @@ public class nbnfhandler implements FormSubmissionHandler {
         }
         Map<String, String> overrideValue = new HashMap<String, String>();
         if(submission.getFieldValue("FWBNFSTS").equalsIgnoreCase("0") && submission.getFieldValue("user_type").equalsIgnoreCase("FD")){
+            overrideValue.clear();
             CommonPersonObject motherObject = Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByCaseID(entityID);
             AllCommonsRepository motherRepo = Context.getInstance().allCommonsRepositoryobjects("mcaremother");
             overrideValue.put("FWWOMVALID","0");
@@ -69,15 +70,70 @@ public class nbnfhandler implements FormSubmissionHandler {
             elcoRepo.mergeDetails(motherObject.getRelationalId(),overrideValue);
 
         }
+        if(submission.getFieldValue("FWBNFSTS").equalsIgnoreCase("4") && submission.getFieldValue("user_type").equalsIgnoreCase("FD")){
+            overrideValue.clear();
+            CommonPersonObject motherObject = Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByCaseID(entityID);
+            AllCommonsRepository motherRepo = Context.getInstance().allCommonsRepositoryobjects("mcaremother");
+            overrideValue.clear();
+            CommonPersonObject elcoObject = Context.getInstance().allCommonsRepositoryobjects("elco").findByCaseID(motherObject.getRelationalId());
+            AllCommonsRepository elcoRepo = Context.getInstance().allCommonsRepositoryobjects("elco");
+            overrideValue.put("FWPSRPREGSTS","0");
+            elcoRepo.mergeDetails(motherObject.getRelationalId(),overrideValue);
+
+        }
+        if(submission.getFieldValue("FWBNFSTS").equalsIgnoreCase("3") && submission.getFieldValue("user_type").equalsIgnoreCase("FD")){
+            overrideValue.clear();
+            CommonPersonObject motherObject = Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByCaseID(entityID);
+            AllCommonsRepository motherRepo = Context.getInstance().allCommonsRepositoryobjects("mcaremother");
+            overrideValue.clear();
+            CommonPersonObject elcoObject = Context.getInstance().allCommonsRepositoryobjects("elco").findByCaseID(motherObject.getRelationalId());
+            AllCommonsRepository elcoRepo = Context.getInstance().allCommonsRepositoryobjects("elco");
+            overrideValue.put("FWPSRPREGSTS","0");
+            elcoRepo.mergeDetails(motherObject.getRelationalId(),overrideValue);
+
+        }
+
         if(submission.getFieldValue("user_type").equalsIgnoreCase("FWA")){
             overrideValue.clear();
             AllCommonsRepository motherRepo = Context.getInstance().allCommonsRepositoryobjects("mcaremother");
             overrideValue.put("FWWOMVALID","1");
             motherRepo.mergeDetails(entityID,overrideValue);
-
+            overrideValue.clear();
             ContentValues contentValue = new ContentValues();
             contentValue.put("Is_PNC","0");
             motherRepo.update("mcaremother",contentValue,entityID);
         }
+
+        if(submission.getFieldValue("FWBNFSTS").equalsIgnoreCase("8") && submission.getFieldValue("user_type").equalsIgnoreCase("FD")){
+            overrideValue.clear();
+            CommonPersonObject motherObject = Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByCaseID(entityID);
+            AllCommonsRepository motherRepo = Context.getInstance().allCommonsRepositoryobjects("mcaremother");
+            overrideValue.put("FWWOMVALID","0");
+            motherRepo.mergeDetails(entityID,overrideValue);
+
+            overrideValue.clear();
+            CommonPersonObject elcoObject = Context.getInstance().allCommonsRepositoryobjects("elco").findByCaseID(motherObject.getRelationalId());
+            AllCommonsRepository elcoRepo = Context.getInstance().allCommonsRepositoryobjects("elco");
+            overrideValue.put("FWPSRPREGSTS","0");
+            overrideValue.put("FWELIGIBLE","0");
+            elcoRepo.mergeDetails(motherObject.getRelationalId(),overrideValue);
+
+        }
+        if(submission.getFieldValue("FWBNFSTS").equalsIgnoreCase("999") && submission.getFieldValue("user_type").equalsIgnoreCase("FD")){
+            overrideValue.clear();
+            CommonPersonObject motherObject = Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByCaseID(entityID);
+            AllCommonsRepository motherRepo = Context.getInstance().allCommonsRepositoryobjects("mcaremother");
+            overrideValue.put("FWWOMVALID","0");
+            motherRepo.mergeDetails(entityID,overrideValue);
+
+            overrideValue.clear();
+            CommonPersonObject elcoObject = Context.getInstance().allCommonsRepositoryobjects("elco").findByCaseID(motherObject.getRelationalId());
+            AllCommonsRepository elcoRepo = Context.getInstance().allCommonsRepositoryobjects("elco");
+            overrideValue.put("FWPSRPREGSTS","0");
+            overrideValue.put("FWELIGIBLE","0");
+            elcoRepo.mergeDetails(motherObject.getRelationalId(),overrideValue);
+
+        }
+
     }
 }

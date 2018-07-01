@@ -54,7 +54,12 @@ public class FormSubmissionSyncService {
         pushToServer();
         Intent intent = new Intent(DrishtiApplication.getInstance().getApplicationContext(),ImageUploadSyncService.class);
         DrishtiApplication.getInstance().getApplicationContext().startService(intent);
+        deleteRecords();
         return pullFromServer();
+    }
+
+    private void deleteRecords() {
+        DrishtiApplication.getInstance().deleteRecords();
     }
 
     public void pushToServer() {

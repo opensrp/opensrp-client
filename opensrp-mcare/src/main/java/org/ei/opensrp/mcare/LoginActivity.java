@@ -303,8 +303,11 @@ public class LoginActivity extends Activity {
     private void goToHome() {
 //        McareApplication.setCrashlyticsUser(context);
         startActivity(new Intent(this, NativeHomeActivity.class));
+        McareApplication.checkForExpiredPNC();
         finish();
     }
+
+
 
     private String getVersion() throws PackageManager.NameNotFoundException {
         PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
