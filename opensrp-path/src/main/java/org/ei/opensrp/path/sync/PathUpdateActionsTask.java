@@ -20,6 +20,7 @@ import org.ei.opensrp.domain.FetchStatus;
 import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.domain.ResponseStatus;
 import org.ei.opensrp.domain.Vaccine;
+import org.ei.opensrp.logger.Logger;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.Stock;
 import org.ei.opensrp.path.receiver.SyncStatusBroadcastReceiver;
@@ -576,7 +577,7 @@ public class PathUpdateActionsTask {
                 String entityID = "";
                 JSONArray payloadArray = new JSONArray();
                 CommonRepository commonRepository = org.ei.opensrp.Context.getInstance().commonrepository("ec_child");
-                Cursor cursor = commonRepository.RawCustomQueryForAdapter("select * from alerts where alerts.caseID in (Select id from ec_child) and (date(startDate) between date ('"+format.format(today.getTime())+"') and date ('"+format.format(tomorrow.getTime())+"')) and (scheduleName not like '%ITN%' and scheduleName not like '%Deworming%' and scheduleName not like '%Vit A%' and scheduleName not like '%ROTA%' and scheduleName not like '%OPV 4%') and (alerts.status = 'normal' or alerts.status = 'urgent' or alerts.status = 'upcoming') order by caseID ");
+                Cursor cursor = commonRepository.RawCustomQueryForAdapter("select * from alerts where alerts.caseID in (Select id from ec_child) and (date(startDate) < date('now')) and (scheduleName not like '%ITN%' and scheduleName not like '%Deworming%' and scheduleName not like '%Vit A%' and scheduleName not like '%ROTA%' and scheduleName not like '%OPV 4%') and (alerts.status = 'normal' or alerts.status = 'urgent' or alerts.status = 'upcoming') order by caseID ");
                 cursor.moveToFirst();
                 String vaccines = "";
                 String mobileno = "";
@@ -604,13 +605,14 @@ public class PathUpdateActionsTask {
 
                                 vaccines = addToVaccine(vaccines,recievedVaccinesmap,cursor.getString(2));
                             }else{
-
-                                anouncementObject.put("baseEntityId",previousEntityID);
-                                anouncementObject.put("mobileNo",mobileno);
-                                anouncementObject.put("clientType","child");
-                                anouncementObject.put("vaccinationDate",startdate);
-                                anouncementObject.put("vaccineDue",vaccines);
-                                payloadArray.put(anouncementObject);
+                                if(!vaccines.equalsIgnoreCase("")) {
+                                    anouncementObject.put("baseEntityId", previousEntityID);
+                                    anouncementObject.put("mobileNo", mobileno);
+                                    anouncementObject.put("clientType", "child");
+                                    anouncementObject.put("vaccinationDate", startdate);
+                                    anouncementObject.put("vaccineDue", vaccines);
+                                    payloadArray.put(anouncementObject);
+                                }
                                 vaccines = "";
                                 startdate = format.format(tomorrow.getTime());
                                 previousEntityID = entityID;
@@ -642,7 +644,7 @@ public class PathUpdateActionsTask {
                     cursor.close();
 
                     entityID = "";
-                    cursor = commonRepository.RawCustomQueryForAdapter("select * from alerts where alerts.caseID in (Select id from ec_mother) and (date(startDate) between date ('"+format.format(today.getTime())+"') and date ('"+format.format(tomorrow.getTime())+"')) and (scheduleName not like '%ITN%' and scheduleName not like '%Deworming%' and scheduleName not like '%Vit A%' and scheduleName not like '%ROTA%' and scheduleName not like '%OPV 4%') and (alerts.status = 'normal' or alerts.status = 'urgent' or alerts.status = 'upcoming') order by caseID ");
+                    cursor = commonRepository.RawCustomQueryForAdapter("select * from alerts where alerts.caseID in (Select id from ec_mother) and (date(startDate) < date('now')) and (scheduleName not like '%ITN%' and scheduleName not like '%Deworming%' and scheduleName not like '%Vit A%' and scheduleName not like '%ROTA%' and scheduleName not like '%OPV 4%') and (alerts.status = 'normal' or alerts.status = 'urgent' or alerts.status = 'upcoming') order by caseID ");
                     cursor.moveToFirst();
                     vaccines = "";
                     mobileno = "";
@@ -665,13 +667,14 @@ public class PathUpdateActionsTask {
                                     phonenumbercursor.close();
                                     vaccines = addToVaccine(vaccines,recievedVaccinesmap,cursor.getString(2));
                                 }else{
-
-                                    anouncementObject.put("baseEntityId",previousEntityID);
-                                    anouncementObject.put("mobileNo",mobileno);
-                                    anouncementObject.put("clientType","mother");
-                                    anouncementObject.put("vaccinationDate",startdate);
-                                    anouncementObject.put("vaccineDue",vaccines);
-                                    payloadArray.put(anouncementObject);
+                                    if(!vaccines.equalsIgnoreCase("")) {
+                                        anouncementObject.put("baseEntityId", previousEntityID);
+                                        anouncementObject.put("mobileNo", mobileno);
+                                        anouncementObject.put("clientType", "mother");
+                                        anouncementObject.put("vaccinationDate", startdate);
+                                        anouncementObject.put("vaccineDue", vaccines);
+                                        payloadArray.put(anouncementObject);
+                                    }
                                     vaccines = "";
                                     startdate = format.format(tomorrow.getTime());
                                     previousEntityID = entityID;
@@ -704,20 +707,61 @@ public class PathUpdateActionsTask {
                 }catch (Exception e){
                     cursor.close();
                 }
-
+                Logger.largeLog("anouncement payload",payloadArray.toString());
                 return payloadArray.toString();
             }
 
             private String addToVaccine(String vaccines, Map<String, Date> recievedVaccinesmap, String string) {
                 String givenstring = string.replaceAll("(?<=[A-Za-z])(?=[0-9])|(?<=[0-9])(?=[A-Za-z])", " ");
+                JSONObject vaccinemap = new JSONObject(recievedVaccinesmap);
+                Logger.largeLog("anouncement vaccineString",string);
+
+                Logger.largeLog("anouncement vaccinemap",vaccinemap.toString());
+
                 if(vaccines.equalsIgnoreCase("")){
                     if(recievedVaccinesmap.get(string.replaceAll("(?<=[A-Za-z])(?=[0-9])|(?<=[0-9])(?=[A-Za-z])", " "))!=null || string.equalsIgnoreCase("bcg2")){
 
-                    }else {
+                    }else if(recievedVaccinesmap.get("mr 2")!=null&&string.equalsIgnoreCase("mr1")){
+
+                    }else if(recievedVaccinesmap.get("mr 2")!=null&&string.equalsIgnoreCase("measles1")){
+
+                    }else if(recievedVaccinesmap.get("measles 2")!=null&&string.equalsIgnoreCase("mr1")){
+
+                    }else if(recievedVaccinesmap.get("measles 2")!=null&&string.equalsIgnoreCase("measles1")){
+
+                    }else if(recievedVaccinesmap.get("mr 2")!=null&&string.equalsIgnoreCase("measles2")){
+
+                    }else if(recievedVaccinesmap.get("measles 2")!=null&&string.equalsIgnoreCase("mr2")){
+
+                    }else if(recievedVaccinesmap.get("mr 1")!=null&&string.equalsIgnoreCase("measles1")){
+
+                    }else if(recievedVaccinesmap.get("measles 1")!=null&&string.equalsIgnoreCase("mr1")){
+
+                    }else if(recievedVaccinesmap.get("fipv 2")!=null&&string.equalsIgnoreCase("fipv1")){
+
+                    }else{
                         vaccines = string;
                     }
                 }else{
                     if(recievedVaccinesmap.get(string.replaceAll("(?<=[A-Za-z])(?=[0-9])|(?<=[0-9])(?=[A-Za-z])", " "))!=null|| string.equalsIgnoreCase("bcg2")){
+
+                    }else if(recievedVaccinesmap.get("mr 2")!=null&&string.equalsIgnoreCase("mr1")){
+
+                    }else if(recievedVaccinesmap.get("mr 2")!=null&&string.equalsIgnoreCase("measles1")){
+
+                    }else if(recievedVaccinesmap.get("measles 2")!=null&&string.equalsIgnoreCase("mr1")){
+
+                    }else if(recievedVaccinesmap.get("measles 2")!=null&&string.equalsIgnoreCase("measles1")){
+
+                    }else if(recievedVaccinesmap.get("mr 2")!=null&&string.equalsIgnoreCase("measles2")){
+
+                    }else if(recievedVaccinesmap.get("measles 2")!=null&&string.equalsIgnoreCase("mr2")){
+
+                    }else if(recievedVaccinesmap.get("mr 1")!=null&&string.equalsIgnoreCase("measles1")){
+
+                    }else if(recievedVaccinesmap.get("measles 1")!=null&&string.equalsIgnoreCase("mr1")){
+
+                    }else if(recievedVaccinesmap.get("fipv 2")!=null&&string.equalsIgnoreCase("fipv1")){
 
                     }else {
                         vaccines = vaccines + ","+string;
