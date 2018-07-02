@@ -34,6 +34,15 @@ public class DummyContent {
             "NUTRITION",
             "CONTRACEPTIVE SUPPLY STATUS"
     };
+    public static int [] menutitlesResource = {
+            R.string.upcomingschedulestatus,
+            R.string.family_planning_status,
+            R.string.anc_pnc_encc_reminder_visit_status,
+            R.string.reproductive_health_service,
+            R.string.delivery_status,
+            R.string.nutrition,
+            R.string.contraceptive_supply_status
+    };
 
     /**
      * A map of sample (dummy) items, by ID.
@@ -42,10 +51,12 @@ public class DummyContent {
 
     private static final int COUNT = 7;
 
-    static {
+    public static void addtitles(Context context) {
         // Add some sample items.
+        ITEMS.clear();
+        ITEM_MAP.clear();
         for (int i = 0; i < COUNT; i++) {
-            addItem(createDummyItem(i));
+            addItem(createDummyItem(i,context));
         }
     }
 
@@ -67,8 +78,8 @@ public class DummyContent {
         ITEM_MAP.put(item.id, item);
     }
 
-    private static DummyItem createDummyItem(int position) {
-        return new DummyItem(menuTitles[position], menuTitles[position], makeDetails(position));
+    private static DummyItem createDummyItem(int position,Context context) {
+        return new DummyItem(context.getResources().getString(menutitlesResource[position]),context.getResources().getString(menutitlesResource[position]), makeDetails(position));
     }
 
     private static String makeDetails(int position) {

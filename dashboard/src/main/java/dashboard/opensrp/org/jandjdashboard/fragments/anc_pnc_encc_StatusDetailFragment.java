@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,6 +70,23 @@ public class anc_pnc_encc_StatusDetailFragment extends dashboardFragment {
     private HashMap<String, HashMap<String, String>> pncMap;
     private HashMap<String, HashMap<String, String>> enccmap;
     private TextView filtertitle;
+    private int ancdue;
+    private int TotalScheduled;
+    private int anccompleted;
+    private int ancpostdue;
+    private int ancexpired;
+    private int pncdue;
+    private int pnccompleted;
+    private int pncpostdue;
+    private int pncexpired;
+    private int enccdue;
+    private int enccompleted;
+    private int enccpostdue;
+    private int enccexpired;
+    private int totalexpired;
+    private int totaldue;
+    private int totalpostdue;
+    private int totalcompleted;
 
 
     /**
@@ -156,6 +172,7 @@ public class anc_pnc_encc_StatusDetailFragment extends dashboardFragment {
 
         risk_status = (Spinner)mainview.findViewById(R.id.schedule_type);
         final List<String> list = new ArrayList<String>();
+        list.add("ALL");
         list.add("ANC");
         list.add("PNC");
         list.add("ENCC");
@@ -166,7 +183,10 @@ public class anc_pnc_encc_StatusDetailFragment extends dashboardFragment {
         risk_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(list.get(i).equalsIgnoreCase("ALL")){
 
+                    launchAllGraphs(mainview,from,to,"normal");
+                }
                 if(list.get(i).equalsIgnoreCase("ANC")){
 
                     launchAncGraphs(mainview,from,to,"normal");
@@ -212,6 +232,12 @@ public class anc_pnc_encc_StatusDetailFragment extends dashboardFragment {
         graphHolder.addView(addGraphs(encc1stringDataPointHashMap,"ENCC 1",enccmax),layoutParams);
         graphHolder.addView(addGraphs(encc2stringDataPointHashMap,"ENCC 2",enccmax),layoutParams);
         graphHolder.addView(addGraphs(encc3stringDataPointHashMap,"ENCC 3",enccmax),layoutParams);
+
+        ((TextView)rootView.findViewById(R.id.scheduled_count)).setText(""+(enccompleted+enccdue+enccpostdue+enccexpired));
+        ((TextView)rootView.findViewById(R.id.completed_count)).setText(""+enccompleted);
+        ((TextView)rootView.findViewById(R.id.due_count)).setText(""+enccdue);
+        ((TextView)rootView.findViewById(R.id.post_due_count)).setText(""+enccpostdue);
+        ((TextView)rootView.findViewById(R.id.expired_count)).setText(""+enccexpired);
     }
 
     private void launchPncGraphs(View view, Date from, Date to, String riskFlag) {
@@ -240,6 +266,12 @@ public class anc_pnc_encc_StatusDetailFragment extends dashboardFragment {
         graphHolder.addView(addGraphs(pnc1stringDataPointHashMap,"PNC 1",pncmax),layoutParams);
         graphHolder.addView(addGraphs(pnc2stringDataPointHashMap,"PNC 2",pncmax),layoutParams);
         graphHolder.addView(addGraphs(pnc3stringDataPointHashMap,"PNC 3",pncmax),layoutParams);
+
+        ((TextView)rootView.findViewById(R.id.scheduled_count)).setText(""+(pnccompleted+pncdue+pncpostdue+pncexpired));
+        ((TextView)rootView.findViewById(R.id.completed_count)).setText(""+pnccompleted);
+        ((TextView)rootView.findViewById(R.id.due_count)).setText(""+pncdue);
+        ((TextView)rootView.findViewById(R.id.post_due_count)).setText(""+pncpostdue);
+        ((TextView)rootView.findViewById(R.id.expired_count)).setText(""+pncexpired);
     }
 
     private void launchAncGraphs(View view, Date from, Date to, String riskFlag) {
@@ -276,6 +308,60 @@ public class anc_pnc_encc_StatusDetailFragment extends dashboardFragment {
         graphHolder.addView(addGraphs(anc2stringDataPointHashMap,"ANC 2",ancmax),layoutParams);
         graphHolder.addView(addGraphs(anc3stringDataPointHashMap,"ANC 3",ancmax),layoutParams);
         graphHolder.addView(addGraphs(anc4stringDataPointHashMap,"ANC 4",ancmax),layoutParams);
+
+        ((TextView)rootView.findViewById(R.id.scheduled_count)).setText(""+(anccompleted+ancdue+ancpostdue+ancexpired));
+        ((TextView)rootView.findViewById(R.id.completed_count)).setText(""+anccompleted);
+        ((TextView)rootView.findViewById(R.id.due_count)).setText(""+ancdue);
+        ((TextView)rootView.findViewById(R.id.post_due_count)).setText(""+ancpostdue);
+        ((TextView)rootView.findViewById(R.id.expired_count)).setText(""+ancexpired);
+
+    }
+
+    private void launchAllGraphs(View view, Date from, Date to, String riskFlag) {
+//        ancMap = rVSController.ancVisitQuery(from, to, riskFlag);
+        LinearLayout graphHolder = (LinearLayout) view.findViewById(R.id.graph_holder);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.weight = 1;
+        graphHolder.removeAllViews();
+
+        HashMap<String,DataPoint> ancstringDataPointHashMap = new HashMap<String,DataPoint>();
+        ancstringDataPointHashMap.put("Completed",new DataPoint(0, anccompleted));
+        ancstringDataPointHashMap.put("Due",new DataPoint(1,ancdue));
+        ancstringDataPointHashMap.put("Post Due",new DataPoint(2,ancpostdue));
+        ancstringDataPointHashMap.put("Expired",new DataPoint(3,ancexpired));
+
+        HashMap<String,DataPoint> pncstringDataPointHashMap = new HashMap<String,DataPoint>();
+        pncstringDataPointHashMap.put("Completed",new DataPoint(0,pnccompleted));
+        pncstringDataPointHashMap.put("Due",new DataPoint(1,pncdue));
+        pncstringDataPointHashMap.put("Post Due",new DataPoint(2,pncpostdue));
+        pncstringDataPointHashMap.put("Expired",new DataPoint(3,pncexpired));
+
+        HashMap<String,DataPoint> enccstringDataPointHashMap = new HashMap<String,DataPoint>();
+        enccstringDataPointHashMap.put("Completed",new DataPoint(0,enccompleted));
+        enccstringDataPointHashMap.put("Due",new DataPoint(1,enccdue));
+        enccstringDataPointHashMap.put("Post Due",new DataPoint(2,enccpostdue));
+        enccstringDataPointHashMap.put("Expired",new DataPoint(3,enccexpired));
+
+       int ancmax = findHighestInANCMAP(ancMap);
+       int pncmax = findHighestInPNCMAP(pncMap);
+       int enccmax = findHighestInENCCMAP(enccmap);
+       int max = ancmax;
+       if(pncmax>max){
+           max = pncmax;
+       }
+       if(enccmax>max){
+           max = enccmax;
+       }
+
+        graphHolder.addView(addGraphs(ancstringDataPointHashMap,"ANC",max),layoutParams);
+        graphHolder.addView(addGraphs(pncstringDataPointHashMap,"PNC",max),layoutParams);
+        graphHolder.addView(addGraphs(enccstringDataPointHashMap,"ENCC",max),layoutParams);
+
+        ((TextView)rootView.findViewById(R.id.scheduled_count)).setText(""+TotalScheduled);
+        ((TextView)rootView.findViewById(R.id.completed_count)).setText(""+totalcompleted);
+        ((TextView)rootView.findViewById(R.id.due_count)).setText(""+totaldue);
+        ((TextView)rootView.findViewById(R.id.post_due_count)).setText(""+totalpostdue);
+        ((TextView)rootView.findViewById(R.id.expired_count)).setText(""+totalexpired);
 
     }
 
@@ -345,49 +431,49 @@ public class anc_pnc_encc_StatusDetailFragment extends dashboardFragment {
 
             findHighestInANCMAP(ancMap);
 
-            int ancdue = Integer.parseInt(ancMap.get("ANC1").get("Due"))+
+            ancdue = Integer.parseInt(ancMap.get("ANC1").get("Due"))+
                     Integer.parseInt(ancMap.get("ANC2").get("Due"))+
                     Integer.parseInt(ancMap.get("ANC3").get("Due"))+
                     Integer.parseInt(ancMap.get("ANC4").get("Due"));
-            int ancpostdue = Integer.parseInt(ancMap.get("ANC1").get("Post Due"))+
+            ancpostdue = Integer.parseInt(ancMap.get("ANC1").get("Post Due"))+
                     Integer.parseInt(ancMap.get("ANC2").get("Post Due"))+
                     Integer.parseInt(ancMap.get("ANC3").get("Post Due"))+
                     Integer.parseInt(ancMap.get("ANC4").get("Post Due"));
-            int ancexpired = Integer.parseInt(ancMap.get("ANC1").get("Expired"))+
+            ancexpired = Integer.parseInt(ancMap.get("ANC1").get("Expired"))+
                     Integer.parseInt(ancMap.get("ANC2").get("Expired"))+
                     Integer.parseInt(ancMap.get("ANC3").get("Expired"))+
                     Integer.parseInt(ancMap.get("ANC4").get("Expired"));
-            int anccompleted = Integer.parseInt(ancMap.get("ANC1").get("Completed"))+
+            anccompleted = Integer.parseInt(ancMap.get("ANC1").get("Completed"))+
                     Integer.parseInt(ancMap.get("ANC2").get("Completed"))+
                     Integer.parseInt(ancMap.get("ANC3").get("Completed"))+
                     Integer.parseInt(ancMap.get("ANC4").get("Completed"));
 
-            int pncdue = Integer.parseInt(pncMap.get("PNC1").get("Due"))+
+            pncdue = Integer.parseInt(pncMap.get("PNC1").get("Due"))+
                     Integer.parseInt(pncMap.get("PNC2").get("Due"))+
                     Integer.parseInt(pncMap.get("PNC3").get("Due"));
-            int pncpostdue = Integer.parseInt(pncMap.get("PNC1").get("Post Due"))+
+            pncpostdue = Integer.parseInt(pncMap.get("PNC1").get("Post Due"))+
                     Integer.parseInt(pncMap.get("PNC2").get("Post Due"))+
                     Integer.parseInt(pncMap.get("PNC3").get("Post Due"));
-            int pncexpired = Integer.parseInt(pncMap.get("PNC1").get("Expired"))+
+            pncexpired = Integer.parseInt(pncMap.get("PNC1").get("Expired"))+
                     Integer.parseInt(pncMap.get("PNC2").get("Expired"))+
                     Integer.parseInt(pncMap.get("PNC3").get("Expired"));
-            int pnccompleted = Integer.parseInt(pncMap.get("PNC1").get("Completed"))+
+            pnccompleted = Integer.parseInt(pncMap.get("PNC1").get("Completed"))+
                     Integer.parseInt(pncMap.get("PNC2").get("Completed"))+
                     Integer.parseInt(pncMap.get("PNC3").get("Completed"));
 
-            int enccdue = Integer.parseInt(enccmap.get("ENCC1").get("Due"))+
+            enccdue = Integer.parseInt(enccmap.get("ENCC1").get("Due"))+
                     Integer.parseInt(enccmap.get("ENCC2").get("Due"))+
                     Integer.parseInt(enccmap.get("ENCC3").get("Due"));
-            int enccpostdue = Integer.parseInt(enccmap.get("ENCC1").get("Post Due"))+
+            enccpostdue = Integer.parseInt(enccmap.get("ENCC1").get("Post Due"))+
                     Integer.parseInt(enccmap.get("ENCC2").get("Post Due"))+
                     Integer.parseInt(enccmap.get("ENCC3").get("Post Due"));
-            int enccexpired = Integer.parseInt(enccmap.get("ENCC1").get("Expired"))+
+            enccexpired = Integer.parseInt(enccmap.get("ENCC1").get("Expired"))+
                     Integer.parseInt(enccmap.get("ENCC2").get("Expired"))+
                     Integer.parseInt(enccmap.get("ENCC3").get("Expired"));
-            int enccompleted = Integer.parseInt(enccmap.get("ENCC1").get("Completed"))+
+            enccompleted = Integer.parseInt(enccmap.get("ENCC1").get("Completed"))+
                     Integer.parseInt(enccmap.get("ENCC2").get("Completed"))+
                     Integer.parseInt(enccmap.get("ENCC3").get("Completed"));
-            int TotalScheduled = ancdue
+            TotalScheduled = ancdue
                     +anccompleted
                     +ancpostdue
                     +ancexpired
@@ -399,16 +485,16 @@ public class anc_pnc_encc_StatusDetailFragment extends dashboardFragment {
                     +enccompleted
                     +enccpostdue
                     +enccexpired;
-            int totalexpired = ancexpired
+            totalexpired = ancexpired
                     +pncexpired
                     +enccexpired;
-            int totaldue = ancdue
+            totaldue = ancdue
                     +pncdue
                     +enccdue;
-            int totalpostdue = ancpostdue
+            totalpostdue = ancpostdue
                     +pncpostdue
                     +enccpostdue;
-            int totalcompleted = anccompleted
+            totalcompleted = anccompleted
                     +pnccompleted
                     +enccompleted;
 

@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">JandJDashboard</string>
+    <string name="title_dashboardcategory_detail">dashboardCategory Detail</string>
+    <string name="date_filter">date filter</string>
+    <string name="action_settings">settings</string>
+    <string name="upcomingschedulestatus"> বর্তমান সিডিউল </string>
+    <string name="family_planning_status">FAMILY PLANNING STATUS</string>
+    <string name="anc_pnc_encc_reminder_visit_status">ANC/PNC/ENCC ভিজিটের অবস্থা</string>
+    <string name="reproductive_health_service">REPRODUCTIVE HEALTH SERVICE</string>
+    <string name="delivery_status">DELIVERY STATUS</string>
+    <string name="nutrition">NUTRITION</string>
+    <string name="contraceptive_supply_status">CONTRACEPTIVE SUPPLY STATUS</string>
+    <string name="householdvisit">খানা ভিজিট</string>
+    <string name="elco_visit">সক্ষম দম্পতি ভিজিট</string>
+    <string name="edd_label_dashboard">ইডিডি</string>
+    <string name="anc_visit_dashboard_label">ANC ভিজিট</string>
+    <string name="pnc_visit_dashboard_label">PNC ভিজিট</string>
+    <string name="encc_visit_dashboard_label">ENCC ভিজিট</string>
+
+    <string name="scheduled_label">শিডিউল</string>
+    <string name="completed_label">সম্পন্ন</string>
+    <string name="due_label">নতুন</string>
+    <string name="post_due_label">জরুরী</string>
+    <string name="expired_label">সময় উত্তীর্ণ</string>
+</resources>

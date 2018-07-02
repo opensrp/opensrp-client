@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import org.ei.opensrp.Context;
 import org.ei.opensrp.mcare.anc.mCareANCSmartRegisterActivity;
 import org.ei.opensrp.mcare.child.mCareChildSmartRegisterActivity;
 import org.ei.opensrp.mcare.dashboard.controllers.anc_pnc_encc_reminder_StatusControllerForDashBoardModule;
@@ -17,10 +18,8 @@ import org.ei.opensrp.mcare.elco.ElcoSmartRegisterActivity;
 import org.ei.opensrp.mcare.household.HouseHoldSmartRegisterActivity;
 import org.ei.opensrp.mcare.household.tutorial.tutorialCircleViewFlow;
 import org.ei.opensrp.mcare.pnc.mCarePNCSmartRegisterActivity;
-import org.ei.opensrp.view.activity.NativeANCSmartRegisterActivity;
-import org.ei.opensrp.view.activity.NativePNCSmartRegisterActivity;
+import org.ei.opensrp.repository.AllSharedPreferences;
 import org.ei.opensrp.view.controller.ANMController;
-
 
 import java.util.HashMap;
 
@@ -61,6 +60,10 @@ public class McareNavigationController extends org.ei.opensrp.view.controller.Na
     }
     @Override
     public void startReports() {
+        AllSharedPreferences allSharedPreferences = new AllSharedPreferences(getDefaultSharedPreferences(Context.getInstance().applicationContext()));
+        String preferredLocale = allSharedPreferences.fetchLanguagePreference();
+
+        dashboardCategoryListActivity.setLanguage(preferredLocale,Context.getInstance().applicationContext());
         Intent i = new Intent(activity, dashboardCategoryListActivity.class);
         i.putExtra("controller_holder", initializeControllersForDashboard());
         activity.startActivity(i);

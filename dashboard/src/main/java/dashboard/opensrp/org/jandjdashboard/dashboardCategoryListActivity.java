@@ -2,22 +2,25 @@ package dashboard.opensrp.org.jandjdashboard;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+import java.util.Locale;
 
 import dashboard.opensrp.org.jandjdashboard.controller.controllerHolders;
 import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
@@ -30,10 +33,10 @@ import dashboard.opensrp.org.jandjdashboard.fragments.reproductive_health_servic
 import dashboard.opensrp.org.jandjdashboard.fragments.upcomingScheduleStatusDetailFragment;
 import dashboard.opensrp.org.jandjdashboard.widgets.calendarPoPUpWindow;
 
-import java.util.List;
-
 import static dashboard.opensrp.org.jandjdashboard.dummy.DummyContent.addDrawables;
+import static dashboard.opensrp.org.jandjdashboard.dummy.DummyContent.addtitles;
 import static dashboard.opensrp.org.jandjdashboard.dummy.DummyContent.menudrawable;
+import static dashboard.opensrp.org.jandjdashboard.dummy.DummyContent.menutitlesResource;
 
 /**
  * An activity representing a list of dashboardCategories. This activity
@@ -63,6 +66,7 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
         Intent i = getIntent();
         controllerholder = (controllerHolders) i.getSerializableExtra("controller_holder");
         addDrawables(this);
+        addtitles(this);
         setContentView(R.layout.activity_dashboardcategory_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -172,7 +176,7 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.mItem = mValues.get(position);
-            holder.mContentView.setText(mValues.get(position).content);
+            holder.mContentView.setText(getResources().getString(menutitlesResource[position]));
             holder.mIdView.setImageDrawable(menudrawable.get(position));
 
 
@@ -315,5 +319,16 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
                 return super.toString() + " '" + mContentView.getText() + "'";
             }
         }
+    }
+
+    public static void setLanguage(String locale,Context context){
+        String preferredLocale = locale;
+        Resources res = context.getResources();
+        // Change locale settings in the app.
+        DisplayMetrics dm = res.getDisplayMetrics();
+        android.content.res.Configuration conf = res.getConfiguration();
+        conf.locale = new Locale(preferredLocale);
+        res.updateConfiguration(conf, dm);
+
     }
 }

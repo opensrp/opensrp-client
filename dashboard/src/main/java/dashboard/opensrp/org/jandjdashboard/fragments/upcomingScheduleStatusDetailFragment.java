@@ -2,12 +2,10 @@ package dashboard.opensrp.org.jandjdashboard.fragments;
 
 import android.app.Activity;
 import android.content.res.Resources;
-import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -127,42 +125,54 @@ public class upcomingScheduleStatusDetailFragment extends dashboardFragment {
         counts.removeAll(counts);
         iconList.removeAll(iconList);
 
-        titleList.add("Household Visit");
+        titleList.add(getActivity().getResources().getString(R.string.householdvisit));
+
+
         try {
             counts.add(uSSController.houseHoldVisitQuery(uSSController.format.parse(fromdate),uSSController.format.parse(todate)));
         } catch (ParseException e) {
             counts.add("N/A");
             e.printStackTrace();
         }
-        titleList.add("ELCO Visit");
+
+        titleList.add(getActivity().getResources().getString(R.string.elco_visit));
+
         try {
             counts.add(uSSController.elcoVisitQuery(uSSController.format.parse(fromdate),uSSController.format.parse(todate)));
         } catch (ParseException e) {
             counts.add("N/A");
             e.printStackTrace();
         }
-        titleList.add("EDD");
+
+        titleList.add(getActivity().getResources().getString(R.string.edd_label_dashboard));
+
         try {
             counts.add(uSSController.eddQuery(uSSController.format.parse(fromdate),uSSController.format.parse(todate)));
         } catch (ParseException e) {
             counts.add("N/A");
             e.printStackTrace();
         }
-        titleList.add("ANC Visit");
+        titleList.add(getActivity().getResources().getString(R.string.anc_visit_dashboard_label));
+
         try {
             counts.add(uSSController.ancVisitQuery(uSSController.format.parse(fromdate),uSSController.format.parse(todate)));
         } catch (ParseException e) {
             counts.add("N/A");
             e.printStackTrace();
         }
-        titleList.add("PNC Visit");
+
+        titleList.add(getActivity().getResources().getString(R.string.pnc_visit_dashboard_label));
+
         try {
             counts.add(uSSController.pncVisitQuery(uSSController.format.parse(fromdate),uSSController.format.parse(todate)));
         } catch (ParseException e) {
             counts.add("N/A");
             e.printStackTrace();
         }
-        titleList.add("Neonatal Visit");
+
+        titleList.add(getActivity().getResources().getString(R.string.encc_visit_dashboard_label));
+
+
         try {
             counts.add(uSSController.neonatalVisitQuery(uSSController.format.parse(fromdate),uSSController.format.parse(todate)));
         } catch (ParseException e) {
@@ -177,9 +187,9 @@ public class upcomingScheduleStatusDetailFragment extends dashboardFragment {
         iconList.add(getResources().getDrawable(R.drawable.householdschedulecard));
         iconList.add(getResources().getDrawable(R.drawable.elcovisit));
         iconList.add(getResources().getDrawable(R.drawable.edd));
-        iconList.add(getResources().getDrawable(R.drawable.ancvisit));
         iconList.add(getResources().getDrawable(R.drawable.pncvisit));
         iconList.add(getResources().getDrawable(R.drawable.neonatalvisit));
+        iconList.add(getResources().getDrawable(R.drawable.ancvisit));
         Drawable ttvaccine = getResources().getDrawable(R.drawable.ttvaccine);
         Drawable wrapDrawable = DrawableCompat.wrap(ttvaccine);
         DrawableCompat.setTint(wrapDrawable, getResources().getColor(R.color.unfocuseddatemonthcolor));

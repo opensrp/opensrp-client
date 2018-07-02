@@ -27,7 +27,7 @@
         android:layout_gravity="center"
         android:text="text1"
         android:textColor="@color/textcolor"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:textAppearance="?android:attr/textAppearanceListItemSmall" />
     </LinearLayout>
     <ImageView

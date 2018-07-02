@@ -85,11 +85,11 @@
                     android:layout_gravity="bottom|end"
                     android:layout_marginLeft="10dp"
                     android:padding="2dp"
-                    android:text="Scheduled"
+                    android:text="@string/scheduled_label"
                     android:textAlignment="textEnd"
                     android:textAppearance="?android:attr/textAppearanceListItemSmall"
                     android:textColor="@color/textcolor"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
@@ -139,11 +139,11 @@
                     android:layout_gravity="bottom|end"
                     android:layout_marginLeft="10dp"
                     android:padding="2dp"
-                    android:text="Completed"
+                    android:text="@string/completed_label"
                     android:textAlignment="textEnd"
                     android:textAppearance="?android:attr/textAppearanceListItemSmall"
                     android:textColor="@color/textcolor"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
@@ -193,11 +193,11 @@
                     android:layout_gravity="bottom|end"
                     android:layout_marginLeft="10dp"
                     android:padding="2dp"
-                    android:text="Due"
+                    android:text="@string/due_label"
                     android:textAlignment="textEnd"
                     android:textAppearance="?android:attr/textAppearanceListItemSmall"
                     android:textColor="@color/textcolor"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
@@ -247,11 +247,11 @@
                     android:layout_gravity="bottom|end"
                     android:layout_marginLeft="10dp"
                     android:padding="2dp"
-                    android:text="Post Due"
+                    android:text="@string/post_due_label"
                     android:textAlignment="textEnd"
                     android:textAppearance="?android:attr/textAppearanceListItemSmall"
                     android:textColor="@color/textcolor"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
@@ -302,11 +302,11 @@
                     android:layout_marginBottom="15dp"
                     android:layout_marginLeft="10dp"
                     android:padding="2dp"
-                    android:text="Expired"
+                    android:text="@string/expired_label"
                     android:textAlignment="textEnd"
                     android:textAppearance="?android:attr/textAppearanceListItemSmall"
                     android:textColor="@color/textcolor"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
