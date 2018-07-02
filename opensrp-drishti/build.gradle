@@ -1,9 +1,10 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:2.3.2"
+        classpath 'com.android.tools.build:gradle:3.1.3'
         classpath 'org.apache.commons:commons-lang3:3.3.2'
     }
 }
@@ -15,7 +16,6 @@ dependencies {
 }
 android {
     compileSdkVersion androidCompileSdkVersion
-    buildToolsVersion androidBuildToolsVersion
 
     defaultConfig {
         applicationId "org.ei.opensrp.drishti"
@@ -52,6 +52,7 @@ android {
         }
     }
 
+    buildToolsVersion '27.0.3'
 }
 
 
