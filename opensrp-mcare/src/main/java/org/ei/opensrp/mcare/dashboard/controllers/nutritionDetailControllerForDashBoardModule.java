@@ -75,7 +75,18 @@ public class nutritionDetailControllerForDashBoardModule extends nutritionDetail
 
     @Override
     public String breastfeeding_up_to_6_months_zero_to_six_months_info(Date fromdate, Date todate) {
-        return "";
+        CommonRepository commonRepository = Context.getInstance().commonrepository("household");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(Distinct instanceId) from form_submission where (formName like '%encc_visit%') and (instance like '%{\"name\":\"FWENC1BFINTN\",\"value\":\"1\",\"source\":\"mcarechild.FWENC1BFINTN\"}%' or instance like '%{\"name\":\"FWENC2BFINTN\",\"value\":\"1\",\"source\":\"mcarechild.FWENC2BFINTN\"}%' or instance like '%{\"name\":\"FWENC3BFINTN\",\"value\":\"1\",\"source\":\"mcarechild.FWENC3BFINTN\"}%')  and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(fromdate) + "') and date('" + format.format(todate) + "'))");
+        cursor.moveToFirst();
+        try {
+            String countofecpreceptor = cursor.getString(0);
+
+            cursor.close();
+            return countofecpreceptor;
+        } catch (Exception e) {
+            cursor.close();
+            return "0";
+        }
     }
 
     @Override
@@ -116,5 +127,81 @@ public class nutritionDetailControllerForDashBoardModule extends nutritionDetail
     @Override
     public String received_multiple_mnr_24_to_50months_info(Date fromdate, Date todate) {
         return "";
+    }
+
+    @Override
+    public String totalmotherQuery(Date fromdate, Date todate) {
+        CommonRepository commonRepository = Context.getInstance().commonrepository("household");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from mcaremother where mcaremother.Is_PNC = 1 and  (date(SUBSTR(mcaremother.FWBNFDTOO, 0, 11)) BETWEEN date ('" + format.format(fromdate) + "') and date('" + format.format(todate) + "'))");
+        cursor.moveToFirst();
+        try {
+            String countofmother = cursor.getString(0);
+
+            cursor.close();
+            return countofmother;
+        } catch (Exception e) {
+            cursor.close();
+            return "0";
+        }
+    }
+
+    @Override
+    public String totalchildrenQuery(Date fromdate, Date todate) {
+        CommonRepository commonRepository = Context.getInstance().commonrepository("household");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count (*) from (SELECT SUBSTR(replaced, pos+4, 10) AS FWBNFDOB from (SELECT *,instr(replaced,'^') AS pos\n" +
+                "   FROM (SELECT replace(mcarechild.details,'FWBNFDOB','^') as replaced\n" +
+                "   FROM mcarechild where mcarechild.details like '%FWBNFDOB%' and mcarechild.details like '%\"FWBNFCHLDVITSTS\":\"1\"%' and mcarechild.details like '%\"user_type\":\"FD\"%' and mcarechild.FWBNFGEN is not null))) where (date(FWBNFDOB) BETWEEN date('" + format.format(fromdate) + "') and date('" + format.format(todate) + "'))");
+        cursor.moveToFirst();
+        try {
+            String countofmother = cursor.getString(0);
+
+            cursor.close();
+            return countofmother;
+        } catch (Exception e) {
+            cursor.close();
+            return "0";
+        }
+    }
+
+    @Override
+    public String totalsamchildrenQuery(Date fromdate, Date todate) {
+        return "N/A";
+    }
+
+    @Override
+    public String totalmamchildrenQuery(Date fromdate, Date todate) {
+        return "N/A";
+    }
+
+    @Override
+    public String totalnumberofLiveBirth(Date fromdate, Date todate) {
+        return "N/A";
+    }
+
+    @Override
+    public String overallnumberofTotalDeath(Date fromdate, Date todate) {
+        return "N/A";
+    }
+
+
+    @Override
+    public String numberofTotalDeath(Date from, Date to) {
+        return "";
+    }
+
+    @Override
+    public String numberofLiveBirth(Date from, Date to) {
+        CommonRepository commonRepository = Context.getInstance().commonrepository("household");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from form_submission where form_submission.formName = 'birthnotificationpregnancystatusfollowup' and form_submission.instance like '%{\"name\":\"FWBNFSTS\",\"value\":\"3\",\"source\":\"mcaremother.FWBNFSTS\"}%'and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
+        cursor.moveToFirst();
+        try {
+            String numberofLiveBirth = cursor.getString(0);
+
+            cursor.close();
+            return numberofLiveBirth;
+        } catch (Exception e) {
+            cursor.close();
+            return "0";
+        }
     }
 }

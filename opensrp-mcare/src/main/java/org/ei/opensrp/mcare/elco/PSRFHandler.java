@@ -1,5 +1,7 @@
 package org.ei.opensrp.mcare.elco;
 
+import android.content.ContentValues;
+
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
@@ -36,5 +38,20 @@ public class PSRFHandler implements FormSubmissionHandler {
 //        ElcoDetails.put("FWELIGIBLE",submission.getFieldValue("FWELIGIBLE"));
        // householdrep.mergeDetails(elcoobject.getRelationalId(),ElcoDetails);
 //        submission.getFieldValue("ELCO");
+        Map<String, String> overrideValue = new HashMap<String, String>();
+
+
+        if(submission.getFieldValue("FWPSRSTS").equalsIgnoreCase("999") && submission.getFieldValue("user_type").equalsIgnoreCase("FD")){
+            overrideValue.clear();
+            CommonPersonObject elcoObject = Context.getInstance().allCommonsRepositoryobjects("elco").findByCaseID(entityID);
+            AllCommonsRepository elcoRepo = Context.getInstance().allCommonsRepositoryobjects("elco");
+            overrideValue.put("FWPSRPREGSTS","0");
+            overrideValue.put("FWELIGIBLE","0");
+            elcoRepo.mergeDetails(entityID,overrideValue);
+
+        }
+
     }
+
+
 }

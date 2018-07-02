@@ -2,10 +2,13 @@ package dashboard.opensrp.org.jandjdashboard.fragments;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -18,6 +21,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 import dashboard.opensrp.org.jandjdashboard.R;
 import dashboard.opensrp.org.jandjdashboard.adapter.scheduleCardAdapter;
@@ -34,7 +38,7 @@ import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
  * in two-pane mode (on tablets) or a {@link dashboardCategoryDetailActivity}
  * on handsets.
  */
-public class reproductive_health_service_Fragment extends Fragment {
+public class reproductive_health_service_Fragment extends dashboardFragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -44,6 +48,7 @@ public class reproductive_health_service_Fragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
+    public static Date fromdate_forFragment = new Date(), todate_forFragment = new Date();
     private DummyContent.DummyItem mItem;
     reproductiveHealthServiceController rhsController;
     private String controller_holder_key = "controller_holder";
@@ -52,6 +57,12 @@ public class reproductive_health_service_Fragment extends Fragment {
             pnc1Service,pnc1Info,pnc2Service,pnc2Info,pnc3Service,pnc3Info,encc1Service,encc1Info,
             encc2Service,encc2Info,encc3Service,encc3Info,tt1info,tt1service,tt2info,tt2service,tt3info,tt3service
             ,tt4info,tt4service,tt5info,tt5service,ecpreceptorservice,ecpreceptorinfo;
+    private TextView filtertitle;
+    private static HashMap<String, String> ancvisitquerymap;
+    private static HashMap<String, String> pncvisitquerymap;
+    private static HashMap<String, String> enccvisitquerymap;
+    private static HashMap<String, String> ttquerymap;
+    private static String ecpreceptor;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -92,7 +103,7 @@ public class reproductive_health_service_Fragment extends Fragment {
         Date today = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(today);
-        cal.add(Calendar.DATE, -(365*10));
+        cal.add(Calendar.DATE, -(365*2));
         Date yesterday = cal.getTime();
         refresh(rhsController.format.format(yesterday.getTime()),rhsController.format.format(today.getTime()));
         return rootView;
@@ -135,49 +146,97 @@ public class reproductive_health_service_Fragment extends Fragment {
 
         ecpreceptorinfo = (TextView)rootView.findViewById(R.id.ecp_receptor_info);
         ecpreceptorservice = (TextView)rootView.findViewById(R.id.ecp_receptor_service);
+        filtertitle = (TextView)rootView.findViewById(R.id.filtertitle);
+
     }
 
+    boolean datechanged = true;
+
+    @Override
     public void refresh(String from,String to) {
         try {
-        Date fromdate = rhsController.format.parse(from);
-        Date todate =  rhsController.format.parse(to);
+        final Date fromdate = rhsController.format.parse(from);
+        final Date todate =  rhsController.format.parse(to);
+        datechanged = true;
+        if(samedate(todate_forFragment,todate)  && samedate(fromdate,fromdate_forFragment)){
+            datechanged = false;
+        }else{
+            fromdate_forFragment = fromdate;
+            todate_forFragment = todate;
+        }
 
-        anc1Service.setText(rhsController.ancVisitQuery(fromdate,todate).get("anc1visit"));
-        anc1Info.setText(rhsController.ancVisitQuery(fromdate,todate).get("anc1visit"));
-        anc2Service.setText(rhsController.ancVisitQuery(fromdate,todate).get("anc2visit"));
-        anc2Info.setText(rhsController.ancVisitQuery(fromdate,todate).get("anc2visit"));
-        anc3Service.setText(rhsController.ancVisitQuery(fromdate,todate).get("anc3visit"));
-        anc3Info.setText(rhsController.ancVisitQuery(fromdate,todate).get("anc3visit"));
-        anc4Service.setText(rhsController.ancVisitQuery(fromdate,todate).get("anc4visit"));
-        anc4Info.setText(rhsController.ancVisitQuery(fromdate,todate).get("anc4visit"));
+        filtertitle.setText(from+" to "+to);
 
-        pnc1Service.setText(rhsController.pncVisitQuery(fromdate,todate).get("pnc1visit"));
-        pnc1Info.setText(rhsController.pncVisitQuery(fromdate,todate).get("pnc1visit"));
-        pnc2Service.setText(rhsController.pncVisitQuery(fromdate,todate).get("pnc2visit"));
-        pnc2Info.setText(rhsController.pncVisitQuery(fromdate,todate).get("pnc2visit"));
-        pnc3Service.setText(rhsController.pncVisitQuery(fromdate,todate).get("pnc3visit"));
-        pnc3Info.setText(rhsController.pncVisitQuery(fromdate,todate).get("pnc3visit"));
+        (new AsyncTask(){
+            Snackbar snackbar;
 
-        encc1Service.setText(rhsController.neonatalVisitQuery(fromdate,todate).get("encc1visit"));
-        encc1Info.setText(rhsController.neonatalVisitQuery(fromdate,todate).get("encc1visit"));
-        encc2Service.setText(rhsController.neonatalVisitQuery(fromdate,todate).get("encc2visit"));
-        encc2Info.setText(rhsController.neonatalVisitQuery(fromdate,todate).get("encc2visit"));
-        encc3Service.setText(rhsController.neonatalVisitQuery(fromdate,todate).get("encc3visit"));
-        encc3Info.setText(rhsController.neonatalVisitQuery(fromdate,todate).get("encc3visit"));
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content), "Processing Data Please Wait", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Submit", null)
+                        .setActionTextColor(Color.RED);
+                snackbar.show();
+            }
 
-        tt1service.setText(rhsController.ttquery(fromdate,todate).get("tt1given"));
-        tt1info.setText(rhsController.ttquery(fromdate,todate).get("tt1given"));
-        tt2service.setText(rhsController.ttquery(fromdate,todate).get("tt2given"));
-        tt2info.setText(rhsController.ttquery(fromdate,todate).get("tt2given"));
-        tt3service.setText(rhsController.ttquery(fromdate,todate).get("tt3given"));
-        tt3info.setText(rhsController.ttquery(fromdate,todate).get("tt3given"));
-        tt4service.setText(rhsController.ttquery(fromdate,todate).get("tt4given"));
-        tt4info.setText(rhsController.ttquery(fromdate,todate).get("tt4given"));
-        tt5service.setText(rhsController.ttquery(fromdate,todate).get("tt5given"));
-        tt5info.setText(rhsController.ttquery(fromdate,todate).get("tt5given"));
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                if(datechanged) {
+                    ancvisitquerymap = rhsController.ancVisitQuery(fromdate, todate);
+                    pncvisitquerymap = rhsController.pncVisitQuery(fromdate, todate);
+                    enccvisitquerymap = rhsController.neonatalVisitQuery(fromdate, todate);
+                    ttquerymap = rhsController.ttquery(fromdate, todate);
+                    ecpreceptor = rhsController.ecpReceptors(fromdate, todate);
+                }
+                return null;
 
-        ecpreceptorinfo.setText(rhsController.ecpReceptors(fromdate,todate));
-        ecpreceptorservice.setText(rhsController.ecpReceptors(fromdate,todate));
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                anc1Service.setText(ancvisitquerymap.get("anc1visit"));
+                anc1Info.setText(ancvisitquerymap.get("anc1visit"));
+                anc2Service.setText(ancvisitquerymap.get("anc2visit"));
+                anc2Info.setText(ancvisitquerymap.get("anc2visit"));
+                anc3Service.setText(ancvisitquerymap.get("anc3visit"));
+                anc3Info.setText(ancvisitquerymap.get("anc3visit"));
+                anc4Service.setText(ancvisitquerymap.get("anc4visit"));
+                anc4Info.setText(ancvisitquerymap.get("anc4visit"));
+
+                pnc1Service.setText(pncvisitquerymap.get("pnc1visit"));
+                pnc1Info.setText(pncvisitquerymap.get("pnc1visit"));
+                pnc2Service.setText(pncvisitquerymap.get("pnc2visit"));
+                pnc2Info.setText(pncvisitquerymap.get("pnc2visit"));
+                pnc3Service.setText(pncvisitquerymap.get("pnc3visit"));
+                pnc3Info.setText(pncvisitquerymap.get("pnc3visit"));
+
+                encc1Service.setText(enccvisitquerymap.get("encc1visit"));
+                encc1Info.setText(enccvisitquerymap.get("encc1visit"));
+                encc2Service.setText(enccvisitquerymap.get("encc2visit"));
+                encc2Info.setText(enccvisitquerymap.get("encc2visit"));
+                encc3Service.setText(enccvisitquerymap.get("encc3visit"));
+                encc3Info.setText(enccvisitquerymap.get("encc3visit"));
+
+                tt1service.setText(ttquerymap.get("tt1given"));
+                tt1info.setText(ttquerymap.get("tt1given"));
+                tt2service.setText(ttquerymap.get("tt2given"));
+                tt2info.setText(ttquerymap.get("tt2given"));
+                tt3service.setText(ttquerymap.get("tt3given"));
+                tt3info.setText(ttquerymap.get("tt3given"));
+                tt4service.setText(ttquerymap.get("tt4given"));
+                tt4info.setText(ttquerymap.get("tt4given"));
+                tt5service.setText(ttquerymap.get("tt5given"));
+                tt5info.setText(ttquerymap.get("tt5given"));
+
+
+                ecpreceptorinfo.setText(ecpreceptor);
+                ecpreceptorservice.setText(ecpreceptor);
+                snackbar.dismiss();
+            }
+        }).execute();
+
+
         } catch (ParseException e) {
             e.printStackTrace();
         }

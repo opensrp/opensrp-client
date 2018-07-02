@@ -27,6 +27,7 @@ public class FormSubmissionService {
     private FormDataRepository formDataRepository;
     private AllSettings allSettings;
     private Map<String, AllCommonsRepository> allCommonsRepositoryMap;
+    public static boolean isInRegister;
 
     public FormSubmissionService(ZiggyService ziggyService, FormDataRepository formDataRepository, AllSettings allSettings) {
         this.ziggyService = ziggyService;
@@ -43,24 +44,27 @@ public class FormSubmissionService {
 
     public void processSubmissions(List<FormSubmission> formSubmissions) {
         for (FormSubmission submission : formSubmissions) {
+            if(!isInRegister) {
+                if (!formDataRepository.submissionExists(submission.instanceId())) {
+                    try {
+                        ziggyService.saveForm(getParams(submission), submission.instance());
 
-            if (!formDataRepository.submissionExists(submission.instanceId())) {
-                try {
-                    ziggyService.saveForm(getParams(submission), submission.instance());
+                        // Update FTS Tables
+                        updateFTSsearch(submission);
 
-                    // Update FTS Tables
-                    updateFTSsearch(submission);
-
-                } catch (Exception e) {
-                    logError(format("Form submission processing failed, with instanceId: {0}. Exception: {1}, StackTrace: {2}",
-                            submission.instanceId(), e.getMessage(), ExceptionUtils.getStackTrace(e)));
+                    } catch (Exception e) {
+                        logError(format("Form submission processing failed, with instanceId: {0}. Exception: {1}, StackTrace: {2}",
+                                submission.instanceId(), e.getMessage(), ExceptionUtils.getStackTrace(e)));
+                    }
                 }
-            }
-            formDataRepository.updateServerVersion(submission.instanceId(), submission.serverVersion());
-            Long previoussync = Long.parseLong(allSettings.fetchPreviousFormSyncIndex());
-            Long currentsync = Long.parseLong(submission.serverVersion());
-            if(currentsync>previoussync) {
-                allSettings.savePreviousFormSyncIndex(submission.serverVersion());
+                formDataRepository.updateServerVersion(submission.instanceId(), submission.serverVersion());
+                Long previoussync = Long.parseLong(allSettings.fetchPreviousFormSyncIndex());
+                Long currentsync = Long.parseLong(submission.serverVersion());
+                if (currentsync > previoussync) {
+                    allSettings.savePreviousFormSyncIndex(submission.serverVersion());
+                }
+            }else{
+                break;
             }
 //            break;
         }

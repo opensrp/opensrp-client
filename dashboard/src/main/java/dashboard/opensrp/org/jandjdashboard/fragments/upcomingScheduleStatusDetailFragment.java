@@ -37,7 +37,7 @@ import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
  * in two-pane mode (on tablets) or a {@link dashboardCategoryDetailActivity}
  * on handsets.
  */
-public class upcomingScheduleStatusDetailFragment extends Fragment {
+public class upcomingScheduleStatusDetailFragment extends dashboardFragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -55,6 +55,7 @@ public class upcomingScheduleStatusDetailFragment extends Fragment {
     private ArrayList<String> counts;
     private String controller_holder_key = "controller_holder";
     private String upcomingScheduleStatusControllerKey = "upcomingScheduleStatusController";
+    private TextView filtertitle;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -105,9 +106,12 @@ public class upcomingScheduleStatusDetailFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         Date today = new Date();
         Calendar cal = Calendar.getInstance();
-        cal.setTime(today);
-        cal.add(Calendar.DATE, -(365*10));
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         Date yesterday = cal.getTime();
+//                cal.setTime(yesterday);
+        cal.add(Calendar.DATE, +7);
+        today = cal.getTime();
+        filtertitle = (TextView)rootView.findViewById(R.id.filtertitle);
 
         prepareAlbums(uSSController.format.format(yesterday.getTime()),uSSController.format.format(today.getTime()));
 
@@ -116,6 +120,8 @@ public class upcomingScheduleStatusDetailFragment extends Fragment {
         return rootView;
     }
     private void prepareAlbums(String fromdate,String todate) {
+        filtertitle.setText(fromdate+" to "+todate);
+
         recyclerView.removeAllViews();
         titleList.removeAll(titleList);
         counts.removeAll(counts);
@@ -196,6 +202,7 @@ public class upcomingScheduleStatusDetailFragment extends Fragment {
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
+    @Override
     public void refresh(String fromdate, String todate) {
         prepareAlbums(fromdate,todate);
     }

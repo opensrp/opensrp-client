@@ -9,7 +9,11 @@ import java.util.Date;
 
 public abstract class nutritionDetailController extends dashboardControllers{
 
-    public SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+    public abstract String numberofLiveBirth(Date from, Date to);
+    public abstract String totalnumberofLiveBirth(Date fromdate, Date todate);
+    public abstract String overallnumberofTotalDeath(Date fromdate, Date todate);
+    public abstract String numberofTotalDeath(Date from, Date to);
 
     public abstract String iron_and_folic_acid_pregnant_woman_info(Date fromdate, Date todate);
     public abstract String iron_and_folic_acid_mother_info(Date fromdate, Date todate);
@@ -31,4 +35,9 @@ public abstract class nutritionDetailController extends dashboardControllers{
     public abstract String received_multiple_mnr_0_to_6months_info(Date fromdate, Date todate);
     public abstract String received_multiple_mnr_6_to_24months_info(Date fromdate, Date todate);
     public abstract String received_multiple_mnr_24_to_50months_info(Date fromdate, Date todate);
+
+    public abstract String totalmotherQuery(Date fromdate, Date todate);
+    public abstract String totalchildrenQuery(Date fromdate, Date todate);
+    public abstract String totalsamchildrenQuery(Date fromdate, Date todate);
+    public abstract String totalmamchildrenQuery(Date fromdate, Date todate);
 }

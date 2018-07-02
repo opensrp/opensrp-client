@@ -38,6 +38,7 @@ import org.ei.opensrp.view.activity.SettingsActivity;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -302,8 +303,11 @@ public class LoginActivity extends Activity {
     private void goToHome() {
 //        McareApplication.setCrashlyticsUser(context);
         startActivity(new Intent(this, NativeHomeActivity.class));
+        McareApplication.checkForExpiredPNC();
         finish();
     }
+
+
 
     private String getVersion() throws PackageManager.NameNotFoundException {
         PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -311,10 +315,12 @@ public class LoginActivity extends Activity {
     }
 
     private String getBuildDate() throws PackageManager.NameNotFoundException, IOException {
-        ApplicationInfo applicationInfo = getPackageManager().getApplicationInfo(getPackageName(), 0);
-        ZipFile zf = new ZipFile(applicationInfo.sourceDir);
-        ZipEntry ze = zf.getEntry("classes.dex");
-        return new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(new java.util.Date(ze.getTime()));
+//        ApplicationInfo applicationInfo = getPackageManager().getApplicationInfo(getPackageName(), 0);
+//        ZipFile zf = new ZipFile(applicationInfo.sourceDir);
+//        ZipEntry ze = zf.getEntry("classes.dex");
+//        return new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(new java.util.Date(ze.getTime()));
+        return new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(new Date(BuildConfig.BUILD_TIMESTAMP));
+
     }
 
     public static void setLanguage(){

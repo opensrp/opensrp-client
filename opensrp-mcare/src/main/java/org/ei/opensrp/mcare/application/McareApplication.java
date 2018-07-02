@@ -2,22 +2,52 @@ package org.ei.opensrp.mcare.application;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+//<<<<<<< HEAD
 import android.support.multidex.MultiDex;
 import android.util.Pair;
 
 //import com.crashlytics.android.Crashlytics;
 //import io.fabric.sdk.android.Fabric;
+//=======
+import android.os.AsyncTask;
+import android.util.Log;
+import android.util.Pair;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+//>>>>>>> 44c208810a3861e640eabac30ca0dc92413bcf6b
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.ei.opensrp.Context;
+import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonFtsObject;
+import org.ei.opensrp.commonregistry.CommonPersonObject;
+import org.ei.opensrp.domain.FetchStatus;
+import org.ei.opensrp.domain.Response;
 import org.ei.opensrp.mcare.LoginActivity;
+import org.ei.opensrp.service.FormSubmissionService;
 import org.ei.opensrp.sync.DrishtiSyncScheduler;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.ei.opensrp.view.receiver.SyncBroadcastReceiver;
+import org.joda.time.DateTime;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.opensrp.dto.form.FormSubmissionDTO;
+
+import static java.text.MessageFormat.format;
+import static org.ei.opensrp.convertor.FormSubmissionConvertor.toDomain;
+import static org.ei.opensrp.domain.FetchStatus.fetched;
+import static org.ei.opensrp.domain.FetchStatus.fetchedFailed;
+import static org.ei.opensrp.domain.FetchStatus.nothingFetched;
+import static org.ei.opensrp.util.Log.logError;
 import static org.ei.opensrp.util.Log.logInfo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -57,6 +87,58 @@ public class McareApplication extends DrishtiApplication {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplicationContext().startActivity(intent);
         context.userService().logoutSession();
+    }
+
+    @Override
+    public FetchStatus deleteRecords() {
+        FetchStatus dataStatus = nothingFetched;
+        String anmId = context.allSharedPreferences().fetchRegisteredANM();
+        String baseURL = context.configuration().dristhiBaseURL();
+        while (!FormSubmissionService.isInRegister) {
+
+            String uri = format("{0}/{1}?provider={2}",
+                    baseURL,
+                    "api/deleting/entity/list",
+                    anmId);
+            Response<String> response = context.getHttpAgent().fetch(uri);
+            if (response.isFailure()) {
+                logError(format("deletelist pull failed"));
+                return fetchedFailed;
+            }
+            JSONArray string_of_entity_delete = null;
+            try {
+                string_of_entity_delete = new JSONArray(response.payload());
+
+             if (string_of_entity_delete.length() == 0) {
+                return dataStatus;
+                } else {
+                dataStatus = fetched;
+                 for(int i =0;i<string_of_entity_delete.length();i++){
+                     String entity_id_of_household = string_of_entity_delete.getString(i);
+                     deleteRecordsUsingHouseholdID(entity_id_of_household);
+                 }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return dataStatus;
+    }
+
+    private void deleteRecordsUsingHouseholdID(String entity_id_of_household) {
+        List<CommonPersonObject> commonPersonElcoObjects = context.commonrepository("elco").findByRelationalIDs(entity_id_of_household);
+        for (int i = 0; i < commonPersonElcoObjects.size(); i++) {
+            List<CommonPersonObject> commonPersonMcareMotherObjects = context.commonrepository("mcaremother").findByRelationalIDs();
+            for (int j = 0; j < commonPersonMcareMotherObjects.size(); j++) {
+                List<CommonPersonObject> commonPersonMcareChildObjects = context.commonrepository("mcarechild").findByRelationalIDs(commonPersonMcareMotherObjects.get(j).getCaseId());
+                for(int k = 0; k < commonPersonMcareChildObjects.size(); k++) {
+                    context.commonrepository("mcarechild").delete(commonPersonMcareChildObjects.get(k).getCaseId());
+                }
+                context.commonrepository("mcaremother").delete(commonPersonMcareMotherObjects.get(j).getCaseId());
+            }
+            context.commonrepository("elco").delete(commonPersonElcoObjects.get(i).getCaseId());
+        }
+        context.commonrepository("household").delete(entity_id_of_household);
     }
 
     private void cleanUpSyncState() {
@@ -205,4 +287,53 @@ public class McareApplication extends DrishtiApplication {
 //                   }
 //           }
 
+    public static void checkForExpiredPNC() {
+        (new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] params) {
+
+            List<CommonPersonObject> mcaremothers = Context.getInstance().commonrepository("mcaremother").allcommon();
+            for(
+            int i = 0;
+            i<mcaremothers.size();i++)
+
+            {
+                CommonPersonObject pncmother = mcaremothers.get(i);
+                if(pncmother.getColumnmaps().get("Is_PNC")!=null) {
+                    if (pncmother.getColumnmaps().get("Is_PNC").equalsIgnoreCase("1")) {
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                        try {
+                            Date edd_date = format.parse(pncmother.getColumnmaps().get("FWBNFDTOO") != null ? pncmother.getColumnmaps().get("FWBNFDTOO") : "");
+                            GregorianCalendar calendar = new GregorianCalendar();
+                            calendar.setTime(edd_date);
+                            edd_date.setTime(calendar.getTime().getTime());
+                            DateTime doo = new DateTime(edd_date.getTime());
+                            if (doo.plusDays(43).isBefore(new DateTime())) {
+                                Map<String, String> overrideValue = new HashMap<String, String>();
+                                String entityID = pncmother.getCaseId();
+                                overrideValue.clear();
+                                CommonPersonObject motherObject = Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByCaseID(entityID);
+                                AllCommonsRepository motherRepo = Context.getInstance().allCommonsRepositoryobjects("mcaremother");
+                                overrideValue.put("FWWOMVALID", "0");
+                                motherRepo.mergeDetails(entityID, overrideValue);
+
+                                overrideValue.clear();
+                                CommonPersonObject elcoObject = Context.getInstance().allCommonsRepositoryobjects("elco").findByCaseID(motherObject.getRelationalId());
+                                AllCommonsRepository elcoRepo = Context.getInstance().allCommonsRepositoryobjects("elco");
+                                overrideValue.put("FWPSRPREGSTS", "0");
+                                elcoRepo.mergeDetails(motherObject.getRelationalId(), overrideValue);
+                            }
+                        } catch (ParseException e) {
+
+
+                        }
+                    }
+                }
+            }
+                return null;
+            }
+
+
+        }).execute();
+    }
 }

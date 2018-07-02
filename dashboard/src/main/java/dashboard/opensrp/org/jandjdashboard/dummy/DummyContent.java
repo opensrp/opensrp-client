@@ -29,8 +29,8 @@ public class DummyContent {
             "ANC/PNC/ENCC REMINDER VISIT STATUS",
             "REPRODUCTIVE HEALTH SERVICE",
             "DELIVERY STATUS",
-            "CHILD & NEONATAL CARE",
-            "DEATH",
+//            "CHILD & NEONATAL CARE",
+//            "DEATH",
             "NUTRITION",
             "CONTRACEPTIVE SUPPLY STATUS"
     };
@@ -40,7 +40,7 @@ public class DummyContent {
      */
     public static final Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
 
-    private static final int COUNT = 9;
+    private static final int COUNT = 7;
 
     static {
         // Add some sample items.
@@ -57,7 +57,7 @@ public class DummyContent {
         menudrawable.add(context.getResources().getDrawable(R.drawable.reproductive));
         menudrawable.add(context.getResources().getDrawable(R.drawable.delivery));
         menudrawable.add(context.getResources().getDrawable(R.drawable.child));
-        menudrawable.add(context.getResources().getDrawable(R.drawable.death));
+//        menudrawable.add(context.getResources().getDrawable(R.drawable.death));
         menudrawable.add(context.getResources().getDrawable(R.drawable.nutrition));
         menudrawable.add(context.getResources().getDrawable(R.drawable.contraceptive));
     }

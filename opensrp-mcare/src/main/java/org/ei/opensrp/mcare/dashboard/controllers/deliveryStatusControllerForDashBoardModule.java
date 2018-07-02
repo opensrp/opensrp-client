@@ -17,25 +17,10 @@ import dashboard.opensrp.org.jandjdashboard.controller.reproductiveHealthService
 
 public class deliveryStatusControllerForDashBoardModule extends deliveryStatusController {
 
-    public String ecpReceptors(Date from, Date to) {
-        CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from form_submission where form_submission.formName = 'mis_census' and form_submission.instance like '%{\"name\":\"FWPMISBIRTHCTRL\",\"value\":\"08\",\"source\":\"elco.FWPMISBIRTHCTRL\"}%'and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
-        cursor.moveToFirst();
-        try {
-            String countofecpreceptor = cursor.getString(0);
-
-            cursor.close();
-            return countofecpreceptor;
-        } catch (Exception e) {
-            cursor.close();
-            return "0";
-        }
-            }
-
     @Override
     public String numberofLiveBirth(Date from, Date to) {
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from form_submission where form_submission.formName = 'birthnotificationpregnancystatusfollowup' and form_submission.instance like '%{\"name\":\"FWBNFSTS\",\"value\":\"3\",\"source\":\"mcaremother.FWBNFSTS\"}%'and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(Distinct instanceId) from form_submission where form_submission.formName = 'birthnotificationpregnancystatusfollowup' and form_submission.instance like '%{\"name\":\"FWBNFSTS\",\"value\":\"3\",\"source\":\"mcaremother.FWBNFSTS\"}%'and form_submission.instance not like '%\"user_type\":\"FWA\"%' and (date(strftime('%Y-%m-%d', datetime(serverVersion/1000, 'unixepoch'))) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
         cursor.moveToFirst();
         try {
             String numberofLiveBirth = cursor.getString(0);
@@ -167,5 +152,15 @@ public class deliveryStatusControllerForDashBoardModule extends deliveryStatusCo
     @Override
     public String numberofOtherDeath(Date from, Date to) {
         return null;
+    }
+
+    @Override
+    public String totalnumberofLiveBirth(Date fromdate, Date todate) {
+        return "N/A";
+    }
+
+    @Override
+    public String overallnumberofTotalDeath(Date fromdate, Date todate) {
+        return "N/A";
     }
 }

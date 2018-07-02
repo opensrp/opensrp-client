@@ -12,8 +12,6 @@ public abstract class reminderVisitStatusController extends dashboardControllers
     public String ancVisitTableName;
     public String pncVisitTableName;
     public String neonatalVisitTableName;
-    public SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
 
 
     public void setAncVisitTableName(String ancVisitTableName) {

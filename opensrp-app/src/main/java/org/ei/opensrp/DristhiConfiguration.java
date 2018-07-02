@@ -62,7 +62,7 @@ public class DristhiConfiguration {
     }
 
     public int syncDownloadBatchSize() {
-        return IntegerUtil.tryParse(this.get(SYNC_DOWNLOAD_BATCH_SIZE), 100);
+        return IntegerUtil.tryParse(this.get(SYNC_DOWNLOAD_BATCH_SIZE), 250);
     }
 
     public String appName() {

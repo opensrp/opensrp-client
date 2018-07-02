@@ -1,14 +1,11 @@
 package dashboard.opensrp.org.jandjdashboard.fragments;
 
 import android.app.Activity;
-import android.content.res.Resources;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
@@ -35,7 +33,6 @@ import dashboard.opensrp.org.jandjdashboard.R;
 import dashboard.opensrp.org.jandjdashboard.adapter.scheduleCardAdapter;
 import dashboard.opensrp.org.jandjdashboard.controller.controllerHolders;
 import dashboard.opensrp.org.jandjdashboard.controller.reminderVisitStatusController;
-import dashboard.opensrp.org.jandjdashboard.controller.upcomingScheduleStatusController;
 import dashboard.opensrp.org.jandjdashboard.dashboardCategoryDetailActivity;
 import dashboard.opensrp.org.jandjdashboard.dashboardCategoryListActivity;
 import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
@@ -46,7 +43,7 @@ import dashboard.opensrp.org.jandjdashboard.dummy.DummyContent;
  * in two-pane mode (on tablets) or a {@link dashboardCategoryDetailActivity}
  * on handsets.
  */
-public class anc_pnc_encc_StatusDetailFragment extends Fragment {
+public class anc_pnc_encc_StatusDetailFragment extends dashboardFragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -69,6 +66,11 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
     private Date to;
     private Date from;
     private View rootView;
+    private String riskFlag = "normal";
+    private HashMap<String, HashMap<String, String>> ancMap;
+    private HashMap<String, HashMap<String, String>> pncMap;
+    private HashMap<String, HashMap<String, String>> enccmap;
+    private TextView filtertitle;
 
 
     /**
@@ -107,27 +109,46 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.anc_pnc_encc_reminder_status_detail, container, false);
         addItemsOnRiskStatusSpinner(rootView);
-        addItemsOnScheduleTypeSpinner(rootView);
+//        addItemsOnScheduleTypeSpinner(rootView);
         to = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(to);
-        cal.add(Calendar.DATE, -(365*10));
+        cal.add(Calendar.DATE, -(365*2));
         from = cal.getTime();
-
-
+        filtertitle = (TextView)rootView.findViewById(R.id.filtertitle);
+        refresh(format.format(from),format.format(to));
         return rootView;
     }
 
     public void addItemsOnRiskStatusSpinner(View view) {
 
         risk_status = (Spinner)view.findViewById(R.id.risk_status);
-        List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<String>();
         list.add("Normal");
         list.add("High Risk");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         risk_status.setAdapter(dataAdapter);
+        risk_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                if(list.get(i).equalsIgnoreCase("Normal")){
+                    riskFlag = "normal";
+                    refresh(format.format(from),format.format(to));
+                }
+                if(list.get(i).equalsIgnoreCase("High Risk")){
+                    riskFlag = "high_risk";
+                    refresh(format.format(from),format.format(to));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
     }
 
@@ -166,34 +187,35 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
     }
 
     private void launchEnccGraphs(View view, Date from, Date to, String riskFlag) {
-        HashMap<String,HashMap<String,String>> pncMap = rVSController.neonatalVisitQuery(from, to, riskFlag);
+//        enccmap = rVSController.neonatalVisitQuery(from, to, riskFlag);
         LinearLayout graphHolder = (LinearLayout) view.findViewById(R.id.graph_holder);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.weight = 1;
         graphHolder.removeAllViews();
         HashMap<String,DataPoint> encc1stringDataPointHashMap = new HashMap<String,DataPoint>();
-        encc1stringDataPointHashMap.put("Completed",new DataPoint(0, Integer.parseInt(pncMap.get("ENCC1").get("Completed"))));
-        encc1stringDataPointHashMap.put("Due",new DataPoint(1, Integer.parseInt(pncMap.get("ENCC1").get("Due"))));
-        encc1stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(pncMap.get("ENCC1").get("Post Due"))));
-        encc1stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(pncMap.get("ENCC1").get("Expired"))));
+        encc1stringDataPointHashMap.put("Completed",new DataPoint(0, Integer.parseInt(enccmap.get("ENCC1").get("Completed"))));
+        encc1stringDataPointHashMap.put("Due",new DataPoint(1, Integer.parseInt(enccmap.get("ENCC1").get("Due"))));
+        encc1stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(enccmap.get("ENCC1").get("Post Due"))));
+        encc1stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(enccmap.get("ENCC1").get("Expired"))));
         HashMap<String,DataPoint> encc2stringDataPointHashMap = new HashMap<String,DataPoint>();
-        encc2stringDataPointHashMap.put("Completed",new DataPoint(0, Integer.parseInt(pncMap.get("ENCC2").get("Completed"))));
-        encc2stringDataPointHashMap.put("Due",new DataPoint(1, Integer.parseInt(pncMap.get("ENCC2").get("Due"))));
-        encc2stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(pncMap.get("ENCC2").get("Post Due"))));
-        encc2stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(pncMap.get("ENCC2").get("Expired"))));
+        encc2stringDataPointHashMap.put("Completed",new DataPoint(0, Integer.parseInt(enccmap.get("ENCC2").get("Completed"))));
+        encc2stringDataPointHashMap.put("Due",new DataPoint(1, Integer.parseInt(enccmap.get("ENCC2").get("Due"))));
+        encc2stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(enccmap.get("ENCC2").get("Post Due"))));
+        encc2stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(enccmap.get("ENCC2").get("Expired"))));
         HashMap<String,DataPoint> encc3stringDataPointHashMap = new HashMap<String,DataPoint>();
-        encc3stringDataPointHashMap.put("Completed",new DataPoint(0, Integer.parseInt(pncMap.get("ENCC3").get("Completed"))));
-        encc3stringDataPointHashMap.put("Due",new DataPoint(1, Integer.parseInt(pncMap.get("ENCC3").get("Due"))));
-        encc3stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(pncMap.get("ENCC3").get("Post Due"))));
-        encc3stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(pncMap.get("ENCC3").get("Expired"))));
+        encc3stringDataPointHashMap.put("Completed",new DataPoint(0, Integer.parseInt(enccmap.get("ENCC3").get("Completed"))));
+        encc3stringDataPointHashMap.put("Due",new DataPoint(1, Integer.parseInt(enccmap.get("ENCC3").get("Due"))));
+        encc3stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(enccmap.get("ENCC3").get("Post Due"))));
+        encc3stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(enccmap.get("ENCC3").get("Expired"))));
 
-        graphHolder.addView(addAncGraphs(encc1stringDataPointHashMap,"ENCC 1"),layoutParams);
-        graphHolder.addView(addAncGraphs(encc2stringDataPointHashMap,"ENCC 2"),layoutParams);
-        graphHolder.addView(addAncGraphs(encc3stringDataPointHashMap,"ENCC 3"),layoutParams);
+        int enccmax = findHighestInENCCMAP(enccmap);
+        graphHolder.addView(addGraphs(encc1stringDataPointHashMap,"ENCC 1",enccmax),layoutParams);
+        graphHolder.addView(addGraphs(encc2stringDataPointHashMap,"ENCC 2",enccmax),layoutParams);
+        graphHolder.addView(addGraphs(encc3stringDataPointHashMap,"ENCC 3",enccmax),layoutParams);
     }
 
     private void launchPncGraphs(View view, Date from, Date to, String riskFlag) {
-        HashMap<String,HashMap<String,String>> pncMap = rVSController.pncVisitQuery(from, to, riskFlag);
+//        pncMap = rVSController.pncVisitQuery(from, to, riskFlag);
         LinearLayout graphHolder = (LinearLayout) view.findViewById(R.id.graph_holder);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.weight = 1;
@@ -214,13 +236,14 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
         pnc3stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(pncMap.get("PNC3").get("Post Due"))));
         pnc3stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(pncMap.get("PNC3").get("Expired"))));
 
-        graphHolder.addView(addAncGraphs(pnc1stringDataPointHashMap,"PNC 1"),layoutParams);
-        graphHolder.addView(addAncGraphs(pnc2stringDataPointHashMap,"PNC 2"),layoutParams);
-        graphHolder.addView(addAncGraphs(pnc3stringDataPointHashMap,"PNC 3"),layoutParams);
+        int pncmax = findHighestInPNCMAP(pncMap);
+        graphHolder.addView(addGraphs(pnc1stringDataPointHashMap,"PNC 1",pncmax),layoutParams);
+        graphHolder.addView(addGraphs(pnc2stringDataPointHashMap,"PNC 2",pncmax),layoutParams);
+        graphHolder.addView(addGraphs(pnc3stringDataPointHashMap,"PNC 3",pncmax),layoutParams);
     }
 
     private void launchAncGraphs(View view, Date from, Date to, String riskFlag) {
-        HashMap<String,HashMap<String,String>> ancMap = rVSController.ancVisitQuery(from, to, riskFlag);
+//        ancMap = rVSController.ancVisitQuery(from, to, riskFlag);
         LinearLayout graphHolder = (LinearLayout) view.findViewById(R.id.graph_holder);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.weight = 1;
@@ -247,16 +270,16 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
         anc4stringDataPointHashMap.put("Due",new DataPoint(1, Integer.parseInt(ancMap.get("ANC4").get("Due"))));
         anc4stringDataPointHashMap.put("Post Due",new DataPoint(2, Integer.parseInt(ancMap.get("ANC4").get("Post Due"))));
         anc4stringDataPointHashMap.put("Expired",new DataPoint(3, Integer.parseInt(ancMap.get("ANC4").get("Expired"))));
+        int ancmax = findHighestInANCMAP(ancMap);
 
-
-        graphHolder.addView(addAncGraphs(anc1stringDataPointHashMap,"ANC 1"),layoutParams);
-        graphHolder.addView(addAncGraphs(anc2stringDataPointHashMap,"ANC 2"),layoutParams);
-        graphHolder.addView(addAncGraphs(anc3stringDataPointHashMap,"ANC 3"),layoutParams);
-        graphHolder.addView(addAncGraphs(anc4stringDataPointHashMap,"ANC 4"),layoutParams);
+        graphHolder.addView(addGraphs(anc1stringDataPointHashMap,"ANC 1",ancmax),layoutParams);
+        graphHolder.addView(addGraphs(anc2stringDataPointHashMap,"ANC 2",ancmax),layoutParams);
+        graphHolder.addView(addGraphs(anc3stringDataPointHashMap,"ANC 3",ancmax),layoutParams);
+        graphHolder.addView(addGraphs(anc4stringDataPointHashMap,"ANC 4",ancmax),layoutParams);
 
     }
 
-    public GraphView addAncGraphs(final HashMap<String,DataPoint> stringDataPointHashMap,String Label){
+    public GraphView addGraphs(final HashMap<String,DataPoint> stringDataPointHashMap, String Label , int yAxisMax){
         GraphView graph = new GraphView(getActivity());
         graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
         graph.getViewport().setDrawBorder(true);
@@ -272,16 +295,16 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
             @Override
             public int get(DataPoint data) {
                 if(data.equals(stringDataPointHashMap.get("Completed"))){
-                    return getResources().getColor(R.color.completedgraphbarcolor);
+                    return getResources().getColor(R.color.completedgraphbarcolor_beta);
                 }
                 if(data.equals(stringDataPointHashMap.get("Due"))){
-                    return getResources().getColor(R.color.duegraphbarcolor);
+                    return getResources().getColor(R.color.duegraphbarcolor_beta);
                 }
                 if(data.equals(stringDataPointHashMap.get("Post Due"))){
-                    return getResources().getColor(R.color.postduegraphbarcolor);
+                    return getResources().getColor(R.color.postduegraphbarcolor_beta);
                 }
                 if(data.equals(stringDataPointHashMap.get("Expired"))){
-                    return getResources().getColor(R.color.expiredgraphbarcolor);
+                    return getResources().getColor(R.color.expiredgraphbarcolor_beta);
                 }
                 return 0;
             }
@@ -293,6 +316,7 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
             // Hide xLabels for now as no longer centered in the grid, but left aligned per the other types
             graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
             graph.getViewport().setMinY(0);
+            graph.getViewport().setMaxY(yAxisMax);
             // Shunt the viewport, per v3.1.3 to show the full width of the first and last bars.
             graph.getViewport().setMinX(series.getLowestValueX() - (xInterval/2.0));
             graph.getViewport().setMaxX(series.getHighestValueX() + (xInterval/2.0));
@@ -307,16 +331,150 @@ public class anc_pnc_encc_StatusDetailFragment extends Fragment {
         return graph;
     }
 
-
+    @Override
     public void refresh(String fromdate, String todate) {
         try {
             from = format.parse(fromdate);
             to = format.parse(todate);
-            addItemsOnRiskStatusSpinner(rootView);
+
+            filtertitle.setText(fromdate+" to "+todate);
+
+            ancMap = rVSController.ancVisitQuery(from, to, riskFlag);
+            pncMap = rVSController.pncVisitQuery(from, to, riskFlag);
+            enccmap = rVSController.neonatalVisitQuery(from, to, riskFlag);
+
+            findHighestInANCMAP(ancMap);
+
+            int ancdue = Integer.parseInt(ancMap.get("ANC1").get("Due"))+
+                    Integer.parseInt(ancMap.get("ANC2").get("Due"))+
+                    Integer.parseInt(ancMap.get("ANC3").get("Due"))+
+                    Integer.parseInt(ancMap.get("ANC4").get("Due"));
+            int ancpostdue = Integer.parseInt(ancMap.get("ANC1").get("Post Due"))+
+                    Integer.parseInt(ancMap.get("ANC2").get("Post Due"))+
+                    Integer.parseInt(ancMap.get("ANC3").get("Post Due"))+
+                    Integer.parseInt(ancMap.get("ANC4").get("Post Due"));
+            int ancexpired = Integer.parseInt(ancMap.get("ANC1").get("Expired"))+
+                    Integer.parseInt(ancMap.get("ANC2").get("Expired"))+
+                    Integer.parseInt(ancMap.get("ANC3").get("Expired"))+
+                    Integer.parseInt(ancMap.get("ANC4").get("Expired"));
+            int anccompleted = Integer.parseInt(ancMap.get("ANC1").get("Completed"))+
+                    Integer.parseInt(ancMap.get("ANC2").get("Completed"))+
+                    Integer.parseInt(ancMap.get("ANC3").get("Completed"))+
+                    Integer.parseInt(ancMap.get("ANC4").get("Completed"));
+
+            int pncdue = Integer.parseInt(pncMap.get("PNC1").get("Due"))+
+                    Integer.parseInt(pncMap.get("PNC2").get("Due"))+
+                    Integer.parseInt(pncMap.get("PNC3").get("Due"));
+            int pncpostdue = Integer.parseInt(pncMap.get("PNC1").get("Post Due"))+
+                    Integer.parseInt(pncMap.get("PNC2").get("Post Due"))+
+                    Integer.parseInt(pncMap.get("PNC3").get("Post Due"));
+            int pncexpired = Integer.parseInt(pncMap.get("PNC1").get("Expired"))+
+                    Integer.parseInt(pncMap.get("PNC2").get("Expired"))+
+                    Integer.parseInt(pncMap.get("PNC3").get("Expired"));
+            int pnccompleted = Integer.parseInt(pncMap.get("PNC1").get("Completed"))+
+                    Integer.parseInt(pncMap.get("PNC2").get("Completed"))+
+                    Integer.parseInt(pncMap.get("PNC3").get("Completed"));
+
+            int enccdue = Integer.parseInt(enccmap.get("ENCC1").get("Due"))+
+                    Integer.parseInt(enccmap.get("ENCC2").get("Due"))+
+                    Integer.parseInt(enccmap.get("ENCC3").get("Due"));
+            int enccpostdue = Integer.parseInt(enccmap.get("ENCC1").get("Post Due"))+
+                    Integer.parseInt(enccmap.get("ENCC2").get("Post Due"))+
+                    Integer.parseInt(enccmap.get("ENCC3").get("Post Due"));
+            int enccexpired = Integer.parseInt(enccmap.get("ENCC1").get("Expired"))+
+                    Integer.parseInt(enccmap.get("ENCC2").get("Expired"))+
+                    Integer.parseInt(enccmap.get("ENCC3").get("Expired"));
+            int enccompleted = Integer.parseInt(enccmap.get("ENCC1").get("Completed"))+
+                    Integer.parseInt(enccmap.get("ENCC2").get("Completed"))+
+                    Integer.parseInt(enccmap.get("ENCC3").get("Completed"));
+            int TotalScheduled = ancdue
+                    +anccompleted
+                    +ancpostdue
+                    +ancexpired
+                    +pncdue
+                    +pnccompleted
+                    +pncpostdue
+                    +pncexpired
+                    +enccdue
+                    +enccompleted
+                    +enccpostdue
+                    +enccexpired;
+            int totalexpired = ancexpired
+                    +pncexpired
+                    +enccexpired;
+            int totaldue = ancdue
+                    +pncdue
+                    +enccdue;
+            int totalpostdue = ancpostdue
+                    +pncpostdue
+                    +enccpostdue;
+            int totalcompleted = anccompleted
+                    +pnccompleted
+                    +enccompleted;
+
+            ((TextView)rootView.findViewById(R.id.scheduled_count)).setText(""+TotalScheduled);
+            ((TextView)rootView.findViewById(R.id.completed_count)).setText(""+totalcompleted);
+            ((TextView)rootView.findViewById(R.id.due_count)).setText(""+totaldue);
+            ((TextView)rootView.findViewById(R.id.post_due_count)).setText(""+totalpostdue);
+            ((TextView)rootView.findViewById(R.id.expired_count)).setText(""+totalexpired);
+
+//            addItemsOnRiskStatusSpinner(rootView);
             addItemsOnScheduleTypeSpinner(rootView);
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private int findHighestInANCMAP(HashMap<String, HashMap<String, String>> ancMap) {
+        int highest = 0;
+        for(int i = 1; i<5;i++) {
+            int [] temparray = new int [4];
+            temparray [0] = Integer.parseInt(ancMap.get("ANC"+i).get("Due"));
+            temparray [1] = Integer.parseInt(ancMap.get("ANC"+i).get("Post Due"));
+            temparray [2]= Integer.parseInt(ancMap.get("ANC"+i).get("Completed"));
+            temparray [3] = Integer.parseInt(ancMap.get("ANC"+i).get("Expired"));
+            for(int j = 0; j<temparray.length;j++){
+                if(temparray[j]>highest){
+                    highest = temparray[j];
+                }
+            }
+        }
+        return highest;
+    }
+
+    private int findHighestInPNCMAP(HashMap<String, HashMap<String, String>> pncMap) {
+        int highest = 0;
+        for(int i = 1; i<4;i++) {
+            int [] temparray = new int [4];
+            temparray [0] = Integer.parseInt(pncMap.get("PNC"+i).get("Due"));
+            temparray [1] = Integer.parseInt(pncMap.get("PNC"+i).get("Post Due"));
+            temparray [2]= Integer.parseInt(pncMap.get("PNC"+i).get("Completed"));
+            temparray [3] = Integer.parseInt(pncMap.get("PNC"+i).get("Expired"));
+            for(int j = 0; j<temparray.length;j++){
+                if(temparray[j]>highest){
+                    highest = temparray[j];
+                }
+            }
+        }
+        return highest;
+    }
+
+    private int findHighestInENCCMAP(HashMap<String, HashMap<String, String>> enccMap) {
+        int highest = 0;
+        for(int i = 1; i<4;i++) {
+            int [] temparray = new int [4];
+            temparray [0] = Integer.parseInt(enccMap.get("ENCC"+i).get("Due"));
+            temparray [1] = Integer.parseInt(enccMap.get("ENCC"+i).get("Post Due"));
+            temparray [2]= Integer.parseInt(enccMap.get("ENCC"+i).get("Completed"));
+            temparray [3] = Integer.parseInt(enccMap.get("ENCC"+i).get("Expired"));
+            for(int j = 0; j<temparray.length;j++){
+                if(temparray[j]>highest){
+                    highest = temparray[j];
+                }
+            }
+        }
+        return highest;
     }
 }

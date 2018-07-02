@@ -54,7 +54,12 @@ public class FormSubmissionSyncService {
         pushToServer();
         Intent intent = new Intent(DrishtiApplication.getInstance().getApplicationContext(),ImageUploadSyncService.class);
         DrishtiApplication.getInstance().getApplicationContext().startService(intent);
+        deleteRecords();
         return pullFromServer();
+    }
+
+    private void deleteRecords() {
+        DrishtiApplication.getInstance().deleteRecords();
     }
 
     public void pushToServer() {
@@ -81,7 +86,7 @@ public class FormSubmissionSyncService {
         String anmId = allSharedPreferences.fetchRegisteredANM();
         int downloadBatchSize = configuration.syncDownloadBatchSize();
         String baseURL = configuration.dristhiBaseURL();
-        while (true) {
+        while (!FormSubmissionService.isInRegister) {
 
             String uri = format("{0}/{1}?anm-id={2}&timestamp={3}&batch-size={4}",
                     baseURL,
@@ -104,6 +109,7 @@ public class FormSubmissionSyncService {
                 dataStatus = fetched;
             }
         }
+        return dataStatus;
     }
 
     private String mapToFormSubmissionDTO(List<FormSubmission> pendingFormSubmissions) {

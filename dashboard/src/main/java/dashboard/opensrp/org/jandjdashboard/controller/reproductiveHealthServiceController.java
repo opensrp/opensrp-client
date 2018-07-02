@@ -10,8 +10,6 @@ import java.util.HashMap;
 
 public abstract class reproductiveHealthServiceController extends dashboardControllers{
 
-    public SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
 
     public abstract String ecpReceptors(Date from, Date to);
     public abstract HashMap<String,String> ttquery(Date from, Date to);
