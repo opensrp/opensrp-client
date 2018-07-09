@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 
+import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
@@ -16,6 +17,7 @@ import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.BaseRegisterActivity;
 import org.ei.opensrp.path.activity.ChildImmunizationActivity;
+import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.view.LocationPickerView;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.view.activity.SecuredNativeSmartRegisterActivity;
@@ -34,54 +36,9 @@ public class BaseSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
 
     private LocationPickerView clinicSelection;
 
-    @Override
-    protected SecuredNativeSmartRegisterActivity.DefaultOptionsProvider getDefaultOptionsProvider() {
-        return null;
-    }
 
-    @Override
-    protected SecuredNativeSmartRegisterActivity.NavBarOptionsProvider getNavBarOptionsProvider() {
-        return null;
-    }
 
-    @Override
-    protected SmartRegisterClientsProvider clientsProvider() {
-        return null;
-    }
 
-    @Override
-    protected void onInitialization() {
-    }
-
-    @Override
-    protected void startRegistration() {
-
-    }
-
-    @Override
-    protected void onCreation() {
-    }
-
-    protected TextWatcher textWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        }
-
-        @Override
-        public void onTextChanged(final CharSequence cs, int start, int before, int count) {
-            filter(cs.toString(), "", "");
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-
-        }
-    };
-
-    public void openVaccineCard(final String filterString) {
-        FilterForClientTask filterForClientTask = new FilterForClientTask();
-        filterForClientTask.execute(filterString);
-    }
 
     @Override
     public String filterandSortQuery(){
@@ -92,7 +49,7 @@ public class BaseSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
             if(isValidFilterForFts(commonRepository())){
                 String sql = sqb.searchQueryFts(tablename, joinTable, mainCondition, filters, Sortqueries, currentlimit, currentoffset);
                 List<String> ids = commonRepository().findSearchIds(sql);
-                query = sqb.toStringFts(ids, tablename + "." + CommonRepository.ID_COLUMN, Sortqueries);
+                query = sqb.toStringFts(ids, tablename , CommonRepository.ID_COLUMN, Sortqueries);
                 query = sqb.Endquery(query);
             } else {
                 sqb.addCondition(filters);
@@ -146,39 +103,6 @@ public class BaseSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
     }
 
 
-    @Override
-    protected void setupViews(View view) {
-        super.setupViews(view);
-
-        View viewParent = (View) appliedSortView.getParent();
-        viewParent.setVisibility(View.GONE);
-
-        clinicSelection = (LocationPickerView) view.findViewById(R.id.clinic_selection);
-        clinicSelection.init(context());
-    }
-
-    protected void filter(String filterString, String joinTableString, String mainConditionString) {
-        filters = filterString;
-        joinTable = joinTableString;
-        mainCondition = mainConditionString;
-        getSearchCancelView().setVisibility(isEmpty(filterString) ? INVISIBLE : VISIBLE);
-        CountExecute();
-        filterandSortExecute();
-    }
-
-    @Override
-    public void showProgressView() {
-        if (clientsProgressView.getVisibility() == INVISIBLE) {
-            clientsProgressView.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    public void hideProgressView() {
-        if (clientsProgressView.getVisibility() == VISIBLE) {
-            clientsProgressView.setVisibility(INVISIBLE);
-        }
-    }
 
     private class FilterForClientTask extends AsyncTask<String, Integer, CommonPersonObjectClient> {
         private String searchQuery;
@@ -258,4 +182,105 @@ public class BaseSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
     public boolean onBackPressed(){
         return false;
     }
+
+
+
+
+
+
+        @Override
+        protected SecuredNativeSmartRegisterActivity.DefaultOptionsProvider getDefaultOptionsProvider() {
+            return null;
+        }
+
+        @Override
+        protected SecuredNativeSmartRegisterActivity.NavBarOptionsProvider getNavBarOptionsProvider() {
+            return null;
+        }
+
+        @Override
+        protected SmartRegisterClientsProvider clientsProvider() {
+            return null;
+        }
+
+        @Override
+        protected void onInitialization() {
+        }
+
+        @Override
+        protected void startRegistration() {
+
+        }
+
+        @Override
+        protected void onCreation() {
+        }
+
+        protected  TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            }
+
+            @Override
+            public void onTextChanged(final CharSequence cs, int start, int before, int count) {
+                filter(cs.toString(), "", "");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        };
+
+        public void openVaccineCard(final String filterString) {
+            FilterForClientTask filterForClientTask = new FilterForClientTask();
+            filterForClientTask.execute(filterString);
+        }
+
+        @Override
+        protected void setupViews(View view) {
+            super.setupViews(view);
+
+            View viewParent = (View) appliedSortView.getParent();
+            viewParent.setVisibility(View.GONE);
+
+            clinicSelection = (LocationPickerView) view.findViewById(R.id.clinic_selection);
+            clinicSelection.init(context());
+
+        }
+
+        protected void filter(String filterString, String joinTableString, String mainConditionString) {
+            filters = filterString;
+            joinTable = joinTableString;
+            mainCondition = mainConditionString;
+            getSearchCancelView().setVisibility(isEmpty(filterString) ? INVISIBLE : VISIBLE);
+            filterandSortExecute(countBundle());
+        }
+
+        @Override
+        public void showProgressView() {
+            if (clientsProgressView.getVisibility() == INVISIBLE) {
+                clientsProgressView.setVisibility(VISIBLE);
+            }
+        }
+
+        @Override
+        public void hideProgressView() {
+            if (clientsProgressView.getVisibility() == VISIBLE) {
+                clientsProgressView.setVisibility(INVISIBLE);
+            }
+        }
+
+
+
+
+        @Override
+        protected Context context() {
+            return VaccinatorApplication.getInstance().context();
+        }
+
+        ////////////////////////////////////////////////////////////////
+        // Inner classes
+        ////////////////////////////////////////////////////////////////
+
 }

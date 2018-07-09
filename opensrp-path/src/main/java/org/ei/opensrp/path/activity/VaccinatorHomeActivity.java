@@ -154,21 +154,21 @@ public class VaccinatorHomeActivity extends SecuredActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final String childCount = context().commonrepository("ec_child")
-                        .rawQuery("SELECT COUNT(*) c FROM ec_child").get(0).get("c");
-                final String stockCountD = context().commonrepository("stock")
-                        .rawQuery("SELECT COUNT(*) c FROM stock WHERE report='daily'").get(0).get("c");
-                final String stockCountM = context().commonrepository("stock")
-                        .rawQuery("SELECT COUNT(*) c FROM stock WHERE report='monthly'").get(0).get("c");
+//                final String childCount = context().commonrepository("ec_child")
+//                        .rawQuery("SELECT COUNT(*) c FROM ec_child").get(0).get("c");
+//                final String stockCountD = context().commonrepository("stock")
+//                        .rawQuery("SELECT COUNT(*) c FROM stock WHERE report='daily'").get(0).get("c");
+//                final String stockCountM = context().commonrepository("stock")
+//                        .rawQuery("SELECT COUNT(*) c FROM stock WHERE report='monthly'").get(0).get("c");
 
                 Handler mainHandler = new Handler(getMainLooper());
 
                 Runnable myRunnable = new Runnable() {
                     @Override
                     public void run() {
-                        childRegisterClientCountView.setText(childCount);
-                        fieldRegisterClientCountDView.setText(stockCountD + " D");
-                        fieldRegisterClientCountMView.setText(stockCountM + " M");
+//                        childRegisterClientCountView.setText(childCount);
+//                        fieldRegisterClientCountDView.setText(stockCountD + " D");
+//                        fieldRegisterClientCountMView.setText(stockCountM + " M");
                     }
                 };
                 mainHandler.post(myRunnable);

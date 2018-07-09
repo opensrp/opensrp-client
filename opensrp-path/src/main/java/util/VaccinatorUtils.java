@@ -125,7 +125,7 @@ public class VaccinatorUtils {
 
     public static ArrayList<HashMap<String, String>> getWasted(String startDate, String endDate, String type) {
         String sqlWasted = "select sum (total_wasted)as total_wasted from stock where `report` ='" + type + "' and `date` between '" + startDate + "' and '" + endDate + "'";
-        return org.ei.opensrp.Context.getInstance().commonrepository("stock").rawQuery(sqlWasted);
+        return null;// org.ei.opensrp.Context.getInstance().commonrepository("stock").rawQuery(sqlWasted);
     }
 
     public static int getWasted(String startDate, String endDate, String type, String... variables) {
@@ -149,7 +149,7 @@ public class VaccinatorUtils {
         q += " ) e ";
 
         Log.i("DD", q);
-        return org.ei.opensrp.Context.getInstance().commonrepository(table).rawQuery(q);
+        return null ; //org.ei.opensrp.Context.getInstance().commonrepository(table).rawQuery(q);
     }
 
     public static int getTotalUsed(String startDate, String endDate, String table, String... vaccines) {

@@ -423,7 +423,7 @@ public abstract class CursorAdapterFragment extends Fragment implements
             if(isValidFilterForFts(commonRepository())){
                 String sql = sqb.searchQueryFts(tablename, joinTable, mainCondition, filters, Sortqueries, currentlimit, currentoffset);
                 List<String> ids = commonRepository().findSearchIds(sql);
-                query = sqb.toStringFts(ids, tablename + "." + CommonRepository.ID_COLUMN, Sortqueries);
+                query = sqb.toStringFts(ids, tablename , CommonRepository.ID_COLUMN, Sortqueries);
                 query = sqb.Endquery(query);
             } else {
                 sqb.addCondition(filters);

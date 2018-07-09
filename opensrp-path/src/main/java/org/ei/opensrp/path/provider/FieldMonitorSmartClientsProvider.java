@@ -62,7 +62,7 @@ public class FieldMonitorSmartClientsProvider implements SmartRegisterCLientsPro
 
     private ArrayList<HashMap<String, String>> getWasted(String startDate, String endDate, String type){
         String sqlWasted = "select sum (total_wasted)as total_wasted from stock where `report` ='"+type+"' and `date` between '" + startDate + "' and '" + endDate + "'";
-        return org.ei.opensrp.Context.getInstance().commonrepository("stock").rawQuery(sqlWasted);
+        return null;//org.ei.opensrp.Context.getInstance().commonrepository("stock").rawQuery(sqlWasted);
     }
 
     private ArrayList<HashMap<String, String>> getWastedByVaccine(String startDate, String endDate, String type){
@@ -72,7 +72,7 @@ public class FieldMonitorSmartClientsProvider implements SmartRegisterCLientsPro
                 " sum(ifnull(measles_wasted, 0)) measles, sum(ifnull(pcv_wasted, 0)) pcv," +
                 " sum(ifnull(tt_wasted, 0)) tt, sum(ifnull(total_wasted, 0)) total" +
                 " from stock where `report` ='"+type+"' and `date` between '" + startDate + "' and '" + endDate + "'";
-        return org.ei.opensrp.Context.getInstance().commonrepository("stock").rawQuery(sqlWasted);
+        return null;//org.ei.opensrp.Context.getInstance().commonrepository("stock").rawQuery(sqlWasted);
     }
 
     private int countTotalUsed(Map<String, String> vul){
@@ -108,7 +108,7 @@ public class FieldMonitorSmartClientsProvider implements SmartRegisterCLientsPro
                 "(select count(*) c from ec_child where penta3 between '" + startDate + "' and '" + endDate + "') penta3  " +
                 "from ec_child limit 1 ;";
 
-        return org.ei.opensrp.Context.getInstance().commonrepository("ec_child").rawQuery(sql);
+        return null;// org.ei.opensrp.Context.getInstance().commonrepository("ec_child").rawQuery(sql);
     }
 
     //todo refactor above method
