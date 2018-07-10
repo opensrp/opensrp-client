@@ -53,6 +53,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -103,7 +104,7 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
     }
 
     @Override
-    public void getView(SmartRegisterClient client, final View convertView) {
+    public void getView(final SmartRegisterClient client, final View convertView) {
         final CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
         Logger.largeLog("-----------",pc.getDetails().toString());
         Logger.largeLog("-----------",pc.getColumnmaps().toString());
@@ -142,23 +143,39 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
         String address1 = getValue(pc.getColumnmaps(), "address1", false);
         fillValue((TextView) convertView.findViewById(R.id.address), address1);
 
-        detailsRepository = detailsRepository == null ? org.ei.opensrp.Context.getInstance().updateApplicationContext(context.getApplicationContext()).detailsRepository() : detailsRepository;
-        Map<String, String> detailmaps = detailsRepository.getAllDetailsForClient(pc.entityId());
-        pc.getColumnmaps().putAll(detailmaps);
+//        detailsRepository = detailsRepository == null ? org.ei.opensrp.Context.getInstance().updateApplicationContext(context.getApplicationContext()).detailsRepository() : detailsRepository;
+//        final Map<String, String> detailmaps = detailsRepository.getAllDetailsForClient(pc.entityId());
+//        pc.getColumnmaps().putAll(detailmaps);
+        ///////////////////////////////////////for performance tweaks///////////////////////////////
+        ((TextView) convertView.findViewById(R.id.spousename)).setText("");
+        ((TextView) convertView.findViewById(R.id.spousename)).setVisibility(View.GONE);
+        ((TextView) convertView.findViewById(R.id.brid)).setText("");
+        ((TextView) convertView.findViewById(R.id.brid)).setVisibility(View.GONE);
+        ((TextView) convertView.findViewById(R.id.nid)).setText("");
+        ((TextView) convertView.findViewById(R.id.nid)).setVisibility(View.GONE);
 
-        String husbandname = getValue(detailmaps, "spouseName", false);
-        fillValue((TextView) convertView.findViewById(R.id.spousename), husbandname);
-        if(!isBlank(getValue(detailmaps, "nationalId", false))) {
-            ((TextView) convertView.findViewById(R.id.nid)).setVisibility(View.VISIBLE);
-            ((TextView) convertView.findViewById(R.id.brid)).setVisibility(View.GONE);
-            fillValue((TextView) convertView.findViewById(R.id.nid), "NID: \n" + getValue(detailmaps, "nationalId", false));
-        }
-        if(!isBlank(getValue(detailmaps, "birthRegistrationId", false))) {
-            ((TextView) convertView.findViewById(R.id.nid)).setVisibility(View.GONE);
-            ((TextView) convertView.findViewById(R.id.brid)).setVisibility(View.VISIBLE);
-            fillValue((TextView) convertView.findViewById(R.id.brid), "BRID: \n" + getValue(detailmaps, "birthRegistrationId", false));
-        }
+        fillTextfieldsFromDetails(convertView,pc);
 
+
+
+
+
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
+//        String husbandname = getValue(detailmaps, "spouseName", false);
+//        fillValue((TextView) convertView.findViewById(R.id.spousename), husbandname);
+//        if(!isBlank(getValue(detailmaps, "nationalId", false))) {
+//            ((TextView) convertView.findViewById(R.id.nid)).setVisibility(View.VISIBLE);
+//            ((TextView) convertView.findViewById(R.id.brid)).setVisibility(View.GONE);
+//            fillValue((TextView) convertView.findViewById(R.id.nid), "NID: \n" + getValue(detailmaps, "nationalId", false));
+//        }
+//        if(!isBlank(getValue(detailmaps, "birthRegistrationId", false))) {
+//            ((TextView) convertView.findViewById(R.id.nid)).setVisibility(View.GONE);
+//            ((TextView) convertView.findViewById(R.id.brid)).setVisibility(View.VISIBLE);
+//            fillValue((TextView) convertView.findViewById(R.id.brid), "BRID: \n" + getValue(detailmaps, "birthRegistrationId", false));
+//        }
+//
         final String lmpstring = Utils.getValue(pc.getColumnmaps(), "lmp", false);
         Log.v("lmpstring",lmpstring);
         View recordVaccination = convertView.findViewById(R.id.record_vaccination);
@@ -166,38 +183,109 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
         recordVaccination.setOnClickListener(onClickListener);
         recordVaccination.setVisibility(View.INVISIBLE);
 
-
-        View add_child = convertView.findViewById(R.id.add_member);
-        add_child.setEnabled(true);
-        add_child.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                String metadata = getmetaDataForEditForm(pc);
-                Intent intent = new Intent(context, PathJsonFormActivity.class);
-
-                intent.putExtra("json", metadata);
-
-                ((Activity)context).startActivityForResult(intent, REQUEST_CODE_GET_JSON);
-
-            }
-        });
-        if(!isBlank(getValue(detailmaps, "maritial_status", false))){
-            if(!getValue(detailmaps, "maritial_status", false).equalsIgnoreCase("Married")){
-                add_child.setEnabled(false);
-            }
-        }
-//        Intent intent = new Intent(context, PathJsonFormActivity.class);
 //
-//        intent.putExtra("json", metadata);
-
+//        View add_child = convertView.findViewById(R.id.add_member);
+//        add_child.setEnabled(true);
+//        add_child.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//
+//                String metadata = getmetaDataForEditForm(pc);
+//                Intent intent = new Intent(context, PathJsonFormActivity.class);
+//
+//                intent.putExtra("json", metadata);
+//
+//                ((Activity)context).startActivityForResult(intent, REQUEST_CODE_GET_JSON);
+//
+//            }
+//        });
+//        if(!isBlank(getValue(detailmaps, "maritial_status", false))){
+//            if(!getValue(detailmaps, "maritial_status", false).equalsIgnoreCase("Married")){
+//                add_child.setEnabled(false);
+//            }
+//        }
+////        Intent intent = new Intent(context, PathJsonFormActivity.class);
+////
+////        intent.putExtra("json", metadata);
+//
         try {
 //            Utils.startAsyncTask(new ChildSmartClientsProvider.WeightAsyncTask(convertView, pc.entityId(), lostToFollowUp, inactive), null);
             Utils.startAsyncTask(new WomanSmartClientsProvider.VaccinationAsyncTask(convertView, pc.entityId(), lmpstring), null);
         } catch (Exception e) {
             Log.e(getClass().getName(), e.getMessage(), e);
         }
+    }
+
+    private void fillTextfieldsFromDetails(final View convertView,final CommonPersonObjectClient pc) {
+        (new AsyncTask() {
+            Map<String, String> detailmaps = new HashMap<String, String>();
+            TextView spousename,brid,nid;
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                spousename = (TextView) convertView.findViewById(R.id.spousename);
+                brid = (TextView) convertView.findViewById(R.id.brid);
+                nid = (TextView) convertView.findViewById(R.id.nid);
+
+                fillValue(spousename, "");
+                brid.setVisibility(View.GONE);
+                nid.setVisibility(View.GONE);
+
+                View add_child = convertView.findViewById(R.id.add_member);
+                add_child.setEnabled(false);
+            }
+
+            @Override
+            protected Object doInBackground(Object[] params) {
+                detailsRepository = detailsRepository == null ? org.ei.opensrp.Context.getInstance().updateApplicationContext(context.getApplicationContext()).detailsRepository() : detailsRepository;
+                detailmaps = detailsRepository.getAllDetailsForClient(pc.entityId());
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+
+                String husbandname = getValue(detailmaps, "spouseName", false);
+
+                fillValue(spousename, husbandname);
+                spousename.setVisibility(View.VISIBLE);
+                if(!isBlank(getValue(detailmaps, "nationalId", false))) {
+                    nid.setVisibility(View.VISIBLE);
+                    brid.setVisibility(View.GONE);
+                    fillValue(nid, "NID: \n" + getValue(detailmaps, "nationalId", false));
+                }
+                if(!isBlank(getValue(detailmaps, "birthRegistrationId", false))) {
+                    nid.setVisibility(View.GONE);
+                    brid.setVisibility(View.VISIBLE);
+                    fillValue(brid, "BRID: \n" + getValue(detailmaps, "birthRegistrationId", false));
+                }
+
+                View add_child = convertView.findViewById(R.id.add_member);
+                add_child.setEnabled(true);
+                add_child.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        String metadata = getmetaDataForEditForm(pc);
+                        Intent intent = new Intent(context, PathJsonFormActivity.class);
+
+                        intent.putExtra("json", metadata);
+
+                        ((Activity)context).startActivityForResult(intent, REQUEST_CODE_GET_JSON);
+
+                    }
+                });
+                if(!isBlank(getValue(detailmaps, "maritial_status", false))){
+                    if(!getValue(detailmaps, "maritial_status", false).equalsIgnoreCase("Married")){
+                        add_child.setEnabled(false);
+                    }
+                }
+            }
+        }).execute();
+
     }
 
     @Override

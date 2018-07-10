@@ -38,6 +38,7 @@ import org.ei.opensrp.view.dialog.ServiceModeOption;
 import org.ei.opensrp.view.dialog.SortOption;
 import org.ei.opensrp.view.viewHolder.OnClickFormLauncher;
 import org.joda.time.DateTime;
+import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.Arrays;
@@ -102,19 +103,34 @@ public class HouseholdSmartClientsProvider implements SmartRegisterCLientsProvid
 //        fillValue((TextView) convertView.findViewById(R.id.address), getValue(pc.getColumnmaps(), "address1", false));
 //        fillValue((TextView) convertView.findViewById(R.id.householdprimarytext), getValue(pc.getColumnmaps(), "block", false));
 
+        ////////////////////////performance tweak address///////////////////////////////////////
+        String address4 = "";
+        try {
+            JSONArray hie_facilities = new JSONArray(getValue(pc.getColumnmaps(), "hie_facilities", false));
+            String fulladdress = hie_facilities.getString(hie_facilities.length()-1);
+            fillValue((TextView) convertView.findViewById(R.id.householdprimarytext), fulladdress.split(":")[fulladdress.split(":").length-2]);
+            fillValue((TextView) convertView.findViewById(R.id.housholdsecondarytext), fulladdress.split(":")[fulladdress.split(":").length-3]);
+            fillValue((TextView) convertView.findViewById(R.id.address), fulladdress.split(":")[fulladdress.split(":").length-4]);
+            address4 =  fulladdress;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        DetailsRepository detailsRepository;
-        detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
-        final Map<String, String> details = detailsRepository.getAllDetailsForClient(pc.entityId());
-        fillValue((TextView) convertView.findViewById(R.id.householdprimarytext), getValue(details, "address3", false).split(":")[getValue(details, "address3", false).split(":").length-1]);
-        fillValue((TextView) convertView.findViewById(R.id.housholdsecondarytext), getValue(details, "address2", false).split(":")[getValue(details, "address2", false).split(":").length-1]);
-        fillValue((TextView) convertView.findViewById(R.id.address), getValue(details, "address1", false).split(":")[getValue(details, "address1", false).split(":").length-1]);
+        /////////////////////commentout for performance tweak/////////////////////////
+//        DetailsRepository detailsRepository;
+//        detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
+//        final Map<String, String> details = detailsRepository.getAllDetailsForClient(pc.entityId());
+//        fillValue((TextView) convertView.findViewById(R.id.householdprimarytext), getValue(details, "address3", false).split(":")[getValue(details, "address3", false).split(":").length-1]);
+//        fillValue((TextView) convertView.findViewById(R.id.housholdsecondarytext), getValue(details, "address2", false).split(":")[getValue(details, "address2", false).split(":").length-1]);
+//        fillValue((TextView) convertView.findViewById(R.id.address), getValue(details, "address1", false).split(":")[getValue(details, "address1", false).split(":").length-1]);
 
         Button addmember = (Button)convertView.findViewById(R.id.add_member);
         LocationPickerView locationPickerView = ((HouseholdSmartRegisterFragment) mBaseFragment).getLocationPickerView();
 
         try {
-            locationId = JsonFormUtils.getOpenMrsLocationId(context(),getValue(details, "address4", false) );
+//            locationId = JsonFormUtils.getOpenMrsLocationId(context(),getValue(details, "address4", false) );
+            locationId = JsonFormUtils.getOpenMrsLocationId(context(),address4);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -130,6 +146,7 @@ public class HouseholdSmartClientsProvider implements SmartRegisterCLientsProvid
 
         }
 
+        final String finalAddress = address4;
         addmember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,7 +157,8 @@ public class HouseholdSmartClientsProvider implements SmartRegisterCLientsProvid
                 }
                 ft.addToBackStack(null);
                 try {
-                    locationId = JsonFormUtils.getOpenMrsLocationId(context(),getValue(details, "address4", false) );
+                    locationId = JsonFormUtils.getOpenMrsLocationId(context(), finalAddress);
+//                    locationId = JsonFormUtils.getOpenMrsLocationId(context(),getValue(details, "address4", false) );
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -150,38 +168,8 @@ public class HouseholdSmartClientsProvider implements SmartRegisterCLientsProvid
 
             }
         });
-//
-//        String firstName = getValue(pc.getColumnmaps(), "first_name", true);
-//        String lastName = getValue(pc.getColumnmaps(), "last_name", true);
-//        String childName = getName(firstName, lastName);
-//
-//        String motherFirstName = getValue(pc.getColumnmaps(), "mother_first_name", true);
-//        if (StringUtils.isBlank(childName) && StringUtils.isNotBlank(motherFirstName)) {
-//            childName = "B/o " + motherFirstName.trim();
-//        }
-//        fillValue((TextView) convertView.findViewById(R.id.child_name), childName);
-//
-//        String motherName = getValue(pc.getColumnmaps(), "mother_first_name", true) + " " + getValue(pc, "mother_last_name", true);
-//        if (!StringUtils.isNotBlank(motherName)) {
-//            motherName = "M/G: " + motherName.trim();
-//        }
-//        fillValue((TextView) convertView.findViewById(R.id.child_mothername), motherName);
-//
-//        DateTime birthDateTime = new DateTime((new Date()).getTime());
-//        String dobString = getValue(pc.getColumnmaps(), "dob", false);
-//        String durationString = "";
-//        if (StringUtils.isNotBlank(dobString)) {
-//            try {
-//                birthDateTime = new DateTime(dobString);
-//                String duration = DateUtils.getDuration(birthDateTime);
-//                if (duration != null) {
-//                    durationString = duration;
-//                }
-//            } catch (Exception e) {
-//                Log.e(getClass().getName(), e.toString(), e);
-//            }
-//        }
 
+        ////////////////////////////////////////////////////////////////////////////
     }
 
     @Override

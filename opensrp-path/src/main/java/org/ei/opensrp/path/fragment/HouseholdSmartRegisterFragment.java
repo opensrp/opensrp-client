@@ -379,6 +379,7 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
                 tableName + ".dob",
                 tableName + ".details",
                 tableName + ".HHID",
+                tableName + ".hie_facilities",
                 tableName + ".Date_Of_Reg",
                 tableName + ".address1"
         });
