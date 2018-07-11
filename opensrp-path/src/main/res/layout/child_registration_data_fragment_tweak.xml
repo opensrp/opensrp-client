@@ -1,0 +1,393 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/scrollView2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:id="@+id/rowholder">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:id="@+id/tablerowcontainer">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:textColor="@color/dark_grey"
+                            android:text="Child's home health facility"
+                            android:id="@+id/label"
+                            android:layout_weight="1"/>
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList"
+                            android:text=""
+                            android:id="@+id/value_childs_home_health_facility"
+                            android:layout_weight="1"
+                            android:textColor="@color/text_black" />
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:textColor="@color/dark_grey"
+                            android:text="Child's register card number"
+                            android:layout_weight="1"/>
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList"
+                            android:text=""
+                            android:id="@+id/value_childs_register_card_number"
+                            android:layout_weight="1"
+                            android:textColor="@color/text_black" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:textColor="@color/dark_grey"
+                            android:text="Child's birth certificate number"
+                            android:layout_weight="1"/>
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList"
+                            android:text=""
+                            android:id="@+id/value_childs_birth_certificate_number"
+                            android:layout_weight="1"
+                            android:textColor="@color/text_black" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:textColor="@color/dark_grey"
+                            android:text="Name"
+                            android:layout_weight="1"/>
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList"
+                            android:text=""
+                            android:id="@+id/value_first_name"
+                            android:layout_weight="1"
+                            android:textColor="@color/text_black" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:textColor="@color/dark_grey"
+                            android:text="Sex"
+                            android:layout_weight="1"/>
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList"
+                            android:text=""
+                            android:id="@+id/value_sex"
+                            android:layout_weight="1"
+                            android:textColor="@color/text_black" />
+                    </TableRow>
+
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:textColor="@color/dark_grey"
+                            android:text="Child's DOB"
+                            android:layout_weight="1"/>
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList"
+                            android:text=""
+                            android:id="@+id/value_childs_dob"
+                            android:layout_weight="1"
+                            android:textColor="@color/text_black" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:textColor="@color/dark_grey"
+                            android:text="Age"
+                            android:layout_weight="1"/>
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList"
+                            android:text=""
+                            android:id="@+id/value_age"
+                            android:layout_weight="1"
+                            android:textColor="@color/text_black" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:textColor="@color/dark_grey"
+                            android:text="Birth weight"
+                            android:layout_weight="1"/>
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList"
+                            android:text=""
+                            android:id="@+id/value_birth_weight"
+                            android:layout_weight="1"
+                            android:textColor="@color/text_black" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:textColor="@color/dark_grey"
+                            android:text="Mother/guardian first name"
+                            android:layout_weight="1"/>
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList"
+                            android:text=""
+                            android:id="@+id/value_mother_guardian_first_name"
+                            android:layout_weight="1"
+                            android:textColor="@color/text_black" />
+                    </TableRow>
+
+
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:textColor="@color/dark_grey"
+                            android:text="Mother/guardian phone number"
+                            android:layout_weight="1"/>
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList"
+                            android:text=""
+                            android:id="@+id/value_mother_guardian_phone_number"
+                            android:layout_weight="1"
+                            android:textColor="@color/text_black" />
+                    </TableRow>
+
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:textColor="@color/dark_grey"
+                            android:text="Place of birth"
+                            android:layout_weight="1"/>
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList"
+                            android:text=""
+                            android:id="@+id/value_place_of_birth"
+                            android:layout_weight="1"
+                            android:textColor="@color/text_black" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:textColor="@color/dark_grey"
+                            android:text="Health facility the child was born in"
+                            android:layout_weight="1"/>
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList"
+                            android:text=""
+                            android:id="@+id/value_childs_birth_health_facility"
+                            android:layout_weight="1"
+                            android:textColor="@color/text_black" />
+                    </TableRow>
+
+                    <TableRow
+                        android:visibility="gone"
+                        android:id="@+id/tableRow_childRegDataFragment_childsOtherBirthFacility"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:textColor="@color/dark_grey"
+                            android:text="Other Birth Facility"
+                            android:layout_weight="1"/>
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList"
+                            android:text=""
+                            android:id="@+id/value_other_birth_facility"
+                            android:layout_weight="1"
+                            android:textColor="@color/text_black" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp">
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList.Light"
+                            android:textColor="@color/dark_grey"
+                            android:text="Child's residential area"
+                            android:layout_weight="1"/>
+
+                        <org.ei.opensrp.view.customControls.CustomFontTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            style="@style/CustomFontTextViewStyle.ClientList"
+                            android:text=""
+                            android:id="@+id/value_childs_residential_area"
+                            android:layout_weight="1"
+                            android:textColor="@color/text_black" />
+                    </TableRow>
+
+
+
+                </TableLayout>
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </LinearLayout>
+</LinearLayout>

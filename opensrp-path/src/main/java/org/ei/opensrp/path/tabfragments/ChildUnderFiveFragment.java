@@ -99,9 +99,8 @@ public class ChildUnderFiveFragment extends Fragment {
 
         alertService = Context.getInstance().alertService();
 
-        DetailsRepository detailsRepository = ((ChildDetailTabbedActivity) getActivity()).getDetailsRepository();
         childDetails = childDetails != null ? childDetails : ((ChildDetailTabbedActivity) getActivity()).getChildDetails();
-        Detailsmap = detailsRepository.getAllDetailsForClient(childDetails.entityId());
+        Detailsmap = ((ChildDetailTabbedActivity) getActivity()).getChildDetailsmap();
 
         loadView(false, false, false);
         return underFiveFragment;

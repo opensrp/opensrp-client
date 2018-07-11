@@ -45,6 +45,7 @@ import org.ei.opensrp.domain.Vaccine;
 import org.ei.opensrp.domain.Weight;
 import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.application.VaccinatorApplication;
+import org.ei.opensrp.path.domain.NamedObject;
 import org.ei.opensrp.path.domain.Photo;
 import org.ei.opensrp.path.domain.ServiceSchedule;
 import org.ei.opensrp.path.domain.ServiceWrapper;
@@ -92,7 +93,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -150,6 +153,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     // Data
     private CommonPersonObjectClient childDetails;
     private Map<String, String> detailmaps;
+
     AllSharedPreferences allSharedPreferences;
     ////////////////////////////////////////////////
     public DetailsRepository detailsRepository;
@@ -176,10 +180,6 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
 
 
         location_name = extras.getString("location_name");
-        detailsRepository = detailsRepository == null ? this.getOpenSRPContext().detailsRepository() : detailsRepository;
-        details = detailsRepository.getAllDetailsForClient(childDetails.entityId());
-        details.putAll(childDetails.getColumnmaps());
-
         setContentView(R.layout.child_detail_activity_simple_tabs);
 
         childDataFragment = new ChildRegistrationDataFragment();
@@ -215,62 +215,17 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
 //        getSupportActionBar().
-        initiallization();
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
 
-            @Override
-            public void onPageSelected(int position) {
-                if (position == 0) {
-                    saveButton.setVisibility(View.INVISIBLE);
-                    for (int i = 0; i < overflow.size(); i++) {
-                        overflow.getItem(i).setVisible(true);
-                    }
-                    childUnderFiveFragment.loadView(false, false, false);
-                }
-            }
+        Utils.startAsyncTask(new LoadAsyncTask(), null);
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-        setupViewPager(viewPager);
-
-        detailtoolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        detailtoolbar.setTitle(updateActivityTitle());
-
-        statusview = (LinearLayout) findViewById(R.id.statusview);
-        statusview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                android.app.Fragment prev = getFragmentManager().findFragmentByTag(DIALOG_TAG);
-
-                StatusEditDialogFragment.newInstance(ChildDetailTabbedActivity.this, details).show(ft, DIALOG_TAG);
-            }
-        });
-
-        tabLayout.setupWithViewPager(viewPager);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        allSharedPreferences = new AllSharedPreferences(preferences);
 
     }
 
     private void initiallization() {
 
-        detailsRepository = detailsRepository == null ? this.getOpenSRPContext().detailsRepository() : detailsRepository;
-        detailmaps = detailsRepository.getAllDetailsForClient(childDetails.entityId());
+//        detailsRepository = detailsRepository == null ? this.getOpenSRPContext().detailsRepository() : detailsRepository;
+//        detailmaps = detailsRepository.getAllDetailsForClient(childDetails.entityId());
         profileWidget();
         ((TextView) detailtoolbar.findViewById(R.id.title)).setText(updateActivityTitle());
 
@@ -631,7 +586,8 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
                                 childDetails.entityId(), allSharedPreferences.fetchRegisteredANM());
                     }
                     childDataFragment.childDetails = childDetails;
-                    childDataFragment.loadData();
+                    Utils.startAsyncTask(new LoadAsyncTask(), null);
+
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage());
                 }
@@ -814,7 +770,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         String name = "";
         if (isDataOk()) {
             name = Utils.getValue(childDetails.getColumnmaps(), "first_name", true)
-                    + " " + Utils.getValue(childDetails.getColumnmaps(), "last_name", true);
+                    + " " + Utils.getValue(childDetails.getColumnmaps(), "last_name", true).replace(".","");
         }
         return String.format("%s's %s", name, "Health Details");
     }
@@ -1072,6 +1028,10 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         String firstName = Utils.getValue(childDetails.getColumnmaps(), "first_name", true);
         String lastName = Utils.getValue(childDetails.getColumnmaps(), "last_name", true);
         return getName(firstName, lastName).trim();
+    }
+
+    public Map<String,String> getChildDetailsmap() {
+        return detailmaps;
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -1374,12 +1334,13 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
     @Override
     protected void onResume() {
         super.onResume();
-        details = detailsRepository.getAllDetailsForClient(childDetails.entityId());
-        //details.putAll(childDetails.getColumnmaps());
-        //):( prrrr
-        childDetails.getColumnmaps().putAll(details);
+//        details = detailsRepository.getAllDetailsForClient(childDetails.entityId());
+//        //details.putAll(childDetails.getColumnmaps());
+//        //):( prrrr
+//        childDetails.getColumnmaps().putAll(details);
         updateActivityTitle();
-        initiallization();
+//        initiallization();
+        Utils.startAsyncTask(new LoadAsyncTask(), null);
     }
 
     public static boolean check_if_date_three_months_older(Date date) {
@@ -1563,4 +1524,100 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         return (VaccinatorApplication) this.getApplication();
     }
 
+    private class LoadAsyncTask extends AsyncTask<Void, Void, Map<String, NamedObject<?>>> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog(getString(R.string.updating_dialog_title), null);
+        }
+
+        @Override
+        protected void onPostExecute(Map<String, NamedObject<?>> map) {
+
+            detailmaps = extractDetailsMap(map);
+            detailmaps.putAll(childDetails.getColumnmaps());
+            details = detailmaps;
+
+            childDataFragment.loadData(detailmaps);
+
+            viewPager = (ViewPager) findViewById(R.id.viewpager);
+            viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    if (position == 0) {
+                        saveButton.setVisibility(View.INVISIBLE);
+                        for (int i = 0; i < overflow.size(); i++) {
+                            overflow.getItem(i).setVisible(true);
+                        }
+                        childUnderFiveFragment.loadView(false, false, false);
+                    }
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+            setupViewPager(viewPager);
+
+            detailtoolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+            detailtoolbar.setTitle(updateActivityTitle());
+
+            statusview = (LinearLayout) findViewById(R.id.statusview);
+            statusview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    android.app.Fragment prev = getFragmentManager().findFragmentByTag(DIALOG_TAG);
+
+                    StatusEditDialogFragment.newInstance(ChildDetailTabbedActivity.this, details).show(ft, DIALOG_TAG);
+                }
+            });
+
+            tabLayout.setupWithViewPager(viewPager);
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ChildDetailTabbedActivity.this);
+
+            allSharedPreferences = new AllSharedPreferences(preferences);
+            initiallization();
+
+
+            hideProgressDialog();
+        }
+
+        public  Map<String, String> extractDetailsMap(Map<String, NamedObject<?>> map) {
+            if (map.containsKey(Map.class.getName())) {
+                NamedObject<?> namedObject = map.get(Map.class.getName());
+                if (namedObject != null) {
+                    return (Map<String, String>) namedObject.object;
+                }
+            }
+            return new HashMap<>();
+        }
+
+        @Override
+        protected Map<String, NamedObject<?>> doInBackground(Void... params) {
+            Map<String, NamedObject<?>> map = new HashMap<>();
+
+            DetailsRepository detailsRepository = getOpenSRPContext().detailsRepository();
+            Map<String, String> detailsMap = detailsRepository.getAllDetailsForClient(childDetails.entityId());
+
+            NamedObject<Map<String, String>> detailsNamedObject = new NamedObject<>(Map.class.getName(), detailsMap);
+            map.put(detailsNamedObject.name, detailsNamedObject);
+
+
+            return map;
+        }
+    }
 }

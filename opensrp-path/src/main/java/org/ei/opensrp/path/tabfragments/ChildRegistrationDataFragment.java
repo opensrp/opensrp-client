@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TableRow;
 
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
@@ -14,6 +15,7 @@ import org.ei.opensrp.path.R;
 import org.ei.opensrp.path.activity.ChildDetailTabbedActivity;
 import org.ei.opensrp.path.viewComponents.WidgetFactory;
 import org.ei.opensrp.repository.DetailsRepository;
+import org.ei.opensrp.view.customControls.CustomFontTextView;
 import org.joda.time.DateTime;
 
 import java.io.Serializable;
@@ -23,87 +25,82 @@ import java.util.Map;
 
 import util.DateUtils;
 import util.JsonFormUtils;
+import util.PathConstants;
 import util.Utils;
 
 
 public class ChildRegistrationDataFragment extends Fragment {
-    public CommonPersonObjectClient childDetails;
-    public Map<String, String> detailsMap;
+//    public Map<String, String> detailsMap;
     private LayoutInflater inflater;
     private ViewGroup container;
     private LinearLayout layout;
+    public CommonPersonObjectClient childDetails;
+    private View fragmentView;
+
+    public static ChildRegistrationDataFragment newInstance(Bundle bundle) {
+        Bundle args = bundle;
+        ChildRegistrationDataFragment fragment = new ChildRegistrationDataFragment();
+        if (args == null) {
+            args = new Bundle();
+        }
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     public ChildRegistrationDataFragment() {
         // Required empty public constructor
-
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle extras = this.getArguments();
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (this.getArguments() != null) {
             Serializable serializable = getArguments().getSerializable(ChildDetailTabbedActivity.EXTRA_CHILD_DETAILS);
             if (serializable != null && serializable instanceof CommonPersonObjectClient) {
                 childDetails = (CommonPersonObjectClient) serializable;
             }
         }
-        View fragmentview = inflater.inflate(R.layout.child_registration_data_fragment, container, false);
-        LinearLayout layout = (LinearLayout) fragmentview.findViewById(R.id.rowholder);
-        this.inflater = inflater;
-        this.container = container;
-        this.layout = layout;
-
-//        layout.addView(createTableRow(inflater,container,"Catchment Area","Linda"));
-//        layout.addView(createTableRow(inflater,container,"Catchment Area","Linda"));
-//        layout.addView(createTableRow(inflater,container,"Catchment Area","Linda"));
-//        layout.addView(createTableRow(inflater,container,"Catchment Area","Linda"));
-//        layout.addView(createTableRow(inflater,container,"Catchment Area","Linda"));
-//        layout.addView(createTableRow(inflater,container,"Catchment Area","Linda"));
-//        layout.addView(createTableRow(inflater,container,"Catchment Area","Linda"));
-//        layout.addView(createTableRow(inflater,container,"Catchment Area","Linda"));
-//        layout.addView(createTableRow(inflater,container,"Catchment Area","Linda"));
-
-
         // Inflate the layout for this fragment
-        return fragmentview;
+        fragmentView = inflater.inflate(R.layout.child_registration_data_fragment_tweak, container, false);
+        return fragmentView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        loadData();
-    }
 
-    public void loadData() {
-        if (layout != null && container != null && inflater != null) {
-            if (layout.getChildCount() > 0) {
-                layout.removeAllViews();
-            }
 
-            DetailsRepository detailsRepository = ((ChildDetailTabbedActivity) getActivity()).getDetailsRepository();
-            childDetails = childDetails != null ? childDetails : ((ChildDetailTabbedActivity) getActivity()).getChildDetails();
-            detailsMap = detailsRepository.getAllDetailsForClient(childDetails.entityId());
+    public void loadData(Map<String, String> detailsMap) {
+        if (fragmentView != null) {
 
-//        detailsMap = childDetails.getColumnmaps();
-            WidgetFactory wd = new WidgetFactory();
+            CustomFontTextView tvChildsHomeHealthFacility = (CustomFontTextView) fragmentView.findViewById(R.id.value_childs_home_health_facility);
+            CustomFontTextView tvChildsRegisterCardNumber = (CustomFontTextView) fragmentView.findViewById(R.id.value_childs_register_card_number);
+            CustomFontTextView tvChildsBirthCertificateNumber = (CustomFontTextView) fragmentView.findViewById(R.id.value_childs_birth_certificate_number);
+            CustomFontTextView tvChildsFirstName = (CustomFontTextView) fragmentView.findViewById(R.id.value_first_name);
+            CustomFontTextView tvChildsSex = (CustomFontTextView) fragmentView.findViewById(R.id.value_sex);
+            CustomFontTextView tvChildsDOB = (CustomFontTextView) fragmentView.findViewById(R.id.value_childs_dob);
+            CustomFontTextView tvChildsAge = (CustomFontTextView) fragmentView.findViewById(R.id.value_age);
+            CustomFontTextView tvChildsBirthWeight = (CustomFontTextView) fragmentView.findViewById(R.id.value_birth_weight);
+            CustomFontTextView tvMotherFirstName = (CustomFontTextView) fragmentView.findViewById(R.id.value_mother_guardian_first_name);
+            CustomFontTextView tvMotherPhoneNumber = (CustomFontTextView) fragmentView.findViewById(R.id.value_mother_guardian_phone_number);
+            CustomFontTextView tvChildsPlaceOfBirth = (CustomFontTextView) fragmentView.findViewById(R.id.value_place_of_birth);
+            CustomFontTextView tvChildsBirthHealthFacility = (CustomFontTextView) fragmentView.findViewById(R.id.value_childs_birth_health_facility);
+            CustomFontTextView tvChildsOtherBirthFacility = (CustomFontTextView) fragmentView.findViewById(R.id.value_other_birth_facility);
+            CustomFontTextView tvChildsResidentialArea = (CustomFontTextView) fragmentView.findViewById(R.id.value_childs_residential_area);
 
-            layout.addView(wd.createTableRow(inflater, container, "Child's home health facility", JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "Home_Facility", false)))));
-            layout.addView(wd.createTableRow(inflater, container, "Child's register card number", Utils.getValue(detailsMap, "Child_Register_Card_Number", false)));
-            layout.addView(wd.createTableRow(inflater, container, "Child's birth certificate number", Utils.getValue(detailsMap, "Child_Birth_Certificate", false)));
-            layout.addView(wd.createTableRow(inflater, container, "Name", Utils.getValue(childDetails.getColumnmaps(), "first_name", true)));
-            layout.addView(wd.createTableRow(inflater, container, "Sex", Utils.getValue(childDetails.getColumnmaps(), "gender", true)));
+            TableRow tableRowChildsOtherBirthFacility = (TableRow) fragmentView.findViewById(R.id.tableRow_childRegDataFragment_childsOtherBirthFacility);
+
+            Map<String, String> childDetailsColumnMaps = detailsMap;
+
+            tvChildsHomeHealthFacility.setText(JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "Home_Facility", false))));
+            tvChildsRegisterCardNumber.setText(Utils.getValue(detailsMap, "Child_Register_Card_Number", false));
+            tvChildsBirthCertificateNumber.setText(Utils.getValue(detailsMap, "Child_Birth_Certificate", false));
+            tvChildsFirstName.setText(Utils.getValue(childDetailsColumnMaps, "first_name", true));
+            tvChildsSex.setText(Utils.getValue(childDetailsColumnMaps, "gender", true));
             boolean containsDOB = Utils.getValue(childDetails.getColumnmaps(), "dob", true).isEmpty();
             String childsDateOfBirth = !containsDOB ? ChildDetailTabbedActivity.DATE_FORMAT.format(new DateTime(Utils.getValue(childDetails.getColumnmaps(), "dob", true)).toDate()) : "";
-            layout.addView(wd.createTableRow(inflater, container, "Child's DOB", childsDateOfBirth));
-
-
+            tvChildsDOB.setText(childsDateOfBirth);
             String formattedAge = "";
             String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
             if (!TextUtils.isEmpty(dobString)) {
@@ -116,31 +113,38 @@ public class ChildRegistrationDataFragment extends Fragment {
                 }
             }
 
+            tvChildsAge.setText(formattedAge);
 
-            layout.addView(wd.createTableRow(inflater, container, "Age", formattedAge));
-
-            layout.addView(wd.createTableRow(inflater, container, "Birth weight", Utils.kgStringSuffix(Utils.getValue(detailsMap, "Birth_Weight", true))));
-
-            layout.addView(wd.createTableRow(inflater, container, "Mother/guardian Name", (Utils.getValue(childDetails.getColumnmaps(), "mother_first_name", true).isEmpty() ? Utils.getValue(childDetails.getDetails(), "mother_first_name", true) : Utils.getValue(childDetails.getColumnmaps(), "mother_first_name", true))));
+            tvChildsBirthWeight.setText(Utils.kgStringSuffix(Utils.getValue(detailsMap, "Birth_Weight", true)));
+            tvMotherFirstName.setText(Utils.getValue(childDetailsColumnMaps, "mother_first_name", true).isEmpty() ? Utils.getValue(childDetails.getDetails(), "mother_first_name", true) : Utils.getValue(childDetailsColumnMaps, "mother_first_name", true));
 
 
-            layout.addView(wd.createTableRow(inflater, container, "Mother/guardian phone number", Utils.getValue(detailsMap, "Mother_Guardian_Number", true)));
+            tvMotherPhoneNumber.setText(Utils.getValue(detailsMap, "Mother_Guardian_Number", true));
 
-            String placeofnearth_Choice = Utils.getValue(detailsMap, "Place_Birth", true);
-            if (placeofnearth_Choice.equalsIgnoreCase("1588AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")) {
-                placeofnearth_Choice = "Health facility";
+            String placeOfBirthChoice = Utils.getValue(detailsMap, "Place_Birth", true);
+            if (placeOfBirthChoice.equalsIgnoreCase("1588AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")) {
+                placeOfBirthChoice = "Health facility";
             }
-            if (placeofnearth_Choice.equalsIgnoreCase("1536AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")) {
-                placeofnearth_Choice = "Home";
+
+            if (placeOfBirthChoice.equalsIgnoreCase("1536AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")) {
+                placeOfBirthChoice = "Home";
             }
-            layout.addView(wd.createTableRow(inflater, container, "Place of birth", placeofnearth_Choice));
-            layout.addView(wd.createTableRow(inflater, container, "Health facility the child was born in", JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "Birth_Facility_Name", false)))));
+
+            tvChildsPlaceOfBirth.setText(placeOfBirthChoice);
+            String childsBirthHealthFacility = Utils.getValue(detailsMap, "Birth_Facility_Name", false);
+            tvChildsBirthHealthFacility.setText(JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "Birth_Facility_Name", false))));
+
             if (JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(
                     Context.getInstance(), Utils.getValue(detailsMap, "Birth_Facility_Name",
                             false))).equalsIgnoreCase("other")) {
-                layout.addView(wd.createTableRow(inflater, container, "Other birth facility", Utils.getValue(detailsMap, "Birth_Facility_Name_Other", true)));
+                tableRowChildsOtherBirthFacility.setVisibility(View.VISIBLE);
+                tvChildsOtherBirthFacility.setText(Utils.getValue(detailsMap, "Birth_Facility_Name_Other", true));
             }
-            layout.addView(wd.createTableRow(inflater, container, "Child's residential area", JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "address3", false)))));
+
+
+            tvChildsResidentialArea.setText(JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "address3", false))));
+
+
 
         }
     }
