@@ -17,6 +17,8 @@ import org.ei.opensrp.path.viewComponents.WidgetFactory;
 import org.ei.opensrp.repository.DetailsRepository;
 import org.ei.opensrp.view.customControls.CustomFontTextView;
 import org.joda.time.DateTime;
+import org.json.JSONArray;
+import org.mozilla.javascript.EcmaError;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -73,7 +75,8 @@ public class ChildRegistrationDataFragment extends Fragment {
 
     public void loadData(Map<String, String> detailsMap) {
         if (fragmentView != null) {
-
+            Map<String, String> detailsMapcheck = detailsMap;
+            detailsMap = childDetails.getColumnmaps();
             CustomFontTextView tvChildsHomeHealthFacility = (CustomFontTextView) fragmentView.findViewById(R.id.value_childs_home_health_facility);
             CustomFontTextView tvChildsRegisterCardNumber = (CustomFontTextView) fragmentView.findViewById(R.id.value_childs_register_card_number);
             CustomFontTextView tvChildsBirthCertificateNumber = (CustomFontTextView) fragmentView.findViewById(R.id.value_childs_birth_certificate_number);
@@ -91,18 +94,26 @@ public class ChildRegistrationDataFragment extends Fragment {
 
             TableRow tableRowChildsOtherBirthFacility = (TableRow) fragmentView.findViewById(R.id.tableRow_childRegDataFragment_childsOtherBirthFacility);
 
-            Map<String, String> childDetailsColumnMaps = detailsMap;
 
-            tvChildsHomeHealthFacility.setText(JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "Home_Facility", false))));
+            try{
+                JSONArray hie_facilitiesarray = new JSONArray(Utils.getValue(detailsMap, "HIE_FACILITIES", false));
+                String fullchildhiefacility = hie_facilitiesarray.getString(hie_facilitiesarray.length()-1);
+                String childhiefacility = fullchildhiefacility.split(":")[fullchildhiefacility.split(":").length-1];
+                tvChildsHomeHealthFacility.setText(childhiefacility);
+            }catch (Exception e){
+
+            }
+//            tvChildsHomeHealthFacility.setText(JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "Home_Facility", false))));
+
             tvChildsRegisterCardNumber.setText(Utils.getValue(detailsMap, "Child_Register_Card_Number", false));
             tvChildsBirthCertificateNumber.setText(Utils.getValue(detailsMap, "Child_Birth_Certificate", false));
-            tvChildsFirstName.setText(Utils.getValue(childDetailsColumnMaps, "first_name", true));
-            tvChildsSex.setText(Utils.getValue(childDetailsColumnMaps, "gender", true));
-            boolean containsDOB = Utils.getValue(childDetails.getColumnmaps(), "dob", true).isEmpty();
-            String childsDateOfBirth = !containsDOB ? ChildDetailTabbedActivity.DATE_FORMAT.format(new DateTime(Utils.getValue(childDetails.getColumnmaps(), "dob", true)).toDate()) : "";
+            tvChildsFirstName.setText(Utils.getValue(detailsMap, "first_name", true));
+            tvChildsSex.setText(Utils.getValue(detailsMap, "gender", true));
+            boolean containsDOB = Utils.getValue(detailsMap, "dob", true).isEmpty();
+            String childsDateOfBirth = !containsDOB ? ChildDetailTabbedActivity.DATE_FORMAT.format(new DateTime(Utils.getValue(detailsMap, "dob", true)).toDate()) : "";
             tvChildsDOB.setText(childsDateOfBirth);
             String formattedAge = "";
-            String dobString = Utils.getValue(childDetails.getColumnmaps(), "dob", false);
+            String dobString = Utils.getValue(detailsMap, "dob", false);
             if (!TextUtils.isEmpty(dobString)) {
                 DateTime dateTime = new DateTime(dobString);
                 Date dob = dateTime.toDate();
@@ -116,7 +127,7 @@ public class ChildRegistrationDataFragment extends Fragment {
             tvChildsAge.setText(formattedAge);
 
             tvChildsBirthWeight.setText(Utils.kgStringSuffix(Utils.getValue(detailsMap, "Birth_Weight", true)));
-            tvMotherFirstName.setText(Utils.getValue(childDetailsColumnMaps, "mother_first_name", true).isEmpty() ? Utils.getValue(childDetails.getDetails(), "mother_first_name", true) : Utils.getValue(childDetailsColumnMaps, "mother_first_name", true));
+            tvMotherFirstName.setText(Utils.getValue(detailsMap, "mother_first_name", true).isEmpty() ? Utils.getValue(childDetails.getDetails(), "mother_first_name", true) : Utils.getValue(detailsMap, "mother_first_name", true));
 
 
             tvMotherPhoneNumber.setText(Utils.getValue(detailsMap, "Mother_Guardian_Number", true));
@@ -132,7 +143,7 @@ public class ChildRegistrationDataFragment extends Fragment {
 
             tvChildsPlaceOfBirth.setText(placeOfBirthChoice);
             String childsBirthHealthFacility = Utils.getValue(detailsMap, "Birth_Facility_Name", false);
-            tvChildsBirthHealthFacility.setText(JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(Context.getInstance(), Utils.getValue(detailsMap, "Birth_Facility_Name", false))));
+            tvChildsBirthHealthFacility.setText(childsBirthHealthFacility);
 
             if (JsonFormUtils.getOpenMrsReadableName(JsonFormUtils.getOpenMrsLocationName(
                     Context.getInstance(), Utils.getValue(detailsMap, "Birth_Facility_Name",

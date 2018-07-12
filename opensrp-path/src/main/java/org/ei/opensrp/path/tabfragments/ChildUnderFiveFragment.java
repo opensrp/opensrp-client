@@ -100,13 +100,14 @@ public class ChildUnderFiveFragment extends Fragment {
         alertService = Context.getInstance().alertService();
 
         childDetails = childDetails != null ? childDetails : ((ChildDetailTabbedActivity) getActivity()).getChildDetails();
-        Detailsmap = ((ChildDetailTabbedActivity) getActivity()).getChildDetailsmap();
 
-        loadView(false, false, false);
+
+//        loadView(false, false, false);
         return underFiveFragment;
     }
 
     public void loadView(boolean editVaccineMode, boolean editServiceMode, boolean editWeightMode) {
+        Detailsmap = ((ChildDetailTabbedActivity) getActivity()).getChildDetailsmap();
         if (fragmentContainer != null) {
 //            createPTCMTVIEW(fragmentContainer, "PMTCT: ", Utils.getValue(childDetails.getColumnmaps(), "pmtct_status", true));
             createWeightLayout(fragmentContainer, editWeightMode);

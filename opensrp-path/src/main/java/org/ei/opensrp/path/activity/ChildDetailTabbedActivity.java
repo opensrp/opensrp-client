@@ -215,7 +215,55 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
 //        getSupportActionBar().
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    saveButton.setVisibility(View.INVISIBLE);
+                    for (int i = 0; i < overflow.size(); i++) {
+                        overflow.getItem(i).setVisible(true);
+                    }
+                    childUnderFiveFragment.loadView(false, false, false);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        setupViewPager(viewPager);
+
+        detailtoolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        detailtoolbar.setTitle(updateActivityTitle());
+
+        statusview = (LinearLayout) findViewById(R.id.statusview);
+        statusview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                android.app.Fragment prev = getFragmentManager().findFragmentByTag(DIALOG_TAG);
+
+                StatusEditDialogFragment.newInstance(ChildDetailTabbedActivity.this, details).show(ft, DIALOG_TAG);
+            }
+        });
+
+        tabLayout.setupWithViewPager(viewPager);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ChildDetailTabbedActivity.this);
+
+        allSharedPreferences = new AllSharedPreferences(preferences);
+        initiallization();
 
         Utils.startAsyncTask(new LoadAsyncTask(), null);
 
@@ -732,7 +780,7 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
             }
         }
         updateProfilePicture(gender);
-        updateStatus();
+
     }
 
     @Override
@@ -1539,59 +1587,10 @@ public class ChildDetailTabbedActivity extends BaseActivity implements Vaccinati
             detailmaps = extractDetailsMap(map);
             detailmaps.putAll(childDetails.getColumnmaps());
             details = detailmaps;
+            updateStatus();
 
-            childDataFragment.loadData(detailmaps);
-
-            viewPager = (ViewPager) findViewById(R.id.viewpager);
-            viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-                    if (position == 0) {
-                        saveButton.setVisibility(View.INVISIBLE);
-                        for (int i = 0; i < overflow.size(); i++) {
-                            overflow.getItem(i).setVisible(true);
-                        }
-                        childUnderFiveFragment.loadView(false, false, false);
-                    }
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
-            setupViewPager(viewPager);
-
-            detailtoolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onBackPressed();
-                }
-            });
-            detailtoolbar.setTitle(updateActivityTitle());
-
-            statusview = (LinearLayout) findViewById(R.id.statusview);
-            statusview.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    android.app.Fragment prev = getFragmentManager().findFragmentByTag(DIALOG_TAG);
-
-                    StatusEditDialogFragment.newInstance(ChildDetailTabbedActivity.this, details).show(ft, DIALOG_TAG);
-                }
-            });
-
-            tabLayout.setupWithViewPager(viewPager);
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ChildDetailTabbedActivity.this);
-
-            allSharedPreferences = new AllSharedPreferences(preferences);
-            initiallization();
-
+            childDataFragment.loadData(details);
+            childUnderFiveFragment.loadView(false, false, false);
 
             hideProgressDialog();
         }
