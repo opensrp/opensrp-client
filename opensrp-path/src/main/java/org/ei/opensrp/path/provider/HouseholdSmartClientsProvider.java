@@ -112,7 +112,7 @@ public class HouseholdSmartClientsProvider implements SmartRegisterCLientsProvid
             fillValue((TextView) convertView.findViewById(R.id.housholdsecondarytext), fulladdress.split(":")[fulladdress.split(":").length-3]);
             fillValue((TextView) convertView.findViewById(R.id.address), fulladdress.split(":")[fulladdress.split(":").length-4]);
             address4 =  fulladdress;
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

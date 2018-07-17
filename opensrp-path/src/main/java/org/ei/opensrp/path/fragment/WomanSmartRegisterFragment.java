@@ -24,7 +24,6 @@ import com.github.ybq.android.spinkit.style.DoubleBounce;
 import com.github.ybq.android.spinkit.style.RotatingCircle;
 import com.github.ybq.android.spinkit.style.WanderingCubes;
 
-import org.apache.commons.lang3.StringUtils;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.commonregistry.CommonRepository;
@@ -184,7 +183,7 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
 
         }
 
-        updateLocationText();
+//        updateLocationText();
         if (filterMode()) {
             toggleFilterSelection();
         }
@@ -718,13 +717,6 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
 
         return count;
 
-    }
-
-    @Override
-    protected boolean isValidFilterForFts(CommonRepository commonRepository) {
-        return commonRepository.isFts() && filters != null && !StringUtils
-                .containsIgnoreCase(filters, "like") && !StringUtils
-                .startsWithIgnoreCase(filters.trim(), "and ");
     }
 
     private void switchViews(boolean filterSelected) {
