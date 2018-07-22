@@ -365,7 +365,10 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
         setTablename(tableName);
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
         countqueryBUilder.SelectInitiateMainTableCounts(tableName);
-        mainCondition = tablename+".id in (Select base_entity_id from ec_details where value like '%"+getClinicSelection().getSelectedItem()+"%') ";
+//        mainCondition = tablename+".id in (Select base_entity_id from ec_details where value like '%"+getClinicSelection().getSelectedItem()+"%') ";
+        mainCondition = tablename+".hie_facilities like '%"+getClinicSelection().getSelectedItem()+"%'";
+
+//        mainCondition = "";
         countSelect = countqueryBUilder.mainCondition(mainCondition);
         super.CountExecute();
 //        countOverDue();
