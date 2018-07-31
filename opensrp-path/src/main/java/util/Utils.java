@@ -557,6 +557,10 @@ public class Utils {
         return birthDateTime;
     }
 
+    public static void timeStampLog(String logtag){
+        Log.v(logtag,""+System.currentTimeMillis());
+    }
+
     /**
      * This method is only intended to be used for processing Zambia-EIR-DataDictionaryReporting-HIA2.csv
      *

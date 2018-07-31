@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.ei.opensrp.event.Event.FORM_SUBMITTED;
+import static org.ei.opensrp.util.Log.timeStampLog;
 
 public class ClientProcessor {
 
@@ -199,7 +200,9 @@ public class ClientProcessor {
             // Incase the details have not been updated
             boolean updated = event.has(detailsUpdated) ? event.getBoolean(detailsUpdated) : false;
             if (!updated) {
+                timeStampLog("start inserting in details");
                 updateClientDetailsTable(event, client);
+                timeStampLog("end inserting in details");
             }
             return true;
         } catch (Exception e) {

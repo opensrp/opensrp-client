@@ -26,4 +26,8 @@ public class Log {
         e(tag, message);
     }
 
+    public static void timeStampLog(String logtag){
+        android.util.Log.v("loadtest"+"----"+logtag,""+System.currentTimeMillis());
+    }
+
 }

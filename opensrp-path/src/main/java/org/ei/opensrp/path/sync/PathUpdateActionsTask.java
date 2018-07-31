@@ -65,6 +65,7 @@ import static org.ei.opensrp.domain.FetchStatus.fetchedFailed;
 import static org.ei.opensrp.domain.FetchStatus.nothingFetched;
 import static org.ei.opensrp.util.Log.logError;
 import static org.ei.opensrp.util.Log.logInfo;
+import static org.ei.opensrp.util.Log.timeStampLog;
 import static util.VaccinatorUtils.receivedVaccines;
 
 import java.text.SimpleDateFormat;
@@ -171,6 +172,7 @@ public class PathUpdateActionsTask {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
             AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
             while (true) {
+                timeStampLog("start of a single batch sync");
                 long startSyncTimeStamp = ecUpdater.getLastSyncTimeStamp();
 
                 int eCount = ecUpdater.fetchAllClientsAndEvents(AllConstants.SyncFilters.FILTER_PROVIDER, allSharedPreferences.fetchRegisteredANM());
@@ -185,6 +187,7 @@ public class PathUpdateActionsTask {
                 PathClientProcessor.getInstance(context).processClient(ecUpdater.allEvents(startSyncTimeStamp, lastSyncTimeStamp));
                 Log.i(getClass().getName(), "!!!!! Sync count:  " + eCount);
                 pathAfterFetchListener.partialFetch(fetched);
+                timeStampLog("end of a single batch sync");
             }
             pullStockFromServer();
 

@@ -70,6 +70,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.ei.opensrp.path.activity.WomanImmunizationActivity.DATE_FORMAT;
 import static org.ei.opensrp.path.activity.WomanSmartRegisterActivity.REQUEST_CODE_GET_JSON;
+import static org.ei.opensrp.util.Log.timeStampLog;
 import static util.Utils.fillValue;
 import static util.Utils.getName;
 import static util.Utils.getValue;
@@ -238,8 +239,10 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
 
             @Override
             protected Object doInBackground(Object[] params) {
+                timeStampLog("start of woman detail call");
                 detailsRepository = detailsRepository == null ? org.ei.opensrp.Context.getInstance().updateApplicationContext(context.getApplicationContext()).detailsRepository() : detailsRepository;
                 detailmaps = detailsRepository.getAllDetailsForClient(pc.entityId());
+                timeStampLog("end of woman detail call");
                 return null;
             }
 
@@ -527,7 +530,7 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
 
         @Override
         protected Void doInBackground(Void... params) {
-
+            timeStampLog("start of woman alert update");
             vaccines = vaccineRepository.findByEntityId(entityId);
             alerts = alertService.findByEntityIdAndAlertNames(entityId, VaccinateActionUtils.allAlertNames("mother"));
             if(alerts.size() == 0){
@@ -544,13 +547,16 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
                 }
                 alerts = alertService.findByEntityIdAndAlertNames(entityId, VaccinateActionUtils.allAlertNames("mother"));
             }
-
+            timeStampLog("end of woman alert update");
             return null;
         }
 
         @Override
         protected void onPostExecute(Void param) {
+            timeStampLog("start of woman alert update in view");
             updateRecordVaccination(convertView, vaccines, alerts, dobString);
+            timeStampLog("end of woman alert update in view");
+
         }
     }
 

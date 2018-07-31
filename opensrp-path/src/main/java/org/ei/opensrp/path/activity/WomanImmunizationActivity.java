@@ -99,6 +99,7 @@ import util.VaccinateActionUtils;
 import util.VaccinatorUtils;
 import util.VaccineScheduleUtils;
 
+import static org.ei.opensrp.util.Log.timeStampLog;
 import static util.Utils.getName;
 import static util.Utils.getValue;
 
@@ -226,6 +227,8 @@ public class WomanImmunizationActivity extends BaseActivity
     }
 
     private void updateViews() {
+        timeStampLog("start of update view");
+
         ((LinearLayout) findViewById(R.id.profile_name_layout)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -257,6 +260,8 @@ public class WomanImmunizationActivity extends BaseActivity
             updateViewTask.setAlertService(alertService);
             Utils.startAsyncTask(updateViewTask, null);
         }
+        timeStampLog("end of update view");
+
     }
 
     private void updateProfilePicture(Gender gender) {
@@ -1220,6 +1225,7 @@ public class WomanImmunizationActivity extends BaseActivity
         @Override
         protected void onPostExecute(Map<String, NamedObject<?>> map) {
             hideProgressDialog();
+            timeStampLog("start woman vaccine update");
 
             List<Vaccine> vaccineList = new ArrayList<>();
             Weight weight = null;
@@ -1273,10 +1279,14 @@ public class WomanImmunizationActivity extends BaseActivity
             updateServiceViews(serviceTypeMap, serviceRecords, alertList);
             updateVaccinationViews(vaccineList, alertList);
             performRegisterActions();
+            timeStampLog("end woman vaccine update");
+
         }
 
         @Override
         protected Map<String, NamedObject<?>> doInBackground(Void... voids) {
+            timeStampLog("start woman vaccine calc");
+
             String dobString = Utils.getValue(childDetails.getColumnmaps(), "lmp", false);
             if (!TextUtils.isEmpty(dobString)) {
                  SimpleDateFormat lmp_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
@@ -1336,6 +1346,9 @@ public class WomanImmunizationActivity extends BaseActivity
 
             NamedObject<List<Alert>> alertsNamedObject = new NamedObject<>(Alert.class.getName(), alertList);
             map.put(alertsNamedObject.name, alertsNamedObject);
+
+            timeStampLog("end woman vaccine calc");
+
 
             return map;
         }

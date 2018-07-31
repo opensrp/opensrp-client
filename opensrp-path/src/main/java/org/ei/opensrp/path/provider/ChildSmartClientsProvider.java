@@ -47,6 +47,7 @@ import util.Utils;
 import util.VaccinateActionUtils;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static org.ei.opensrp.util.Log.timeStampLog;
 import static util.Utils.fillValue;
 import static util.Utils.getName;
 import static util.Utils.getValue;
@@ -497,8 +498,9 @@ public class ChildSmartClientsProvider implements SmartRegisterCLientsProviderFo
 
         @Override
         protected void onPostExecute(Void param) {
+            timeStampLog("start of vaccine due calc in child");
             updateRecordVaccination(convertView, vaccines, alerts, dobString, lostToFollowUp, inactive);
-
+            timeStampLog("end of vaccine due calc in child");
         }
     }
 }
