@@ -566,21 +566,35 @@ public class ClientProcessor {
     public void updateClientDetailsTable(JSONObject event, JSONObject client) {
         try {
             Log.i(TAG, "Started updateClientDetailsTable");
-
+            Log.i(TAG, event.toString());
+            Log.i(TAG, client.toString());
+            HashMap<String,String> mainMap = new HashMap<String, String>();
             String baseEntityId = client.getString(baseEntityIdJSONKey);
             Long timestamp = getEventDate(event.get("eventDate"));
 
             Map<String, String> genderInfo = getClientSingleValueAttribute(client, "gender");
-            saveClientDetails(baseEntityId, genderInfo, timestamp);
+//            org.ei.opensrp.Context.getInstance().commonrepository("ec_"+event.getString("entityType")).mergeDetails(baseEntityId,genderInfo);
+//            saveClientDetails(baseEntityId, genderInfo, timestamp);
+            mainMap.putAll(genderInfo);
 
             Map<String, String> addressInfo = getClientAddressAsMap(client);
-            saveClientDetails(baseEntityId, addressInfo, timestamp);
+//            org.ei.opensrp.Context.getInstance().commonrepository("ec_"+event.getString("entityType")).mergeDetails(baseEntityId,addressInfo);
+//            saveClientDetails(baseEntityId, addressInfo, timestamp);
+            mainMap.putAll(addressInfo);
 
             Map<String, String> attributes = getClientAttributes(client);
-            saveClientDetails(baseEntityId, attributes, timestamp);
+//            org.ei.opensrp.Context.getInstance().commonrepository("ec_"+event.getString("entityType")).mergeDetails(baseEntityId,attributes);
+//            saveClientDetails(baseEntityId, attributes, timestamp);
+            mainMap.putAll(attributes);
 
             Map<String, String> obs = getObsFromEvent(event);
-            saveClientDetails(baseEntityId, obs, timestamp);
+//            org.ei.opensrp.Context.getInstance().commonrepository("ec_"+event.getString("entityType")).mergeDetails(baseEntityId,obs);
+//            saveClientDetails(baseEntityId, obs, timestamp);
+            mainMap.putAll(obs);
+
+
+            org.ei.opensrp.Context.getInstance().commonrepository("ec_"+event.getString("entityType")).mergeDetails(baseEntityId,mainMap);
+
 
             event.put(detailsUpdated, true);
 

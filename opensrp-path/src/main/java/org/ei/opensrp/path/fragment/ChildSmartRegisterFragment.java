@@ -399,7 +399,7 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
         setTablename(tableName);
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
         countqueryBUilder.SelectInitiateMainTableCounts(tableName);
-        mainCondition = " (dod is NULL OR dod = '') and "+tablename+".id in (Select base_entity_id from ec_details where value like '%"+getClinicSelection().getSelectedItem()+"%') ";
+        mainCondition = " (dod is NULL OR dod = '') and details like '%"+getClinicSelection().getSelectedItem()+"%' ";
         countSelect = countqueryBUilder.mainCondition(mainCondition);
         super.CountExecute();
         countOverDue();
@@ -522,7 +522,6 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
                         +"or "+motherTableName+".father_name like '%"+s.toString()+"%'"
                         +"or "+motherTableName+".husband_name like '%"+s.toString()+"%'"
                         +"or "+motherTableName+".contact_phone_number like '%"+s.toString()+"%'"
-                        +"or "+motherTableName+".id in (select ec_details.base_entity_id from ec_details where key = 'phoneNumber' and ec_details.value like '%"+s.toString()+"%')"
                         +"or "+tablename+".first_name like '%"+s.toString()+"%'"
                         +"or "+tablename+".openmrs_id like '%"+s.toString()+"%'"
                         +"or "+tablename+".epi_card_number like '%"+s.toString()+"%'"

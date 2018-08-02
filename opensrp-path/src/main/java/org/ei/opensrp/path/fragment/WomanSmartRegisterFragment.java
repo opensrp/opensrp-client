@@ -390,7 +390,7 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
         setTablename(tableName);
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
         countqueryBUilder.SelectInitiateMainTableCounts(tableName);
-        mainCondition = tablename+".id in (Select base_entity_id from ec_details where value like '%"+getClinicSelection().getSelectedItem()+"%') ";
+        mainCondition = tableName+".details like '%"+getClinicSelection().getSelectedItem()+"%'";
         countSelect = countqueryBUilder.mainCondition(mainCondition);
         super.CountExecute();
         countOverDue();
@@ -560,7 +560,6 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
                         +"or "+tableName+".father_name like '%"+s.toString()+"%'"
                         +"or "+tableName+".husband_name like '%"+s.toString()+"%'"
                         +"or "+tableName+".contact_phone_number like '%"+s.toString()+"%'"
-                        +"or "+tableName+".id in (select ec_details.base_entity_id from ec_details where key = 'phoneNumber' and ec_details.value like '%"+s.toString()+"%')"
                         +")" ,"","");
             }
             @Override

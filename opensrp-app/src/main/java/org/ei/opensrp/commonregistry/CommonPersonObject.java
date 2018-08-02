@@ -1,5 +1,6 @@
 package org.ei.opensrp.commonregistry;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -28,6 +29,9 @@ public class CommonPersonObject {
         this.caseId = caseId;
         this.type = type;
         this.relationalid = relationalid;
+        if(details==null){
+            details = new HashMap<String, String>();
+        }
     }
 
     public String getCaseId() {

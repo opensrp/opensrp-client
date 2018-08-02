@@ -240,8 +240,9 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
             @Override
             protected Object doInBackground(Object[] params) {
                 timeStampLog("start of woman detail call");
-                detailsRepository = detailsRepository == null ? org.ei.opensrp.Context.getInstance().updateApplicationContext(context.getApplicationContext()).detailsRepository() : detailsRepository;
-                detailmaps = detailsRepository.getAllDetailsForClient(pc.entityId());
+//                detailsRepository = detailsRepository == null ? org.ei.opensrp.Context.getInstance().updateApplicationContext(context.getApplicationContext()).detailsRepository() : detailsRepository;
+//                detailmaps = detailsRepository.getAllDetailsForClient(pc.entityId());
+                detailmaps = pc.getDetails();
                 timeStampLog("end of woman detail call");
                 return null;
             }
