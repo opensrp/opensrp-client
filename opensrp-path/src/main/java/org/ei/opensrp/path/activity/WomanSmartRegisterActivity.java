@@ -100,14 +100,14 @@ public class WomanSmartRegisterActivity extends BaseRegisterActivity {
             }
         });
 
-        Event.ON_DATA_FETCHED.addListener(onDataFetchedListener);
+//        Event.ON_DATA_FETCHED.addListener(onDataFetchedListener);
 
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Event.ON_DATA_FETCHED.removeListener(onDataFetchedListener);
+//        Event.ON_DATA_FETCHED.removeListener(onDataFetchedListener);
     }
 
     @Override
@@ -358,7 +358,7 @@ public class WomanSmartRegisterActivity extends BaseRegisterActivity {
     private Listener<FetchStatus> onDataFetchedListener = new Listener<FetchStatus>() {
         @Override
         public void onEvent(FetchStatus fetchStatus) {
-            refreshList(fetchStatus);
+//            refreshList(fetchStatus);
         }
     };
 

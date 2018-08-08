@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.DebugUtils;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -408,7 +409,13 @@ public class LoginActivity extends Activity {
         intent.putExtra(BaseRegisterActivity.IS_REMOTE_LOGIN, remote);
         startActivity(intent);
         accessAssetsAndFillDataBaseForVaccineTypes();
-
+        (new AsyncTask(){
+            @Override
+            protected Object doInBackground(Object[] params) {
+                util.DebugUtils.backupDatabase(LoginActivity.this,"drishti.db");
+                return null;
+            }
+        }).execute();
         finish();
     }
 

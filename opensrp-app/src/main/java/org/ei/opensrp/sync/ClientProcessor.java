@@ -523,7 +523,7 @@ public class ClientProcessor {
                 Long id = executeInsertStatement(contentValues, clientType);
                 updateFTSsearch(clientType, baseEntityId, contentValues);
                 Long timestamp = getEventDate(event.get("eventDate"));
-                addContentValuesToDetailsTable(contentValues, timestamp);
+//                addContentValuesToDetailsTable(contentValues, timestamp);
                 updateClientDetailsTable(event, client);
             }
             return true;
@@ -593,7 +593,7 @@ public class ClientProcessor {
             mainMap.putAll(obs);
 
 
-            org.ei.opensrp.Context.getInstance().commonrepository("ec_"+event.getString("entityType")).mergeDetails(baseEntityId,mainMap);
+            org.ei.opensrp.Context.getInstance().commonrepository("ec_"+event.getString("entityType")).mergeDetails("ec_"+event.getString("entityType"),baseEntityId,mainMap);
 
 
             event.put(detailsUpdated, true);

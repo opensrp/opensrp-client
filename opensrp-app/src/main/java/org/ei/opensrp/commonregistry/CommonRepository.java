@@ -149,12 +149,33 @@ public class CommonRepository extends DrishtiRepository {
         if (common == null) {
             return;
         }
+        if(common.getDetails()==null){
+            common.setDetails(new HashMap<String, String>());
+        }
 
         Map<String, String> mergedDetails = new HashMap<String, String>(common.getDetails());
         mergedDetails.putAll(details);
         ContentValues valuesToUpdate = new ContentValues();
         valuesToUpdate.put(DETAILS_COLUMN, new Gson().toJson(mergedDetails));
         database.update(TABLE_NAME, valuesToUpdate, ID_COLUMN + " = ?", new String[]{caseId});
+    }
+
+    public void mergeDetails(String tablename,String caseId, Map<String, String> details) {
+        SQLiteDatabase database = masterRepository.getWritableDatabase();
+
+        CommonPersonObject common = findByCaseID(caseId);
+        if (common == null) {
+            return;
+        }
+        if(common.getDetails()==null){
+            common.setDetails(new HashMap<String, String>());
+        }
+
+        Map<String, String> mergedDetails = new HashMap<String, String>(common.getDetails());
+        mergedDetails.putAll(details);
+        ContentValues valuesToUpdate = new ContentValues();
+        valuesToUpdate.put(DETAILS_COLUMN, new Gson().toJson(mergedDetails));
+        database.update(tablename, valuesToUpdate, ID_COLUMN + " = ?", new String[]{caseId});
     }
 
     public List<CommonPersonObject> allcommon() {

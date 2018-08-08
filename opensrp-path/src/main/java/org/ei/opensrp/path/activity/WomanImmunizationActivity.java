@@ -24,6 +24,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.ei.opensrp.commonregistry.AllCommonsRepository;
@@ -236,7 +239,10 @@ public class WomanImmunizationActivity extends BaseActivity
             }
         });
         // TODO: update all views using child data
-        Map<String, String> details = detailsRepository.getAllDetailsForClient(childDetails.entityId());
+//        Map<String, String> details = detailsRepository.getAllDetailsForClient(childDetails.entityId());
+        Map<String, String> details = new Gson().<Map<String, String>>fromJson(childDetails.getColumnmaps().get("details"),
+                new TypeToken<Map<String, String>>() {
+                }.getType());
         //details.putAll(childDetails.getColumnmaps());
         //):( prrrr
         childDetails.getColumnmaps().putAll(details);

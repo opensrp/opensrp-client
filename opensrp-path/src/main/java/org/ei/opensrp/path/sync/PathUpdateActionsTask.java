@@ -189,7 +189,7 @@ public class PathUpdateActionsTask {
                 pathAfterFetchListener.partialFetch(fetched);
                 timeStampLog("end of a single batch sync");
             }
-            pullStockFromServer();
+//            pullStockFromServer();
 
             if (totalCount == 0) {
                 return nothingFetched;
@@ -207,8 +207,8 @@ public class PathUpdateActionsTask {
 
     public void pushToServer() {
         pushECToServer();
-        pushReportsToServer();
-        pushStockToServer();
+//        pushReportsToServer();
+//        pushStockToServer();
     }
 
     public void pushECToServer() {

@@ -390,7 +390,7 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
         setTablename(tableName);
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
         countqueryBUilder.SelectInitiateMainTableCounts(tableName);
-        mainCondition = tableName+".details like '%"+getClinicSelection().getSelectedItem()+"%'";
+        mainCondition = "";
         countSelect = countqueryBUilder.mainCondition(mainCondition);
         super.CountExecute();
         countOverDue();
@@ -690,16 +690,16 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
         try {
             SmartRegisterQueryBuilder sqb = new SmartRegisterQueryBuilder(countSelect);
             String query = "";
-            if (isValidFilterForFts(commonRepository())) {
-                String sql = sqb.countQueryFts(tablename, "", mainConditionString, "");
-                List<String> ids = commonRepository().findSearchIds(sql);
-                query = sqb.toStringFts(ids, tablename + "." + CommonRepository.ID_COLUMN);
-                query = sqb.Endquery(query);
-            } else {
+//            if (isValidFilterForFts(commonRepository())) {
+//                String sql = sqb.countQueryFts(tablename, "", mainConditionString, "");
+//                List<String> ids = commonRepository().findSearchIds(sql);
+//                query = sqb.toStringFts(ids, tablename + "." + CommonRepository.ID_COLUMN);
+//                query = sqb.Endquery(query);
+//            } else {
                 sqb.addCondition(filters);
                 query = sqb.orderbyCondition(Sortqueries);
                 query = sqb.Endquery(query);
-            }
+//            }
 
             Log.i(getClass().getName(), query);
             c = commonRepository().RawCustomQueryForAdapter(query);

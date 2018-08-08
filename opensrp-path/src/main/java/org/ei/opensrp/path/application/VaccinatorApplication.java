@@ -56,7 +56,7 @@ import static org.ei.opensrp.util.Log.logInfo;
  * Created by koros on 2/3/16.
  */
 public class VaccinatorApplication extends DrishtiApplication
-        implements TimeChangedBroadcastReceiver.OnTimeChangedListener {
+         {
 
     private static final String TAG = "VaccinatorApplication";
     private Locale locale = null;
@@ -89,8 +89,8 @@ public class VaccinatorApplication extends DrishtiApplication
         context.updateCommonFtsObject(createCommonFtsObject());
         Hia2ServiceBroadcastReceiver.init(this);
         SyncStatusBroadcastReceiver.init(this);
-        TimeChangedBroadcastReceiver.init(this);
-        TimeChangedBroadcastReceiver.getInstance().addOnTimeChangedListener(this);
+//        TimeChangedBroadcastReceiver.init(this);
+//        TimeChangedBroadcastReceiver.getInstance().addOnTimeChangedListener(this);
 
         applyUserLanguagePreference();
         cleanUpSyncState();
@@ -127,7 +127,7 @@ public class VaccinatorApplication extends DrishtiApplication
         logInfo("Application is terminating. Stopping Bidan Sync scheduler and resetting isSyncInProgress setting.");
         cleanUpSyncState();
         SyncStatusBroadcastReceiver.destroy(this);
-        TimeChangedBroadcastReceiver.destroy(this);
+//        TimeChangedBroadcastReceiver.destroy(this);
         super.onTerminate();
     }
 
@@ -333,19 +333,7 @@ public class VaccinatorApplication extends DrishtiApplication
         this.lastModified = lastModified;
     }
 
-    @Override
-    public void onTimeChanged() {
-        Toast.makeText(this, R.string.device_time_changed, Toast.LENGTH_LONG).show();
-        context.userService().forceRemoteLogin();
-        logoutCurrentUser();
-    }
 
-    @Override
-    public void onTimeZoneChanged() {
-        Toast.makeText(this, R.string.device_timezone_changed, Toast.LENGTH_LONG).show();
-        context.userService().forceRemoteLogin();
-        logoutCurrentUser();
-    }
 
     private void initOfflineSchedules() {
         try {
