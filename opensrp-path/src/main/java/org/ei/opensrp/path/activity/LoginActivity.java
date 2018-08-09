@@ -412,7 +412,8 @@ public class LoginActivity extends Activity {
         (new AsyncTask(){
             @Override
             protected Object doInBackground(Object[] params) {
-                util.DebugUtils.backupDatabase(LoginActivity.this,"drishti.db");
+//                util.DebugUtils.backupDatabase(LoginActivity.this,"drishti.db");
+//                util.DebugUtils.importDatabase(LoginActivity.this,"drishti.db");
                 return null;
             }
         }).execute();

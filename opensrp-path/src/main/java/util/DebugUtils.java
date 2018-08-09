@@ -72,6 +72,8 @@ public final class DebugUtils {
                     dst.close();
                 }
             }
+            Utils.writePreference(context, "LAST_SYNC_TIMESTAMP", System.currentTimeMillis() + "");
+
         } catch (Exception e) {
             throw new Error(e);
         }
