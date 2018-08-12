@@ -402,22 +402,31 @@ public class LoginActivity extends Activity {
         DrishtiSyncScheduler.startOnlyIfConnectedToNetwork(getApplicationContext());
     }
 
-    private void goToHome(boolean remote) {
+    private void goToHome(final boolean remote) {
         if (!remote) startZScoreIntentService();
         VaccinatorApplication.setCrashlyticsUser(context);
-        Intent intent = new Intent(this, HouseholdSmartRegisterActivity.class);
-        intent.putExtra(BaseRegisterActivity.IS_REMOTE_LOGIN, remote);
-        startActivity(intent);
-        accessAssetsAndFillDataBaseForVaccineTypes();
+
         (new AsyncTask(){
             @Override
             protected Object doInBackground(Object[] params) {
 //                util.DebugUtils.backupDatabase(LoginActivity.this,"drishti.db");
-//                util.DebugUtils.importDatabase(LoginActivity.this,"drishti.db");
+                util.DebugUtils.importDatabase(LoginActivity.this,"drishti.db");
                 return null;
             }
-        }).execute();
-        finish();
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                Intent intent = new Intent(LoginActivity.this, HouseholdSmartRegisterActivity.class);
+                intent.putExtra(BaseRegisterActivity.IS_REMOTE_LOGIN, remote);
+                startActivity(intent);
+                accessAssetsAndFillDataBaseForVaccineTypes();
+                finish();
+            }
+        }
+
+        ).execute();
+
     }
 
     private String getVersion() throws PackageManager.NameNotFoundException {
