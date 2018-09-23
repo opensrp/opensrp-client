@@ -553,7 +553,7 @@ public class mCareChildSmartClientsProvider implements SmartRegisterCLientsProvi
 
                 }
             });
-        }
+       }
         if(alerttextstatus.getAlertstatus().equalsIgnoreCase("complete")){
 //               psrfdue.setText("visited");
             customFontTextView.setBackgroundColor(context.getResources().getColor(R.color.alert_complete_green_mcare));

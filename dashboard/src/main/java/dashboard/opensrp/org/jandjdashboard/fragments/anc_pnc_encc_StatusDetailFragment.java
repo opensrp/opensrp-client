@@ -23,7 +23,9 @@ import com.jjoe64.graphview.series.DataPoint;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -342,16 +344,23 @@ public class anc_pnc_encc_StatusDetailFragment extends dashboardFragment {
         enccstringDataPointHashMap.put("Post Due",new DataPoint(2,enccpostdue));
         enccstringDataPointHashMap.put("Expired",new DataPoint(3,enccexpired));
 
-       int ancmax = findHighestInANCMAP(ancMap);
-       int pncmax = findHighestInPNCMAP(pncMap);
-       int enccmax = findHighestInENCCMAP(enccmap);
-       int max = ancmax;
-       if(pncmax>max){
-           max = pncmax;
-       }
-       if(enccmax>max){
-           max = enccmax;
-       }
+//       int ancmax = findHighestInANCMAP(ancMap);
+//       int pncmax = findHighestInPNCMAP(pncMap);
+//       int enccmax = findHighestInENCCMAP(enccmap);
+        Integer[] numbers = { anccompleted,
+                ancdue,ancpostdue,ancexpired,pnccompleted,
+                pncdue,pncpostdue,pncexpired,enccompleted,
+                enccdue,enccpostdue,enccexpired};
+
+        int max = (int) Collections.max(Arrays.asList(numbers));
+
+//       int max = anccompleted;
+//       if(pnccompleted>max){
+//           max = pnccompleted;
+//       }
+//       if(enccompleted>max){
+//           max = enccompleted;
+//       }
 
         graphHolder.addView(addGraphs(ancstringDataPointHashMap,"ANC",max),layoutParams);
         graphHolder.addView(addGraphs(pncstringDataPointHashMap,"PNC",max),layoutParams);
