@@ -80,6 +80,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import util.DateUtils;
@@ -238,10 +239,13 @@ public class ChildImmunizationActivity extends BaseActivity
             }
         });
         // TODO: update all views using child data
-        Map<String, String> details = detailsRepository.getAllDetailsForClient(childDetails.entityId());
-        //details.putAll(childDetails.getColumnmaps());
-        //):( prrrr
-        childDetails.getColumnmaps().putAll(details);
+//        Map<String, String> details = detailsRepository.getAllDetailsForClient(childDetails.entityId());
+//        //details.putAll(childDetails.getColumnmaps());
+//        //):( prrrr
+//        childDetails.getColumnmaps().putAll(details);
+        ((ThreadPoolExecutor) AsyncTask.THREAD_POOL_EXECUTOR).purge();
+        ((ThreadPoolExecutor) AsyncTask.THREAD_POOL_EXECUTOR).getQueue().clear();
+
         updateGenderViews();
         toolbar.setTitle(updateActivityTitle());
         updateAgeViews();

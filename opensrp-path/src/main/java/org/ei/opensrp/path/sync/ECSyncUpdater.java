@@ -64,7 +64,7 @@ public class ECSyncUpdater {
         }
 
         JSONObject jsonObject = new JSONObject((String) resp.payload());
-        return jsonObject;
+         return jsonObject;
     }
 
     public int fetchAllClientsAndEvents(String filterName, String filterValue) {

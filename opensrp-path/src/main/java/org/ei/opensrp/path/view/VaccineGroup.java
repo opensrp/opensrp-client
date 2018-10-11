@@ -191,8 +191,13 @@ public class VaccineGroup extends LinearLayout implements View.OnClickListener,
             } else {
                 this.state = State.CURRENT;
             }
+
+            Log.v("tags vaccinegroup start", ""+System.currentTimeMillis());
+
             updateStatusViews();
             updateVaccineCards(vaccinesToUpdate);
+            Log.v("tags vaccinegroup end", ""+System.currentTimeMillis());
+
         }
     }
 

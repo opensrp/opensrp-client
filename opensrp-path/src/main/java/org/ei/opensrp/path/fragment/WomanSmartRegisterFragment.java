@@ -79,6 +79,8 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
     private LinearLayout btnBackToHome;
     private ProgressBar syncProgressBar;
     private int dueOverdueCount = 0;
+    public static boolean cancelWomanAsynctask = false;
+
 
     @Override
     protected SecuredNativeSmartRegisterActivity.DefaultOptionsProvider getDefaultOptionsProvider() {
@@ -176,7 +178,7 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
         if (isPausedOrRefreshList()) {
             initializeQueries();
         }
-        updateSearchView();
+//        updateSearchView();
         try {
             LoginActivity.setLanguage();
         } catch (Exception e) {
@@ -194,6 +196,7 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
     @Override
     public void onPause() {
         super.onPause();
+        cancelWomanAsynctask = true;
         SyncStatusBroadcastReceiver.getInstance().removeSyncStatusListener(this);
     }
 
@@ -392,9 +395,9 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
         countqueryBUilder.SelectInitiateMainTableCounts(tableName);
         mainCondition = tablename+".id in (Select base_entity_id from ec_details where value like '%"+getClinicSelection().getSelectedItem()+"%') ";
         countSelect = countqueryBUilder.mainCondition(mainCondition);
-        super.CountExecute();
-        countOverDue();
-        countDueOverDue();
+//        super.CountExecute();
+//        countOverDue();
+//        countDueOverDue();
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
         queryBUilder.SelectInitiateMainTable(tableName, new String[]{
@@ -407,6 +410,7 @@ public class WomanSmartRegisterFragment extends BaseSmartRegisterFragment implem
                 tableName + ".gender",
                 tableName + ".father_name",
                 tableName + ".dob",
+                tableName + ".lmp",
                 tableName + ".epi_card_number",
                 tableName + ".contact_phone_number",
                 tableName + ".client_reg_date",

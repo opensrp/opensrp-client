@@ -162,8 +162,7 @@ public class PathUpdateActionsTask {
     }
 
     private FetchStatus sync() {
-        try {
-            int totalCount = 0;
+        try {int totalCount = 0;
             pushToServer();
             ECSyncUpdater ecUpdater = ECSyncUpdater.getInstance(context);
 
@@ -186,7 +185,7 @@ public class PathUpdateActionsTask {
                 Log.i(getClass().getName(), "!!!!! Sync count:  " + eCount);
                 pathAfterFetchListener.partialFetch(fetched);
             }
-            pullStockFromServer();
+//            pullStockFromServer();
 
             if (totalCount == 0) {
                 return nothingFetched;
@@ -204,8 +203,8 @@ public class PathUpdateActionsTask {
 
     public void pushToServer() {
         pushECToServer();
-        pushReportsToServer();
-        pushStockToServer();
+//        pushReportsToServer();
+//        pushStockToServer();
     }
 
     public void pushECToServer() {
@@ -476,14 +475,14 @@ public class PathUpdateActionsTask {
     }
 
     public static void setAlarms(Context context) {
-        VaccinatorAlarmReceiver.setAlarm(context, 2, PathConstants.ServiceType.DAILY_TALLIES_GENERATION);
+//        VaccinatorAlarmReceiver.setAlarm(context, 2, PathConstants.ServiceType.DAILY_TALLIES_GENERATION);
         VaccinatorAlarmReceiver.setAlarm(context, 2, PathConstants.ServiceType.WEIGHT_SYNC_PROCESSING);
         VaccinatorAlarmReceiver.setAlarm(context, 2, PathConstants.ServiceType.VACCINE_SYNC_PROCESSING);
-        VaccinatorAlarmReceiver.setAlarm(context, 2, PathConstants.ServiceType.RECURRING_SERVICES_SYNC_PROCESSING);
+//        VaccinatorAlarmReceiver.setAlarm(context, 2, PathConstants.ServiceType.RECURRING_SERVICES_SYNC_PROCESSING);
     }
 
     public void sendAnouncement() {
-        while (true) {
+//        while (true) {
 //            (new AsyncTask() {
 //                boolean sentmessages = false;
 //                @Override
@@ -527,8 +526,8 @@ public class PathUpdateActionsTask {
 //            }
 //            ).execute();
             sendAnnouncementForBenificiaries();
-            return;
-        }
+//            return;
+//        }
     }
     public void sendAnnouncementForBenificiaries(){
         (new AsyncTask() {

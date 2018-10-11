@@ -87,6 +87,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import util.DateUtils;
@@ -233,10 +234,16 @@ public class WomanImmunizationActivity extends BaseActivity
             }
         });
         // TODO: update all views using child data
-        Map<String, String> details = detailsRepository.getAllDetailsForClient(childDetails.entityId());
-        //details.putAll(childDetails.getColumnmaps());
-        //):( prrrr
-        childDetails.getColumnmaps().putAll(details);
+//        Map<String, String> details = detailsRepository.getAllDetailsForClient(childDetails.entityId());
+//        //details.putAll(childDetails.getColumnmaps());
+//        //):( prrrr
+//        childDetails.getColumnmaps().putAll(details);
+
+//        ThreadPoolExecutor executor =
+        ((ThreadPoolExecutor) AsyncTask.THREAD_POOL_EXECUTOR).purge();
+        ((ThreadPoolExecutor) AsyncTask.THREAD_POOL_EXECUTOR).getQueue().clear();
+//        executor.purge();
+
         updateGenderViews();
         toolbar.setTitle(updateActivityTitle());
         updateAgeViews();
@@ -250,13 +257,15 @@ public class WomanImmunizationActivity extends BaseActivity
         AlertService alertService = getOpenSRPContext().alertService();
         if(!StringUtils.isBlank(Utils.getValue(childDetails.getColumnmaps(), "lmp", false))) {
             UpdateViewTask updateViewTask = new UpdateViewTask();
-            updateViewTask.setWeightRepository(weightRepository);
+//            updateViewTask.setWeightRepository(weightRepository);
             updateViewTask.setVaccineRepository(vaccineRepository);
 //        updateViewTask.setRecurringServiceTypeRepository(recurringServiceTypeRepository);
 //        updateViewTask.setRecurringServiceRecordRepository(recurringServiceRecordRepository);
             updateViewTask.setAlertService(alertService);
             Utils.startAsyncTask(updateViewTask, null);
         }
+        Utils.startAsyncTask(new GetSiblingsTask(), null);
+
     }
 
     private void updateProfilePicture(Gender gender) {
@@ -292,7 +301,6 @@ public class WomanImmunizationActivity extends BaseActivity
         TextView childIdTV = (TextView) findViewById(R.id.child_id_tv);
         childIdTV.setText(String.format("%s: %s", getString(R.string.label_openmrsid), childId));
 
-        Utils.startAsyncTask(new GetSiblingsTask(), null);
     }
 
     private void updateAgeViews() {
@@ -1220,6 +1228,7 @@ public class WomanImmunizationActivity extends BaseActivity
         @Override
         protected void onPostExecute(Map<String, NamedObject<?>> map) {
             hideProgressDialog();
+            Log.v("before tags ", ""+System.currentTimeMillis());
 
             List<Vaccine> vaccineList = new ArrayList<>();
             Weight weight = null;
@@ -1269,25 +1278,29 @@ public class WomanImmunizationActivity extends BaseActivity
 
             }
 
-            updateWeightViews(weight);
-            updateServiceViews(serviceTypeMap, serviceRecords, alertList);
+//            updateWeightViews(weight);
+//            updateServiceViews(serviceTypeMap, serviceRecords, alertList);
+            Log.v("tags of vaccineview", ""+System.currentTimeMillis());
             updateVaccinationViews(vaccineList, alertList);
+            Log.v("end tags of vaccineview", ""+System.currentTimeMillis());
             performRegisterActions();
+            Log.v("end of register action", ""+System.currentTimeMillis());
+
         }
 
         @Override
         protected Map<String, NamedObject<?>> doInBackground(Void... voids) {
-            String dobString = Utils.getValue(childDetails.getColumnmaps(), "lmp", false);
-            if (!TextUtils.isEmpty(dobString)) {
-                 SimpleDateFormat lmp_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
-                Date dateTime = null;
-                try {
-                    dateTime = lmp_DATE_FORMAT.parse(dobString);
-                    VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), new DateTime(dateTime.getTime()), "mother");
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
+//            String dobString = Utils.getValue(childDetails.getColumnmaps(), "lmp", false);
+//            if (!TextUtils.isEmpty(dobString)) {
+//                 SimpleDateFormat lmp_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+//                Date dateTime = null;
+//                try {
+//                    dateTime = lmp_DATE_FORMAT.parse(dobString);
+//                    VaccineSchedule.updateOfflineAlerts(childDetails.entityId(), new DateTime(dateTime.getTime()), "mother");
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//            }
 
             List<Vaccine> vaccineList = new ArrayList<>();
             Weight weight = null;
@@ -1296,10 +1309,13 @@ public class WomanImmunizationActivity extends BaseActivity
             List<ServiceRecord> serviceRecords = new ArrayList<>();
 
             List<Alert> alertList = new ArrayList<>();
+            Log.v("tags of vaccineRepo", ""+System.currentTimeMillis());
             if (vaccineRepository != null) {
                 vaccineList = vaccineRepository.findByEntityId(childDetails.entityId());
 
             }
+            Log.v("end tags of vaccineRepo", ""+System.currentTimeMillis());
+
             if (weightRepository != null) {
                 weight = weightRepository.findUnSyncedByEntityId(childDetails.entityId());
             }

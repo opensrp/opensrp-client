@@ -292,6 +292,7 @@ public class HouseholdDetailActivity extends BaseActivity {
                 tableName + ".gender",
                 tableName + ".father_name",
                 tableName + ".dob",
+                tableName + ".lmp",
                 tableName + ".epi_card_number",
                 tableName + ".contact_phone_number",
                 tableName + ".client_reg_date",

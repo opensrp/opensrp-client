@@ -41,6 +41,12 @@ import java.util.List;
 import util.MoveToMyCatchmentUtils;
 import util.PathConstants;
 
+import static util.ProcessingJSONDependenciesConstant.ec_client_classification;
+import static util.ProcessingJSONDependenciesConstant.ec_client_fields;
+import static util.ProcessingJSONDependenciesConstant.ec_client_service;
+import static util.ProcessingJSONDependenciesConstant.ec_client_vaccine;
+import static util.ProcessingJSONDependenciesConstant.ec_client_weight;
+
 public class PathClientProcessor extends ClientProcessor {
 
     private static final String TAG = "PathClientProcessor";
@@ -65,10 +71,18 @@ public class PathClientProcessor extends ClientProcessor {
         AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
         long lastSyncTimeStamp = allSharedPreferences.fetchLastSyncDate(0);
         Date lastSyncDate = new Date(lastSyncTimeStamp);
-        String clientClassificationStr = getFileContents("ec_client_classification.json");
-        String clientVaccineStr = getFileContents("ec_client_vaccine.json");
-        String clientWeightStr = getFileContents("ec_client_weight.json");
-        String clientServiceStr = getFileContents("ec_client_service.json");
+        ///////////////////////////////original code //////////////////////////////////////
+//        String clientClassificationStr = getFileContents("ec_client_classification.json");
+//        String clientVaccineStr = getFileContents("ec_client_vaccine.json");
+//        String clientWeightStr = getFileContents("ec_client_weight.json");
+//        String clientServiceStr = getFileContents("ec_client_service.json");
+        /////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////replace with java string /////////////////////////
+        String clientClassificationStr = ec_client_classification;
+        String clientVaccineStr = ec_client_vaccine;
+        String clientWeightStr = ec_client_weight;
+        String clientServiceStr = ec_client_service;
+        /////////////////////////////////////////////////////////////////////////////////
 
         //this seems to be easy for now cloudant json to events model is crazy
         List<JSONObject> events = handler.getUpdatedEventsAndAlerts(lastSyncDate);
@@ -126,10 +140,14 @@ public class PathClientProcessor extends ClientProcessor {
     @Override
     public synchronized void processClient(List<JSONObject> events) throws Exception {
 
-        String clientClassificationStr = getFileContents("ec_client_classification.json");
-        String clientVaccineStr = getFileContents("ec_client_vaccine.json");
-        String clientWeightStr = getFileContents("ec_client_weight.json");
-        String clientServiceStr = getFileContents("ec_client_service.json");
+//        String clientClassificationStr = getFileContents("ec_client_classification.json");
+//        String clientVaccineStr = getFileContents("ec_client_vaccine.json");
+//        String clientWeightStr = getFileContents("ec_client_weight.json");
+//        String clientServiceStr = getFileContents("ec_client_service.json");
+        String clientClassificationStr = ec_client_classification;
+        String clientVaccineStr = ec_client_vaccine;
+        String clientWeightStr = ec_client_weight;
+        String clientServiceStr = ec_client_service;
 
         if (!events.isEmpty()) {
             List<JSONObject> unsyncEvents = new ArrayList<>();
@@ -503,7 +521,9 @@ public class PathClientProcessor extends ClientProcessor {
             AllSharedPreferences allSharedPreferences = new AllSharedPreferences(preferences);
             String registeredAnm = allSharedPreferences.fetchRegisteredANM();
 
-            String clientClassificationStr = getFileContents("ec_client_fields.json");
+//            String clientClassificationStr = getFileContents("ec_client_fields.json");
+            String clientClassificationStr = ec_client_fields;
+
             JSONObject clientClassificationJson = new JSONObject(clientClassificationStr);
             JSONArray bindObjects = clientClassificationJson.getJSONArray("bindobjects");
 

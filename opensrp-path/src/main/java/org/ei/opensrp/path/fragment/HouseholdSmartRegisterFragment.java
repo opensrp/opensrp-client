@@ -165,14 +165,14 @@ public class HouseholdSmartRegisterFragment extends BaseSmartRegisterFragment {
         if (isPausedOrRefreshList()) {
             initializeQueries();
         }
-        updateSearchView();
+//        updateSearchView();
         try {
             LoginActivity.setLanguage();
         } catch (Exception e) {
 
         }
 
-        updateLocationText();
+//        updateLocationText();
         if (filterMode()) {
             toggleFilterSelection();
         }

@@ -168,14 +168,14 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
         if (isPausedOrRefreshList()) {
             initializeQueries();
         }
-        updateSearchView();
+//        updateSearchView();
         try {
             LoginActivity.setLanguage();
         } catch (Exception e) {
 
         }
 
-        updateLocationText();
+//        updateLocationText();
         if (filterMode()) {
             toggleFilterSelection();
         }
@@ -401,9 +401,9 @@ public class ChildSmartRegisterFragment extends BaseSmartRegisterFragment implem
         countqueryBUilder.SelectInitiateMainTableCounts(tableName);
         mainCondition = " (dod is NULL OR dod = '') and "+tablename+".id in (Select base_entity_id from ec_details where value like '%"+getClinicSelection().getSelectedItem()+"%') ";
         countSelect = countqueryBUilder.mainCondition(mainCondition);
-        super.CountExecute();
-        countOverDue();
-        countDueOverDue();
+//        super.CountExecute();
+//        countOverDue();
+//        countDueOverDue();
 
         final SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
         queryBUilder.SelectInitiateMainTable(tableName, new String[]{

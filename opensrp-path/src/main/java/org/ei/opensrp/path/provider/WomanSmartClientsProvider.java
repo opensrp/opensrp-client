@@ -70,6 +70,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.ei.opensrp.path.activity.WomanImmunizationActivity.DATE_FORMAT;
 import static org.ei.opensrp.path.activity.WomanSmartRegisterActivity.REQUEST_CODE_GET_JSON;
+import static org.ei.opensrp.path.fragment.WomanSmartRegisterFragment.cancelWomanAsynctask;
 import static util.Utils.fillValue;
 import static util.Utils.getName;
 import static util.Utils.getValue;
@@ -218,7 +219,7 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
     }
 
     private void fillTextfieldsFromDetails(final View convertView,final CommonPersonObjectClient pc) {
-        (new AsyncTask() {
+        Utils.startAsyncTask((new AsyncTask() {
             Map<String, String> detailmaps = new HashMap<String, String>();
             TextView spousename,brid,nid;
             @Override
@@ -238,9 +239,12 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
 
             @Override
             protected Object doInBackground(Object[] params) {
-                detailsRepository = detailsRepository == null ? org.ei.opensrp.Context.getInstance().updateApplicationContext(context.getApplicationContext()).detailsRepository() : detailsRepository;
-                detailmaps = detailsRepository.getAllDetailsForClient(pc.entityId());
-                return null;
+//                if(!cancelWomanAsynctask) {
+                    detailsRepository = detailsRepository == null ? org.ei.opensrp.Context.getInstance().updateApplicationContext(context.getApplicationContext()).detailsRepository() : detailsRepository;
+                    detailmaps = detailsRepository.getAllDetailsForClient(pc.entityId());
+//                }
+                    return null;
+
             }
 
             @Override
@@ -284,7 +288,7 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
                     }
                 }
             }
-        }).execute();
+        }),null);
 
     }
 
@@ -527,23 +531,25 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
 
         @Override
         protected Void doInBackground(Void... params) {
+//            if(!cancelWomanAsynctask) {
 
-            vaccines = vaccineRepository.findByEntityId(entityId);
-            alerts = alertService.findByEntityIdAndAlertNames(entityId, VaccinateActionUtils.allAlertNames("mother"));
-            if(alerts.size() == 0){
-                if (!TextUtils.isEmpty(dobString)) {
-                    SimpleDateFormat lmp_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
-                    Date dateTime = null;
-                    Log.v("dobstring",dobString);
-                    try {
-                        dateTime = lmp_DATE_FORMAT.parse(dobString);
-                        VaccineSchedule.updateOfflineAlerts(entityId, new DateTime(dateTime.getTime()), "mother");
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                }
+                vaccines = vaccineRepository.findByEntityId(entityId);
                 alerts = alertService.findByEntityIdAndAlertNames(entityId, VaccinateActionUtils.allAlertNames("mother"));
-            }
+                if (alerts.size() == 0) {
+                    if (!TextUtils.isEmpty(dobString)) {
+                        SimpleDateFormat lmp_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+                        Date dateTime = null;
+                        Log.v("dobstring", dobString);
+                        try {
+                            dateTime = lmp_DATE_FORMAT.parse(dobString);
+                            VaccineSchedule.updateOfflineAlerts(entityId, new DateTime(dateTime.getTime()), "mother");
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    alerts = alertService.findByEntityIdAndAlertNames(entityId, VaccinateActionUtils.allAlertNames("mother"));
+                }
+//            }
 
             return null;
         }

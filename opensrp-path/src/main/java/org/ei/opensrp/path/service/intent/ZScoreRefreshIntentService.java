@@ -11,10 +11,12 @@ import org.apache.commons.csv.CSVRecord;
 import org.ei.opensrp.Context;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
+import org.ei.opensrp.domain.SyncStatus;
 import org.ei.opensrp.domain.Weight;
 import org.ei.opensrp.path.application.VaccinatorApplication;
 import org.ei.opensrp.path.domain.ZScore;
 import org.ei.opensrp.path.provider.MotherLookUpSmartClientsProvider;
+import org.ei.opensrp.path.repository.WeightRepository;
 import org.ei.opensrp.path.repository.ZScoreRepository;
 import org.ei.opensrp.util.FileUtilities;
 import org.joda.time.DateTime;
@@ -28,6 +30,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -203,7 +206,8 @@ public class ZScoreRefreshIntentService extends IntentService {
     private void calculateChildZScores() {
         try {
             HashMap<String, CommonPersonObjectClient> children = new HashMap<>();
-            List<Weight> weightsWithoutZScores = VaccinatorApplication.getInstance().weightRepository().findWithNoZScore();
+//            List<Weight> weightsWithoutZScores = VaccinatorApplication.getInstance().weightRepository().findWithNoZScore();
+            List<Weight> weightsWithoutZScores = new ArrayList<Weight>();
             for (Weight curWeight : weightsWithoutZScores) {
                 if (!TextUtils.isEmpty(curWeight.getBaseEntityId())) {
                     if (!children.containsKey(curWeight.getBaseEntityId())) {
@@ -230,6 +234,7 @@ public class ZScoreRefreshIntentService extends IntentService {
                         }
 
                         if (gender != Gender.UNKNOWN && dob != null) {
+                            curWeight.setSyncStatus(WeightRepository.TYPE_Synced);
                             VaccinatorApplication.getInstance().weightRepository().add(dob, gender, curWeight);
                         } else {
                             Log.w(TAG, "Could not get the date of birth or gender for child with base entity id " + curWeight.getBaseEntityId());

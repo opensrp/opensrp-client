@@ -543,6 +543,7 @@ public class Utils {
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
+
         } else {
             asyncTask.execute(params);
         }
