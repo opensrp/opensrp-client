@@ -1,11 +1,8 @@
 package org.ei.opensrp.mcare;
 
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Handler;
-
-import android.util.Log;
 import android.database.Cursor;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,9 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ei.opensrp.Context;
-import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectController;
-import org.ei.opensrp.commonregistry.ControllerFilterMap;
 import org.ei.opensrp.cursoradapter.SmartRegisterQueryBuilder;
 import org.ei.opensrp.event.Listener;
 import org.ei.opensrp.mcare.anc.anc1handler;
@@ -241,7 +236,7 @@ public class NativeHomeActivity extends SecuredActivity {
                 pnccountcursor.moveToFirst();
                 pnccount= pnccountcursor.getInt(0);
                 pnccountcursor.close();
-                Cursor childcountcursor = context().commonrepository("mcarechild").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("mcarechild"," mcarechild.FWBNFGEN is not NUll AND details NOT LIKE '%\"user_type\":\"FWA\"%' "));
+                Cursor childcountcursor = context().commonrepository("mcarechild").RawCustomQueryForAdapter(sqb.queryForCountOnRegisters("mcarechild"," mcarechild.FWBNFGEN is not NUll AND details NOT LIKE '%\"user_type\":\"FWA\"%' AND details NOT LIKE '%\"FWBNFCHLDVITSTS\":\"0\"%' "));
                 childcountcursor.moveToFirst();
                 childcount= childcountcursor.getInt(0);
                 childcountcursor.close();

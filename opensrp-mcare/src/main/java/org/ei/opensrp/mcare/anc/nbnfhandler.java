@@ -71,7 +71,20 @@ public class nbnfhandler implements FormSubmissionHandler {
             overrideValue.clear();
             CommonPersonObject motherObject = Context.getInstance().allCommonsRepositoryobjects("mcaremother").findByCaseID(entityID);
             AllCommonsRepository motherRepo = Context.getInstance().allCommonsRepositoryobjects("mcaremother");
+            if(submission.getFieldValue("FWGESTATIONALAGE")!=null){
+                String ga = submission.getFieldValue("FWGESTATIONALAGE");
+                try{
+                    int gestationalage = Integer.parseInt(ga);
+                    if(gestationalage<24){
+                        overrideValue.put("FWWOMVALID","0");
+                        motherRepo.mergeDetails(entityID,overrideValue);
+                    }
+                }catch (Exception e){
+
+                }
+            }
             overrideValue.clear();
+
             CommonPersonObject elcoObject = Context.getInstance().allCommonsRepositoryobjects("elco").findByCaseID(motherObject.getRelationalId());
             AllCommonsRepository elcoRepo = Context.getInstance().allCommonsRepositoryobjects("elco");
             overrideValue.put("FWPSRPREGSTS","0");
@@ -114,6 +127,7 @@ public class nbnfhandler implements FormSubmissionHandler {
             overrideValue.put("FWPSRPREGSTS","0");
             overrideValue.put("FWELIGIBLE","0");
             elcoRepo.mergeDetails(motherObject.getRelationalId(),overrideValue);
+            elcoRepo.updateSearch(motherObject.getRelationalId());
 
         }
         if(submission.getFieldValue("FWBNFSTS").equalsIgnoreCase("999") && submission.getFieldValue("user_type").equalsIgnoreCase("FD")){
@@ -129,8 +143,10 @@ public class nbnfhandler implements FormSubmissionHandler {
             overrideValue.put("FWPSRPREGSTS","0");
             overrideValue.put("FWELIGIBLE","0");
             elcoRepo.mergeDetails(motherObject.getRelationalId(),overrideValue);
+            elcoRepo.updateSearch(motherObject.getRelationalId());
 
         }
+
 
         if(submission.getFieldValue("FWBNFWOMVITSTS").equalsIgnoreCase("0") && submission.getFieldValue("user_type").equalsIgnoreCase("FD")){
             overrideValue.clear();
@@ -145,6 +161,7 @@ public class nbnfhandler implements FormSubmissionHandler {
             overrideValue.put("FWPSRPREGSTS","0");
             overrideValue.put("FWELIGIBLE","0");
             elcoRepo.mergeDetails(motherObject.getRelationalId(),overrideValue);
+            elcoRepo.updateSearch(motherObject.getRelationalId());
 
         }
 

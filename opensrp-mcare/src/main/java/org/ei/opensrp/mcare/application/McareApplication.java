@@ -2,20 +2,10 @@ package org.ei.opensrp.mcare.application;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-//<<<<<<< HEAD
+import android.os.AsyncTask;
 import android.support.multidex.MultiDex;
 import android.util.Pair;
 
-//import com.crashlytics.android.Crashlytics;
-//import io.fabric.sdk.android.Fabric;
-//=======
-import android.os.AsyncTask;
-import android.util.Log;
-import android.util.Pair;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-//>>>>>>> 44c208810a3861e640eabac30ca0dc92413bcf6b
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.ei.opensrp.Context;
@@ -32,15 +22,6 @@ import org.ei.opensrp.view.receiver.SyncBroadcastReceiver;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.opensrp.dto.form.FormSubmissionDTO;
-
-import static java.text.MessageFormat.format;
-import static org.ei.opensrp.convertor.FormSubmissionConvertor.toDomain;
-import static org.ei.opensrp.domain.FetchStatus.fetched;
-import static org.ei.opensrp.domain.FetchStatus.fetchedFailed;
-import static org.ei.opensrp.domain.FetchStatus.nothingFetched;
-import static org.ei.opensrp.util.Log.logError;
-import static org.ei.opensrp.util.Log.logInfo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,6 +31,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import static java.text.MessageFormat.format;
+import static org.ei.opensrp.domain.FetchStatus.fetched;
+import static org.ei.opensrp.domain.FetchStatus.fetchedFailed;
+import static org.ei.opensrp.domain.FetchStatus.nothingFetched;
+import static org.ei.opensrp.util.Log.logError;
+import static org.ei.opensrp.util.Log.logInfo;
+
+//<<<<<<< HEAD
+//import com.crashlytics.android.Crashlytics;
+//import io.fabric.sdk.android.Fabric;
+//=======
+//>>>>>>> 44c208810a3861e640eabac30ca0dc92413bcf6b
 
 /**
  * Created by koros on 1/22/16.
@@ -128,7 +122,7 @@ public class McareApplication extends DrishtiApplication {
     private void deleteRecordsUsingHouseholdID(String entity_id_of_household) {
         List<CommonPersonObject> commonPersonElcoObjects = context.commonrepository("elco").findByRelationalIDs(entity_id_of_household);
         for (int i = 0; i < commonPersonElcoObjects.size(); i++) {
-            List<CommonPersonObject> commonPersonMcareMotherObjects = context.commonrepository("mcaremother").findByRelationalIDs();
+            List<CommonPersonObject> commonPersonMcareMotherObjects = context.commonrepository("mcaremother").findByRelationalIDs(commonPersonElcoObjects.get(i).getCaseId());
             for (int j = 0; j < commonPersonMcareMotherObjects.size(); j++) {
                 List<CommonPersonObject> commonPersonMcareChildObjects = context.commonrepository("mcarechild").findByRelationalIDs(commonPersonMcareMotherObjects.get(j).getCaseId());
                 for(int k = 0; k < commonPersonMcareChildObjects.size(); k++) {

@@ -299,7 +299,7 @@ public class ElcoSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
                     filters = cs.toString();
                 }
                 joinTable = "";
-                mainCondition = " FWWOMFNAME != \"\"  and  FWWOMFNAME is not null  and details LIKE '%\"FWELIGIBLE\":\"1\"%' ";
+                mainCondition = " ( FWWOMFNAME != \"\"  and  FWWOMFNAME is not null  and details LIKE '%\"FWELIGIBLE\":\"1\"%' ) ";
 
                 getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
                 CountExecute();
@@ -329,7 +329,7 @@ public class ElcoSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
                     filters = cs.toString();
                 }
                 joinTable = "";
-                mainCondition = " FWWOMFNAME != \"\"  and  FWWOMFNAME is not null  and details LIKE '%\"FWELIGIBLE\":\"1\"%' ";
+                mainCondition = " (FWWOMFNAME != \"\"  and  FWWOMFNAME is not null  and details LIKE '%\"FWELIGIBLE\":\"1\"%') ";
 
                 getSearchCancelView().setVisibility(isEmpty(cs) ? INVISIBLE : VISIBLE);
                 filterandSortExecute();
@@ -365,13 +365,13 @@ public class ElcoSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
         setTablename("elco");
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder();
         countqueryBUilder.SelectInitiateMainTableCounts("elco");
-        countSelect = countqueryBUilder.mainCondition(" FWWOMFNAME != \"\"  and  FWWOMFNAME is not null  and details LIKE '%\"FWELIGIBLE\":\"1\"%' ");
-        mainCondition = " FWWOMFNAME != \"\"  and  FWWOMFNAME is not null  and details LIKE '%\"FWELIGIBLE\":\"1\"%' ";
+        countSelect = countqueryBUilder.mainCondition(" ( FWWOMFNAME != \"\"  and  FWWOMFNAME is not null  and details LIKE '%\"FWELIGIBLE\":\"1\"%' ) ");
+        mainCondition = " ( FWWOMFNAME != \"\"  and  FWWOMFNAME is not null  and details LIKE '%\"FWELIGIBLE\":\"1\"%' ) ";
         super.CountExecute();
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder();
         queryBUilder.SelectInitiateMainTable("elco", new String[]{"relationalid", "details", "FWWOMFNAME", "JiVitAHHID", "GOBHHID"});
-        mainSelect = queryBUilder.mainCondition(" FWWOMFNAME != \"\"  and FWWOMFNAME is not null  and details LIKE '%\"FWELIGIBLE\":\"1\"%' ");
+        mainSelect = queryBUilder.mainCondition(" ( FWWOMFNAME != \"\"  and FWWOMFNAME is not null  and details LIKE '%\"FWELIGIBLE\":\"1\"%' ) ");
         Sortqueries = sortByAlertmethod();
 
         currentlimit = 20;
@@ -403,7 +403,7 @@ public class ElcoSmartRegisterFragment extends SecuredNativeSmartRegisterCursorA
     public void onFilterSelection(FilterOption filter) {
         appliedVillageFilterView.setText(filter.name());
         filters = ((CursorFilterOption)filter).filter();
-        mainCondition = " FWWOMFNAME != \"\"  and  FWWOMFNAME is not null  and details LIKE '%\"FWELIGIBLE\":\"1\"%' ";
+        mainCondition = "( FWWOMFNAME != \"\"  and  FWWOMFNAME is not null  and details LIKE '%\"FWELIGIBLE\":\"1\"%' )";
 
         if(StringUtils.isNotBlank(filters) && filters.contains(" and details LIKE ")){
             mainCondition += filters;

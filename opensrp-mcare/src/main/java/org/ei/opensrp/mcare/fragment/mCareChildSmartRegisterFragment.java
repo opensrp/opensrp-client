@@ -29,7 +29,6 @@ import org.ei.opensrp.mcare.child.childSort;
 import org.ei.opensrp.mcare.child.mCareChildServiceModeOption;
 import org.ei.opensrp.mcare.child.mCareChildSmartClientsProvider;
 import org.ei.opensrp.mcare.child.mCareChildSmartRegisterActivity;
-import org.ei.opensrp.mcare.elco.ElcoPSRFDueDateSort;
 import org.ei.opensrp.mcare.elco.ElcoSmartRegisterActivity;
 import org.ei.opensrp.provider.SmartRegisterClientsProvider;
 import org.ei.opensrp.util.StringUtil;
@@ -264,12 +263,12 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
 
                 if (cs.toString().equalsIgnoreCase("")) {
                     filters = "";
-                    mainCondition = " FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' ";
+                    mainCondition = " FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' AND details NOT LIKE '%\"FWBNFCHLDVITSTS\":\"0\"%' ";
                 } else {
                     //filters = "and FWWOMFNAME Like '%" + cs.toString() + "%' or GOBHHID Like '%" + cs.toString() + "%'  or JiVitAHHID Like '%" + cs.toString() + "%' ";
                     filters = cs.toString();
                     filters = "";
-                    mainCondition = " FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' ";
+                    mainCondition = " FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' AND details NOT LIKE '%\"FWBNFCHLDVITSTS\":\"0\"%' ";
                     mainCondition += " AND (("+ CommonFtsObject.idColumn +" IN (SELECT "+CommonRepository.ID_COLUMN+ " FROM " + "mcarechild"+ " WHERE details LIKE '%" + cs.toString()+ "%' )) " +
                             "or ("+ CommonFtsObject.relationalIdColumn +" IN (SELECT "+CommonRepository.ID_COLUMN+ " FROM " + "mcaremother"+ " WHERE FWWOMFNAME LIKE '%" + cs.toString()+ "%' ))" +
                             "or ("+ CommonFtsObject.relationalIdColumn +" IN (SELECT "+CommonRepository.ID_COLUMN+ " FROM " + "mcaremother"+ " WHERE GOBHHID LIKE '%" + cs.toString()+ "%' ))" +
@@ -338,12 +337,12 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
 
         setTablename("mcarechild");
         SmartRegisterQueryBuilder countqueryBUilder = new SmartRegisterQueryBuilder(childMainCountWithJoins());
-        countSelect = countqueryBUilder.mainCondition(" mcarechild.FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' ");
-        mainCondition = " FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' ";
+        countSelect = countqueryBUilder.mainCondition(" mcarechild.FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' AND details NOT LIKE '%\"FWBNFCHLDVITSTS\":\"0\"%' ");
+        mainCondition = " FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' AND details NOT LIKE '%\"FWBNFCHLDVITSTS\":\"0\"%' ";
         super.CountExecute();
 
         SmartRegisterQueryBuilder queryBUilder = new SmartRegisterQueryBuilder(childMainSelectWithJoins());
-        mainSelect = queryBUilder.mainCondition(" mcarechild.FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' ");
+        mainSelect = queryBUilder.mainCondition(" mcarechild.FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' AND details NOT LIKE '%\"FWBNFCHLDVITSTS\":\"0\"%' ");
         Sortqueries = sortByAlertmethod();
 
         currentlimit = 20;
@@ -404,7 +403,7 @@ public class mCareChildSmartRegisterFragment extends SecuredNativeSmartRegisterC
     public void onFilterSelection(FilterOption filter) {
         appliedVillageFilterView.setText(filter.name());
         filters = ((CursorFilterOption)filter).filter();
-        mainCondition = " FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' ";
+        mainCondition = " FWBNFGEN is not null AND details NOT LIKE '%\"user_type\":\"FWA\"%' AND details NOT LIKE '%\"FWBNFCHLDVITSTS\":\"0\"%' ";
 
         if(StringUtils.isNotBlank(filters) && filters.contains(" and mcaremother.details like ")){
             String searchString = filters.replace(" and mcaremother.details like ", "");
