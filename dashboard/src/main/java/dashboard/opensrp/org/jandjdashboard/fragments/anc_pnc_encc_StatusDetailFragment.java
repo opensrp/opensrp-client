@@ -1,6 +1,7 @@
 package dashboard.opensrp.org.jandjdashboard.fragments;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -423,6 +424,11 @@ public class anc_pnc_encc_StatusDetailFragment extends dashboardFragment {
         graph.getGridLabelRenderer().setHorizontalAxisTitle(Label);
 
         series.setSpacing(10);
+        series.setDrawValuesOnTop(true);
+        series.setValuesOnTopColor(Color.BLACK);
+
+
+
         return graph;
     }
 
