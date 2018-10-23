@@ -20,7 +20,7 @@ public class upcomingScheduleStatusControllerForDashBoardModule extends upcoming
     @Override
     public String houseHoldVisitQuery(Date from, Date to) {
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from alerts where scheduleName = 'FW CENSUS' and (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from alerts where scheduleName = 'FW CENSUS' and ((status = 'urgent' and (date(startDate) < date('"+format.format(to)+"')) and  (date(expiryDate) > date('"+format.format(from)+"'))) or (status = 'upcoming' and (date(startDate) < date('"+format.format(from)+"'))))");
         cursor.moveToFirst();
         try {
             String countofHouseholdVisits = cursor.getString(0);
@@ -35,7 +35,7 @@ public class upcomingScheduleStatusControllerForDashBoardModule extends upcoming
     @Override
     public String elcoVisitQuery(Date from, Date to) {
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from alerts where scheduleName = 'ELCO PSRF' and (status = 'urgent' or status = 'upcoming') and (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from alerts where scheduleName = 'ELCO PSRF' and ((status = 'urgent' and (date(startDate) < date('"+format.format(to)+"')) and  (date(expiryDate) > date('"+format.format(from)+"'))) or (status = 'upcoming' and (date(startDate) < date('"+format.format(from)+"'))))");
         cursor.moveToFirst();
         try {
             String countofHouseholdVisits = cursor.getString(0);
@@ -67,7 +67,7 @@ public class upcomingScheduleStatusControllerForDashBoardModule extends upcoming
     @Override
     public String ancVisitQuery(Date from, Date to){
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from alerts where scheduleName = 'Ante Natal Care Reminder Visit' and (status = 'urgent' or status = 'upcoming') and (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from mcaremother Left Join alerts on alerts.caseID = mcaremother.id where (mcaremother.Is_PNC = '0' or mcaremother.Is_PNC is null) and details  LIKE '%\"FWWOMVALID\":\"1\"%' and scheduleName = 'Ante Natal Care Reminder Visit' and ((status = 'urgent' and (date(startDate) < date('"+format.format(to)+"')) and  (date(expiryDate) > date('"+format.format(from)+"'))) or (status = 'upcoming' and (date(startDate) < date('"+format.format(to)+"'))))");
         cursor.moveToFirst();
         try {
             String countofHouseholdVisits = cursor.getString(0);
@@ -82,7 +82,7 @@ public class upcomingScheduleStatusControllerForDashBoardModule extends upcoming
     @Override
     public String pncVisitQuery(Date from, Date to) {
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from alerts where scheduleName = 'Post Natal Care Reminder Visit' and (status = 'urgent' or status = 'upcoming') and (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from mcaremother Left Join alerts on alerts.caseID = mcaremother.id where (mcaremother.Is_PNC = '1') and details  LIKE '%\"FWWOMVALID\":\"1\"%' and scheduleName = 'Post Natal Care Reminder Visit' and ((status = 'urgent' and (date(startDate) < date('"+format.format(to)+"')) and  (date(expiryDate) > date('"+format.format(from)+"'))) or (status = 'upcoming' and (date(startDate) < date('"+format.format(to)+"'))))");
         cursor.moveToFirst();
         try {
             String countofHouseholdVisits = cursor.getString(0);
@@ -97,7 +97,7 @@ public class upcomingScheduleStatusControllerForDashBoardModule extends upcoming
     @Override
     public String neonatalVisitQuery(Date from, Date to) {
         CommonRepository commonRepository = Context.getInstance().commonrepository("household");
-        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from alerts where scheduleName = 'Essential Newborn Care Checklist' and (status = 'urgent' or status = 'upcoming') and (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))");
+        Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from alerts where scheduleName = 'Essential Newborn Care Checklist' and ((status = 'urgent' and (date(startDate) < date('"+format.format(to)+"')) and  (date(expiryDate) > date('"+format.format(from)+"'))) or (status = 'upcoming' and (date(startDate) < date('"+format.format(to)+"'))))");
         cursor.moveToFirst();
         try {
             String countofHouseholdVisits = cursor.getString(0);
