@@ -58,22 +58,22 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
 
         HashMap<String,String> pnc1HashMap = new HashMap<String,String>();
         pnc1HashMap.put("Completed",returnCountFromALertQueryForPNC1Complete(from,to,"pncrv_1","complete",riskflag));
-        pnc1HashMap.put("Due",returnCountFromALertQueryForANC(from,to,"pncrv_1","upcoming",riskflag));
-        pnc1HashMap.put("Post Due",returnCountFromALertQueryForANC(from,to,"pncrv_1","urgent",riskflag));
+        pnc1HashMap.put("Due",returnCountFromALertQueryForPNCdue(from,to,"pncrv_1","upcoming",riskflag));
+        pnc1HashMap.put("Post Due",returnCountFromALertQueryForPNCdue(from,to,"pncrv_1","urgent",riskflag));
         pnc1HashMap.put("Expired",returnCountFromALertQueryForPNC1Expired(from,to,"pncrv_1","expired",riskflag));
         pnchashMapHashMap.put("PNC1",pnc1HashMap);
 
         HashMap<String,String> pnc2HashMap = new HashMap<String,String>();
         pnc2HashMap.put("Completed",returnCountFromALertQueryForPNC2Complete(from,to,"pncrv_2","complete",riskflag));
-        pnc2HashMap.put("Due",returnCountFromALertQueryForANC(from,to,"pncrv_2","upcoming",riskflag));
-        pnc2HashMap.put("Post Due",returnCountFromALertQueryForANC(from,to,"pncrv_2","urgent",riskflag));
+        pnc2HashMap.put("Due",returnCountFromALertQueryForPNCdue(from,to,"pncrv_2","upcoming",riskflag));
+        pnc2HashMap.put("Post Due",returnCountFromALertQueryForPNCdue(from,to,"pncrv_2","urgent",riskflag));
         pnc2HashMap.put("Expired",returnCountFromALertQueryForPNC2Expired(from,to,"pncrv_2","expired",riskflag));
         pnchashMapHashMap.put("PNC2",pnc2HashMap);
 
         HashMap<String,String> pnc3HashMap = new HashMap<String,String>();
         pnc3HashMap.put("Completed",returnCountFromALertQueryForPNC3Complete(from,to,"pncrv_3","complete",riskflag));
-        pnc3HashMap.put("Due",returnCountFromALertQueryForANC(from,to,"pncrv_3","upcoming",riskflag));
-        pnc3HashMap.put("Post Due",returnCountFromALertQueryForANC(from,to,"pncrv_3","urgent",riskflag));
+        pnc3HashMap.put("Due",returnCountFromALertQueryForPNCdue(from,to,"pncrv_3","upcoming",riskflag));
+        pnc3HashMap.put("Post Due",returnCountFromALertQueryForPNCdue(from,to,"pncrv_3","urgent",riskflag));
         pnc3HashMap.put("Expired",returnCountFromALertQueryForANC(from,to,"pncrv_3","expired",riskflag));
         pnchashMapHashMap.put("PNC3",pnc3HashMap);
 
@@ -210,6 +210,43 @@ public class anc_pnc_encc_reminder_StatusControllerForDashBoardModule extends re
             return count;
         }
     }
+
+    public String returnCountFromALertQueryForPNCdue(Date from, Date to, String visitcode, String status, String riskstatus){
+        if(riskstatus.equalsIgnoreCase("normal")) {
+            String count = "0";
+            CommonRepository commonRepository = Context.getInstance().commonrepository("household");
+            Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from mcaremother Left Join alerts on alerts.caseID = mcaremother.id where ( Is_PNC = '1') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%' and visitCode = '" + visitcode + "' and status = '" + status + "' and (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
+            cursor.moveToFirst();
+            try {
+                count = cursor.getString(0);
+                cursor.close();
+            } catch (Exception e) {
+                cursor.close();
+            }
+//        if(count.equalsIgnoreCase("0")&&visitcode.equalsIgnoreCase("ancrv_1")&&status.equalsIgnoreCase("complete")){
+//            cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from alerts where visitCode = '"+visitcode+"' and status = '"+status+"' and (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))");
+//        }
+            return count;
+        }else{
+            String count = "0";
+            CommonRepository commonRepository = Context.getInstance().commonrepository("household");
+            Cursor cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from mcaremother Left Join alerts on alerts.caseID = mcaremother.id where ( Is_PNC = '1') and FWWOMFNAME not null and FWWOMFNAME != \"\"   AND details  LIKE '%\"FWWOMVALID\":\"1\"%' and visitCode = '" + visitcode + "' and status = '" + status + "'and mcaremother.FWSORTVALUE>0 and (date(startDate) BETWEEN date('" + format.format(from) + "') and date('" + format.format(to) + "'))");
+            cursor.moveToFirst();
+            try {
+                count = cursor.getString(0);
+                cursor.close();
+            } catch (Exception e) {
+                cursor.close();
+            }
+//        if(count.equalsIgnoreCase("0")&&visitcode.equalsIgnoreCase("ancrv_1")&&status.equalsIgnoreCase("complete")){
+//            cursor = commonRepository.RawCustomQueryForAdapter("select count(*) from alerts where visitCode = '"+visitcode+"' and status = '"+status+"' and (date(startDate) BETWEEN date('"+format.format(from)+"') and date('"+format.format(to)+"'))");
+//        }
+            return count;
+        }
+    }
+
+
+
     public String returnCountFromALertQueryForANC1Expired(Date from, Date to, String visitcode, String status, String riskstatus){
         if(riskstatus.equalsIgnoreCase("normal")) {
             String count = "0";

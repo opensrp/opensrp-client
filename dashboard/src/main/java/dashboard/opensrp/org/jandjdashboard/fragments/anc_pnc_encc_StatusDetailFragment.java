@@ -143,7 +143,7 @@ public class anc_pnc_encc_StatusDetailFragment extends dashboardFragment {
 
         risk_status = (Spinner)view.findViewById(R.id.risk_status);
         final List<String> list = new ArrayList<String>();
-        list.add("Normal");
+        list.add("ALL");
         list.add("High Risk");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, list);
@@ -153,7 +153,7 @@ public class anc_pnc_encc_StatusDetailFragment extends dashboardFragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if(list.get(i).equalsIgnoreCase("Normal")){
+                if(list.get(i).equalsIgnoreCase("ALL")){
                     riskFlag = "normal";
                     refresh(format.format(from),format.format(to));
                 }
