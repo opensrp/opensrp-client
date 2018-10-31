@@ -132,7 +132,7 @@ public class anc_pnc_encc_StatusDetailFragment extends dashboardFragment {
         to = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(to);
-        cal.add(Calendar.DATE, -(365*2));
+        cal.add(Calendar.DATE, -(30*2));
         from = cal.getTime();
         filtertitle = (TextView)rootView.findViewById(R.id.filtertitle);
         refresh(format.format(from),format.format(to));

@@ -185,6 +185,13 @@ public class calendarPoPUpWindow extends PopupWindow {
         fromdateselected.setText(simpleformat.format(fromdate));
         todateselected.setText(simpleformat.format(todate));
     }
+    public void disableFromCalendarView(){
+        fromcalendarView.setActivated(false);
+        fromcalendarView.setEnabled(false);
+    }
+    public void enableFromCalendarView(){
+        fromcalendarView.setEnabled(true);
+    }
 
     private void assignfontTOCalendarMonth(CalendarView calendarView,Context context) {
         ViewGroup vg = (ViewGroup)calendarView.getChildAt(0);

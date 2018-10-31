@@ -59,6 +59,8 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
     private boolean mTwoPane;
     public static View previousViewSelectedInLIST = null;
     public controllerHolders controllerholder;
+    calendarPoPUpWindow calendarPoPUpWindow;
+    public boolean disableFrom = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +94,7 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
                 arguments.putSerializable("controller_holder",controllerholder);
                 upcomingScheduleStatusDetailFragment fragment = new upcomingScheduleStatusDetailFragment();
                 fragment.setArguments(arguments);
+                disableFrom = true;
                 currentFragmentName = "upcomingScheduleStatusDetailFragment";
                 currentFragment = fragment;
                 getSupportFragmentManager().beginTransaction()
@@ -119,7 +122,12 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
             return true;
         } else if (i == R.id.date_filter) {
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            calendarPoPUpWindow calendarPoPUpWindow = new calendarPoPUpWindow(this);
+            calendarPoPUpWindow = new calendarPoPUpWindow(this);
+            if(disableFrom) {
+                calendarPoPUpWindow.disableFromCalendarView();
+            }else{
+                calendarPoPUpWindow.enableFromCalendarView();
+            }
             calendarPoPUpWindow.showAsDropDown(toolbar);
 
             return true;
@@ -133,24 +141,31 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
         this.fromdate = fromdate;
         this.todate = todate;
         if(currentFragmentName.equalsIgnoreCase("upcomingScheduleStatusDetailFragment")){
+            disableFrom = true;
             ((upcomingScheduleStatusDetailFragment)currentFragment).refresh(fromdate,todate);
         }
         if(currentFragmentName.equalsIgnoreCase("anc_pnc_encc_StatusDetailFragment")){
+            disableFrom = false;
             ((anc_pnc_encc_StatusDetailFragment)currentFragment).refresh(fromdate,todate);
         }
         if(currentFragmentName.equalsIgnoreCase("reproductive_health_service_Fragment")){
+            disableFrom = false;
             ((reproductive_health_service_Fragment)currentFragment).refresh(fromdate,todate);
         }
         if(currentFragmentName.equalsIgnoreCase("delivery_status_detail_Fragment")){
+            disableFrom = false;
             ((delivery_status_detail_Fragment)currentFragment).refresh(fromdate,todate);
         }
         if(currentFragmentName.equalsIgnoreCase("nutrition_detail_Fragment")){
+            disableFrom = false;
             ((nutritionDetailFragment)currentFragment).refresh(fromdate,todate);
         }
         if(currentFragmentName.equalsIgnoreCase("contraceptive_supply_status_detailFragment")){
+            disableFrom = false;
             ((contraceptiveSupplyStatusDetailFragment)currentFragment).refresh(fromdate,todate);
         }
         if(currentFragmentName.equalsIgnoreCase("family_planning_StatusDetailFragment")){
+            disableFrom = false;
             ((familyPlanningStatusDetailFragment)currentFragment).refresh(fromdate,todate);
         }
 
@@ -193,6 +208,7 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
                     if (mTwoPane) {
                         switch (position) {
                             case 0: {
+                                disableFrom = true;
                                 Bundle arguments = new Bundle();
                                 arguments.putString(upcomingScheduleStatusDetailFragment.ARG_ITEM_ID, holder.mItem.id);
                                 arguments.putSerializable("controller_holder",controllerholder);
@@ -206,6 +222,7 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
                                 break;
                             }
                             case 1: {
+                                disableFrom = false;
                                 Bundle arguments = new Bundle();
                                 arguments.putString(familyPlanningStatusDetailFragment.ARG_ITEM_ID, holder.mItem.id);
                                 familyPlanningStatusDetailFragment fragment = new familyPlanningStatusDetailFragment();
@@ -219,6 +236,7 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
                                 break;
                             }
                             case 2: {
+                                disableFrom = false;
                                 Bundle arguments = new Bundle();
                                 arguments.putString(anc_pnc_encc_StatusDetailFragment.ARG_ITEM_ID, holder.mItem.id);
                                 anc_pnc_encc_StatusDetailFragment fragment = new anc_pnc_encc_StatusDetailFragment();
@@ -232,6 +250,7 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
                                 break;
                             }
                             case 3: {
+                                disableFrom = false;
                                 Bundle arguments = new Bundle();
                                 arguments.putString(reproductive_health_service_Fragment.ARG_ITEM_ID, holder.mItem.id);
                                 reproductive_health_service_Fragment fragment = new reproductive_health_service_Fragment();
@@ -245,6 +264,7 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
                                 break;
                             }
                             case 4: {
+                                disableFrom = false;
                                 Bundle arguments = new Bundle();
                                 arguments.putString(reproductive_health_service_Fragment.ARG_ITEM_ID, holder.mItem.id);
                                 delivery_status_detail_Fragment fragment = new delivery_status_detail_Fragment();
@@ -258,6 +278,7 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
                                 break;
                             }
                             case 5: {
+                                disableFrom = false;
                                 Bundle arguments = new Bundle();
                                 arguments.putString(reproductive_health_service_Fragment.ARG_ITEM_ID, holder.mItem.id);
                                 nutritionDetailFragment fragment = new nutritionDetailFragment();
@@ -271,6 +292,7 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
                                 break;
                             }
                             case 6: {
+                                disableFrom = false;
                                 Bundle arguments = new Bundle();
                                 arguments.putString(contraceptiveSupplyStatusDetailFragment.ARG_ITEM_ID, holder.mItem.id);
                                 contraceptiveSupplyStatusDetailFragment fragment = new contraceptiveSupplyStatusDetailFragment();
@@ -286,6 +308,7 @@ public class dashboardCategoryListActivity extends AppCompatActivity {
 
                         }
                     } else {
+                        disableFrom = true;
                         Context context = v.getContext();
                         Intent intent = new Intent(context, dashboardCategoryDetailActivity.class);
                         intent.putExtra(upcomingScheduleStatusDetailFragment.ARG_ITEM_ID, holder.mItem.id);
