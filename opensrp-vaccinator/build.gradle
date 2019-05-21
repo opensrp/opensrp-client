@@ -20,6 +20,8 @@ android {
     buildToolsVersion "26.0.0"
 
     defaultConfig {
+        // Enabling multidex support.
+        multiDexEnabled true
         applicationId "org.ei.opensrp.vaccinator"
         minSdkVersion 16
         targetSdkVersion 22
