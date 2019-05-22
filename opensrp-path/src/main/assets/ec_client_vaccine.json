@@ -7,7 +7,7 @@
         "field": "baseEntityId"
       }
     },
-    {
+    {l
       "column_name": "name",
       "json_mapping": {
         "field": "obs.fieldCode",

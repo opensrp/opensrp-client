@@ -107,10 +107,10 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
     @Override
     public void getView(final SmartRegisterClient client, final View convertView) {
         final CommonPersonObjectClient pc = (CommonPersonObjectClient) client;
-        Logger.largeLog("-----------",pc.getDetails().toString());
-        Logger.largeLog("-----------",pc.getColumnmaps().toString());
+        Logger.largeLog("-----------", pc.getDetails().toString());
+        Logger.largeLog("-----------", pc.getColumnmaps().toString());
 
-        String name = pc.getDetails().get("first_name") ;
+        String name = pc.getDetails().get("first_name");
         ((TextView) convertView.findViewById(R.id.name)).setText(name);
 
         ImageView profileImageIV = (ImageView) convertView.findViewById(R.id.profilepic);
@@ -155,12 +155,7 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
         ((TextView) convertView.findViewById(R.id.nid)).setText("");
         ((TextView) convertView.findViewById(R.id.nid)).setVisibility(View.GONE);
 
-        fillTextfieldsFromDetails(convertView,pc);
-
-
-
-
-
+        fillTextfieldsFromDetails(convertView, pc);
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////
@@ -178,7 +173,7 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
 //        }
 //
         final String lmpstring = Utils.getValue(pc.getColumnmaps(), "lmp", false);
-        Log.v("lmpstring",lmpstring);
+        Log.v("lmpstring", lmpstring);
         View recordVaccination = convertView.findViewById(R.id.record_vaccination);
         recordVaccination.setTag(client);
         recordVaccination.setOnClickListener(onClickListener);
@@ -218,10 +213,11 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
         }
     }
 
-    private void fillTextfieldsFromDetails(final View convertView,final CommonPersonObjectClient pc) {
+    private void fillTextfieldsFromDetails(final View convertView, final CommonPersonObjectClient pc) {
         Utils.startAsyncTask((new AsyncTask() {
             Map<String, String> detailmaps = new HashMap<String, String>();
-            TextView spousename,brid,nid;
+            TextView spousename, brid, nid;
+
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -240,10 +236,10 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
             @Override
             protected Object doInBackground(Object[] params) {
 //                if(!cancelWomanAsynctask) {
-                    detailsRepository = detailsRepository == null ? org.ei.opensrp.Context.getInstance().updateApplicationContext(context.getApplicationContext()).detailsRepository() : detailsRepository;
-                    detailmaps = detailsRepository.getAllDetailsForClient(pc.entityId());
+                detailsRepository = detailsRepository == null ? org.ei.opensrp.Context.getInstance().updateApplicationContext(context.getApplicationContext()).detailsRepository() : detailsRepository;
+                detailmaps = detailsRepository.getAllDetailsForClient(pc.entityId());
 //                }
-                    return null;
+                return null;
 
             }
 
@@ -255,12 +251,12 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
 
                 fillValue(spousename, husbandname);
                 spousename.setVisibility(View.VISIBLE);
-                if(!isBlank(getValue(detailmaps, "nationalId", false))) {
+                if (!isBlank(getValue(detailmaps, "nationalId", false))) {
                     nid.setVisibility(View.VISIBLE);
                     brid.setVisibility(View.GONE);
                     fillValue(nid, "NID: \n" + getValue(detailmaps, "nationalId", false));
                 }
-                if(!isBlank(getValue(detailmaps, "birthRegistrationId", false))) {
+                if (!isBlank(getValue(detailmaps, "birthRegistrationId", false))) {
                     nid.setVisibility(View.GONE);
                     brid.setVisibility(View.VISIBLE);
                     fillValue(brid, "BRID: \n" + getValue(detailmaps, "birthRegistrationId", false));
@@ -278,17 +274,17 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
 
                         intent.putExtra("json", metadata);
 
-                        ((Activity)context).startActivityForResult(intent, REQUEST_CODE_GET_JSON);
+                        ((Activity) context).startActivityForResult(intent, REQUEST_CODE_GET_JSON);
 
                     }
                 });
-                if(!isBlank(getValue(detailmaps, "maritial_status", false))){
-                    if(!getValue(detailmaps, "maritial_status", false).equalsIgnoreCase("Married")){
+                if (!isBlank(getValue(detailmaps, "maritial_status", false))) {
+                    if (!getValue(detailmaps, "maritial_status", false).equalsIgnoreCase("Married")) {
                         add_child.setEnabled(false);
                     }
                 }
             }
-        }),null);
+        }), null);
 
     }
 
@@ -338,11 +334,11 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
             SimpleDateFormat lmp_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
             try {
                 dateTime = lmp_DATE_FORMAT.parse(dobString);
-           } catch (ParseException e) {
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
-        if(dateTime != null){
+        if (dateTime != null) {
             dateTimetoSend = new DateTime(dateTime.getTime());
         }
 
@@ -512,6 +508,7 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
         NO_ALERT,
         FULLY_IMMUNIZED
     }
+
     private class VaccinationAsyncTask extends AsyncTask<Void, Void, Void> {
         private View convertView;
         private String entityId;
@@ -522,7 +519,7 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
         public VaccinationAsyncTask(View convertView,
                                     String entityId,
                                     String dobString
-                                   ) {
+        ) {
             this.convertView = convertView;
             this.entityId = entityId;
             this.dobString = dobString;
@@ -533,22 +530,22 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
         protected Void doInBackground(Void... params) {
 //            if(!cancelWomanAsynctask) {
 
-                vaccines = vaccineRepository.findByEntityId(entityId);
-                alerts = alertService.findByEntityIdAndAlertNames(entityId, VaccinateActionUtils.allAlertNames("mother"));
-                if (alerts.size() == 0) {
-                    if (!TextUtils.isEmpty(dobString)) {
-                        SimpleDateFormat lmp_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
-                        Date dateTime = null;
-                        Log.v("dobstring", dobString);
-                        try {
-                            dateTime = lmp_DATE_FORMAT.parse(dobString);
-                            VaccineSchedule.updateOfflineAlerts(entityId, new DateTime(dateTime.getTime()), "mother");
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
+            vaccines = vaccineRepository.findByEntityId(entityId);
+            alerts = alertService.findByEntityIdAndAlertNames(entityId, VaccinateActionUtils.allAlertNames("mother"));
+            if (alerts.size() == 0) {
+                if (!TextUtils.isEmpty(dobString)) {
+                    SimpleDateFormat lmp_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+                    Date dateTime = null;
+                    Log.v("dobstring", dobString);
+                    try {
+                        dateTime = lmp_DATE_FORMAT.parse(dobString);
+                        VaccineSchedule.updateOfflineAlerts(entityId, new DateTime(dateTime.getTime()), "mother");
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
-                    alerts = alertService.findByEntityIdAndAlertNames(entityId, VaccinateActionUtils.allAlertNames("mother"));
                 }
+                alerts = alertService.findByEntityIdAndAlertNames(entityId, VaccinateActionUtils.allAlertNames("mother"));
+            }
 //            }
 
             return null;
@@ -596,10 +593,10 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
                 DetailsRepository detailsRepository;
                 detailsRepository = org.ei.opensrp.Context.getInstance().detailsRepository();
                 Map<String, String> details = detailsRepository.getAllDetailsForClient(pc.entityId());
-                locationid = JsonFormUtils.getOpenMrsLocationId(context,getValue(details, "address4", false) );
+                locationid = JsonFormUtils.getOpenMrsLocationId(context, getValue(details, "address4", false));
 
                 String birthFacilityHierarchy = JsonFormUtils.getOpenMrsLocationHierarchy(
-                        context,locationid ).toString();
+                        context, locationid).toString();
                 //inject zeir id into the form
                 JSONObject stepOne = form.getJSONObject(JsonFormUtils.STEP1);
                 JSONArray jsonArray = stepOne.getJSONArray(JsonFormUtils.FIELDS);
@@ -637,9 +634,6 @@ public class WomanSmartClientsProvider implements SmartRegisterCLientsProviderFo
                             }
                         }
                     }
-
-
-
 
 
                 }

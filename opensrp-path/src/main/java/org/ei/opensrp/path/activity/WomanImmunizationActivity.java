@@ -30,6 +30,7 @@ import org.ei.opensrp.commonregistry.AllCommonsRepository;
 import org.ei.opensrp.commonregistry.CommonPersonObject;
 import org.ei.opensrp.commonregistry.CommonPersonObjectClient;
 import org.ei.opensrp.domain.Alert;
+import org.ei.opensrp.domain.AlertStatus;
 import org.ei.opensrp.domain.ServiceRecord;
 import org.ei.opensrp.domain.ServiceType;
 import org.ei.opensrp.domain.Vaccine;
@@ -53,6 +54,7 @@ import org.ei.opensrp.path.fragment.VaccinationDialogFragment;
 import org.ei.opensrp.path.listener.ServiceActionListener;
 import org.ei.opensrp.path.listener.VaccinationActionListener;
 import org.ei.opensrp.path.listener.WeightActionListener;
+import org.ei.opensrp.path.repository.PathRepository;
 import org.ei.opensrp.path.repository.RecurringServiceRecordRepository;
 import org.ei.opensrp.path.repository.RecurringServiceTypeRepository;
 import org.ei.opensrp.path.repository.VaccineRepository;
@@ -67,6 +69,7 @@ import org.ei.opensrp.service.AlertService;
 import org.ei.opensrp.util.OpenSRPImageLoader;
 import org.ei.opensrp.view.activity.DrishtiApplication;
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -187,7 +190,10 @@ public class WomanImmunizationActivity extends BaseActivity
 
         toolbar.init(this);
         setLastModified(false);
+
     }
+
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -1278,6 +1284,27 @@ public class WomanImmunizationActivity extends BaseActivity
 
             }
 
+            if(containsVaccine(alertList,"TT 1")&&!containsVaccine(alertList,"TT 2")){
+                SimpleDateFormat DAY_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+                Alert alrt = getAlertByVaccine(alertList,"TT 1");
+                if(alrt!=null){
+                    try {
+                        Date start_date = DAY_FORMAT.parse(alrt.startDate());
+                        Date today = DAY_FORMAT.parse(DAY_FORMAT.format(new Date()));
+                        int days = daysBetween(start_date,today);
+                        if(days>=28){
+                            String case_id = alertList.get(0).caseId();
+                            String scheduleName = "TT 2";
+                            String visitCode = "tt2";
+
+                            Alert alert = new Alert(case_id,scheduleName,visitCode, AlertStatus.normal,null,null);
+                            alertList.add(alert);
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
 //            updateWeightViews(weight);
 //            updateServiceViews(serviceTypeMap, serviceRecords, alertList);
             Log.v("tags of vaccineview", ""+System.currentTimeMillis());
@@ -1286,6 +1313,24 @@ public class WomanImmunizationActivity extends BaseActivity
             performRegisterActions();
             Log.v("end of register action", ""+System.currentTimeMillis());
 
+        }
+        public int daysBetween(Date d1, Date d2){
+            return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
+        }
+        public boolean containsVaccine(List<Alert>alertList,String vaccine){
+            for(Alert alert:alertList){
+                if(alert.scheduleName().equalsIgnoreCase(vaccine))
+                    return true;
+            }
+            return false;
+        }
+
+        public Alert getAlertByVaccine(List<Alert>alertList,String vaccine){
+            for(Alert alert:alertList){
+                if(alert.scheduleName().equalsIgnoreCase(vaccine))
+                    return alert;
+            }
+            return null;
         }
 
         @Override
